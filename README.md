@@ -1,5 +1,7 @@
 # cashier
 
+https://cashier-pwa.netlify.com/
+
 Is a PWA GUI companion application for [Ledger](https://ledger-cli.org). It can be used for entering transactions or viewing balances. The entered transactions can be exported and the accounts and balances can be imported from Ledger output.
 
 This is the Cashier project implemented as a Progressive Web Application.
@@ -13,6 +15,6 @@ Or `npm run dev`.
 
 Build with `parcel build index.html` or `npm run build`.
 
-## To-Do
+## Deployment
 
-- Check components at https://vuejsexamples.com/
+Using Netlify to server HTTPS site, as required by PWA.
