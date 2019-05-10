@@ -11,14 +11,10 @@
 
 export default {
   created() {
-    console.log(this.$store)
+    // todo: load data here
+    //console.log('created', this.$store)
   },
   mounted: function() {
-    // test
-    console.log(this.$root.store)
-    console.log(this.$root.$store)
-    console.log(this.$store)
-    console.log(this.store)
   },
   computed: {
 

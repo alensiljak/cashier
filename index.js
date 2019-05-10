@@ -21,10 +21,10 @@ Vue.config.productionTip = false
 // });
 
 new Vue({
-    router,
-    store,
-    render: h => h(App)
-  }).$mount('#app')
+  router,
+  store,
+  render: h => h(App)
+}).$mount('#app')
 
 // https://stackoverflow.com/questions/32772581/how-to-integrate-vue-router-with-vue
 //var App = Vue.extend({})

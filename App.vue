@@ -18,7 +18,10 @@
 </template>
 <script>
 export default {
-  name: "Cashier"
+  name: "Cashier",
+  mounted() {
+    //console.log('from app:', this.$store)
+  }
 }
 </script>
 

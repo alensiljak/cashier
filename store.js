@@ -17,7 +17,7 @@ import Posting from "./components/Posting.js"
 
 // Make sure to call Vue.use(Vuex) first if using a module system
 
-const store = new Vuex.Store({
+export const store = new Vuex.Store({
     state: {
         count: 0,
         transactions: [],
@@ -77,4 +77,4 @@ var simple_store = {
     }
 }
 
-export default store
+//export default store
