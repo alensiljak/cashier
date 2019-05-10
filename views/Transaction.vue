@@ -53,7 +53,7 @@ export default {
     this.postings = [new Posting(), new Posting()];
 
     // Set the focus on Payee field.
-     document.getElementById("payee").focus();
+    document.getElementById("payee").focus();
   },
   data: function() {
     return {

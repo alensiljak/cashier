@@ -7,7 +7,12 @@
     
     https://vuejs.org/v2/guide/state-management.html#Simple-State-Management-from-Scratch
 */
-import Posting from "../components/Posting.js";
+import Vue from 'vue';
+import Vuex from 'vuex'
+
+Vue.use(Vuex)
+
+import Posting from "./components/Posting.js"
 
 
 // Make sure to call Vue.use(Vuex) first if using a module system
@@ -32,6 +37,10 @@ const store = new Vuex.Store({
             // delete one of the postings in the New Transaction
             this.state.newTransaction.postings.splice(index, 1)
         },
+    },
+    getters: {
+        newTransaction: state => state.newTransaction,
+        transactions: state => state.transactions
     }
 })
 
@@ -67,3 +76,5 @@ var simple_store = {
         this.state.message = ''
     }
 }
+
+export default store
