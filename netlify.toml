@@ -1,6 +1,0 @@
-# custom domain settings
-[[headers]]
-    [headers.values]
-    Strict-Transport-Security = "max-age=63072000; includeSubDomains"
-# Apply preload only once everything is set up, as it is hard to remove.    
-#    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
