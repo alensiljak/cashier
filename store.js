@@ -50,20 +50,19 @@ export const store = new Vuex.Store({
         addDefaultNewPostings({commit, state}) {
             // todo
         },
-        addNewPosting({commit, state}) {
+        addNewPosting(context) {
             // delete one of the postings in the New Transaction
-            commit('addNewPosting')
+            context.commit('addNewPosting')
         },
-        clearNewPostings({ commit, state }) {
-            //context.commit('clearNewPostings')
-            commit('clearNewPostings')
+        clearNewPostings(context) {
+            context.commit('clearNewPostings')
         },
-        deleteNewPosting({ commit, state }, index) {
+        deleteNewPosting(context, index) {
             // delete one of the postings in the New Transaction
-            commit('deleteNewPosting', index)
+            context.commit('deleteNewPosting', index)
         },
-        setNewTxPayee({ commit, state }, payee) {
-            commit('setNewTxPayee', payee)
+        setNewTxPayee(context, payee) {
+            context.commit('setNewTxPayee', payee)
         }
     },
     getters: {
