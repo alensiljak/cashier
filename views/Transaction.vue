@@ -22,7 +22,6 @@
       <posting-view v-for="(posting, index) in postings" 
         :key="index" :posting="posting" :index="index"
         v-on:delete-row="deletePosting"></posting-view>
-      <!-- :account.sync="posting.account" :amount=posting.amount :currency=posting.currency -->
 
       <!-- buttons -->
       <div class="row mt-3">
@@ -46,9 +45,7 @@ import Posting from "../components/Posting.js";
 export default {
   created() {
     // get the data
-    //console.log(this.$store.state.count)
     // Add the two initial postings
-    //this.postings = [new Posting(), new Posting()];
     this.$store.dispatch('clearNewPostings')
     this.addPosting()
     this.addPosting()
@@ -65,7 +62,7 @@ export default {
     return {
       date: null,
       payee: null,
-      postings: []
+      //postings: []
     };
   },
   components: {
@@ -73,11 +70,19 @@ export default {
   },
   methods: {
     addPosting: function() {
-      this.postings.push(new Posting());
-      // this.$store.state
+      //this.postings.push(new Posting());
+      this.$store.dispatch('addNewPosting')
     },
     deletePosting: function(index) {
-      this.postings.splice(index, 1)
+      //this.postings.splice(index, 1)
+      this.$store.dispatch('deleteNewPosting', index)
+    }
+  },
+  computed: {
+    postings: {
+      get: function() {
+        return this.$store.state.newTransaction.postings
+      }
     }
   }
 };

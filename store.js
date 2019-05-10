@@ -29,26 +29,34 @@ export const store = new Vuex.Store({
         increment(state) {
             state.count++
         },
-        addNewPosting() {
+        addNewPosting(state) {
             // delete one of the postings in the New Transaction
-            this.state.newTransaction.postings.append(new Posting())
+            state.newTransaction.postings.push(new Posting())
         },
-        deleteNewPosting(index) {
+        deleteNewPosting(state, index) {
             // delete one of the postings in the New Transaction
-            this.state.newTransaction.postings.splice(index, 1)
+            state.newTransaction.postings.splice(index, 1)
         },
-        clearNewPostings() {
-            this.state.postings = []
+        clearNewPostings(state) {
+            state.newTransaction.postings = []
         }
     },
     actions: {
         addDefaultNewPostings({commit, state}) {
             // todo
         },
+        addNewPosting({commit, state}) {
+            // delete one of the postings in the New Transaction
+            commit('addNewPosting')
+        },
         clearNewPostings({ commit, state }) {
             //context.commit('clearNewPostings')
             commit('clearNewPostings')
-        }
+        },
+        deleteNewPosting({ commit, state }, index) {
+            // delete one of the postings in the New Transaction
+            commit('deleteNewPosting', index)
+        },
     },
     getters: {
         newTransaction: state => state.newTransaction,
