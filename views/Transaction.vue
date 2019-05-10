@@ -13,7 +13,7 @@
         <div class="col">
           <div class="form-group">
             <label for="payee">Payee</label>
-            <input id="payee" type="text" class="form-control" v-model="payee">
+            <input id="payee" type="text" class="form-control" v-model="payee" autofocus >
           </div>
         </div>
       </div>
@@ -48,6 +48,9 @@ export default {
 
     // Add the two initial postings
     this.postings = [new Posting(), new Posting()];
+
+    // Set the focus on Payee field.
+     document.getElementById("payee").focus();
   },
   data: function() {
     return {
