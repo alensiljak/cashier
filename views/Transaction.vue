@@ -19,9 +19,12 @@
       </div>
 
       <!-- Postings -->
-      <posting-view v-for="posting in postings" :key="posting.id" :posting="posting"></posting-view>
+      <posting-view v-for="(posting, index) in postings" 
+        :key="index" :posting="posting" :index="index"
+        v-on:delete-row="deletePosting"></posting-view>
       <!-- :account.sync="posting.account" :amount=posting.amount :currency=posting.currency -->
 
+      <!-- buttons -->
       <div class="row mt-3">
         <div class="col">
           <button type="button" class="btn btn-secondary" v-on:click="addPosting">Add Posting</button>
@@ -65,6 +68,9 @@ export default {
   methods: {
     addPosting: function() {
       this.postings.push(new Posting());
+    },
+    deletePosting: function(index) {
+      this.postings.splice(index, 1)
     }
   }
 };

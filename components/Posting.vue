@@ -17,11 +17,16 @@
     <div class="col-1">
       <input type="text" class="form-control" v-model="posting.currency">
     </div>
+
+    <!-- operations -->
+    <div class="col-1 text-center">
+      <button type="button" class="btn btn-danger" v-on:click="deleteRow">Del</button>
+    </div>
   </div>
 </template>
 <script>
 export default {
-    props: ['posting'],
+    props: ['posting', 'index'],
     //['account', 'amount', 'currency'],
     data: function() {
         return {
@@ -29,6 +34,12 @@ export default {
             // amount: null,
             // currency: null
         }
+    },
+    methods: {
+      deleteRow: function(event) {
+        // todo confirm
+        this.$emit('delete-row', this.index)
+      }
     }
 };
 </script>
