@@ -12,6 +12,10 @@
         "build": "npx parcel build index.html --no-source-maps --out-dir public --public-url ./"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-svg-core": "^1.2.18",
+        "@fortawesome/free-regular-svg-icons": "^5.8.2",
+        "@fortawesome/free-solid-svg-icons": "^5.8.2",
+        "@fortawesome/vue-fontawesome": "^0.1.6",
         "bootstrap": "^4.3.1",
         "parcel": "^1.12.3",
         "vue": "^2.6.10",
