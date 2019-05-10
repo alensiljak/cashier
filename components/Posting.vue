@@ -1,5 +1,5 @@
 <template>
-  <div class="form-row">
+  <div class="form-row mb-1">
     <!-- spacer -->
     <div class="col-1"></div>
     
@@ -20,7 +20,9 @@
 
     <!-- operations -->
     <div class="col-1 text-center">
-      <button type="button" class="btn btn-danger" v-on:click="deleteRow">Del</button>
+      <button type="button" class="btn btn-danger" v-on:click="deleteRow">
+        <font-awesome-icon icon="trash-alt" />
+      </button>
     </div>
   </div>
 </template>
