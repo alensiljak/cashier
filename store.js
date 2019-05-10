@@ -37,6 +37,18 @@ export const store = new Vuex.Store({
             // delete one of the postings in the New Transaction
             this.state.newTransaction.postings.splice(index, 1)
         },
+        clearNewPostings() {
+            this.state.postings = []
+        }
+    },
+    actions: {
+        addDefaultNewPostings({commit, state}) {
+            // todo
+        },
+        clearNewPostings({ commit, state }) {
+            //context.commit('clearNewPostings')
+            commit('clearNewPostings')
+        }
     },
     getters: {
         newTransaction: state => state.newTransaction,

@@ -44,13 +44,19 @@ import PostingView from "../components/Posting.vue";
 import Posting from "../components/Posting.js";
 
 export default {
+  created() {
+    // get the data
+    //console.log(this.$store.state.count)
+    // Add the two initial postings
+    //this.postings = [new Posting(), new Posting()];
+    this.$store.dispatch('clearNewPostings')
+    this.addPosting()
+    this.addPosting()
+  },
   mounted: function() {
     // set today as a default
     var today = new Date();
     this.date = today.toISOString().substring(0, 10);
-
-    // Add the two initial postings
-    this.postings = [new Posting(), new Posting()];
 
     // Set the focus on Payee field.
     document.getElementById("payee").focus();
@@ -68,6 +74,7 @@ export default {
   methods: {
     addPosting: function() {
       this.postings.push(new Posting());
+      // this.$store.state
     },
     deletePosting: function(index) {
       this.postings.splice(index, 1)
