@@ -61,8 +61,6 @@ export default {
   data: function() {
     return {
       date: null,
-      payee: null,
-      //postings: []
     };
   },
   components: {
@@ -70,7 +68,6 @@ export default {
   },
   methods: {
     addPosting: function() {
-      //this.postings.push(new Posting());
       this.$store.dispatch('addNewPosting')
     },
     deletePosting: function(index) {
@@ -82,6 +79,14 @@ export default {
     postings: {
       get: function() {
         return this.$store.state.newTransaction.postings
+      }
+    },
+    payee: {
+      get: function() {
+        return this.$store.state.newTransaction.payee
+      },
+      set: function(value) {
+        this.$store.dispatch('setNewTxPayee', value)
       }
     }
   }

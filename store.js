@@ -22,6 +22,8 @@ export const store = new Vuex.Store({
         count: 0,
         transactions: [],
         newTransaction: {
+            date: null,
+            payee: "",
             postings: []
         }
     },
@@ -39,6 +41,9 @@ export const store = new Vuex.Store({
         },
         clearNewPostings(state) {
             state.newTransaction.postings = []
+        },
+        setNewTxPayee(state, payee) {
+            state.newTransaction.payee = payee
         }
     },
     actions: {
@@ -57,6 +62,9 @@ export const store = new Vuex.Store({
             // delete one of the postings in the New Transaction
             commit('deleteNewPosting', index)
         },
+        setNewTxPayee({ commit, state }, payee) {
+            commit('setNewTxPayee', payee)
+        }
     },
     getters: {
         newTransaction: state => state.newTransaction,
