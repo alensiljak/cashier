@@ -19,8 +19,8 @@
     </div>
 
     <!-- operations -->
-    <div class="col-1 text-center">
-      <button type="button" class="btn btn-danger" v-on:click="deleteRow">
+    <div class="col-1 text-center my-auto">
+      <button type="button" class="btn btn-danger btn-sm" v-on:click="deleteRow">
         <font-awesome-icon icon="trash-alt" />
       </button>
     </div>
