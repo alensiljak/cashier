@@ -1,5 +1,7 @@
 /*
-    Store pattern to manage the state / domain model.
+    Vuex store.
+
+    Below is a simple store pattern to manage the state / domain model.
     Currently not in use but demonstrates how to use shared state.
     Simplified version that avoids the complexity of Vuex.
     
@@ -7,7 +9,34 @@
 */
 import Posting from "../components/Posting.js";
 
-var store = {
+
+// Make sure to call Vue.use(Vuex) first if using a module system
+
+const store = new Vuex.Store({
+    state: {
+        count: 0,
+        transactions: [],
+        newTransaction: {
+            postings: []
+        }
+    },
+    mutations: {
+        increment(state) {
+            state.count++
+        },
+        addNewPosting() {
+            // delete one of the postings in the New Transaction
+            this.state.newTransaction.postings.append(new Posting())
+        },
+        deleteNewPosting(index) {
+            // delete one of the postings in the New Transaction
+            this.state.newTransaction.postings.splice(index, 1)
+        },
+    }
+})
+
+
+var simple_store = {
     debug: true,
     state: {
         message: 'Hello!',

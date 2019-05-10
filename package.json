@@ -20,7 +20,8 @@
         "parcel": "^1.12.3",
         "vue": "^2.6.10",
         "vue-hot-reload-api": "^2.3.3",
-        "vue-router": "^3.0.6"
+        "vue-router": "^3.0.6",
+        "vuex": "^3.1.1"
     },
     "devDependencies": {
         "@vue/component-compiler-utils": "^3.0.0",
