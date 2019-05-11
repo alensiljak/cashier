@@ -29,3 +29,12 @@ new Vue({
 // https://stackoverflow.com/questions/32772581/how-to-integrate-vue-router-with-vue
 //var App = Vue.extend({})
 // router.start(App, '#app');
+
+// Activate service worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker
+    .register('./service-worker.js')
+    .then(function () {
+      console.log('Service Worker Registered');
+    });
+}
