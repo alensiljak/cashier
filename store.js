@@ -1,11 +1,9 @@
 /*
     Vuex store.
 
-    Below is a simple store pattern to manage the state / domain model.
-    Currently not in use but demonstrates how to use shared state.
-    Simplified version that avoids the complexity of Vuex.
-    
-    https://vuejs.org/v2/guide/state-management.html#Simple-State-Management-from-Scratch
+    store.commit() => invokes mutation
+    store.dispatch() => invokes action
+   
 */
 import Vue from 'vue';
 import Vuex from 'vuex'
@@ -13,9 +11,8 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 import Posting from "./components/Posting.js"
-import { ADD_POSTING, CLEAR_POSTINGS, DELETE_POSTING, SET_PAYEE } from './mutations'
-
-// Make sure to call Vue.use(Vuex) first if using a module system
+import { ADD_POSTING, CLEAR_POSTINGS, DELETE_POSTING, SET_PAYEE, SET_TX_DATE } from './mutations'
+import { RESET_TRANSACTION } from './actions'
 
 export const store = new Vuex.Store({
     state: {
@@ -27,10 +24,11 @@ export const store = new Vuex.Store({
             postings: []
         }
     },
+    // Data transformations
     mutations: {
-        increment(state) {
-            state.count++
-        },
+        // increment(state) {
+        //     state.count++
+        // },
         [ADD_POSTING] (state) {
             // delete one of the postings in the New Transaction
             state.transaction.postings.push(new Posting())
@@ -44,26 +42,37 @@ export const store = new Vuex.Store({
         },
         [SET_PAYEE] (state, payee) {
             state.transaction.payee = payee
+        },
+        [SET_TX_DATE] (state, date) {
+            state.transaction.date = date
         }
     },
+    // Business logic.
     actions: {
-        addDefaultNewPostings(context) {
-            context.commit(ADD_POSTING)
-            context.commit(ADD_POSTING)
-        },
-        addPosting(context) {
-            // delete one of the postings in the New Transaction
+        [ADD_POSTING] (context) {
             context.commit(ADD_POSTING)
         },
-        clearPostings(context) {
+        [CLEAR_POSTINGS] (context) {
             context.commit(CLEAR_POSTINGS)
         },
-        deletePosting(context, index) {
+        [DELETE_POSTING] (context, index) {
             // delete one of the postings in the New Transaction
             context.commit(DELETE_POSTING, index)
         },
-        setPayee(context, payee) {
+        [SET_PAYEE] (context, payee) {
             context.commit(SET_PAYEE, payee)
+        },
+        [SET_TX_DATE] (context, date) {
+            context.commit(SET_TX_DATE, date)
+        },
+        [RESET_TRANSACTION] (context) {
+            context.commit(CLEAR_POSTINGS)
+            // add default postings
+            context.commit(ADD_POSTING)
+            context.commit(ADD_POSTING)
+            context.commit(SET_PAYEE, '')
+            var today = new Date().toISOString().substring(0, 10);
+            context.commit(SET_TX_DATE, today)
         }
     },
     getters: {
@@ -72,7 +81,7 @@ export const store = new Vuex.Store({
     }
 })
 
-
+/*
 var simple_store = {
     debug: true,
     state: {
@@ -106,3 +115,4 @@ var simple_store = {
 }
 
 //export default store
+*/

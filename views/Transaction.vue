@@ -35,7 +35,7 @@
         </div>
 
         <div class="col text-right">
-          <button type="button" class="btn btn-secondary" v-on:click="resetTransaction">Clear</button>
+          <button type="button" class="btn btn-secondary" v-on:click="onClear">Clear</button>
           <button type="button" class="btn btn-primary">Save</button>
         </div>
       </div>
@@ -46,7 +46,8 @@
 import Vue from "vue";
 import PostingView from "../components/Posting.vue";
 import Posting from "../components/Posting.js";
-import { ADD_POSTING, CLEAR_POSTINGS, SET_NEW_TX_PAYEE, DELETE_POSTING } from '../mutations'
+import { ADD_POSTING, CLEAR_POSTINGS, DELETE_POSTING, SET_PAYEE, SET_TX_DATE } from '../mutations'
+import { RESET_TRANSACTION } from '../actions'
 
 export default {
   created() {
@@ -58,15 +59,13 @@ export default {
   },
   mounted: function() {
     // set today as a default
-    var today = new Date();
-    this.date = today.toISOString().substring(0, 10);
 
     // Set the focus on Payee field.
     document.getElementById("payee").focus();
   },
   data: function() {
     return {
-      date: null
+      //date: null
     };
   },
   components: {
@@ -79,12 +78,9 @@ export default {
     deletePosting: function(index) {
       this.$store.dispatch(DELETE_POSTING, index);
     },
-    resetTransaction() {
-      // Resets all New Transaction fields to defaults.
-      //var tx = this.$store.state.transaction;
-      this.$store.dispatch(SET_NEW_TX_PAYEE, "")
-      this.addPosting();
-      this.addPosting();
+    onClear() {
+      // Resets all Transaction fields to defaults.
+      this.$store.dispatch(RESET_TRANSACTION)
     }
   },
   computed: {
@@ -98,7 +94,15 @@ export default {
         return this.$store.state.transaction.payee;
       },
       set: function(value) {
-        this.$store.dispatch("setNewTxPayee", value);
+        this.$store.dispatch(SET_PAYEE, value);
+      }
+    },
+    date: {
+      get: function() {
+        return this.$store.state.transaction.date;
+      },
+      set: function(value) {
+        this.$store.dispatch(SET_TX_DATE, value)
       }
     }
   }
