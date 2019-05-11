@@ -14,6 +14,7 @@
     </div>
     
     <!-- currency -->
+    <!-- set from the account -->
     <div class="col-1">
       <input type="text" class="form-control" v-model="posting.currency">
     </div>

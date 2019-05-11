@@ -67,10 +67,13 @@ export const store = new Vuex.Store({
         },
         [RESET_TRANSACTION] (context) {
             context.commit(CLEAR_POSTINGS)
-            // add default postings
+            // add the default postings
             context.commit(ADD_POSTING)
             context.commit(ADD_POSTING)
+
             context.commit(SET_PAYEE, '')
+
+            // set today as a default
             var today = new Date().toISOString().substring(0, 10);
             context.commit(SET_TX_DATE, today)
         }

@@ -11,10 +11,14 @@
           </div>
         </div>
         <div class="col">
-          <!-- <p>{{ this.$store.state.transaction.payee }}</p> -->
+          <!-- <p v-if='this.$store.state.transaction.payee'>
+            {{ this.$store.state.transaction.payee }}
+          </p>-->
           <div class="form-group">
             <label for="payee">Payee</label>
-            <input id="payee" type="text" class="form-control" v-model="payee" autofocus>
+            <!-- <input id="payee" type="text" class="form-control" v-model="payee" autofocus
+            disabled="disabled">-->
+            <router-link to="/payee" class="form-control">{{ payee }}</router-link>
           </div>
         </div>
       </div>
@@ -46,22 +50,32 @@
 import Vue from "vue";
 import PostingView from "../components/Posting.vue";
 import Posting from "../components/Posting.js";
-import { ADD_POSTING, CLEAR_POSTINGS, DELETE_POSTING, SET_PAYEE, SET_TX_DATE } from '../mutations'
-import { RESET_TRANSACTION } from '../actions'
+import {
+  ADD_POSTING,
+  CLEAR_POSTINGS,
+  DELETE_POSTING,
+  SET_PAYEE,
+  SET_TX_DATE
+} from "../mutations";
+import { RESET_TRANSACTION } from "../actions";
 
 export default {
   created() {
     // get the data
     // Add the two initial postings
-    this.$store.dispatch(CLEAR_POSTINGS);
-    this.addPosting();
-    this.addPosting();
+    this.$store.dispatch(RESET_TRANSACTION);
   },
   mounted: function() {
-    // set today as a default
-
     // Set the focus on Payee field.
-    document.getElementById("payee").focus();
+    // document.getElementById("payee").focus();
+
+    // test
+    this.$router.push({
+      //name: "payee",
+      params: {
+        name: "hello there" // or anything you want
+      }
+    });
   },
   data: function() {
     return {
@@ -80,7 +94,7 @@ export default {
     },
     onClear() {
       // Resets all Transaction fields to defaults.
-      this.$store.dispatch(RESET_TRANSACTION)
+      this.$store.dispatch(RESET_TRANSACTION);
     }
   },
   computed: {
@@ -91,7 +105,9 @@ export default {
     },
     payee: {
       get: function() {
-        return this.$store.state.transaction.payee;
+        return this.$store.state.transaction.payee
+          ? this.$store.state.transaction.payee
+          : "select payee";
       },
       set: function(value) {
         this.$store.dispatch(SET_PAYEE, value);
@@ -102,7 +118,7 @@ export default {
         return this.$store.state.transaction.date;
       },
       set: function(value) {
-        this.$store.dispatch(SET_TX_DATE, value)
+        this.$store.dispatch(SET_TX_DATE, value);
       }
     }
   }
