@@ -6,7 +6,7 @@ var cacheName = 'cashier';
 var filesToCache = [
 //    "favicon.png",
     "index.html",
-    "manifest.js",
+    "manifest.webmanifest",
     "service-worker.js"
 ];
 
