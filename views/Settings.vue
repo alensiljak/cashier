@@ -53,14 +53,11 @@ export default {
     };
   },
   methods: {
-    loadBalanceSheet() {
-      console.log("test");
+    onBalancesFile: function(event) {
+      this.readFileContent(event, "balanceSheetContent");
     },
     onPayeesFile: function(event) {
       this.readFileContent(event, "payeesContent");
-    },
-    onBalancesFile: function(event) {
-      this.readFileContent(event, "balanceSheetContent");
     },
     onFileHover: function(evt) {
       evt.stopPropagation();
