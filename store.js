@@ -13,7 +13,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 import Posting from "./components/Posting.js"
-
+import { ADD_POSTING, CLEAR_POSTINGS, DELETE_POSTING, SET_PAYEE } from './mutations'
 
 // Make sure to call Vue.use(Vuex) first if using a module system
 
@@ -21,7 +21,7 @@ export const store = new Vuex.Store({
     state: {
         count: 0,
         transactions: [],
-        newTransaction: {
+        transaction: {
             date: null,
             payee: "",
             postings: []
@@ -31,42 +31,43 @@ export const store = new Vuex.Store({
         increment(state) {
             state.count++
         },
-        addNewPosting(state) {
+        [ADD_POSTING] (state) {
             // delete one of the postings in the New Transaction
-            state.newTransaction.postings.push(new Posting())
+            state.transaction.postings.push(new Posting())
         },
-        deleteNewPosting(state, index) {
+        [DELETE_POSTING] (state, index) {
             // delete one of the postings in the New Transaction
-            state.newTransaction.postings.splice(index, 1)
+            state.transaction.postings.splice(index, 1)
         },
-        clearNewPostings(state) {
-            state.newTransaction.postings = []
+        [CLEAR_POSTINGS] (state) {
+            state.transaction.postings = []
         },
-        setNewTxPayee(state, payee) {
-            state.newTransaction.payee = payee
+        [SET_PAYEE] (state, payee) {
+            state.transaction.payee = payee
         }
     },
     actions: {
-        addDefaultNewPostings({commit, state}) {
-            // todo
+        addDefaultNewPostings(context) {
+            context.commit(ADD_POSTING)
+            context.commit(ADD_POSTING)
         },
-        addNewPosting(context) {
+        addPosting(context) {
             // delete one of the postings in the New Transaction
-            context.commit('addNewPosting')
+            context.commit(ADD_POSTING)
         },
-        clearNewPostings(context) {
-            context.commit('clearNewPostings')
+        clearPostings(context) {
+            context.commit(CLEAR_POSTINGS)
         },
-        deleteNewPosting(context, index) {
+        deletePosting(context, index) {
             // delete one of the postings in the New Transaction
-            context.commit('deleteNewPosting', index)
+            context.commit(DELETE_POSTING, index)
         },
-        setNewTxPayee(context, payee) {
-            context.commit('setNewTxPayee', payee)
+        setPayee(context, payee) {
+            context.commit(SET_PAYEE, payee)
         }
     },
     getters: {
-        newTransaction: state => state.newTransaction,
+        transaction: state => state.transaction,
         transactions: state => state.transactions
     }
 })
@@ -77,22 +78,22 @@ var simple_store = {
     state: {
         message: 'Hello!',
         transactions: [],
-        newTransaction: {
+        transaction: {
             postings: []
         }
     },
     init() {
         // todo: create the two initial postings by default
         // var p1 = new Posting()
-        // this.state.newTransaction.postings.append(p1)
+        // this.state.transaction.postings.append(p1)
     },
     addNewPosting() {
         // delete one of the postings in the New Transaction
-        this.state.newTransaction.postings.append(new Posting())
+        this.state.transaction.postings.append(new Posting())
     },
     deleteNewPosting(index) {
         // delete one of the postings in the New Transaction
-        this.state.newTransaction.postings.splice(index, 1)
+        this.state.transaction.postings.splice(index, 1)
     },
     setMessageAction(newValue) {
         if (this.debug) console.log('setMessageAction triggered with', newValue)

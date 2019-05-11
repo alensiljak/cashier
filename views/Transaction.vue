@@ -11,17 +11,22 @@
           </div>
         </div>
         <div class="col">
+          <!-- <p>{{ this.$store.state.transaction.payee }}</p> -->
           <div class="form-group">
             <label for="payee">Payee</label>
-            <input id="payee" type="text" class="form-control" v-model="payee" autofocus >
+            <input id="payee" type="text" class="form-control" v-model="payee" autofocus>
           </div>
         </div>
       </div>
 
       <!-- Postings -->
-      <posting-view v-for="(posting, index) in postings" 
-        :key="index" :posting="posting" :index="index"
-        v-on:delete-row="deletePosting"></posting-view>
+      <posting-view
+        v-for="(posting, index) in postings"
+        :key="index"
+        :posting="posting"
+        :index="index"
+        v-on:delete-row="deletePosting"
+      ></posting-view>
 
       <!-- buttons -->
       <div class="row mt-3">
@@ -30,7 +35,7 @@
         </div>
 
         <div class="col text-right">
-          <button type="button" class="btn btn-secondary">Clear</button>
+          <button type="button" class="btn btn-secondary" v-on:click="resetTransaction">Clear</button>
           <button type="button" class="btn btn-primary">Save</button>
         </div>
       </div>
@@ -41,14 +46,15 @@
 import Vue from "vue";
 import PostingView from "../components/Posting.vue";
 import Posting from "../components/Posting.js";
+import { ADD_POSTING, CLEAR_POSTINGS, SET_NEW_TX_PAYEE, DELETE_POSTING } from '../mutations'
 
 export default {
   created() {
     // get the data
     // Add the two initial postings
-    this.$store.dispatch('clearNewPostings')
-    this.addPosting()
-    this.addPosting()
+    this.$store.dispatch(CLEAR_POSTINGS);
+    this.addPosting();
+    this.addPosting();
   },
   mounted: function() {
     // set today as a default
@@ -60,7 +66,7 @@ export default {
   },
   data: function() {
     return {
-      date: null,
+      date: null
     };
   },
   components: {
@@ -68,25 +74,31 @@ export default {
   },
   methods: {
     addPosting: function() {
-      this.$store.dispatch('addNewPosting')
+      this.$store.dispatch(ADD_POSTING);
     },
     deletePosting: function(index) {
-      //this.postings.splice(index, 1)
-      this.$store.dispatch('deleteNewPosting', index)
+      this.$store.dispatch(DELETE_POSTING, index);
+    },
+    resetTransaction() {
+      // Resets all New Transaction fields to defaults.
+      //var tx = this.$store.state.transaction;
+      this.$store.dispatch(SET_NEW_TX_PAYEE, "")
+      this.addPosting();
+      this.addPosting();
     }
   },
   computed: {
     postings: {
       get: function() {
-        return this.$store.state.newTransaction.postings
+        return this.$store.state.transaction.postings;
       }
     },
     payee: {
       get: function() {
-        return this.$store.state.newTransaction.payee
+        return this.$store.state.transaction.payee;
       },
       set: function(value) {
-        this.$store.dispatch('setNewTxPayee', value)
+        this.$store.dispatch("setNewTxPayee", value);
       }
     }
   }
