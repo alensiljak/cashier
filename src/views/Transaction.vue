@@ -47,9 +47,7 @@
   </div>
 </template>
 <script>
-import Vue from "vue";
 import PostingView from "../components/Posting.vue";
-import Posting from "../components/Posting.js";
 import {
   ADD_POSTING,
   CLEAR_POSTINGS,
