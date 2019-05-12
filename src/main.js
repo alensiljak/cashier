@@ -10,6 +10,12 @@ import './registerServiceWorker'
 // Font Awesome configuration and import.
 import './faConfig.js';
 
+// bootstrap
+//import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.css'
+//import 'jquery/src/jquery.js'
+//import 'bootstrap/dist/js/bootstrap.min.js'
+
 Vue.config.productionTip = false
 
 // new Vue({
@@ -28,10 +34,10 @@ new Vue({
 // router.start(App, '#app');
 
 // Activate service worker
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker
-    .register('./service-worker.js')
-    .then(function () {
-      console.log('Service Worker Registered');
-    });
-}
+// if ('serviceWorker' in navigator) {
+//   navigator.serviceWorker
+//     .register('./service-worker.js')
+//     .then(function () {
+//       console.log('Service Worker Registered');
+//     });
+// }

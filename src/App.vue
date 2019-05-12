@@ -2,7 +2,7 @@
   <div id="app">
     <nav class="navbar navbar-dark bg-dark" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
-        <img src="/assets/icon32.png" width="30" height="30" class="d-inline-block align-top" alt>
+        <img src="/img/icons/favicon-32x32.png" width="30" height="30" class="d-inline-block align-top" alt>
         <router-link to="/">Cashier</router-link>
       </div>
 

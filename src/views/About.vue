@@ -3,7 +3,7 @@
     <div class="row">
       <div style="width:100%;" class="text-center">
         <h1>About Cashier</h1>
-        <img src="/assets/icon96.png">
+        <img src="/img/icons/icon96.png">
         <p>This software is intended to be used as a part of Plain-Text Accounting ecosystem.
           More specifically, it is a GUI helper for <a href="https://ledger-cli.org">Ledger</a>.
         </p>

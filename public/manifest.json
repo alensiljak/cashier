@@ -3,16 +3,16 @@
     "short_name": "cashier",
     "icons": [
       {
-        "src": "assets/icon192.png",
+        "src": "img/icon192.png",
         "sizes": "192x192",
         "type": "image/png"
       },
       {
-        "src": "assets/icon64.png",
+        "src": "img/icon64.png",
         "sizes": "64x64",
         "type": "image/png"
       }
-    ]
+    ],
     "start_url": "/index.html",
     "display": "standalone",
     "orientation": "portrait",
