@@ -30,10 +30,7 @@
         <a href="https://getbootstrap.com/">Bootstrap 4</a>
       </li>
       <li>
-        <a href="https://parceljs.org/">Parcel JS</a>
-      </li>
-      <li>
-        <a href="https://vuejs.org/">Vue JS</a>
+        <a href="https://vuejs.org/">Vue JS, Vuex, Vue-cli</a>
       </li>
     </ul>
   </div>
