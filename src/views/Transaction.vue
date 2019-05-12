@@ -50,6 +50,7 @@
 import PostingView from "../components/Posting.vue";
 import {
   ADD_POSTING,
+// eslint-disable-next-line  
   CLEAR_POSTINGS,
   DELETE_POSTING,
   SET_PAYEE,
