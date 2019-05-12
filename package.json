@@ -8,22 +8,33 @@
         "url": "https://gitlab.com/alensiljak/cashier"
     },
     "scripts": {
-        "dev": "npx parcel index.html --open -p 8080",
-        "build": "npx parcel build index.html --no-source-maps --out-dir public --public-url ./"
+        "serve": "vue-cli-service serve --host 127.0.0.1 --port 8080",
+        "build": "vue-cli-service build",
+        "lint": "vue-cli-service lint",
+        "dev-with-parcel": "npx parcel index.html --open -p 8080",
+        "build-with-parcel": "npx parcel build index.html --no-source-maps --out-dir public --public-url ./"
     },
     "dependencies": {
+    	"core-js": "^2.6.5",
         "@fortawesome/fontawesome-svg-core": "^1.2.18",
         "@fortawesome/free-regular-svg-icons": "^5.8.2",
         "@fortawesome/free-solid-svg-icons": "^5.8.2",
         "@fortawesome/vue-fontawesome": "^0.1.6",
         "bootstrap": "^4.3.1",
-        "parcel": "^1.12.3",
+        "register-service-worker": "^1.6.2",
         "vue": "^2.6.10",
         "vue-hot-reload-api": "^2.3.3",
         "vue-router": "^3.0.6",
         "vuex": "^3.1.1"
     },
     "devDependencies": {
+        "@vue/cli-plugin-babel": "^3.7.0",
+        "@vue/cli-plugin-eslint": "^3.7.0",
+        "@vue/cli-plugin-pwa": "^3.7.0",
+        "@vue/cli-service": "^3.7.0",
+        "babel-eslint": "^10.0.1",
+        "eslint": "^5.16.0",
+        "eslint-plugin-vue": "^5.0.0",
         "@vue/component-compiler-utils": "^3.0.0",
         "vue-template-compiler": "^2.6.10"
     },

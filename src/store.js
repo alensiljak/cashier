@@ -14,7 +14,8 @@ import Posting from "./components/Posting.js"
 import { ADD_POSTING, CLEAR_POSTINGS, DELETE_POSTING, SET_PAYEE, SET_TX_DATE } from './mutations'
 import { RESET_TRANSACTION } from './actions'
 
-export const store = new Vuex.Store({
+// const store =
+export default new Vuex.Store({
     state: {
         count: 0,
         transactions: [],
@@ -83,39 +84,3 @@ export const store = new Vuex.Store({
         transactions: state => state.transactions
     }
 })
-
-/*
-var simple_store = {
-    debug: true,
-    state: {
-        message: 'Hello!',
-        transactions: [],
-        transaction: {
-            postings: []
-        }
-    },
-    init() {
-        // todo: create the two initial postings by default
-        // var p1 = new Posting()
-        // this.state.transaction.postings.append(p1)
-    },
-    addNewPosting() {
-        // delete one of the postings in the New Transaction
-        this.state.transaction.postings.append(new Posting())
-    },
-    deleteNewPosting(index) {
-        // delete one of the postings in the New Transaction
-        this.state.transaction.postings.splice(index, 1)
-    },
-    setMessageAction(newValue) {
-        if (this.debug) console.log('setMessageAction triggered with', newValue)
-        this.state.message = newValue
-    },
-    clearMessageAction() {
-        if (this.debug) console.log('clearMessageAction triggered')
-        this.state.message = ''
-    }
-}
-
-//export default store
-*/

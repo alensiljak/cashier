@@ -1,11 +1,6 @@
 {
     "name": "Cashier",
     "short_name": "cashier",
-    "display": "standalone",
-    "start_url": "/index.html",
-    "orientation": "portrait",
-    "theme_color": "#2196f3",
-    "background_color": "#2196f3",
     "icons": [
       {
         "src": "assets/icon192.png",
@@ -18,4 +13,9 @@
         "type": "image/png"
       }
     ]
+    "start_url": "/index.html",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#000000",
+    "theme_color": "#4DBA87"
   }

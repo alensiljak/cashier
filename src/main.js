@@ -2,13 +2,10 @@
     Vue.js initialization file.
 */
 import Vue from 'vue'
-import router from './router'
 import App from './App.vue'
-
-// Vuex
-// import Vuex from 'vuex'
-// Vue.use(Vuex)
-import { store } from './store'
+import router from './router'
+import store from './store'
+import './registerServiceWorker'
 
 // Font Awesome configuration and import.
 import './faConfig.js';
