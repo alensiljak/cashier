@@ -3,12 +3,12 @@
     "short_name": "cashier",
     "icons": [
       {
-        "src": "img/icon192.png",
+        "src": "img/icons/icon192.png",
         "sizes": "192x192",
         "type": "image/png"
       },
       {
-        "src": "img/icon64.png",
+        "src": "img/icons/icon64.png",
         "sizes": "64x64",
         "type": "image/png"
       }
