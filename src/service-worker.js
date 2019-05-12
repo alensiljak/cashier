@@ -6,8 +6,7 @@ var cacheName = 'cashier';
 var filesToCache = [
 //    "favicon.png",
     "index.html",
-    "manifest.webmanifest",
-    "service-worker.js"
+    "img/icons/icon192.png"
 ];
 
 self.addEventListener('install', function (e) {
