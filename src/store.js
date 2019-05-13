@@ -1,9 +1,8 @@
 /*
-    Vuex store.
+    Vuex application state store.
 
-    store.commit() => invokes mutation
     store.dispatch() => invokes action
-   
+    store.commit() => invokes mutation
 */
 import Vue from 'vue';
 import Vuex from 'vuex'
@@ -18,6 +17,8 @@ import { RESET_TRANSACTION } from './actions'
 export default new Vuex.Store({
     state: {
         count: 0,
+        payees: [],
+        accounts: [],
         transactions: [],
         transaction: {
             date: null,
