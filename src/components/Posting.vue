@@ -39,7 +39,7 @@ export default {
         }
     },
     methods: {
-      deleteRow: function(event) {
+      deleteRow: function() {
         // todo confirm
         this.$emit('delete-row', this.index)
       }

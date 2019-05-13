@@ -8,4 +8,4 @@ export default class Posting {
         this.amount = ""
         this.currency = ""
     }
-};
+}
