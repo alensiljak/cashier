@@ -2,18 +2,18 @@
 
 https://cashier.alensiljak.ml/
 
-Is a PWA GUI companion application for [Ledger](https://ledger-cli.org). It can be used for entering transactions or viewing balances. The entered transactions can be exported and the accounts and balances can be imported from Ledger output.
+Is a PWA GUI companion application for [Ledger-cli](https://ledger-cli.org). It is to be used for entering transactions or viewing balances. The entered transactions are to be exported and the accounts and balances would initially be imported from Ledger output.
 
 This is the Cashier project implemented as a Progressive Web Application.
 
 ## Development 
 
-Run the dev server `parcel index.html` or `parcel index.html --open` to open the browser.
-Or `npm run dev`.
+Run the dev server `yarn serve` and open the browser on port 8080.
+This will run the vue cli service.
 
 ## Packaging
 
-Build with `parcel build index.html` or `npm run build`.
+Build with `yarn build`.
 
 ## Deployment
 
