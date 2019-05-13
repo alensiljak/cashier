@@ -9,6 +9,7 @@
       <router-link to="/tx">New Transaction</router-link>
       <router-link to="/bal">Balance Sheet</router-link>
       <router-link to="/reg">Register</router-link>
+      <router-link to="/payees">Payees</router-link>
       <router-link to="/settings">Settings</router-link>
       <router-link to="/about">About</router-link>
     </nav>

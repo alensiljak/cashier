@@ -9,7 +9,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 //const Home = () => import('./Home.vue')
 import BalanceSheet from './views/BalanceSheet.vue'
-import PayeeList from './views/PayeeList.vue'
+import PayeeList from './views/Payees.vue'
 import Register from './views/Register.vue'
 //const BalanceSheet = () => import('./BalanceSheet.vue')
 import Settings from './views/Settings.vue'
@@ -27,7 +27,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ './views/About.vue')},
   { path: '/bal', component: BalanceSheet },
   //{ path: '/payee/:name', component: PayeeList, props: true },
-  { path: '/payee', component: PayeeList },
+  { path: '/payees', component: PayeeList },
   { path: '/reg', component: Register },
   { path: '/settings', component: Settings },
   { path: '/tx', component: Transaction }

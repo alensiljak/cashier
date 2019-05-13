@@ -10,7 +10,8 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 import Posting from "./components/Posting.js"
-import { ADD_POSTING, CLEAR_POSTINGS, DELETE_POSTING, SET_PAYEE, SET_TX_DATE } from './mutations'
+import { ADD_POSTING, CLEAR_POSTINGS, DELETE_POSTING, SET_PAYEE, SET_PAYEES,
+    SET_TX_DATE } from './mutations'
 import { RESET_TRANSACTION } from './actions'
 
 // const store =
@@ -44,6 +45,9 @@ export default new Vuex.Store({
         },
         [SET_PAYEE] (state, payee) {
             state.transaction.payee = payee
+        },
+        [SET_PAYEES] (state, payeesArray) {
+            state.payees = payeesArray
         },
         [SET_TX_DATE] (state, date) {
             state.transaction.date = date

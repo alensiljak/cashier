@@ -23,28 +23,39 @@
     <h2>Payees</h2>
 
     <div class="mt-3">
-      <p>Load payees from Ledger. Export with "ledger payees".</p>
+      <p>
+        Load payees from Ledger. Export with "ledger payees". Then either select a file or paste
+        the contents into the box below.
+      </p>
       <!-- <div id="drop_zone" v-on:dragover="onFileHover">Drop files here</div> -->
       <div class="form-row">
-        <input
-          id="payeesFile"
-          class="form-control-file"
-          type="file"
-          v-on:dragover="onFileHover"
-          v-on:change="onPayeesFile"
-        >
+        <div class="col">
+          <input
+            id="payeesFile"
+            class="form-control-file"
+            type="file"
+            v-on:dragover="onFileHover"
+            v-on:change="onPayeesFile"
+          >
+        </div>
+        <div class="col text-right">
+          <button type="button" class="btn btn-info" v-on:click="onDummyPayeesClick">Dummy data</button>
+        </div>
       </div>
       <div class="form-row">
         <textarea v-model="payeesContent"></textarea>
       </div>
-    </div>
 
-    <div class="text-center mt-5 mb-5">
-      <button type="button" class="btn btn-primary" v-on:click="onOk">OK</button>
+      <div class="text-center mt-1 mb-5">
+        <button type="button" class="btn btn-primary" v-on:click="onPayeesImport">Import Payees</button>
+      </div>
     </div>
   </div>
 </template>
 <script>
+import PayeeImporter from "../components/PayeeImporter";
+import SET_PAYEES from "../mutations";
+
 export default {
   data: function() {
     return {
@@ -64,8 +75,15 @@ export default {
       evt.preventDefault();
       evt.dataTransfer.dropEffect = "copy"; // Explicitly show this is a copy.
     },
-    onOk: function() {
-      // todo: process the file(s)
+    onDummyPayeesClick: function() {
+      // use some dummy data
+      this.payeesContent = "Payee 1\nGrocery Store\nElectricity Bill\n";
+    },
+    onPayeesImport: function() {
+      // import the payees
+      const importer = new PayeeImporter();
+      var payees = importer.import(content);
+      this.$store.dispatch(SET_PAYEES, payees);
     },
     /**
      * event = fileInput.changed event
