@@ -14,18 +14,29 @@ import { ADD_POSTING, CLEAR_POSTINGS, DELETE_POSTING, SET_PAYEE, SET_PAYEES,
     SET_TX_DATE } from './mutations'
 import { RESET_TRANSACTION, SAVE_TRANSACTION } from './actions'
 
+/**
+ * Payee class
+ */
+export class Payee {
+
+}
+
+export class Transaction {
+    constructor() {
+        this.date = new Date()
+        this.payee = ""
+        this.postings = []
+    }
+}
+
 // const store =
 export default new Vuex.Store({
+    //strict: true,
     state: {
-        count: 0,
         payees: [],
         accounts: [],
         transactions: [],
-        transaction: {
-            date: null,
-            payee: "",
-            postings: []
-        }
+        transaction: new Transaction()
     },
     // Data transformations
     mutations: {
