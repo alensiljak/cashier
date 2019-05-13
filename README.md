@@ -6,6 +6,8 @@ Is a PWA GUI companion application for [Ledger-cli](https://ledger-cli.org). It 
 
 This is the Cashier project implemented as a Progressive Web Application.
 
+See the [TODO](TODO) file for the list of features, technical issues, brainstorming ideas, and priorities.
+
 ## Development 
 
 Run the dev server `yarn serve` and open the browser on port 8080.

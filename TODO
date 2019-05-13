@@ -1,0 +1,139 @@
+- Cashier
+    - To Do
+        - [new tx screen](https://dynalist.io/d/y_8Ma9YghJKv_5Le5J92LA_A#z=NIqHj0gMZ1I4Y8ZBjTZTVTIY)
+        - caching in PWA
+            - https://cli.vuejs.org/
+            - uses [pwa plugin](https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-pwa)
+            - injects service worker. Caches the app by default. Favicon defined here!
+            - https://github.com/webpack/webpack-pwa
+            - cache images from /public
+        - export journal
+        - Account selection screen
+        - Auto fill the currency when an account is selected
+        - Transaction, use vertical layout on small devices
+        - Use full width of the screen
+        - Dark theme
+        - Toolkits/frameworks
+            - https://v1.quasar-framework.org/
+            - https://onsen.io/v2/guide/vue/
+            - [Vuetify](https://vuetifyjs.com/en/getting-started/quick-start)
+            - https://framework7.io/
+                - [f7-vue](https://framework7.io/vue/introduction.html)
+        - Sidebar
+            - Vuetify
+            - https://startbootstrap.com/templates/simple-sidebar/
+            - Left navigation menu, mobile?
+        - Add material plus button for new tx
+        - Custom search. Space is term separator. Default AND.
+        - Transaction ordering when merging to ledger?
+        - sync between devices!
+    - Requirements
+        - functional
+            - convenient data-entry screen for transactions
+            - work both on desktop and mobile devices. These are two different scenarios - I enter bank statements on desktop but, when away from a PC, I use the phone.
+            - load quickly and help me enter the transactions within a couple of seconds. Similar to MMEx for Android is currently doing.
+            - show me current balances
+            - export entered transactions as a text file for inclusion in the main book
+        - non-functional
+            - run on multiple platforms
+            - require minimal effort in maintenance
+            - require minimum infrastructure
+    - Features
+        - balance sheet
+            - select favourite accounts, toggle viewing all
+            - hide accounts in selectors and report
+            - Tree view, collapsible. Remember collapsed nodes.
+        - I/O
+            - Import accounts/bal-sheet from ledger
+                - account, balance, currency
+                - `ledger bal --flat`
+                - Parse using Regex
+            - Import payees
+            - export journal in ledger format
+            - option to delete tx after export?
+            - Delete All for visible records
+            - Import journal, for synchronisation
+        - transaction edit/new
+            - Save transaction to the local journal
+            - Use text input until selectors are complete
+            - show tx balance during entry
+            - autocomplete
+                - https://github.com/select2/select2
+            - payees
+                - payee selection screen
+                - separate screen, like mmex
+                - fill last transaction, like gnucash
+            - Search accounts
+                - "inv why" - use all parts for matching
+                - get posting currency from the account, allow editing
+            - calculator for amount entry, like mmex
+            - columns for +/-
+            - selector for commodity, autocomplete
+            - trading accounts
+                - for different currencies, add trading records. Currencies marked with a tag?
+            - Editing updates the parent account balances
+            - allow changing the tx type (trade, transfer)
+        - Register
+            - Filters
+                - account
+                - date period
+            - Ledger
+            - Sorting (by date, amount, account)
+            - delete individual transactions with confirmation
+            - Export visible transactions
+            - Transaction rows in different colours
+        - Synchronisation
+            - WebDAV
+            - Or simple export import, using the same format
+            - Syncthing
+    - Implementation issues
+        - Account tree
+            - https://www.vuescript.com/treeview-component-vue-js-2-v-treeview/
+            - https://www.npmjs.com/package/treeify
+            - Account has name, balance, currency, starting balance
+        - Floating action button
+            - https://framework7.io/vue/floating-action-button.html
+            - https://vuetifyjs.com/en/
+            - https://vuejsexamples.com/floating-action-button-for-vue/
+        - List Search
+            - [Search algorithm](https://stackoverflow.com/questions/11758500/javascript-search-algorithm) using Regex
+        - Selectors
+            - Date: native
+            - Accounts, currencies: select 2
+        - State Storage
+            - store pattern
+                - https://vuejs.org/v2/guide/state-management.html#Simple-State-Management-from-Scratch
+            - Vuex
+                - https://vuex.vuejs.org/
+                - [persist](https://github.com/championswimmer/vuex-persist)
+                - [lib](https://github.com/robinvdvleuten/vuex-persistedstate)
+            - Persistence
+                - Persist in internal storage
+                - Json stringify
+                - Load into state only when needed
+                - Only save new transaction
+                - Save accounts on import
+                - https://github.com/localForage/localForage
+                - https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Browser_storage_limits_and_eviction_criteria#Different_types_of_data_storage
+                - Persistent storage
+        - PWA
+            - on Netlify
+            - on GitLab
+            - manifest
+            - https
+            - service worker
+            - auto-build pipeline
+            - Mobile settings for the page
+            - Cache the whole content offline
+        - multiplatform
+            - browser covers everything
+            - Cordova mobile app
+            - electron for desktop
+        - Transaction list
+            - Use table?
+    - Completed
+        - Switch to Yarn
+        - History mode
+            - access individual pages by URL
+            - [router server config](https://router.vuejs.org/guide/essentials/history-mode.html#example-server-configurations)
+            - [netlify config](https://stackoverflow.com/questions/47729023/add-redirects-file-to-root-path-for-vue-spa-hosted-on-netlify)
