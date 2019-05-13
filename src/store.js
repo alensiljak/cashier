@@ -12,7 +12,7 @@ Vue.use(Vuex)
 import Posting from "./components/Posting.js"
 import { ADD_POSTING, CLEAR_POSTINGS, DELETE_POSTING, SET_PAYEE, SET_PAYEES,
     SET_TX_DATE } from './mutations'
-import { RESET_TRANSACTION } from './actions'
+import { RESET_TRANSACTION, SAVE_TRANSACTION } from './actions'
 
 // const store =
 export default new Vuex.Store({
@@ -82,6 +82,16 @@ export default new Vuex.Store({
             // set today as a default
             var today = new Date().toISOString().substring(0, 10);
             context.commit(SET_TX_DATE, today)
+        },
+        /**
+         * Saves the edited transaction to the store.
+         * @param {context} context 
+         */
+        [SAVE_TRANSACTION] (context) {
+            // todo: store the transaction into the list
+            var tx = context.state.transaction
+            //context.commit(SAVE_TRANSACTION)
+            console.log(tx)
         }
     },
     getters: {

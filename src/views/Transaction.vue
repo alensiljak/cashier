@@ -16,9 +16,8 @@
           </p>-->
           <div class="form-group">
             <label for="payee">Payee</label>
-            <!-- <input id="payee" type="text" class="form-control" v-model="payee" autofocus
-            disabled="disabled">-->
-            <router-link to="/payee" class="form-control">{{ payee }}</router-link>
+            <input id="payee" type="text" class="form-control" v-model="payee" autofocus>
+            <!-- <router-link to="/payee" class="form-control">{{ payee }}</router-link> -->
           </div>
         </div>
       </div>
@@ -40,7 +39,7 @@
 
         <div class="col text-right">
           <button type="button" class="btn btn-secondary" v-on:click="onClear">Clear</button>
-          <button type="button" class="btn btn-primary">Save</button>
+          <button type="button" class="btn btn-primary" v-on:click="onSave">Save</button>
         </div>
       </div>
     </form>
@@ -56,7 +55,7 @@ import {
   SET_PAYEE,
   SET_TX_DATE
 } from "../mutations";
-import { RESET_TRANSACTION } from "../actions";
+import { RESET_TRANSACTION, SAVE_TRANSACTION } from "../actions";
 
 export default {
   created() {
@@ -94,6 +93,10 @@ export default {
     onClear() {
       // Resets all Transaction fields to defaults.
       this.$store.dispatch(RESET_TRANSACTION);
+    },
+    onSave() {
+      // store the transaction
+      this.$store.dispatch(SAVE_TRANSACTION);
     }
   },
   computed: {
