@@ -54,7 +54,7 @@
 </template>
 <script>
 import PayeeImporter from "../components/PayeeImporter";
-import SET_PAYEES from "../mutations";
+import { SET_PAYEES } from "../mutations";
 
 export default {
   data: function() {
