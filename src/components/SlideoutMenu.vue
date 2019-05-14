@@ -8,6 +8,10 @@
 
     <main id="panel">
       <header>
+        <div>
+          <button class="toggle-button navbar-toggler">☰</button>
+          Panel
+        </div>
         <h2>Panel</h2>
       </header>
     </main>

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Slideout>
+    <Slideout :toggleSelectors="['.toggle-button']">
       <SlideoutMenu />
     </Slideout>
 
