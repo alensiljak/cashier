@@ -18,8 +18,7 @@ body {
   display: none;
   // Style the menu here.
   background-color: #1d1f20;
-  //color: white;
-  color: beige;
+  color: white;
   // hide scrollbar
   overflow-y: hidden;
 }
@@ -34,7 +33,7 @@ body {
 
 // Page content
 .slideout-panel {
-  // bg colour is required to not look weird. :)
+  // bg colour on the panel is required to correctly cover the menu.
   background-color: white;
   //color: white;
   position: relative;

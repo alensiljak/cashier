@@ -10,11 +10,8 @@ import './registerServiceWorker'
 // Font Awesome configuration and import.
 import './faConfig.js';
 
-// bootstrap
-//import 'bootstrap/dist/css/bootstrap.min.css'
+// Bootstrap CSS.
 import 'bootstrap-css-only/css/bootstrap.css'
-//import 'jquery/src/jquery.js'
-//import 'bootstrap/dist/js/bootstrap.min.js'
 
 Vue.config.productionTip = false
 
@@ -28,16 +25,3 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app')
-
-// https://stackoverflow.com/questions/32772581/how-to-integrate-vue-router-with-vue
-//var App = Vue.extend({})
-// router.start(App, '#app');
-
-// Activate service worker
-// if ('serviceWorker' in navigator) {
-//   navigator.serviceWorker
-//     .register('./service-worker.js')
-//     .then(function () {
-//       console.log('Service Worker Registered');
-//     });
-// }

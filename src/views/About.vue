@@ -33,7 +33,6 @@
         <a href="https://vuejs.org/">Vue JS, Vuex, Vue-cli</a>
       </li>
       <li>
-        <a href="https://github.com/vouill/vue-slideout">vue-slideout</a> and 
         <a href="https://github.com/mango/slideout">Slideout.js</a>
       </li>
     </ul>
