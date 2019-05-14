@@ -2,9 +2,7 @@
   <div id="app">
       <!-- This is the sidebar -->
       <nav id="menu">
-        <header>
-          <h2>Menu</h2>
-        </header>
+        <SideMenu />
       </nav>
       <!-- this is the content area -->
       <main id="panel">
@@ -16,11 +14,13 @@
 <script>
 import MainPanel from "./views/MainPanel";
 import Slideout from "slideout";
+import SideMenu from "./components/SideMenu"
 
 export default {
   name: "Cashier",
   mounted() {
     // Show the slideout menu.
+     // eslint-disable-next-line
     var slideout = new Slideout({
       panel: document.getElementById("panel"),
       menu: document.getElementById("menu"),
@@ -30,6 +30,7 @@ export default {
   },
   methods: {},
   components: {
+    SideMenu,
     MainPanel
   }
 };

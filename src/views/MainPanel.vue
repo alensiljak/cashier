@@ -1,23 +1,24 @@
 <template>
   <div>
     <nav class="navbar navbar-dark bg-dark" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <img
-          src="/img/icons/favicon-32x32.png"
-          width="30"
-          height="30"
-          class="d-inline-block align-top"
-          alt
-        >
-        <router-link to="/">Cashier</router-link>
+      <!-- <div class="navbar-toggler">
+        <span class="navbar-toggler-icon"></span>
       </div>
-
-      <router-link to="/tx">New Transaction</router-link>
-      <router-link to="/bal">Balance Sheet</router-link>
-      <router-link to="/reg">Register</router-link>
-      <router-link to="/payees">Payees</router-link>
-      <router-link to="/settings">Settings</router-link>
-      <router-link to="/about">About</router-link>
+      <div class="navbar-brand">
+        <font-awesome-icon icon="bars"/>
+        <span class="ml-4">Menu</span>
+      </div>-->
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarToggleExternalContent"
+        aria-controls="navbarToggleExternalContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
     </nav>
 
     <router-view class="container-fluid"></router-view>

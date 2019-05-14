@@ -33,6 +33,9 @@ export class Transaction {
 export default new Vuex.Store({
     //strict: true,
     state: {
+        view: {
+            menuVisible: null
+        },
         payees: [],
         accounts: [],
         transactions: [],
