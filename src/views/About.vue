@@ -34,7 +34,7 @@
       </li>
       <li>
         <a href="https://github.com/vouill/vue-slideout">vue-slideout</a> and 
-        <a href="https://slideout.js.org/">Slideout.js</a>
+        <a href="https://github.com/mango/slideout">Slideout.js</a>
       </li>
     </ul>
   </div>
