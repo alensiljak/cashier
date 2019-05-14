@@ -12,7 +12,7 @@ import './faConfig.js';
 
 // bootstrap
 //import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-css-only/css/bootstrap.css'
 //import 'jquery/src/jquery.js'
 //import 'bootstrap/dist/js/bootstrap.min.js'
 
