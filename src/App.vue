@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <VueSlideout :toggleSelectors="['.toggle-button']">
-      <SlideoutMenu />
-    </VueSlideout>
+    <!-- <VueSlideout :toggleSelectors="['.toggle-button']"> -->
+      <SlideoutMenu/>
+    <!-- </VueSlideout> -->
 
     <nav class="navbar navbar-dark bg-dark" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
@@ -30,8 +30,9 @@
   </div>
 </template>
 <script>
-import VueSlideout from "vue-slideout";
-import SlideoutMenu from "./components/SlideoutMenu";
+//import VueSlideout from "vue-slideout"
+import SlideoutMenu from "./components/SlideoutMenu"
+import Slideout from 'slideout'
 
 export default {
   name: "Cashier",
@@ -41,22 +42,27 @@ export default {
     //var slideout = new
     //console.log(this.$children[0].slideout.isOpen());
 
+    var slideout = new Slideout({
+      panel: document.getElementById("panel"),
+      menu: document.getElementById("menu"),
+      padding: 256,
+      tolerance: 70
+    });
   },
   methods: {
     testSidebar() {
       //var opened = this.$children[0].slideout.opened
-      console.log('alive')
+      console.log("alive");
       //this.$children[0].slideout.toggle()
     }
   },
   components: {
-    VueSlideout,
+    // VueSlideout,
     SlideoutMenu
   }
 };
 </script>
 <style lang="scss">
 // The slideout styles have to be imported here.
-@import 'styles/slideout.scss'
-
+@import "styles/slideout.scss";
 </style>
