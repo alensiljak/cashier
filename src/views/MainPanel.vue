@@ -20,6 +20,6 @@
       <router-link to="/about">About</router-link>
     </nav>
 
-    <router-view></router-view>
+    <router-view class="container-fluid"></router-view>
   </div>
 </template>

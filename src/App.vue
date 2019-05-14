@@ -1,16 +1,17 @@
 <template>
   <div id="app">
-    <!-- This is the sidebar -->
-    <nav id="menu">
-      <header>
-        <h2>Menu</h2>
-      </header>
-    </nav>
-    <!-- this is the content area -->
-    <main id="panel">
-      <MainPanel/>
-    </main>
-  </div>
+      <!-- This is the sidebar -->
+      <nav id="menu">
+        <header>
+          <h2>Menu</h2>
+        </header>
+      </nav>
+      <!-- this is the content area -->
+      <main id="panel">
+        <MainPanel/>
+      </main>
+    </div>
+  <!-- app -->
 </template>
 <script>
 import MainPanel from "./views/MainPanel";
@@ -27,8 +28,7 @@ export default {
       tolerance: 70
     });
   },
-  methods: {
-  },
+  methods: {},
   components: {
     MainPanel
   }
