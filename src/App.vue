@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <Slideout :toggleSelectors="['.toggle-button']">
+    <VueSlideout :toggleSelectors="['.toggle-button']">
       <SlideoutMenu />
-    </Slideout>
+    </VueSlideout>
 
     <nav class="navbar navbar-dark bg-dark" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
@@ -24,11 +24,13 @@
       <router-link to="/about">About</router-link>
     </nav>
 
+    <button type="button" v-on:click="testSidebar">Sidebar</button>
+
     <router-view></router-view>
   </div>
 </template>
 <script>
-import Slideout from "vue-slideout";
+import VueSlideout from "vue-slideout";
 import SlideoutMenu from "./components/SlideoutMenu";
 
 export default {
@@ -40,8 +42,15 @@ export default {
     //console.log(this.$children[0].slideout.isOpen());
 
   },
+  methods: {
+    testSidebar() {
+      //var opened = this.$children[0].slideout.opened
+      console.log('alive')
+      //this.$children[0].slideout.toggle()
+    }
+  },
   components: {
-    Slideout,
+    VueSlideout,
     SlideoutMenu
   }
 };

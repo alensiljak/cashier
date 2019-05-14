@@ -4,48 +4,64 @@
 //     margin: 0;
 //   }
 
-  // The menu
-  .slideout-menu {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    width: 256px;
-    //height: 100vh;
-    min-height: 100vh;
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
-    z-index: 0;
-    display: none;
-    // Style the menu here.
-    background-color: #1D1F20;
-    //color: white;
-    color: beige;
-  }
+// The menu
+.slideout-menu {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 256px;
+  //height: 100vh;
+  min-height: 100vh;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  z-index: 0;
+  display: none;
+  // Style the menu here.
+  background-color: #1d1f20;
+  //color: white;
+  color: beige;
+  // hide scrollbar
+  overflow-y: hidden;
+}
 
-  .slideout-menu-left {
-    left: 0;
-  }
+.slideout-menu-left {
+  left: 0;
+}
 
-  .slideout-menu-right {
-    right: 0;
-  }
+.slideout-menu-right {
+  right: 0;
+}
 
-  // 
+// Page content
+.slideout-panel {
+  //background-color: burlywood;
+  //color: white;
+  position: relative;
+  z-index: 1;
+  will-change: transform;
+  min-height: 100vh;
+}
+
+.slideout-open,
+.slideout-open body,
+.slideout-open .slideout-panel {
+  overflow: hidden;
+}
+
+.slideout-open .slideout-menu {
+  display: block;
+}
+
+@media screen and (min-width: 780px) {
   .slideout-panel {
-    //background-color: burlywood;
-    //color: white;
-    position: relative;
-    z-index: 1;
-    will-change: transform;
-    min-height: 100vh;
+    margin-left: 256px;
   }
 
-  .slideout-open,
-  .slideout-open body,
-  .slideout-open .slideout-panel {
-    overflow: hidden;
-  }
-
-  .slideout-open .slideout-menu {
+  .slideout-menu {
     display: block;
   }
+
+  .btn-hamburger {
+    display: none;
+  }
+}

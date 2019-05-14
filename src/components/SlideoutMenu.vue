@@ -22,7 +22,8 @@ export default {
   name: "slideout-menu"
 };
 </script>
-<style>
+<style lang="scss">
+/*
 .slideout-menu {
   position: fixed;
   top: 0;
@@ -33,7 +34,8 @@ export default {
   -webkit-overflow-scrolling: touch;
   z-index: 0;
   display: none;
-  /* set the colours here */
+  // scrollbar
+  // set the colours here 
 }
 
 .slideout-menu-left {
@@ -48,7 +50,7 @@ export default {
   position: relative;
   z-index: 1;
   will-change: transform;
-  background-color: #fff; /* A background-color is required */
+  background-color: #fff; // A background-color is required
   min-height: 100vh;
 }
 
@@ -61,4 +63,5 @@ export default {
 .slideout-open .slideout-menu {
   display: block;
 }
+*/
 </style>
