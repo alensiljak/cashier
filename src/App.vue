@@ -1,7 +1,10 @@
 <template>
   <div id="app">
     <!-- trying out a 'slideout' menu -->
-    <slideout-menu></slideout-menu>
+    <!-- <slideout-menu></slideout-menu> -->
+    <Slideout>
+      <SlideoutMenu />
+    </Slideout>
 
     <nav class="navbar navbar-dark bg-dark" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
@@ -28,9 +31,9 @@
 </template>
 <script>
 import Vue from "vue";
-//import SlideoutMenu from "./components/SlideoutMenu";
 //import 'slideout'
 import Slideout from "vue-slideout";
+import SlideoutMenu from "./components/SlideoutMenu";
 
 //Vue.use(SlideoutMenu)
 
@@ -40,9 +43,12 @@ export default {
     //console.log('from app:', this.$store)
     // slide menu
     //var slideout = new
+    //console.log(this.$children[0].slideout.isOpen());
+
   },
   components: {
-    Slideout
+    Slideout,
+    SlideoutMenu
   }
 };
 </script>
