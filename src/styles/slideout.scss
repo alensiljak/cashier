@@ -34,7 +34,8 @@ body {
 
 // Page content
 .slideout-panel {
-  //background-color: burlywood;
+  // bg colour is required to not look weird. :)
+  background-color: white;
   //color: white;
   position: relative;
   z-index: 1;
