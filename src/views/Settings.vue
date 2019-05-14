@@ -82,7 +82,7 @@ export default {
     onPayeesImport: function() {
       // import the payees
       const importer = new PayeeImporter();
-      var payees = importer.import(content);
+      var payees = importer.import(this.content);
       this.$store.dispatch(SET_PAYEES, payees);
     },
     /**
