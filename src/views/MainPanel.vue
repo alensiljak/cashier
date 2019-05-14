@@ -1,14 +1,14 @@
 <template>
   <div>
     <nav class="navbar navbar-dark bg-dark" role="navigation" aria-label="main navigation">
-      <!-- <div class="navbar-toggler">
+      <div class="navbar-toggler">
         <span class="navbar-toggler-icon"></span>
       </div>
       <div class="navbar-brand">
         <font-awesome-icon icon="bars"/>
-        <span class="ml-4">Menu</span>
-      </div>-->
-      <button
+        <span class="ml-4">Cashier</span>
+      </div>
+      <!-- <button
         class="navbar-toggler"
         type="button"
         data-toggle="collapse"
@@ -18,7 +18,7 @@
         aria-label="Toggle navigation"
       >
         <span class="navbar-toggler-icon"></span>
-      </button>
+      </button> -->
     </nav>
 
     <router-view class="container-fluid"></router-view>
