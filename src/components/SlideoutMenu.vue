@@ -1,23 +1,22 @@
 <template>
-<div>
-      <nav id="menu">
-    <header>
-      <h2>Menu</h2>
-    </header>
-  </nav>
+  <div>
+    <nav id="menu">
+      <header>
+        <h2>Menu</h2>
+      </header>
+    </nav>
 
-  <main id="panel">
-    <header>
-      <h2>Panel</h2>
-    </header>
-  </main>
-</div>
+    <main id="panel">
+      <header>
+        <h2>Panel</h2>
+      </header>
+    </main>
+  </div>
 </template>
 <script>
 export default {
-    name: 'slideout-menu'
-    
-}
+  name: "slideout-menu"
+};
 </script>
 <style>
 .slideout-menu {
@@ -30,6 +29,7 @@ export default {
   -webkit-overflow-scrolling: touch;
   z-index: 0;
   display: none;
+  /* set the colours here */
 }
 
 .slideout-menu-left {
