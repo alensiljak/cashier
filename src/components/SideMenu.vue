@@ -6,7 +6,7 @@
     </header>
     <ul class="nav flex-column">
       <li class="nav-item">
-        <router-link to="/" class="nav-link active">Home</router-link>
+        <router-link to="/" exact class="nav-link">Home</router-link>
       </li>
       <li class="nav-item">
         <router-link to="/tx" class="nav-link">New Transaction</router-link>
@@ -29,8 +29,12 @@
     </ul>
   </nav>
 </template>
-<style>
-.active {
-    color: aqua;
+<style lang="scss">
+.nav-link{
+  padding: 0.65rem 1rem;
 }
+.router-link-active {
+  color: gold;
+}
+//.router-link-exact-active
 </style>
