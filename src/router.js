@@ -33,6 +33,7 @@ const routes = [
   { path: '/tx', component: Transaction },
   // catch-all, to fix the offline PWA blank-screen issue. Use '*' or '/index.html'
   //{ path: '*', beforeEnter: (to, from, next) => { next('/') } }
+  { path: '/index.html', component: Home }
 ]
 
 const router = new Router({
