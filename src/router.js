@@ -11,7 +11,6 @@ import Home from './views/Home.vue'
 import BalanceSheet from './views/BalanceSheet.vue'
 import PayeeList from './views/Payees.vue'
 import Register from './views/Register.vue'
-//const BalanceSheet = () => import('./BalanceSheet.vue')
 import Settings from './views/Settings.vue'
 import Transaction from './views/Transaction.vue'
 
@@ -31,9 +30,8 @@ const routes = [
   { path: '/reg', component: Register },
   { path: '/settings', component: Settings },
   { path: '/tx', component: Transaction },
-  // catch-all, to fix the offline PWA blank-screen issue. Use '*' or '/index.html'
-  //{ path: '*', beforeEnter: (to, from, next) => { next('/') } }
-  { path: '/index.html', component: Home }
+  // catch-all, to fix the offline PWA blank-screen issue. 
+  { path: '/index.html', component: Home, alias: '/' }
 ]
 
 const router = new Router({
