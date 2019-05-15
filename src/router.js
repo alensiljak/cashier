@@ -13,6 +13,7 @@ import PayeeList from './views/Payees.vue'
 import Register from './views/Register.vue'
 import Settings from './views/Settings.vue'
 import Transaction from './views/Transaction.vue'
+import DataTest from './views/DataTest.vue'
 
 Vue.use(Router)
 
@@ -31,7 +32,9 @@ const routes = [
   { path: '/settings', component: Settings },
   { path: '/tx', component: Transaction },
   // catch-all, to fix the offline PWA blank-screen issue. 
-  { path: '/index.html', component: Home, alias: '/' }
+  { path: '/index.html', component: Home, alias: '/' },
+  // todo remove after testing
+  { path: '/data', component: DataTest }
 ]
 
 const router = new Router({
