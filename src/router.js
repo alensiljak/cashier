@@ -6,7 +6,7 @@ import Router from 'vue-router'
 
 // about is lazy-loaded
 //import About from './views/About.vue'
-import Home from './views/Home.vue'
+//import Home from './views/Home.vue'
 //const Home = () => import('./Home.vue')
 import BalanceSheet from './views/BalanceSheet.vue'
 import PayeeList from './views/Payees.vue'
@@ -18,7 +18,9 @@ import DataTest from './views/DataTest.vue'
 Vue.use(Router)
 
 const routes = [
-  { path: '/', name: 'home', component: Home },
+  //{ path: '/', name: 'home', component: Home },
+  { path: '/', name: 'home', 
+    component: () => import(/* webpackChunkName: "home" */ './views/Home.vue') },
   // route level code-splitting
   // this generates a separate chunk (about.[hash].js) for this route
   // which is lazy-loaded when the route is visited.
@@ -32,7 +34,9 @@ const routes = [
   { path: '/settings', component: Settings },
   { path: '/tx', component: Transaction },
   // catch-all, to fix the offline PWA blank-screen issue. 
-  { path: '/index.html', component: Home, alias: '/' },
+  //{ path: '/index.html', component: Home, alias: '/' },
+  { path: '/index.html', alias: '/',
+    component: () => import(/* webpackChunkName: "home" */ './views/Home.vue') },
   // todo remove after testing
   { path: '/data', component: DataTest }
 ]
