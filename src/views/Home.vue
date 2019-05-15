@@ -1,23 +1,27 @@
 <template>
   <div>
-    <h1>Home</h1>
-    <p>Some basic page, to serve as a temporary home page</p>
+    <ActionBar/>
 
-    <!-- <comp1></comp1> -->
+    <div class="container-fluid">
+      <h1>Home</h1>
+      <p>Some basic page, to serve as a temporary home page</p>
+
+      <!-- <comp1></comp1> -->
+    </div>
   </div>
 </template>
 <script>
-//import Comp1 from './Component1.vue'
+import ActionBar from "../components/ActionBar.vue";
 
 export default {
   created() {
     // todo: load data here
     //console.log('created', this.$store)
   },
-  mounted: function() {
-  },
-  computed: {
-
+  mounted: function() {},
+  computed: {},
+  components: {
+    ActionBar
   }
 };
 </script>

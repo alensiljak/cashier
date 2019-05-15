@@ -30,6 +30,7 @@
   </nav>
 </template>
 <style lang="scss">
+// scoped
 .nav-link{
   padding: 0.65rem 1rem;
 }

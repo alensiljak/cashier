@@ -10,6 +10,6 @@
       </div>
     </nav>
 
-    <router-view class="container-fluid"></router-view>
+    
   </div>
 </template>

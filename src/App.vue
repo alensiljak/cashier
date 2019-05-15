@@ -6,13 +6,12 @@
       </nav>
       <!-- this is the content area -->
       <main id="panel">
-        <MainPanel/>
+        <router-view></router-view>
       </main>
     </div>
   <!-- app -->
 </template>
 <script>
-import MainPanel from "./views/MainPanel";
 import Slideout from "slideout";
 import SideMenu from "./components/SideMenu"
 
@@ -30,8 +29,7 @@ export default {
   },
   methods: {},
   components: {
-    SideMenu,
-    MainPanel
+    SideMenu
   }
 };
 </script>
