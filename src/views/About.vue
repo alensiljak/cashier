@@ -7,6 +7,9 @@
         <p>This software is intended to be used as a part of Plain-Text Accounting ecosystem.
           More specifically, it is a GUI helper for <a href="https://ledger-cli.org">Ledger</a>.
         </p>
+        <p>
+          The source code is available in a <a href="https://gitlab.com/alensiljak/cashier">source code repository</a> on GitLab.
+        </p>
       </div>
     </div>
 
