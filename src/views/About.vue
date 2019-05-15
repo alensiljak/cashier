@@ -1,14 +1,23 @@
 <template>
   <div>
+    <ActionBar title="About"/>
+
     <div class="row">
       <div style="width:100%;" class="text-center">
         <h1>About Cashier</h1>
         <img src="/img/icons/icon96.png">
-        <p>This software is intended to be used as a part of Plain-Text Accounting ecosystem.
-          More specifically, it is a GUI helper for <a href="https://ledger-cli.org">Ledger</a>.
+        <p>
+          This software is intended to be used as a part of Plain-Text Accounting ecosystem.
+          More specifically, it is a GUI helper for
+          <a
+            href="https://ledger-cli.org"
+          >Ledger</a>.
         </p>
         <p>
-          The source code is available in a <a href="https://gitlab.com/alensiljak/cashier">source code repository</a> on GitLab.
+          The source code is available in a
+          <a
+            href="https://gitlab.com/alensiljak/cashier"
+          >source code repository</a> on GitLab.
         </p>
       </div>
     </div>
@@ -41,3 +50,12 @@
     </ul>
   </div>
 </template>
+<script>
+import ActionBar from "../components/ActionBar.vue";
+
+export default {
+  components: {
+    ActionBar
+  }
+};
+</script>
