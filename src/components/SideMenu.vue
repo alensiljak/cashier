@@ -34,7 +34,7 @@
 
 // scoped
 .nav-link{
-  padding: 0.6rem 1rem;
+  padding: 0.65rem 1rem;
 }
 .router-link-active.nav-link {
   color: $colour-4;
