@@ -9,25 +9,10 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-import Posting from "./components/Posting.js"
 import { ADD_POSTING, CLEAR_POSTINGS, DELETE_POSTING, SET_PAYEE, SET_PAYEES,
     SET_TX_DATE } from './mutations'
 import { RESET_TRANSACTION, SAVE_TRANSACTION } from './actions'
-
-/**
- * Payee class
- */
-export class Payee {
-
-}
-
-export class Transaction {
-    constructor() {
-        this.date = new Date()
-        this.payee = ""
-        this.postings = []
-    }
-}
+import { Transaction, Posting } from './model'
 
 // const store =
 export default new Vuex.Store({
