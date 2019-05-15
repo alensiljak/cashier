@@ -30,12 +30,22 @@
   </nav>
 </template>
 <style lang="scss">
+@import '../styles/palette.scss';
+
 // scoped
 .nav-link{
   padding: 0.65rem 1rem;
 }
-.router-link-active {
-  color: gold;
+.router-link-active.nav-link {
+  color: $colour-4;
+}
+.nav-link {
+  color: $colour-3;
+}
+header {
+  background-color: $colour-5;
+  //color: $colour-4;
+  padding-bottom: 0.1em;
 }
 //.router-link-exact-active
 </style>

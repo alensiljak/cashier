@@ -1,55 +1,59 @@
 <template>
   <div>
-    <h1>Transaction</h1>
-    <form>
-      <!-- Transaction -->
-      <div class="form-row">
-        <div class="col-2">
-          <div class="form-group">
-            <label for="date">Date</label>
-            <input id="date" type="date" class="form-control" v-model="date">
+    <ActionBar title="Transaction" />
+
+    <div class="container-fluid">
+      <form>
+        <!-- Transaction -->
+        <div class="form-row">
+          <div class="col-2">
+            <div class="form-group">
+              <label for="date">Date</label>
+              <input id="date" type="date" class="form-control" v-model="date">
+            </div>
           </div>
-        </div>
-        <div class="col">
-          <!-- <p v-if='this.$store.state.transaction.payee'>
+          <div class="col">
+            <!-- <p v-if='this.$store.state.transaction.payee'>
             {{ this.$store.state.transaction.payee }}
-          </p>-->
-          <div class="form-group">
-            <label for="payee">Payee</label>
-            <input id="payee" type="text" class="form-control" v-model="payee" autofocus>
-            <!-- <router-link to="/payee" class="form-control">{{ payee }}</router-link> -->
+            </p>-->
+            <div class="form-group">
+              <label for="payee">Payee</label>
+              <input id="payee" type="text" class="form-control" v-model="payee" autofocus>
+              <!-- <router-link to="/payee" class="form-control">{{ payee }}</router-link> -->
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Postings -->
-      <posting-view
-        v-for="(posting, index) in postings"
-        :key="index"
-        :posting="posting"
-        :index="index"
-        v-on:delete-row="deletePosting"
-      ></posting-view>
+        <!-- Postings -->
+        <posting-view
+          v-for="(posting, index) in postings"
+          :key="index"
+          :posting="posting"
+          :index="index"
+          v-on:delete-row="deletePosting"
+        ></posting-view>
 
-      <!-- buttons -->
-      <div class="row mt-3">
-        <div class="col">
-          <button type="button" class="btn btn-secondary" v-on:click="addPosting">Add Posting</button>
+        <!-- buttons -->
+        <div class="row mt-3">
+          <div class="col">
+            <button type="button" class="btn btn-secondary" v-on:click="addPosting">Add Posting</button>
+          </div>
+
+          <div class="col text-right">
+            <button type="button" class="btn btn-secondary" v-on:click="onClear">Clear</button>
+            <button type="button" class="btn btn-primary" v-on:click="onSave">Save</button>
+          </div>
         </div>
-
-        <div class="col text-right">
-          <button type="button" class="btn btn-secondary" v-on:click="onClear">Clear</button>
-          <button type="button" class="btn btn-primary" v-on:click="onSave">Save</button>
-        </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 </template>
 <script>
+import ActionBar from "../components/ActionBar.vue";
 import PostingView from "../components/Posting.vue";
 import {
   ADD_POSTING,
-// eslint-disable-next-line  
+  // eslint-disable-next-line
   CLEAR_POSTINGS,
   DELETE_POSTING,
   SET_PAYEE,
@@ -81,7 +85,8 @@ export default {
     };
   },
   components: {
-    PostingView
+    PostingView,
+    ActionBar
   },
   methods: {
     addPosting: function() {

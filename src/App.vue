@@ -35,5 +35,6 @@ export default {
 </script>
 <style lang="scss">
 // The slideout styles have to be imported here.
-@import "styles/slideout.scss";
+@import 'styles/slideout.scss';
+@import 'styles/styles.scss';
 </style>

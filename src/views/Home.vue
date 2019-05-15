@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ActionBar/>
+    <ActionBar title="Cashier"/>
 
     <div class="container-fluid">
       <h1>Home</h1>
