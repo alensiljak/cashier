@@ -13,7 +13,7 @@
 </template>
 <script>
 import Slideout from "slideout";
-import SideMenu from "./components/SideMenu"
+import SideMenu from "./components/Sidebar"
 
 export default {
   name: "Cashier",
@@ -30,7 +30,12 @@ export default {
   methods: {},
   components: {
     SideMenu
-  }
+  },
+  // watch: {
+  //   sidebarOpen() {
+  //     console.log('watching')
+  //   }
+  // }
 };
 </script>
 <style lang="scss">

@@ -18,9 +18,7 @@ import { Transaction, Posting } from './model'
 export default new Vuex.Store({
     //strict: true,
     state: {
-        view: {
-            menuVisible: null
-        },
+        sidebarOpen: null,
         payees: [],
         accounts: [],
         transactions: [],
