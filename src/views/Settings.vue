@@ -1,7 +1,9 @@
 <template>
   <div>
-    <h1>Settings</h1>
-    <p>Here you can import the data required for the operation.</p>
+    <ActionBar title="Settings"/>
+
+    <div class="container">
+      <p>Here you can import the data required for the operation.</p>
 
     <div>
       <h2>Balances</h2>
@@ -50,9 +52,11 @@
         <button type="button" class="btn btn-primary" v-on:click="onPayeesImport">Import Payees</button>
       </div>
     </div>
+    </div>
   </div>
 </template>
 <script>
+import ActionBar from "../components/ActionBar.vue";
 import PayeeImporter from "../components/PayeeImporter";
 import { SET_PAYEES } from "../mutations";
 
@@ -112,6 +116,9 @@ export default {
       };
       reader.readAsText(file);
     }
+  },
+  components: {
+    ActionBar
   }
 };
 </script>
