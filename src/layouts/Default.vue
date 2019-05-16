@@ -90,7 +90,7 @@
     <!-- <q-page-container>
       <router-view/>
     </q-page-container> -->
-    <p>Page</p>
+    <router-view/>
   </q-layout>
 </template>
 
