@@ -29,7 +29,7 @@ const routes = [
       //{ path: '/', name: 'home', component: Home },
       {
         path: "",
-        name: "home",
+        // name: "home",
         component: () =>
           import(/* webpackChunkName: "home" */ "./views/Home.vue")
       },
@@ -64,15 +64,14 @@ const routes = [
           import(/* webpackChunkName: "home" */ "./views/QHome.vue")
       }
     ]
-  }
-
+  },
   // catch-all, to fix the offline PWA blank-screen issue.
-  //{ path: '/index.html', component: Home, alias: '/' },
-  // {
-  //   path: "/index.html",
-  //   alias: "/",
-  //   component: () => import(/* webpackChunkName: "home" */ "./views/Home.vue")
-  // },
+  // { path: '/index.html', component: Home, alias: '/' },
+  {
+    path: "/index.html",
+    alias: "/",
+    component: () => import(/* webpackChunkName: "home" */ "./views/Home.vue")
+  }
 ];
 
 const router = new Router({
