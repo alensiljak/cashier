@@ -6,7 +6,6 @@
 
         <q-toolbar-title>Cashier</q-toolbar-title>
 
-        <!-- <div>Quasar v{{ $q.version }}</div> -->
       </q-toolbar>
     </q-header>
 

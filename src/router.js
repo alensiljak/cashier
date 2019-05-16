@@ -8,7 +8,6 @@ import Router from 'vue-router'
 //import About from './views/About.vue'
 //import Home from './views/Home.vue'
 //const Home = () => import('./Home.vue')
-import BalanceSheet from './views/BalanceSheet.vue'
 import PayeeList from './views/Payees.vue'
 import Register from './views/Register.vue'
 import Settings from './views/Settings.vue'
@@ -22,6 +21,7 @@ import DefaultLayout from './layouts/Default.vue'
 import MyQuasarLayout from './layouts/Qlayout'
 const QAbout = () => import('./views/QAbout.vue')
 const QTransaction = () => import('./views/QTransaction.vue')
+const QBalanceSheet = () => import('./views/QBalanceSheet.vue')
 
 
 Vue.use(Router);
@@ -41,6 +41,10 @@ const routes = [
         path: '/about',
         // name: 'about',
         component: QAbout
+      },
+      {
+        path: '/bal',
+        component: QBalanceSheet
       },
       {
         path: '/tx',
@@ -69,7 +73,6 @@ const routes = [
         component: () =>
           import(/* webpackChunkName: 'about' */ './views/About.vue')
       },
-      { path: '/bal', component: BalanceSheet },
       //{ path: '/payee/:name', component: PayeeList, props: true },
       { path: '/payees', component: PayeeList },
       { path: '/reg', component: Register },

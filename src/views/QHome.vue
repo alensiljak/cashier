@@ -9,7 +9,3 @@ export default {
   name: 'PageHome'
 }
 </script>
-
-<style lang="scss">
-//@import '../styles/palette.scss';
-</style>

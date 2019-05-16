@@ -1,7 +1,5 @@
 <template>
   <div>
-    <ActionBar title="Transaction"/>
-
     <div class="container-fluid">
       <form>
         <!-- Transaction -->
@@ -40,13 +38,13 @@
         </div>
 
         <!-- Postings -->
-        <posting-view
+        <QPosting
           v-for="(posting, index) in postings"
           :key="index"
           :posting="posting"
           :index="index"
           v-on:delete-row="deletePosting"
-        ></posting-view>
+        />
 
         <!-- Actions -->
         <div class="row mt-3">
@@ -64,8 +62,7 @@
   </div>
 </template>
 <script>
-import ActionBar from "../components/ActionBar.vue";
-import PostingView from "../components/Posting.vue";
+import QPosting from "../components/QPosting.vue";
 import {
   ADD_POSTING,
   // eslint-disable-next-line
@@ -94,8 +91,7 @@ export default {
     };
   },
   components: {
-    PostingView,
-    ActionBar,
+    QPosting,
     Datepicker
   },
   methods: {

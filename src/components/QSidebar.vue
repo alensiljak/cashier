@@ -15,9 +15,18 @@
           </q-item-section>
         </q-item>
 
+        <q-item to="/bal" exact clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon name="account_balance"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Balance Sheet</q-item-label>
+          </q-item-section>
+        </q-item>
+
         <q-item to="/tx" exact clickable v-ripple>
           <q-item-section avatar>
-            <q-icon name="home"/>
+            <q-icon name="payment"/>
           </q-item-section>
           <q-item-section>
             <q-item-label>New Transaction</q-item-label>

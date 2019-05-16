@@ -25,7 +25,8 @@ import {
   QItemLabel,
   QScrollArea,
   QImg, QAvatar,
-  Ripple
+  Ripple,
+  QPageSticky
 } from 'quasar'
 
 Vue.use(Quasar, {
@@ -43,7 +44,8 @@ Vue.use(Quasar, {
     QItemSection,
     QItemLabel,
     QScrollArea,
-    QImg, QAvatar
+    QImg, QAvatar,
+    QPageSticky
   },
   directives: {
     Ripple
