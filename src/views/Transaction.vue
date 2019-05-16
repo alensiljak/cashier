@@ -9,22 +9,34 @@
           <div class="col-md-2">
             <div class="form-group">
               <label for="date">Date</label>
-              <input id="date" class="form-control" v-model="date">
+              <!-- <input ref="date" class="form-control" v-model="date"> -->
+              <Datepicker
+                input-class="form-control"
+                v-model="date"
+                :monday-first="true"
+                :bootstrap-styling="true"
+                :format="dateFormat"
+                calendar-class="custom-calendar"
+              />
             </div>
           </div>
           <div class="col">
             <div class="form-group">
               <label for="payee">Payee</label>
-              <input id="payee" type="text" class="form-control" placeholder="Payee"
-              v-model="payee"> <!-- autofocus -->
+              <input
+                ref="payee"
+                type="text"
+                class="form-control"
+                placeholder="Payee"
+                v-model="payee"
+              >
+              <!-- autofocus -->
             </div>
           </div>
         </div>
 
         <div class="form-row">
-          <div class="col">
-            Postings
-          </div>
+          <div class="col">Postings</div>
         </div>
 
         <!-- Postings -->
@@ -63,6 +75,7 @@ import {
   SET_TX_DATE
 } from "../mutations";
 import { RESET_TRANSACTION, SAVE_TRANSACTION } from "../actions";
+import Datepicker from "vuejs-datepicker";
 
 export default {
   created() {
@@ -72,15 +85,8 @@ export default {
   },
   mounted: function() {
     // Set the focus on Payee field.
-    // document.getElementById("payee").focus();
-
-    // test
-    this.$router.push({
-      //name: "payee",
-      params: {
-        name: "hello there" // or anything you want
-      }
-    });
+    // document.getElementById("payee").focus() => this.$refs.payee
+    //this.$refs.date
   },
   data: function() {
     return {
@@ -89,7 +95,8 @@ export default {
   },
   components: {
     PostingView,
-    ActionBar
+    ActionBar,
+    Datepicker
   },
   methods: {
     addPosting: function() {
@@ -115,7 +122,7 @@ export default {
     },
     payee: {
       get: function() {
-        return this.$store.state.transaction.payee
+        return this.$store.state.transaction.payee;
       },
       set: function(value) {
         this.$store.dispatch(SET_PAYEE, value);
@@ -128,7 +135,29 @@ export default {
       set: function(value) {
         this.$store.dispatch(SET_TX_DATE, value);
       }
+    },
+    dateFormat() {
+      //return this.$store.state.dateFormatLong
+      return "D, " + this.$store.state.dateFormatLong;
     }
   }
 };
 </script>
+<style lang="scss">
+@import "../styles/palette.scss";
+
+// calendar component
+.custom-calendar {
+  background-color: $colour-5;
+  color: $colour-2;
+
+  .cell.selected {
+    background-color: $colour-4;
+  }
+}
+// calendar, today
+.today {
+  color: $colour-3;
+}
+// calendar, selected date
+</style>

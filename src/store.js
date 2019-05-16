@@ -18,6 +18,9 @@ import { Transaction, Posting } from './model'
 export default new Vuex.Store({
     //strict: true,
     state: {
+        dateFormatIso: "yyyy-MM-dd",
+        dateFormatLong: "dd MMMM yyyy",
+        // others
         sidebarOpen: null,
         payees: [],
         accounts: [],

@@ -8,7 +8,6 @@
 import Vue from 'vue';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faBars, faUser, faTrash, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
-// import { faRegular } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 library.add(
