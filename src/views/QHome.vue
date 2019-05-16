@@ -11,8 +11,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../styles/palette.scss';
-.bg-colour-1 {
-  background-color: $colour-1;
-}
+//@import '../styles/palette.scss';
 </style>

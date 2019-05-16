@@ -1,8 +1,8 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated class="glossy">
-      <q-toolbar>
-        <q-btn flat dense round @click="toggleDrawer" aria-label="Menu" icon="menu"/>
+      <q-toolbar class="text-colour-2">
+        <q-btn flat dense round @click="toggleDrawer" aria-label="Menu" icon="menu" />
 
         <q-toolbar-title>Cashier</q-toolbar-title>
 
@@ -39,3 +39,7 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+@import '../styles/styles.scss'
+</style>

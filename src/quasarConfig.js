@@ -19,11 +19,11 @@ import {
   QPageContainer,
   QPage,
   QDrawer,
-  //QIcon,
-  //QList,
-  //QItem,
-  //QItemSection,
-  //QItemLabel,
+  QIcon,
+  QList,
+  QItem,
+  QItemSection,
+  QItemLabel,
 } from 'quasar'
 
 Vue.use(Quasar, {
@@ -37,11 +37,11 @@ Vue.use(Quasar, {
     QToolbarTitle,
     QPageContainer,
     QPage,
-    // QIcon,
-    // QList,
-    // QItem,
-    // QItemSection,
-    // QItemLabel,
+    QIcon,
+    QList,
+    QItem,
+    QItemSection,
+    QItemLabel,
   },
   directives: {
   },

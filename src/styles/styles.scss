@@ -1,6 +1,29 @@
-@import 'palette.scss';
+@import "palette.scss";
 
 // body {
 //     background-color: $colour-1;
 //     color: $colour-2;
 // }
+
+// Quasar background colours
+.bg-colour-1 {
+  background-color: $colour-1;
+}
+.bg-colour-2 {
+  background-color: $colour-2;
+}
+.bg-colour-3 {
+  background-color: $colour-3;
+}
+.bg-colour-4 {
+  background-color: $colour-4;
+}
+.bg-colour-5 {
+  background-color: $colour-5;
+}
+.text-colour-2 {
+    color: $colour-2;
+}
+.text-colour-3 {
+    color: $colour-3;
+}

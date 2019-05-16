@@ -1,6 +1,9 @@
 <template>
-  <q-drawer v-model="leftDrawerOpen" bordered content-class="bg-grey-2">
-    <!-- <q-list>
+  <q-drawer v-model="leftDrawerOpen" bordered 
+    content-class="bg-colour-1 text-colour-2">
+    <q-list>
+      <q-item-label header>Site</q-item-label>
+
         <q-item-label header>Navigation</q-item-label>
         <q-item to="/" exact>
           <q-item-section avatar>
@@ -65,8 +68,7 @@
             <q-item-label caption>@quasarframework</q-item-label>
           </q-item-section>
         </q-item>
-    </q-list>-->
-    <p>Drawer</p>
+    </q-list>
   </q-drawer>
 </template>
 <script>
