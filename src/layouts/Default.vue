@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated class="glossy">
+    <!-- <q-header elevated class="glossy">
       <q-toolbar>
         <q-btn
           flat
@@ -15,7 +15,7 @@
 
         <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
-    </q-header>
+    </q-header> -->
 
     <q-drawer v-model="leftDrawerOpen" bordered content-class="bg-grey-2">
       <!-- <q-list>
@@ -87,9 +87,10 @@
       <p>Drawer</p>
     </q-drawer>
 
-    <q-page-container>
+    <!-- <q-page-container>
       <router-view/>
-    </q-page-container>
+    </q-page-container> -->
+    <p>Page</p>
   </q-layout>
 </template>
 
