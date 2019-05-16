@@ -8,10 +8,10 @@ import store from './store'
 import './registerServiceWorker'
 
 // Font Awesome configuration and import.
-import './faConfig.js';
+// import './faConfig.js';
 
 // Bootstrap CSS.
-import 'bootstrap-css-only/css/bootstrap.css'
+// import 'bootstrap-css-only/css/bootstrap.css'
 
 // Quasar
 import './quasarConfig'

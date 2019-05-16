@@ -6,19 +6,19 @@ import Vue from 'vue'
 import './styles/quasar.styl'
 //import lang from 'quasar/lang/en-gb.js'
 //import '@quasar/extras/roboto-font/roboto-font.css'
-//import '@quasar/extras/material-icons/material-icons.css'
+import '@quasar/extras/material-icons/material-icons.css'
 // import '@quasar/extras/fontawesome-v5/fontawesome-v5.css'
 
 import {
   Quasar, 
   QLayout,
-  // QPageContainer,
-  // QPage,
-  // QHeader,
+  QHeader,
+  QToolbar,
+  QBtn,
+  QToolbarTitle,
+  QPageContainer,
+  QPage,
   QDrawer,
-  // QToolbar,
-  // QToolbarTitle,
-  // QBtn,
   //QIcon,
   //QList,
   //QItem,
@@ -27,25 +27,25 @@ import {
 } from 'quasar'
 
 Vue.use(Quasar, {
-  // config: {},
+  config: {},
   components: {
     QLayout,
-    // QHeader,
+    QHeader,
     QDrawer,
-    // QPageContainer,
-    // QPage,
-    // QToolbar,
-    // QToolbarTitle,
-    // QBtn,
+    QToolbar,
+    QBtn,
+    QToolbarTitle,
+    QPageContainer,
+    QPage,
     // QIcon,
     // QList,
     // QItem,
     // QItemSection,
     // QItemLabel,
   },
-  // directives: {
-  // },
-  // plugins: {
-  // },
+  directives: {
+  },
+  plugins: {
+  },
   // lang: lang
  })
