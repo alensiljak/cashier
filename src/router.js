@@ -70,7 +70,7 @@ const routes = [
   {
     path: "/index.html",
     alias: "/",
-    // component: () => import(/* webpackChunkName: "home" */ "./views/Home.vue")
+    component: () => import(/* webpackChunkName: "home" */ "./views/Home.vue")
   }
 ];
 
