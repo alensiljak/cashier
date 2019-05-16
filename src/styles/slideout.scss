@@ -43,6 +43,8 @@ body {
   z-index: 1;
   will-change: transform;
   min-height: 100vh;
+  // hide horizontal scrollbar
+  overflow-y: hidden;
 }
 
 .slideout-open,

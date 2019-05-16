@@ -1,26 +1,29 @@
 <template>
   <div>
-    <ActionBar title="Transaction" />
+    <ActionBar title="Transaction"/>
 
     <div class="container-fluid">
       <form>
         <!-- Transaction -->
         <div class="form-row">
-          <div class="col-2">
+          <div class="col-md-2">
             <div class="form-group">
               <label for="date">Date</label>
-              <input id="date" type="date" class="form-control" v-model="date">
+              <input id="date" class="form-control" v-model="date">
             </div>
           </div>
           <div class="col">
-            <!-- <p v-if='this.$store.state.transaction.payee'>
-            {{ this.$store.state.transaction.payee }}
-            </p>-->
             <div class="form-group">
               <label for="payee">Payee</label>
-              <input id="payee" type="text" class="form-control" v-model="payee" autofocus>
-              <!-- <router-link to="/payee" class="form-control">{{ payee }}</router-link> -->
+              <input id="payee" type="text" class="form-control" placeholder="Payee"
+              v-model="payee"> <!-- autofocus -->
             </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="col">
+            Postings
           </div>
         </div>
 
@@ -33,15 +36,15 @@
           v-on:delete-row="deletePosting"
         ></posting-view>
 
-        <!-- buttons -->
+        <!-- Actions -->
         <div class="row mt-3">
           <div class="col">
             <button type="button" class="btn btn-secondary" v-on:click="addPosting">Add Posting</button>
           </div>
 
           <div class="col text-right">
-            <button type="button" class="btn btn-secondary" v-on:click="onClear">Clear</button>
-            <button type="button" class="btn btn-primary" v-on:click="onSave">Save</button>
+            <button type="button" class="btn btn-secondary mr-1" v-on:click="onClear">Clear</button>
+            <button type="button" class="btn btn-primary px-4" v-on:click="onSave">Save</button>
           </div>
         </div>
       </form>
@@ -113,8 +116,6 @@ export default {
     payee: {
       get: function() {
         return this.$store.state.transaction.payee
-          ? this.$store.state.transaction.payee
-          : "select payee";
       },
       set: function(value) {
         this.$store.dispatch(SET_PAYEE, value);
