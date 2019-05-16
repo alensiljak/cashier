@@ -13,6 +13,9 @@ import './faConfig.js';
 // Bootstrap CSS.
 import 'bootstrap-css-only/css/bootstrap.css'
 
+// Quasar
+import './quasarConfig'
+
 Vue.config.productionTip = false
 
 // new Vue({
