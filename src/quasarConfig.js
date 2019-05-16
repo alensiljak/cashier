@@ -10,28 +10,28 @@ import '@quasar/extras/material-icons/material-icons.css'
 // import '@quasar/extras/fontawesome-v5/fontawesome-v5.css'
 
 import {
-  Quasar, 
+  Quasar,
   QLayout,
   QHeader,
   QToolbar,
   QBtn,
   QToolbarTitle,
-  QPageContainer,
-  QPage,
+  QPageContainer, QPage,
   QDrawer,
   QIcon,
   QList,
   QItem,
   QItemSection,
   QItemLabel,
+  QScrollArea,
+  QImg, QAvatar,
+  Ripple
 } from 'quasar'
 
 Vue.use(Quasar, {
   config: {},
   components: {
-    QLayout,
-    QHeader,
-    QDrawer,
+    QLayout, QHeader, QDrawer,
     QToolbar,
     QBtn,
     QToolbarTitle,
@@ -42,10 +42,13 @@ Vue.use(Quasar, {
     QItem,
     QItemSection,
     QItemLabel,
+    QScrollArea,
+    QImg, QAvatar
   },
   directives: {
+    Ripple
   },
   plugins: {
   },
   // lang: lang
- })
+})

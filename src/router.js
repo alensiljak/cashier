@@ -18,7 +18,11 @@ import DataTest from './views/DataTest.vue'
 import BootstrapLayout from './layouts/Bootstrap'
 // Quasar layout
 import DefaultLayout from './layouts/Default.vue'
+// The new layout
 import MyQuasarLayout from './layouts/Qlayout'
+const QAbout = () => import('./views/QAbout.vue')
+const QTransaction = () => import('./views/QTransaction.vue')
+
 
 Vue.use(Router);
 
@@ -29,11 +33,19 @@ const routes = [
     children: [
       {
         path: '',
-        // name: 'home',
+        // name: 'qhome',
         component: () =>
-          import(/* webpackChunkName: 'home' */ './views/QHome.vue')
+          import(/* webpackChunkName: 'qhome' */ './views/QHome.vue')
       },
-
+      {
+        path: '/about',
+        // name: 'about',
+        component: QAbout
+      },
+      {
+        path: '/tx',
+        component: QTransaction
+      }
     ]
   },
   {
@@ -53,7 +65,7 @@ const routes = [
       //{ path: '/about', name: 'about', component: About },
       {
         path: '/about',
-        name: 'about',
+        // name: 'about',
         component: () =>
           import(/* webpackChunkName: 'about' */ './views/About.vue')
       },
