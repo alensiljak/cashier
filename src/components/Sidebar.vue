@@ -26,6 +26,11 @@
       <li class="nav-item">
         <router-link to="/about" class="nav-link">About</router-link>
       </li>
+      <li>
+        <router-link to="/q" class="nav-link">Quasar version</router-link>
+      </li>
+      <li>
+      </li>
     </ul>
   </nav>
 </template>
