@@ -54,6 +54,10 @@
         <li>
           <a href="https://github.com/charliekassel/vuejs-datepicker">vue-datepicker</a>
         </li>
+        <li>
+          <a href="https://github.com/scleriot/vue-inputmask">vue-inputmask</a> with 
+          <a href="https://github.com/RobinHerbots/Inputmask">InputMask</a>
+        </li>
       </ul>
     </div>
   </div>

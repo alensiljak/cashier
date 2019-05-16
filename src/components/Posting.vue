@@ -12,7 +12,8 @@
 
     <!-- amount -->
     <div class="col-6 col-md-2">
-      <input class="form-control text-right" placeholder="amount" v-model="posting.amount">
+      <input class="form-control text-right" placeholder="amount" v-mask="'numeric'"
+      v-model="posting.amount">
     </div>
 
     <!-- currency -->
@@ -32,6 +33,10 @@
   </div>
 </template>
 <script>
+import Vue from 'vue'
+import VueInputMask from 'vue-inputmask'
+Vue.use(VueInputMask.default)
+
 export default {
   props: ["posting", "index"],
   //['account', 'amount', 'currency'],
