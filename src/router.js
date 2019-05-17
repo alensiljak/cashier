@@ -96,10 +96,15 @@ const routes = [
   },
   // catch-all, to fix the offline PWA blank-screen issue.
   // { path: '/index.html', component: Home, alias: '/' },
+  // {
+  //   path: '/index.html',
+  //   alias: '/',
+  //   component: () => import(/* webpackChunkName: 'home' */ './views/Home.vue')
+  // }
+  // trying with a simple redirect
   {
     path: '/index.html',
-    alias: '/',
-    component: () => import(/* webpackChunkName: 'home' */ './views/Home.vue')
+    redirect: '/'
   }
 ];
 
