@@ -50,7 +50,7 @@
       style="height: 150px">
     <!-- <div class="absolute-top bg-colour-5" style="height: 150px"> -->
 
-      <div class="absolute-bottom bg-transparent">
+      <div class="absolute-bottom bg-transparent text-colour-2">
         <q-avatar size="56px" class="q-mb-sm">
           <img src="/img/icons/icon64.png">
         </q-avatar>
@@ -75,3 +75,7 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+@import '../styles/styles.scss'
+</style>
