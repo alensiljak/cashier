@@ -46,10 +46,8 @@
     </q-scroll-area>
 
     <q-img
-      class="absolute-top"
-      src="https://cdn.quasar-framework.org/img/material.png"
-      style="height: 150px"
-    >
+      class="absolute-top bg-colour-5"
+      style="height: 150px">
     <!-- <div class="absolute-top bg-colour-5" style="height: 150px"> -->
 
       <div class="absolute-bottom bg-transparent">
