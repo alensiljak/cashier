@@ -48,6 +48,7 @@ const routes = [
       },
       {
         path: '/tx',
+        name: 'newTransaction',
         component: QTransaction
       }
     ]
