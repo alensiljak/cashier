@@ -1,20 +1,26 @@
 <template>
   <q-page class="bg-colour-1 text-colour-2">
-    <q-field dark outlined label="Outlined" stack-label>
-      <template v-slot:control>
-        <div class="self-center full-width no-outline" tabindex="0">Field content {{ date }}</div>
-      </template>
-    </q-field>
+    <div class="row">
+      <div class="col-xs-12 col-sm-4">
+        <q-field dark outlined label="Outlined" stack-label>
+          <template v-slot:control>
+            <div class="self-center full-width no-outline" tabindex="0">Field content {{ date }}</div>
+          </template>
+        </q-field>
+      </div>
 
-    <q-input dark filled v-model="date" mask="date" :rules="['date']">
-      <template v-slot:append>
-        <q-icon name="event" class="cursor-pointer">
-          <q-popup-proxy>
-            <q-date dark v-model="date"/>
-          </q-popup-proxy>
-        </q-icon>
-      </template>
-    </q-input>
+      <div class="col-xs-12 col-sm-8">
+        <q-input dark filled v-model="date" mask="date" :rules="['date']">
+          <template v-slot:append>
+            <q-icon name="event" class="cursor-pointer">
+              <q-popup-proxy>
+                <q-date dark v-model="date"/>
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+        </q-input>
+      </div>
+    </div>
 
     <form>
       <!-- Transaction -->
