@@ -40,16 +40,16 @@
       <h2>Components</h2>
       <ul>
         <li>
+          <a href="https://v1.quasar-framework.org/">Quasar Framework</a>
+        </li>
+        <li>
+          <a href="https://material.io/tools/icons">Material Design Icons</a>
+        </li>
+        <li>
           <a href="https://getbootstrap.com/">Bootstrap 4</a>
         </li>
         <li>
           <a href="https://vuejs.org/">Vue JS, Vuex, Vue-cli</a>
-        </li>
-        <li>
-          <a href="https://github.com/mango/slideout">Slideout.js</a>
-        </li>
-        <li>
-          <a href="https://github.com/charliekassel/vuejs-datepicker">vue-datepicker</a>
         </li>
         <li>
           <a href="https://github.com/scleriot/vue-inputmask">vue-inputmask</a> with
