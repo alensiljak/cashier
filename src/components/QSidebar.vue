@@ -6,7 +6,7 @@
       <q-list padding>
         <!-- <q-item-label header>Navigation</q-item-label> -->
 
-        <q-item to="/" exact clickable v-ripple>
+        <q-item to="/" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
             <q-icon name="home"/>
           </q-item-section>
@@ -15,7 +15,7 @@
           </q-item-section>
         </q-item>
 
-        <q-item to="/bal" exact clickable v-ripple>
+        <q-item to="/bal" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
             <q-icon name="account_balance"/>
           </q-item-section>
@@ -33,7 +33,7 @@
           </q-item-section>
         </q-item>
 
-        <q-item to="/about" exact clickable v-ripple>
+        <q-item to="/about" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
             <q-icon name="info"/>
           </q-item-section>
