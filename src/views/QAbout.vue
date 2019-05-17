@@ -46,14 +46,7 @@
           <a href="https://material.io/tools/icons">Material Design Icons</a>
         </li>
         <li>
-          <a href="https://getbootstrap.com/">Bootstrap 4</a>
-        </li>
-        <li>
           <a href="https://vuejs.org/">Vue JS, Vuex, Vue-cli</a>
-        </li>
-        <li>
-          <a href="https://github.com/scleriot/vue-inputmask">vue-inputmask</a> with
-          <a href="https://github.com/RobinHerbots/Inputmask">InputMask</a>
         </li>
       </ul>
   </q-page>
