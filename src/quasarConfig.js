@@ -24,7 +24,7 @@ import {
   QImg, QAvatar,
   Ripple,
   QPageSticky,
-  QDate, QDialog, QInput, QPopupProxy, QField
+  QDate, QDialog, QInput, QPopupProxy, QField, date
 } from 'quasar'
 
 Vue.use(Quasar, {
@@ -41,7 +41,7 @@ Vue.use(Quasar, {
     QScrollArea,
     QImg, QAvatar,
     QPageSticky,
-    QDate, QDialog, QInput, QPopupProxy, QField
+    QDate, QDialog, QInput, QPopupProxy, QField, date
   },
   directives: {
     Ripple

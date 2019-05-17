@@ -16,7 +16,7 @@
         <q-input dark filled v-model="date" mask="date" :rules="['date']">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
-              <q-popup-proxy>
+              <q-popup-proxy ref="qDateProxy">
                 <q-date
                   ref="datePicker"
                   dark
@@ -30,16 +30,15 @@
           </template>
         </q-input>
       </div>
-
     </div>
 
-      <div class="col">
-        <div class="form-group">
-          <label for="payee">Payee</label>
-          <input ref="payee" type="text" class="form-control" placeholder="Payee" v-model="payee">
-          <!-- autofocus -->
-        </div>
+    <div class="col">
+      <div class="form-group">
+        <label for="payee">Payee</label>
+        <input ref="payee" type="text" class="form-control" placeholder="Payee" v-model="payee">
+        <!-- autofocus -->
       </div>
+    </div>
 
     <div class="form-row">
       <div class="col">Postings</div>
@@ -79,6 +78,7 @@ import {
   SET_TITLE
 } from "../mutations";
 import { RESET_TRANSACTION, SAVE_TRANSACTION } from "../actions";
+import { date } from "quasar";
 
 export default {
   created() {
@@ -95,7 +95,7 @@ export default {
   },
   data: function() {
     return {
-      // datePickerVisible: false
+      date: null
     };
   },
   components: {
@@ -119,9 +119,23 @@ export default {
       //
       console.log("date selected", value, reason, details);
 
-      if (reason !== "day" || reason !== "today") return;
+      if (reason !== "day" && reason !== "today") return;
       // close the picker if the date was selected
-      //this.$refs.datePicker.close()
+      //this.$refs.datePicker.hide() //.close()
+      this.$refs.qDateProxy.hide()
+
+      let timeStamp = Date.now();
+      let formattedString = date.formatDate(
+        timeStamp,
+        "YYYY-MM-DDTHH:mm:ss.SSSZ"
+      );
+      console.log(formattedString)
+
+      let month = details.month.toString()
+      let day = details.day.toString()
+      let newValue = details.year + '-' + month.padStart(2, '0') + '-' + day.padStart(2, '0');
+      console.log("the date value to be stored:", newValue);
+      // todo: save date?
     },
     onSave() {
       console.log("save clicked");
@@ -143,18 +157,18 @@ export default {
         this.$store.dispatch(SET_PAYEE, value);
       }
     },
-    date: {
-      get: function() {
-        return this.$store.state.transaction.date;
-      },
-      set: function(value) {
-        this.$store.dispatch(SET_TX_DATE, value);
-      }
-    },
-    dateFormat() {
-      //return this.$store.state.dateFormatLong
-      return "D, " + this.$store.state.dateFormatLong;
-    }
+    // date: {
+    //   get: function() {
+    //     return this.$store.state.transaction.date;
+    //   },
+    //   set: function(value) {
+    //     this.$store.dispatch(SET_TX_DATE, value);
+    //   }
+    // }
+    // dateFormat() {
+    //   //return this.$store.state.dateFormatLong
+    //   return "D, " + this.$store.state.dateFormatLong;
+    // }
   }
 };
 </script>
