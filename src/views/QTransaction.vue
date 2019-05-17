@@ -14,7 +14,7 @@
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy>
-                <q-date dark v-model="date"/>
+                <q-date dark v-model="date" first-day-of-week="1" />
               </q-popup-proxy>
             </q-icon>
           </template>
