@@ -1,7 +1,9 @@
 <template>
-  <q-page class="bg-colour-1 text-colour-2">
+  <q-page class="q-pa-sm bg-colour-1 text-colour-2">
+    <!-- Transaction -->
     <div class="row">
       <div class="col-xs-12 col-sm-4">
+        <!-- label for date -->
         <q-field dark outlined label="Outlined" stack-label>
           <template v-slot:control>
             <div class="self-center full-width no-outline" tabindex="0">Field content {{ date }}</div>
@@ -9,62 +11,60 @@
         </q-field>
       </div>
 
+      <!-- date control -->
       <div class="col-xs-12 col-sm-8">
         <q-input dark filled v-model="date" mask="date" :rules="['date']">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy>
-                <q-date dark v-model="date" first-day-of-week="1" />
+                <q-date
+                  ref="datePicker"
+                  dark
+                  v-model="date"
+                  first-day-of-week="1"
+                  today-btn
+                  @input="onDateSelected"
+                />
               </q-popup-proxy>
             </q-icon>
           </template>
         </q-input>
       </div>
+
     </div>
 
-    <form>
-      <!-- Transaction -->
-      <div class="form-row">
-        <div class="col-md-2">
-          <div class="form-group">
-            <label for="date">Date</label>
-            <!-- <input ref="date" class="form-control" v-model="date"> -->
-          </div>
-        </div>
-        <div class="col">
-          <div class="form-group">
-            <label for="payee">Payee</label>
-            <input ref="payee" type="text" class="form-control" placeholder="Payee" v-model="payee">
-            <!-- autofocus -->
-          </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="payee">Payee</label>
+          <input ref="payee" type="text" class="form-control" placeholder="Payee" v-model="payee">
+          <!-- autofocus -->
         </div>
       </div>
 
-      <div class="form-row">
-        <div class="col">Postings</div>
+    <div class="form-row">
+      <div class="col">Postings</div>
+    </div>
+
+    <!-- Postings -->
+    <QPosting
+      v-for="(posting, index) in postings"
+      :key="index"
+      :posting="posting"
+      :index="index"
+      v-on:delete-row="deletePosting"
+    />
+
+    <!-- Actions -->
+    <div class="row mt-3">
+      <div class="col">
+        <q-btn color="colour-4" text-color="black" label="Add Posting" v-on:click="addPosting"/>
       </div>
 
-      <!-- Postings -->
-      <QPosting
-        v-for="(posting, index) in postings"
-        :key="index"
-        :posting="posting"
-        :index="index"
-        v-on:delete-row="deletePosting"
-      />
-
-      <!-- Actions -->
-      <div class="row mt-3">
-        <div class="col">
-          <button type="button" class="btn btn-secondary" v-on:click="addPosting">Add Posting</button>
-        </div>
-
-        <div class="col text-right">
-          <button type="button" class="btn btn-secondary mr-1" v-on:click="onClear">Clear</button>
-          <button type="button" class="btn btn-primary px-4" v-on:click="onSave">Save</button>
-        </div>
+      <div class="col text-right">
+        <q-btn color="colour-4" text-color="black" label="Clear" v-on:click="onClear"/>
+        <q-btn color="colour-3" text-color="black" label="Save" v-on:click="onSave"/>
       </div>
-    </form>
+    </div>
   </q-page>
 </template>
 <script>
@@ -112,7 +112,19 @@ export default {
       // Resets all Transaction fields to defaults.
       this.$store.dispatch(RESET_TRANSACTION);
     },
+    onDateClicked() {
+      console.log("date clicked");
+    },
+    onDateSelected(value, reason, details) {
+      //
+      console.log("date selected", value, reason, details);
+
+      if (reason !== "day" || reason !== "today") return;
+      // close the picker if the date was selected
+      //this.$refs.datePicker.close()
+    },
     onSave() {
+      console.log("save clicked");
       // store the transaction
       this.$store.dispatch(SAVE_TRANSACTION);
     }
@@ -147,21 +159,6 @@ export default {
 };
 </script>
 
-<style lang="scss">
-@import "../styles/palette.scss";
-
-// calendar component
-.custom-calendar {
-  background-color: $colour-5;
-  color: $colour-2;
-
-  .cell.selected {
-    background-color: $colour-4;
-  }
-}
-// calendar, today
-.today {
-  color: $colour-3;
-}
-// calendar, selected date
+<style lang="scss" scoped>
+@import "../styles/styles.scss";
 </style>
