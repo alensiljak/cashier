@@ -10,7 +10,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 import { ADD_POSTING, CLEAR_POSTINGS, DELETE_POSTING, SET_PAYEE, SET_PAYEES,
-    SET_TX_DATE } from './mutations'
+    SET_TX_DATE, SET_TITLE } from './mutations'
 import { RESET_TRANSACTION, SAVE_TRANSACTION } from './actions'
 import { Transaction, Posting } from './model'
 
@@ -18,6 +18,7 @@ import { Transaction, Posting } from './model'
 export default new Vuex.Store({
     //strict: true,
     state: {
+        title: 'Cashier',
         dateFormatIso: "yyyy-MM-dd",
         dateFormatLong: "dd MMMM yyyy",
         // others
@@ -51,6 +52,9 @@ export default new Vuex.Store({
         },
         [SET_TX_DATE] (state, date) {
             state.transaction.date = date
+        },
+        [SET_TITLE] (state, title) {
+            state.title = title
         }
     },
     // Business logic.

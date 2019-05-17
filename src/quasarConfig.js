@@ -19,14 +19,12 @@ import {
   QPageContainer, QPage,
   QDrawer,
   QIcon,
-  QList,
-  QItem,
-  QItemSection,
-  QItemLabel,
+  QList, QItem, QItemSection, QItemLabel,
   QScrollArea,
   QImg, QAvatar,
   Ripple,
-  QPageSticky
+  QPageSticky,
+  QDate, QDialog, QInput, QPopupProxy, QField
 } from 'quasar'
 
 Vue.use(Quasar, {
@@ -39,13 +37,11 @@ Vue.use(Quasar, {
     QPageContainer,
     QPage,
     QIcon,
-    QList,
-    QItem,
-    QItemSection,
-    QItemLabel,
+    QList, QItem, QItemSection, QItemLabel,
     QScrollArea,
     QImg, QAvatar,
-    QPageSticky
+    QPageSticky,
+    QDate, QDialog, QInput, QPopupProxy, QField
   },
   directives: {
     Ripple

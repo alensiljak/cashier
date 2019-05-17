@@ -1,5 +1,21 @@
 <template>
-  <div>
+  <q-page class="bg-colour-1 text-colour-2">
+    <q-field dark outlined label="Outlined" stack-label>
+      <template v-slot:control>
+        <div class="self-center full-width no-outline" tabindex="0">Field content {{ date }}</div>
+      </template>
+    </q-field>
+
+    <q-input dark filled v-model="date" mask="date" :rules="['date']">
+      <template v-slot:append>
+        <q-icon name="event" class="cursor-pointer">
+          <q-popup-proxy>
+            <q-date dark v-model="date"/>
+          </q-popup-proxy>
+        </q-icon>
+      </template>
+    </q-input>
+
     <form>
       <!-- Transaction -->
       <div class="form-row">
@@ -7,14 +23,14 @@
           <div class="form-group">
             <label for="date">Date</label>
             <!-- <input ref="date" class="form-control" v-model="date"> -->
-            <Datepicker
+            <!-- <Datepicker
               input-class="form-control"
               v-model="date"
               :monday-first="true"
               :bootstrap-styling="true"
               :format="dateFormat"
               calendar-class="custom-calendar"
-            />
+            />-->
           </div>
         </div>
         <div class="col">
@@ -51,7 +67,7 @@
         </div>
       </div>
     </form>
-  </div>
+  </q-page>
 </template>
 <script>
 import QPosting from "../components/QPosting.vue";
@@ -61,30 +77,34 @@ import {
   CLEAR_POSTINGS,
   DELETE_POSTING,
   SET_PAYEE,
-  SET_TX_DATE
+  SET_TX_DATE,
+  SET_TITLE
 } from "../mutations";
 import { RESET_TRANSACTION, SAVE_TRANSACTION } from "../actions";
-import Datepicker from "vuejs-datepicker";
+// import Datepicker from "vuejs-datepicker";
 
 export default {
   created() {
     // get the data
     // Add the two initial postings
     this.$store.dispatch(RESET_TRANSACTION);
+    // this.$store.dispatch(SET_TITLE, "New Transaction");
+    this.$store.commit(SET_TITLE, "New Transaction");
   },
   mounted: function() {
     // Set the focus on Payee field.
     // document.getElementById("payee").focus() => this.$refs.payee
     //this.$refs.date
+    
   },
   data: function() {
     return {
-      //date: null
+      // datePickerVisible: false
     };
   },
   components: {
-    QPosting,
-    Datepicker
+    QPosting
+    // Datepicker
   },
   methods: {
     addPosting: function() {
@@ -131,6 +151,7 @@ export default {
   }
 };
 </script>
+
 <style lang="scss">
 @import "../styles/palette.scss";
 
