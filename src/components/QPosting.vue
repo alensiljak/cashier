@@ -1,5 +1,5 @@
 <template>
-  <div class="form-row mb-1">
+  <div class="row mb-1">
     <!-- spacer -->
     <div class="col-1"></div>
 
@@ -34,9 +34,9 @@
   </div>
 </template>
 <script>
-import Vue from 'vue'
-import VueInputMask from 'vue-inputmask'
-Vue.use(VueInputMask.default)
+// import Vue from 'vue'
+// import VueInputMask from 'vue-inputmask'
+// Vue.use(VueInputMask.default)
 
 export default {
   props: ["posting", "index"],

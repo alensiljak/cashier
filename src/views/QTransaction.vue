@@ -77,8 +77,8 @@ import {
   SET_TX_DATE,
   SET_TITLE
 } from "../mutations";
-import { RESET_TRANSACTION, SAVE_TRANSACTION } from "../actions";
-import { date } from "quasar";
+import { RESET_TRANSACTION, SAVE_TRANSACTION } from "../actions"
+// import { date } from "quasar"
 
 export default {
   created() {
@@ -117,36 +117,33 @@ export default {
     },
     onDateSelected(value, reason, details) {
       //
-      console.log("date selected", value, reason, details);
+      //console.log("date selected", value, reason, details);
 
       if (reason !== "day" && reason !== "today") return;
       // close the picker if the date was selected
-      //this.$refs.datePicker.hide() //.close()
       this.$refs.qDateProxy.hide()
 
-      let timeStamp = Date.now();
-      let formattedString = date.formatDate(
-        timeStamp,
-        "YYYY-MM-DDTHH:mm:ss.SSSZ"
-      );
-      console.log(formattedString)
+      // let timeStamp = Date.now();
+      // let formattedString = date.formatDate(timeStamp, "YYYY-MM-DDTHH:mm:ss.SSSZ");
+      // console.log(formattedString)
 
       let month = details.month.toString()
       let day = details.day.toString()
-      let newValue = details.year + '-' + month.padStart(2, '0') + '-' + day.padStart(2, '0');
-      console.log("the date value to be stored:", newValue);
-      // todo: save date?
+      let newValue = details.year + '-' + month.padStart(2, '0') + '-' + day.padStart(2, '0')
+      console.log("the date value to be stored:", newValue)
+      // save date?
+      this.$store.dispatch(SET_TX_DATE, value)
     },
     onSave() {
       console.log("save clicked");
       // store the transaction
-      this.$store.dispatch(SAVE_TRANSACTION);
+      this.$store.dispatch(SAVE_TRANSACTION)
     }
   },
   computed: {
     postings: {
       get: function() {
-        return this.$store.state.transaction.postings;
+        return this.$store.state.transaction.postings
       }
     },
     payee: {
