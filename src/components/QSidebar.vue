@@ -1,10 +1,10 @@
 <template>
-  <q-drawer v-model="leftDrawerOpen" bordered content-class="bg-colour-1 text-colour-2">
+  <q-drawer v-model="leftDrawerOpen" bordered content-class="bg-colour-1 text-colour-5">
     <q-scroll-area
       style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd"
     >
       <q-list padding>
-        <q-item-label header>Navigation</q-item-label>
+        <!-- <q-item-label header>Navigation</q-item-label> -->
 
         <q-item to="/" exact clickable v-ripple>
           <q-item-section avatar>
@@ -24,7 +24,7 @@
           </q-item-section>
         </q-item>
 
-        <q-item to="/tx" exact clickable v-ripple>
+        <q-item to="/tx" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
             <q-icon name="payment"/>
           </q-item-section>
@@ -41,24 +41,19 @@
             <q-item-label>About</q-item-label>
           </q-item-section>
         </q-item>
-
       </q-list>
     </q-scroll-area>
 
-    <q-img
-      class="absolute-top bg-colour-5"
-      style="height: 150px">
-    <!-- <div class="absolute-top bg-colour-5" style="height: 150px"> -->
-
+    <q-img class="absolute-top bg-colour-5" style="height: 150px">
       <div class="absolute-bottom bg-transparent text-colour-2">
         <q-avatar size="56px" class="q-mb-sm">
           <img src="/img/icons/icon64.png">
         </q-avatar>
-        <div class="text-weight-bold">Cashier</div>
-        <div>@cashier</div>
+        <!-- <div class="text-weight-bold">Cashier</div> -->
+        <!-- <div>@cashier</div> -->
+        <div style="font-size: 2rem;">Cashier</div>
       </div>
     </q-img>
-    <!-- </div> -->
   </q-drawer>
 </template>
 <script>
@@ -77,5 +72,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../styles/styles.scss'
+@import "../styles/styles.scss";
+
+.active-link {
+  color: $colour-3;
+}
+
+// .router-link-active-exact {
+//   background-color: greenyellow
+// }
+// .router-link-active {
+//   color: $colour-4;
+// }
+
 </style>

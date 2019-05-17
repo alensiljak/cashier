@@ -1,64 +1,56 @@
 <template>
   <div>
-    <div class="container-fluid">
-      <form>
-        <!-- Transaction -->
-        <div class="form-row">
-          <div class="col-md-2">
-            <div class="form-group">
-              <label for="date">Date</label>
-              <!-- <input ref="date" class="form-control" v-model="date"> -->
-              <Datepicker
-                input-class="form-control"
-                v-model="date"
-                :monday-first="true"
-                :bootstrap-styling="true"
-                :format="dateFormat"
-                calendar-class="custom-calendar"
-              />
-            </div>
-          </div>
-          <div class="col">
-            <div class="form-group">
-              <label for="payee">Payee</label>
-              <input
-                ref="payee"
-                type="text"
-                class="form-control"
-                placeholder="Payee"
-                v-model="payee"
-              >
-              <!-- autofocus -->
-            </div>
+    <form>
+      <!-- Transaction -->
+      <div class="form-row">
+        <div class="col-md-2">
+          <div class="form-group">
+            <label for="date">Date</label>
+            <!-- <input ref="date" class="form-control" v-model="date"> -->
+            <Datepicker
+              input-class="form-control"
+              v-model="date"
+              :monday-first="true"
+              :bootstrap-styling="true"
+              :format="dateFormat"
+              calendar-class="custom-calendar"
+            />
           </div>
         </div>
-
-        <div class="form-row">
-          <div class="col">Postings</div>
-        </div>
-
-        <!-- Postings -->
-        <QPosting
-          v-for="(posting, index) in postings"
-          :key="index"
-          :posting="posting"
-          :index="index"
-          v-on:delete-row="deletePosting"
-        />
-
-        <!-- Actions -->
-        <div class="row mt-3">
-          <div class="col">
-            <button type="button" class="btn btn-secondary" v-on:click="addPosting">Add Posting</button>
-          </div>
-
-          <div class="col text-right">
-            <button type="button" class="btn btn-secondary mr-1" v-on:click="onClear">Clear</button>
-            <button type="button" class="btn btn-primary px-4" v-on:click="onSave">Save</button>
+        <div class="col">
+          <div class="form-group">
+            <label for="payee">Payee</label>
+            <input ref="payee" type="text" class="form-control" placeholder="Payee" v-model="payee">
+            <!-- autofocus -->
           </div>
         </div>
-      </form>
-    </div>
+      </div>
+
+      <div class="form-row">
+        <div class="col">Postings</div>
+      </div>
+
+      <!-- Postings -->
+      <QPosting
+        v-for="(posting, index) in postings"
+        :key="index"
+        :posting="posting"
+        :index="index"
+        v-on:delete-row="deletePosting"
+      />
+
+      <!-- Actions -->
+      <div class="row mt-3">
+        <div class="col">
+          <button type="button" class="btn btn-secondary" v-on:click="addPosting">Add Posting</button>
+        </div>
+
+        <div class="col text-right">
+          <button type="button" class="btn btn-secondary mr-1" v-on:click="onClear">Clear</button>
+          <button type="button" class="btn btn-primary px-4" v-on:click="onSave">Save</button>
+        </div>
+      </div>
+    </form>
   </div>
 </template>
 <script>
