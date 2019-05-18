@@ -12,7 +12,6 @@ import PayeeList from './views/Payees.vue'
 import Register from './views/Register.vue'
 import Settings from './views/Settings.vue'
 import Transaction from './views/Transaction.vue'
-import DataTest from './views/DataTest.vue'
 // manual layout
 import BootstrapLayout from './layouts/Bootstrap'
 // Quasar layout
@@ -94,8 +93,6 @@ const routes = [
       { path: '/reg', component: Register },
       { path: '/settings', component: Settings },
       { path: '/tx', component: Transaction },
-      // todo remove after testing
-      { path: '/data', component: DataTest }
     ]
   },
   {
