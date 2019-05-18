@@ -35,11 +35,14 @@ export default {
     },
     onLoadClick() {
       // todo load settings
-      let col = db.transactions.toCollection();
+      //   let col = db.transactions.toCollection();
       //   .then(col => {
       //   console.log(col);
       // this.test = col;
       //   });
+      let col = db.transactions.filter(tx => {
+        return tx.id % 2 == 0;
+      });
       col.each((item, cursor) => {
         console.log(item);
         console.log(cursor);

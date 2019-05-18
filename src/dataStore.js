@@ -25,6 +25,7 @@ db.version(1).stores({
     // transactions: "++id, date, payee, postings"
     // transactions: "++id"
     transactions: "++id"
+
 });
 
 db.transactions.mapToClass(Transaction)
