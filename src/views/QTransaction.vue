@@ -1,47 +1,35 @@
 <template>
   <q-page padding class="bg-colour-1 text-colour-2">
     <!-- Transaction -->
-    <div class="row">
-      <div class="col-xs-12 col-sm-4">
-        <!-- label for date -->
-        <q-field dark outlined label="Outlined" stack-label>
-          <template v-slot:control>
-            <div class="self-center full-width no-outline" tabindex="0">
-              Field content {{ date }}</div>
-          </template>
-        </q-field>
-      </div>
 
-      <!-- date control -->
-      <div class="col-xs-12 col-sm-8">
-        <q-input dark filled v-model="date" mask="date" :rules="['date']">
-          <template v-slot:append>
-            <q-icon name="event" class="cursor-pointer">
-              <q-popup-proxy ref="qDateProxy">
-                <q-date
-                  ref="datePicker"
-                  dark
-                  v-model="date"
-                  first-day-of-week="1"
-                  today-btn
-                  @input="onDateSelected"
-                  mask="YYYY-MM-DD"
-                />
-              </q-popup-proxy>
-            </q-icon>
-          </template>
-        </q-input>
-      </div>
-    </div>
+    <!-- date control -->
+    <q-dialog ref="qDateProxy" v-model="datePickerVisible">
+      <q-date
+        ref="datePicker"
+        dark
+        v-model="isoDate"
+        first-day-of-week="1"
+        today-btn
+        @input="onDateSelected"
+        mask="YYYY-MM-DD"
+      />
+      <!-- value="isoDate" -->
+    </q-dialog>
 
-    <div class="col">
-      <div class="form-group">
-        <label for="payee">Payee</label>
-        <input ref="payee" type="text" class="form-control" placeholder="Payee" 
-          v-model="payee">
-        <!-- autofocus -->
-      </div>
-    </div>
+    <q-input label="Date" v-model="isoDate" dark @click="datePickerVisible = true">
+      <template v-slot:prepend>
+        <q-icon name="event"/>
+      </template>
+    </q-input>
+
+    <!-- payee -->
+
+    <q-input label="Payee" dark v-model="payee">
+      <template v-slot:prepend>
+        <q-icon name="person"/>
+      </template>
+    </q-input>
+
 
     <div class="form-row">
       <div class="col">Postings</div>
@@ -81,21 +69,22 @@ import {
   SET_TX_DATE,
   SET_TITLE
 } from "../mutations";
-import { RESET_TRANSACTION } from "../actions"
+import { RESET_TRANSACTION } from "../actions";
 // import { date } from "quasar"
-import db from '../dataStore'
-import { Transaction, Posting } from '../model';
+import db from "../dataStore";
+import { Transaction, Posting } from "../model";
 
 export default {
   data: function() {
     return {
-      date: null
+      // date: new Date().toISOString().substring(0, 10),
+      datePickerVisible: false
     };
   },
   created() {
     // get the data
     // Add the two initial postings
-    this.$store.dispatch(RESET_TRANSACTION);
+    // this.$store.dispatch(RESET_TRANSACTION);
     // this.$store.dispatch(SET_TITLE, "New Transaction");
     this.$store.commit(SET_TITLE, "New Transaction");
   },
@@ -103,7 +92,7 @@ export default {
     // Set the focus on Payee field.
     // document.getElementById("payee").focus() => this.$refs.payee
     //this.$refs.date
-    this.date = new Date().toISOString().substring(0, 10)
+    // this.date = new Date().toISOString().substring(0, 10);
   },
   components: {
     QPosting
@@ -122,58 +111,62 @@ export default {
     onDateClicked() {
       console.log("date clicked");
     },
+    onDateFocus() {
+      console.log("date got focus");
+    },
     /**
      * (value, reason, details)
      */
     onDateSelected(value, reason) {
       if (reason !== "day" && reason !== "today") return;
       // close the picker if the date was selected
-      this.$refs.qDateProxy.hide()
-
-      // save the date?
-      this.$store.dispatch(SET_TX_DATE, value)
+      this.$refs.qDateProxy.hide();
+      // the date is saved on close.
     },
     onSave() {
       console.log("save clicked");
       // store the transaction
-      let model = this.$store.state.transaction
-      let tx = new Transaction()
-      tx.id = new Date().getTime()
+      let model = this.$store.state.transaction;
+      let tx = new Transaction();
+      tx.id = new Date().getTime();
       // mapping
-      tx.date = model.date
-      tx.payee = model.payee
+      tx.date = model.date;
+      tx.payee = model.payee;
 
-      let postings = []
+      let postings = [];
       this.postings.forEach(postingModel => {
-        let posting = new Posting()
-        posting.transactionId = tx.id
-        posting.account = postingModel.account
-        posting.amount = postingModel.amount
-        posting.currency = postingModel.currency
+        let posting = new Posting();
+        posting.transactionId = tx.id;
+        posting.account = postingModel.account;
+        posting.amount = postingModel.amount;
+        posting.currency = postingModel.currency;
 
-        postings.push(posting)
+        postings.push(posting);
       });
-      
+
       // use transaction
       db.transaction("rw", db.transactions, db.postings, () => {
         // save all items together.
-        db.transactions.add(tx)
+        db.transactions.add(tx);
 
         postings.forEach(posting => {
-          db.postings.add(posting)
-        })
-      }).then(result => {
-        // transaction committed
-        console.log('saved.', result)
-      }).catch(err => {
-        console.error(err)
+          db.postings.add(posting);
+        });
       })
+        .then(result => {
+          // transaction committed
+          console.log("saved.", result);
+          this.onClear()
+        })
+        .catch(err => {
+          console.error(err);
+        });
     }
   },
   computed: {
     postings: {
       get: function() {
-        return this.$store.state.transaction.postings
+        return this.$store.state.transaction.postings;
       }
     },
     payee: {
@@ -184,18 +177,15 @@ export default {
         this.$store.dispatch(SET_PAYEE, value);
       }
     },
-    // date: {
-    //   get: function() {
-    //     return this.$store.state.transaction.date;
-    //   },
-    //   set: function(value) {
-    //     this.$store.dispatch(SET_TX_DATE, value);
-    //   }
-    // }
-    // dateFormat() {
-    //   //return this.$store.state.dateFormatLong
-    //   return "D, " + this.$store.state.dateFormatLong;
-    // }
+    isoDate: {
+      get() {
+        return this.$store.state.transaction.date;
+      },
+      set(value) {
+        // console.log(value)
+        this.$store.dispatch(SET_TX_DATE, value);
+      }
+    }
   }
 };
 </script>
