@@ -2,6 +2,10 @@
     The domain model
 */
 
+// let newId = function() {
+// return new Date().getTime()
+// }
+
 export class Payee {
 
 }
@@ -16,8 +20,11 @@ export class Posting {
 
 export class Transaction {
     constructor() {
-        this.date = new Date()
+        //this.id = newId()
+        // this.id = 0
+        // this.date = new Date().toISOString().substring(0, 10)
         this.payee = ""
-        this.postings = []
+        // this.postings = []
     }
 }
+

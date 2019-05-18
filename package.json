@@ -17,6 +17,7 @@
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "core-js": "^2.6.5",
+    "dexie": "^2.0.4",
     "localforage": "^1.7.3",
     "quasar": "^1.0.0-beta.24",
     "register-service-worker": "^1.6.2",

@@ -48,6 +48,9 @@
         <li>
           <a href="https://vuejs.org/">Vue JS, Vuex, Vue-cli</a>
         </li>
+        <li>
+          <a href="https://dexie.org/">Dexie.js</a>
+        </li>
       </ul>
   </q-page>
 </template>
