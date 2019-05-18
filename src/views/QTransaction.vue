@@ -117,7 +117,10 @@ export default {
     onDateClicked() {
       console.log("date clicked");
     },
-    onDateSelected(value, reason, details) {
+    /**
+     * (value, reason, details)
+     */
+    onDateSelected(value, reason) {
       if (reason !== "day" && reason !== "today") return;
       // close the picker if the date was selected
       this.$refs.qDateProxy.hide()
