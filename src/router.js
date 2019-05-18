@@ -9,7 +9,6 @@ import Router from 'vue-router'
 //import Home from './views/Home.vue'
 //const Home = () => import('./Home.vue')
 import PayeeList from './views/Payees.vue'
-import Register from './views/Register.vue'
 import Settings from './views/Settings.vue'
 import Transaction from './views/Transaction.vue'
 // manual layout
@@ -88,7 +87,6 @@ const routes = [
       },
       //{ path: '/payee/:name', component: PayeeList, props: true },
       { path: '/payees', component: PayeeList },
-      { path: '/reg', component: Register },
       { path: '/settings', component: Settings },
       { path: '/tx', component: Transaction },
     ]
