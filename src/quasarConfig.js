@@ -24,7 +24,8 @@ import {
   QImg, QAvatar,
   Ripple,
   QPageSticky,
-  QDate, QDialog, QInput, QPopupProxy, QField, date
+  QDate, QDialog, QInput, QPopupProxy, QField, date,
+  Notify
 } from 'quasar'
 
 Vue.use(Quasar, {
@@ -47,6 +48,7 @@ Vue.use(Quasar, {
     Ripple
   },
   plugins: {
+    Notify
   },
   // lang: lang
 })

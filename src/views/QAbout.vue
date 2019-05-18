@@ -1,7 +1,7 @@
 <template>
-  <q-page class="q-pa-sm bg-colour-1 text-colour-2">
+  <q-page padding class="bg-colour-1 text-colour-2">
       <div style="width:100%;" class="text-center">
-        <h3>About Cashier</h3>
+        <h3 class="q-my-sm">Cashier</h3>
         <img src="/img/icons/icon96.png">
       </div>
       <div>
@@ -23,7 +23,7 @@
         >source code repository</a> on GitLab.
       </p>
 
-      <h4>Credits</h4>
+      <h4 class="q-my-sm text-center">Credits</h4>
       <ul>
         <li>
           <a
@@ -37,7 +37,7 @@
         </li>
       </ul>
 
-      <h4>Components</h4>
+      <h4 class="q-my-sm text-center">Components</h4>
       <ul>
         <li>
           <a href="https://v1.quasar-framework.org/">Quasar Framework</a>
@@ -66,3 +66,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+a {
+  color: aqua;
+}
+</style>

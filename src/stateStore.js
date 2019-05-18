@@ -27,12 +27,12 @@ export default new Vuex.Store({
         activeAccount: null,
         // unused?
         dateFormatIso: "yyyy-MM-dd",
-        dateFormatLong: "dd MMMM yyyy",
+        // dateFormatLong: "dd MMMM yyyy",
         // others
-        sidebarOpen: null,
-        payees: [],
-        accounts: [],
-        transactions: [],
+        // sidebarOpen: null,
+        // payees: [],
+        // accounts: [],
+        // transactions: [],
         transaction: newTx
     },
     // Data transformations
