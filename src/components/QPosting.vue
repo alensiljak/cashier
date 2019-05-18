@@ -4,6 +4,7 @@
     <div class="col-1"></div>
 
     <!-- account -->
+    <q-input dark label="Account" v-model="test" />
     <div class="col-md">
       <input type="text" class="form-control" placeholder="account" v-model="posting.account">
     </div>
@@ -11,6 +12,7 @@
     <div class="col-1 d-sm-none"></div>
 
     <!-- amount -->
+    <q-input dark label="Amount" v-model="posting.amount" />
     <div class="col-6 col-md-2">
       <input class="form-control text-right" placeholder="amount" v-mask="'numeric'"
       v-model="posting.amount">
@@ -33,16 +35,13 @@
     </div>
   </div>
 </template>
-<script>
-// import Vue from 'vue'
-// import VueInputMask from 'vue-inputmask'
-// Vue.use(VueInputMask.default)
 
+<script>
 export default {
   props: ["posting", "index"],
-  //['account', 'amount', 'currency'],
   data: function() {
     return {
+      test: null
       // account: null,
       // amount: null,
       // currency: null

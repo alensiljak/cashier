@@ -12,6 +12,7 @@ export class Payee {
 
 export class Posting {
     constructor() {
+        this.transactionId = ""
         this.account = ""
         this.amount = ""
         this.currency = ""
@@ -21,8 +22,8 @@ export class Posting {
 export class Transaction {
     constructor() {
         //this.id = newId()
-        // this.id = 0
-        // this.date = new Date().toISOString().substring(0, 10)
+        this.id = null
+        this.date = null // new Date().toISOString().substring(0, 10)
         this.payee = ""
         // this.postings = []
     }

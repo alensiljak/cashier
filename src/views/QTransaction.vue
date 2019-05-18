@@ -6,7 +6,8 @@
         <!-- label for date -->
         <q-field dark outlined label="Outlined" stack-label>
           <template v-slot:control>
-            <div class="self-center full-width no-outline" tabindex="0">Field content {{ date }}</div>
+            <div class="self-center full-width no-outline" tabindex="0">
+              Field content {{ date }}</div>
           </template>
         </q-field>
       </div>
@@ -36,7 +37,8 @@
     <div class="col">
       <div class="form-group">
         <label for="payee">Payee</label>
-        <input ref="payee" type="text" class="form-control" placeholder="Payee" v-model="payee">
+        <input ref="payee" type="text" class="form-control" placeholder="Payee" 
+          v-model="payee">
         <!-- autofocus -->
       </div>
     </div>
@@ -79,10 +81,17 @@ import {
   SET_TX_DATE,
   SET_TITLE
 } from "../mutations";
-import { RESET_TRANSACTION, SAVE_TRANSACTION } from "../actions"
+import { RESET_TRANSACTION } from "../actions"
 // import { date } from "quasar"
+import db from '../dataStore'
+import { Transaction, Posting } from '../model';
 
 export default {
+  data: function() {
+    return {
+      date: null
+    };
+  },
   created() {
     // get the data
     // Add the two initial postings
@@ -94,11 +103,7 @@ export default {
     // Set the focus on Payee field.
     // document.getElementById("payee").focus() => this.$refs.payee
     //this.$refs.date
-  },
-  data: function() {
-    return {
-      date: null
-    };
+    this.date = new Date().toISOString().substring(0, 10)
   },
   components: {
     QPosting
@@ -131,7 +136,38 @@ export default {
     onSave() {
       console.log("save clicked");
       // store the transaction
-      this.$store.dispatch(SAVE_TRANSACTION)
+      let model = this.$store.state.transaction
+      let tx = new Transaction()
+      tx.id = new Date().getTime()
+      // mapping
+      tx.date = model.date
+      tx.payee = model.payee
+
+      let postings = []
+      this.postings.forEach(postingModel => {
+        let posting = new Posting()
+        posting.transactionId = tx.id
+        posting.account = postingModel.account
+        posting.amount = postingModel.amount
+        posting.currency = postingModel.currency
+
+        postings.push(posting)
+      });
+      
+      // use transaction
+      db.transaction("rw", db.transactions, db.postings, () => {
+        // save all items together.
+        db.transactions.add(tx)
+
+        postings.forEach(posting => {
+          db.postings.add(posting)
+        })
+      }).then(result => {
+        // transaction committed
+        console.log('saved.', result)
+      }).catch(err => {
+        console.error(err)
+      })
     }
   },
   computed: {
