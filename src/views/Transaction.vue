@@ -10,14 +10,6 @@
             <div class="form-group">
               <label for="date">Date</label>
               <!-- <input ref="date" class="form-control" v-model="date"> -->
-              <!-- <Datepicker
-                input-class="form-control"
-                v-model="date"
-                :monday-first="true"
-                :bootstrap-styling="true"
-                :format="dateFormat"
-                calendar-class="custom-calendar"
-              /> -->
             </div>
           </div>
           <div class="col">
@@ -75,7 +67,6 @@ import {
   SET_TX_DATE
 } from "../mutations";
 import { RESET_TRANSACTION, SAVE_TRANSACTION } from "../actions";
-// import Datepicker from "vuejs-datepicker";
 
 export default {
   created() {
@@ -96,7 +87,6 @@ export default {
   components: {
     PostingView,
     ActionBar,
-    // Datepicker
   },
   methods: {
     addPosting: function() {
