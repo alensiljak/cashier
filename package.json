@@ -18,7 +18,7 @@
     "@quasar/extras": "^1.0.0",
     "core-js": "^2.6.5",
     "localforage": "^1.7.3",
-    "quasar": "^1.0.0-beta.23",
+    "quasar": "^1.0.0-beta.24",
     "register-service-worker": "^1.6.2",
     "vue": "^2.6.10",
     "vue-hot-reload-api": "^2.3.3",
