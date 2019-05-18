@@ -24,6 +24,7 @@ const QTransaction = () => import('./views/QTransaction.vue')
 const QBalanceSheet = () => import('./views/QBalanceSheet.vue')
 const QRegister = () => import('./views/QRegister.vue')
 const QSettings = () => import('./views/QSettings.vue')
+const Sync = () => import('./views/Sync.vue')
 
 
 Vue.use(Router);
@@ -59,6 +60,7 @@ const routes = [
         component: QRegister
       },
       { path: '/settings', component: QSettings },
+      { path: '/sync', name: "sync", component: Sync },
       {
         path: '/tx',
         name: 'newTransaction',

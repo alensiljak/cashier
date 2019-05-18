@@ -42,6 +42,15 @@
           </q-item-section>
         </q-item>
 
+        <q-item to="sync" exact clickable v-ripple active-class="active-link">
+          <q-item-section avatar>
+            <q-icon name="sync"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Sync</q-item-label>
+          </q-item-section>
+        </q-item>
+
         <q-item to="/about" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
             <q-icon name="info"/>

@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-sm bg-colour-1 text-colour-2">
+  <q-page padding class="bg-colour-1 text-colour-2">
     <!-- Transaction -->
     <div class="row">
       <div class="col-xs-12 col-sm-4">
@@ -24,6 +24,7 @@
                   first-day-of-week="1"
                   today-btn
                   @input="onDateSelected"
+                  mask="YYYY-MM-DD"
                 />
               </q-popup-proxy>
             </q-icon>
@@ -117,22 +118,11 @@ export default {
       console.log("date clicked");
     },
     onDateSelected(value, reason, details) {
-      //
-      //console.log("date selected", value, reason, details);
-
       if (reason !== "day" && reason !== "today") return;
       // close the picker if the date was selected
       this.$refs.qDateProxy.hide()
 
-      // let timeStamp = Date.now();
-      // let formattedString = date.formatDate(timeStamp, "YYYY-MM-DDTHH:mm:ss.SSSZ");
-      // console.log(formattedString)
-
-      let month = details.month.toString()
-      let day = details.day.toString()
-      let newValue = details.year + '-' + month.padStart(2, '0') + '-' + day.padStart(2, '0')
-      console.log("the date value to be stored:", newValue)
-      // save date?
+      // save the date?
       this.$store.dispatch(SET_TX_DATE, value)
     },
     onSave() {
