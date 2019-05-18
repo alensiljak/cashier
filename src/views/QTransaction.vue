@@ -1,60 +1,87 @@
 <template>
   <q-page padding class="bg-colour-1 text-colour-2">
-    <!-- Transaction -->
+    <q-scroll-area style="height: 100%;">
+      <!-- Transaction -->
 
-    <!-- date control -->
-    <q-dialog ref="qDateProxy" v-model="datePickerVisible">
-      <q-date
-        ref="datePicker"
-        dark
-        v-model="isoDate"
-        first-day-of-week="1"
-        today-btn
-        @input="onDateSelected"
-        mask="YYYY-MM-DD"
+      <!-- date control -->
+      <q-dialog ref="qDateProxy" v-model="datePickerVisible">
+        <q-date
+          ref="datePicker"
+          dark
+          v-model="isoDate"
+          first-day-of-week="1"
+          today-btn
+          @input="onDateSelected"
+          mask="YYYY-MM-DD"
+        />
+        <!-- value="isoDate" -->
+      </q-dialog>
+
+      <q-input label="Date" v-model="isoDate" dark @click="datePickerVisible = true">
+        <template v-slot:prepend>
+          <q-icon name="event"/>
+        </template>
+      </q-input>
+
+      <!-- payee -->
+
+      <q-input label="Payee" dark v-model="payee">
+        <template v-slot:prepend>
+          <q-icon name="person"/>
+        </template>
+      </q-input>
+
+      <div class="q-mb-sm"></div>
+
+      <div class="form-row">
+        <div class="col">Postings</div>
+      </div>
+
+      <!-- Postings -->
+      <QPosting
+        v-for="(posting, index) in postings"
+        :key="index"
+        :posting="posting"
+        :index="index"
+        v-on:delete-row="deletePosting"
       />
-      <!-- value="isoDate" -->
-    </q-dialog>
 
-    <q-input label="Date" v-model="isoDate" dark @click="datePickerVisible = true">
-      <template v-slot:prepend>
-        <q-icon name="event"/>
-      </template>
-    </q-input>
-
-    <!-- payee -->
-
-    <q-input label="Payee" dark v-model="payee">
-      <template v-slot:prepend>
-        <q-icon name="person"/>
-      </template>
-    </q-input>
-
-
-    <div class="form-row">
-      <div class="col">Postings</div>
-    </div>
-
-    <!-- Postings -->
-    <QPosting
-      v-for="(posting, index) in postings"
-      :key="index"
-      :posting="posting"
-      :index="index"
-      v-on:delete-row="deletePosting"
-    />
-
-    <!-- Actions -->
-    <div class="row mt-3">
-      <div class="col">
-        <q-btn color="secondary" text-color="accent" label="Add Posting" v-on:click="addPosting"/>
+      <!-- Actions -->
+      <div class="row q-mt-sm">
+        <div class="col text-center">
+          <q-btn
+            color="secondary"
+            text-color="accent"
+            label="Add Posting"
+            size="small"
+            @click="addPosting"
+          />
+        </div>
       </div>
 
-      <div class="col text-right">
-        <q-btn color="secondary" text-color="accent" label="Clear" v-on:click="onClear"/>
-        <q-btn color="accent" text-color="secondary" label="Save" v-on:click="onSave"/>
+      <!-- main actions -->
+      <div class="row q-mt-xl justify-end">
+        <div class="col text-center">
+          <q-btn
+            color="secondary"
+            text-color="accent"
+            label="Clear"
+            size="medium"
+            @click="onClear"
+          />
+        </div>
+        <div class="col text-center">
+          <q-btn
+            class="q-px-lg"
+            color="accent"
+            text-color="secondary"
+            label="Save"
+            size="medium"
+            @click="onSave"
+          />
+        </div>
       </div>
-    </div>
+    </q-scroll-area>
   </q-page>
 </template>
 
@@ -156,7 +183,10 @@ export default {
         .then(result => {
           // transaction committed
           console.log("saved.", result);
-          this.onClear()
+          // clear Transaction entry
+          this.onClear();
+          // go to register?
+          this.$router.push({ name: "register" });
         })
         .catch(err => {
           console.error(err);

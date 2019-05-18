@@ -14,6 +14,11 @@ import { ADD_POSTING, CLEAR_POSTINGS, DELETE_POSTING, SET_PAYEE, SET_PAYEES,
 import { RESET_TRANSACTION, SAVE_TRANSACTION } from './actions'
 import { Transaction, Posting } from './model'
 
+let newTx = new Transaction()
+newTx.postings = []
+newTx.postings.push(new Posting)
+newTx.postings.push(new Posting)
+
 // const store =
 export default new Vuex.Store({
     //strict: true,
@@ -28,7 +33,7 @@ export default new Vuex.Store({
         payees: [],
         accounts: [],
         transactions: [],
-        transaction: new Transaction()
+        transaction: newTx
     },
     // Data transformations
     mutations: {

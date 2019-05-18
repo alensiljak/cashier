@@ -25,7 +25,7 @@ export class Transaction {
         this.id = null
         this.date = null // new Date().toISOString().substring(0, 10)
         this.payee = ""
-        // this.postings = []
+        //this.postings = []
     }
 }
 
