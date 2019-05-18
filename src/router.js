@@ -14,19 +14,17 @@ import Settings from './views/Settings.vue'
 import Transaction from './views/Transaction.vue'
 // manual layout
 import BootstrapLayout from './layouts/Bootstrap'
-// Quasar layout
-import DefaultLayout from './layouts/Default.vue'
-// The new layout
+// The new layout based on Quasar
 import MyQuasarLayout from './layouts/Qlayout'
+
+Vue.use(Router);
+
 const QAbout = () => import('./views/QAbout.vue')
 const QTransaction = () => import('./views/QTransaction.vue')
 const QBalanceSheet = () => import('./views/QBalanceSheet.vue')
 const QRegister = () => import('./views/QRegister.vue')
 const QSettings = () => import('./views/QSettings.vue')
 const Sync = () => import('./views/Sync.vue')
-
-
-Vue.use(Router);
 
 const routes = [
   {
@@ -95,26 +93,13 @@ const routes = [
       { path: '/tx', component: Transaction },
     ]
   },
-  {
-    path: '/q',
-    component: DefaultLayout,
-    children: [
-      {
-        path: '',
-        name: 'home',
-        component: () =>
-          import(/* webpackChunkName: 'home' */ './views/QHome.vue')
-      }
-    ]
-  },
   // catch-all, to fix the offline PWA blank-screen issue.
-  // { path: '/index.html', component: Home, alias: '/' },
   // {
   //   path: '/index.html',
   //   alias: '/',
   //   component: () => import(/* webpackChunkName: 'home' */ './views/Home.vue')
   // }
-  // trying with a simple redirect
+  // using just a simple redirect to an existing page instead.
   {
     path: '/index.html',
     redirect: '/'
