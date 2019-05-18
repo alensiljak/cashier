@@ -6,14 +6,14 @@
       <q-list padding>
         <!-- <q-item-label header>Navigation</q-item-label> -->
 
-        <q-item to="/" exact clickable v-ripple active-class="active-link">
+        <!-- <q-item to="/" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
             <q-icon name="home"/>
           </q-item-section>
           <q-item-section>
             <q-item-label>Home</q-item-label>
           </q-item-section>
-        </q-item>
+        </q-item> -->
 
         <q-item to="/bal" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
@@ -30,6 +30,15 @@
           </q-item-section>
           <q-item-section>
             <q-item-label>New Transaction</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item to="/reg" exact clickable v-ripple active-class="active-link">
+          <q-item-section avatar>
+            <q-icon name="toc"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Register</q-item-label>
           </q-item-section>
         </q-item>
 

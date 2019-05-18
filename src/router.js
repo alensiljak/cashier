@@ -22,6 +22,8 @@ import MyQuasarLayout from './layouts/Qlayout'
 const QAbout = () => import('./views/QAbout.vue')
 const QTransaction = () => import('./views/QTransaction.vue')
 const QBalanceSheet = () => import('./views/QBalanceSheet.vue')
+const QRegister = () => import('./views/QRegister.vue')
+const QSettings = () => import('./views/QSettings.vue')
 
 
 Vue.use(Router);
@@ -31,11 +33,15 @@ const routes = [
     path: '/',
     component: MyQuasarLayout,
     children: [
+      // {
+      //   path: '',
+      //   // name: 'qhome',
+      //   component: () =>
+      //     import(/* webpackChunkName: 'qhome' */ './views/QHome.vue')
+      // },
       {
         path: '',
-        // name: 'qhome',
-        component: () =>
-          import(/* webpackChunkName: 'qhome' */ './views/QHome.vue')
+        redirect: '/bal'
       },
       {
         path: '/about',
@@ -44,8 +50,15 @@ const routes = [
       },
       {
         path: '/bal',
+        name: 'balanceSheet',
         component: QBalanceSheet
       },
+      {
+        path: '/reg',
+        name: 'register',
+        component: QRegister
+      },
+      { path: '/settings', component: QSettings },
       {
         path: '/tx',
         name: 'newTransaction',

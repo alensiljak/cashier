@@ -18,7 +18,9 @@ import { Transaction, Posting } from './model'
 export default new Vuex.Store({
     //strict: true,
     state: {
-        title: 'Cashier',
+        pageTitle: 'Cashier', // the title in the toolbar
+        activeAccount: null,
+        // unused?
         dateFormatIso: "yyyy-MM-dd",
         dateFormatLong: "dd MMMM yyyy",
         // others
@@ -54,7 +56,7 @@ export default new Vuex.Store({
             state.transaction.date = date
         },
         [SET_TITLE] (state, title) {
-            state.title = title
+            state.pageTitle = title
         }
     },
     // Business logic.

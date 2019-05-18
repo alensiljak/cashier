@@ -56,16 +56,17 @@
     <!-- Actions -->
     <div class="row mt-3">
       <div class="col">
-        <q-btn color="colour-4" text-color="black" label="Add Posting" v-on:click="addPosting"/>
+        <q-btn color="secondary" text-color="accent" label="Add Posting" v-on:click="addPosting"/>
       </div>
 
       <div class="col text-right">
-        <q-btn color="colour-4" text-color="black" label="Clear" v-on:click="onClear"/>
-        <q-btn color="colour-3" text-color="black" label="Save" v-on:click="onSave"/>
+        <q-btn color="secondary" text-color="accent" label="Clear" v-on:click="onClear"/>
+        <q-btn color="accent" text-color="secondary" label="Save" v-on:click="onSave"/>
       </div>
     </div>
   </q-page>
 </template>
+
 <script>
 import QPosting from "../components/QPosting.vue";
 import {
