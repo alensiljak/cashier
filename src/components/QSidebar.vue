@@ -13,7 +13,7 @@
           <q-item-section>
             <q-item-label>Home</q-item-label>
           </q-item-section>
-        </q-item> -->
+        </q-item>-->
 
         <q-item to="/bal" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
@@ -41,6 +41,67 @@
             <q-item-label>Register</q-item-label>
           </q-item-section>
         </q-item>
+
+        <q-expansion-item
+          dark
+          header-class="text-amber-2"
+          expand-icon-class="text-amber-2"
+          expand-separator
+          icon="settings"
+          label="Entities"
+        >
+          <q-item :inset-level="1"
+            to="accounts"
+            dark
+            exact
+            clickable
+            v-ripple
+            active-class="active-link"
+            class="text-colour2"
+          >
+            <q-item-section avatar>
+              <q-icon name="account_balance_wallet"/>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Accounts</q-item-label>
+            </q-item-section>
+          </q-item>
+
+          <q-item :inset-level="1"
+            to="payees"
+            dark
+            exact
+            clickable
+            v-ripple
+            active-class="active-link"
+            class="text-colour2"
+          >
+            <q-item-section avatar>
+              <q-icon name="group"/>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Payees</q-item-label>
+            </q-item-section>
+          </q-item>
+
+          <q-item :inset-level="1"
+            to="commodities"
+            dark
+            exact
+            clickable
+            v-ripple
+            active-class="active-link"
+            class="text-colour2"
+          >
+            <q-item-section avatar>
+              <q-icon name="category"/>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label>Commodities</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-expansion-item>
+        <!-- caption="Other elements" -->
 
         <q-item to="sync" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
@@ -102,5 +163,4 @@ export default {
 // .router-link-active {
 //   color: $colour4;
 // }
-
 </style>

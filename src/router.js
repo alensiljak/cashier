@@ -8,13 +8,12 @@ import Router from 'vue-router'
 //import About from './views/About.vue'
 //import Home from './views/Home.vue'
 //const Home = () => import('./Home.vue')
-import PayeeList from './views/Payees.vue'
 import Settings from './views/Settings.vue'
 import Transaction from './views/Transaction.vue'
 // manual layout
 import BootstrapLayout from './layouts/Bootstrap'
 // The new layout based on Quasar
-import MyQuasarLayout from './layouts/Qlayout'
+import QuasarLayout from './layouts/Qlayout'
 
 Vue.use(Router);
 
@@ -23,12 +22,15 @@ const QTransaction = () => import('./views/QTransaction.vue')
 const QBalanceSheet = () => import('./views/QBalanceSheet.vue')
 const QRegister = () => import('./views/QRegister.vue')
 const QSettings = () => import('./views/QSettings.vue')
+const Accounts = () => import('./views/Accounts.vue')
 const Sync = () => import('./views/Sync.vue')
+import PayeeList from './views/Payees.vue'
+const Commodities = () => import('./views/Commodities.vue')
 
 const routes = [
   {
     path: '/',
-    component: MyQuasarLayout,
+    component: QuasarLayout,
     children: [
       // {
       //   path: '',
@@ -46,10 +48,17 @@ const routes = [
         component: QAbout
       },
       {
+        path: '/accounts',
+        name: 'accounts',
+        component: Accounts
+      },
+      {
         path: '/bal',
         name: 'balanceSheet',
         component: QBalanceSheet
       },
+      { path: '/commodities', name: 'commodities', component: Commodities },
+      { path: '/payees', name: 'payees', component: PayeeList },
       {
         path: '/reg',
         name: 'register',
@@ -86,7 +95,6 @@ const routes = [
           import(/* webpackChunkName: 'about' */ './views/About.vue')
       },
       //{ path: '/payee/:name', component: PayeeList, props: true },
-      { path: '/payees', component: PayeeList },
       { path: '/settings', component: Settings },
       { path: '/tx', component: Transaction },
     ]
