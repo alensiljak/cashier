@@ -1,9 +1,8 @@
 <template>
-  <q-item>
+  <q-item clickable>
     <!-- clickable @click="onItemClicked" -->
-    <q-item-section>
+    <q-item-section @click="itemClicked(tx.id)">
       <q-item-label>{{ tx.date }} {{ tx.payee }}</q-item-label>
-      <router-link :to="{ name: 'tx', params: { userId: 123 }}">User</router-link>
       <q-item-label caption class="q-ml-xl">
         <div
           v-for="posting in tx.postings"
@@ -26,7 +25,39 @@
 </template>
 
 <script>
+const errorMessage = { color: "secondary", message: "" };
+import appService from "../appService";
+
 export default {
-    props: ['tx']
-}
+  methods: {
+    itemClicked(id) {
+    //   console.log("item clicked", id);
+
+      // todo make sure delete button is not clicked
+      // :to="{ name: 'tx', params: { id: tx.id }}"
+      this.$router.push({ name: 'tx', params: { id: id }})
+    },
+    onDeleteClicked: function(event) {
+      let ctl = event.currentTarget;
+      let id = ctl.getAttribute("data-id");
+      // this.$q.notify(errorMessage)
+
+      var that = this;
+      // delete transaction
+      appService
+        .deleteTransaction(id)
+        .then(() => {
+          this.$q.notify("Transaction deleted");
+          //this.loadData();
+          this.$emit('txDeleted')
+        })
+        .catch(reason => {
+          // console.error(reason)
+          errorMessage.message = reason.message;
+          that.$q.notify(errorMessage);
+        });
+    }
+  },
+  props: ["tx"]
+};
 </script>

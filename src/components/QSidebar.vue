@@ -24,7 +24,8 @@
           </q-item-section>
         </q-item>
 
-        <q-item to="/tx" exact clickable v-ripple active-class="active-link">
+        <q-item to="/tx" active clickable v-ripple active-class="active-link">
+        <!-- exact -->
           <q-item-section avatar>
             <q-icon name="payment"/>
           </q-item-section>

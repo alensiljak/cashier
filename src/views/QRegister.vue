@@ -3,7 +3,12 @@
     <div>Transactions go here. Show all if not filtered by a specific account.</div>
 
     <q-list dark>
-      <register-transaction v-for="tx in transactions" :key="tx.id" :tx="tx" />
+      <register-transaction
+        v-for="tx in transactions"
+        :key="tx.id"
+        :tx="tx"
+        @txDeleted="onTransactionDeleted"
+      />
     </q-list>
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
@@ -15,7 +20,7 @@
 <script>
 import { SET_TITLE } from "../mutations";
 import appService from "../appService";
-import RegisterTransaction from '../components/RegisterTransaction'
+import RegisterTransaction from "../components/RegisterTransaction";
 
 const errorMessage = { color: "secondary", message: "" };
 
@@ -36,39 +41,24 @@ export default {
   methods: {
     loadData() {
       // load all transactions and related postings
-      appService.loadTransactions()
+      appService
+        .loadTransactions()
         .then(value => {
           this.transactions = value;
         })
         .catch(reason => {
           errorMessage.message = reason;
           this.$q.notify(errorMessage);
-        })
-    },
-    onDeleteClicked: function(event) {
-      let ctl = event.currentTarget;
-      let id = ctl.getAttribute("data-id");
-      // this.$q.notify(errorMessage)
-
-      var that = this;
-      // delete transaction
-      appService
-        .deleteTransaction(id)
-        .then(() => {
-          this.$q.notify("Transaction deleted");
-          this.loadData();
-        })
-        .catch(reason => {
-          // console.error(reason)
-          errorMessage.message = reason.message;
-          that.$q.notify(errorMessage);
         });
     },
     onItemClicked(event) {
       console.log("clicked", event);
     },
+    onTransactionDeleted() {
+      this.loadData();
+    },
     openNewTransaction() {
-      this.$router.push({ name: "transaction" });
+      this.$router.push({ name: "tx" });
     }
   },
   components: {

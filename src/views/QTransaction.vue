@@ -1,85 +1,79 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
-      <!-- Transaction -->
+    <!-- Transaction -->
 
-      <!-- date control -->
-      <q-dialog ref="qDateProxy" v-model="datePickerVisible">
-        <q-date
-          ref="datePicker"
-          dark
-          v-model="isoDate"
-          first-day-of-week="1"
-          today-btn
-          @input="onDateSelected"
-          mask="YYYY-MM-DD"
-        />
-        <!-- value="isoDate" -->
-      </q-dialog>
-
-      <q-input label="Date" v-model="isoDate" dark @click="datePickerVisible = true">
-        <template v-slot:prepend>
-          <q-icon name="event"/>
-        </template>
-      </q-input>
-
-      <!-- payee -->
-
-      <q-input label="Payee" dark v-model="payee">
-        <template v-slot:prepend>
-          <q-icon name="person"/>
-        </template>
-      </q-input>
-
-      <div class="q-mb-sm"></div>
-
-      <div class="form-row">
-        <div class="col">Postings</div>
-      </div>
-
-      <!-- Postings -->
-      <QPosting
-        v-for="(posting, index) in postings"
-        :key="index"
-        :posting="posting"
-        :index="index"
-        v-on:delete-row="deletePosting"
+    <!-- date control -->
+    <q-dialog ref="qDateProxy" v-model="datePickerVisible">
+      <q-date
+        ref="datePicker"
+        dark
+        v-model="isoDate"
+        first-day-of-week="1"
+        today-btn
+        @input="onDateSelected"
+        mask="YYYY-MM-DD"
       />
+      <!-- value="isoDate" -->
+    </q-dialog>
 
-      <!-- Actions -->
-      <div class="row q-mt-sm">
-        <div class="col text-center">
-          <q-btn
-            color="secondary"
-            text-color="accent"
-            label="Add Posting"
-            size="small"
-            @click="addPosting"
-          />
-        </div>
-      </div>
+    <q-input label="Date" v-model="isoDate" dark @click="datePickerVisible = true">
+      <template v-slot:prepend>
+        <q-icon name="event"/>
+      </template>
+    </q-input>
 
-      <!-- main actions -->
-      <div class="row q-mt-xl justify-end">
-        <div class="col text-center">
-          <q-btn
-            color="secondary"
-            text-color="accent"
-            label="Clear"
-            size="medium"
-            @click="onClear"
-          />
-        </div>
-        <div class="col text-center">
-          <q-btn
-            class="q-px-lg"
-            color="accent"
-            text-color="secondary"
-            label="Save"
-            size="medium"
-            @click="onSave"
-          />
-        </div>
+    <!-- payee -->
+
+    <q-input label="Payee" dark v-model="payee">
+      <template v-slot:prepend>
+        <q-icon name="person"/>
+      </template>
+    </q-input>
+
+    <div class="q-mb-sm"></div>
+
+    <div class="form-row">
+      <div class="col">Postings</div>
+    </div>
+
+    <!-- Postings -->
+    <QPosting
+      v-for="(posting, index) in postings"
+      :key="index"
+      :posting="posting"
+      :index="index"
+      v-on:delete-row="deletePosting"
+    />
+
+    <!-- Actions -->
+    <div class="row q-mt-sm">
+      <div class="col text-center">
+        <q-btn
+          color="secondary"
+          text-color="accent"
+          label="Add Posting"
+          size="small"
+          @click="addPosting"
+        />
       </div>
+    </div>
+
+    <!-- main actions -->
+    <div class="row q-mt-xl justify-end">
+      <div class="col text-center">
+        <q-btn color="secondary" text-color="accent" label="Clear" size="medium" @click="onClear"/>
+      </div>
+      <div class="col text-center">
+        <q-btn
+          class="q-px-lg"
+          color="accent"
+          text-color="secondary"
+          label="Save"
+          size="medium"
+          @click="onSave"
+        />
+      </div>
+    </div>
   </q-page>
 </template>
 
@@ -102,18 +96,21 @@ import { Transaction, Posting } from "../model";
 export default {
   data: function() {
     return {
-      // date: new Date().toISOString().substring(0, 10),
+      new: true,
       datePickerVisible: false
     };
   },
   created() {
-    // get the data
-    // Add the two initial postings
-    // this.$store.dispatch(RESET_TRANSACTION);
-    // this.$store.dispatch(SET_TITLE, "New Transaction");
     this.$store.commit(SET_TITLE, "New Transaction");
 
-    console.log(this.$route.params.id)
+    // get the data
+    let id = this.$route.params.id;
+    if (id) {
+      this.new = false
+
+      console.log('received id:', id);
+      // todo: load data for the transaction
+    }
   },
   mounted: function() {
     // Set the focus on Payee field.
