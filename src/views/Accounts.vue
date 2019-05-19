@@ -7,7 +7,7 @@ import { SET_TITLE } from "../mutations";
 
 export default {
   created() {
-    this.$store.commit(SET_TITLE, "Payees");
+    this.$store.commit(SET_TITLE, "Accounts");
   }
 };
 </script>

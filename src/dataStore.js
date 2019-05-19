@@ -23,12 +23,17 @@ const db = new Dexie('Cashier');
 
 db.version(1).stores({
     // transactions: "++id, date, payee, postings"
-    // transactions: "++id"
     transactions: "++id, date",
     postings: "++id, transactionId, account"
+    // todo accounts
+    // todo commodities
+    // todo payees
 });
 
-db.transactions.mapToClass(Transaction)
+// todo accounts
+// todo commodities
+// todo payees
 db.postings.mapToClass(Posting)
+db.transactions.mapToClass(Transaction)
 
 export default db

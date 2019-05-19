@@ -2,12 +2,23 @@
     The domain model
 */
 
-// let newId = function() {
-// return new Date().getTime()
-// }
+export class Account {
+    constructor() {
+        this.name = null
+    }
+}
+
+export class Commodity {
+    constructor() {
+        this.name = null
+    }
+}
 
 export class Payee {
-
+    constructor() {
+        // Remember the last transaction, to fill on selection.
+        this.lastTransactionId = null
+    }
 }
 
 export class Posting {
