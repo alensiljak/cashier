@@ -15,6 +15,7 @@ import { RESET_TRANSACTION, SAVE_TRANSACTION } from './actions'
 import { Transaction, Posting } from './model'
 
 let newTx = new Transaction()
+newTx.date = new Date().toISOString().substring(0, 10)
 newTx.postings = []
 newTx.postings.push(new Posting)
 newTx.postings.push(new Posting)

@@ -1,6 +1,5 @@
 <template>
   <q-page padding class="bg-colour-1 text-colour-2">
-    <q-scroll-area style="height: 100%;">
       <!-- Transaction -->
 
       <!-- date control -->
@@ -81,7 +80,6 @@
           />
         </div>
       </div>
-    </q-scroll-area>
   </q-page>
 </template>
 
