@@ -1,14 +1,11 @@
 <template>
-  <div>
-    <ActionBar title="Payees"/>
-
-    <div class="container">
-      <p>List of payees</p>
-    </div>
-  </div>
+  <q-page padding class="bg-colour1 text-colour2">
+    <p>List of payees</p>
+  </q-page>
 </template>
+
 <script>
-import ActionBar from "../components/ActionBar.vue";
+import { SET_TITLE } from '../mutations'
 
 export default {
   data: function() {
@@ -16,12 +13,13 @@ export default {
       //date: null
     };
   },
+  created() {
+    this.$store.commit(SET_TITLE, "Payees");
+  },
   mounted() {
     // read the current payee?
     // just list existing payees?
   },
-  components: {
-    ActionBar
-  }
+  components: {}
 };
 </script>

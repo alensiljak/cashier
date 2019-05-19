@@ -44,8 +44,8 @@
 
         <q-expansion-item
           dark
-          header-class="text-amber-2"
-          expand-icon-class="text-amber-2"
+          header-class="text-teal-9"
+          expand-icon-class="text-teal-9"
           expand-separator
           icon="settings"
           label="Entities"
@@ -57,7 +57,7 @@
             clickable
             v-ripple
             active-class="active-link"
-            class="text-colour2"
+            class="text-colour5"
           >
             <q-item-section avatar>
               <q-icon name="account_balance_wallet"/>
@@ -74,7 +74,7 @@
             clickable
             v-ripple
             active-class="active-link"
-            class="text-colour2"
+            class="text-colour5"
           >
             <q-item-section avatar>
               <q-icon name="group"/>
@@ -91,7 +91,7 @@
             clickable
             v-ripple
             active-class="active-link"
-            class="text-colour2"
+            class="text-colour5"
           >
             <q-item-section avatar>
               <q-icon name="category"/>
