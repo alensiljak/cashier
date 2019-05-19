@@ -19,11 +19,11 @@ export default {
     return {
       simple: [
         {
-          label: 'Satisfied customers (with avatar)',
-          avatar: 'https://cdn.quasar-framework.org/img/boy-avatar.png',
+          label: 'Chart of accounts',
+          avatar: '/img/icons/favicon-32x32.png',
           children: [
             {
-              label: 'Good food (with icon)',
+              label: 'Dining',
               icon: 'restaurant_menu',
               children: [
                 { label: 'Quality ingredients' },
@@ -31,7 +31,7 @@ export default {
               ]
             },
             {
-              label: 'Good service (disabled node with icon)',
+              label: 'Lodging',
               icon: 'room_service',
               disabled: true,
               children: [
@@ -40,15 +40,15 @@ export default {
               ]
             },
             {
-              label: 'Pleasant surroundings (with icon)',
-              icon: 'photo',
+              label: 'Bank Accounts',
+              icon: 'account_balance',
               children: [
                 {
-                  label: 'Happy atmosphere (with image)',
+                  label: 'Checking',
                   img: 'https://cdn.quasar-framework.org/img/logo_calendar_128px.png'
                 },
                 { label: 'Good table presentation' },
-                { label: 'Pleasing decor' }
+                { label: 'Investment', icon: 'assessment' }
               ]
             }
           ]
