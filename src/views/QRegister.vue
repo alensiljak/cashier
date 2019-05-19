@@ -2,13 +2,28 @@
   <q-page padding class="bg-colour-1 text-colour-2">
     <div>Transactions go here. Show all if not filtered by a specific account.</div>
 
-    <q-list>
-      <q-item v-for="tx in transactions" :key="tx.id" >
+    <q-list dark>
+      <q-item v-for="tx in transactions" :key="tx.id">
         <!-- clickable @click="onItemClicked" -->
-        <q-item-section>{{ tx.date }} {{ tx.payee }}</q-item-section>
+        <q-item-section>
+          <q-item-label>{{ tx.date }} {{ tx.payee }}</q-item-label>
+          <q-item-label caption class="q-ml-xl">
+            <div
+              v-for="posting in tx.postings"
+              :key="posting.id"
+            >{{ posting.account }} {{posting.amount}} {{posting.currency}}</div>
+          </q-item-label>
+        </q-item-section>
         <q-item-section avatar>
-          <q-btn color="secondary" text-color="accent" icon="delete" round size="sm"
-            @click='onDeleteClicked' :data-id='tx.id' />
+          <q-btn
+            color="secondary"
+            text-color="accent"
+            icon="delete"
+            round
+            size="sm"
+            @click="onDeleteClicked"
+            :data-id="tx.id"
+          />
         </q-item-section>
       </q-item>
     </q-list>
@@ -21,8 +36,9 @@
 
 <script>
 import { SET_TITLE } from "../mutations";
-import db from "../dataStore";
-import appService from '../appService'
+import appService from "../appService";
+
+const errorMessage = { color: "secondary", message: "" };
 
 export default {
   data() {
@@ -41,36 +57,39 @@ export default {
   methods: {
     loadData() {
       // load all transactions and related postings
-      db.transactions.toArray().then(value => {
-        // console.log("data loaded:", value);
-        this.transactions = value;
-      });
+      appService
+        .loadTransactions()
+        // .catch(reason => {
+        //   errorMessage.message = reason;
+        //   this.$q.notify(errorMessage);
+        // });
+        // console.log("loading data:", x);
+        .then(value => {
+          // console.log("data loaded:", value);
+          this.transactions = value;
+        });
     },
     onDeleteClicked: function(event) {
-      var errorMessage = {
-        color: 'secondary',
-        message: ''
-      }
-
-      let ctl = event.currentTarget
-      let id = ctl.getAttribute('data-id')
+      let ctl = event.currentTarget;
+      let id = ctl.getAttribute("data-id");
       // this.$q.notify(errorMessage)
 
-      var that = this
+      var that = this;
       // delete transaction
-      appService.deleteTransaction(id)
+      appService
+        .deleteTransaction(id)
         .then(() => {
-          this.$q.notify('Transaction deleted')
-          this.loadData()
+          this.$q.notify("Transaction deleted");
+          this.loadData();
         })
         .catch(reason => {
           // console.error(reason)
-          errorMessage.message = reason.message
-          that.$q.notify(errorMessage)
-        })
+          errorMessage.message = reason.message;
+          that.$q.notify(errorMessage);
+        });
     },
     onItemClicked(event) {
-      console.log('clicked', event);
+      console.log("clicked", event);
     },
     openNewTransaction() {
       this.$router.push({ name: "newTransaction" });
