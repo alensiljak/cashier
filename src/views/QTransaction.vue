@@ -7,16 +7,15 @@
       <q-date
         ref="datePicker"
         dark
-        v-model="isoDate"
+        v-model="tx.date"
         first-day-of-week="1"
         today-btn
         @input="onDateSelected"
         mask="YYYY-MM-DD"
       />
-      <!-- value="isoDate" -->
     </q-dialog>
 
-    <q-input label="Date" v-model="isoDate" dark @click="datePickerVisible = true">
+    <q-input label="Date" v-model="tx.date" dark @click="datePickerVisible = true">
       <template v-slot:prepend>
         <q-icon name="event"/>
       </template>
@@ -24,7 +23,7 @@
 
     <!-- payee -->
 
-    <q-input label="Payee" dark v-model="payee">
+    <q-input label="Payee" dark v-model="tx.payee">
       <template v-slot:prepend>
         <q-icon name="person"/>
       </template>
@@ -38,7 +37,7 @@
 
     <!-- Postings -->
     <QPosting
-      v-for="(posting, index) in postings"
+      v-for="(posting, index) in tx.postings"
       :key="index"
       :posting="posting"
       :index="index"
@@ -61,7 +60,7 @@
     <!-- main actions -->
     <div class="row q-mt-xl justify-end">
       <div class="col text-center">
-        <q-btn color="secondary" text-color="accent" label="Clear" size="medium" @click="onClear"/>
+        <q-btn color="secondary" text-color="accent" label="Reset" size="medium" @click="onClear"/>
       </div>
       <div class="col text-center">
         <q-btn
@@ -83,33 +82,35 @@ import {
   ADD_POSTING,
   // eslint-disable-next-line
   CLEAR_POSTINGS,
-  DELETE_POSTING,
-  SET_PAYEE,
-  SET_TX_DATE,
+  // DELETE_POSTING,
+  // SET_PAYEE,
+  // SET_TX_DATE,
   SET_TITLE
+  // SET_TRANSACTION
 } from "../mutations";
-import { RESET_TRANSACTION } from "../actions";
-// import { date } from "quasar"
-import db from "../dataStore";
-import { Transaction, Posting } from "../model";
+// import { RESET_TRANSACTION } from "../actions";
+import appService from "../appService";
 
 export default {
   data: function() {
     return {
-      new: true,
-      datePickerVisible: false
+      datePickerVisible: false,
+      tx: null // transaction being edited
     };
   },
+
   created() {
     this.$store.commit(SET_TITLE, "New Transaction");
 
     // get the data
     let id = this.$route.params.id;
     if (id) {
-      this.new = false
-
-      console.log('received id:', id);
-      // todo: load data for the transaction
+      // this.new = false;
+      // load data for the transaction
+      this.loadTransaction(id);
+    } else {
+      // new item.
+      this.tx = appService.createTransaction()
     }
   },
   mounted: function() {
@@ -118,19 +119,27 @@ export default {
     //this.$refs.date
     // this.date = new Date().toISOString().substring(0, 10);
   },
-  components: {
-    QPosting
-  },
+
   methods: {
     addPosting: function() {
       this.$store.dispatch(ADD_POSTING);
     },
     deletePosting: function(index) {
-      this.$store.dispatch(DELETE_POSTING, index);
+      // this.$store.dispatch(DELETE_POSTING, index);
+      console.log('request to delete posting', index)
+      // todo
+    },
+    loadTransaction(id) {
+      appService.loadTransaction(id).then(tx => {
+        // console.log(tx)
+        // Put into the state store.
+        // this.$store.commit(SET_TRANSACTION, tx);
+        this.tx = tx;
+      });
     },
     onClear() {
       // Resets all Transaction fields to defaults.
-      this.$store.dispatch(RESET_TRANSACTION);
+      // this.$store.dispatch(RESET_TRANSACTION);
     },
     onDateClicked() {
       console.log("date clicked");
@@ -148,35 +157,12 @@ export default {
       // the date is saved on close.
     },
     onSave() {
-      console.log("save clicked");
+      // console.log("save clicked");
       // store the transaction
-      let model = this.$store.state.transaction;
-      let tx = new Transaction();
-      tx.id = new Date().getTime();
-      // mapping
-      tx.date = model.date;
-      tx.payee = model.payee;
+      // let model = this.$store.state.transaction;
 
-      let postings = [];
-      this.postings.forEach(postingModel => {
-        let posting = new Posting();
-        posting.transactionId = tx.id;
-        posting.account = postingModel.account;
-        posting.amount = postingModel.amount;
-        posting.currency = postingModel.currency;
-
-        postings.push(posting);
-      });
-
-      // use transaction
-      db.transaction("rw", db.transactions, db.postings, () => {
-        // save all items together.
-        db.transactions.add(tx);
-
-        postings.forEach(posting => {
-          db.postings.add(posting);
-        });
-      })
+      appService
+        .saveTransaction(this.tx)
         .then(result => {
           // transaction committed
           console.log("saved.", result);
@@ -190,29 +176,34 @@ export default {
         });
     }
   },
+
+  components: {
+    QPosting
+  },
+
   computed: {
-    postings: {
-      get: function() {
-        return this.$store.state.transaction.postings;
-      }
-    },
-    payee: {
-      get: function() {
-        return this.$store.state.transaction.payee;
-      },
-      set: function(value) {
-        this.$store.dispatch(SET_PAYEE, value);
-      }
-    },
-    isoDate: {
-      get() {
-        return this.$store.state.transaction.date;
-      },
-      set(value) {
-        // console.log(value)
-        this.$store.dispatch(SET_TX_DATE, value);
-      }
-    }
+    // postings: {
+    //   get: function() {
+    //     return this.$store.state.transaction.postings;
+    //   }
+    // },
+    // payee: {
+    //   get: function() {
+    //     return this.$store.state.transaction.payee;
+    //   },
+    //   set: function(value) {
+    //     this.$store.dispatch(SET_PAYEE, value);
+    //   }
+    // },
+    // isoDate: {
+    //   get() {
+    //     return this.$store.state.transaction.date;
+    //   },
+    //   set(value) {
+    //     // console.log(value)
+    //     this.$store.dispatch(SET_TX_DATE, value);
+    //   }
+    // }
   }
 };
 </script>

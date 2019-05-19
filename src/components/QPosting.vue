@@ -23,8 +23,14 @@
       </div>
       <!-- operations / delete button -->
       <div class="col-1 flex flex-center">
-        <q-btn color="secondary" text-color="accent" icon="delete" round size="sm"
-          @click="deleteRow"/>
+        <q-btn
+          color="secondary"
+          text-color="accent"
+          icon="delete"
+          round
+          size="sm"
+          @click="deleteRow"
+        />
       </div>
     </div>
   </div>
@@ -33,6 +39,7 @@
 <script>
 export default {
   props: ["posting", "index"],
+
   data: function() {
     return {
       test: null
@@ -41,6 +48,7 @@ export default {
       // currency: null
     };
   },
+
   methods: {
     deleteRow: function() {
       // todo confirm

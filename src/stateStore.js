@@ -9,8 +9,8 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-import { ADD_POSTING, CLEAR_POSTINGS, DELETE_POSTING, SET_PAYEE, SET_PAYEES,
-    SET_TX_DATE, SET_TITLE } from './mutations'
+import { ADD_POSTING, CLEAR_POSTINGS, DELETE_POSTING, SET_PAYEE, SET_TITLE,
+    SET_TX_DATE } from './mutations'
 import { RESET_TRANSACTION, SAVE_TRANSACTION } from './actions'
 import { Transaction, Posting } from './model'
 
@@ -34,37 +34,42 @@ export default new Vuex.Store({
         // payees: [],
         // accounts: [],
         // transactions: [],
-        transaction: newTx
+        // transaction: newTx
     },
     // Data transformations
     mutations: {
         // increment(state) {
         //     state.count++
         // },
-        [ADD_POSTING] (state) {
-            // delete one of the postings in the New Transaction
-            state.transaction.postings.push(new Posting())
-        },
-        [DELETE_POSTING] (state, index) {
-            // delete one of the postings in the New Transaction
-            state.transaction.postings.splice(index, 1)
-        },
-        [CLEAR_POSTINGS] (state) {
-            state.transaction.postings = []
-        },
-        [SET_PAYEE] (state, payee) {
-            state.transaction.payee = payee
-        },
-        [SET_PAYEES] (state, payeesArray) {
-            state.payees = payeesArray
-        },
-        [SET_TX_DATE] (state, date) {
-            state.transaction.date = date
-        },
+        // [ADD_POSTING] (state) {
+        //     // delete one of the postings in the New Transaction
+        //     state.transaction.postings.push(new Posting())
+        // },
+        // [DELETE_POSTING] (state, index) {
+        //     // delete one of the postings in the New Transaction
+        //     state.transaction.postings.splice(index, 1)
+        // },
+        // [CLEAR_POSTINGS] (state) {
+        //     state.transaction.postings = []
+        // },
+        // [SET_PAYEE] (state, payee) {
+        //     state.transaction.payee = payee
+        // },
+        // [SET_PAYEES] (state, payeesArray) {
+        //     state.payees = payeesArray
+        // },
+        // [SET_TX_DATE] (state, date) {
+        //     state.transaction.date = date
+        // },
         [SET_TITLE] (state, title) {
             state.pageTitle = title
-        }
+        },
+        // [SET_TRANSACTION] (state, transaction) {
+        //     // context.commit(SET_TRANSACTION, transaction)
+        //     state.transaction = transaction
+        // },
     },
+
     // Business logic.
     actions: {
         [ADD_POSTING] (context) {
@@ -107,7 +112,7 @@ export default new Vuex.Store({
         }
     },
     getters: {
-        transaction: state => state.transaction,
+        // transaction: state => state.transaction,
         transactions: state => state.transactions
     }
 })

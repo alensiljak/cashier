@@ -12,6 +12,8 @@ export class Payee {
 
 export class Posting {
     constructor() {
+        // Id is inserted automatically.
+        // this.id = null
         this.transactionId = ""
         this.account = ""
         this.amount = ""
@@ -23,9 +25,9 @@ export class Transaction {
     constructor() {
         //this.id = newId()
         this.id = null
-        this.date = null // new Date().toISOString().substring(0, 10)
+        this.date = null
         this.payee = ""
-        //this.postings = []
+        this.postings = []
     }
 }
 
