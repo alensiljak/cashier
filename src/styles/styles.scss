@@ -1,36 +1,39 @@
 @import "palette.scss";
 
 // body {
-//     background-color: $colour-1;
-//     color: $colour-2;
+//     background-color: $colour1;
+//     color: $colour2;
 // }
 
 // Quasar background colours
-.bg-colour-1 {
-  background-color: $colour-1;
+.bg-colour1 {
+  background-color: $colour1;
 }
-.bg-colour-2 {
-  background-color: $colour-2;
+.bg-colour2 {
+  background-color: $colour2;
 }
-.bg-colour-3 {
-  background-color: $colour-3;
+.bg-colour3 {
+  background-color: $colour3;
 }
-.bg-colour-4 {
-  background-color: $colour-4;
+.bg-colour4 {
+  background-color: $colour4;
 }
-.bg-colour-5 {
-  background-color: $colour-5;
+.bg-colour5 {
+  background-color: $colour5;
 }
 // foreground colours
-.text-colour-2 {
-    color: $colour-2;
+.text-colour1 {
+  color: $colour1;
 }
-.text-colour-3 {
-    color: $colour-3;
+.text-colour2 {
+    color: $colour2;
 }
-.text-colour-4 {
-  color: $colour-4;
+.text-colour3 {
+    color: $colour3;
 }
-.text-colour-5 {
-  color: $colour-5;
+.text-colour4 {
+  color: $colour4;
+}
+.text-colour5 {
+  color: $colour5;
 }

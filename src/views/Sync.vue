@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="bg-colour-1 text-colour-2">
+  <q-page padding class="bg-colour1 text-colour2">
     <p>The synchronization is done with an instance of hledger-web.</p>
 
     <div>

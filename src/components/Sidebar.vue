@@ -42,14 +42,14 @@
   padding: 0.65rem 1rem;
 }
 .router-link-active.nav-link {
-  color: $colour-4;
+  color: $colour4;
 }
 .nav-link {
-  color: $colour-3;
+  color: $colour3;
 }
 header {
-  background-color: $colour-5;
-  //color: $colour-4;
+  background-color: $colour5;
+  //color: $colour4;
   padding-bottom: 0.1em;
 }
 //.router-link-exact-active

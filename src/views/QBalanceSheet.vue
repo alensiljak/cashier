@@ -1,9 +1,9 @@
 <template>
-  <q-page padding class="bg-colour-1 text-colour-2">
+  <q-page padding class="bg-colour1 text-colour2">
     <p>Display the chart of accounts with balances and currencies. Selecting one opens the register.</p>
     <p>The list should be customizable by selecting which accounts to show (favourite).</p>
 
-    <q-tree dark :nodes="simple" node-key="label"/>
+    <q-tree color="colour2" text-color="amber-2" dark :nodes="simple" node-key="label"/>
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab icon="add" color="accent" text-color="secondary" v-on:click="openNewTransaction"/>
@@ -66,3 +66,11 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+@import '../styles/styles.scss'
+
+// .colour2 {
+//   color: $colour2;
+// }
+</style>

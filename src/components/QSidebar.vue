@@ -1,5 +1,5 @@
 <template>
-  <q-drawer v-model="leftDrawerOpen" bordered content-class="bg-colour-1 text-colour-5">
+  <q-drawer v-model="leftDrawerOpen" bordered content-class="bg-colour1 text-colour5">
     <q-scroll-area
       style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd"
     >
@@ -62,8 +62,8 @@
       </q-list>
     </q-scroll-area>
 
-    <q-img class="absolute-top bg-colour-5" style="height: 150px">
-      <div class="absolute-bottom bg-transparent text-colour-2">
+    <q-img class="absolute-top bg-colour5" style="height: 150px">
+      <div class="absolute-bottom bg-transparent text-colour2">
         <q-avatar size="56px" class="q-mb-sm">
           <img src="/img/icons/icon64.png">
         </q-avatar>
@@ -93,14 +93,14 @@ export default {
 @import "../styles/styles.scss";
 
 .active-link {
-  color: $colour-3;
+  color: $colour3;
 }
 
 // .router-link-active-exact {
 //   background-color: greenyellow
 // }
 // .router-link-active {
-//   color: $colour-4;
+//   color: $colour4;
 // }
 
 </style>

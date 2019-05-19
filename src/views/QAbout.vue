@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="bg-colour-1 text-colour-2">
+  <q-page padding class="bg-colour1 text-colour2">
       <div style="width:100%;" class="text-center">
         <h3 class="q-my-sm">Cashier</h3>
         <img src="/img/icons/icon96.png">

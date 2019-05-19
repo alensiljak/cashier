@@ -31,9 +31,9 @@ export default {
 @import "../styles/palette.scss";
 
 .navbar-dark {
-  background-color: $colour-5;
+  background-color: $colour5;
 }
 // .navbar-brand {
-//   color: $colour-5;
+//   color: $colour5;
 // }
 </style>

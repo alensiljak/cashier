@@ -20,8 +20,8 @@ body {
   display: none;
   // Style the menu here.
   //background-color: #1d1f20;
-  background-color: $colour-1;
-  color: $colour-2;
+  background-color: $colour1;
+  color: $colour2;
   // hide scrollbar
   overflow-y: hidden;
 }
@@ -37,8 +37,8 @@ body {
 // Page content
 .slideout-panel {
   // bg colour on the panel is required to correctly cover the menu.
-  background-color: $colour-1;
-  color: $colour-2;
+  background-color: $colour1;
+  color: $colour2;
   position: relative;
   z-index: 1;
   will-change: transform;

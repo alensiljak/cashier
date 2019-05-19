@@ -138,16 +138,16 @@ export default {
 
 // calendar component
 .custom-calendar {
-  background-color: $colour-5;
-  color: $colour-2;
+  background-color: $colour5;
+  color: $colour2;
 
   .cell.selected {
-    background-color: $colour-4;
+    background-color: $colour4;
   }
 }
 // calendar, today
 .today {
-  color: $colour-3;
+  color: $colour3;
 }
 // calendar, selected date
 </style>
