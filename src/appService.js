@@ -101,7 +101,7 @@ class AppService {
             //     db.postings.put(posting)
             // })
 
-            db.transactions.put(tx)
+            return db.transactions.put(tx) // returns the transaction id
         })
     }
 }

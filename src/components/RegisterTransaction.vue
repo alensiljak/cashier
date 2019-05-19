@@ -30,7 +30,7 @@ import appService from "../appService";
 
 export default {
     created() {
-        console.log('reg tx:', this.tx)
+        // console.log('reg tx:', this.tx)
     },
 
   methods: {

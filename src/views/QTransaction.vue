@@ -157,7 +157,7 @@ export default {
         .saveTransaction(this.tx)
         .then(result => {
           // transaction committed
-          console.log("saved.", result);
+          // console.log("saved.", result);
           // clear Transaction entry
           this.onClear();
           // go to register?
