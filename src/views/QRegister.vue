@@ -3,29 +3,7 @@
     <div>Transactions go here. Show all if not filtered by a specific account.</div>
 
     <q-list dark>
-      <q-item v-for="tx in transactions" :key="tx.id">
-        <!-- clickable @click="onItemClicked" -->
-        <q-item-section>
-          <q-item-label>{{ tx.date }} {{ tx.payee }}</q-item-label>
-          <q-item-label caption class="q-ml-xl">
-            <div
-              v-for="posting in tx.postings"
-              :key="posting.id"
-            >{{ posting.account }} {{posting.amount}} {{posting.currency}}</div>
-          </q-item-label>
-        </q-item-section>
-        <q-item-section avatar>
-          <q-btn
-            color="secondary"
-            text-color="accent"
-            icon="delete"
-            round
-            size="sm"
-            @click="onDeleteClicked"
-            :data-id="tx.id"
-          />
-        </q-item-section>
-      </q-item>
+      <register-transaction v-for="tx in transactions" :key="tx.id" :tx="tx" />
     </q-list>
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
@@ -37,6 +15,7 @@
 <script>
 import { SET_TITLE } from "../mutations";
 import appService from "../appService";
+import RegisterTransaction from '../components/RegisterTransaction'
 
 const errorMessage = { color: "secondary", message: "" };
 
@@ -89,9 +68,11 @@ export default {
       console.log("clicked", event);
     },
     openNewTransaction() {
-      this.$router.push({ name: "newTransaction" });
+      this.$router.push({ name: "transaction" });
     }
   },
-  components: {}
+  components: {
+    RegisterTransaction
+  }
 };
 </script>

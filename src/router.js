@@ -67,8 +67,9 @@ const routes = [
       { path: '/settings', component: QSettings },
       { path: '/sync', name: "sync", component: Sync },
       {
-        path: '/tx',
-        name: 'newTransaction',
+        // optional id parameter.
+        path: '/tx/:id?',
+        name: 'tx',
         component: QTransaction
       }
     ]
@@ -89,14 +90,14 @@ const routes = [
       // which is lazy-loaded when the route is visited.
       //{ path: '/about', name: 'about', component: About },
       {
-        path: '/about',
+        path: '/babout',
         // name: 'about',
         component: () =>
           import(/* webpackChunkName: 'about' */ './views/About.vue')
       },
       //{ path: '/payee/:name', component: PayeeList, props: true },
-      { path: '/settings', component: Settings },
-      { path: '/tx', component: Transaction },
+      { path: '/bsettings', component: Settings },
+      { path: '/btx', component: Transaction },
     ]
   },
   // catch-all, to fix the offline PWA blank-screen issue.
@@ -107,7 +108,8 @@ const routes = [
   // }
   // using just a simple redirect to an existing page instead.
   {
-    path: '/index.html',
+    // path: '/index.html',
+    path: '*',
     redirect: '/'
   }
 ];

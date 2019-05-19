@@ -112,6 +112,8 @@ export default {
     // this.$store.dispatch(RESET_TRANSACTION);
     // this.$store.dispatch(SET_TITLE, "New Transaction");
     this.$store.commit(SET_TITLE, "New Transaction");
+
+    console.log(this.$route.params.id)
   },
   mounted: function() {
     // Set the focus on Payee field.
