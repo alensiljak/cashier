@@ -57,7 +57,7 @@
           </q-item-section>
           <q-item-section>
             <q-item-label>About</q-item-label>
-          </q-item-section>for
+          </q-item-section>
         </q-item>
       </q-list>
     </q-scroll-area>

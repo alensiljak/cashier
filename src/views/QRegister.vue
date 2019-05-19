@@ -57,16 +57,13 @@ export default {
   methods: {
     loadData() {
       // load all transactions and related postings
-      appService
-        .loadTransactions()
-        // .catch(reason => {
-        //   errorMessage.message = reason;
-        //   this.$q.notify(errorMessage);
-        // });
-        // console.log("loading data:", x);
+      appService.loadTransactions()
         .then(value => {
-          // console.log("data loaded:", value);
           this.transactions = value;
+        })
+        .catch(reason => {
+          errorMessage.message = reason;
+          this.$q.notify(errorMessage);
         });
     },
     onDeleteClicked: function(event) {

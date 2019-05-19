@@ -25,22 +25,23 @@ class AppService {
     loadTransactions() {
         return db.transaction('r', db.transactions, db.postings, () => {
             // load all transactions
-            let txs = db.transactions.toCollection()
-            // load related postings
-            let posts = db.postings.toCollection()
-            var result = []
+            return db.transactions.toArray().then(array => {
+                array.forEach(tx => {
+                    // load related postings
+                    db.postings.filter(p => p.transactionId == tx.id).toArray()
+                        .then(array => {
+                            array.forEach(posting => {
+                                tx.postings = tx.postings || []
+                                tx.postings.push(posting)
 
-            txs.each(tx => {
-                posts.filter(p => p.transactionId == tx.id).each(posting => {
-                    // console.log(posting)
-                    tx.postings = tx.postings || []
-                    tx.postings.push(posting)
+                                // return tx
+                            })
+                            return array
+                        })
+                    // console.log('6th level')
                 })
-                result.push(tx)
-            });
-
-            // console.log("txs", txs)
-            return result
+                return array
+            })
         })
     }
 }
