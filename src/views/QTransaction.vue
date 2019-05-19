@@ -78,24 +78,15 @@
 
 <script>
 import QPosting from "../components/QPosting.vue";
-import {
-  ADD_POSTING,
-  // eslint-disable-next-line
-  CLEAR_POSTINGS,
-  // DELETE_POSTING,
-  // SET_PAYEE,
-  // SET_TX_DATE,
-  SET_TITLE
-  // SET_TRANSACTION
-} from "../mutations";
-// import { RESET_TRANSACTION } from "../actions";
+import { Posting } from "../model";
+import { SET_TITLE } from "../mutations";
 import appService from "../appService";
 
 export default {
   data: function() {
     return {
       datePickerVisible: false,
-      tx: null // transaction being edited
+      tx: {} // transaction being edited
     };
   },
 
@@ -110,7 +101,7 @@ export default {
       this.loadTransaction(id);
     } else {
       // new item.
-      this.tx = appService.createTransaction()
+      this.tx = appService.createTransaction();
     }
   },
   mounted: function() {
@@ -122,11 +113,12 @@ export default {
 
   methods: {
     addPosting: function() {
-      this.$store.dispatch(ADD_POSTING);
+      // this.$store.dispatch(ADD_POSTING);
+      this.tx.postings.push(new Posting());
     },
     deletePosting: function(index) {
       // this.$store.dispatch(DELETE_POSTING, index);
-      console.log('request to delete posting', index)
+      console.log("request to delete posting", index);
       // todo
     },
     loadTransaction(id) {
@@ -181,30 +173,7 @@ export default {
     QPosting
   },
 
-  computed: {
-    // postings: {
-    //   get: function() {
-    //     return this.$store.state.transaction.postings;
-    //   }
-    // },
-    // payee: {
-    //   get: function() {
-    //     return this.$store.state.transaction.payee;
-    //   },
-    //   set: function(value) {
-    //     this.$store.dispatch(SET_PAYEE, value);
-    //   }
-    // },
-    // isoDate: {
-    //   get() {
-    //     return this.$store.state.transaction.date;
-    //   },
-    //   set(value) {
-    //     // console.log(value)
-    //     this.$store.dispatch(SET_TX_DATE, value);
-    //   }
-    // }
-  }
+  computed: {}
 };
 </script>
 
