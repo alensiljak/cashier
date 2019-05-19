@@ -64,7 +64,7 @@ export default {
         .catch(reason => {
           errorMessage.message = reason;
           this.$q.notify(errorMessage);
-        });
+        })
     },
     onDeleteClicked: function(event) {
       let ctl = event.currentTarget;

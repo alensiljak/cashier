@@ -20,12 +20,15 @@ class AppService {
     }
 
     /**
-     * Load all transactions with postings
+     * Load all transactions with postings.
+     * Sort by date.
      */
     loadTransactions() {
         return db.transaction('r', db.transactions, db.postings, () => {
             // load all transactions
-            return db.transactions.toArray().then(array => {
+            // let x = db.transactions.toCollection().sortBy('date') = array
+            // let x = db.transactions.orderBy('date') = collection
+            return db.transactions.orderBy('date').reverse().toArray().then(array => {
                 array.forEach(tx => {
                     // load related postings
                     db.postings.filter(p => p.transactionId == tx.id).toArray()
