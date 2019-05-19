@@ -29,6 +29,10 @@ const errorMessage = { color: "secondary", message: "" };
 import appService from "../appService";
 
 export default {
+    created() {
+        console.log('reg tx:', this.tx)
+    },
+
   methods: {
     itemClicked(id) {
     //   console.log("item clicked", id);

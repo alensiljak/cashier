@@ -9,10 +9,10 @@ class AppService {
     createTransaction() {
         var tx = new Transaction();
         tx.date = new Date().toISOString().substring(0, 10)
-      
+
         tx.postings.push(new Posting())
         tx.postings.push(new Posting())
-  
+
         return tx
     }
 
@@ -40,20 +40,20 @@ class AppService {
             // let x = db.transactions.toCollection().sortBy('date') = array
             // let x = db.transactions.orderBy('date') = collection
             return db.transactions.orderBy('date').reverse().toArray().then(array => {
-                array.forEach(tx => {
-                    // load related postings
-                    db.postings.filter(p => p.transactionId == tx.id).toArray()
-                        .then(array => {
-                            array.forEach(posting => {
-                                tx.postings = tx.postings || []
-                                tx.postings.push(posting)
+                // array.forEach(tx => {
+                //     // load related postings
+                //     db.postings.filter(p => p.transactionId == tx.id).toArray()
+                //         .then(array => {
+                //             array.forEach(posting => {
+                //                 tx.postings = tx.postings || []
+                //                 tx.postings.push(posting)
 
-                                // return tx
-                            })
-                            return array
-                        })
-                    // console.log('6th level')
-                })
+                //                 // return tx
+                //             })
+                //             return array
+                //         })
+                //     // console.log('6th level')
+                // })
                 return array
             })
         })
