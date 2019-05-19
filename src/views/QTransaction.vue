@@ -101,7 +101,7 @@ export default {
       this.loadTransaction(id);
     } else {
       // new item.
-      this.tx = appService.createTransaction();
+      this.resetTransaction()
     }
   },
   mounted: function() {
@@ -117,27 +117,18 @@ export default {
       this.tx.postings.push(new Posting());
     },
     deletePosting: function(index) {
-      // this.$store.dispatch(DELETE_POSTING, index);
-      console.log("request to delete posting", index);
-      // todo
+      // console.log("request to delete posting", index);
+      this.tx.postings.splice(index, 1)
     },
     loadTransaction(id) {
       appService.loadTransaction(id).then(tx => {
         // console.log(tx)
-        // Put into the state store.
-        // this.$store.commit(SET_TRANSACTION, tx);
         this.tx = tx;
       });
     },
     onClear() {
       // Resets all Transaction fields to defaults.
-      // this.$store.dispatch(RESET_TRANSACTION);
-    },
-    onDateClicked() {
-      console.log("date clicked");
-    },
-    onDateFocus() {
-      console.log("date got focus");
+      this.resetTransaction()
     },
     /**
      * (value, reason, details)
@@ -155,9 +146,9 @@ export default {
 
       appService
         .saveTransaction(this.tx)
-        .then(result => {
+        .then(() => {
           // transaction committed
-          // console.log("saved.", result);
+          // console.log("saved.", id);
           // clear Transaction entry
           this.onClear();
           // go to register?
@@ -166,6 +157,9 @@ export default {
         .catch(err => {
           console.error(err);
         });
+    },
+    resetTransaction() {
+      this.tx = appService.createTransaction()
     }
   },
 
