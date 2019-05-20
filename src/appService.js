@@ -24,6 +24,10 @@ class AppService {
         return tx
     }
 
+    get db() {
+        return db
+    }
+
     deleteAccount(name) {
         return db.accounts.delete(name)
     }
@@ -42,6 +46,9 @@ class AppService {
         });
     }
 
+    /**
+     * @returns Collection
+     */
     loadAccounts() {
         return db.accounts.orderBy('name')
     }

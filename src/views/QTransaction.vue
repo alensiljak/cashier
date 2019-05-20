@@ -125,24 +125,9 @@ export default {
       this.tx.postings.splice(index, 1);
     },
     loadAccounts() {
-      // todo load accounts from storage.
-      // currently just a dummy list
-      let accounts = [
-        "Income:Salary",
-        "Income:Misc.",
-        'Expenses:Dining',
-        "Expenses:Drinks",
-        "Expenses:Groceries",
-        "Expenses:Entertainment",
-        "Expensese:Utilities",
-        "Assets:Cash",
-        "Assets:Bank1:Credit Card",
-        "Assets:Bank2:Checking",
-        "Assets:Bank 1:Checking",
-        "Assets:Cash BAM"
-      ]
-
-      this.accounts = accounts.sort()
+      // load accounts from storage.
+      appService.db.accounts.toCollection().primaryKeys()
+        .then(accounts => this.accounts = accounts)
     },
     loadTransaction(id) {
       appService.loadTransaction(id).then(tx => {

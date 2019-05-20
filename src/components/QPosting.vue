@@ -75,11 +75,11 @@ export default {
       this.$emit("delete-row", this.index);
     },
     filterAccounts(val, update, abort) {
-      console.log("filtering", val, update, abort);
+      // console.log("filtering", val, update, abort);
       update(() => {
         const needle = val.toLowerCase();
         this.accountOptions = this.accounts.filter(
-          v => v.toLowerCase().indexOf(needle) > -1
+          account => account.toLowerCase().indexOf(needle) > -1
         );
       });
     }
