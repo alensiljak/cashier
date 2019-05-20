@@ -41,7 +41,7 @@
       :key="index"
       :posting="posting"
       :index="index"
-      :accounts='accounts'
+      :accounts="accounts"
       v-on:delete-row="deletePosting"
     />
 
@@ -103,9 +103,9 @@ export default {
       this.loadTransaction(id);
     } else {
       // new item.
-      this.resetTransaction()
+      this.resetTransaction();
     }
-    this.loadAccounts()
+    this.loadAccounts();
   },
   mounted: function() {
     // Set the focus on Payee field.
@@ -121,14 +121,27 @@ export default {
     },
     deletePosting: function(index) {
       // console.log("request to delete posting", index);
-      this.tx.postings.splice(index, 1)
+      this.tx.postings.splice(index, 1);
     },
     loadAccounts() {
       // todo load accounts from storage.
       // currently just a dummy list
-      this.accounts = ['Income:Salary', 'Income:Misc.', 'Expenses:Drinks', 'Expenses:Groceries',
-        'Expenses:Entertainment', 'Expensese:Utilities', 'Assets:Cash', 'Assets:Bank1:Credit Card',
-        'Assets:Bank2:Checking', 'Assets:Bank 1:Checking', 'Assets:Cash BAM']
+      let accounts = [
+        "Income:Salary",
+        "Income:Misc.",
+        'Expenses:Dining',
+        "Expenses:Drinks",
+        "Expenses:Groceries",
+        "Expenses:Entertainment",
+        "Expensese:Utilities",
+        "Assets:Cash",
+        "Assets:Bank1:Credit Card",
+        "Assets:Bank2:Checking",
+        "Assets:Bank 1:Checking",
+        "Assets:Cash BAM"
+      ]
+
+      this.accounts = accounts.sort()
     },
     loadTransaction(id) {
       appService.loadTransaction(id).then(tx => {
@@ -138,7 +151,7 @@ export default {
     },
     onClear() {
       // Resets all Transaction fields to defaults.
-      this.resetTransaction()
+      this.resetTransaction();
     },
     /**
      * (value, reason, details)
@@ -169,7 +182,7 @@ export default {
         });
     },
     resetTransaction() {
-      this.tx = appService.createTransaction()
+      this.tx = appService.createTransaction();
     }
   },
 
