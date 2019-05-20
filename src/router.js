@@ -17,7 +17,7 @@ import QuasarLayout from './layouts/Qlayout'
 
 Vue.use(Router);
 
-const QAbout = () => import('./views/QAbout.vue')
+// const QAbout = () => import('./views/QAbout.vue')
 const QTransaction = () => import('./views/QTransaction.vue')
 const QBalanceSheet = () => import('./views/QBalanceSheet.vue')
 const QRegister = () => import('./views/QRegister.vue')
@@ -44,8 +44,8 @@ const routes = [
       },
       {
         path: '/about',
-        // name: 'about',
-        component: QAbout
+        name: 'about',
+        component: () => import(/* webpackChunkName: 'qhome' */ './views/QAbout.vue')
       },
       {
         path: '/accounts',
