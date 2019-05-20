@@ -32,6 +32,15 @@
     <q-list bordered separator>
       <q-item clickable v-ripple v-for="account in accounts" :key="account.name">
         <q-item-section>{{ account.name }}</q-item-section>
+
+        <!-- list item context menu -->
+        <q-menu touch-position context-menu content-class="bg-teal-9 text-amber-2">
+          <q-list dense style="min-width: 10rem">
+            <q-item clickable v-close-popup>
+              <q-item-section @click="onDeleteAccount(account.name)">Delete</q-item-section>
+            </q-item>
+          </q-list>
+        </q-menu>
       </q-item>
     </q-list>
 
@@ -39,21 +48,26 @@
     <q-dialog dark v-model="dialogVisible">
       <!-- persistent -->
       <form @submit.prevent="onAddAccount">
-      <q-card style="min-width: 400px" class="bg text-colour2">
-        <q-card-section>
-          <div class="text-h6">New Account</div>
-        </q-card-section>
+        <q-card style="min-width: 400px" class="bg text-colour2">
+          <q-card-section>
+            <div class="text-h6">New Account</div>
+          </q-card-section>
 
-        <q-card-section>
-          <q-input dense v-model="newAccount" autofocus @keyup.enter="prompt = false"
-            input-class="text-amber-2"/>
-        </q-card-section>
+          <q-card-section>
+            <q-input
+              dense
+              v-model="newAccount"
+              autofocus
+              @keyup.enter="prompt = false"
+              input-class="text-amber-2"
+            />
+          </q-card-section>
 
-        <q-card-actions align="right" class="text-accent">
-          <q-btn flat label="Cancel" v-close-popup type="button" @click="onCancelAdd" />
-          <q-btn flat label="Add" v-close-popup type="submit" @click="onAddAccount"/>
-        </q-card-actions>
-      </q-card>
+          <q-card-actions align="right" class="text-accent">
+            <q-btn flat label="Cancel" v-close-popup type="button" @click="onCancelAdd"/>
+            <q-btn flat label="Add" v-close-popup type="submit" @click="onAddAccount"/>
+          </q-card-actions>
+        </q-card>
       </form>
     </q-dialog>
 
@@ -66,7 +80,7 @@
 
 <script>
 import { TOGGLE_DRAWER, MAIN_TOOLBAR } from "../mutations";
-import appService from '../appService'
+import appService from "../appService";
 
 export default {
   data() {
@@ -74,18 +88,21 @@ export default {
       dialogVisible: false,
       newAccount: null,
       accounts: null
-    }
+    };
   },
 
   created() {
     this.$store.commit(MAIN_TOOLBAR, false);
 
-    this.loadData()
+    this.loadData();
   },
 
   methods: {
     loadData() {
-      appService.loadAccounts().toArray().then(accounts => this.accounts = accounts)
+      appService
+        .loadAccounts()
+        .toArray()
+        .then(accounts => (this.accounts = accounts));
     },
     menuClicked() {
       let visible = this.$store.state.drawerOpen;
@@ -95,27 +112,32 @@ export default {
       // create new account
       if (!this.newAccount) return;
 
-      appService.createAccount(this.newAccount)
-        .then(() => {
-          this.newAccount = null
-          // console.log(value)
-          this.loadData()
-        })
+      appService.createAccount(this.newAccount).then(() => {
+        this.newAccount = null;
+        // console.log(value)
+        this.loadData();
+      });
     },
     onCancelAdd() {
-      this.dialogVisible = false
-      this.newAccount = null
+      this.dialogVisible = false;
+      this.newAccount = null;
+    },
+    onDeleteAccount(accountName) {
+      // console.log(event);
+      appService.deleteAccount(accountName).then(() => {
+        this.loadData()
+      })
     },
     onFab() {
       // New Account
-      this.dialogVisible = true
+      this.dialogVisible = true;
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-@import '../styles/palette.scss';
+@import "../styles/palette.scss";
 
 .bg {
   background-color: $colour1;

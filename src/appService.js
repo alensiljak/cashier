@@ -24,6 +24,10 @@ class AppService {
         return tx
     }
 
+    deleteAccount(name) {
+        return db.accounts.delete(name)
+    }
+
     /**
      * Delete transaction and related postings.
      * @param {*} id
