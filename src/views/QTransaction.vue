@@ -41,6 +41,7 @@
       :key="index"
       :posting="posting"
       :index="index"
+      :accounts='accounts'
       v-on:delete-row="deletePosting"
     />
 
@@ -86,7 +87,8 @@ export default {
   data: function() {
     return {
       datePickerVisible: false,
-      tx: {} // transaction being edited
+      tx: {}, // transaction being edited
+      accounts: []
     };
   },
 
@@ -103,6 +105,7 @@ export default {
       // new item.
       this.resetTransaction()
     }
+    this.loadAccounts()
   },
   mounted: function() {
     // Set the focus on Payee field.
@@ -119,6 +122,12 @@ export default {
     deletePosting: function(index) {
       // console.log("request to delete posting", index);
       this.tx.postings.splice(index, 1)
+    },
+    loadAccounts() {
+      // todo load accounts from storage.
+      // currently just a dummy list
+      this.accounts = ['Income:Salary', 'Expenses:Drinks', 'Expenses:Groceries',
+        'Expenses:Entertainment']
     },
     loadTransaction(id) {
       appService.loadTransaction(id).then(tx => {
