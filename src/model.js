@@ -4,7 +4,9 @@
 
 export class Account {
     constructor() {
-        this.name = null
+        this.name = null,
+        this.balance = null,
+        this.currency = null
     }
 }
 
