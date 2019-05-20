@@ -10,16 +10,22 @@
           <q-menu>
             <q-list dense dark style="min-width: 175px" class="bg-colour1">
               <q-item clickable v-close-popup>
-                <q-item-section>Yo</q-item-section>
+                <q-item-section>Synchronize</q-item-section>
               </q-item>
               <q-item clickable v-close-popup>
-                <q-item-section>option 2</q-item-section>
+                <q-item-section>Import</q-item-section>
               </q-item>
             </q-list>
           </q-menu>
         </q-btn>
       </q-toolbar>
-    </q-header>Accounts
+    </q-header>
+    <p>
+      Accounts
+    </p>
+    <p>
+      Show the list of accounts used. Sync from this page directly?
+    </p>
   </q-page>
 </template>
 
