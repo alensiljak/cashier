@@ -2,10 +2,18 @@
     Provide service layer for the application.
 */
 import db from "./dataStore"
-import { Transaction, Posting } from './model'
+import { Account, Transaction, Posting } from './model'
 // import { Notify } from 'quasar'
 
 class AppService {
+
+    createAccount(name) {
+        let acc = new Account()
+        acc.name = name
+
+        return db.accounts.add(acc)
+    }
+
     createTransaction() {
         var tx = new Transaction();
         tx.date = new Date().toISOString().substring(0, 10)
@@ -28,6 +36,10 @@ class AppService {
             // delete postings
             db.postings.filter(value => value.transactionId == id).delete()
         });
+    }
+
+    loadAccounts() {
+        return db.accounts.orderBy('name')
     }
 
     /**

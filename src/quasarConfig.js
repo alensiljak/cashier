@@ -27,7 +27,8 @@ import {
   QDate, QDialog, QInput, QPopupProxy, QField, date,
   Notify, ClosePopup,
   QTree, QExpansionItem,
-  QSelect, QMenu
+  QSelect, QMenu, 
+  QCard, QCardSection, QCardActions
 } from 'quasar'
 
 Vue.use(Quasar, {
@@ -46,7 +47,8 @@ Vue.use(Quasar, {
     QPageSticky,
     QDate, QDialog, QInput, QPopupProxy, QField, date,
     QTree, QExpansionItem,
-    QSelect, QMenu
+    QSelect, QMenu, 
+    QCard, QCardSection, QCardActions
   },
   directives: {
     Ripple, ClosePopup
