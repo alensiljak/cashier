@@ -56,12 +56,14 @@
 </template>
 
 <script>
-import { SET_TITLE } from "../mutations";
+import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
 
 export default {
   created() {
     this.$store.commit(SET_TITLE, "About");
+    this.$store.commit(MAIN_TOOLBAR, true)
   },
+
   components: {
   }
 };

@@ -10,7 +10,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 import { ADD_POSTING, CLEAR_POSTINGS, DELETE_POSTING, SET_PAYEE, SET_TITLE,
-    SET_TX_DATE, TOGGLE_DRAWER } from './mutations'
+    SET_TX_DATE, TOGGLE_DRAWER, MAIN_TOOLBAR } from './mutations'
 import { RESET_TRANSACTION, SAVE_TRANSACTION } from './actions'
 import { Transaction, Posting } from './model'
 
@@ -24,17 +24,13 @@ newTx.postings.push(new Posting)
 export default new Vuex.Store({
     //strict: true,
     state: {
+        mainToolbarVisible: true,
         pageTitle: 'Cashier', // the title in the toolbar
         activeAccount: null,
+        drawerOpen: null,
         // unused?
         dateFormatIso: "yyyy-MM-dd",
         // dateFormatLong: "dd MMMM yyyy",
-        // others
-        drawerOpen: null,
-        // payees: [],
-        // accounts: [],
-        // transactions: [],
-        // transaction: newTx
     },
     // Data transformations
     mutations: {
@@ -52,6 +48,9 @@ export default new Vuex.Store({
         // [CLEAR_POSTINGS] (state) {
         //     state.transaction.postings = []
         // },
+        [MAIN_TOOLBAR] (state, visible) {
+            state.mainToolbarVisible = visible
+        },
         // [SET_PAYEE] (state, payee) {
         //     state.transaction.payee = payee
         // },

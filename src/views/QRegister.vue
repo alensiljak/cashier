@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { SET_TITLE } from "../mutations";
+import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
 import appService from "../appService";
 import RegisterTransaction from "../components/RegisterTransaction";
 
@@ -30,14 +30,18 @@ export default {
       transactions: []
     };
   },
+
   created() {
     this.$store.commit(SET_TITLE, "Register");
+    this.$store.commit(MAIN_TOOLBAR, true)
+
 
     this.loadData();
   },
   mounted() {
     // this.$q.notify('yo')
   },
+
   methods: {
     loadData() {
       // load all transactions and related postings

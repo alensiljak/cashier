@@ -24,11 +24,11 @@
 </template>
 
 <script>
-import { TOGGLE_DRAWER } from "../mutations";
+import { TOGGLE_DRAWER, MAIN_TOOLBAR } from "../mutations";
 
 export default {
   created() {
-    // this.$store.commit(SET_TITLE, "Accounts");
+    this.$store.commit(MAIN_TOOLBAR, false);
   },
 
   methods: {

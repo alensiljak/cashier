@@ -1,13 +1,13 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <!-- <q-header elevated class="glossy">
+    <q-header elevated class="glossy" v-if="toolbarVisible">
       <q-toolbar class="text-colour2">
         <q-btn flat dense round @click="toggleDrawer" aria-label="Menu" icon="menu" />
 
         <q-toolbar-title>{{ title }}</q-toolbar-title>
 
       </q-toolbar>
-    </q-header> -->
+    </q-header>
 
     <QSidebar ref="sidebar"/>
 
@@ -28,16 +28,22 @@ export default {
       // title: 'Cashier'
     };
   },
+
   methods: {
     toggleDrawer() {
       this.$refs.sidebar.toggleDrawer();
     }
   },
+  
   computed: {
     title() {
       return this.$store.state.pageTitle
+    },
+    toolbarVisible() {
+      return this.$store.state.mainToolbarVisible
     }
   },
+
   components: {
     QSidebar
   }

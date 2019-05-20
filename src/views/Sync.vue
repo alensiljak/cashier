@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { SET_TITLE } from "../mutations";
+import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
 import { Transaction } from "../model";
 import db from "../dataStore";
 
@@ -21,11 +21,14 @@ export default {
       test: "nothing yet"
     };
   },
+
   created() {
     this.$store.commit(SET_TITLE, "Synchronization");
+    this.$store.commit(MAIN_TOOLBAR, true)
 
     this.onLoadClick();
   },
+
   methods: {
     btnClick() {
       // save some data

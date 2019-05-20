@@ -12,53 +12,57 @@
 </template>
 
 <script>
-import { SET_TITLE } from "../mutations";
+import { SET_TITLE, MAIN_TOOLBAR } from "../mutations";
 
 export default {
   data() {
     return {
       simple: [
         {
-          label: 'Chart of accounts',
-          avatar: '/img/icons/favicon-32x32.png',
+          label: "Chart of accounts",
+          avatar: "/img/icons/favicon-32x32.png",
           children: [
             {
-              label: 'Dining',
-              icon: 'restaurant_menu',
+              label: "Dining",
+              icon: "restaurant_menu",
               children: [
-                { label: 'Quality ingredients' },
-                { label: 'Good recipe' }
+                { label: "Quality ingredients" },
+                { label: "Good recipe" }
               ]
             },
             {
-              label: 'Lodging',
-              icon: 'room_service',
+              label: "Lodging",
+              icon: "room_service",
               disabled: true,
               children: [
-                { label: 'Prompt attention' },
-                { label: 'Professional waiter' }
+                { label: "Prompt attention" },
+                { label: "Professional waiter" }
               ]
             },
             {
-              label: 'Bank Accounts',
-              icon: 'account_balance',
+              label: "Bank Accounts",
+              icon: "account_balance",
               children: [
                 {
-                  label: 'Checking',
-                  img: 'https://cdn.quasar-framework.org/img/logo_calendar_128px.png'
+                  label: "Checking",
+                  img:
+                    "https://cdn.quasar-framework.org/img/logo_calendar_128px.png"
                 },
-                { label: 'Good table presentation' },
-                { label: 'Investment', icon: 'assessment' }
+                { label: "Good table presentation" },
+                { label: "Investment", icon: "assessment" }
               ]
             }
           ]
         }
       ]
-    }
+    };
   },
+
   created() {
     this.$store.commit(SET_TITLE, "Balance Sheet");
+    this.$store.commit(MAIN_TOOLBAR, true);
   },
+
   methods: {
     openNewTransaction() {
       this.$router.push({ name: "tx" });
@@ -66,11 +70,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-@import '../styles/styles.scss'
-
-// .colour2 {
-//   color: $colour2;
-// }
-</style>

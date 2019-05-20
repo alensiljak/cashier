@@ -5,11 +5,12 @@
 </template>
 
 <script>
-import { SET_TITLE } from '../mutations'
+import { SET_TITLE, MAIN_TOOLBAR } from '../mutations'
 
 export default {
     created() {
         this.$store.commit(SET_TITLE, "Commodities");
+        this.$store.commit(MAIN_TOOLBAR, true);
     }
 }
 </script>

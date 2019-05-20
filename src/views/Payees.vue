@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { SET_TITLE } from '../mutations'
+import { SET_TITLE, MAIN_TOOLBAR } from '../mutations'
 
 export default {
   data: function() {
@@ -13,13 +13,17 @@ export default {
       //date: null
     };
   },
+
   created() {
     this.$store.commit(SET_TITLE, "Payees");
+    this.$store.commit(MAIN_TOOLBAR, true);
   },
+
   mounted() {
     // read the current payee?
     // just list existing payees?
   },
+
   components: {}
 };
 </script>

@@ -80,7 +80,7 @@
 <script>
 import QPosting from "../components/QPosting.vue";
 import { Posting } from "../model";
-import { SET_TITLE } from "../mutations";
+import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
 import appService from "../appService";
 
 export default {
@@ -94,6 +94,7 @@ export default {
 
   created() {
     this.$store.commit(SET_TITLE, "New Transaction");
+    this.$store.commit(MAIN_TOOLBAR, true);
 
     // get the data
     let id = this.$route.params.id;
