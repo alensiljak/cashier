@@ -24,11 +24,20 @@
         </q-btn>
       </q-toolbar>
     </q-header>
+
     <p>Accounts</p>
     <p>Show the list of accounts used. Sync from this page directly?</p>
 
+    <!-- Account list -->
+    <q-list bordered separator>
+      <q-item clickable v-ripple v-for="account in accounts" :key="account.name">
+        <q-item-section>{{ account.name }}</q-item-section>
+      </q-item>
+    </q-list>
+
     <!-- new account dialog -->
-    <q-dialog dark v-model="dialogVisible" persistent>
+    <q-dialog dark v-model="dialogVisible">
+      <!-- persistent -->
       <form @submit.prevent="onAddAccount">
       <q-card style="min-width: 400px" class="bg text-colour2">
         <q-card-section>
@@ -41,7 +50,7 @@
         </q-card-section>
 
         <q-card-actions align="right" class="text-accent">
-          <q-btn flat label="Cancel" v-close-popup/>
+          <q-btn flat label="Cancel" v-close-popup type="button" @click="onCancelAdd" />
           <q-btn flat label="Add" v-close-popup type="submit" @click="onAddAccount"/>
         </q-card-actions>
       </q-card>
@@ -87,10 +96,15 @@ export default {
       if (!this.newAccount) return;
 
       appService.createAccount(this.newAccount)
-        .then(value => {
-          console.log(value)
+        .then(() => {
+          this.newAccount = null
+          // console.log(value)
           this.loadData()
         })
+    },
+    onCancelAdd() {
+      this.dialogVisible = false
+      this.newAccount = null
     },
     onFab() {
       // New Account
