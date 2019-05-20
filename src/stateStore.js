@@ -10,7 +10,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 import { ADD_POSTING, CLEAR_POSTINGS, DELETE_POSTING, SET_PAYEE, SET_TITLE,
-    SET_TX_DATE } from './mutations'
+    SET_TX_DATE, TOGGLE_DRAWER } from './mutations'
 import { RESET_TRANSACTION, SAVE_TRANSACTION } from './actions'
 import { Transaction, Posting } from './model'
 
@@ -30,7 +30,7 @@ export default new Vuex.Store({
         dateFormatIso: "yyyy-MM-dd",
         // dateFormatLong: "dd MMMM yyyy",
         // others
-        // sidebarOpen: null,
+        drawerOpen: null,
         // payees: [],
         // accounts: [],
         // transactions: [],
@@ -68,6 +68,9 @@ export default new Vuex.Store({
         //     // context.commit(SET_TRANSACTION, transaction)
         //     state.transaction = transaction
         // },
+        [TOGGLE_DRAWER] (state, drawerVisible) {
+            state.drawerOpen = drawerVisible
+        }
     },
 
     // Business logic.

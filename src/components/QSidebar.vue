@@ -1,5 +1,5 @@
 <template>
-  <q-drawer v-model="leftDrawerOpen" bordered content-class="bg-colour1 text-colour5">
+  <q-drawer v-model="drawerOpen" bordered content-class="bg-colour1 text-colour5">
     <q-scroll-area
       style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd"
     >
@@ -25,7 +25,7 @@
         </q-item>
 
         <q-item to="tx" active clickable v-ripple active-class="active-link">
-        <!-- exact -->
+          <!-- exact -->
           <q-item-section avatar>
             <q-icon name="payment"/>
           </q-item-section>
@@ -51,7 +51,8 @@
           icon="settings"
           label="Entities"
         >
-          <q-item :inset-level="1"
+          <q-item
+            :inset-level="1"
             to="accounts"
             dark
             exact
@@ -68,7 +69,8 @@
             </q-item-section>
           </q-item>
 
-          <q-item :inset-level="1"
+          <q-item
+            :inset-level="1"
             to="payees"
             dark
             exact
@@ -85,7 +87,8 @@
             </q-item-section>
           </q-item>
 
-          <q-item :inset-level="1"
+          <q-item
+            :inset-level="1"
             to="commodities"
             dark
             exact
@@ -136,16 +139,37 @@
     </q-img>
   </q-drawer>
 </template>
+
 <script>
+import { TOGGLE_DRAWER } from "../mutations";
+
 export default {
   data() {
     return {
-      leftDrawerOpen: this.$q.platform.is.desktop
+      // drawerOpen: this.$q.platform.is.desktop
     };
   },
+
+  created() {
+    // initial state of the drawer
+    // this.$q.platform.is.desktop
+    this.$store.commit(TOGGLE_DRAWER, this.$q.platform.is.desktop);
+  },
+
   methods: {
     toggleDrawer() {
-      this.leftDrawerOpen = !this.leftDrawerOpen;
+      this.drawerOpen = !this.drawerOpen;
+    }
+  },
+
+  computed: {
+    drawerOpen: {
+      get() {
+        return this.$store.state.drawerOpen;
+      },
+      set(value) {
+        this.$store.commit(TOGGLE_DRAWER, value);
+      }
     }
   }
 };
@@ -157,11 +181,4 @@ export default {
 .active-link {
   color: $colour3;
 }
-
-// .router-link-active-exact {
-//   background-color: greenyellow
-// }
-// .router-link-active {
-//   color: $colour4;
-// }
 </style>

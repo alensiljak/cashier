@@ -1,17 +1,17 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated class="glossy">
+    <!-- <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
         <q-btn flat dense round @click="toggleDrawer" aria-label="Menu" icon="menu" />
 
         <q-toolbar-title>{{ title }}</q-toolbar-title>
 
       </q-toolbar>
-    </q-header>
+    </q-header> -->
 
     <QSidebar ref="sidebar"/>
 
-    <q-page-container>
+    <q-page-container v-on:menu-clicked="console.log('yo')">
       <router-view/>
     </q-page-container>
   </q-layout>
@@ -25,7 +25,6 @@ export default {
 
   data() {
     return {
-      // leftDrawerOpen: this.$q.platform.is.desktop
       // title: 'Cashier'
     };
   },
