@@ -2,7 +2,7 @@
   <div id="calculator">
     <!--  https://github.com/salazarr-js/v-calculator  -->
     <div class="calculator-logs">
-      <span v-for="log in logs">{{ log }}</span>
+      <span v-for="(log, index) in logs" :key="index">{{ log }}</span>
     </div>
 
     <input type="string" class="calculator-input" v-model="value" @keyup.enter="getResult()">

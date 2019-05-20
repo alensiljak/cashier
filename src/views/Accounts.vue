@@ -8,9 +8,13 @@
 
         <q-btn flat round dense icon="more_vert">
           <q-menu>
-            <q-list dense dark style="min-width: 175px" class="bg-colour1">
+            <q-list dark style="min-width: 175px" class="bg-colour1">
+              <!-- dense -->
               <q-item clickable v-close-popup>
                 <q-item-section>Synchronize</q-item-section>
+                <q-item-section side>
+                  <q-icon name="sync" />
+                </q-item-section>
               </q-item>
               <q-item clickable v-close-popup>
                 <q-item-section>Import</q-item-section>
