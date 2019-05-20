@@ -25,9 +25,6 @@
       </q-toolbar>
     </q-header>
 
-    <p>Accounts</p>
-    <p>Show the list of accounts used. Sync from this page directly?</p>
-
     <!-- Account list -->
     <q-list bordered separator>
       <q-item clickable v-ripple v-for="account in accounts" :key="account.name">
@@ -47,7 +44,6 @@
     <!-- new account dialog -->
     <q-dialog dark v-model="dialogVisible">
       <!-- persistent -->
-      <form @submit.prevent="onAddAccount">
         <q-card style="min-width: 400px" class="bg text-colour2">
           <q-card-section>
             <div class="text-h6">New Account</div>
@@ -58,17 +54,16 @@
               dense
               v-model="newAccount"
               autofocus
-              @keyup.enter="prompt = false"
+              @keyup.enter="onAddAccount"
               input-class="text-amber-2"
             />
           </q-card-section>
 
           <q-card-actions align="right" class="text-accent">
-            <q-btn flat label="Cancel" v-close-popup type="button" @click="onCancelAdd"/>
-            <q-btn flat label="Add" v-close-popup type="submit" @click="onAddAccount"/>
+            <q-btn flat label="Cancel" v-close-popup @click="onCancelAdd"/>
+            <q-btn flat label="Add" v-close-popup @click="onAddAccount"/>
           </q-card-actions>
         </q-card>
-      </form>
     </q-dialog>
 
     <!-- floating action button -->
@@ -111,6 +106,7 @@ export default {
     onAddAccount() {
       // create new account
       if (!this.newAccount) return;
+      this.dialogVisible = false
 
       appService.createAccount(this.newAccount).then(() => {
         this.newAccount = null;
@@ -131,7 +127,7 @@ export default {
     onFab() {
       // New Account
       this.dialogVisible = true;
-    }
+    },
   }
 };
 </script>
