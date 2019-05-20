@@ -11,6 +11,7 @@
           dark
           label="Account"
           use-input
+          new-value-mode="add-unique"
           fill-input
           hide-selected
           popup-content-class="bg-grey-10 text-amber-2"
@@ -24,7 +25,6 @@
             </q-item>
           </template>
         </q-select>
-
       </div>
     </div>
 
@@ -32,8 +32,7 @@
       <div class="col-2"></div>
       <div class="col-3 col-xs-5">
         <!-- amount -->
-        <q-input dark label="Amount" v-model.number="posting.amount"
-          type="number" />
+        <q-input dark label="Amount" v-model.number="posting.amount" type="number"/>
       </div>
 
       <div class="q-pl-sm col-3 col-xs-4">
@@ -75,8 +74,9 @@ export default {
       // todo confirm
       this.$emit("delete-row", this.index);
     },
-    filterAccounts(val, update, abort) {
-      // console.log("filtering", val, update, abort);
+    filterAccounts(val, update) {
+      // val, update, abort
+
       update(() => {
         const needle = val.toLowerCase();
         this.accountOptions = this.accounts.filter(
