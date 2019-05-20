@@ -4,13 +4,27 @@
       <!-- spacer -->
       <div class="col-1"></div>
 
-      <div class="col text-amber-2">
+      <div class="col">
         <!-- account -->
-        <q-select clearable dark label="Account" use-input fill-input hide-selected
-          popup-content-class="bg-teal-9 text-amber-2"
-          :options="accountOptions" v-model="posting.account" @filter="filterAccounts" />
+        <q-select
+          clearable
+          dark
+          label="Account"
+          use-input
+          fill-input
+          hide-selected
+          popup-content-class="bg-grey-10 text-amber-2"
+          :options="accountOptions"
+          v-model="posting.account"
+          @filter="filterAccounts"
+        >
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-grey">No accounts</q-item-section>
+            </q-item>
+          </template>
+        </q-select>
 
-        <q-input dark label="Account" v-model="posting.account"/>
       </div>
     </div>
 
@@ -43,11 +57,11 @@
 
 <script>
 export default {
-  props: ["posting", "index", 'accounts'],
+  props: ["posting", "index", "accounts"],
 
   data: function() {
     return {
-      accountOptions: []
+      accountOptions: null
     };
   },
 
@@ -61,11 +75,13 @@ export default {
       this.$emit("delete-row", this.index);
     },
     filterAccounts(val, update, abort) {
-      console.log('filtering', val, update, abort)
+      console.log("filtering", val, update, abort);
       update(() => {
-        const needle = val.toLowerCase()
-        this.accountOptions = this.accounts.filter(v => v.toLowerCase().indexOf(needle) > -1)
-      })
+        const needle = val.toLowerCase();
+        this.accountOptions = this.accounts.filter(
+          v => v.toLowerCase().indexOf(needle) > -1
+        );
+      });
     }
   }
 };
@@ -73,7 +89,7 @@ export default {
 
 <style lang="scss" scoped>
 //@import '../styles/styles.scss';
-.q-qitem--active {
-  color: red;
-}
+// .q-qitem--active {
+//   color: red;
+// }
 </style>

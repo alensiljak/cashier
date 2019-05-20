@@ -126,8 +126,9 @@ export default {
     loadAccounts() {
       // todo load accounts from storage.
       // currently just a dummy list
-      this.accounts = ['Income:Salary', 'Expenses:Drinks', 'Expenses:Groceries',
-        'Expenses:Entertainment']
+      this.accounts = ['Income:Salary', 'Income:Misc.', 'Expenses:Drinks', 'Expenses:Groceries',
+        'Expenses:Entertainment', 'Expensese:Utilities', 'Assets:Cash', 'Assets:Bank1:Credit Card',
+        'Assets:Bank2:Checking', 'Assets:Bank 1:Checking', 'Assets:Cash BAM']
     },
     loadTransaction(id) {
       appService.loadTransaction(id).then(tx => {
