@@ -45,7 +45,7 @@
       v-on:delete-row="deletePosting"
     />
 
-    <!-- Actions -->
+    <!-- posting actions -->
     <div class="row q-mt-sm">
       <div class="col text-center">
         <q-btn
@@ -58,7 +58,7 @@
       </div>
     </div>
 
-    <!-- main actions -->
+    <!-- main Actions -->
     <div class="row q-mt-xl justify-end">
       <div class="col text-center">
         <q-btn color="secondary" text-color="accent" label="Reset" size="medium" @click="onClear"/>
