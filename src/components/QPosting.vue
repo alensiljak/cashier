@@ -5,7 +5,7 @@
       <div class="col-1"></div>
 
       <div class="col">
-        <!-- account -->
+        <!-- Account -->
         <q-select
           clearable
           dark
@@ -18,6 +18,7 @@
           :options="accountOptions"
           v-model="posting.account"
           @filter="filterAccounts"
+          @input="onAccountSelected"
         >
           <template v-slot:no-option>
             <q-item>
@@ -31,9 +32,9 @@
     <div class="row justify-end">
       <div class="col-2"></div>
       <div class="col-3 col-xs-5">
-        <!-- amount -->
+        <!-- Amount -->
         <q-input dark label="Amount" v-model.number="posting.amount" type="number" 
-          input-class="text-right"/>
+          input-class="text-right" />
       </div>
 
       <div class="q-pl-sm col-3 col-xs-4">
@@ -57,6 +58,8 @@
 </template>
 
 <script>
+import appService from '../appService';
+
 export default {
   props: ["posting", "index", "accounts"],
 
@@ -84,6 +87,14 @@ export default {
           account => account.toLowerCase().indexOf(needle) > -1
         );
       });
+    },
+    onAccountSelected(name) {
+      console.log(name)
+      // load account by name
+      appService.db.accounts.get({name: name}).then(account => {
+        // console.log(account.currency)
+        this.posting.currency = account.currency
+      })
     }
   }
 };
