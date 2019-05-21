@@ -118,9 +118,11 @@ export default {
     loadAccounts() {
       // load accounts from storage.
       appService.db.accounts
-        .toCollection()
-        .primaryKeys()
-        .then(accounts => (this.accounts = accounts));
+        .orderBy('name')
+        // .toCollection()
+        // .primaryKeys()
+        .uniqueKeys()
+        .then(accountNames => (this.accounts = accountNames));
     },
     /**
      * Load all data for the view.
