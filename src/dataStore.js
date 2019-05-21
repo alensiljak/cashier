@@ -8,7 +8,7 @@ import { Account, Transaction, Posting } from './model';
 
 const db = new Dexie('Cashier');
 
-db.version(1).stores({
+db.version(0.1).stores({
     // transactions: "++id, date, payee, postings"
     transactions: "++id, date",
     postings: "++id, transactionId, account",
