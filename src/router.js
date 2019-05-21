@@ -5,6 +5,9 @@
   'import' generates a separate chunk (about.[hash].js) for this route
   which is lazy-loaded when the route is visited.
   Using webpackChunkName: 'qhome' names the chunk explicitly.
+
+  optional id parameter with '?' -> :id?
+
 */
 import Vue from 'vue'
 import Router from 'vue-router'
@@ -44,45 +47,18 @@ const routes = [
       //   component: () =>
       //     import(/* webpackChunkName: 'qhome' */ './views/QHome.vue')
       // },
-      {
-        path: '',
-        redirect: '/bal'
-      },
-      {
-        path: '/about',
-        name: 'about',
-        component: About
-      },
-      {
-        path: '/account/:id',
-        name: 'account',
-        component: Account
-      },
-      {
-        path: '/accounts',
-        name: 'accounts',
-        component: Accounts
-      },
-      {
-        path: '/bal',
-        name: 'balanceSheet',
-        component: QBalanceSheet
-      },
+      { path: '', name: 'root', redirect: '/bal' },
+      { path: '/about', name: 'about', component: About },
+      { path: '/account/:id', name: 'account', component: Account },
+      { path: '/accounts', name: 'accounts', component: Accounts },
+      { path: '/bal', name: 'balanceSheet', component: QBalanceSheet },
       { path: '/commodities', name: 'commodities', component: Commodities },
       { path: '/payees', name: 'payees', component: PayeeList },
-      {
-        path: '/reg',
-        name: 'register',
-        component: QRegister
-      },
+      { path: '/reg', name: 'register', component: QRegister },
       { path: '/settings', component: QSettings },
       { path: '/sync', name: "sync", component: Sync },
       {
-        // optional id parameter.
-        path: '/tx/:id?',
-        name: 'tx',
-        component: QTransaction
-      }
+        path: '/tx/:id?',        name: 'tx',        component: QTransaction      }
     ]
   },
   // {

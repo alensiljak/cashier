@@ -43,22 +43,22 @@
           </q-item-section>
         </q-item>
 
+        <!-- Entities submenu -->
         <q-expansion-item
           dark
           header-class="text-red-10"
           expand-icon-class="text-red-10"
           expand-separator
           icon="settings"
-          label="Entities"
-        >
+          label="Entities">
         <q-list>
           <q-item
             :inset-level="1"
-            to="accounts"
-            exact
+            :to="{name: 'accounts'}"
             clickable
             v-ripple
             active-class="active-link">
+            <!-- exact -->
             <q-item-section avatar>
               <q-icon name="account_balance_wallet"/>
             </q-item-section>
@@ -69,7 +69,7 @@
 
           <q-item
             :inset-level="1"
-            to="payees"
+            :to="{name: 'payees'}"
             exact
             clickable
             v-ripple
@@ -84,7 +84,7 @@
 
           <q-item
             :inset-level="1"
-            to="commodities"
+            :to="{name: 'commodities'}"
             exact
             clickable
             v-ripple

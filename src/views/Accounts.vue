@@ -27,7 +27,8 @@
 
     <!-- Account list -->
     <q-list bordered separator>
-      <q-item clickable v-ripple v-for="account in accounts" :key="account.name">
+      <q-item clickable v-ripple v-for="account in accounts" :key="account.name"
+        :to="{ name: 'account', params: { id: account.name }}">
         <q-item-section>{{ account.name }}</q-item-section>
 
         <!-- list item context menu -->
