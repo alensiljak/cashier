@@ -20,7 +20,7 @@ Vue.use(Router);
 // const QAbout = () => import('./views/QAbout.vue')
 const QTransaction = () => import('./views/QTransaction.vue')
 const QBalanceSheet = () => import('./views/QBalanceSheet.vue')
-const QRegister = () => import('./views/QRegister.vue')
+const QRegister = () => import('./views/Register.vue')
 const QSettings = () => import('./views/QSettings.vue')
 const Accounts = () => import('./views/Accounts.vue')
 const Sync = () => import('./views/Sync.vue')
