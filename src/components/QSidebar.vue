@@ -121,7 +121,7 @@
 
     <q-img class="absolute-top bg-colour5" style="height: 150px">
       <div class="absolute-bottom bg-transparent text-colour2">
-        <q-avatar size="56px" class="q-mb-sm">
+        <q-avatar size="56px" class="q-mb-sm" @click="onHeaderClick">
           <img src="../../public/img/icons/icon64.png">
         </q-avatar>
         <!-- <div class="text-weight-bold">Cashier</div> -->
@@ -149,6 +149,9 @@ export default {
   },
 
   methods: {
+    onHeaderClick() {
+      this.$router.push('/')
+    },
     toggleDrawer() {
       this.drawerOpen = !this.drawerOpen;
     }
