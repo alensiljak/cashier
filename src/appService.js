@@ -46,6 +46,10 @@ class AppService {
         });
     }
 
+    loadAccount(name) {
+        return db.accounts.get(name)
+    }
+
     /**
      * @returns Collection
      */
@@ -100,6 +104,10 @@ class AppService {
                 // return tx
             })
         })
+    }
+
+    saveAccount(account) {
+        return db.accounts.put(account)
     }
 
     /**
