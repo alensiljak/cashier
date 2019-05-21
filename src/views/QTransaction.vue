@@ -80,14 +80,14 @@
 <script>
 import QPosting from "../components/QPosting.vue";
 import { Posting } from "../model";
-import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
+import { MAIN_TOOLBAR, SET_TITLE, SET_TRANSACTION } from "../mutations";
 import appService from "../appService";
 
 export default {
   data: function() {
     return {
       datePickerVisible: false,
-      tx: {}, // transaction being edited
+      //tx: {}, // transaction being edited
       accounts: []
     };
   },
@@ -97,16 +97,7 @@ export default {
     this.$store.commit(MAIN_TOOLBAR, true);
 
     // get the data
-    let id = this.$route.params.id;
-    if (id) {
-      // this.new = false;
-      // load data for the transaction
-      this.loadTransaction(id);
-    } else {
-      // new item.
-      this.resetTransaction();
-    }
-    this.loadAccounts();
+    this.loadData();
   },
   mounted: function() {
     // Set the focus on Payee field.
@@ -126,12 +117,29 @@ export default {
     },
     loadAccounts() {
       // load accounts from storage.
-      appService.db.accounts.toCollection().primaryKeys()
-        .then(accounts => this.accounts = accounts)
+      appService.db.accounts
+        .toCollection()
+        .primaryKeys()
+        .then(accounts => (this.accounts = accounts));
+    },
+    /**
+     * Load all data for the view.
+     */
+    loadData() {
+      // Transaction
+      let id = this.$route.params.id;
+      if (id) {
+        this.loadTransaction(id);
+      } else {
+        // new item.
+        // this.resetTransaction();
+        // just use the item from the store
+      }
+      // Accounts
+      this.loadAccounts();
     },
     loadTransaction(id) {
       appService.loadTransaction(id).then(tx => {
-        // console.log(tx)
         this.tx = tx;
       });
     },
@@ -168,7 +176,9 @@ export default {
         });
     },
     resetTransaction() {
-      this.tx = appService.createTransaction();
+      let tx = appService.createTransaction()
+      this.tx = tx
+      return tx
     }
   },
 
@@ -176,7 +186,23 @@ export default {
     QPosting
   },
 
-  computed: {}
+  computed: {
+    tx: {
+      get() {
+        // console.log('getting tx')
+        let tx = this.$store.state.transaction
+        if (tx === null) {
+          tx = this.resetTransaction()
+        }
+        return tx
+      },
+      set(value) {
+        //console.log('setting tx', value)
+        // todo save in the state store
+        this.$store.commit(SET_TRANSACTION, value)
+      }
+    }
+  }
 };
 </script>
 

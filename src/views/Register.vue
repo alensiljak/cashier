@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
+import { MAIN_TOOLBAR } from "../mutations";
 import appService from "../appService";
 import RegisterTransaction from "../components/RegisterTransaction";
 
@@ -82,6 +82,9 @@ export default {
           errorMessage.message = reason;
           this.$q.notify(errorMessage);
         });
+    },
+    menuClicked() {
+      console.log('menu clicked')
     },
     onItemClicked(event) {
       console.log("clicked", event);

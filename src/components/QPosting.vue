@@ -32,7 +32,8 @@
       <div class="col-2"></div>
       <div class="col-3 col-xs-5">
         <!-- amount -->
-        <q-input dark label="Amount" v-model.number="posting.amount" type="number"/>
+        <q-input dark label="Amount" v-model.number="posting.amount" type="number" 
+          input-class="text-right"/>
       </div>
 
       <div class="q-pl-sm col-3 col-xs-4">

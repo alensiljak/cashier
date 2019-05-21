@@ -9,9 +9,9 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-import { ADD_POSTING, CLEAR_POSTINGS, DELETE_POSTING, SET_PAYEE, SET_TITLE,
-    SET_TX_DATE, TOGGLE_DRAWER, MAIN_TOOLBAR } from './mutations'
-import { RESET_TRANSACTION, SAVE_TRANSACTION } from './actions'
+import { ADD_POSTING, CLEAR_POSTINGS, DELETE_POSTING,  SET_PAYEE, SET_TITLE,
+    SET_TRANSACTION, SET_TX_DATE, TOGGLE_DRAWER, MAIN_TOOLBAR } from './mutations'
+import { RESET_TRANSACTION } from './actions'
 import { Transaction, Posting } from './model'
 
 let newTx = new Transaction()
@@ -31,6 +31,7 @@ export default new Vuex.Store({
         // unused?
         dateFormatIso: "yyyy-MM-dd",
         // dateFormatLong: "dd MMMM yyyy",
+        transaction: null // The transaction being edited.
     },
     // Data transformations
     mutations: {
@@ -63,10 +64,9 @@ export default new Vuex.Store({
         [SET_TITLE] (state, title) {
             state.pageTitle = title
         },
-        // [SET_TRANSACTION] (state, transaction) {
-        //     // context.commit(SET_TRANSACTION, transaction)
-        //     state.transaction = transaction
-        // },
+        [SET_TRANSACTION] (state, transaction) {
+            state.transaction = transaction
+        },
         [TOGGLE_DRAWER] (state, drawerVisible) {
             state.drawerOpen = drawerVisible
         }
@@ -102,16 +102,6 @@ export default new Vuex.Store({
             var today = new Date().toISOString().substring(0, 10);
             context.commit(SET_TX_DATE, today)
         },
-        /**
-         * Saves the edited transaction to the store.
-         * @param {context} context 
-         */
-        [SAVE_TRANSACTION] (context) {
-            // todo: store the transaction into the list
-            var tx = context.state.transaction
-            //context.commit(SAVE_TRANSACTION)
-            console.log(tx)
-        }
     },
     getters: {
         // transaction: state => state.transaction,

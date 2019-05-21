@@ -30,7 +30,7 @@
             <q-icon name="payment"/>
           </q-item-section>
           <q-item-section>
-            <q-item-label>New Transaction</q-item-label>
+            <q-item-label>Transaction</q-item-label>
           </q-item-section>
         </q-item>
 
