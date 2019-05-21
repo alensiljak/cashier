@@ -1,5 +1,5 @@
 <template>
-  <q-drawer v-model="drawerOpen" bordered content-class="bg-colour1 text-colour5">
+  <q-drawer v-model="drawerOpen" bordered content-class="bg-colour1 text-red-10">
     <q-scroll-area
       style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd"
     >
@@ -24,8 +24,8 @@
           </q-item-section>
         </q-item>
 
-        <q-item to="tx" active clickable v-ripple active-class="active-link">
-          <!-- exact -->
+        <q-item to="tx" clickable v-ripple active-class="active-link">
+          <!-- exact active -->
           <q-item-section avatar>
             <q-icon name="payment"/>
           </q-item-section>
@@ -45,22 +45,20 @@
 
         <q-expansion-item
           dark
-          header-class="text-teal-9"
-          expand-icon-class="text-teal-9"
+          header-class="text-red-10"
+          expand-icon-class="text-red-10"
           expand-separator
           icon="settings"
           label="Entities"
         >
+        <q-list>
           <q-item
             :inset-level="1"
             to="accounts"
-            dark
             exact
             clickable
             v-ripple
-            active-class="active-link"
-            class="text-colour5"
-          >
+            active-class="active-link">
             <q-item-section avatar>
               <q-icon name="account_balance_wallet"/>
             </q-item-section>
@@ -72,13 +70,10 @@
           <q-item
             :inset-level="1"
             to="payees"
-            dark
             exact
             clickable
             v-ripple
-            active-class="active-link"
-            class="text-colour5"
-          >
+            active-class="active-link">
             <q-item-section avatar>
               <q-icon name="group"/>
             </q-item-section>
@@ -90,13 +85,10 @@
           <q-item
             :inset-level="1"
             to="commodities"
-            dark
             exact
             clickable
             v-ripple
-            active-class="active-link"
-            class="text-colour5"
-          >
+            active-class="active-link">
             <q-item-section avatar>
               <q-icon name="category"/>
             </q-item-section>
@@ -104,8 +96,8 @@
               <q-item-label>Commodities</q-item-label>
             </q-item-section>
           </q-item>
+          </q-list>
         </q-expansion-item>
-        <!-- caption="Other elements" -->
 
         <q-item to="sync" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
@@ -177,8 +169,10 @@ export default {
 
 <style lang="scss" scoped>
 @import "../styles/styles.scss";
+@import "../styles/palette.scss";
 
 .active-link {
   color: $colour3;
+  // background-color: $colour4;
 }
 </style>
