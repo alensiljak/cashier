@@ -28,9 +28,9 @@
 
     <p>Editor for the Account: {{ account.name }}</p>
 
-    <q-input label="Account Name" v-model="account.name" dark/>
-    <q-input label="Balance" v-model="account.balance" dark/>
-    <q-input label="Currency" v-model="account.currency" dark/>
+    <q-input label="Account Name" v-model="account.name" dark @keyup.enter="onEnter"/>
+    <q-input label="Balance" v-model="account.balance" dark @keyup.enter="onEnter"/>
+    <q-input label="Currency" v-model="account.currency" dark @keyup.enter="onEnter"/>
 
     <!-- Actions -->
     <div class="row q-mt-xl justify-end">
@@ -60,13 +60,12 @@ export default {
   created() {
     this.$store.commit(MAIN_TOOLBAR, false);
 
-    let accountName = this.$route.params.id;
-    this.loadAccount(accountName);
+    this.loadAccount(this.$route.params.id);
   },
 
   methods: {
-    loadAccount(name) {
-      appService.loadAccount(name).then(account => {
+    loadAccount(id) {
+      appService.loadAccount(id).then(account => {
         this.account = account;
         // console.log('loaded account:', account)
       });
@@ -77,6 +76,10 @@ export default {
     },
     onCancel() {
       this.$router.push({name: 'accounts'})
+    },
+    onEnter() {
+      // Enter pressed in one of the fields. Save.
+      this.onSave()
     },
     onSave() {
       // todo save account

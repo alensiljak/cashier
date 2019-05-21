@@ -28,8 +28,8 @@ class AppService {
         return db
     }
 
-    deleteAccount(name) {
-        return db.accounts.delete(name)
+    deleteAccount(id) {
+        return db.accounts.delete(id)
     }
 
     /**
@@ -46,8 +46,11 @@ class AppService {
         });
     }
 
-    loadAccount(name) {
-        return db.accounts.get(name)
+    // loadAccount(name) {
+    //     return db.accounts.get(name)
+    // }
+    loadAccount(id) {
+        return db.accounts.get(id)
     }
 
     /**

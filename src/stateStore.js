@@ -12,13 +12,6 @@ Vue.use(Vuex)
 import { ADD_POSTING, CLEAR_POSTINGS, DELETE_POSTING,  SET_PAYEE, SET_TITLE,
     SET_TRANSACTION, SET_TX_DATE, TOGGLE_DRAWER, MAIN_TOOLBAR } from './mutations'
 import { RESET_TRANSACTION } from './actions'
-import { Transaction, Posting } from './model'
-
-let newTx = new Transaction()
-newTx.date = new Date().toISOString().substring(0, 10)
-newTx.postings = []
-newTx.postings.push(new Posting)
-newTx.postings.push(new Posting)
 
 // const store =
 export default new Vuex.Store({

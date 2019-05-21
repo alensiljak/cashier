@@ -28,8 +28,9 @@
     <!-- Account list -->
     <q-list bordered separator>
       <q-item clickable v-ripple v-for="account in accounts" :key="account.name"
-        :to="{ name: 'account', params: { id: account.name }}">
+        :to="{ name: 'account', params: { id: account.id }}">
         <q-item-section>{{ account.name }}</q-item-section>
+        <q-item-section side>{{ account.balance }} {{ account.currency }}</q-item-section>
 
         <!-- list item context menu -->
         <q-menu touch-position context-menu content-class="bg-teal-9 text-amber-2">
@@ -42,7 +43,7 @@
       </q-item>
     </q-list>
 
-    <!-- new account dialog -->
+    <!-- new account (name) dialog -->
     <q-dialog dark v-model="dialogVisible">
       <!-- persistent -->
         <q-card style="min-width: 400px" class="bg text-colour2">
@@ -110,8 +111,9 @@ export default {
       this.dialogVisible = false
 
       appService.createAccount(this.newAccount).then(() => {
+        // reset the new account name.
         this.newAccount = null;
-        // console.log(value)
+        
         this.loadData();
       });
     },
