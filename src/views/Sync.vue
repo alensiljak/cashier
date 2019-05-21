@@ -2,23 +2,29 @@
   <q-page padding class="bg-colour1 text-colour2">
     <p>The synchronization is done with an instance of hledger-web.</p>
 
+    <div class="q-my-md">
+      <p>Demo fetching accounts from the server</p>
+      <q-input v-model="serverUrl" label="Server URL" dark />
+
+      <q-btn label="Connect" @click="onConnectClicked" color="secondary" text-color="accent" />
+    </div>
+
     <div>
-      <q-btn @click="btnClick" label="save" color="secondary" text-color="accent"/>
+      <q-btn @click="onSaveClicked" label="save" color="secondary" text-color="accent"/>
       <q-btn @click="onLoadClick" label="load" color="secondary" text-color="accent"/>
-      <div>{{ test }}</div>
     </div>
   </q-page>
 </template>
 
 <script>
 import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
-import { Transaction } from "../model";
-import db from "../dataStore";
+import db from '../dataStore'
+import { SyncService } from '../sync'
 
 export default {
   data() {
     return {
-      test: "nothing yet"
+      serverUrl: ''
     };
   },
 
@@ -30,11 +36,12 @@ export default {
   },
 
   methods: {
-    btnClick() {
-      // save some data
-      let x = new Transaction();
-      x.payee = "yo!";
-      db.transactions.put(x).catch(err => console.error(err));
+    onConnectClicked() {
+      console.log('connect')
+      let sync = new SyncService(this.serverUrl)
+      sync.readAccounts().then(response => {
+        console.log(response)
+      })
     },
     onLoadClick() {
       // todo load settings
@@ -50,7 +57,10 @@ export default {
         console.log(item);
         console.log(cursor);
       });
-    }
+    },
+    onSaveClicked() {
+      // 
+    },
   }
 };
 </script>

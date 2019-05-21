@@ -89,7 +89,7 @@ export default {
       });
     },
     onAccountSelected(name) {
-      console.log(name)
+      // console.log(name)
       // load account by name
       appService.db.accounts.get({name: name}).then(account => {
         // console.log(account.currency)
