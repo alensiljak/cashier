@@ -27,7 +27,7 @@
 
     <!-- Account list -->
     <q-list bordered separator>
-      <q-item clickable v-ripple v-for="account in accounts" :key="account.name"
+      <q-item clickable v-ripple v-for="account in accounts" :key="account.id"
         :to="{ name: 'account', params: { id: account.id }}">
         <q-item-section>{{ account.name }}</q-item-section>
         <q-item-section side>{{ account.balance }} {{ account.currency }}</q-item-section>
@@ -36,7 +36,7 @@
         <q-menu touch-position context-menu content-class="bg-teal-9 text-amber-2">
           <q-list dense style="min-width: 10rem">
             <q-item clickable v-close-popup>
-              <q-item-section @click="onDeleteAccount(account.name)">Delete</q-item-section>
+              <q-item-section @click="onDeleteAccount(account.id)">Delete</q-item-section>
             </q-item>
           </q-list>
         </q-menu>
