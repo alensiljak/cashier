@@ -1,31 +1,37 @@
 /*
   App router.
+
+  Route level code-splitting:
+  'import' generates a separate chunk (about.[hash].js) for this route
+  which is lazy-loaded when the route is visited.
+  Using webpackChunkName: 'qhome' names the chunk explicitly.
 */
 import Vue from 'vue'
 import Router from 'vue-router'
 
-// about is lazy-loaded
-//import About from './views/About.vue'
-//import Home from './views/Home.vue'
-//const Home = () => import('./Home.vue')
-import Settings from './views/Settings.vue'
-import Transaction from './views/Transaction.vue'
 // manual layout
-import BootstrapLayout from './layouts/Bootstrap'
+// import BootstrapLayout from './layouts/Bootstrap'
 // The new layout based on Quasar
 import QuasarLayout from './layouts/Qlayout'
 
 Vue.use(Router);
 
-// const QAbout = () => import('./views/QAbout.vue')
-const QTransaction = () => import('./views/QTransaction.vue')
+// Bootstrap version remains
+// const BHome = () => import(/* webpackChunkName: 'home' */ './views/Home.vue')
+// import BSettings from './views/Settings.vue'
+// import BTransaction from './views/Transaction.vue'
+
+// Quasar version
+const About = () => import(/* webpackChunkName: 'about' */ './views/QAbout.vue')
+const Accounts = () => import('./views/Accounts.vue')
+const Account = () => import('./views/Account.vue')
+const Commodities = () => import('./views/Commodities.vue')
+const QTransaction = () => import(/* webpackChunkName: 'tx' */ './views/QTransaction.vue')
 const QBalanceSheet = () => import('./views/QBalanceSheet.vue')
 const QRegister = () => import('./views/Register.vue')
 const QSettings = () => import('./views/QSettings.vue')
-const Accounts = () => import('./views/Accounts.vue')
 const Sync = () => import('./views/Sync.vue')
-import PayeeList from './views/Payees.vue'
-const Commodities = () => import('./views/Commodities.vue')
+const PayeeList = () => import('./views/Payees.vue')
 
 const routes = [
   {
@@ -45,7 +51,12 @@ const routes = [
       {
         path: '/about',
         name: 'about',
-        component: () => import(/* webpackChunkName: 'qhome' */ './views/QAbout.vue')
+        component: About
+      },
+      {
+        path: '/account/:id',
+        name: 'account',
+        component: Account
       },
       {
         path: '/accounts',
@@ -74,32 +85,21 @@ const routes = [
       }
     ]
   },
-  {
-    path: '/b',
-    component: BootstrapLayout,
-    children: [
-      //{ path: '/', name: 'home', component: Home },
-      {
-        path: '',
-        // name: 'home',
-        component: () =>
-          import(/* webpackChunkName: 'home' */ './views/Home.vue')
-      },
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      //{ path: '/about', name: 'about', component: About },
-      {
-        path: '/babout',
-        // name: 'about',
-        component: () =>
-          import(/* webpackChunkName: 'about' */ './views/About.vue')
-      },
-      //{ path: '/payee/:name', component: PayeeList, props: true },
-      { path: '/bsettings', component: Settings },
-      { path: '/btx', component: Transaction },
-    ]
-  },
+  // {
+  //   path: '/b',
+  //   component: BootstrapLayout,
+  //   children: [
+  //     //{ path: '/', name: 'home', component: Home },
+  //     {
+  //       path: '',
+  //       // name: 'home',
+  //       component: BHome
+  //     },
+  //     //{ path: '/payee/:name', component: PayeeList, props: true },
+  //     { path: '/bsettings', component: BSettings },
+  //     { path: '/btx', component: BTransaction },
+  //   ]
+  // },
   // catch-all, to fix the offline PWA blank-screen issue.
   // {
   //   path: '/index.html',
