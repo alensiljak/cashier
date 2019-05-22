@@ -1,6 +1,6 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
-    <p>Here you can export your register in ledger format</p>
+    <p>Export your register in ledger format</p>
     <q-input
       type="textarea"
       v-model="output"
@@ -8,10 +8,10 @@
       filled
       style="width: 100%; max-height: 90%"
       input-class="text-amber-2"
-      color="red"
+      color="teal-9"
     />
 
-    <div class="row">
+    <div class="row q-mt-md">
       <div class="col text-center">
         <q-btn
           label="Copy to clipboard"
