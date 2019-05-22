@@ -49,7 +49,7 @@ export default {
 
   methods: {
     copyToClipboard() {
-      navigator.clipboard.writeText(this.output).then(res => {
+      navigator.clipboard.writeText(this.output).then(() => {
         // console.log(res);
         Notify.create({ message: "data copied" });
       });
