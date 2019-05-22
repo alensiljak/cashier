@@ -29,6 +29,7 @@ const About = () => import(/* webpackChunkName: 'about' */ './views/QAbout.vue')
 const Accounts = () => import('./views/Accounts.vue')
 const Account = () => import('./views/Account.vue')
 const Commodities = () => import('./views/Commodities.vue')
+const Export = () => import('./views/Export.vue')
 const QTransaction = () => import(/* webpackChunkName: 'tx' */ './views/QTransaction.vue')
 const QBalanceSheet = () => import('./views/QBalanceSheet.vue')
 const QRegister = () => import('./views/Register.vue')
@@ -53,6 +54,7 @@ const routes = [
       { path: '/accounts', name: 'accounts', component: Accounts },
       { path: '/bal', name: 'balanceSheet', component: QBalanceSheet },
       { path: '/commodities', name: 'commodities', component: Commodities },
+      { path: '/export', name: 'export', component: Export },
       { path: '/payees', name: 'payees', component: PayeeList },
       { path: '/reg', name: 'register', component: QRegister },
       { path: '/settings', component: QSettings },

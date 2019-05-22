@@ -46,6 +46,36 @@ class AppService {
         });
     }
 
+    /**
+     * Returns the transactions as text, ready to be exported as a file or string.
+     */
+    exportTransactions() {
+        return this.loadTransactions().then(txs => {
+            var output = ""
+
+            for(let i = 0; i < txs.length; i++) {
+                let tx = txs[i]
+                // transaction
+                output += tx.date
+                output += ' ' + tx.payee
+                output += '\n'
+                // postings
+                for (let j = 0; j < tx.postings.length; j++) {
+                    let p = tx.postings[j]
+                    output += '  '
+                    output += p.account == null ? '' : p.account
+                    output += '  '
+                    output += p.amount == null ? '' : p.amount
+                    output += ' '
+                    output += p.currency == null ? '' : p.currency
+                    output += '\n'
+                }
+                output += '\n'
+            }
+            return output
+        })
+    }
+
     // loadAccount(name) {
     //     return db.accounts.get(name)
     // }

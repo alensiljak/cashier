@@ -1,7 +1,7 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
     <!-- Toolbar -->
-        <q-header elevated class="glossy">
+    <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
         <q-btn flat dense round @click="menuClicked" aria-label="Menu" icon="menu"/>
 
@@ -16,7 +16,7 @@
                 <q-item-section side>
                   <q-icon name="sync"/>
                 </q-item-section>
-              </q-item> -->
+              </q-item>-->
               <q-item clickable v-close-popup>
                 <q-item-section @click="exportRegister">Export</q-item-section>
               </q-item>
@@ -68,8 +68,7 @@ export default {
 
   methods: {
     exportRegister() {
-      // todo export the register from here
-      console.log('export register command')
+      this.$router.push({ name: "export" });
     },
     loadData() {
       // load all transactions and related postings
@@ -84,7 +83,7 @@ export default {
         });
     },
     menuClicked() {
-      console.log('menu clicked')
+      console.log("menu clicked");
     },
     onItemClicked(event) {
       console.log("clicked", event);
