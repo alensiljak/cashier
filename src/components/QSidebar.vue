@@ -1,5 +1,5 @@
 <template>
-  <q-drawer v-model="drawerOpen" bordered content-class="bg-colour1 text-red-10">
+  <q-drawer v-model="drawerOpen" bordered content-class="bg-colour1 text-amber-2">
     <q-scroll-area
       style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd"
     >
@@ -46,8 +46,8 @@
         <!-- Entities submenu -->
         <q-expansion-item
           dark
-          header-class="text-red-10"
-          expand-icon-class="text-red-10"
+          header-class="text-amber-2"
+          expand-icon-class="text-amber-2"
           expand-separator
           icon="settings"
           label="Entities">
@@ -188,6 +188,6 @@ export default {
 
 .active-link {
   color: $colour3;
-  // background-color: $colour4;
+  background-color: $colour4;
 }
 </style>
