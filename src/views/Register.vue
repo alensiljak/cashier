@@ -109,8 +109,10 @@ export default {
     },
     loadData() {
       // load all transactions and related postings
-      appService
-        .loadTransactions()
+      appService.db.transactions
+        .orderBy("date")
+        .reverse()
+        .toArray()
         .then(value => {
           this.transactions = value;
         })

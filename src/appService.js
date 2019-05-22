@@ -50,7 +50,7 @@ class AppService {
    * ready to be exported as a file or copied as a string.
    */
   exportTransactions() {
-    return this.loadTransactions().then(txs => {
+    return db.transactions.orderBy("date").toArray().then(txs => {
       var output = "";
 
       for (let i = 0; i < txs.length; i++) {
@@ -62,6 +62,8 @@ class AppService {
         // postings
         for (let j = 0; j < tx.postings.length; j++) {
           let p = tx.postings[j];
+          if (!p.account) continue;
+          
           output += '    ';
           output += p.account == null ? "" : p.account;
           if (p.amount) {
@@ -93,34 +95,34 @@ class AppService {
    * Load all transactions with postings.
    * Sort by date.
    */
-  loadTransactions() {
-    return db.transaction("r", db.transactions, db.postings, () => {
-      // load all transactions
-      // let x = db.transactions.toCollection().sortBy('date') = array
-      // let x = db.transactions.orderBy('date') = collection
-      return db.transactions
-        .orderBy("date")
-        .reverse()
-        .toArray()
-        .then(array => {
-          // array.forEach(tx => {
-          //     // load related postings
-          //     db.postings.filter(p => p.transactionId == tx.id).toArray()
-          //         .then(array => {
-          //             array.forEach(posting => {
-          //                 tx.postings = tx.postings || []
-          //                 tx.postings.push(posting)
+  // loadTransactions() {
+  //   return db.transaction("r", db.transactions, db.postings, () => {
+  //     // load all transactions
+  //     // let x = db.transactions.toCollection().sortBy('date') = array
+  //     // let x = db.transactions.orderBy('date') = collection
+  //     return db.transactions
+  //       .orderBy("date")
+  //       .reverse()
+  //       .toArray()
+  //       .then(array => {
+  //         // array.forEach(tx => {
+  //         //     // load related postings
+  //         //     db.postings.filter(p => p.transactionId == tx.id).toArray()
+  //         //         .then(array => {
+  //         //             array.forEach(posting => {
+  //         //                 tx.postings = tx.postings || []
+  //         //                 tx.postings.push(posting)
 
-          //                 // return tx
-          //             })
-          //             return array
-          //         })
-          //     // console.log('6th level')
-          // })
-          return array;
-        });
-    });
-  }
+  //         //                 // return tx
+  //         //             })
+  //         //             return array
+  //         //         })
+  //         //     // console.log('6th level')
+  //         // })
+  //         return array;
+  //       });
+  //   });
+  // }
 
   /**
    * Load single transaction with postings.
