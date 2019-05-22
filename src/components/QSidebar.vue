@@ -51,60 +51,72 @@
           expand-separator
           icon="settings"
           label="Entities">
-        <q-list>
-          <q-item
-            :inset-level="1"
-            :to="{name: 'accounts'}"
-            clickable
-            v-ripple
-            active-class="active-link">
-            <!-- exact -->
-            <q-item-section avatar>
-              <q-icon name="account_balance_wallet"/>
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>Accounts</q-item-label>
-            </q-item-section>
-          </q-item>
+          <q-list>
+            <q-item
+              :inset-level="1"
+              :to="{name: 'accounts'}"
+              clickable
+              v-ripple
+              active-class="active-link"
+            >
+              <!-- exact -->
+              <q-item-section avatar>
+                <q-icon name="account_balance_wallet"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Accounts</q-item-label>
+              </q-item-section>
+            </q-item>
 
-          <q-item
-            :inset-level="1"
-            :to="{name: 'payees'}"
-            exact
-            clickable
-            v-ripple
-            active-class="active-link">
-            <q-item-section avatar>
-              <q-icon name="group"/>
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>Payees</q-item-label>
-            </q-item-section>
-          </q-item>
+            <q-item
+              :inset-level="1"
+              :to="{name: 'payees'}"
+              exact
+              clickable
+              v-ripple
+              active-class="active-link"
+            >
+              <q-item-section avatar>
+                <q-icon name="group"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Payees</q-item-label>
+              </q-item-section>
+            </q-item>
 
-          <q-item
-            :inset-level="1"
-            :to="{name: 'commodities'}"
-            exact
-            clickable
-            v-ripple
-            active-class="active-link">
-            <q-item-section avatar>
-              <q-icon name="category"/>
-            </q-item-section>
-            <q-item-section>
-              <q-item-label>Commodities</q-item-label>
-            </q-item-section>
-          </q-item>
+            <q-item
+              :inset-level="1"
+              :to="{name: 'commodities'}"
+              exact
+              clickable
+              v-ripple
+              active-class="active-link"
+            >
+              <q-item-section avatar>
+                <q-icon name="category"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Commodities</q-item-label>
+              </q-item-section>
+            </q-item>
           </q-list>
         </q-expansion-item>
 
-        <q-item to="sync" exact clickable v-ripple active-class="active-link">
+        <q-item to="/sync" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
             <q-icon name="sync"/>
           </q-item-section>
           <q-item-section>
             <q-item-label>Sync</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item to="/export" exact clickable v-ripple active-class="active-link">
+          <q-item-section avatar>
+            <q-icon name="import_export"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Export</q-item-label>
           </q-item-section>
         </q-item>
 
@@ -150,7 +162,7 @@ export default {
 
   methods: {
     onHeaderClick() {
-      this.$router.push('/')
+      this.$router.push("/");
     },
     toggleDrawer() {
       this.drawerOpen = !this.drawerOpen;
