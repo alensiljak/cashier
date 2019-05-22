@@ -29,9 +29,14 @@
       </template>
     </q-input>
 
-    <div class="q-mb-sm"></div>
+    <!--comment -->
+    <q-input label="Comment" dark v-model="tx.comment">
+      <template v-slot:prepend>
+        <q-icon name="assignment"/>
+      </template>
+    </q-input>
 
-    <div class="form-row">
+    <div class="form-row q-mt-sm">
       <div class="col">Postings</div>
     </div>
 
