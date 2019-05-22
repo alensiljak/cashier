@@ -28,17 +28,34 @@
 
     <p>Editor for the Account: {{ account.name }}</p>
 
-    <q-input label="Account Name" v-model="account.name" dark @keyup.enter="onEnter"/>
-    <q-input label="Balance" v-model="account.balance" dark @keyup.enter="onEnter"/>
-    <q-input label="Currency" v-model="account.currency" dark @keyup.enter="onEnter"/>
+    <q-input label="Account Name" v-model="account.name" dark clearable @keyup.enter="onEnter"/>
+    <q-input
+      label="Balance"
+      v-model.number="account.balance"
+      type="number"
+      dark clearable
+      @keyup.enter="onEnter"
+    />
+    <q-input label="Currency" v-model="account.currency" dark clearable @keyup.enter="onEnter"/>
 
     <!-- Actions -->
     <div class="row q-mt-xl justify-end">
       <div class="col text-center">
-        <q-btn color="secondary" text-color="accent" label="Cancel" size="medium" @click="onCancel"/>
+        <q-btn
+          color="secondary"
+          text-color="accent"
+          label="Cancel"
+          size="medium"
+          @click="onCancel"
+        />
       </div>
       <div class="col text-center">
-        <q-btn class="q-px-lg" color="accent" text-color="secondary" label="Save" size="medium"
+        <q-btn
+          class="q-px-lg"
+          color="accent"
+          text-color="secondary"
+          label="Save"
+          size="medium"
           @click="onSave"
         />
       </div>
@@ -75,17 +92,17 @@ export default {
       this.$store.commit(TOGGLE_DRAWER, !visible);
     },
     onCancel() {
-      this.$router.push({name: 'accounts'})
+      this.$router.push({ name: "accounts" });
     },
     onEnter() {
       // Enter pressed in one of the fields. Save.
-      this.onSave()
+      this.onSave();
     },
     onSave() {
       // todo save account
       appService.saveAccount(this.account).then(() => {
-        this.$router.push({name: 'accounts'})
-      })
+        this.$router.push({ name: "accounts" });
+      });
     }
   }
 };
