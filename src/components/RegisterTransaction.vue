@@ -25,10 +25,13 @@
 </template>
 
 <script>
-const errorMessage = { color: "secondary", message: "" };
-import appService from "../appService";
-
 export default {
+  data() {
+    return {
+      confirmDelete: false
+    }
+  },
+
     created() {
         // console.log('reg tx:', this.tx)
     },
@@ -42,24 +45,13 @@ export default {
       this.$router.push({ name: 'tx', params: { id: id }})
     },
     onDeleteClicked: function(event) {
+
       let ctl = event.currentTarget;
       let id = ctl.getAttribute("data-id");
       // this.$q.notify(errorMessage)
 
-      var that = this;
-      // delete transaction
-      appService
-        .deleteTransaction(id)
-        .then(() => {
-          this.$q.notify("Transaction deleted");
-          //this.loadData();
-          this.$emit('txDeleted')
-        })
-        .catch(reason => {
-          // console.error(reason)
-          errorMessage.message = reason.message;
-          that.$q.notify(errorMessage);
-        });
+      // request transaction deletion
+      this.$emit('txDeleteClicked', {id: id})
     }
   },
   props: ["tx"]

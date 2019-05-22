@@ -33,13 +33,29 @@
         v-for="tx in transactions"
         :key="tx.id"
         :tx="tx"
-        @txDeleted="onTransactionDeleted"
+        @txDeleteClicked="onTransactionDeleteClicked"
       />
     </q-list>
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab icon="add" color="accent" text-color="secondary" @click="openNewTransaction"/>
     </q-page-sticky>
+
+    <!-- confirm deletion dialog -->
+    <q-dialog v-model="confirmDeleteVisible" persistent content-class="bg-blue-grey-10">
+      <q-card dark class="bg-teal-9">
+        <q-card-section class="row items-center">
+          <!-- <q-avatar icon="signal_wifi_off" color="primary" text-color="amber-2"/>
+          <span class="q-ml-sm">You are currently not connected to any network.</span> -->
+          <span>Do you want to delete the transaction?</span>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="Cancel" color="amber-4" v-close-popup/>
+          <q-btn flat label="Delete" color="amber-4" v-close-popup @click="confirmDelete"/>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -53,6 +69,8 @@ const errorMessage = { color: "secondary", message: "" };
 export default {
   data() {
     return {
+      transactionIdToDelete: null,
+      confirmDeleteVisible: false,
       transactions: []
     };
   },
@@ -67,6 +85,25 @@ export default {
   },
 
   methods: {
+    confirmDelete() {
+      this.deleteTransaction()
+    },
+    deleteTransaction() {
+      let id = this.transactionIdToDelete
+      var that = this;
+
+      appService
+        .deleteTransaction(id)
+        .then(() => {
+          this.$q.notify("Transaction deleted");
+          this.loadData();
+        })
+        .catch(reason => {
+          // console.error(reason)
+          errorMessage.message = reason.message;
+          that.$q.notify(errorMessage);
+        });
+    },
     exportRegister() {
       this.$router.push({ name: "export" });
     },
@@ -88,8 +125,10 @@ export default {
     onItemClicked(event) {
       console.log("clicked", event);
     },
-    onTransactionDeleted() {
-      this.loadData();
+    onTransactionDeleteClicked(data) {
+      // confirm
+      this.confirmDeleteVisible = true;
+      this.transactionIdToDelete = data.id
     },
     openNewTransaction() {
       this.$router.push({ name: "tx" });
