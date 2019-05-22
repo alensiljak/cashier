@@ -54,6 +54,13 @@
           <a href="https://dexie.org/">Dexie.js</a>
         </li>
       </ul>
+
+      <h4 class="q-my-sm text-center">Resources</h4>
+      <ul>
+        <li>
+          Try your output journal with <a href="https://hledger.alhur.es/">hledger interactive</a>.
+        </li>
+      </ul>
   </q-page>
 </template>
 
