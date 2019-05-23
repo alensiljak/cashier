@@ -2,7 +2,7 @@
     Data Access Layer implemented with Dexie.js
 */
 import Dexie from 'dexie';
-import { Account, Transaction, Posting } from './model';
+import { Account, Transaction, Payee, Posting } from './model';
 
 // Define the schema
 
@@ -12,14 +12,14 @@ db.version(0.1).stores({
     // transactions: "++id, date, payee, postings"
     transactions: "++id, date",
     postings: "++id, transactionId, account",
-    accounts: "++id, name"
+    accounts: "++id, name",
     // todo commodities
-    // todo payees
+    payees: "++id, name"
 });
 
 db.postings.mapToClass(Account)
 // todo commodities
-// todo payees
+db.payees.mapToClass(Payee)
 db.postings.mapToClass(Posting)
 db.transactions.mapToClass(Transaction)
 

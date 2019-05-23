@@ -130,8 +130,8 @@
 </template>
 
 <script>
-import { TOGGLE_DRAWER, MAIN_TOOLBAR } from "../mutations";
-import appService from "../appService";
+import { TOGGLE_DRAWER, MAIN_TOOLBAR } from "@/mutations";
+import appService from "@/appService";
 import Vue from "vue";
 // import VueVirtualScroller from 'vue-virtual-scroller'
 // Import only the needed components for the scroller.
