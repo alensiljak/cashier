@@ -6,11 +6,17 @@
 
         <q-toolbar-title>Accounts</q-toolbar-title>
 
-        <q-space />
+        <q-space/>
         <!-- search -->
-        <q-input label="Search" v-if="searchVisible" v-model="filter" dark color="amber-4" />
-        <q-btn flat round dense icon="fas fa-search" class="q-mr-xs"
-          @click="searchVisible = !searchVisible" />
+        <q-input label="Search" v-if="searchVisible" v-model="filter" dark color="amber-4"/>
+        <q-btn
+          flat
+          round
+          dense
+          icon="fas fa-search"
+          class="q-mr-xs"
+          @click="searchVisible = !searchVisible"
+        />
 
         <q-btn flat round dense icon="fas fa-ellipsis-v">
           <q-menu>
@@ -32,7 +38,7 @@
     </q-header>
 
     <!-- Account list -->
-    <q-list bordered separator>
+    <!-- <q-list bordered separator>
       <q-item
         clickable
         v-ripple
@@ -43,7 +49,7 @@
         <q-item-section>{{ account.name }}</q-item-section>
         <q-item-section side>{{ account.balance }} {{ account.currency }}</q-item-section>
 
-        <!-- list item context menu -->
+        // list item context menu 
         <q-menu touch-position context-menu content-class="bg-teal-9 text-amber-2">
           <q-list dense style="min-width: 10rem">
             <q-item clickable v-close-popup>
@@ -52,7 +58,25 @@
           </q-list>
         </q-menu>
       </q-item>
-    </q-list>
+    </q-list>-->
+
+    <RecycleScroller
+      class="scroller"
+      :items="accounts"
+      :item-size="42"
+      key-field="id"
+      v-slot="{ item }">
+      <div class="scroller-item" @click="itemClicked(item.id)">
+        {{ item.name }} 
+        <div class="fixed-right">
+          {{ item.balance }} {{ item.currency }}
+          </div>
+      </div>
+      <!-- <q-item class="scroller-item" clickable @click="itemClicked(item.id)">
+        <q-item-section>{{ item.name }}</q-item-section>
+        <q-item-section side>{{ item.balance }} {{ item.currency }}</q-item-section>
+      </q-item> -->
+    </RecycleScroller>
 
     <!-- new account (name) dialog -->
     <q-dialog dark v-model="dialogVisible">
@@ -89,15 +113,23 @@
 <script>
 import { TOGGLE_DRAWER, MAIN_TOOLBAR } from "../mutations";
 import appService from "../appService";
+import Vue from "vue";
+// import VueVirtualScroller from 'vue-virtual-scroller'
+// Import only the needed components for the scroller.
+import { RecycleScroller } from "vue-virtual-scroller";
+import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
+
+// Vue.use(VueVirtualScroller)
+Vue.component("RecycleScroller", RecycleScroller);
 
 export default {
   data() {
     return {
       dialogVisible: false,
       newAccount: null,
-      accounts: null,
+      accounts: [],
       searchVisible: false,
-      filter: null, // filter for the account name
+      filter: null // filter for the account name
     };
   },
 
@@ -108,6 +140,9 @@ export default {
   },
 
   methods: {
+    itemClicked(id) {
+      this.$router.push({name: 'account', params: {id: id}})
+    },
     loadData() {
       appService
         .loadAccounts()
@@ -156,5 +191,16 @@ export default {
 
 .bg {
   background-color: $colour1;
+}
+
+.scroller {
+  height: 100%;
+}
+
+.scroller-item {
+  height: 32%;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
 }
 </style>
