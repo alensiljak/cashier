@@ -7,18 +7,24 @@
 
         <q-toolbar-title>Account</q-toolbar-title>
 
-        <q-btn flat round dense icon="more_vert">
+        <q-btn flat round dense icon="fas fa-ellipsis-v">
           <q-menu>
             <q-list dark style="min-width: 175px" class="bg-colour1">
               <!-- dense -->
               <q-item clickable v-close-popup>
                 <q-item-section>Synchronize</q-item-section>
                 <q-item-section side>
-                  <q-icon name="sync"/>
+                  <q-icon name="fas fa-sync-alt"/>
                 </q-item-section>
               </q-item>
               <q-item clickable v-close-popup>
                 <q-item-section>Import</q-item-section>
+              </q-item>
+              <q-item clickable v-close-popup>
+                <q-item-section @click="deleteAccount">Delete</q-item-section>
+                <q-item-section side>
+                  <q-icon name="fas fa-trash-alt"/>
+                </q-item-section>
               </q-item>
             </q-list>
           </q-menu>
@@ -28,15 +34,32 @@
 
     <p>Editor for the Account: {{ account.name }}</p>
 
-    <q-input label="Account Name" v-model="account.name" dark clearable @keyup.enter="onEnter"/>
+    <q-input
+      label="Account Name"
+      v-model="account.name"
+      dark
+      clearable
+      @keyup.enter="onEnter"
+      clear-icon="fas fa-times-circle"
+    />
+    <!-- balance -->
     <q-input
       label="Balance"
       v-model.number="account.balance"
       type="number"
-      dark clearable
+      dark
+      clearable
+      clear-icon="fas fa-times-circle"
       @keyup.enter="onEnter"
     />
-    <q-input label="Currency" v-model="account.currency" dark clearable @keyup.enter="onEnter"/>
+    <q-input
+      label="Currency"
+      v-model="account.currency"
+      dark
+      clearable
+      @keyup.enter="onEnter"
+      clear-icon="fas fa-times-circle"
+    />
 
     <!-- Actions -->
     <div class="row q-mt-xl justify-end">
@@ -81,6 +104,10 @@ export default {
   },
 
   methods: {
+    deleteAccount() {
+      // delete the account and go back
+      appService.deleteAccount(this.account.id).then(() => history.go(-1));
+    },
     loadAccount(id) {
       appService.loadAccount(id).then(account => {
         this.account = account;

@@ -17,7 +17,7 @@
                 </q-item-section>
               </q-item>
               <q-item clickable v-close-popup>
-                <q-item-section>Import</q-item-section>
+                <q-item-section @click="onImportClick">Import</q-item-section>
               </q-item>
             </q-list>
           </q-menu>
@@ -27,8 +27,13 @@
 
     <!-- Account list -->
     <q-list bordered separator>
-      <q-item clickable v-ripple v-for="account in accounts" :key="account.id"
-        :to="{ name: 'account', params: { id: account.id }}">
+      <q-item
+        clickable
+        v-ripple
+        v-for="account in accounts"
+        :key="account.id"
+        :to="{ name: 'account', params: { id: account.id }}"
+      >
         <q-item-section>{{ account.name }}</q-item-section>
         <q-item-section side>{{ account.balance }} {{ account.currency }}</q-item-section>
 
@@ -46,31 +51,31 @@
     <!-- new account (name) dialog -->
     <q-dialog dark v-model="dialogVisible">
       <!-- persistent -->
-        <q-card style="min-width: 400px" class="bg text-colour2">
-          <q-card-section>
-            <div class="text-h6">New Account</div>
-          </q-card-section>
+      <q-card style="min-width: 400px" class="bg text-colour2">
+        <q-card-section>
+          <div class="text-h6">New Account</div>
+        </q-card-section>
 
-          <q-card-section>
-            <q-input
-              dense
-              v-model="newAccount"
-              autofocus
-              @keyup.enter="onAddAccount"
-              input-class="text-amber-2"
-            />
-          </q-card-section>
+        <q-card-section>
+          <q-input
+            dense
+            v-model="newAccount"
+            autofocus
+            @keyup.enter="onAddAccount"
+            input-class="text-amber-2"
+          />
+        </q-card-section>
 
-          <q-card-actions align="right" class="text-accent">
-            <q-btn flat label="Cancel" v-close-popup @click="onCancelAdd"/>
-            <q-btn flat label="Add" v-close-popup @click="onAddAccount"/>
-          </q-card-actions>
-        </q-card>
+        <q-card-actions align="right" class="text-accent">
+          <q-btn flat label="Cancel" v-close-popup @click="onCancelAdd"/>
+          <q-btn flat label="Add" v-close-popup @click="onAddAccount"/>
+        </q-card-actions>
+      </q-card>
     </q-dialog>
 
     <!-- floating action button -->
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn fab icon="add" color="accent" text-color="secondary" @click="onFab"/>
+      <q-btn fab icon="fas fa-plus" color="accent" text-color="secondary" @click="onFab"/>
     </q-page-sticky>
   </q-page>
 </template>
@@ -108,12 +113,12 @@ export default {
     onAddAccount() {
       // create new account
       if (!this.newAccount) return;
-      this.dialogVisible = false
+      this.dialogVisible = false;
 
       appService.createAccount(this.newAccount).then(() => {
         // reset the new account name.
         this.newAccount = null;
-        
+
         this.loadData();
       });
     },
@@ -124,13 +129,16 @@ export default {
     onDeleteAccount(accountName) {
       // console.log(event);
       appService.deleteAccount(accountName).then(() => {
-        this.loadData()
-      })
+        this.loadData();
+      });
     },
     onFab() {
       // New Account
       this.dialogVisible = true;
     },
+    onImportClick() {
+      this.$router.push({ name: "import" });
+    }
   }
 };
 </script>

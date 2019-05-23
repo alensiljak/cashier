@@ -3,7 +3,7 @@
 */
 import db from "./dataStore";
 import { Account, Transaction, Posting } from "./model";
-// import { Notify } from 'quasar'
+import { Notify } from "quasar";
 
 class AppService {
   createAccount(name) {
@@ -46,38 +46,85 @@ class AppService {
   }
 
   /**
-   * Returns all the register transactions as text, 
+   * Returns all the register transactions as text,
    * ready to be exported as a file or copied as a string.
    */
   exportTransactions() {
-    return db.transactions.orderBy("date").toArray().then(txs => {
-      var output = "";
+    return db.transactions
+      .orderBy("date")
+      .toArray()
+      .then(txs => {
+        var output = "";
 
-      for (let i = 0; i < txs.length; i++) {
-        let tx = txs[i];
-        // transaction
-        output += tx.date;
-        output += ' ' + tx.payee;
-        output += '\n';
-        // postings
-        for (let j = 0; j < tx.postings.length; j++) {
-          let p = tx.postings[j];
-          if (!p.account) continue;
-          
-          output += '    ';
-          output += p.account == null ? "" : p.account;
-          if (p.amount) {
-            output += "  ";
-            output += p.amount == null ? "" : p.amount;
-            output += " ";
-            output += p.currency == null ? "" : p.currency;
+        for (let i = 0; i < txs.length; i++) {
+          let tx = txs[i];
+          // transaction
+          output += tx.date;
+          output += " " + tx.payee;
+          output += "\n";
+          // postings
+          for (let j = 0; j < tx.postings.length; j++) {
+            let p = tx.postings[j];
+            if (!p.account) continue;
+
+            output += "    ";
+            output += p.account == null ? "" : p.account;
+            if (p.amount) {
+              output += "  ";
+              output += p.amount == null ? "" : p.amount;
+              output += " ";
+              output += p.currency == null ? "" : p.currency;
+            }
+            output += "\n";
           }
           output += "\n";
         }
-        output += "\n";
-      }
-      return output;
-    });
+        return output;
+      });
+  }
+
+  importBalanceSheet(text) {
+    if (!text) {
+      Notify.create({ message: "No balance sheet selected." });
+      return;
+    }
+
+    var accounts = []
+
+    // read and parse the balance sheet string
+    let lines = text.split("\n");
+    for (let i = 0; i < lines.length; i++) {
+      // console.log(lines[i]);
+      let line = lines[i]
+      let account = new Account()
+
+      let balancePart = line.substring(0,20)
+      balancePart = balancePart.trim()
+      // separate the currency
+      let balanceParts = balancePart.split(' ')
+
+      // let amountPart = line.substring(0, 16)
+      let amountPart = balanceParts[0]
+      // clean-up the thousand-separators
+      amountPart = amountPart.replace(/,/g, '')
+      account.balance = parseFloat(amountPart)
+
+      // currency
+      // let currencyPart = line.substring(16, 19)
+      let currencyPart = balanceParts[1]
+      account.currency = currencyPart
+
+      let namePart = line.substring(21).trim()
+      account.name = namePart
+
+      // for now, skip the accounts which contain multiple currencies
+      if (!namePart) continue;
+
+      // console.log(account)
+      accounts.push(account)
+    }
+
+    return db.accounts.bulkPut(accounts)
   }
 
   loadAccount(id) {
