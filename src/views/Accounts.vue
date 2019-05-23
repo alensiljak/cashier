@@ -72,19 +72,18 @@
       :items="accounts"
       :item-size="42"
       key-field="id"
-      v-slot="{ item }">
+      v-slot="{ item }"
+    >
       <div class="scroller-item" @click="itemClicked(item.id)">
-        {{ item.name }} 
-        <div class="fixed-right">
-          {{ item.balance }} {{ item.currency }}
-          </div>
+        {{ item.name }}
+        <div class="fixed-right">{{ item.balance }} {{ item.currency }}</div>
       </div>
     </RecycleScroller>
 
     <!-- new account (name) dialog -->
     <q-dialog dark v-model="dialogVisible">
       <!-- persistent -->
-      <q-card style="min-width: 400px" class="bg text-colour2">
+      <q-card style="min-width: 400px" class="bg-primary text-colour2">
         <q-card-section>
           <div class="text-h6">New Account</div>
         </q-card-section>
@@ -96,6 +95,7 @@
             autofocus
             @keyup.enter="onAddAccount"
             input-class="text-amber-2"
+            color="amber-4"
           />
         </q-card-section>
 
@@ -111,12 +111,12 @@
       <q-btn fab icon="fas fa-plus" color="accent" text-color="secondary" @click="onFab"/>
     </q-page-sticky>
 
-        <!-- confirm deletion dialog -->
+    <!-- confirm deletion dialog -->
     <q-dialog v-model="confirmDeleteAllVisible" persistent content-class="bg-blue-grey-10">
       <q-card dark class="bg-red-10">
         <q-card-section class="row items-center">
           <!-- <q-avatar icon="signal_wifi_off" color="primary" text-color="amber-2"/>
-          <span class="q-ml-sm">You are currently not connected to any network.</span> -->
+          <span class="q-ml-sm">You are currently not connected to any network.</span>-->
           <span>Do you want to delete all the transactions?</span>
         </q-card-section>
 
@@ -136,7 +136,7 @@ import Vue from "vue";
 // import VueVirtualScroller from 'vue-virtual-scroller'
 // Import only the needed components for the scroller.
 import { RecycleScroller } from "vue-virtual-scroller";
-import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
+import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
 
 // Vue.use(VueVirtualScroller)
 Vue.component("RecycleScroller", RecycleScroller);
@@ -149,7 +149,7 @@ export default {
       newAccount: null,
       accounts: [],
       searchVisible: false,
-      filter: null, // filter for the account name
+      filter: null // filter for the account name
     };
   },
 
@@ -163,11 +163,11 @@ export default {
   methods: {
     confirmDeleteAll() {
       appService.deleteAccounts().then(() => {
-        this.loadData()
-      })
+        this.loadData();
+      });
     },
     itemClicked(id) {
-      this.$router.push({name: 'account', params: {id: id}})
+      this.$router.push({ name: "account", params: { id: id } });
     },
     loadData() {
       appService
@@ -202,7 +202,7 @@ export default {
       });
     },
     onDeleteAllClick() {
-      this.confirmDeleteAllVisible = true
+      this.confirmDeleteAllVisible = true;
     },
     onFab() {
       // New Account

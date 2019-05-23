@@ -2,7 +2,7 @@
     Provide service layer for the application.
 */
 import db from "./dataStore";
-import { Account, Transaction, Posting } from "./model";
+import { Account, Transaction, Posting, Payee } from "./model";
 import { Notify } from "quasar";
 
 class AppService {
@@ -11,6 +11,12 @@ class AppService {
     acc.name = name;
 
     return db.accounts.add(acc);
+  }
+
+  addPayee(name) {
+    let payee = new Payee(name)
+    
+    return db.payees.put(payee)
   }
 
   createTransaction() {

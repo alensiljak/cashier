@@ -1,8 +1,7 @@
 <template>
   <q-header elevated class="glossy">
     <q-toolbar class="text-colour2">
-      <q-btn flat dense round @click="$emit('menuClicked')" aria-label="Menu" 
-        icon="fas fa-bars"/>
+      <q-btn flat dense round @click="$emit('menuClicked')" aria-label="Menu" icon="fas fa-bars"/>
 
       <q-toolbar-title>{{title}}</q-toolbar-title>
 
@@ -12,9 +11,9 @@
         <q-menu>
           <q-list dark style="min-width: 175px" class="bg-colour1">
             <!-- dense -->
-            <q-item clickable v-close-popup>
+            <!-- <q-item clickable v-close-popup>
               <q-item-section @click="$emit('createClicked')">Create</q-item-section>
-            </q-item>
+            </q-item>-->
 
             <q-item v-close-popup>
               <q-item-section @click="$emit('deleteAllClicked')">Delete All</q-item-section>
@@ -29,18 +28,11 @@
     <!-- filter toolbar -->
     <q-toolbar class="text-white flex flex-center">
       <!-- <q-toolbar-title> -->
-      <q-input
-        rounded
-        standout
-        dense
-        dark
-        color="amber-4"
-        style="width: 23rem;"
-        v-model="filter"
-      >
+      <q-input rounded standout dense dark color="amber-4" style="width: 23rem;" 
+        v-model="myFilter" debounce="500">
         <template v-slot:append>
-          <q-icon v-if="filter === ''" name="fas fa-search"/>
-          <q-icon v-else name="clear" class="cursor-pointer" @click="filter = ''"/>
+          <q-icon v-if="myFilter === ''" name="fas fa-search"/>
+          <q-icon v-else name="clear" class="cursor-pointer" @click="myFilter = ''"/>
         </template>
       </q-input>
     </q-toolbar>
@@ -51,10 +43,21 @@
 export default {
   data() {
     return {
-      filter: ""
+      //   filter: ""
     };
   },
 
-  props: ["title"],
+  props: ["title", "filter"],
+
+  computed: {
+    myFilter: {
+      get() {
+        return this.filter;
+      },
+      set(value) {
+        this.$emit("filter", value);
+      }
+    }
+  }
 };
 </script>
