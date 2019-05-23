@@ -25,7 +25,7 @@ Vue.use(Router);
 // import BTransaction from './views/Transaction.vue'
 
 // Quasar version
-const About = () => import(/* webpackChunkName: 'about' */ './views/QAbout.vue')
+const About = () => import(/* webpackChunkName: 'about' */ './views/About.vue')
 const Accounts = () => import('./views/Accounts.vue')
 const Account = () => import('./views/Account.vue')
 const Commodities = () => import('./views/Commodities.vue')
@@ -43,12 +43,6 @@ const routes = [
     path: '/',
     component: QuasarLayout,
     children: [
-      // {
-      //   path: '',
-      //   // name: 'qhome',
-      //   component: () =>
-      //     import(/* webpackChunkName: 'qhome' */ './views/QHome.vue')
-      // },
       { path: '', name: 'root', redirect: '/bal' },
       { path: '/about', name: 'about', component: About },
       { path: '/account/:id', name: 'account', component: Account },

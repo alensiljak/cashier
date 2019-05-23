@@ -48,6 +48,9 @@
           <a href="https://material.io/tools/icons">Material Design Icons</a>
         </li>
         <li>
+          <a href="http://fontawesome.com/">Font Awesome icons</a>
+        </li>
+        <li>
           <a href="https://vuejs.org/">Vue JS, Vuex, Vue-cli</a>
         </li>
         <li>
