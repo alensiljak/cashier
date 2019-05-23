@@ -8,14 +8,30 @@
     <!-- v-on:dragover="onFileHover"
     v-on:change="onBalanceFile"-->
 
-    <q-btn color="red-10" text-color="amber-4" label="Import" class="q-mt-sm"
-      @click="onImportBalanceClick"/>
+    <div class="q-mt-sm"/>
+
+    <p>Click the appropriate button to import:</p>
+
+    <div class="row">
+      <div class="col text-center">
+        <q-btn
+          color="red-10"
+          text-color="amber-4"
+          label="Accounts"
+          @click="onImportBalanceClick"
+          icon="fas fa-wallet"
+        />
+      </div>
+      <div class="col text-center">
+        <q-btn disable color="red-10" text-color="amber-4" label="Payees" icon="fas fa-users"/>
+      </div>
+    </div>
   </q-page>
 </template>
 
 <script>
 import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
-import appService from '../appService'
+import appService from "../appService";
 import { Notify } from "quasar";
 
 export default {
@@ -32,10 +48,10 @@ export default {
 
   methods: {
     onImportBalanceClick() {
-    //   console.log(this.balanceSheetContent);
-        appService.importBalanceSheet(this.balanceSheetContent).then(() => {
-            Notify.create({ color: 'teal-9', message: 'Accounts imported'})
-        })
+      //   console.log(this.balanceSheetContent);
+      appService.importBalanceSheet(this.balanceSheetContent).then(() => {
+        Notify.create({ color: "teal-9", message: "Accounts imported" });
+      });
     },
     onBalanceFile(files) {
       this.readInputFile(files[0], "balanceSheetContent");
@@ -55,7 +71,7 @@ export default {
 
         if (dataField) {
           this[dataField] = content;
-        //   console.log("read", content);
+          //   console.log("read", content);
         }
       };
 
