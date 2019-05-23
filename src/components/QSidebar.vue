@@ -174,7 +174,12 @@ export default {
 
   methods: {
     onHeaderClick() {
-      this.$router.push("/");
+      // "reset browser history" by going back to the beginning.
+      let back = (window.history.length - 1) * (-1)
+      // console.log('history:', window.history.length)
+      window.history.go(back)
+
+      //this.$router.push("/");
     },
     toggleDrawer() {
       this.drawerOpen = !this.drawerOpen;

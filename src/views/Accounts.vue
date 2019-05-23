@@ -156,7 +156,7 @@ export default {
   created() {
     this.$store.commit(MAIN_TOOLBAR, false);
 
-    console.log('accounts:', this.accounts)
+    // console.log('accounts:', this.accounts)
     this.loadData();
   },
 
