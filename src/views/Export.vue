@@ -1,6 +1,7 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
     <p>Export your register in ledger format</p>
+    
     <q-input
       type="textarea"
       v-model="output"
