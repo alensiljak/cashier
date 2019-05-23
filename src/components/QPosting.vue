@@ -47,7 +47,7 @@
         <q-btn
           color="secondary"
           text-color="accent"
-          icon="delete"
+          icon="fas fa-trash-alt"
           round
           size="sm"
           @click="deleteRow"

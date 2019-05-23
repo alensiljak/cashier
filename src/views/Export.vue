@@ -1,7 +1,7 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
     <p>Export your register in ledger format</p>
-    
+
     <q-input
       type="textarea"
       v-model="output"
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
 import appService from "../appService";
 import { Notify } from "quasar";
 
@@ -41,7 +42,10 @@ export default {
   },
 
   created() {
-    // todo export the register from here
+    this.$store.commit(SET_TITLE, "Export");
+    this.$store.commit(MAIN_TOOLBAR, true);
+
+    // load the transactions for export
     appService.exportTransactions().then(output => {
       //console.log("got the tx for export:", output);
       this.output = output;
@@ -57,17 +61,17 @@ export default {
     },
     downloadAsFile() {
       var a = document.createElement("a");
-      
+
       // filename
-      let now = new Date()
-      let filename = 'export-'
-      filename += now.toISOString().substring(0,10)
-      filename += '_'
-      filename += now.getHours()
-      filename += '-'
-      filename += now.getMinutes()
+      let now = new Date();
+      let filename = "export-";
+      filename += now.toISOString().substring(0, 10);
+      filename += "_";
+      filename += now.getHours();
+      filename += "-";
+      filename += now.getMinutes();
       // filename += now.getTimezoneOffset()
-      filename += '.ledger'
+      filename += ".ledger";
       a.download = filename;
 
       let encoded = btoa(this.output);
@@ -75,11 +79,11 @@ export default {
       a.href = "data:text/plain;base64," + encoded;
       // charset=UTF-8;
 
-      this.$refs.buttonContainer.appendChild(a)
+      this.$refs.buttonContainer.appendChild(a);
       a.click();
 
       // cleanup?
-      this.$refs.buttonContainer.removeChild(a)
+      this.$refs.buttonContainer.removeChild(a);
     }
   },
 

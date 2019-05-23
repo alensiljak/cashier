@@ -17,7 +17,7 @@
 
     <q-input label="Date" v-model="tx.date" dark @click="datePickerVisible = true">
       <template v-slot:prepend>
-        <q-icon name="event"/>
+        <q-icon name="fas fa-calendar-day"/>
       </template>
     </q-input>
 
@@ -25,14 +25,14 @@
 
     <q-input label="Payee" dark v-model="tx.payee">
       <template v-slot:prepend>
-        <q-icon name="person"/>
+        <q-icon name="fas fa-user"/>
       </template>
     </q-input>
 
     <!--comment -->
     <q-input label="Comment" dark v-model="tx.comment">
       <template v-slot:prepend>
-        <q-icon name="assignment"/>
+        <q-icon name="fas fa-file-alt"/>
       </template>
     </q-input>
 

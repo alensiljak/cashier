@@ -2,7 +2,7 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated class="glossy" v-if="toolbarVisible">
       <q-toolbar class="text-colour2">
-        <q-btn flat dense round @click="toggleDrawer" aria-label="Menu" icon="menu" />
+        <q-btn flat dense round @click="toggleDrawer" aria-label="Menu" icon="fas fa-bars" />
 
         <q-toolbar-title>{{ title }}</q-toolbar-title>
 

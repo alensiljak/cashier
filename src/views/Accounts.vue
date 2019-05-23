@@ -2,18 +2,18 @@
   <q-page padding class="bg-colour1 text-colour2">
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn flat dense round @click="menuClicked" aria-label="Menu" icon="menu"/>
+        <q-btn flat dense round @click="menuClicked" aria-label="Menu" icon="fas fa-bars"/>
 
         <q-toolbar-title>Accounts</q-toolbar-title>
 
-        <q-btn flat round dense icon="more_vert">
+        <q-btn flat round dense icon="fas fa-ellipsis-v">
           <q-menu>
             <q-list dark style="min-width: 175px" class="bg-colour1">
               <!-- dense -->
               <q-item clickable v-close-popup>
                 <q-item-section>Synchronize</q-item-section>
                 <q-item-section side>
-                  <q-icon name="sync"/>
+                  <q-icon name="fas fa-sync-alt"/>
                 </q-item-section>
               </q-item>
               <q-item clickable v-close-popup>

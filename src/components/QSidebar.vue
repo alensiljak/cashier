@@ -17,7 +17,7 @@
 
         <q-item to="/bal" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
-            <q-icon name="account_balance"/>
+            <q-icon name="fas fa-balance-scale"/>
           </q-item-section>
           <q-item-section>
             <q-item-label>Balance Sheet</q-item-label>
@@ -27,7 +27,8 @@
         <q-item to="/tx" clickable v-ripple active-class="active-link">
           <!-- exact active -->
           <q-item-section avatar>
-            <q-icon name="payment"/>
+            <!-- <q-icon name="payment"/> -->
+            <q-icon name="fas fa-money-bill-wave" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Transaction</q-item-label>
@@ -36,7 +37,7 @@
 
         <q-item to="/reg" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
-            <q-icon name="toc"/>
+            <q-icon name="fas fa-list-ul"/>
           </q-item-section>
           <q-item-section>
             <q-item-label>Register</q-item-label>
@@ -48,8 +49,9 @@
           dark
           header-class="text-amber-2"
           expand-icon-class="text-amber-2"
+          expand-icon="fas fa-chevron-down"
           expand-separator
-          icon="settings"
+          icon="fas fa-cog"
           label="Entities">
           <q-list>
             <q-item
@@ -61,7 +63,7 @@
             >
               <!-- exact -->
               <q-item-section avatar>
-                <q-icon name="account_balance_wallet"/>
+                <q-icon name="fas fa-wallet"/>
               </q-item-section>
               <q-item-section>
                 <q-item-label>Accounts</q-item-label>
@@ -77,7 +79,7 @@
               active-class="active-link"
             >
               <q-item-section avatar>
-                <q-icon name="group"/>
+                <q-icon name="fas fa-users"/>
               </q-item-section>
               <q-item-section>
                 <q-item-label>Payees</q-item-label>
@@ -93,7 +95,7 @@
               active-class="active-link"
             >
               <q-item-section avatar>
-                <q-icon name="category"/>
+                <q-icon name="fas fa-luggage-cart"/>
               </q-item-section>
               <q-item-section>
                 <q-item-label>Commodities</q-item-label>
@@ -104,7 +106,7 @@
 
         <q-item to="/sync" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
-            <q-icon name="sync"/>
+            <q-icon name="fas fa-sync-alt"/>
           </q-item-section>
           <q-item-section>
             <q-item-label>Sync</q-item-label>
@@ -113,16 +115,26 @@
 
         <q-item to="/export" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
-            <q-icon name="import_export"/>
+            <q-icon name="fas fa-sign-out-alt"/>
           </q-item-section>
           <q-item-section>
             <q-item-label>Export</q-item-label>
           </q-item-section>
         </q-item>
 
+        <q-item to="/import" exact clickable v-ripple active-class="active-link">
+          <q-item-section avatar>
+            <!-- <q-icon name="img:../../img/icons/icon96.png" /> -->
+            <q-icon name="fas fa-sign-in-alt"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Import</q-item-label>
+          </q-item-section>
+        </q-item>
+
         <q-item to="/about" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
-            <q-icon name="info"/>
+            <q-icon name="fas fa-info"/>
           </q-item-section>
           <q-item-section>
             <q-item-label>About</q-item-label>
