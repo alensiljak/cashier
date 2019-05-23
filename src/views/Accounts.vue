@@ -6,6 +6,12 @@
 
         <q-toolbar-title>Accounts</q-toolbar-title>
 
+        <q-space />
+        <!-- search -->
+        <q-input label="Search" v-if="searchVisible" v-model="filter" dark color="amber-4" />
+        <q-btn flat round dense icon="fas fa-search" class="q-mr-xs"
+          @click="searchVisible = !searchVisible" />
+
         <q-btn flat round dense icon="fas fa-ellipsis-v">
           <q-menu>
             <q-list dark style="min-width: 175px" class="bg-colour1">
@@ -89,7 +95,9 @@ export default {
     return {
       dialogVisible: false,
       newAccount: null,
-      accounts: null
+      accounts: null,
+      searchVisible: false,
+      filter: null, // filter for the account name
     };
   },
 
