@@ -31,6 +31,13 @@
               <q-item clickable v-close-popup>
                 <q-item-section @click="onImportClick">Import</q-item-section>
               </q-item>
+
+              <q-item v-close-popup>
+                <q-item-section @click="onDeleteAllClick">Delete All</q-item-section>
+                <q-item-section side>
+                  <q-icon name="fas fa-trash-alt"/>
+                </q-item-section>
+              </q-item>
             </q-list>
           </q-menu>
         </q-btn>
@@ -72,10 +79,6 @@
           {{ item.balance }} {{ item.currency }}
           </div>
       </div>
-      <!-- <q-item class="scroller-item" clickable @click="itemClicked(item.id)">
-        <q-item-section>{{ item.name }}</q-item-section>
-        <q-item-section side>{{ item.balance }} {{ item.currency }}</q-item-section>
-      </q-item> -->
     </RecycleScroller>
 
     <!-- new account (name) dialog -->
@@ -107,6 +110,22 @@
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab icon="fas fa-plus" color="accent" text-color="secondary" @click="onFab"/>
     </q-page-sticky>
+
+        <!-- confirm deletion dialog -->
+    <q-dialog v-model="confirmDeleteAllVisible" persistent content-class="bg-blue-grey-10">
+      <q-card dark class="bg-red-10">
+        <q-card-section class="row items-center">
+          <!-- <q-avatar icon="signal_wifi_off" color="primary" text-color="amber-2"/>
+          <span class="q-ml-sm">You are currently not connected to any network.</span> -->
+          <span>Do you want to delete all the transactions?</span>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="Cancel" color="amber-4" v-close-popup/>
+          <q-btn flat label="Delete" color="amber-4" v-close-popup @click="confirmDeleteAll"/>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -125,21 +144,28 @@ Vue.component("RecycleScroller", RecycleScroller);
 export default {
   data() {
     return {
+      confirmDeleteAllVisible: false,
       dialogVisible: false,
       newAccount: null,
       accounts: [],
       searchVisible: false,
-      filter: null // filter for the account name
+      filter: null, // filter for the account name
     };
   },
 
   created() {
     this.$store.commit(MAIN_TOOLBAR, false);
 
+    console.log('accounts:', this.accounts)
     this.loadData();
   },
 
   methods: {
+    confirmDeleteAll() {
+      appService.deleteAccounts().then(() => {
+        this.loadData()
+      })
+    },
     itemClicked(id) {
       this.$router.push({name: 'account', params: {id: id}})
     },
@@ -174,6 +200,9 @@ export default {
       appService.deleteAccount(accountName).then(() => {
         this.loadData();
       });
+    },
+    onDeleteAllClick() {
+      this.confirmDeleteAllVisible = true
     },
     onFab() {
       // New Account

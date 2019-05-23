@@ -67,9 +67,9 @@ export default {
       let filename = "export-";
       filename += now.toISOString().substring(0, 10);
       filename += "_";
-      filename += now.getHours();
+      filename += ('' + now.getHours()).padStart(2, '0');
       filename += "-";
-      filename += now.getMinutes();
+      filename += ('' + now.getMinutes()).padStart(2, '0')
       // filename += now.getTimezoneOffset()
       filename += ".ledger";
       a.download = filename;

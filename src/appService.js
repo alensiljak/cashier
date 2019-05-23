@@ -31,6 +31,10 @@ class AppService {
     return db.accounts.delete(id);
   }
 
+  deleteAccounts() {
+    return db.accounts.clear()
+  }
+
   /**
    * Delete transaction and related postings.
    * @param {*} id

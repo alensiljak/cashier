@@ -8,7 +8,8 @@
     <!-- v-on:dragover="onFileHover"
     v-on:change="onBalanceFile"-->
 
-    <q-btn color="red-10" text-color="amber-4" label="Import" @click="onImportBalanceClick"/>
+    <q-btn color="red-10" text-color="amber-4" label="Import" class="q-mt-sm"
+      @click="onImportBalanceClick"/>
   </q-page>
 </template>
 
