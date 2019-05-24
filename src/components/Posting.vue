@@ -43,17 +43,6 @@
         <!-- set from the account -->
         <q-input dark label="Currency" v-model="posting.currency"/>
       </div>
-      <!-- operations / delete button -->
-      <!-- <div class="col-1 flex flex-center">
-        <q-btn
-          color="secondary"
-          text-color="accent"
-          icon="fas fa-trash-alt"
-          round
-          size="sm"
-          @click="deleteRow"
-        />
-      </div> -->
     </div>
   </div>
 </template>
@@ -75,10 +64,6 @@ export default {
   },
 
   methods: {
-    deleteRow() {
-      // todo confirm
-      this.$emit("delete-row", this.index);
-    },
     filterAccounts(val, update) {
       // val, update, abort
 

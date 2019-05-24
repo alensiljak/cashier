@@ -8,7 +8,7 @@
 
         <q-space/>
 
-        <q-btn flat round dense icon="fas fa-ellipsis-v">
+        <q-btn flat round dense icon="more_vert">
           <q-menu>
             <q-list dark style="min-width: 175px" class="bg-colour1">
               <!-- dense -->

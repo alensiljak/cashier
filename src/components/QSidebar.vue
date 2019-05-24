@@ -66,7 +66,8 @@
             >
               <!-- exact -->
               <q-item-section avatar>
-                <q-icon name="fas fa-wallet"/>
+                <!-- <q-icon name="fas fa-wallet"/> -->
+                <font-awesome-icon icon="wallet" transform="grow-6 right-6" />
               </q-item-section>
               <q-item-section>
                 <q-item-label>Accounts</q-item-label>
@@ -82,7 +83,8 @@
               active-class="active-link"
             >
               <q-item-section avatar>
-                <q-icon name="fas fa-users"/>
+                <!-- <q-icon name="fas fa-users"/> -->
+                <font-awesome-icon icon="users" transform="grow-6 right-6" />
               </q-item-section>
               <q-item-section>
                 <q-item-label>Payees</q-item-label>
@@ -98,7 +100,8 @@
               active-class="active-link"
             >
               <q-item-section avatar>
-                <q-icon name="fas fa-luggage-cart"/>
+                <!-- <q-icon name="fas fa-luggage-cart"/> -->
+                <font-awesome-icon icon="luggage-cart" transform="grow-6 right-6" />
               </q-item-section>
               <q-item-section>
                 <q-item-label>Commodities</q-item-label>

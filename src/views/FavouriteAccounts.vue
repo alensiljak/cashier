@@ -8,21 +8,24 @@
 
         <q-space/>
 
-        <q-btn flat round dense icon="fas fa-ellipsis-v">
+        <q-btn flat round dense icon="more_vert">
           <q-menu>
             <q-list dark style="min-width: 175px" class="bg-colour1">
               <!-- dense -->
               <q-item clickable v-close-popup @click="addAccountClick">
                 <q-item-section>Add</q-item-section>
                 <q-item-section side>
-                  <q-icon name="fas fa-plus-circle"/>
+                  <!-- <q-icon name="info" /> -->
+                  <!-- <q-icon name="fas fa-plus-circle"/> -->
+                  <font-awesome-icon icon="plus-circle" transform="grow-9 left-5"/>
                 </q-item-section>
               </q-item>
 
               <q-item v-close-popup @click="onDeleteAllClick">
                 <q-item-section>Delete All</q-item-section>
                 <q-item-section side>
-                  <q-icon name="fas fa-trash-alt"/>
+                  <!-- <q-icon name="fas fa-trash-alt"/> -->
+                  <font-awesome-icon icon="trash-alt" transform="grow-9 left-5"/>
                 </q-item-section>
               </q-item>
             </q-list>
