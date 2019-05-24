@@ -1,7 +1,7 @@
 <template>
   <q-header elevated class="glossy">
     <q-toolbar class="text-colour2">
-      <q-btn flat dense round @click="$emit('menuClicked')" aria-label="Menu" icon="fas fa-bars"/>
+      <q-btn flat dense round @click="$emit('menuClicked')" aria-label="Menu" icon="menu"/>
 
       <q-toolbar-title>{{title}}</q-toolbar-title>
 

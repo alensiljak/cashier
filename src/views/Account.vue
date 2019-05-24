@@ -3,7 +3,7 @@
     <!-- toolbar -->
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn flat dense round @click="menuClicked" aria-label="Menu" icon="fas fa-bars"/>
+        <q-btn flat dense round @click="menuClicked" aria-label="Menu" icon="menu"/>
 
         <q-toolbar-title>Account</q-toolbar-title>
 
