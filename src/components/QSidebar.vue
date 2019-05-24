@@ -9,7 +9,7 @@
         <q-item to="/favouriteAccounts" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
             <!-- <q-icon name="fas fa-star"/> -->
-            <font-awesome-icon icon="star" size="2x" />
+            <font-awesome-icon icon="star" transform="grow-6 right-6" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Favourite Accounts</q-item-label>
@@ -18,7 +18,8 @@
 
         <q-item to="/bal" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
-            <q-icon name="fas fa-balance-scale"/>
+            <!-- <q-icon name="fas fa-balance-scale"/> -->
+            <font-awesome-icon icon="balance-scale" transform="grow-6 right-6" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Balance Sheet</q-item-label>
@@ -28,8 +29,9 @@
         <q-item to="/tx" clickable v-ripple active-class="active-link">
           <!-- exact active -->
           <q-item-section avatar>
-            <!-- <q-icon name="payment"/> -->
-            <q-icon name="fas fa-money-bill-wave" />
+            <!-- <q-icon name="payment"/>
+            <q-icon name="fas fa-money-bill-wave" /> -->
+            <font-awesome-icon icon="money-bill-wave" transform="grow-6 right-6" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Transaction</q-item-label>
@@ -38,7 +40,8 @@
 
         <q-item to="/reg" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
-            <q-icon name="fas fa-list-ul"/>
+            <!-- <q-icon name="fas fa-list-ul"/> -->
+            <font-awesome-icon icon="list-ul" transform="grow-6 right-6" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Register</q-item-label>
@@ -50,9 +53,8 @@
           dark
           header-class="text-amber-2"
           expand-icon-class="text-amber-2"
-          expand-icon="fas fa-chevron-down"
           expand-separator
-          icon="fas fa-cog"
+          icon="settings"
           label="Entities">
           <q-list>
             <q-item
@@ -107,7 +109,8 @@
 
         <q-item to="/sync" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
-            <q-icon name="fas fa-sync-alt"/>
+            <!-- <q-icon name="fas fa-sync-alt"/> -->
+            <font-awesome-icon icon="sync-alt" transform="grow-6 right-6" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Sync</q-item-label>
@@ -116,7 +119,8 @@
 
         <q-item to="/export" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
-            <q-icon name="fas fa-sign-out-alt"/>
+            <!-- <q-icon name="fas fa-sign-out-alt"/> -->
+            <font-awesome-icon icon="sign-out-alt" transform="grow-6 right-6" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Export</q-item-label>
@@ -126,7 +130,8 @@
         <q-item to="/import" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
             <!-- <q-icon name="img:../../img/icons/icon96.png" /> -->
-            <q-icon name="fas fa-sign-in-alt"/>
+            <!-- <q-icon name="fas fa-sign-in-alt"/> -->
+            <font-awesome-icon icon="sign-in-alt" transform="grow-6 right-6" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Import</q-item-label>
@@ -135,7 +140,8 @@
 
         <q-item to="/about" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
-            <q-icon name="fas fa-info"/>
+            <!-- <q-icon name="fas fa-info"/> -->
+            <font-awesome-icon icon="info" transform="grow-6 right-6" />
           </q-item-section>
           <q-item-section>
             <q-item-label>About</q-item-label>

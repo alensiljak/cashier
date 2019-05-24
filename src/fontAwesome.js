@@ -3,9 +3,13 @@
 */
 import { library } from '@fortawesome/fontawesome-svg-core'
 // icon
-import { faStar } from '@fortawesome/free-solid-svg-icons'
+import { faBalanceScale, faInfo, faListUl, faMoneyBillWave, faSignInAlt, faSignOutAlt, 
+    faStar, faSyncAlt } 
+    from '@fortawesome/free-solid-svg-icons'
+// import { faRegular } from '@fortawesome/free-regular-svg-icons'
 
-library.add(faStar)
+library.add(faBalanceScale, faInfo, faListUl, faMoneyBillWave, faSignInAlt, faSignOutAlt, 
+    faStar, faSyncAlt)
 
 import Vue from 'vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
