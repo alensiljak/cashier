@@ -115,9 +115,7 @@
     <q-dialog v-model="confirmDeleteAllVisible" persistent content-class="bg-blue-grey-10">
       <q-card dark class="bg-red-10">
         <q-card-section class="row items-center">
-          <!-- <q-avatar icon="signal_wifi_off" color="primary" text-color="amber-2"/>
-          <span class="q-ml-sm">You are currently not connected to any network.</span>-->
-          <span>Do you want to delete all the transactions?</span>
+          <span>Do you want to delete all transactions?</span>
         </q-card-section>
 
         <q-card-actions align="right">
@@ -133,12 +131,9 @@
 import { TOGGLE_DRAWER, MAIN_TOOLBAR } from "@/mutations";
 import appService from "@/appService";
 import Vue from "vue";
-// import VueVirtualScroller from 'vue-virtual-scroller'
-// Import only the needed components for the scroller.
 import { RecycleScroller } from "vue-virtual-scroller";
 import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
 
-// Vue.use(VueVirtualScroller)
 Vue.component("RecycleScroller", RecycleScroller);
 
 export default {

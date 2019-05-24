@@ -34,11 +34,15 @@ class AppService {
   }
 
   deleteAccount(id) {
-    return db.accounts.delete(id);
+    return db.accounts.delete(id)
   }
 
   deleteAccounts() {
     return db.accounts.clear()
+  }
+
+  deletePayees() {
+    return db.payees.clear()
   }
 
   /**

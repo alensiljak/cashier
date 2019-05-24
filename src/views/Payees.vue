@@ -15,9 +15,7 @@
       key-field="id"
       v-slot="{ item }"
     >
-      <div class="scroller-item" @click="itemClicked(item.id)">
-        {{ item.name }}
-      </div>
+      <div class="scroller-item" @click="itemClicked(item.id)">{{ item.name }}</div>
     </RecycleScroller>
 
     <!-- floating action button -->
@@ -50,6 +48,20 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
+
+    <!-- confirm deletion dialog -->
+    <q-dialog v-model="confirmDeleteAllVisible" persistent content-class="bg-blue-grey-10">
+      <q-card dark class="bg-red-10">
+        <q-card-section class="row items-center">
+          <span>Do you want to delete all payees?</span>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="Cancel" color="amber-4" v-close-popup/>
+          <q-btn flat label="Delete" color="amber-4" v-close-popup @click="deleteAllConfirmed"/>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -69,7 +81,8 @@ export default {
       payees: [],
       addDialogVisible: false,
       newPayee: null,
-      filter: null
+      filter: null,
+      confirmDeleteAllVisible: false
     };
   },
 
@@ -80,8 +93,11 @@ export default {
   mounted() {},
 
   methods: {
+    deleteAllConfirmed() {
+      appService.deletePayees().then(() => this.loadData());
+    },
     itemClicked(id) {
-      console.log('item:', id)
+      console.log("item:", id);
     },
     loadData() {
       // get the payees
@@ -91,17 +107,16 @@ export default {
           // return payee.name.indexOf(this.filter) !== -1;
           //var hasS = new RegExp("^[s\s]+$").test(a);
           //let regex = new RegExp("/" + this.filter + "/")
-          let regex = new RegExp(this.filter)
-          return regex.test(payee.name)
-        })
+          let regex = new RegExp(this.filter);
+          return regex.test(payee.name);
+        });
       }
-      payeeSource.toArray()
-        .then(payees => (this.payees = payees));
+      payeeSource.toArray().then(payees => (this.payees = payees));
     },
     onAddPayee() {
       if (!this.newPayee) return;
 
-      this.addDialogVisible = false
+      this.addDialogVisible = false;
 
       appService.addPayee(this.newPayee).then(() => {
         // clear the "new payee" name for a new entry
@@ -114,7 +129,8 @@ export default {
       this.newPayee = null;
     },
     onDeleteAllClicked() {
-      console.log("delete all clicked");
+      // confirm
+      this.confirmDeleteAllVisible = true
     },
     onFab() {
       this.newPayee = this.filter;
