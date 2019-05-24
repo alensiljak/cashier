@@ -7,16 +7,6 @@
         <q-toolbar-title>Accounts</q-toolbar-title>
 
         <q-space/>
-        <!-- search -->
-        <q-input label="Search" v-if="searchVisible" v-model="filter" dark color="amber-4"/>
-        <q-btn
-          flat
-          round
-          dense
-          icon="fas fa-search"
-          class="q-mr-xs"
-          @click="searchVisible = !searchVisible"
-        />
 
         <q-btn flat round dense icon="fas fa-ellipsis-v">
           <q-menu>
@@ -41,6 +31,25 @@
             </q-list>
           </q-menu>
         </q-btn>
+      </q-toolbar>
+      <!-- search -->
+      <q-toolbar class="text-white flex flex-center">
+        <!-- <q-toolbar-title> -->
+        <q-input
+          rounded
+          standout
+          dense
+          dark
+          color="amber-4"
+          style="width: 23rem;"
+          v-model="filter"
+          debounce="500"
+        >
+          <template v-slot:append>
+            <q-icon v-if="filter === ''" name="fas fa-search"/>
+            <q-icon v-else name="clear" class="cursor-pointer" @click="filter = ''"/>
+          </template>
+        </q-input>
       </q-toolbar>
     </q-header>
 
@@ -128,8 +137,9 @@
 </template>
 
 <script>
-import { TOGGLE_DRAWER, MAIN_TOOLBAR } from "@/mutations";
-import appService from "@/appService";
+import { TOGGLE_DRAWER, MAIN_TOOLBAR } from "@/mutations"
+import appService from "@/appService"
+import { ListSearch } from "@/ListSearch.js"
 import Vue from "vue";
 import { RecycleScroller } from "vue-virtual-scroller";
 import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
@@ -143,8 +153,7 @@ export default {
       dialogVisible: false,
       newAccount: null,
       accounts: [],
-      searchVisible: false,
-      filter: null // filter for the account name
+      filterText: null // filter for the account name
     };
   },
 
@@ -165,10 +174,15 @@ export default {
       this.$router.push({ name: "account", params: { id: id } });
     },
     loadData() {
-      appService
-        .loadAccounts()
-        .toArray()
-        .then(accounts => (this.accounts = accounts));
+      let accounts = appService.db.accounts.orderBy("name");
+
+      if (this.filter) {
+        let search = new ListSearch();
+        let regex = search.getRegex(this.filter);
+
+        accounts = accounts.filter(account => regex.test(account.name));
+      }
+      accounts.toArray().then(accounts => (this.accounts = accounts));
     },
     menuClicked() {
       let visible = this.$store.state.drawerOpen;
@@ -205,6 +219,18 @@ export default {
     },
     onImportClick() {
       this.$router.push({ name: "import" });
+    }
+  },
+
+  computed: {
+    filter: {
+      get() {
+        return this.filterText
+      },
+      set(value) {
+        this.filterText = value
+        this.loadData()
+      }
     }
   }
 };
