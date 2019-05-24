@@ -56,7 +56,7 @@ const routes = [
       { path: '/settings', component: QSettings },
       { path: '/sync', name: "sync", component: Sync },
       {
-        path: '/tx/:id?',        name: 'tx',        component: QTransaction      }
+        path: '/tx/:id?', name: 'tx', component: QTransaction      }
     ]
   },
   // {

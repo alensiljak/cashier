@@ -6,7 +6,7 @@
 
       <div class="col">
         <!-- Account -->
-        <q-select
+        <!-- <q-select
           clearable
           dark
           label="Account"
@@ -25,7 +25,8 @@
               <q-item-section class="text-grey">No accounts</q-item-section>
             </q-item>
           </template>
-        </q-select>
+        </q-select> -->
+        <q-input dark label="Account" v-model="posting.account" @focus="$emit('accountFocus')" />
       </div>
     </div>
 

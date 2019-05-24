@@ -48,6 +48,7 @@
       :index="index"
       :accounts="accounts"
       v-on:delete-row="deletePosting"
+      @accountFocus="onAccountFocus(index)"
     />
 
     <!-- posting actions -->
@@ -84,15 +85,22 @@
 
 <script>
 import QPosting from "@/components/Posting.vue";
-import { Posting } from "../model";
-import { MAIN_TOOLBAR, SET_TITLE, SET_TRANSACTION } from "../mutations";
-import appService from "../appService";
+import { Posting } from "@/model";
+import {
+  MAIN_TOOLBAR,
+  SET_TITLE,
+  SET_TRANSACTION,
+  SET_SELECT_MODE
+} from "@/mutations";
+import appService from "@/appService";
+import { SelectionModeMetadata } from "../Configuration";
+
+const ACCOUNT = "account";
 
 export default {
   data: function() {
     return {
       datePickerVisible: false,
-      //tx: {}, // transaction being edited
       accounts: []
     };
   },
@@ -103,6 +111,9 @@ export default {
 
     // get the data
     this.loadData();
+
+    // are we back from the select mode?
+    if (this.$store.state.selectModeMeta) this.handleSelection();
   },
   mounted: function() {
     // Set the focus on Payee field.
@@ -112,18 +123,44 @@ export default {
   },
 
   methods: {
-    addPosting: function() {
+    addPosting() {
       // this.$store.dispatch(ADD_POSTING);
       this.tx.postings.push(new Posting());
     },
-    deletePosting: function(index) {
+    deletePosting(index) {
       // console.log("request to delete posting", index);
       this.tx.postings.splice(index, 1);
+    },
+    /**
+     * Handle selection after a picker returned.
+     */
+    handleSelection() {
+      // todo handle blank id if the user presses 'back'.
+      let select = this.$store.state.selectModeMeta;
+      let id = select.selectedId;
+
+      switch (select.selectionType) {
+        case "payee":
+          console.log("payee", id);
+          break;
+        case ACCOUNT:
+          // get the posting
+          var posting = this.tx.postings[select.postingIndex];
+          appService.db.accounts.get(id).then(account => {
+            posting.account = account.name;
+            posting.currency = account.currency;
+          });
+          // console.log("account", id);
+          break;
+      }
+
+      // clean-up, reset the selection values
+      this.$store.commit(SET_SELECT_MODE, null);
     },
     loadAccounts() {
       // load accounts from storage.
       appService.db.accounts
-        .orderBy('name')
+        .orderBy("name")
         // .toCollection()
         // .primaryKeys()
         .uniqueKeys()
@@ -143,12 +180,28 @@ export default {
         // just use the item from the store
       }
       // Accounts
-      this.loadAccounts();
+      // this.loadAccounts();
     },
     loadTransaction(id) {
       appService.loadTransaction(id).then(tx => {
         this.tx = tx;
       });
+    },
+    onAccountFocus(index) {
+      // console.log('account focus:', event)
+      let selectMode = new SelectionModeMetadata();
+
+      // save the index of the posting being edited
+      selectMode.postingIndex = index;
+      // set the type
+      selectMode.selectionType = ACCOUNT;
+      // set the return route
+      selectMode.originRoute = { name: "tx" };
+
+      // set the selection mode
+      this.$store.commit(SET_SELECT_MODE, selectMode);
+      // show account picker
+      this.$router.push({ name: "accounts" });
     },
     onClear() {
       // Resets all Transaction fields to defaults.
@@ -183,9 +236,9 @@ export default {
         });
     },
     resetTransaction() {
-      let tx = appService.createTransaction()
-      this.tx = tx
-      return tx
+      let tx = appService.createTransaction();
+      this.tx = tx;
+      return tx;
     }
   },
 
@@ -197,16 +250,16 @@ export default {
     tx: {
       get() {
         // console.log('getting tx')
-        let tx = this.$store.state.transaction
+        let tx = this.$store.state.transaction;
         if (tx === null) {
-          tx = this.resetTransaction()
+          tx = this.resetTransaction();
         }
-        return tx
+        return tx;
       },
       set(value) {
         //console.log('setting tx', value)
         // todo save in the state store
-        this.$store.commit(SET_TRANSACTION, value)
+        this.$store.commit(SET_TRANSACTION, value);
       }
     }
   }

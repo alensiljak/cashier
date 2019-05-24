@@ -36,6 +36,7 @@
       <q-toolbar class="text-white flex flex-center">
         <!-- <q-toolbar-title> -->
         <q-input
+          autofocus
           rounded
           standout
           dense
@@ -137,9 +138,9 @@
 </template>
 
 <script>
-import { TOGGLE_DRAWER, MAIN_TOOLBAR } from "@/mutations"
-import appService from "@/appService"
-import { ListSearch } from "@/ListSearch.js"
+import { TOGGLE_DRAWER, MAIN_TOOLBAR, SET_SELECT_MODE  } from "../mutations";
+import appService from "@/appService";
+import { ListSearch } from "@/ListSearch.js";
 import Vue from "vue";
 import { RecycleScroller } from "vue-virtual-scroller";
 import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
@@ -153,7 +154,8 @@ export default {
       dialogVisible: false,
       newAccount: null,
       accounts: [],
-      filterText: null // filter for the account name
+      filterText: null, // filter for the account name
+      pickerMode: false
     };
   },
 
@@ -162,7 +164,10 @@ export default {
 
     // console.log('accounts:', this.accounts)
     this.loadData();
-  },
+
+    // picker mode
+    this.pickerMode = this.$store.state.selectModeMeta ? true : false;
+},
 
   methods: {
     confirmDeleteAll() {
@@ -171,7 +176,19 @@ export default {
       });
     },
     itemClicked(id) {
-      this.$router.push({ name: "account", params: { id: id } });
+      if (this.pickerMode) {
+        // select the item and return to the caller.
+        let meta = this.$store.state.selectModeMeta
+
+        meta.selectedId = id
+        this.$store.commit(SET_SELECT_MODE, meta);
+
+        let route = meta.originRoute
+        this.$router.push(route);
+      } else {
+        // edit account
+        this.$router.push({ name: "account", params: { id: id } });
+      }
     },
     loadData() {
       let accounts = appService.db.accounts.orderBy("name");
@@ -225,11 +242,11 @@ export default {
   computed: {
     filter: {
       get() {
-        return this.filterText
+        return this.filterText;
       },
       set(value) {
-        this.filterText = value
-        this.loadData()
+        this.filterText = value;
+        this.loadData();
       }
     }
   }

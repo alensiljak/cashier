@@ -9,7 +9,9 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-import { ADD_POSTING, CLEAR_POSTINGS, DELETE_POSTING,  SET_PAYEE, SET_TITLE,
+import { ADD_POSTING, CLEAR_POSTINGS, DELETE_POSTING, 
+    SET_SELECT_MODE,
+    SET_PAYEE, SET_TITLE,
     SET_TRANSACTION, SET_TX_DATE, TOGGLE_DRAWER, MAIN_TOOLBAR } from './mutations'
 import { RESET_TRANSACTION } from './actions'
 
@@ -21,39 +23,25 @@ export default new Vuex.Store({
         pageTitle: 'Cashier', // the title in the toolbar
         activeAccount: null,
         drawerOpen: null,
+        transaction: null, // The transaction being edited.
+        // Select mode: set select mode, open list, select item, save id, return to the caller.
+        selectModeMeta: null,
         // unused?
         dateFormatIso: "yyyy-MM-dd",
-        // dateFormatLong: "dd MMMM yyyy",
-        transaction: null // The transaction being edited.
     },
     // Data transformations
     mutations: {
-        // increment(state) {
-        //     state.count++
-        // },
-        // [ADD_POSTING] (state) {
-        //     // delete one of the postings in the New Transaction
-        //     state.transaction.postings.push(new Posting())
-        // },
-        // [DELETE_POSTING] (state, index) {
-        //     // delete one of the postings in the New Transaction
-        //     state.transaction.postings.splice(index, 1)
-        // },
-        // [CLEAR_POSTINGS] (state) {
-        //     state.transaction.postings = []
-        // },
         [MAIN_TOOLBAR] (state, visible) {
             state.mainToolbarVisible = visible
         },
-        // [SET_PAYEE] (state, payee) {
-        //     state.transaction.payee = payee
-        // },
-        // [SET_PAYEES] (state, payeesArray) {
-        //     state.payees = payeesArray
-        // },
-        // [SET_TX_DATE] (state, date) {
-        //     state.transaction.date = date
-        // },
+        /**
+         * Set the metadata for the select mode.
+         * @param {*} state 
+         * @param {SelectionModeMetadata} metadata 
+         */
+        [SET_SELECT_MODE] (state, metadata) {
+            state.selectModeMeta = metadata
+        },
         [SET_TITLE] (state, title) {
             state.pageTitle = title
         },

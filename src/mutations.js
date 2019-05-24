@@ -8,6 +8,9 @@ export const CLEAR_POSTINGS = 'clearPostings'
 export const DELETE_POSTING = 'deletePosting'
 export const MAIN_TOOLBAR = 'mainToolbar'
 export const SET_PAYEES = 'setPayees'
+// Selection mode
+export const SET_SELECT_MODE = 'setSelectMode'
+//
 export const SET_TITLE = 'setTitle'
 export const SET_TRANSACTION = 'setTransaction'
 export const TOGGLE_DRAWER = 'toggleDrawer'
