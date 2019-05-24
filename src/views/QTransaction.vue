@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import QPosting from "../components/QPosting.vue";
+import QPosting from "@/components/Posting.vue";
 import { Posting } from "../model";
 import { MAIN_TOOLBAR, SET_TITLE, SET_TRANSACTION } from "../mutations";
 import appService from "../appService";
