@@ -188,7 +188,6 @@ export default {
       });
     },
     onAccountFocus(index) {
-      // console.log('account focus:', event)
       let selectMode = new SelectionModeMetadata();
 
       // save the index of the posting being edited

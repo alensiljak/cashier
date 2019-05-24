@@ -1,6 +1,9 @@
 /*
     Various configuration-related things
 */
+import db from './dataStore'
+import { Setting } from './model'
+
 
 /**
  * Contains all the values required for the selection mode to function.
@@ -20,3 +23,32 @@ export class SelectionModeMetadata {
     }
 
 }
+
+
+export const SettingKeys = {
+    get favouriteAccounts() {
+        return "favouriteAccounts"
+    }
+}
+
+
+class Settings {
+    get(key) {
+        return db.settings.get(key).then(setting => {
+            if (!setting) return null
+
+            let value = JSON.parse(setting.value)
+            return value
+        })
+    }
+
+    set(key, value) {
+        let jsonValue = JSON.stringify(value)
+        let setting = new Setting(key, jsonValue)
+        
+        return db.settings.put(setting)
+    }
+}
+
+let settings = new Settings()
+export { settings }

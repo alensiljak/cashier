@@ -7,7 +7,6 @@
   Using webpackChunkName: 'qhome' names the chunk explicitly.
 
   optional id parameter with '?' -> :id?
-
 */
 import Vue from 'vue'
 import Router from 'vue-router'
@@ -30,6 +29,7 @@ const Accounts = () => import('./views/Accounts.vue')
 const Account = () => import('./views/Account.vue')
 const Commodities = () => import('./views/Commodities.vue')
 const Export = () => import('./views/Export.vue')
+const FavAccounts = () => import('./views/FavouriteAccounts.vue')
 const Import = () => import('./views/Import.vue')
 const QTransaction = () => import(/* webpackChunkName: 'tx' */ './views/QTransaction.vue')
 const QBalanceSheet = () => import('./views/QBalanceSheet.vue')
@@ -43,20 +43,20 @@ const routes = [
     path: '/',
     component: QuasarLayout,
     children: [
-      { path: '', name: 'root', redirect: '/bal' },
+      { path: '', name: 'root', redirect: '/favouriteAccounts' },
       { path: '/about', name: 'about', component: About },
       { path: '/account/:id', name: 'account', component: Account },
       { path: '/accounts', name: 'accounts', component: Accounts },
       { path: '/bal', name: 'balanceSheet', component: QBalanceSheet },
       { path: '/commodities', name: 'commodities', component: Commodities },
       { path: '/export', name: 'export', component: Export },
+      { path: '/favouriteAccounts', name: 'favouriteAccounts', component: FavAccounts },
       { path: '/import', name: 'import', component: Import },
       { path: '/payees', name: 'payees', component: PayeeList },
       { path: '/reg', name: 'register', component: QRegister },
       { path: '/settings', component: QSettings },
       { path: '/sync', name: "sync", component: Sync },
-      {
-        path: '/tx/:id?', name: 'tx', component: QTransaction      }
+      { path: '/tx/:id?', name: 'tx', component: QTransaction }
     ]
   },
   // {

@@ -6,14 +6,14 @@
       <q-list padding>
         <!-- <q-item-label header>Navigation</q-item-label> -->
 
-        <!-- <q-item to="/" exact clickable v-ripple active-class="active-link">
+        <q-item to="/favouriteAccounts" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
-            <q-icon name="home"/>
+            <q-icon name="fas fa-star"/>
           </q-item-section>
           <q-item-section>
-            <q-item-label>Home</q-item-label>
+            <q-item-label>Favourite Accounts</q-item-label>
           </q-item-section>
-        </q-item>-->
+        </q-item>
 
         <q-item to="/bal" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>

@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { SET_TITLE, MAIN_TOOLBAR } from "../mutations";
+import { SET_TITLE, MAIN_TOOLBAR } from "@/mutations";
 
 export default {
   data() {
