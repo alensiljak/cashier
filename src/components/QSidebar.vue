@@ -8,7 +8,8 @@
 
         <q-item to="/favouriteAccounts" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
-            <q-icon name="fas fa-star"/>
+            <!-- <q-icon name="fas fa-star"/> -->
+            <font-awesome-icon icon="star" size="2x" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Favourite Accounts</q-item-label>

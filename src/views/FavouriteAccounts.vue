@@ -34,7 +34,10 @@
     <q-list dark separator>
       <q-item v-for="accountName in accounts" :key="accountName" clickable v-ripple>
         <q-item-section>{{ accountName }}</q-item-section>
-        <q-item-section side>balance</q-item-section>
+        <q-item-section side>balance
+          <!-- <q-icon name="faCoffee" /> -->
+          <font-awesome-icon icon="star" />
+        </q-item-section>
       </q-item>
     </q-list>
   </q-page>

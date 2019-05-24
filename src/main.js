@@ -16,6 +16,7 @@ import './persistentStorage'
 
 // Quasar
 import './quasarConfig'
+import './fontAwesome'
 
 Vue.config.productionTip = false
 
