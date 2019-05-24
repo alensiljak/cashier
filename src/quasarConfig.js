@@ -29,7 +29,7 @@ import {
   QTree, QExpansionItem,
   QSelect, QMenu, 
   QCard, QCardSection, QCardActions,
-  QSpace
+  QSpace, QSlideItem
 } from 'quasar'
 
 Vue.use(Quasar, {
@@ -50,7 +50,7 @@ Vue.use(Quasar, {
     QTree, QExpansionItem,
     QSelect, QMenu, 
     QCard, QCardSection, QCardActions,
-    QSpace
+    QSpace, QSlideItem
   },
   directives: {
     Ripple, ClosePopup

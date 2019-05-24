@@ -32,7 +32,6 @@
 <script>
 import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
 import appService from "../appService";
-import { Notify } from "quasar";
 
 export default {
   data() {
@@ -56,7 +55,7 @@ export default {
     copyToClipboard() {
       navigator.clipboard.writeText(this.output).then(() => {
         // console.log(res);
-        Notify.create({ message: "data copied" });
+        this.$q.notify({ message: "data copied" });
       });
     },
     downloadAsFile() {

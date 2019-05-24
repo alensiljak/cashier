@@ -26,7 +26,7 @@
             </q-item>
           </template>
         </q-select> -->
-        <q-input dark label="Account" v-model="posting.account" @focus="$emit('accountFocus')" />
+        <q-input dark label="Account" v-model="posting.account" @click="$emit('accountClicked')" />
       </div>
     </div>
 
@@ -44,7 +44,7 @@
         <q-input dark label="Currency" v-model="posting.currency"/>
       </div>
       <!-- operations / delete button -->
-      <div class="col-1 flex flex-center">
+      <!-- <div class="col-1 flex flex-center">
         <q-btn
           color="secondary"
           text-color="accent"
@@ -53,7 +53,7 @@
           size="sm"
           @click="deleteRow"
         />
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

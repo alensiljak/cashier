@@ -32,7 +32,6 @@
 <script>
 import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
 import appService from "../appService";
-import { Notify } from "quasar";
 
 export default {
   data() {
@@ -50,7 +49,7 @@ export default {
     onImportBalanceClick() {
       //   console.log(this.balanceSheetContent);
       appService.importBalanceSheet(this.balanceSheetContent).then(() => {
-        Notify.create({ color: "teal-9", message: "Accounts imported" });
+        this.$q.notify({ color: "teal-9", message: "Accounts imported" });
       });
     },
     onBalanceFile(files) {

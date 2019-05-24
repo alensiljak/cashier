@@ -41,15 +41,26 @@
     </div>
 
     <!-- Postings -->
-    <QPosting
-      v-for="(posting, index) in tx.postings"
-      :key="index"
-      :posting="posting"
-      :index="index"
-      :accounts="accounts"
-      v-on:delete-row="deletePosting"
-      @accountFocus="onAccountFocus(index)"
-    />
+    <q-slide-item dark v-for="(posting, index) in tx.postings" :key="index" 
+      right-color="red-10" @right="onSlide">
+      <template v-slot:right>
+        <div class="row items-center text-amber-4" @click="deletePosting(index)">
+          Please click to confirm or wait to cancel
+          <q-icon right name="fas fa-trash-alt"/>
+        </div>
+      </template>
+      <q-item dark class="bg-colour1">
+        <q-item-section>
+        <QPosting
+          :posting="posting"
+          :index="index"
+          :accounts="accounts"
+          v-on:delete-row="deletePosting"
+          @accountClicked="onAccountClicked(index)"
+        />
+        </q-item-section>
+      </q-item>
+    </q-slide-item>
 
     <!-- posting actions -->
     <div class="row q-mt-sm">
@@ -101,7 +112,8 @@ export default {
   data: function() {
     return {
       datePickerVisible: false,
-      accounts: []
+      accounts: [],
+      resetSlide: null
     };
   },
 
@@ -128,8 +140,25 @@ export default {
       this.tx.postings.push(new Posting());
     },
     deletePosting(index) {
-      // console.log("request to delete posting", index);
+      if (this.resetSlide) {
+        // remove the slide section.
+        this.resetSlide()
+        this.resetSlide = null
+      }
+
       this.tx.postings.splice(index, 1);
+    },
+    echo(message) {
+      this.$q.notify(message)
+      // console.log(message);
+    },
+    finalize (reset) {
+      this.timer = setTimeout(() => {
+        // has it been already deleted?
+        if (!reset) return;
+
+        reset()
+      }, 2000)
     },
     /**
      * Handle selection after a picker returned.
@@ -187,7 +216,7 @@ export default {
         this.tx = tx;
       });
     },
-    onAccountFocus(index) {
+    onAccountClicked(index) {
       let selectMode = new SelectionModeMetadata();
 
       // save the index of the posting being edited
@@ -233,6 +262,10 @@ export default {
         .catch(err => {
           console.error(err);
         });
+    },
+    onSlide({ reset }) {
+      this.resetSlide = reset
+      this.finalize(reset)
     },
     resetTransaction() {
       let tx = appService.createTransaction();
