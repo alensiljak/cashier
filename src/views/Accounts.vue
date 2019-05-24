@@ -18,11 +18,15 @@
                   <q-icon name="fas fa-sync-alt"/>
                 </q-item-section>
               </q-item>
+
               <q-item clickable v-close-popup>
                 <q-item-section @click="onImportClick">Import</q-item-section>
+                <q-item-section side>
+                  <q-icon name="fas fa-sign-in-alt"/>
+                </q-item-section>
               </q-item>
 
-              <q-item v-close-popup>
+              <q-item clickable v-close-popup>
                 <q-item-section @click="onDeleteAllClick">Delete All</q-item-section>
                 <q-item-section side>
                   <q-icon name="fas fa-trash-alt"/>
