@@ -46,7 +46,7 @@ export class ListSearch {
   getRegex(searchTerm) {
     let expression = this.getExpression(searchTerm);
 
-    let regex = new RegExp(expression);
+    let regex = new RegExp(expression, 'i');
     return regex;
   }
 }
