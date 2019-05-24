@@ -15,8 +15,6 @@
               <q-item clickable v-close-popup @click="addAccountClick">
                 <q-item-section>Add</q-item-section>
                 <q-item-section side>
-                  <!-- <q-icon name="info" /> -->
-                  <!-- <q-icon name="fas fa-plus-circle"/> -->
                   <font-awesome-icon icon="plus-circle" transform="grow-9 left-5"/>
                 </q-item-section>
               </q-item>
@@ -24,7 +22,6 @@
               <q-item v-close-popup @click="onDeleteAllClick">
                 <q-item-section>Delete All</q-item-section>
                 <q-item-section side>
-                  <!-- <q-icon name="fas fa-trash-alt"/> -->
                   <font-awesome-icon icon="trash-alt" transform="grow-9 left-5"/>
                 </q-item-section>
               </q-item>
@@ -33,14 +30,11 @@
         </q-btn>
       </q-toolbar>
     </q-header>
-    
+
     <q-list dark separator>
       <q-item v-for="accountName in accounts" :key="accountName" clickable v-ripple>
         <q-item-section>{{ accountName }}</q-item-section>
-        <q-item-section side>balance
-          <!-- <q-icon name="faCoffee" /> -->
-          <font-awesome-icon icon="star" />
-        </q-item-section>
+        <q-item-section side>balance</q-item-section>
       </q-item>
     </q-list>
   </q-page>
@@ -92,13 +86,15 @@ export default {
       settings.get(SettingKeys.favouriteAccounts).then(favArray => {
         if (!favArray) {
           // initialize favourites
-          favArray = []
+          favArray = [];
         }
 
         // append this one
         favArray.push(accountName);
         // save
-        settings.set(SettingKeys.favouriteAccounts, favArray).then(() => this.loadData())
+        settings
+          .set(SettingKeys.favouriteAccounts, favArray)
+          .then(() => this.loadData());
       });
     },
     /**
@@ -111,14 +107,17 @@ export default {
       // for now we only have accounts
       appService.db.accounts.get(id).then(account => {
         // add to favourites
-        this.addAccount(account.name)
+        this.addAccount(account.name);
       });
 
       // cleanup
       this.$store.commit(SET_SELECT_MODE, null);
     },
     loadData() {
-      settings.get(SettingKeys.favouriteAccounts).then(favArray => this.accounts = favArray)
+      settings.get(SettingKeys.favouriteAccounts).then(favArray => {
+        // todo load account details
+        this.accounts = favArray;
+      });
     },
     menuClicked() {
       let visible = this.$store.state.drawerOpen;
