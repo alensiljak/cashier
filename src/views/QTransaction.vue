@@ -17,7 +17,7 @@
 
     <q-input label="Date" v-model="tx.date" dark @click="datePickerVisible = true">
       <template v-slot:prepend>
-        <q-icon name="fas fa-calendar-day"/>
+        <font-awesome-icon icon="calendar-day"/>
       </template>
     </q-input>
 
@@ -25,14 +25,14 @@
 
     <q-input label="Payee" dark v-model="tx.payee">
       <template v-slot:prepend>
-        <q-icon name="fas fa-user"/>
+        <font-awesome-icon icon="user"/>
       </template>
     </q-input>
 
     <!--comment -->
     <q-input label="Comment" dark v-model="tx.comment">
       <template v-slot:prepend>
-        <q-icon name="fas fa-file-alt"/>
+        <font-awesome-icon icon="file-alt"/>
       </template>
     </q-input>
 
@@ -41,23 +41,28 @@
     </div>
 
     <!-- Postings -->
-    <q-slide-item dark v-for="(posting, index) in tx.postings" :key="index" 
-      right-color="red-10" @right="onSlide">
+    <q-slide-item
+      dark
+      v-for="(posting, index) in tx.postings"
+      :key="index"
+      right-color="red-10"
+      @right="onSlide"
+    >
       <template v-slot:right>
         <div class="row items-center text-amber-4" @click="deletePosting(index)">
-          Please click to confirm or wait to cancel
-          <q-icon right name="fas fa-trash-alt"/>
+          Click to confirm or wait 2s to cancel
+          <font-awesome-icon icon="trash-alt" size="2x" class="q-ml-md"/>
         </div>
       </template>
       <q-item dark class="bg-colour1">
         <q-item-section>
-        <QPosting
-          :posting="posting"
-          :index="index"
-          :accounts="accounts"
-          v-on:delete-row="deletePosting"
-          @accountClicked="onAccountClicked(index)"
-        />
+          <QPosting
+            :posting="posting"
+            :index="index"
+            :accounts="accounts"
+            v-on:delete-row="deletePosting"
+            @accountClicked="onAccountClicked(index)"
+          />
         </q-item-section>
       </q-item>
     </q-slide-item>
@@ -142,23 +147,23 @@ export default {
     deletePosting(index) {
       if (this.resetSlide) {
         // remove the slide section.
-        this.resetSlide()
-        this.resetSlide = null
+        this.resetSlide();
+        this.resetSlide = null;
       }
 
       this.tx.postings.splice(index, 1);
     },
     echo(message) {
-      this.$q.notify(message)
+      this.$q.notify(message);
       // console.log(message);
     },
-    finalize (reset) {
+    finalize(reset) {
       this.timer = setTimeout(() => {
         // has it been already deleted?
         if (!reset) return;
 
-        reset()
-      }, 2000)
+        reset();
+      }, 2000);
     },
     /**
      * Handle selection after a picker returned.
@@ -264,8 +269,8 @@ export default {
         });
     },
     onSlide({ reset }) {
-      this.resetSlide = reset
-      this.finalize(reset)
+      this.resetSlide = reset;
+      this.finalize(reset);
     },
     resetTransaction() {
       let tx = appService.createTransaction();

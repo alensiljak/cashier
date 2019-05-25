@@ -14,16 +14,20 @@
               <q-item clickable v-close-popup>
                 <q-item-section>Synchronize</q-item-section>
                 <q-item-section side>
-                  <q-icon name="fas fa-sync-alt"/>
+                  <font-awesome-icon icon="sync-alt" transform="grow-9 left-7"/>
                 </q-item-section>
               </q-item>
               <q-item clickable v-close-popup>
                 <q-item-section>Import</q-item-section>
+                <q-item-section side>
+                  <font-awesome-icon icon="sign-in-alt" transform="grow-9 left-7" />
+                </q-item-section>
               </q-item>
               <q-item clickable v-close-popup>
                 <q-item-section @click="deleteAccount">Delete</q-item-section>
                 <q-item-section side>
-                  <q-icon name="fas fa-trash-alt"/>
+                  <!-- <q-icon name="star"/> -->
+                  <font-awesome-icon icon="trash-alt" transform="grow-9 left-7" />
                 </q-item-section>
               </q-item>
             </q-list>
@@ -40,7 +44,6 @@
       dark
       clearable
       @keyup.enter="onEnter"
-      clear-icon="fas fa-times-circle"
     />
     <!-- balance -->
     <q-input
@@ -49,7 +52,6 @@
       type="number"
       dark
       clearable
-      clear-icon="fas fa-times-circle"
       @keyup.enter="onEnter"
     />
     <q-input
@@ -58,7 +60,6 @@
       dark
       clearable
       @keyup.enter="onEnter"
-      clear-icon="fas fa-times-circle"
     />
 
     <!-- Actions -->

@@ -17,13 +17,17 @@
         <q-btn
           color="red-10"
           text-color="amber-4"
-          label="Accounts"
           @click="onImportBalanceClick"
-          icon="fas fa-wallet"
-        />
+        >
+          <font-awesome-icon icon="wallet" class="q-icon on-left"/>
+          <div>Accounts</div>
+        </q-btn>
       </div>
       <div class="col text-center">
-        <q-btn disable color="red-10" text-color="amber-4" label="Payees" icon="fas fa-users"/>
+        <q-btn disable color="red-10" text-color="amber-4">
+          <font-awesome-icon icon="users" class="q-icon on-left"/>
+          <div>Payees</div>
+        </q-btn>
       </div>
     </div>
   </q-page>

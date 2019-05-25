@@ -15,21 +15,22 @@
               <q-item clickable v-close-popup>
                 <q-item-section>Synchronize</q-item-section>
                 <q-item-section side>
-                  <q-icon name="fas fa-sync-alt"/>
+                  <!-- <q-icon name="sync"/> -->
+                  <font-awesome-icon icon="sync-alt" transform="grow-9 left-5"/>
                 </q-item-section>
               </q-item>
 
               <q-item clickable v-close-popup>
                 <q-item-section @click="onImportClick">Import</q-item-section>
                 <q-item-section side>
-                  <q-icon name="fas fa-sign-in-alt"/>
+                  <font-awesome-icon icon="sign-in-alt" transform="grow-9 left-5"/>
                 </q-item-section>
               </q-item>
 
               <q-item clickable v-close-popup>
                 <q-item-section @click="onDeleteAllClick">Delete All</q-item-section>
                 <q-item-section side>
-                  <q-icon name="fas fa-trash-alt"/>
+                  <font-awesome-icon icon="trash-alt" transform="grow-9 left-5"/>
                 </q-item-section>
               </q-item>
             </q-list>
@@ -51,7 +52,7 @@
           debounce="500"
         >
           <template v-slot:append>
-            <q-icon v-if="filter === ''" name="fas fa-search"/>
+            <font-awesome-icon v-if="filter === ''" icon="search" />
             <q-icon v-else name="clear" class="cursor-pointer" @click="filter = ''"/>
           </template>
         </q-input>
@@ -122,7 +123,9 @@
 
     <!-- floating action button -->
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn fab icon="fas fa-plus" color="accent" text-color="secondary" @click="onFab"/>
+      <q-btn fab color="accent" text-color="secondary" @click="onFab">
+        <font-awesome-icon icon="plus" transform="grow-6" />
+      </q-btn>
     </q-page-sticky>
 
     <!-- confirm deletion dialog -->
