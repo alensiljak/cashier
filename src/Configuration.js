@@ -28,6 +28,9 @@ export class SelectionModeMetadata {
 export const SettingKeys = {
     get favouriteAccounts() {
         return "favouriteAccounts"
+    },
+    get syncServerUrl() {
+        return "syncServerUrl"
     }
 }
 

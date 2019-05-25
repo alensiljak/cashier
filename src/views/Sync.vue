@@ -4,9 +4,11 @@
 
     <div class="q-my-md">
       <p>Demo fetching accounts from the server</p>
-      <q-input v-model="serverUrl" label="Server URL" dark />
+      <q-input v-model="serverUrl" label="Server URL" dark/>
 
-      <q-btn label="Connect" @click="onConnectClicked" color="secondary" text-color="accent" />
+      <q-btn label="Connect" @click="onConnectClicked" color="secondary" text-color="accent"/>
+
+      <q-input dark type="textarea" v-model="content"/>
     </div>
 
     <div>
@@ -18,49 +20,56 @@
 
 <script>
 import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
-import db from '../dataStore'
-import { SyncService } from '../sync'
+// import db from '../dataStore'
+import { SettingKeys, settings } from "../Configuration";
+import { SyncService } from "../sync";
 
 export default {
   data() {
     return {
-      serverUrl: ''
+      serverUrl: "",
+      content: null
     };
   },
 
   created() {
     this.$store.commit(SET_TITLE, "Synchronization");
-    this.$store.commit(MAIN_TOOLBAR, true)
+    this.$store.commit(MAIN_TOOLBAR, true);
 
-    this.onLoadClick();
+    this.loadSettings();
   },
 
   methods: {
+    loadSettings() {
+      settings
+        .get(SettingKeys.syncServerUrl)
+        .then(value => (this.serverUrl = value));
+    },
     onConnectClicked() {
-      console.log('connect')
-      let sync = new SyncService(this.serverUrl)
-      sync.readAccounts().then(response => {
-        console.log(response)
-      })
+      let sync = new SyncService(this.serverUrl);
+
+      sync.readAccounts().then(accounts => {
+        let message = "received " + accounts.length + " accounts";
+        this.$q.notify(message);
+
+        // console.log(response)
+        let output = "";
+        for (let i = 0; i < accounts.length; i++) {
+          let account = accounts[i];
+          output += account.name + ", " + account.balance + " " + account.commodity + '\n'
+        }
+        this.content = output;
+      });
     },
     onLoadClick() {
-      // todo load settings
-      //   let col = db.transactions.toCollection();
-      //   .then(col => {
-      //   console.log(col);
-      // this.test = col;
-      //   });
-      let col = db.transactions.filter(tx => {
-        return tx.id % 2 == 0;
-      });
-      col.each((item, cursor) => {
-        console.log(item);
-        console.log(cursor);
-      });
+      this.loadSettings();
     },
     onSaveClicked() {
-      // 
-    },
+      // save settings
+      settings.set(SettingKeys.syncServerUrl, this.serverUrl).then(() => {
+        this.$q.notify("settings saved");
+      });
+    }
   }
 };
 </script>
