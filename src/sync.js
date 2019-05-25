@@ -32,8 +32,19 @@ export class SyncService {
             let account = new Account()
 
             account.name = rawItem.aname
+
+            let amount = rawItem.aibalance[0].aquantity.decimalMantissa
             let decimalPlaces = rawItem.aibalance[0].aquantity.decimalPlaces
-            account.balance = rawItem.aibalance[0].aquantity.decimalMantissa.toFixed(decimalPlaces)
+            // now we need to add the decimal separator at the right place
+            let amountString = String(amount)
+            let amountArray = amountString.split('')
+            let position = amountString.length - decimalPlaces
+            amountArray.splice(position, 0, ".")
+            amountString = amountArray.join('')
+            amount = parseFloat(amountString)
+            amount = amount.toFixed(decimalPlaces)
+            account.balance = amount
+
             account.commodity = rawItem.aibalance[0].acommodity
 
             accounts.push(account)
