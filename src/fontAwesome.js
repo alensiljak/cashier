@@ -3,13 +3,15 @@
 */
 import { library } from '@fortawesome/fontawesome-svg-core'
 // icon
-import { faBalanceScale, faInfo, faListUl, faLuggageCart, faMoneyBillWave, faPlusCircle,
+import { faBalanceScale, faInfo, faListUl, faLuggageCart, faMoneyBillWave, 
+    faPlus, faPlusCircle,
     faSearch, faSignInAlt, faSignOutAlt, 
     faStar, faSyncAlt, faTrashAlt, faUsers, faWallet } 
     from '@fortawesome/free-solid-svg-icons'
 // import { faRegular } from '@fortawesome/free-regular-svg-icons'
 
-library.add(faBalanceScale, faInfo, faListUl, faLuggageCart, faMoneyBillWave, faPlusCircle,
+library.add(faBalanceScale, faInfo, faListUl, faLuggageCart, faMoneyBillWave, 
+    faPlus, faPlusCircle,
     faSearch, faSignInAlt, faSignOutAlt, 
     faStar, faSyncAlt, faTrashAlt, faUsers, faWallet)
 

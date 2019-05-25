@@ -37,6 +37,12 @@
         <q-item-section side>balance</q-item-section>
       </q-item>
     </q-list>
+
+    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+      <q-btn fab color="accent" text-color="secondary" @click="onFabClicked">
+        <font-awesome-icon icon="plus" transform="grow-6" />
+      </q-btn>
+    </q-page-sticky>
   </q-page>
 </template>
 
@@ -125,6 +131,9 @@ export default {
     },
     onDeleteAllClick() {
       // todo confirm, etc.
+    },
+    onFabClicked() {
+      this.$router.push({ name: "tx" });
     }
   }
 };
