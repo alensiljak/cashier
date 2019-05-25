@@ -203,12 +203,17 @@ export default {
           return;
         }
 
-        appService.db.accounts.bulkGet(favArray).then(accounts => {
-          // todo adjust the balance
-          this.adjustBalances(accounts).then(
-            accounts => (this.accounts = accounts)
-          );
-        });
+        appService.db.accounts
+          .bulkGet(favArray)
+          .then(accounts => {
+            // todo adjust the balance
+            this.adjustBalances(accounts).then(
+              accounts => (this.accounts = accounts)
+            );
+          })
+          .catch(reason => {
+            this.$q.notify({ color: 'red-10', message: reason.message });
+          });
       });
     },
     menuClicked() {

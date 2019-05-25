@@ -95,7 +95,6 @@ export default {
     },
     deleteTransaction() {
       let id = this.transactionIdToDelete;
-      var that = this;
 
       appService
         .deleteTransaction(id)
@@ -104,9 +103,8 @@ export default {
           this.loadData();
         })
         .catch(reason => {
-          // console.error(reason)
           errorMessage.message = reason.message;
-          that.$q.notify(errorMessage);
+          this.$q.notify(errorMessage);
         });
     },
     exportRegister() {
