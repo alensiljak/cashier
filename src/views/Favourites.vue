@@ -32,31 +32,48 @@
     </q-header>
 
     <q-list dark separator>
-      <q-item v-for="accountName in accounts" :key="accountName" clickable v-ripple>
-        <q-item-section>{{ accountName }}</q-item-section>
-        <q-item-section side>balance</q-item-section>
+      <q-item v-for="account in accounts" :key="account.name" clickable v-ripple>
+        <q-item-section>{{ account.name }}</q-item-section>
+        <q-item-section side>{{account.balance}} {{account.currency}}</q-item-section>
       </q-item>
     </q-list>
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab color="accent" text-color="secondary" @click="onFabClicked">
-        <font-awesome-icon icon="plus" transform="grow-6" />
+        <font-awesome-icon icon="plus" transform="grow-6"/>
       </q-btn>
     </q-page-sticky>
+
+    <!-- confirm deletion dialog -->
+    <q-dialog v-model="confirmDeleteDialogVisible" persistent content-class="bg-blue-grey-10">
+      <q-card dark class="bg-red-10 text-amber-2">
+        <q-card-section class="row items-center">
+          <!-- <q-avatar icon="signal_wifi_off" color="primary" text-color="amber-2"/>
+          <span class="q-ml-sm">You are currently not connected to any network.</span>-->
+          <span>Do you want to delete the transaction?</span>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="Cancel" color="amber-4" v-close-popup/>
+          <q-btn flat label="Delete" color="amber-4" v-close-popup @click="confirmDeleteAll"/>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
 <script>
 import { MAIN_TOOLBAR, SET_SELECT_MODE, TOGGLE_DRAWER } from "../mutations";
-import appService from "@/appService";
 import { SelectionModeMetadata, settings, SettingKeys } from "../Configuration";
+import appService from "../appService";
 
 const ACCOUNT = "account";
 
 export default {
   data() {
     return {
-      accounts: []
+      accounts: [],
+      confirmDeleteDialogVisible: false
     };
   },
 
@@ -77,7 +94,7 @@ export default {
       // set the type
       selectMode.selectionType = ACCOUNT;
       // set the return route
-      selectMode.originRoute = { name: "favouriteAccounts" };
+      selectMode.originRoute = { name: "favourites" };
 
       // set the selection mode
       this.$store.commit(SET_SELECT_MODE, selectMode);
@@ -103,6 +120,33 @@ export default {
           .then(() => this.loadData());
       });
     },
+    async adjustBalances(accounts) {
+      if (!accounts) {
+        console.info("no favourite accounts found for balance adjustment");
+        return;
+      }
+
+      for (let i = 0; i < accounts.length; i++) {
+        // load all postings for the account
+        let account = accounts[i];
+        let sum = account.balance;
+
+        let postings = await appService.db.postings.where({
+          account: account.name
+        });
+        // .each(posting => {
+        let postingsArray = await postings.toArray();
+        for (let j = 0; j < postingsArray.length; j++) {
+          sum += postingsArray[j].amount;
+        }
+        // })
+        account.balance = sum.toFixed(2);
+      }
+      return accounts;
+    },
+    confirmDeleteAll() {
+      // todo delete all favourites
+    },
     /**
      * Handle selecting accounts
      */
@@ -121,8 +165,18 @@ export default {
     },
     loadData() {
       settings.get(SettingKeys.favouriteAccounts).then(favArray => {
-        // todo load account details
-        this.accounts = favArray;
+        // load account details
+        if (!favArray) {
+          console.log("no favourite accounts selected yet");
+          return;
+        }
+
+        appService.db.accounts.bulkGet(favArray).then(accounts => {
+          // todo adjust the balance
+          this.adjustBalances(accounts).then(
+            accounts => (this.accounts = accounts)
+          );
+        });
       });
     },
     menuClicked() {
@@ -130,7 +184,8 @@ export default {
       this.$store.commit(TOGGLE_DRAWER, !visible);
     },
     onDeleteAllClick() {
-      // todo confirm, etc.
+      // confirm
+      this.confirmDeleteDialogVisible = true;
     },
     onFabClicked() {
       this.$router.push({ name: "tx" });
