@@ -1,8 +1,7 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
     <p>
-      Import balance sheet by selecting a file or pasting into the text box below.
-      Export from ledger using "ledger balance --flat".
+      Import the balance sheet file. Create it by running "ledger balance --flat".
     </p>
     <q-input class="text-red" dark clearable type="file" @input="onBalanceFile"/>
     <!-- v-on:dragover="onFileHover"
