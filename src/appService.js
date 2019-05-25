@@ -1,5 +1,7 @@
 /*
     Provide service layer for the application.
+
+    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export
 */
 import db from "./dataStore";
 import { Account, Transaction, Posting, Payee } from "./model";
@@ -239,4 +241,5 @@ class AppService {
   }
 }
 
+// export let appService = new AppService();
 export default new AppService();

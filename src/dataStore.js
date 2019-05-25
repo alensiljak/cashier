@@ -25,7 +25,7 @@ db.version(0.1).stores({
 
 // Mappings
 
-db.postings.mapToClass(Account)
+db.accounts.mapToClass(Account)
 // todo commodities
 db.payees.mapToClass(Payee)
 db.postings.mapToClass(Posting)

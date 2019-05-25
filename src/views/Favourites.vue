@@ -32,9 +32,9 @@
     </q-header>
 
     <q-list dark separator>
-      <q-item v-for="accountName in accounts" :key="accountName" clickable v-ripple>
-        <q-item-section>{{ accountName }}</q-item-section>
-        <q-item-section side>balance</q-item-section>
+      <q-item v-for="account in accounts" :key="account.name" clickable v-ripple>
+        <q-item-section>{{ account.name }}</q-item-section>
+        <q-item-section side>{{account.balance}} {{account.currency}}</q-item-section>
       </q-item>
     </q-list>
 
@@ -48,8 +48,8 @@
 
 <script>
 import { MAIN_TOOLBAR, SET_SELECT_MODE, TOGGLE_DRAWER } from "../mutations";
-import appService from "@/appService";
 import { SelectionModeMetadata, settings, SettingKeys } from "../Configuration";
+import appService from "../appService";
 
 const ACCOUNT = "account";
 
@@ -121,8 +121,11 @@ export default {
     },
     loadData() {
       settings.get(SettingKeys.favouriteAccounts).then(favArray => {
-        // todo load account details
-        this.accounts = favArray;
+        // load account details
+        appService.db.accounts.bulkGet(favArray).then(accounts => {
+          this.accounts = accounts
+        })
+        // this.accounts = favArray;
       });
     },
     menuClicked() {
