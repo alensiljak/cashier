@@ -49,7 +49,7 @@
       <q-list dark separator class="bg-colour1">
         <q-item clickable v-ripple>
           <q-item-section>{{ account.name }}</q-item-section>
-          <q-item-section side>{{account.balance}} {{account.currency}}</q-item-section>
+          <q-item-section side>{{ account.balance}} {{account.currency}}</q-item-section>
         </q-item>
       </q-list>
     </q-slide-item>
@@ -146,8 +146,8 @@ export default {
       for (let i = 0; i < accounts.length; i++) {
         // load all postings for the account
         let account = accounts[i];
-        let sum = parseFloat(account.balance)
-        if (!sum) continue
+        let sum = parseFloat(account.balance);
+        if (!sum) continue;
 
         let postings = await appService.db.postings.where({
           account: account.name
@@ -155,13 +155,16 @@ export default {
         // .each(posting => {
         let postingsArray = await postings.toArray();
         for (let j = 0; j < postingsArray.length; j++) {
-          let amount = postingsArray[j].amount
-          if (!amount) continue
-          
-          sum += amount
+          let amount = postingsArray[j].amount;
+          if (!amount) continue;
+
+          sum += amount;
         }
         // })
-        account.balance = sum.toFixed(2);
+        let newBalance = sum.toFixed(2);
+
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
+        account.balance = new Intl.NumberFormat("en-AU").format(newBalance);
       }
       return accounts;
     },
@@ -241,13 +244,12 @@ export default {
         }
 
         // append this one
-        favArray.splice(index, 1)
+        favArray.splice(index, 1);
         // save
         settings
           .set(SettingKeys.favouriteAccounts, favArray)
           .then(() => this.loadData());
       });
-
     }
   }
 };
