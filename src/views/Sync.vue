@@ -56,7 +56,7 @@ export default {
         let output = "";
         for (let i = 0; i < accounts.length; i++) {
           let account = accounts[i];
-          output += account.name + ", " + account.balance + " " + account.commodity + '\n'
+          output += account.name + "    " + account.balance + " " + account.commodity + '\n'
         }
         this.content = output;
       });
