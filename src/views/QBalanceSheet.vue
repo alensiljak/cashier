@@ -6,7 +6,9 @@
     <q-tree color="colour2" text-color="amber-2" dark :nodes="simple" node-key="label"/>
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn fab icon="add" color="accent" text-color="secondary" v-on:click="openNewTransaction"/>
+      <q-btn fab color="accent" text-color="secondary" v-on:click="openNewTransaction">
+        <font-awesome-icon icon="plus" transform="grow-6" />
+      </q-btn>
     </q-page-sticky>
   </q-page>
 </template>

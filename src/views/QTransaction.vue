@@ -71,19 +71,25 @@
     <div class="row q-mt-sm">
       <div class="col text-center">
         <q-btn
-          color="secondary"
+          color="primary"
           text-color="accent"
-          label="Add Posting"
           size="small"
-          @click="addPosting"
-        />
+          @click="addPosting">
+          <font-awesome-icon icon="plus-circle" transform="grow-9" 
+            class="q-icon-small on-left"/>
+          <div>Add Posting</div>
+        </q-btn>
       </div>
     </div>
 
     <!-- main Actions -->
     <div class="row q-mt-xl justify-end">
       <div class="col text-center">
-        <q-btn color="secondary" text-color="accent" label="Reset" size="medium" @click="onClear"/>
+        <q-btn color="secondary" text-color="accent" size="medium" @click="onClear">
+          <font-awesome-icon icon="times-circle" transform="grow-9" 
+            class="q-icon-small on-left"/>
+            <div>Reset</div>
+        </q-btn>
       </div>
       <div class="col text-center">
         <q-btn
@@ -92,8 +98,10 @@
           text-color="secondary"
           label="Save"
           size="medium"
-          @click="onSave"
-        />
+          @click="onSave">
+          <font-awesome-icon icon="save" transform="grow-9" 
+            class="q-icon-small on-right"/>
+        </q-btn>
       </div>
     </div>
   </q-page>

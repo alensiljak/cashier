@@ -19,6 +19,9 @@
               </q-item>-->
               <q-item clickable v-close-popup>
                 <q-item-section @click="exportRegister">Export</q-item-section>
+                <q-item-section side>
+                  <font-awesome-icon icon="sign-out-alt" transform="grow-9 left-5"/>
+                </q-item-section>
               </q-item>
             </q-list>
           </q-menu>
@@ -38,7 +41,9 @@
     </q-list>
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn fab icon="add" color="accent" text-color="secondary" @click="openNewTransaction"/>
+      <q-btn fab color="accent" text-color="secondary" @click="openNewTransaction">
+        <font-awesome-icon icon="plus" transform="grow-6"/>
+      </q-btn>
     </q-page-sticky>
 
     <!-- confirm deletion dialog -->
@@ -46,7 +51,7 @@
       <q-card dark class="bg-teal-9">
         <q-card-section class="row items-center">
           <!-- <q-avatar icon="signal_wifi_off" color="primary" text-color="amber-2"/>
-          <span class="q-ml-sm">You are currently not connected to any network.</span> -->
+          <span class="q-ml-sm">You are currently not connected to any network.</span>-->
           <span>Do you want to delete the transaction?</span>
         </q-card-section>
 
@@ -86,10 +91,10 @@ export default {
 
   methods: {
     confirmDelete() {
-      this.deleteTransaction()
+      this.deleteTransaction();
     },
     deleteTransaction() {
-      let id = this.transactionIdToDelete
+      let id = this.transactionIdToDelete;
       var that = this;
 
       appService
@@ -130,7 +135,7 @@ export default {
     onTransactionDeleteClicked(data) {
       // confirm
       this.confirmDeleteVisible = true;
-      this.transactionIdToDelete = data.id
+      this.transactionIdToDelete = data.id;
     },
     openNewTransaction() {
       this.$router.push({ name: "tx" });

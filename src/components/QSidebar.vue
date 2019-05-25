@@ -8,7 +8,7 @@
 
         <q-item to="/favouriteAccounts" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
-            <font-awesome-icon icon="star" transform="grow-6 right-6" />
+            <font-awesome-icon icon="star" transform="grow-6 right-6"/>
           </q-item-section>
           <q-item-section>
             <q-item-label>Favourites</q-item-label>
@@ -17,7 +17,7 @@
 
         <q-item to="/bal" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
-            <font-awesome-icon icon="balance-scale" transform="grow-6 right-6" />
+            <font-awesome-icon icon="balance-scale" transform="grow-6 right-6"/>
           </q-item-section>
           <q-item-section>
             <q-item-label>Balance Sheet</q-item-label>
@@ -27,7 +27,7 @@
         <q-item to="/tx" clickable v-ripple active-class="active-link">
           <!-- exact active -->
           <q-item-section avatar>
-            <font-awesome-icon icon="money-bill-wave" transform="grow-6 right-6" />
+            <font-awesome-icon icon="money-bill-wave" transform="grow-6 right-6"/>
           </q-item-section>
           <q-item-section>
             <q-item-label>Transaction</q-item-label>
@@ -36,7 +36,7 @@
 
         <q-item to="/reg" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
-            <font-awesome-icon icon="list-ul" transform="grow-6 right-6" />
+            <font-awesome-icon icon="list-ul" transform="grow-6 right-6"/>
           </q-item-section>
           <q-item-section>
             <q-item-label>Register</q-item-label>
@@ -61,7 +61,7 @@
             >
               <!-- exact -->
               <q-item-section avatar>
-                <font-awesome-icon icon="wallet" transform="grow-6 right-6" />
+                <font-awesome-icon icon="wallet" transform="grow-6 right-6"/>
               </q-item-section>
               <q-item-section>
                 <q-item-label>Accounts</q-item-label>
@@ -77,7 +77,7 @@
               active-class="active-link"
             >
               <q-item-section avatar>
-                <font-awesome-icon icon="users" transform="grow-6 right-6" />
+                <font-awesome-icon icon="users" transform="grow-6 right-6"/>
               </q-item-section>
               <q-item-section>
                 <q-item-label>Payees</q-item-label>
@@ -93,7 +93,7 @@
               active-class="active-link"
             >
               <q-item-section avatar>
-                <font-awesome-icon icon="luggage-cart" transform="grow-6 right-6" />
+                <font-awesome-icon icon="luggage-cart" transform="grow-6 right-6"/>
               </q-item-section>
               <q-item-section>
                 <q-item-label>Commodities</q-item-label>
@@ -102,36 +102,48 @@
           </q-list>
         </q-expansion-item>
 
-        <q-item to="/sync" exact clickable v-ripple active-class="active-link">
-          <q-item-section avatar>
-            <font-awesome-icon icon="sync-alt" transform="grow-6 right-6" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Sync</q-item-label>
-          </q-item-section>
-        </q-item>
+  <!-- I/O -->
+        <q-expansion-item
+          dark
+          header-class="text-amber-2"
+          expand-icon-class="text-amber-2"
+          expand-separator
+          icon="swap_horizontal_circle"
+          label="I/O"
+        >
+          <q-list>
+            <q-item to="/sync" :inset-level="1" exact clickable v-ripple active-class="active-link">
+              <q-item-section avatar>
+                <font-awesome-icon icon="sync-alt" transform="grow-6 right-6"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Sync</q-item-label>
+              </q-item-section>
+            </q-item>
 
-        <q-item to="/export" exact clickable v-ripple active-class="active-link">
-          <q-item-section avatar>
-            <font-awesome-icon icon="sign-out-alt" transform="grow-6 right-6" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Export</q-item-label>
-          </q-item-section>
-        </q-item>
+            <q-item to="/export" :inset-level="1" exact clickable v-ripple active-class="active-link">
+              <q-item-section avatar>
+                <font-awesome-icon icon="sign-out-alt" transform="grow-6 right-6"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Export</q-item-label>
+              </q-item-section>
+            </q-item>
 
-        <q-item to="/import" exact clickable v-ripple active-class="active-link">
-          <q-item-section avatar>
-            <font-awesome-icon icon="sign-in-alt" transform="grow-6 right-6" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Import</q-item-label>
-          </q-item-section>
-        </q-item>
+            <q-item to="/import" :inset-level="1" exact clickable v-ripple active-class="active-link">
+              <q-item-section avatar>
+                <font-awesome-icon icon="sign-in-alt" transform="grow-6 right-6"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Import</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-expansion-item>
 
         <q-item to="/about" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
-            <font-awesome-icon icon="info" transform="grow-6 right-6" />
+            <font-awesome-icon icon="info" transform="grow-6 right-6"/>
           </q-item-section>
           <q-item-section>
             <q-item-label>About</q-item-label>
@@ -172,9 +184,9 @@ export default {
   methods: {
     onHeaderClick() {
       // "reset browser history" by going back to the beginning.
-      let back = (window.history.length - 1) * (-1)
+      let back = (window.history.length - 1) * -1;
       // console.log('history:', window.history.length)
-      window.history.go(back)
+      window.history.go(back);
 
       //this.$router.push("/");
     },
