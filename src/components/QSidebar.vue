@@ -143,7 +143,7 @@
 
         <q-item to="/about" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
-            <font-awesome-icon icon="info" transform="grow-6 right-6"/>
+            <font-awesome-icon icon="info" transform="grow-6 right-9"/>
           </q-item-section>
           <q-item-section>
             <q-item-label>About</q-item-label>
