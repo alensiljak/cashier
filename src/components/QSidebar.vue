@@ -6,7 +6,7 @@
       <q-list padding>
         <!-- <q-item-label header>Navigation</q-item-label> -->
 
-        <q-item to="/favouriteAccounts" exact clickable v-ripple active-class="active-link">
+        <q-item to="/favourites" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
             <font-awesome-icon icon="star" transform="grow-6 right-6"/>
           </q-item-section>
