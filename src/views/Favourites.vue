@@ -164,7 +164,8 @@ export default {
         let newBalance = sum.toFixed(2);
 
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
-        account.balance = new Intl.NumberFormat("en-AU").format(newBalance);
+        account.balance = new Intl.NumberFormat("en-AU") // { style: 'currency', currency: 'EUR' }
+          .format(newBalance);
       }
       return accounts;
     },
