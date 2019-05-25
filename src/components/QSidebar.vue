@@ -175,7 +175,7 @@
         <!-- <div class="text-weight-bold">Cashier</div> -->
         <!-- <div>@cashier</div> -->
         <div style="font-size: 2rem;">Cashier
-          <span style="font-size: 0.75rem" class="q-my-none">v2019.05.25-10</span>
+          <span style="font-size: 0.75rem" class="q-my-none">{{this.$version}}</span>
         </div>
       </div>
     </q-img>
