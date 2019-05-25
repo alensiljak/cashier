@@ -44,7 +44,7 @@
       </q-btn>
     </q-page-sticky>
 
-        <!-- confirm deletion dialog -->
+    <!-- confirm deletion dialog -->
     <q-dialog v-model="confirmDeleteDialogVisible" persistent content-class="bg-blue-grey-10">
       <q-card dark class="bg-red-10 text-amber-2">
         <q-card-section class="row items-center">
@@ -59,7 +59,6 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
-
   </q-page>
 </template>
 
@@ -121,6 +120,30 @@ export default {
           .then(() => this.loadData());
       });
     },
+    async adjustBalances(accounts) {
+      if (!accounts) {
+        console.info("no favourite accounts found for balance adjustment");
+        return;
+      }
+
+      for (let i = 0; i < accounts.length; i++) {
+        // load all postings for the account
+        let account = accounts[i];
+        let sum = account.balance;
+
+        let postings = await appService.db.postings.where({
+          account: account.name
+        });
+        // .each(posting => {
+        let postingsArray = await postings.toArray();
+        for (let j = 0; j < postingsArray.length; j++) {
+          sum += postingsArray[j].amount;
+        }
+        // })
+        account.balance = sum;
+      }
+      return accounts;
+    },
     confirmDeleteAll() {
       // todo delete all favourites
     },
@@ -143,10 +166,17 @@ export default {
     loadData() {
       settings.get(SettingKeys.favouriteAccounts).then(favArray => {
         // load account details
+        if (!favArray) {
+          console.log("no favourite accounts selected yet");
+          return;
+        }
+
         appService.db.accounts.bulkGet(favArray).then(accounts => {
-          this.accounts = accounts;
+          // todo adjust the balance
+          this.adjustBalances(accounts).then(
+            accounts => (this.accounts = accounts)
+          );
         });
-        // this.accounts = favArray;
       });
     },
     menuClicked() {
