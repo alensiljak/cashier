@@ -127,7 +127,8 @@ export default {
         });
     },
     menuClicked() {
-      console.log("menu clicked");
+      let visible = this.$store.state.drawerOpen;
+      this.$store.commit(TOGGLE_DRAWER, !visible);
     },
     onItemClicked(event) {
       console.log("clicked", event);
