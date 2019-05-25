@@ -40,9 +40,26 @@
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab color="accent" text-color="secondary" @click="onFabClicked">
-        <font-awesome-icon icon="plus" transform="grow-6" />
+        <font-awesome-icon icon="plus" transform="grow-6"/>
       </q-btn>
     </q-page-sticky>
+
+        <!-- confirm deletion dialog -->
+    <q-dialog v-model="confirmDeleteDialogVisible" persistent content-class="bg-blue-grey-10">
+      <q-card dark class="bg-red-10 text-amber-2">
+        <q-card-section class="row items-center">
+          <!-- <q-avatar icon="signal_wifi_off" color="primary" text-color="amber-2"/>
+          <span class="q-ml-sm">You are currently not connected to any network.</span>-->
+          <span>Do you want to delete the transaction?</span>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="Cancel" color="amber-4" v-close-popup/>
+          <q-btn flat label="Delete" color="amber-4" v-close-popup @click="confirmDeleteAll"/>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
   </q-page>
 </template>
 
@@ -56,7 +73,8 @@ const ACCOUNT = "account";
 export default {
   data() {
     return {
-      accounts: []
+      accounts: [],
+      confirmDeleteDialogVisible: false
     };
   },
 
@@ -77,7 +95,7 @@ export default {
       // set the type
       selectMode.selectionType = ACCOUNT;
       // set the return route
-      selectMode.originRoute = { name: "favouriteAccounts" };
+      selectMode.originRoute = { name: "favourites" };
 
       // set the selection mode
       this.$store.commit(SET_SELECT_MODE, selectMode);
@@ -103,6 +121,9 @@ export default {
           .then(() => this.loadData());
       });
     },
+    confirmDeleteAll() {
+      // todo delete all favourites
+    },
     /**
      * Handle selecting accounts
      */
@@ -123,8 +144,8 @@ export default {
       settings.get(SettingKeys.favouriteAccounts).then(favArray => {
         // load account details
         appService.db.accounts.bulkGet(favArray).then(accounts => {
-          this.accounts = accounts
-        })
+          this.accounts = accounts;
+        });
         // this.accounts = favArray;
       });
     },
@@ -133,7 +154,8 @@ export default {
       this.$store.commit(TOGGLE_DRAWER, !visible);
     },
     onDeleteAllClick() {
-      // todo confirm, etc.
+      // confirm
+      this.confirmDeleteDialogVisible = true;
     },
     onFabClicked() {
       this.$router.push({ name: "tx" });
