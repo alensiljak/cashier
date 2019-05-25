@@ -140,7 +140,7 @@ export default {
           sum += postingsArray[j].amount;
         }
         // })
-        account.balance = sum;
+        account.balance = sum.toFixed(2);
       }
       return accounts;
     },
