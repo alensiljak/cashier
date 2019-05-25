@@ -4,7 +4,7 @@
       <q-toolbar class="text-colour2">
         <q-btn flat dense round @click="menuClicked" aria-label="Menu" icon="menu"/>
 
-        <q-toolbar-title>Favourite Accounts</q-toolbar-title>
+        <q-toolbar-title>Favourites</q-toolbar-title>
 
         <q-space/>
 

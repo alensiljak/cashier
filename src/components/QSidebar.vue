@@ -12,7 +12,7 @@
             <font-awesome-icon icon="star" transform="grow-6 right-6" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>Favourite Accounts</q-item-label>
+            <q-item-label>Favourites</q-item-label>
           </q-item-section>
         </q-item>
 
