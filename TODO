@@ -1,6 +1,21 @@
 - Cashier
     - To Do
+        - Commodities import
+        - Favourites
+            - Show only the balance in the app (without the base)?
+            - Slide to remove account
+            - Shorten the title
+            - reordering the list
+            - tree view
+            - show balances
+            - calculate current balance (base + postings)
+        - Balance sheet
+            - click to open account register
+        - Single-Account register
+            - Show only the payee and amount from the posting
+        - Update existing accounts on import
         - sync between devices! hledger-api / -web
+            - add CORS
             - get a minimal set of data from ledger book: equity
             - download accounts (bal sheet?)
         - [new tx screen](https://dynalist.io/d/y_8Ma9YghJKv_5Le5J92LA_A#z=NIqHj0gMZ1I4Y8ZBjTZTVTIY)
@@ -14,21 +29,17 @@
             - Numeric entry for amounts, calculator
             - Q Search input
             - Suffix control on amount, for currency
+            - deleting saved postings (currently not deleted from database!). delete by id
             - Debounce, loading for search
             - hide datepicker dialog when day selected
             - Auto fill currency when an account is selected
             - https://v1.quasar-framework.org/vue-components/date#Functionality
             - Transaction, use vertical layout on small devices
-            - deleting saved postings (currently not deleted from database!). delete by id
             - validation
                 - min. two postings?
             - Currency exchange
                 - Trading accounts
                 - Enter exchange rate
-        - Account selection screen
-            - Search
-            - Tap to select in picker mode
-            - Show/edit account record
         - Register
             - Slide to delete
                 - https://v1.quasar-framework.org/vue-components/slide-item
@@ -39,10 +50,7 @@
             - Use account search for choosing the filter
             - Date filter
             - Postings as custom PostingListItem component. Alignment.
-        - Custom search /filter
-            -  Space is term separator. Default AND.
-            - https://v1.quasar-framework.org/vue-components/select#Filtering-and-autocomplete
-            - https://github.com/dfahlander/Dexie.js/issues/281
+            - confirm deletion
         - Payee selection
             - List
             - Search, filter
@@ -50,13 +58,8 @@
             - Fill last transaction
             - Order by number of transactions
             - Order by last used
-        - Transaction ordering when merging to ledger? Use hl-web
-        - export journal
-            - write directly to hledger web /add
-            - export ledger-format text file
-            - show formatted content in text area
-            - copy to clipboard
-                - https://stackoverflow.com/questions/400212/how-do-i-copy-to-the-clipboard-in-javascript
+        - add some dummy data if db empty
+        - Hide selected accounts from the lists
     - Requirements
         - functional
             - convenient data-entry screen for transactions
@@ -73,6 +76,11 @@
             - select favourite accounts, toggle viewing all
             - hide accounts in selectors and report
             - Tree view, collapsible. Remember collapsed nodes.
+        - I/O
+            - This is for import/export. Also see Synchronization.
+            - export journal in ledger format
+            - option to delete tx after export?
+            - Delete All for visible records
         - Data Import
             - Import accounts/bal-sheet from ledger
                 - account, balance, currency
@@ -81,11 +89,6 @@
             - Import payees
             - Import in respective screens (bal sheet, payees)
             - Import journal, for synchronisation with other devices
-        - I/O
-            - This is for import/export. Also see Synchronization.
-            - export journal in ledger format
-            - option to delete tx after export?
-            - Delete All for visible records
         - transaction edit/new
             - Save transaction to the local journal
             - Use text input until selectors are ready
@@ -132,10 +135,28 @@
             - Or simple export import, using the same format for both
             - Syncthing
     - Implementation issues
+        - Account list
+            - https://github.com/Akryum/vue-virtual-scroller
+            - Delete all accounts
+            - use account name as the primary key
+        - Account edit screen
+            - Use id
+        - Account selection screen
+            - Search
+            - Tap to select in picker mode
+            - Show/edit account record
         - Account tree
             - https://www.vuescript.com/treeview-component-vue-js-2-v-treeview/
             - https://www.npmjs.com/package/treeify
             - Account has name, balance, currency, starting balance
+        - caching in PWA
+            - cache images from /public
+            - https://stackoverflow.com/questions/51214220/vue-cli-3-how-to-use-the-official-pwa-plugin-service-worker
+            - check precache manifest definition
+            - https://cli.vuejs.org/ uses [pwa plugin](https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-pwa)
+            - injects service worker. Caches the app by default. Favicon defined here!
+            - https://github.com/webpack/webpack-pwa
+            - https://stackoverflow.com/questions/54145735/vue-pwa-not-getting-new-content-after-refresh
         - Data Storage
             - localforage
             - primary keys
@@ -147,11 +168,29 @@
             - localForage
             - [working with indexeddb](https://developers.google.com/web/ilt/pwa/working-with-indexeddb)
             - [best practices](https://developers.google.com/web/fundamentals/instant-and-offline/web-storage/indexeddb-best-practices)
+        - Entities menu
+            - Expansion Item
+            - Accounts
+            - Payees
+            - Commodities
+        - export journal
+            - Don't append the currency if no amount
+            - write directly to hledger web /add
+            - export ledger-format text file
+            - show formatted content in text area
+            - copy to clipboard
+                - https://stackoverflow.com/questions/400212/how-do-i-copy-to-the-clipboard-in-javascript
+            - Export, zero-pad the time in filename
+            - Transaction ordering when merging to ledger? Use hl-web
         - Floating action button
             - https://framework7.io/vue/floating-action-button.html
             - https://vuetifyjs.com/en/
             - https://vuejsexamples.com/floating-action-button-for-vue/
             - Add material plus button for new tx
+        - History mode
+            - access individual pages by URL
+            - [router server config](https://router.vuejs.org/guide/essentials/history-mode.html#example-server-configurations)
+            - [netlify config](https://stackoverflow.com/questions/47729023/add-redirects-file-to-root-path-for-vue-spa-hosted-on-netlify)
         - Input Controls
             - datepicker
                 - https://github.com/charliekassel/vuejs-datepicker
@@ -175,22 +214,6 @@
             - Cache the whole content offline
             - Fix pwa again
                 - https://stackoverflow.com/questions/49963982/vue-router-history-mode-with-pwa-in-offline-mode
-        - State Storage
-            - store pattern
-                - https://vuejs.org/v2/guide/state-management.html#Simple-State-Management-from-Scratch
-            - Vuex
-                - https://vuex.vuejs.org/
-                - [persist](https://github.com/championswimmer/vuex-persist)
-                - [lib](https://github.com/robinvdvleuten/vuex-persistedstate)
-            - Persistence
-                - Persist in internal storage
-                - Json stringify
-                - Load into state only when needed
-                - Only save new transaction
-                - Save accounts on import
-                - https://github.com/localForage/localForage
-                - https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Browser_storage_limits_and_eviction_criteria#Different_types_of_data_storage
-                - Persistent storage
         - Sidebar
             - Active links
                 - https://stackoverflow.com/questions/46083220/how-to-vuejs-router-link-active-style
@@ -219,6 +242,25 @@
                 - Close when any page loads, router event
                 - Event bus, https://github.com/vuejs/awesome-vue#custom-events
                 - https://vuex.vuejs.org/api/#watch
+            - https://developer.mozilla.org/en-US/docs/Web/API/History_API
+        - Remote Storage
+            - https://remotestorage.io/
+        - State Storage
+            - store pattern
+                - https://vuejs.org/v2/guide/state-management.html#Simple-State-Management-from-Scratch
+            - Vuex
+                - https://vuex.vuejs.org/
+                - [persist](https://github.com/championswimmer/vuex-persist)
+                - [lib](https://github.com/robinvdvleuten/vuex-persistedstate)
+            - Persistence
+                - Persist in internal storage
+                - Json stringify
+                - Load into state only when needed
+                - Only save new transaction
+                - Save accounts on import
+                - https://github.com/localForage/localForage
+                - https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Browser_storage_limits_and_eviction_criteria#Different_types_of_data_storage
+                - Persistent storage
         - Styling/Theming
             - Colour Palettes
                 - [how to apply](https://www.elegantthemes.com/blog/divi-resources/how-to-apply-color-palettes-to-your-divi-website)
@@ -228,8 +270,6 @@
             - Bootstrap variables
             - Dark theme
             - Use full width of the screen
-        - Transaction list
-            - Use table?
         - Toolkits/frameworks
             - https://v1.quasar-framework.org/
             - https://onsen.io/v2/guide/vue/
@@ -240,22 +280,14 @@
                 - Add to about page
                 - https://material.io/tools/icons
                 - Quasar
-        - Entities menu
-            - Expansion Item
-            - Accounts
-            - Payees
-            - Commodities
-        - History mode
-            - access individual pages by URL
-            - [router server config](https://router.vuejs.org/guide/essentials/history-mode.html#example-server-configurations)
-            - [netlify config](https://stackoverflow.com/questions/47729023/add-redirects-file-to-root-path-for-vue-spa-hosted-on-netlify)
-        - caching in PWA
-            - cache images from /public
-            - https://stackoverflow.com/questions/51214220/vue-cli-3-how-to-use-the-official-pwa-plugin-service-worker
-            - check precache manifest definition
-            - https://cli.vuejs.org/ uses [pwa plugin](https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-pwa)
-            - injects service worker. Caches the app by default. Favicon defined here!
-            - https://github.com/webpack/webpack-pwa
-            - https://stackoverflow.com/questions/54145735/vue-pwa-not-getting-new-content-after-refresh
-        - Account edit screen
-            - Use id
+        - Transaction list
+            - Use table?
+        - Custom search /filter
+            - Case insensitive
+            - https://stackoverflow.com/questions/4389644/regex-to-match-string-containing-two-names-in-any-order
+            -  Space is term separator. Default AND.
+            - https://v1.quasar-framework.org/vue-components/select#Filtering-and-autocomplete
+            - https://github.com/dfahlander/Dexie.js/issues/281
+        - SVG icons
+            - replace and remove fa font to reduce the size
+            - https://github.com/quasarframework/quasar/issues/2494
