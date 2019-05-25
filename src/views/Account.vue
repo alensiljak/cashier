@@ -139,7 +139,7 @@ export default {
       // save account
       appService.saveAccount(this.account).then(() => {
         if (deleteOldAccount) {
-          appService.deleteAccount(this.originalName).then((result) => {
+          appService.deleteAccount(this.originalName).then(() => {
             console.log('old account deleted', this.originalName)
           })
         }
