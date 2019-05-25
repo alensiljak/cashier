@@ -33,8 +33,8 @@ class AppService {
     return db;
   }
 
-  deleteAccount(id) {
-    return db.accounts.delete(id)
+  deleteAccount(name) {
+    return db.accounts.delete(name)
   }
 
   deleteAccounts() {

@@ -36,7 +36,7 @@
       </q-toolbar>
     </q-header>
 
-    <p>Editor for the Account: {{ account.name }}</p>
+    <!-- <p>Editor for the Account: {{ account.name }}</p> -->
 
     <q-input
       label="Account Name"
@@ -94,7 +94,8 @@ import appService from "../appService";
 export default {
   data() {
     return {
-      account: {}
+      account: {},
+      originalName: null // track name change
     };
   },
 
@@ -107,10 +108,12 @@ export default {
   methods: {
     deleteAccount() {
       // delete the account and go back
-      appService.deleteAccount(this.account.id).then(() => history.go(-1));
+      appService.deleteAccount(this.account.name).then(() => history.go(-1));
     },
-    loadAccount(id) {
-      appService.loadAccount(id).then(account => {
+    loadAccount(name) {
+      this.originalName = name
+
+      appService.loadAccount(name).then(account => {
         this.account = account;
         // console.log('loaded account:', account)
       });
@@ -127,8 +130,19 @@ export default {
       this.onSave();
     },
     onSave() {
-      // todo save account
+      var deleteOldAccount = false
+      // check if the name was changed.
+      if (this.account.name !== this.originalName) {
+        // need to delete the old account
+        deleteOldAccount = true
+      }
+      // save account
       appService.saveAccount(this.account).then(() => {
+        if (deleteOldAccount) {
+          appService.deleteAccount(this.originalName).then((result) => {
+            console.log('old account deleted', this.originalName)
+          })
+        }
         this.$router.push({ name: "accounts" });
       });
     }

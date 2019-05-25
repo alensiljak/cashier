@@ -86,10 +86,10 @@
       class="scroller"
       :items="accounts"
       :item-size="42"
-      key-field="id"
+      key-field="name"
       v-slot="{ item }"
     >
-      <div class="scroller-item" @click="itemClicked(item.id)">
+      <div class="scroller-item" @click="itemClicked(item.name)">
         {{ item.name }}
         <div class="fixed-right">{{ item.balance }} {{ item.currency }}</div>
       </div>

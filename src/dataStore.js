@@ -17,13 +17,11 @@ db.version(0.1).stores({
     // transactions: "++id, date, payee, postings"
     transactions: "++id, date",
     postings: "++id, transactionId, account",
-    accounts: "++id, name",
+    accounts: "name",
     // todo commodities
-    payees: "++id, name"
-});
-db.version(0.2).stores({
+    payees: "++id, name",
     settings: "key"
-})
+});
 
 // Mappings
 
