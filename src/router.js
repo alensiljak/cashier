@@ -25,18 +25,18 @@ Vue.use(Router);
 
 // Quasar version
 const About = () => import(/* webpackChunkName: 'about' */ './views/About.vue')
-const Accounts = () => import('./views/Accounts.vue')
-const Account = () => import('./views/Account.vue')
+const Account = () => import(/* webpackChunkName: 'account' */ './views/Account.vue')
+const Accounts = () => import(/* webpackChunkName: 'accounts' */ './views/Accounts.vue')
+const QBalanceSheet = () => import(/* webpackChunkName: 'bal' */ './views/QBalanceSheet.vue')
 const Commodities = () => import('./views/Commodities.vue')
 const Export = () => import('./views/Export.vue')
 const FavAccounts = () => import('./views/Favourites.vue')
 const Import = () => import('./views/Import.vue')
-const QTransaction = () => import(/* webpackChunkName: 'tx' */ './views/QTransaction.vue')
-const QBalanceSheet = () => import('./views/QBalanceSheet.vue')
+const PayeeList = () => import('./views/Payees.vue')
 const QRegister = () => import('./views/Register.vue')
 const QSettings = () => import('./views/QSettings.vue')
 const Sync = () => import('./views/Sync.vue')
-const PayeeList = () => import('./views/Payees.vue')
+const QTransaction = () => import(/* webpackChunkName: 'tx' */ './views/QTransaction.vue')
 
 const routes = [
   {
