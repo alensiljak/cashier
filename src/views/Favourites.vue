@@ -31,12 +31,28 @@
       </q-toolbar>
     </q-header>
 
-    <q-list dark separator>
-      <q-item v-for="account in accounts" :key="account.name" clickable v-ripple>
-        <q-item-section>{{ account.name }}</q-item-section>
-        <q-item-section side>{{account.balance}} {{account.currency}}</q-item-section>
-      </q-item>
-    </q-list>
+    <!-- account list -->
+    <q-slide-item
+      dark
+      v-for="(account, index) in accounts"
+      :key="account.name"
+      right-color="red-10"
+      @right="onRightSlide"
+    >
+      <template v-slot:right>
+        <div class="row items-center text-amber-4" @click="removeAccount(index)">
+          Click to confirm or wait 2s to cancel
+          <font-awesome-icon icon="trash-alt" size="2x" class="q-ml-md"/>
+        </div>
+      </template>
+
+      <q-list dark separator class="bg-colour1">
+        <q-item clickable v-ripple>
+          <q-item-section>{{ account.name }}</q-item-section>
+          <q-item-section side>{{account.balance}} {{account.currency}}</q-item-section>
+        </q-item>
+      </q-list>
+    </q-slide-item>
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab color="accent" text-color="secondary" @click="onFabClicked">
@@ -73,7 +89,8 @@ export default {
   data() {
     return {
       accounts: [],
-      confirmDeleteDialogVisible: false
+      confirmDeleteDialogVisible: false,
+      resetSlide: null
     };
   },
 
@@ -129,7 +146,8 @@ export default {
       for (let i = 0; i < accounts.length; i++) {
         // load all postings for the account
         let account = accounts[i];
-        let sum = account.balance;
+        let sum = parseFloat(account.balance)
+        if (!sum) continue
 
         let postings = await appService.db.postings.where({
           account: account.name
@@ -137,7 +155,10 @@ export default {
         // .each(posting => {
         let postingsArray = await postings.toArray();
         for (let j = 0; j < postingsArray.length; j++) {
-          sum += postingsArray[j].amount;
+          let amount = postingsArray[j].amount
+          if (!amount) continue
+          
+          sum += amount
         }
         // })
         account.balance = sum.toFixed(2);
@@ -146,6 +167,14 @@ export default {
     },
     confirmDeleteAll() {
       // todo delete all favourites
+    },
+    finalize(reset) {
+      this.timer = setTimeout(() => {
+        // has it been already deleted?
+        if (!this.resetSlide) return;
+
+        reset();
+      }, 2000);
     },
     /**
      * Handle selecting accounts
@@ -189,6 +218,36 @@ export default {
     },
     onFabClicked() {
       this.$router.push({ name: "tx" });
+    },
+    onRightSlide({ reset }) {
+      this.resetSlide = reset;
+      this.finalize(this.resetSlide);
+    },
+    removeAccount(index) {
+      if (this.resetSlide) {
+        // remove the slide section.
+        this.resetSlide();
+        this.resetSlide = null;
+      }
+
+      // remove the account from array
+      this.accounts.splice(index, 1);
+
+      // save favourites
+      settings.get(SettingKeys.favouriteAccounts).then(favArray => {
+        if (!favArray) {
+          // initialize favourites
+          favArray = [];
+        }
+
+        // append this one
+        favArray.splice(index, 1)
+        // save
+        settings
+          .set(SettingKeys.favouriteAccounts, favArray)
+          .then(() => this.loadData());
+      });
+
     }
   }
 };
