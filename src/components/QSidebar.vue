@@ -50,7 +50,8 @@
           expand-icon-class="text-amber-2"
           expand-separator
           icon="settings"
-          label="Entities">
+          label="Entities"
+        >
           <q-list>
             <q-item
               :inset-level="1"
@@ -102,7 +103,7 @@
           </q-list>
         </q-expansion-item>
 
-  <!-- I/O -->
+        <!-- I/O -->
         <q-expansion-item
           dark
           header-class="text-amber-2"
@@ -121,7 +122,14 @@
               </q-item-section>
             </q-item>
 
-            <q-item to="/export" :inset-level="1" exact clickable v-ripple active-class="active-link">
+            <q-item
+              to="/export"
+              :inset-level="1"
+              exact
+              clickable
+              v-ripple
+              active-class="active-link"
+            >
               <q-item-section avatar>
                 <font-awesome-icon icon="sign-out-alt" transform="grow-6 right-6"/>
               </q-item-section>
@@ -130,7 +138,14 @@
               </q-item-section>
             </q-item>
 
-            <q-item to="/import" :inset-level="1" exact clickable v-ripple active-class="active-link">
+            <q-item
+              to="/import"
+              :inset-level="1"
+              exact
+              clickable
+              v-ripple
+              active-class="active-link"
+            >
               <q-item-section avatar>
                 <font-awesome-icon icon="sign-in-alt" transform="grow-6 right-6"/>
               </q-item-section>
@@ -159,7 +174,9 @@
         </q-avatar>
         <!-- <div class="text-weight-bold">Cashier</div> -->
         <!-- <div>@cashier</div> -->
-        <div style="font-size: 2rem;">Cashier</div>
+        <div style="font-size: 2rem;">Cashier
+          <span style="font-size: 0.75rem" class="q-my-none">v2019.05.25-10</span>
+        </div>
       </div>
     </q-img>
   </q-drawer>
