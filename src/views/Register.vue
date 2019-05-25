@@ -48,7 +48,7 @@
 
     <!-- confirm deletion dialog -->
     <q-dialog v-model="confirmDeleteVisible" persistent content-class="bg-blue-grey-10">
-      <q-card dark class="bg-teal-9">
+      <q-card dark class="bg-red-10 text-amber-2">
         <q-card-section class="row items-center">
           <!-- <q-avatar icon="signal_wifi_off" color="primary" text-color="amber-2"/>
           <span class="q-ml-sm">You are currently not connected to any network.</span>-->
@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { MAIN_TOOLBAR } from "../mutations";
+import { MAIN_TOOLBAR, TOGGLE_DRAWER } from "../mutations";
 import appService from "../appService";
 import RegisterTransaction from "../components/RegisterTransaction";
 
