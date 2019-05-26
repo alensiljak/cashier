@@ -5,7 +5,7 @@
       <q-toolbar class="text-colour2">
         <q-btn flat dense round @click="menuClicked" aria-label="Menu" icon="menu"/>
 
-        <q-toolbar-title>Register</q-toolbar-title>
+        <q-toolbar-title>Journal</q-toolbar-title>
 
         <q-btn flat round dense icon="more_vert">
           <q-menu>
@@ -18,7 +18,7 @@
                 </q-item-section>
               </q-item>-->
               <q-item clickable v-close-popup>
-                <q-item-section @click="exportRegister">Export</q-item-section>
+                <q-item-section @click="exportJournal">Export</q-item-section>
                 <q-item-section side>
                   <font-awesome-icon icon="sign-out-alt" transform="grow-9 left-5"/>
                 </q-item-section>
@@ -32,7 +32,7 @@
     <div>Transactions go here. Show all if not filtered by a specific account.</div>
 
     <q-list dark>
-      <register-transaction
+      <journal-transaction
         v-for="tx in transactions"
         :key="tx.id"
         :tx="tx"
@@ -67,7 +67,7 @@
 <script>
 import { MAIN_TOOLBAR, TOGGLE_DRAWER } from "../mutations";
 import appService from "../appService";
-import RegisterTransaction from "../components/RegisterTransaction";
+import JournalTransaction from "../components/JournalTransaction";
 
 const errorMessage = { color: "secondary", message: "" };
 
@@ -107,7 +107,7 @@ export default {
           this.$q.notify(errorMessage);
         });
     },
-    exportRegister() {
+    exportJournal() {
       this.$router.push({ name: "export" });
     },
     loadData() {
@@ -141,7 +141,7 @@ export default {
     }
   },
   components: {
-    RegisterTransaction
+    JournalTransaction
   }
 };
 </script>

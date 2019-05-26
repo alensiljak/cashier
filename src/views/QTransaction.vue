@@ -269,8 +269,8 @@ export default {
           // console.log("saved.", id);
           // clear Transaction entry
           this.onClear();
-          // go to register?
-          this.$router.push({ name: "register" });
+          // go to journal?
+          this.$router.push({ name: "journal" });
         })
         .catch(err => {
           console.error(err);

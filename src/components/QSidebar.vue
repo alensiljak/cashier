@@ -34,12 +34,12 @@
           </q-item-section>
         </q-item>
 
-        <q-item to="/reg" exact clickable v-ripple active-class="active-link">
+        <q-item to="/journal" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
             <font-awesome-icon icon="list-ul" transform="grow-6 right-6"/>
           </q-item-section>
           <q-item-section>
-            <q-item-label>Register</q-item-label>
+            <q-item-label>Journal</q-item-label>
           </q-item-section>
         </q-item>
 

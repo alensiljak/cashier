@@ -33,7 +33,7 @@ const Export = () => import('./views/Export.vue')
 const FavAccounts = () => import('./views/Favourites.vue')
 const Import = () => import('./views/Import.vue')
 const PayeeList = () => import('./views/Payees.vue')
-const QRegister = () => import('./views/Register.vue')
+const Journal = () => import('./views/Journal.vue')
 const QSettings = () => import('./views/QSettings.vue')
 const Sync = () => import('./views/Sync.vue')
 const QTransaction = () => import(/* webpackChunkName: 'tx' */ './views/QTransaction.vue')
@@ -53,7 +53,7 @@ const routes = [
       { path: '/favourites', name: 'favourites', component: FavAccounts },
       { path: '/import', name: 'import', component: Import },
       { path: '/payees', name: 'payees', component: PayeeList },
-      { path: '/reg', name: 'register', component: QRegister },
+      { path: '/journal', name: 'journal', component: Journal },
       { path: '/settings', component: QSettings },
       { path: '/sync', name: "sync", component: Sync },
       { path: '/tx/:id?', name: 'tx', component: QTransaction }

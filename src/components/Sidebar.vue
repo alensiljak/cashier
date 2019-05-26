@@ -15,7 +15,7 @@
         <router-link to="/bal" class="nav-link">Balance Sheet</router-link>
       </li>
       <li class="nav-item">
-        <router-link to="/reg" class="nav-link">Register</router-link>
+        <router-link to="/journal" class="nav-link">Journal</router-link>
       </li>
       <li class="nav-item">
         <router-link to="/payees" class="nav-link">Payees</router-link>
