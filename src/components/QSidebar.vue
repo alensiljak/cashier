@@ -123,34 +123,32 @@
             </q-item>
 
             <q-item
-              to="/export"
-              :inset-level="1"
-              exact
-              clickable
-              v-ripple
-              active-class="active-link"
-            >
-              <q-item-section avatar>
-                <font-awesome-icon icon="sign-out-alt" transform="grow-6 right-6"/>
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>Export</q-item-label>
-              </q-item-section>
-            </q-item>
-
-            <q-item
               to="/import"
               :inset-level="1"
               exact
               clickable
               v-ripple
-              active-class="active-link"
-            >
+              active-class="active-link">
               <q-item-section avatar>
                 <font-awesome-icon icon="sign-in-alt" transform="grow-6 right-6"/>
               </q-item-section>
               <q-item-section>
                 <q-item-label>Import</q-item-label>
+              </q-item-section>
+            </q-item>
+
+            <q-item
+              to="/export"
+              :inset-level="1"
+              exact
+              clickable
+              v-ripple
+              active-class="active-link">
+              <q-item-section avatar>
+                <font-awesome-icon icon="sign-out-alt" transform="grow-6 right-6"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Export</q-item-label>
               </q-item-section>
             </q-item>
           </q-list>

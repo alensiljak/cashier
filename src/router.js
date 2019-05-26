@@ -30,11 +30,12 @@ const Accounts = () => import(/* webpackChunkName: 'accounts' */ './views/Accoun
 const QBalanceSheet = () => import(/* webpackChunkName: 'bal' */ './views/QBalanceSheet.vue')
 const Commodities = () => import('./views/Commodities.vue')
 const Export = () => import('./views/Export.vue')
-const FavAccounts = () => import('./views/Favourites.vue')
+const Favourites = () => import('./views/Favourites.vue')
 const Import = () => import('./views/Import.vue')
 const PayeeList = () => import('./views/Payees.vue')
 const Journal = () => import('./views/Journal.vue')
 const QSettings = () => import('./views/QSettings.vue')
+const Register = () => import('./views/Register.vue')
 const Sync = () => import('./views/Sync.vue')
 const QTransaction = () => import(/* webpackChunkName: 'tx' */ './views/QTransaction.vue')
 
@@ -50,10 +51,11 @@ const routes = [
       { path: '/bal', name: 'balanceSheet', component: QBalanceSheet },
       { path: '/commodities', name: 'commodities', component: Commodities },
       { path: '/export', name: 'export', component: Export },
-      { path: '/favourites', name: 'favourites', component: FavAccounts },
+      { path: '/favourites', name: 'favourites', component: Favourites },
       { path: '/import', name: 'import', component: Import },
       { path: '/payees', name: 'payees', component: PayeeList },
       { path: '/journal', name: 'journal', component: Journal },
+      { path: '/reg/:name', name: 'register', component: Register },
       { path: '/settings', component: QSettings },
       { path: '/sync', name: "sync", component: Sync },
       { path: '/tx/:id?', name: 'tx', component: QTransaction }

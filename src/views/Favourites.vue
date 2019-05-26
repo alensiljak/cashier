@@ -37,8 +37,7 @@
       v-for="(account, index) in accounts"
       :key="account.name"
       right-color="red-10"
-      @right="onRightSlide"
-    >
+      @right="onRightSlide">
       <template v-slot:right>
         <div class="row items-center text-amber-4" @click="removeAccount(index)">
           Click to confirm or wait 2s to cancel
@@ -47,7 +46,7 @@
       </template>
 
       <q-list dark separator class="bg-colour1">
-        <q-item clickable v-ripple>
+        <q-item clickable v-ripple @click="onListItemClick(account.name)">
           <q-item-section>{{ account.name }}</q-item-section>
           <q-item-section side>{{ account.balance}} {{account.currency}}</q-item-section>
         </q-item>
@@ -227,6 +226,10 @@ export default {
     },
     onFabClicked() {
       this.$router.push({ name: "tx" });
+    },
+    onListItemClick(accountName) {
+      // console.log(accountName)
+      this.$router.push({ name: 'register', params: { name: accountName }})
     },
     onRightSlide({ reset }) {
       this.resetSlide = reset;

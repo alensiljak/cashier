@@ -165,6 +165,22 @@ export default {
       this.$q.notify(message);
       // console.log(message);
     },
+    /**
+     * Find an empty posting, or create one.
+     */
+    getEmptyPostingIndex() {
+      for(let i = 0; i < this.tx.postings.length; i++) {
+        let posting = this.tx.postings[i]
+        if (!posting.account && !posting.amount && !posting.commodity) {
+          return i
+        }
+      }
+
+      // not found. Create a new one.
+      let posting = new Posting()
+      this.tx.postings.push(posting)
+      return (this.tx.postings.length - 1)
+    },
     finalize(reset) {
       this.timer = setTimeout(() => {
         // has it been already deleted?
@@ -187,7 +203,15 @@ export default {
           break;
         case ACCOUNT:
           // get the posting
-          var posting = this.tx.postings[select.postingIndex];
+          var index = null
+          if (typeof select.postingIndex === "number") {
+            index = select.postingIndex
+          } else {
+            // redirected from account register, find an appropriate posting
+            index = this.getEmptyPostingIndex()
+          }
+          var posting = this.tx.postings[index];
+
           appService.db.accounts.get(id).then(account => {
             posting.account = account.name;
             posting.currency = account.currency;
