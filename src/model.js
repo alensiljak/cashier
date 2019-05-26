@@ -41,7 +41,7 @@ export class Transaction {
         this.id = null
         this.date = null
         this.payee = ''
-        this.comment = ''
+        this.note = ''
         this.postings = []
     }
 }

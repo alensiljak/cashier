@@ -29,8 +29,8 @@
       </template>
     </q-input>
 
-    <!--comment -->
-    <q-input label="Comment" dark v-model="tx.comment">
+    <!--note -->
+    <q-input label="Note" dark v-model="tx.note">
       <template v-slot:prepend>
         <font-awesome-icon icon="file-alt"/>
       </template>
