@@ -143,6 +143,23 @@ class AppService {
     return db.accounts.bulkPut(accounts)
   }
 
+  importCommodities(text) {
+    if (!text) {
+      Notify.create({ message: "No balance sheet selected." });
+      return;
+    }
+
+    let commodities = []
+    let lines = text.split("\n");
+
+    for(let i = 0; i < lines.length - 1; i++) {
+      let commodity = lines[i].trim()
+      commodities.push(commodity)
+    }
+    
+    // todo: save
+  }
+
   loadAccount(id) {
     return db.accounts.get(id);
   }
@@ -153,39 +170,6 @@ class AppService {
   loadAccounts() {
     return db.accounts.orderBy("name");
   }
-
-  /**
-   * Load all transactions with postings.
-   * Sort by date.
-   */
-  // loadTransactions() {
-  //   return db.transaction("r", db.transactions, db.postings, () => {
-  //     // load all transactions
-  //     // let x = db.transactions.toCollection().sortBy('date') = array
-  //     // let x = db.transactions.orderBy('date') = collection
-  //     return db.transactions
-  //       .orderBy("date")
-  //       .reverse()
-  //       .toArray()
-  //       .then(array => {
-  //         // array.forEach(tx => {
-  //         //     // load related postings
-  //         //     db.postings.filter(p => p.transactionId == tx.id).toArray()
-  //         //         .then(array => {
-  //         //             array.forEach(posting => {
-  //         //                 tx.postings = tx.postings || []
-  //         //                 tx.postings.push(posting)
-
-  //         //                 // return tx
-  //         //             })
-  //         //             return array
-  //         //         })
-  //         //     // console.log('6th level')
-  //         // })
-  //         return array;
-  //       });
-  //   });
-  // }
 
   /**
    * Load single transaction with postings.

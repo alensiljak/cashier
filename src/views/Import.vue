@@ -1,31 +1,42 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
-    <p>
-      Import the balance sheet file. Create it by running "ledger balance --flat".
-    </p>
-    <q-input class="text-red" dark clearable type="file" @input="onBalanceFile"/>
+    <ul>
+      <li>For account balances, export the balance sheet with "ledger balance --flat".</li>
+      <li>Export commodities with "ledger commodities"</li>
+    </ul>
+    <p>Import the text file</p>
+    <q-input class="text-red" dark clearable type="file" @input="onFileSelected"/>
     <!-- v-on:dragover="onFileHover"
-    v-on:change="onBalanceFile"-->
+    v-on:change="onFileSelected"-->
+    <p class="q-mt-sm">or paste into the box below</p>
+    <q-input type="textarea" v-model="content" dark outlined/>
 
-    <div class="q-mt-sm"/>
+    <!-- <div class="q-mt-sm"/> -->
+    <p class="q-mt-sm">Click the appropriate button to import:</p>
 
-    <p>Click the appropriate button to import:</p>
-
-    <div class="row">
+    <div class="row text-center q-mt-sm">
       <div class="col text-center">
-        <q-btn
-          color="red-10"
-          text-color="amber-4"
-          @click="onImportBalanceClick"
-        >
+        <q-btn color="red-10" text-color="amber-4" @click="onImportBalanceClick">
           <font-awesome-icon icon="wallet" class="q-icon on-left"/>
           <div>Accounts</div>
         </q-btn>
       </div>
+    </div>
+
+    <div class="row q-mt-md">
       <div class="col text-center">
         <q-btn disable color="red-10" text-color="amber-4">
           <font-awesome-icon icon="users" class="q-icon on-left"/>
           <div>Payees</div>
+        </q-btn>
+      </div>
+    </div>
+
+    <div class="row q-mt-md">
+      <div class="col text-center">
+        <q-btn color="red-10" text-color="amber-4" @click="importCommoditiesClick">
+          <font-awesome-icon icon="boxes" class="q-icon on-left"/>
+          <div>Commodities</div>
         </q-btn>
       </div>
     </div>
@@ -39,7 +50,7 @@ import appService from "../appService";
 export default {
   data() {
     return {
-      balanceSheetContent: null
+      content: null
     };
   },
 
@@ -49,14 +60,17 @@ export default {
   },
 
   methods: {
+    importCommoditiesClick() {
+      // todo import the content
+    },
     onImportBalanceClick() {
-      //   console.log(this.balanceSheetContent);
-      appService.importBalanceSheet(this.balanceSheetContent).then(() => {
+      //   console.log(this.content);
+      appService.importBalanceSheet(this.content).then(() => {
         this.$q.notify({ color: "teal-9", message: "Accounts imported" });
       });
     },
-    onBalanceFile(files) {
-      this.readInputFile(files[0], "balanceSheetContent");
+    onFileSelected(files) {
+      this.readInputFile(files[0], "content");
     },
     onFileHover(evt) {
       evt.stopPropagation();

@@ -23,7 +23,7 @@
     "core-js": "^2.6.5",
     "dexie": "^3.0.0-alpha.8",
     "localforage": "^1.7.3",
-    "quasar": "^1.0.0-beta.24",
+    "quasar": "^1.0.0-rc.2",
     "register-service-worker": "^1.6.2",
     "vue": "^2.6.10",
     "vue-hot-reload-api": "^2.3.3",
@@ -47,7 +47,7 @@
     "sass-loader": "^7.1.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
-    "vue-cli-plugin-quasar": "^1.0.0-beta.1",
+    "vue-cli-plugin-quasar": "^1.0.0-rc.1",
     "vue-template-compiler": "^2.6.10"
   },
   "bugs": {

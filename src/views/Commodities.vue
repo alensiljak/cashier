@@ -1,6 +1,6 @@
 <template>
     <q-page padding class="bg-colour1 text-colour2">
-        Commodities
+        <p>Commodities</p>
     </q-page>
 </template>
 

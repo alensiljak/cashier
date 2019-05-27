@@ -35,6 +35,7 @@ const Export = () => import('./views/Export.vue')
 const Favourites = () => import('./views/Favourites.vue')
 const Import = () => import('./views/Import.vue')
 const PayeeList = () => import('./views/Payees.vue')
+const Prices = () => import('./views/Prices')
 const Journal = () => import('./views/Journal.vue')
 const QSettings = () => import('./views/QSettings.vue')
 const Register = () => import('./views/Register.vue')
@@ -58,6 +59,7 @@ const routes = [
       { path: '/favourites', name: 'favourites', component: Favourites },
       { path: '/import', name: 'import', component: Import },
       { path: '/payees', name: 'payees', component: PayeeList },
+      { path: '/prices', name: 'prices', component: Prices },
       { path: '/journal', name: 'journal', component: Journal },
       { path: '/reg/:name', name: 'register', component: Register },
       { path: '/settings', component: QSettings },

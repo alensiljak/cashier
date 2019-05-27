@@ -18,6 +18,11 @@ export default {
   created() {
     this.$store.commit(MAIN_TOOLBAR, true);
     this.$store.commit(SET_TITLE, "AA Setup");
+
+    // this.dlPrice()
+  },
+
+  methods: {
   }
 };
 </script>
