@@ -6,6 +6,8 @@ is a PWA GUI application for [Ledger-cli](https://ledger-cli.org). It is intende
 
 See the [TODO](TODO) file for the list of features, technical issues, brainstorming ideas, and priorities.
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/2d57ffbd-b4be-4eb4-b56b-f1aefc285364/deploy-status)](https://app.netlify.com/sites/cashier-pwa/deploys)
+
 ## Features
 
 - Balance Sheet
