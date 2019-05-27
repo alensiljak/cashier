@@ -110,8 +110,7 @@
           expand-icon-class="text-amber-2"
           expand-separator
           icon="swap_horizontal_circle"
-          label="I/O"
-        >
+          label="I/O">
           <q-list>
             <q-item to="/sync" :inset-level="1" exact clickable v-ripple active-class="active-link">
               <q-item-section avatar>
@@ -153,6 +152,15 @@
             </q-item>
           </q-list>
         </q-expansion-item>
+
+        <q-item to="/assetallocation" exact clickable v-ripple active-class="active-link">
+          <q-item-section avatar>
+            <font-awesome-icon icon="business-time" transform="grow-6 right-9"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Asset Allocation</q-item-label>
+          </q-item-section>
+        </q-item>
 
         <q-item to="/about" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>

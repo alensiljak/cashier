@@ -3,7 +3,7 @@
 */
 import { library } from '@fortawesome/fontawesome-svg-core'
 // icon
-import { faBalanceScale, faCalendarDay, faExchangeAlt, faFileAlt, faInfo, 
+import { faBalanceScale, faBusinessTime, faCalendarDay, faExchangeAlt, faFileAlt, faInfo, 
     faListUl, faLuggageCart, faMoneyBillWave, 
     faPlus, faPlusCircle,
     faSearch, faSignInAlt, faSignOutAlt, 
@@ -12,7 +12,7 @@ import { faBalanceScale, faCalendarDay, faExchangeAlt, faFileAlt, faInfo,
     from '@fortawesome/free-solid-svg-icons'
 // import { faRegular } from '@fortawesome/free-regular-svg-icons'
 
-library.add(faBalanceScale, faCalendarDay, faExchangeAlt, faFileAlt, faInfo, 
+library.add(faBalanceScale, faBusinessTime, faCalendarDay, faExchangeAlt, faFileAlt, faInfo, 
     faListUl, faLuggageCart, faMoneyBillWave, 
     faPlus, faPlusCircle,
     faSearch, faSignInAlt, faSignOutAlt, 
