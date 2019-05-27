@@ -145,7 +145,7 @@ class AppService {
 
   importCommodities(text) {
     if (!text) {
-      Notify.create({ message: "No balance sheet selected." });
+      Notify.create({ message: "No data to import." });
       return;
     }
 
@@ -158,6 +158,8 @@ class AppService {
     }
     
     // todo: save
+
+    return commodities
   }
 
   loadAccount(id) {
@@ -225,5 +227,5 @@ class AppService {
   }
 }
 
-// export let appService = new AppService();
+// export const appService = new AppService();
 export default new AppService();

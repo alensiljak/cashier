@@ -16,7 +16,8 @@
 
     <div class="row text-center q-mt-sm">
       <div class="col text-center">
-        <q-btn color="red-10" text-color="amber-4" @click="onImportBalanceClick">
+        <q-btn :disable="clicked" color="red-10" text-color="amber-4" 
+          @click="onImportBalanceClick">
           <font-awesome-icon icon="wallet" class="q-icon on-left"/>
           <div>Accounts</div>
         </q-btn>
@@ -34,7 +35,8 @@
 
     <div class="row q-mt-md">
       <div class="col text-center">
-        <q-btn color="red-10" text-color="amber-4" @click="importCommoditiesClick">
+        <q-btn color="red-10" text-color="amber-4" :disable="clicked"
+          @click="importCommoditiesClick">
           <font-awesome-icon icon="boxes" class="q-icon on-left"/>
           <div>Commodities</div>
         </q-btn>
@@ -50,7 +52,8 @@ import appService from "../appService";
 export default {
   data() {
     return {
-      content: null
+      content: null,
+      clicked: false // indicates if a button was pressed
     };
   },
 
@@ -61,12 +64,18 @@ export default {
 
   methods: {
     importCommoditiesClick() {
-      // todo import the content
+      this.clicked = true
+
+      appService.importCommodities(this.content).then(() => {
+        this.$router.push({name: 'commodities'})
+      })
     },
     onImportBalanceClick() {
-      //   console.log(this.content);
+      this.clicked = true
+
       appService.importBalanceSheet(this.content).then(() => {
-        this.$q.notify({ color: "teal-9", message: "Accounts imported" });
+        // this.$q.notify({ color: "teal-9", message: "Accounts imported" });
+        this.$router.push({name: 'accounts'})
       });
     },
     onFileSelected(files) {
