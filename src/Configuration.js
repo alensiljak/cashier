@@ -31,7 +31,8 @@ export const SettingKeys = {
     },
     get syncServerUrl() {
         return "syncServerUrl"
-    }
+    },
+    assetAllocationInvestmentRootAccount: 'aa.rootAccount'
 }
 
 
