@@ -11,7 +11,7 @@ export default {
     created() {
         // todo check if there is a definition saved
         // if not, redirect to the setup
-        this.$router.push({ name: 'assetallocationsetup' })
+        //this.$router.push({ name: 'assetallocationsetup' })
 
         this.$store.commit(MAIN_TOOLBAR, true);
         this.$store.commit(SET_TITLE, "Asset Allocation");

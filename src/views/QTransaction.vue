@@ -22,7 +22,6 @@
     </q-input>
 
     <!-- payee -->
-
     <q-input label="Payee" dark v-model="tx.payee">
       <template v-slot:prepend>
         <font-awesome-icon icon="user"/>

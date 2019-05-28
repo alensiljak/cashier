@@ -28,7 +28,8 @@ const About = () => import(/* webpackChunkName: 'about' */ './views/About.vue')
 const Account = () => import(/* webpackChunkName: 'account' */ './views/Account.vue')
 const Accounts = () => import(/* webpackChunkName: 'accounts' */ './views/Accounts.vue')
 const AssetAllocation = () => import(/* webpackChunkName: 'assetallocation' */ './views/AssetAllocation.vue')
-const AssetAllocationSetup = () => import('./views/AssetAllocationSetup.vue')
+const AssetAllocationSetup = () => import('./views/AASetup.vue')
+const AssetAllocationSetupHelp = () => import('./views/AASetupHelp.vue')
 const QBalanceSheet = () => import(/* webpackChunkName: 'bal' */ './views/QBalanceSheet.vue')
 const Commodities = () => import('./views/Commodities.vue')
 const Export = () => import('./views/Export.vue')
@@ -53,6 +54,7 @@ const routes = [
       { path: '/accounts', name: 'accounts', component: Accounts },
       { path: '/assetallocation', name: 'assetallocation', component: AssetAllocation },
       { path: '/assetallocationsetup', name: 'assetallocationsetup', component: AssetAllocationSetup },
+      { path: '/assetallocationsetuphelp', name: 'assetallocationsetuphelp', component: AssetAllocationSetupHelp },
       { path: '/bal', name: 'balanceSheet', component: QBalanceSheet },
       { path: '/commodities', name: 'commodities', component: Commodities },
       { path: '/export', name: 'export', component: Export },
