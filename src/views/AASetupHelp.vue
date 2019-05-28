@@ -25,10 +25,11 @@
 
     <h5>Current Balances Calculation</h5>
     <p>read quantities and import the prices to calculate</p>
-      <p>Note: To get quantities, set the root account and all the accounts underneath will be read</p>
+      <p>Note: To get quantities, set the root account and all the accounts underneath contain 
+          the balances.</p>
 
     <h5>Import Current Balances</h5>
-    <p>It is simpler to import the balances in</p>
+    <p>It is simpler to import the balances from "ledger b &lt;root acct&gt; -X &lt;CUR&gt;".</p>
   </q-page>
 </template>
 
