@@ -14,8 +14,16 @@
       </q-toolbar>
     </q-header>
 
-    <div>
-      <p>Asset Allocation Setup</p>
+    <div class="q-mb-md">
+      <p>Asset Allocation Definition</p>
+      <div class="row">
+        <div class="col">
+      <q-input type="file" class="text-red" dark clearable @input="onFileSelected" />
+        </div>
+        <div class="col text-center">
+      <q-btn label="Import" color="red-10" text-color="amber-4" @click="onDefinitionImportClick" />
+        </div>
+      </div>
     </div>
 
     <div>
@@ -33,10 +41,12 @@ import { MAIN_TOOLBAR, SET_TITLE, TOGGLE_DRAWER } from "../mutations";
 import {SettingKeys} from '../Configuration'
 import appService from '../appService'
 import {Setting} from '../model'
+import { engine } from '../lib/AssetAllocation'
 
 export default {
   data() {
     return {
+      aaDefinitionContent: null,
       rootAccount: null
     }
   },
@@ -59,6 +69,13 @@ export default {
       let visible = this.$store.state.drawerOpen;
       this.$store.commit(TOGGLE_DRAWER, !visible);
     },
+    onDefinitionImportClick() {
+      // import AA definition file
+      engine.importDefinition(this.aaDefinitionContent)
+    },
+    onFileSelected(files) {
+      this.readInputFile(files[0], "aaDefinitionContent");
+    },
     onHelpClick() {
       // todo navigate to help page
       this.$router.push({ name: 'assetallocationsetuphelp' })
@@ -68,6 +85,22 @@ export default {
       appService.db.settings.put(setting).then(result => {
         this.$q.notify({message: 'saved: ' + result})
       })
+    },
+    readInputFile(fileInfo, dataField) {
+      //   console.log(fileInfo);
+      var reader = new FileReader();
+
+      reader.onload = event => {
+        // File was successfully read.
+        var content = event.target.result;
+
+        if (dataField) {
+          this[dataField] = content;
+          //   console.log("read", content);
+        }
+      };
+
+      reader.readAsText(fileInfo);
     }
   },
 
