@@ -27,7 +27,7 @@
 <script>
 import appService from "../appService";
 import { MAIN_TOOLBAR, SET_TITLE, SET_SELECT_MODE } from "../mutations";
-import { SelectionModeMetadata } from '../Configuration';
+import { SelectionModeMetadata } from '../lib/Configuration';
 
 const ACCOUNT = "account";
 

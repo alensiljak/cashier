@@ -21,7 +21,7 @@
 <script>
 import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
 // import db from '../dataStore'
-import { SettingKeys, settings } from "../Configuration";
+import { SettingKeys, settings } from "../lib/Configuration";
 import { SyncService } from "../sync";
 
 export default {

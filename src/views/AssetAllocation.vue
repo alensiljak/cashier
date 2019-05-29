@@ -1,20 +1,77 @@
 <template>
-    <q-page padding class="bg-colour1 text-colour2">
-        Asset Allocation
-    </q-page>
+  <q-page padding class="bg-colour1 text-colour2">
+    <q-header elevated class="glossy">
+      <q-toolbar class="text-colour2">
+        <q-btn flat dense round @click="menuClicked" aria-label="Menu" icon="menu"/>
+
+        <q-toolbar-title>Asset Allocation</q-toolbar-title>
+
+        <q-space/>
+
+        <q-btn flat round dense @click="onHelpClick">
+          <font-awesome-icon icon="question-circle"/>
+        </q-btn>
+
+        <q-btn flat round dense icon="more_vert">
+          <q-menu>
+            <q-list dark style="min-width: 175px" class="bg-colour1">
+              <q-item clickable v-close-popup @click="onSetupClick">
+                <q-item-section>Setup</q-item-section>
+                <q-item-section side>
+                  <font-awesome-icon icon="cog" transform="grow-9 left-5"/>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-btn>
+      </q-toolbar>
+    </q-header>
+
+    <div>
+      <q-btn
+        label="Read Accounts"
+        color="secondary"
+        text-color="accent"
+        @click="readAccountsClick"
+      />
+    </div>
+  </q-page>
 </template>
 
 <script>
-import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
+import { MAIN_TOOLBAR, TOGGLE_DRAWER } from "../mutations";
+import { engine } from "../lib/AssetAllocation";
 
 export default {
-    created() {
-        // todo check if there is a definition saved
-        // if not, redirect to the setup
-        //this.$router.push({ name: 'assetallocationsetup' })
+  created() {
+    // todo check if there is a definition saved
+    // if not, redirect to the setup
+    //this.$router.push({ name: 'assetallocationsetup' })
 
-        this.$store.commit(MAIN_TOOLBAR, true);
-        this.$store.commit(SET_TITLE, "Asset Allocation");
+    this.$store.commit(MAIN_TOOLBAR, false);
+    // this.$store.commit(SET_TITLE, "Asset Allocation");
+  },
+
+  methods: {
+    menuClicked() {
+      let visible = this.$store.state.drawerOpen;
+      this.$store.commit(TOGGLE_DRAWER, !visible);
+    },
+    onHelpClick() {
+      // navigate to help page
+      this.$router.push({ name: "assetallocationhelp" });
+    },
+    onSetupClick() {
+      this.$router.push({ name: "assetallocationsetup" });
+    },
+    readAccountsClick() {
+      engine
+        .getInvestmentAccounts()
+        .then(accounts => {
+          console.log(accounts);
+        })
+        .catch(reason => this.$q.notify({ message: reason }));
     }
-}
+  }
+};
 </script>

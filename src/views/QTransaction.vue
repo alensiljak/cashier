@@ -116,7 +116,7 @@ import {
   SET_SELECT_MODE
 } from "@/mutations";
 import appService from "@/appService";
-import { SelectionModeMetadata } from "../Configuration";
+import { SelectionModeMetadata } from "../lib/Configuration";
 
 const ACCOUNT = "account";
 

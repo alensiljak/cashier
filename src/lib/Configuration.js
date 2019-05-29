@@ -1,8 +1,8 @@
 /*
     Various configuration-related things
 */
-import db from './dataStore'
-import { Setting } from './model'
+import db from '../dataStore'
+import { Setting } from '../model'
 
 
 /**
@@ -37,11 +37,22 @@ export const SettingKeys = {
 
 
 class Settings {
+    /**
+     * 
+     * @param {any} key 
+     * @returns Promise with the Setting object
+     */
     get(key) {
         return db.settings.get(key).then(setting => {
             if (!setting) return null
 
-            let value = JSON.parse(setting.value)
+            let value = null
+            try {
+                value = JSON.parse(setting.value)
+            } catch(e) {
+                value = setting.value
+            }
+            
             return value
         })
     }

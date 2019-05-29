@@ -79,7 +79,7 @@
 
 <script>
 import { MAIN_TOOLBAR, SET_SELECT_MODE, TOGGLE_DRAWER } from "../mutations";
-import { SelectionModeMetadata, settings, SettingKeys } from "../Configuration";
+import { SelectionModeMetadata, settings, SettingKeys } from "../lib/Configuration";
 import appService from "../appService";
 
 const ACCOUNT = "account";

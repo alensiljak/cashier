@@ -1,6 +1,8 @@
 /*
     Asset Allocation
 */
+import appService from '../appService'
+import { settings, SettingKeys } from './Configuration'
 
 class AssetClass {
     constructor() {
@@ -31,6 +33,24 @@ class AssetClass {
 class AssetAllocationEngine {
     constructor() {
 
+    }
+
+    /**
+     * Get all the investment accounts in a dictionary.
+     * Start from the investment root setting, and include the commodity.
+     */
+    async getInvestmentAccounts() {
+        // get the root investment account.
+        let rootAccount = await settings.get(SettingKeys.assetAllocationInvestmentRootAccount)
+
+        let accounts = await appService.db.accounts.where('name').startsWithIgnoreCase(rootAccount)
+        accounts.each(account => {
+            console.log(account)
+        })
+        // for(let i = 0; i < accounts.length; i++) {
+        //     let account = accounts[i]
+        //     console.log(account)
+        // }
     }
 
     /**
