@@ -13,7 +13,7 @@
         </q-btn>
       </q-toolbar>
     </q-header>
-    
+
     <!-- AA definition -->
     <div class="q-mb-md">
       <p>Asset Allocation Definition</p>
@@ -42,10 +42,21 @@
       </div>
     </div>
 
+    <!-- Current Balances -->
     <div class="q-my-md">
       <p>Current values, import from "ledger b ^&lt;root&gt; -X &lt;CUR&gt; --flat"</p>
       <div class="row">
-        <div class="col">input</div>
+        <div class="col">
+          <q-input type="file" class="text-red" dark clearable @input="onFileSelected"/>
+        </div>
+        <div class="col text-center">
+          <q-btn
+            label="Import"
+            color="red-10"
+            text-color="amber-4"
+            @click="onCurrentBalClick"
+          />
+        </div>
       </div>
     </div>
   </q-page>
@@ -61,7 +72,7 @@ import { engine } from "../lib/AssetAllocation";
 export default {
   data() {
     return {
-      aaDefinitionContent: null,
+      fileContent: null,
       rootAccount: null
     };
   },
@@ -86,14 +97,19 @@ export default {
       let visible = this.$store.state.drawerOpen;
       this.$store.commit(TOGGLE_DRAWER, !visible);
     },
-    onDefinitionImportClick() {
-      // import AA definition file
-      engine.importDefinition(this.aaDefinitionContent).then(() => {
-        this.$q.notify({message: 'Definition imported', color: 'green-9'})
+    onCurrentBalClick() {
+      engine.importCurrentBalances(this.fileContent).then(result => {
+        console.log(result)
       })
     },
+    onDefinitionImportClick() {
+      // import AA definition file
+      engine.importDefinition(this.fileContent).then(() => {
+        this.$q.notify({ message: "Definition imported", color: "green-9" });
+      });
+    },
     onFileSelected(files) {
-      this.readInputFile(files[0], "aaDefinitionContent");
+      this.readInputFile(files[0], "fileContent");
     },
     onHelpClick() {
       // navigate to help page

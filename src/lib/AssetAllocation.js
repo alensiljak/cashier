@@ -9,6 +9,19 @@ import AssetClass from './AssetClass'
 class AssetAllocationEngine {
   constructor() {}
 
+  cleanBlankArrayItems(array) {
+    let i = 0;
+    while (i < array.length) {
+      let part = array[i];
+      if (part === "") {
+        array.splice(i, 1);
+      } else {
+        i++;
+      }
+    }
+    return array
+  }
+
   /**
    * Get all the investment accounts in a dictionary.
    * Start from the investment root setting, and include the commodity.
@@ -87,6 +100,54 @@ class AssetAllocationEngine {
   }
 
   /**
+   * Parse and store the current balances ("l b ^Assets:Inv --flat -X EUR")
+   * in the allocation object.
+   * @param {str} text 
+   */
+  async importCurrentBalances(text) {
+    // load current allocation
+    let aa = await this.loadDefinition()
+    let currentArray = this.parseCurrentBalancesFile(text)
+    // allocation? add to asset classes, based on the commodity
+
+    // assign values
+    for(let i = 0; i < currentArray; i++) {
+      let row = currentArray[i]
+      // account name
+      let accountName = row[0]
+      // balance
+      let balance = row[1]
+
+      // assign
+      aa[accountName].balance = balance
+    }
+
+    return aa
+  }
+
+  parseCurrentBalancesFile(text) {
+    let result = []
+
+    let lines = text.split('\n')
+    for(let i = 0; i < lines.length; i++) {
+      let line = lines[i]
+      let parts = line.split('  ')
+      parts = this.cleanBlankArrayItems(parts)
+      if (parts.length === 0) continue
+      
+      let amountParts = parts[0].split(' ')
+      let amountString = amountParts[0]
+      let currency = amountParts[1]
+      let accountName = parts[1]
+
+      // console.log(accountName, amountString, currency)
+      result.push([accountName, amountString, currency])
+    }
+
+    return result
+  }
+
+  /**
    * Parse one raw line from the definition file.
    * @param {string} line
    * @returns AssetClass instance
@@ -126,15 +187,8 @@ class AssetAllocationEngine {
     let parts = line.split("  ");
 
     // Clean up blank sections
-    let i = 0;
-    while (i < parts.length) {
-      let part = parts[i];
-      if (part === "") {
-        parts.splice(i, 1);
-      } else {
-        i++;
-      }
-    }
+    parts = this.cleanBlankArrayItems(parts)
+
     return parts;
   }
 }

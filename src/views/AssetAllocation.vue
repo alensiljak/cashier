@@ -50,7 +50,6 @@
 <script>
 import { MAIN_TOOLBAR, TOGGLE_DRAWER } from "../mutations";
 import { engine } from "../lib/AssetAllocation";
-// import { settings, SettingKeys } from '../lib/Configuration';
 
 export default {
     data() {
@@ -72,7 +71,7 @@ export default {
 
   methods: {
     loadData() {
-      // load aa definition
+      // aa definition
       this.loadDefinition()
       // todo load current balances
       // todo load accounts
