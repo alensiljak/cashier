@@ -95,9 +95,9 @@ export default {
       this.$store.commit(TOGGLE_DRAWER, !visible);
     },
     onCurrentBalClick() {
-      engine.importCurrentBalances(this.fileContent)
+      engine.importCurrentValues(this.fileContent)
         .then(() => {
-          this.$q.notify({message: 'Balances imported'})
+          this.$q.notify({message: 'Values imported'})
         })
         .catch(reason => {
           errorMessage.message = reason;

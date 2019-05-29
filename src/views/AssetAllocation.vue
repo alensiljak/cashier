@@ -37,24 +37,22 @@
           <tr>
             <th>Asset Class</th>
             <th>Allocation</th>
-            <th>Curr. Balance</th>
-            <th>Curr. Allocation</th>
+            <th>Current</th>
             <th>Difference</th>
             <th>Difference %</th>
-            <th>Alloc. Amount</th>
-            <th>Diff. Amount</th>
+            <th>Alloc. Value</th>
+            <th>Current Value</th>
+            <th>Difference</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="assetClass in assetClasses" :key="assetClass.fullname">
+            <!-- Asset Class Name -->
             <td>
               <span :style="{ paddingLeft: assetClass.depth + 'rem'}"></span>
               {{ assetClass.name }}
             </td>
             <td class="text-right">{{ assetClass.allocation }}</td>
-            <td class="text-right">
-              {{ assetClass.currentBalance }}
-            </td>
             <td class="text-right">{{ assetClass.currentAllocation }}</td>
             <!-- difference -->
             <td class="text-right">{{ assetClass.diff }}</td>
@@ -68,7 +66,12 @@
               'text-green-9': assetClass.diffPerc > 20 
               }"
             >{{ assetClass.diffPerc }}</td>
+            <!-- Allocated Value -->
             <td class="text-right">{{ assetClass.allocatedAmount }}</td>
+            <!-- Current Value -->
+            <td class="text-right">
+              {{ assetClass.currentValue }}
+            </td>
             <td
               class="text-right"
               v-bind:class="{ 

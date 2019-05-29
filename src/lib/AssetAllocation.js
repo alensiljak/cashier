@@ -24,7 +24,7 @@ class AssetAllocationEngine {
     // build the stock index
     this.stockIndex = this.buildStockIndex(assetClasses);
 
-    await this.loadCurrentBalances()
+    await this.loadCurrentValues()
 
     // Sum the balances for groups.
     this.sumGroupBalances(this.assetClassIndex);
@@ -70,14 +70,14 @@ class AssetAllocationEngine {
 
   calculateOffsets(dictionary) {
     let root = dictionary["Allocation"]
-    let total = root.currentBalance
+    let total = root.currentValue
 
     // for each row
     Object.values(dictionary).forEach((ac) => {
       // key
       // console.log(key)
       // calculate current allocation
-      ac.currentAllocation = (ac.currentBalance * 100 / total).toFixed(2)
+      ac.currentAllocation = (ac.currentValue * 100 / total).toFixed(2)
 
       // diff
       ac.diff = (ac.currentAllocation - ac.allocation).toFixed(2)
@@ -86,7 +86,7 @@ class AssetAllocationEngine {
 
       ac.allocatedAmount = (ac.allocation * total / 100).toFixed(2)
       // diff amount = 
-      ac.diffAmount = (ac.currentBalance - ac.allocatedAmount).toFixed(2)
+      ac.diffAmount = (ac.currentValue - ac.allocatedAmount).toFixed(2)
     })
 
   }
@@ -124,7 +124,7 @@ class AssetAllocationEngine {
     Object.values(dictionary).forEach((ac) => {
       // new Intl.NumberFormat("en-AU").format(amount)
       //console.log(ac)
-      ac.currentBalance = format.format(ac.currentBalance)
+      ac.currentValue = format.format(ac.currentValue)
       ac.allocatedAmount = format.format(ac.allocatedAmount)
       ac.diffAmount = format.format(ac.diffAmount)
     })
@@ -199,12 +199,12 @@ class AssetAllocationEngine {
     return appService.db.assetAllocation.bulkPut(assetClasses);
   }
 
-  async loadCurrentBalances() {
+  async loadCurrentValues() {
     // load current balances from accounts
     // add the account balances to asset classes
     let invAccounts = await this.getInvestmentAccounts();
     await invAccounts.each(account => {
-      let amount = parseFloat(account.currentBalance);
+      let amount = parseFloat(account.currentValue);
       // amount = amount.toFixed(2)
 
       let commodity = account.currency;
@@ -212,10 +212,10 @@ class AssetAllocationEngine {
       let assetClassName = this.stockIndex[commodity];
       let assetClass = this.assetClassIndex[assetClassName];
 
-      if (typeof assetClass.currentBalance === "undefined") {
-        assetClass.currentBalance = 0;
+      if (typeof assetClass.currentValue === "undefined") {
+        assetClass.currentValue = 0;
       }
-      assetClass.currentBalance += amount;
+      assetClass.currentValue += amount;
     });    
   }
 
@@ -232,11 +232,11 @@ class AssetAllocationEngine {
    * in the allocation object.
    * @param {str} text
    */
-  async importCurrentBalances(text) {
+  async importCurrentValues(text) {
     // load current allocation
     // let aa = await this.loadDefinition()
     // let accounts = await this.getInvestmentAccounts()
-    let currentArray = this.parseCurrentBalancesFile(text);
+    let currentArray = this.parseCurrentValuesFile(text);
 
     // assign values
     for (let i = 0; i < currentArray.length; i++) {
@@ -253,14 +253,14 @@ class AssetAllocationEngine {
       if (!account) {
         throw "Invalid account " + accountName;
       }
-      account.currentBalance = balance;
+      account.currentValue = balance;
       account.currentCurrency = currency;
 
       await appService.db.accounts.put(account);
     }
   }
 
-  parseCurrentBalancesFile(text) {
+  parseCurrentValuesFile(text) {
     let result = [];
 
     let lines = text.split("\n");
@@ -332,7 +332,7 @@ class AssetAllocationEngine {
     let root = acIndex["Allocation"];
     let sum = this.sumChildren(acIndex, root)
 
-    root.currentBalance = sum
+    root.currentValue = sum
   }
 
   sumChildren(dictionary, item) {
@@ -340,15 +340,15 @@ class AssetAllocationEngine {
     let children = this.findChildren(dictionary, item);
     // console.log(children);
     if (children.length === 0) {
-      return item.currentBalance
+      return item.currentValue
     }
 
     let sum = 0
     for(let i = 0; i < children.length; i++) {
       let child = children[i]
-      child.currentBalance = this.sumChildren(dictionary, child)
+      child.currentValue = this.sumChildren(dictionary, child)
 
-      let amount = child.currentBalance
+      let amount = child.currentValue
       sum += amount
     }
 
