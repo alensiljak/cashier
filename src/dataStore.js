@@ -5,7 +5,8 @@
     - https://dexie.org/docs/Tutorial/Design#database-versioning
 */
 import Dexie from 'dexie';
-import { Account, Transaction, Payee, Posting, Setting } from '@/model';
+import { Account, Transaction, Payee, Posting, Setting } from './model';
+import AssetClass from './lib/AssetClass'
 
 // Define the schema
 
@@ -22,10 +23,14 @@ db.version(0.1).stores({
     payees: "++id, name",
     settings: "key"
 });
+db.version(0.2).stores({
+    assetAllocation: "fullname"
+})
 
 // Mappings
 
 db.accounts.mapToClass(Account)
+db.assetAllocation.mapToClass(AssetClass)
 // todo commodities
 db.payees.mapToClass(Payee)
 db.postings.mapToClass(Posting)

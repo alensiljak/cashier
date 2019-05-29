@@ -39,7 +39,9 @@
     <div>
         <!-- {{allocation}} -->
         <div v-for="assetClass in allocationContainer" :key="assetClass.full_name">
-            {{ assetClass.parentname }} {{ assetClass.name }}
+          {{ assetClass.depth }},
+            {{ assetClass.parentName }}, {{ assetClass.name }},
+            {{ assetClass.allocation }}, {{assetClass.stocks}}
         </div>
     </div>
   </q-page>
@@ -78,7 +80,9 @@ export default {
       // todo calculate offsets
     },
     loadDefinition() {
-        engine.loadDefinition().then(allocation => this.allocationContainer = allocation)
+        engine.loadDefinition()
+            .then(allocation => this.allocationContainer = allocation)
+            .catch(reason => this.$q.notify({message: reason}))
     },
     menuClicked() {
       let visible = this.$store.state.drawerOpen;

@@ -3,42 +3,8 @@
 */
 import appService from "../appService";
 import { settings, SettingKeys } from "./Configuration";
+import AssetClass from './AssetClass'
 
-class AssetClass {
-  constructor() {
-    this.full_name = null;
-    this.parentname = null;
-    this.name = null;
-    this.allocation = null;
-    this.stocks = null;
-    // this.level = null; // the depth level, with root Allocation = 0
-  }
-
-  /**
-   * Represents the class depth in the allocation tree.
-   * The root element (Allocation) is 0. This is effectively the number of parents.
-   */
-  get depth() {
-    let parents = this.parentname.split(':')
-    return parents.length
-  }
-
-  get fullname() {
-    return this.full_name;
-  }
-
-  set fullname(value) {
-    this.full_name = value;
-
-    //
-    let parts = value.split(":");
-    let lastIndex = parts.length - 1;
-    this.name = parts[lastIndex];
-    parts.splice(lastIndex, 1);
-
-    this.parentname = parts.join(":");
-  }
-}
 
 class AssetAllocationEngine {
   constructor() {}
@@ -74,9 +40,10 @@ class AssetAllocationEngine {
     if (!text) return;
 
     // parse and save into the storage.
-    let aa = {};
-    console.log(aa);
-    let index = {}; // index for all asset classes.
+    // let aa = {};
+    // console.log(aa);
+    // let index = {}; // index for all asset classes.
+    let assetClasses = [];
     // let stockIndex = {}; // index for stock symbols and the corresponding asset class.
 
     let lines = text.split("\n");
@@ -86,35 +53,37 @@ class AssetAllocationEngine {
       if (!assetClass) continue;
 
       // add to index
-      index[assetClass.fullname] = assetClass;
+      //   index[assetClass.fullname] = assetClass;
+      assetClasses.push(assetClass);
 
       // index stocks
-    //   if (assetClass.stocks) {
-    //     for (let s = 0; s < assetClass.stocks.length; s++) {
-    //       let symbol = assetClass.stocks[s];
-    //       stockIndex[symbol] = assetClass.fullname;
-    //     }
-    //   }
+      //   if (assetClass.stocks) {
+      //     for (let s = 0; s < assetClass.stocks.length; s++) {
+      //       let symbol = assetClass.stocks[s];
+      //       stockIndex[symbol] = assetClass.fullname;
+      //     }
+      //   }
     }
 
     // persist?
     // stockIndex
     // return index
-    return settings.set(SettingKeys.assetAllocationDefinition, index)
+    // return settings.set(SettingKeys.assetAllocationDefinition, index);
+    return appService.db.assetAllocation.bulkPut(assetClasses);
   }
 
   /**
    * Load the asset allocation definition from persistence.
    */
   async loadDefinition() {
-    let stored = await settings.get(SettingKeys.assetAllocationDefinition)
-    
+    let stored = await appService.db.assetAllocation.toArray();
+
     // convert the values into Asset Allocation instances
-    for(const [key, value] of Object.entries(stored)) {
-        console.log(key, value)
-    }
-    
-    return stored
+    // for (const [key, value] of Object.entries(stored)) {
+    //   console.log(key, value);
+    // }
+
+    return stored;
   }
 
   /**
@@ -155,7 +124,7 @@ class AssetAllocationEngine {
     line = line.trim();
     // asset class, percentage, symbols
     let parts = line.split("  ");
-    // console.log(parts)
+
     // Clean up blank sections
     let i = 0;
     while (i < parts.length) {
