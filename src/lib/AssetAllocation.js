@@ -34,14 +34,15 @@ class AssetAllocationEngine {
 
     let accounts = await appService.db.accounts
       .where("name")
-      .startsWithIgnoreCase(rootAccount);
-    accounts.each(account => {
-      console.log(account);
-    });
+      .startsWithIgnoreCase(rootAccount)
+    // accounts.each(account => {
+    //   console.log(account);
+    // });
     // for(let i = 0; i < accounts.length; i++) {
     //     let account = accounts[i]
     //     console.log(account)
     // }
+    return accounts
   }
 
   /**
@@ -106,23 +107,30 @@ class AssetAllocationEngine {
    */
   async importCurrentBalances(text) {
     // load current allocation
-    let aa = await this.loadDefinition()
+    // let aa = await this.loadDefinition()
+    // let accounts = await this.getInvestmentAccounts()
     let currentArray = this.parseCurrentBalancesFile(text)
-    // allocation? add to asset classes, based on the commodity
 
     // assign values
-    for(let i = 0; i < currentArray; i++) {
+    for(let i = 0; i < currentArray.length; i++) {
       let row = currentArray[i]
       // account name
       let accountName = row[0]
       // balance
       let balance = row[1]
+      balance = balance.replace(',', '')
+      let currency = row[2]
 
-      // assign
-      aa[accountName].balance = balance
+      // Save to existing accounts
+      let account = await appService.db.accounts.get(accountName)
+      if (!account) {
+        throw "Invalid account " + accountName
+      }
+      account.currentBalance = balance
+      account.currentCurrency = currency
+
+      await appService.db.accounts.put(account)
     }
-
-    return aa
   }
 
   parseCurrentBalancesFile(text) {

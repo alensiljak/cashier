@@ -6,7 +6,9 @@ export class Account {
     constructor() {
         this.name = null,
         this.balance = null,
-        this.currency = null
+        this.currency = null,
+        this.currentBalance = null,
+        this.currentCurrency = null
     }
 }
 

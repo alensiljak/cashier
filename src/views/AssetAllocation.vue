@@ -75,7 +75,8 @@ export default {
       this.loadDefinition()
       // todo load current balances
       // todo load accounts
-      // todo add the balances to asset classes
+
+      // todo add the account balances to asset classes
       // todo calculate offsets
     },
     loadDefinition() {

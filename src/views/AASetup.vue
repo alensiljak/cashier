@@ -50,12 +50,7 @@
           <q-input type="file" class="text-red" dark clearable @input="onFileSelected"/>
         </div>
         <div class="col text-center">
-          <q-btn
-            label="Import"
-            color="red-10"
-            text-color="amber-4"
-            @click="onCurrentBalClick"
-          />
+          <q-btn label="Import" color="red-10" text-color="amber-4" @click="onCurrentBalClick"/>
         </div>
       </div>
     </div>
@@ -68,6 +63,8 @@ import { SettingKeys } from "../lib/Configuration";
 import appService from "../appService";
 import { Setting } from "../model";
 import { engine } from "../lib/AssetAllocation";
+
+const errorMessage = { color: "red-10", textColor: "amber-2" };
 
 export default {
   data() {
@@ -98,14 +95,24 @@ export default {
       this.$store.commit(TOGGLE_DRAWER, !visible);
     },
     onCurrentBalClick() {
-      engine.importCurrentBalances(this.fileContent).then(result => {
-        console.log(result)
-      })
+      engine
+        .importCurrentBalances(this.fileContent)
+        .then(result => {
+          console.log(result);
+        })
+        .catch(reason => {
+          errorMessage.message = reason;
+          this.$q.notify(errorMessage);
+        });
     },
     onDefinitionImportClick() {
       // import AA definition file
       engine.importDefinition(this.fileContent).then(() => {
-        this.$q.notify({ message: "Definition imported", color: "green-9" });
+        this.$q.notify({
+          message: "Definition imported",
+          color: "green-9",
+          textColor: "amber-2"
+        });
       });
     },
     onFileSelected(files) {
