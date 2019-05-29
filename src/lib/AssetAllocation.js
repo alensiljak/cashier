@@ -252,7 +252,7 @@ class AssetAllocationEngine {
       let line = lines[i];
       let parts = line.split("  ");
       parts = this.cleanBlankArrayItems(parts);
-      if (parts.length === 0) continue;
+      if (parts.length < 2) continue;
 
       let amountParts = parts[0].split(" ");
       amountParts = this.cleanBlankArrayItems(amountParts);
