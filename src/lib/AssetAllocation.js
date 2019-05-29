@@ -11,69 +11,80 @@ import AssetClass from "./AssetClass";
  */
 class AssetAllocationEngine {
   constructor() {
-    this.assetClassIndex = null
-    this.stockIndex = null
+    this.assetClassIndex = null;
+    this.stockIndex = null;
   }
 
   async loadFullAssetAllocation() {
     // aa definition
 
     let assetClasses = await this.loadDefinition();
-    this.assetClassIndex = this.buildAssetClassIndex(assetClasses)
+    this.assetClassIndex = this.buildAssetClassIndex(assetClasses);
 
     // build the stock index
-    this.stockIndex = this.buildStockIndex(assetClasses)
+    this.stockIndex = this.buildStockIndex(assetClasses);
 
-    // load current balances from accounts
-    // add the account balances to asset classes
-    let invAccounts = await this.getInvestmentAccounts()
-    await invAccounts.each(account => {
-      let amount = parseFloat(account.currentBalance)
-      // amount = amount.toFixed(2)
+    await this.loadCurrentBalances()
 
-      let commodity = account.currency
-      // now get the asset class for this commodity
-      let assetClassName = this.stockIndex[commodity]
-      let assetClass = this.assetClassIndex[assetClassName]
+    // Sum the balances for groups.
+    this.sumGroupBalances(this.assetClassIndex);
 
-      if (typeof assetClass.currentBalance === "undefined") {
-        assetClass.currentBalance = 0
-      }
-      assetClass.currentBalance += amount
-    })
-    // todo Sum the balances for groups.
+    // todo validation, check the allocation for groups, compare to sum of children's
 
     // todo calculate offsets
-    
-    return this.assetClassIndex
+    this.calculateOffsets(this.assetClassIndex)
+
+    return this.assetClassIndex;
   }
 
   buildAssetClassIndex(assetClasses) {
-    let index = {}
+    let index = {};
 
-    for(let i = 0; i < assetClasses.length; i++) {
-      let ac = assetClasses[i]
-      index[ac.fullname] = ac
+    for (let i = 0; i < assetClasses.length; i++) {
+      let ac = assetClasses[i];
+      index[ac.fullname] = ac;
     }
 
-    return index
+    return index;
   }
 
   buildStockIndex(asetClasses) {
-    let index = {}
+    let index = {};
 
-    for(let i = 0; i < asetClasses.length; i++) {
-      let assetClass = asetClasses[i]
-      if (!assetClass.stocks) continue
+    for (let i = 0; i < asetClasses.length; i++) {
+      let assetClass = asetClasses[i];
+      if (!assetClass.stocks) continue;
 
-      let stocks = assetClass.stocks
-      for(let j = 0; j < stocks.length; j++) {
-        let stock = stocks[j]
-        
-        index[stock] = assetClass.fullname
+      let stocks = assetClass.stocks;
+      for (let j = 0; j < stocks.length; j++) {
+        let stock = stocks[j];
+
+        index[stock] = assetClass.fullname;
       }
     }
-    return index
+    return index;
+  }
+
+  calculateOffsets(dictionary) {
+    let root = dictionary["Allocation"]
+    let total = root.currentBalance
+
+    // for each row
+    Object.entries(dictionary).forEach(([key, ac]) => {
+      console.log(key)
+      // calculate current allocation
+      ac.currentAllocation = (ac.currentBalance * 100 / total).toFixed(2)
+
+      // diff
+      ac.diff = (ac.currentAllocation - ac.allocation).toFixed(2)
+      // diff %
+      ac.diffPerc = (ac.diff * 100 / ac.allocation).toFixed(2)
+
+      ac.allocatedAmount = (ac.allocation * total / 100).toFixed(2)
+      // diff amount = 
+      ac.diffAmount = (ac.currentBalance - ac.allocatedAmount).toFixed(2)
+    })
+
   }
 
   cleanBlankArrayItems(array) {
@@ -89,6 +100,20 @@ class AssetAllocationEngine {
     return array;
   }
 
+  findChildren(dictionary, parent) {
+    let children = []
+
+    Object.entries(dictionary).forEach(([key, val]) => {
+      console.log(key); // the name of the current key.
+      // console.log(val); // the value of the current key.
+      if (parent.fullname === val.parentName) {
+        children.push(val)
+      }
+    });
+
+    return children
+  }
+
   /**
    * Get all the investment accounts in a dictionary.
    * Start from the investment root setting, and include the commodity.
@@ -101,12 +126,12 @@ class AssetAllocationEngine {
     );
 
     if (!rootAccount) {
-      throw 'Root investment account not set!'
+      throw "Root investment account not set!";
     }
 
     // let accounts =
     return appService.db.accounts
-      .where('name')
+      .where("name")
       .startsWithIgnoreCase(rootAccount);
     // accounts.each(account => {
     //   console.log(account);
@@ -128,7 +153,6 @@ class AssetAllocationEngine {
 
     // parse and save into the storage.
     // let aa = {};
-    // console.log(aa);
     // let index = {}; // index for all asset classes.
     let assetClasses = [];
     // let stockIndex = {}; // index for stock symbols and the corresponding asset class.
@@ -157,6 +181,26 @@ class AssetAllocationEngine {
     // return index
     // return settings.set(SettingKeys.assetAllocationDefinition, index);
     return appService.db.assetAllocation.bulkPut(assetClasses);
+  }
+
+  async loadCurrentBalances() {
+    // load current balances from accounts
+    // add the account balances to asset classes
+    let invAccounts = await this.getInvestmentAccounts();
+    await invAccounts.each(account => {
+      let amount = parseFloat(account.currentBalance);
+      // amount = amount.toFixed(2)
+
+      let commodity = account.currency;
+      // now get the asset class for this commodity
+      let assetClassName = this.stockIndex[commodity];
+      let assetClass = this.assetClassIndex[assetClassName];
+
+      if (typeof assetClass.currentBalance === "undefined") {
+        assetClass.currentBalance = 0;
+      }
+      assetClass.currentBalance += amount;
+    });    
   }
 
   /**
@@ -207,11 +251,11 @@ class AssetAllocationEngine {
     for (let i = 0; i < lines.length; i++) {
       let line = lines[i];
       let parts = line.split("  ");
-      parts = this.cleanBlankArrayItems(parts)
+      parts = this.cleanBlankArrayItems(parts);
       if (parts.length === 0) continue;
 
       let amountParts = parts[0].split(" ");
-      amountParts = this.cleanBlankArrayItems(amountParts)
+      amountParts = this.cleanBlankArrayItems(amountParts);
 
       let amountString = amountParts[0];
       let currency = amountParts[1];
@@ -266,6 +310,33 @@ class AssetAllocationEngine {
     parts = this.cleanBlankArrayItems(parts);
 
     return parts;
+  }
+
+  sumGroupBalances(acIndex) {
+    let root = acIndex["Allocation"];
+    let sum = this.sumChildren(acIndex, root)
+
+    root.currentBalance = sum
+  }
+
+  sumChildren(dictionary, item) {
+    // find all children
+    let children = this.findChildren(dictionary, item);
+    // console.log(children);
+    if (children.length === 0) {
+      return item.currentBalance
+    }
+
+    let sum = 0
+    for(let i = 0; i < children.length; i++) {
+      let child = children[i]
+      child.currentBalance = this.sumChildren(dictionary, child)
+
+      let amount = child.currentBalance
+      sum += amount
+    }
+
+    return sum
   }
 }
 

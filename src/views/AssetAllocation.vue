@@ -28,28 +28,21 @@
     </q-header>
 
     <div>
-      <q-btn
-        label="Read Accounts"
-        color="secondary"
-        text-color="accent"
-        @click="readAccountsClick"
-      />
+      <q-btn @click="onRecalculateClick" color="red-10" text-color="accent" label="Recalculate"/>
     </div>
 
     <div>
-      <!-- {{allocation}} -->
-      <!-- <div v-for="assetClass in assetClasses" :key="assetClass.fullname">
-        {{ assetClass.depth }},
-        {{ assetClass.parentName }}, {{ assetClass.name }},
-        {{ assetClass.allocation }}, 
-        {{ assetClass.currency }}
-      </div>-->
       <table>
         <thead>
           <tr>
             <th>Asset Class</th>
             <th>Allocation</th>
             <th>Current Balance</th>
+            <th>Current Allocation</th>
+            <th>Difference</th>
+            <th>Difference %</th>
+            <th>Alloc. Amount</th>
+            <th>Diff. Amount</th>
           </tr>
         </thead>
         <tbody>
@@ -62,6 +55,29 @@
             <td class="text-right">
               <span v-if="assetClass.currentBalance">{{ assetClass.currentBalance.toFixed(2) }}</span>
             </td>
+            <td class="text-right">{{ assetClass.currentAllocation }}</td>
+            <!-- difference -->
+            <td class="text-right">{{ assetClass.diff }}</td>
+            <!-- difference % -->
+            <td
+              class="text-right"
+              v-bind:class="{ 
+              'text-red-10': assetClass.diffPerc < -20,
+              'text-red-3': (-20 < assetClass.diffPerc && assetClass.diffPerc < 0),
+              'text-green-3': (assetClass.diffPerc > 0 && assetClass.diffPerc < 20),
+              'text-green-9': assetClass.diffPerc > 20 
+              }"
+            >{{ assetClass.diffPerc }}</td>
+            <td class="text-right">{{ assetClass.allocatedAmount }}</td>
+            <td
+              class="text-right"
+              v-bind:class="{ 
+              'text-red-10': assetClass.diff < -20,
+              'text-red-3': assetClass.diff < 0,
+              'text-green-3': assetClass.diff > 0,
+              'text-green-9': assetClass.diff > 20 
+              }"
+            >{{ assetClass.diffAmount }}</td>
           </tr>
         </tbody>
       </table>
@@ -87,8 +103,6 @@ export default {
 
     this.$store.commit(MAIN_TOOLBAR, false);
     // this.$store.commit(SET_TITLE, "Asset Allocation");
-
-    this.loadData();
   },
 
   methods: {
@@ -106,16 +120,11 @@ export default {
       // navigate to help page
       this.$router.push({ name: "assetallocationhelp" });
     },
+    onRecalculateClick() {
+      this.loadData();
+    },
     onSetupClick() {
       this.$router.push({ name: "assetallocationsetup" });
-    },
-    readAccountsClick() {
-      engine
-        .getInvestmentAccounts()
-        .then(accounts => {
-          console.log(accounts);
-        })
-        .catch(reason => this.$q.notify({ message: reason }));
     }
   }
 };
