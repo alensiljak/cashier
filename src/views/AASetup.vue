@@ -13,7 +13,8 @@
         </q-btn>
       </q-toolbar>
     </q-header>
-
+    
+    <!-- AA definition -->
     <div class="q-mb-md">
       <p>Asset Allocation Definition</p>
       <div class="row">
@@ -31,6 +32,7 @@
       </div>
     </div>
 
+    <!-- Root investment account -->
     <div class="row">
       <div class="col">
         <q-input label="Root investment account to use" v-model="rootAccount" dark/>
@@ -86,7 +88,9 @@ export default {
     },
     onDefinitionImportClick() {
       // import AA definition file
-      engine.importDefinition(this.aaDefinitionContent);
+      engine.importDefinition(this.aaDefinitionContent).then(() => {
+        this.$q.notify({message: 'Definition imported', color: 'green-9'})
+      })
     },
     onFileSelected(files) {
       this.readInputFile(files[0], "aaDefinitionContent");

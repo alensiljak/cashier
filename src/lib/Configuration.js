@@ -32,7 +32,8 @@ export const SettingKeys = {
     get syncServerUrl() {
         return "syncServerUrl"
     },
-    assetAllocationInvestmentRootAccount: 'aa.rootAccount'
+    assetAllocationInvestmentRootAccount: 'aa.rootAccount',
+    assetAllocationDefinition: 'aa.definition'
 }
 
 

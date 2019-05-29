@@ -35,14 +35,25 @@
         @click="readAccountsClick"
       />
     </div>
+
+    <div>
+        {{allocation}}
+    </div>
   </q-page>
 </template>
 
 <script>
 import { MAIN_TOOLBAR, TOGGLE_DRAWER } from "../mutations";
 import { engine } from "../lib/AssetAllocation";
+import { settings, SettingKeys } from '../lib/Configuration';
 
 export default {
+    data() {
+        return {
+            allocation: null
+        }
+    },
+
   created() {
     // todo check if there is a definition saved
     // if not, redirect to the setup
@@ -50,9 +61,24 @@ export default {
 
     this.$store.commit(MAIN_TOOLBAR, false);
     // this.$store.commit(SET_TITLE, "Asset Allocation");
+
+    this.loadData()
   },
 
   methods: {
+    loadData() {
+      // load aa definition
+      this.loadDefinition()
+      // todo load current balances
+      // todo load accounts
+      // todo add the balances to asset classes
+      // todo calculate offsets
+    },
+    loadDefinition() {
+        settings.get(SettingKeys.assetAllocationDefinition).then(allocation => {
+            this.allocation = allocation
+        })
+    },
     menuClicked() {
       let visible = this.$store.state.drawerOpen;
       this.$store.commit(TOGGLE_DRAWER, !visible);
