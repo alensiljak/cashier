@@ -18,19 +18,25 @@ class AssetAllocationEngine {
   async loadFullAssetAllocation() {
     // aa definition
 
-    this.assetClassIndex = await this.loadDefinition();
+    let assetClasses = await this.loadDefinition();
+    this.assetClassIndex = this.buildAssetClassIndex(assetClasses)
 
     // build the stock index
-    this.stockIndex = this.buildStockIndex(this.assetClassIndex)
+    this.stockIndex = this.buildStockIndex(assetClasses)
 
-    // todo load accounts with current balances
+    // load current balances from accounts
     let invAccounts = await this.getInvestmentAccounts()
     await invAccounts.each(account => {
+      let amount = parseFloat(account.currentBalance)
       let commodity = account.currency
-      console.log(commodity)
-      //this.assetClassIndex[]
-      //account.currentBalance
+      // now get the asset class for this commodity
+      let assetClassName = this.stockIndex[commodity]
+      let assetClass = this.assetClassIndex[assetClassName]
 
+      if (typeof assetClass.currentBalance === "undefined") {
+        assetClass.currentBalance = 0
+      }
+      assetClass.currentBalance += amount
     })
 
     // todo add the account balances to asset classes
@@ -38,6 +44,17 @@ class AssetAllocationEngine {
     // console.log(definition);
     
     return this.assetClassIndex
+  }
+
+  buildAssetClassIndex(assetClasses) {
+    let index = {}
+
+    for(let i = 0; i < assetClasses.length; i++) {
+      let ac = assetClasses[i]
+      index[ac.fullname] = ac
+    }
+
+    return index
   }
 
   buildStockIndex(asetClasses) {
@@ -81,8 +98,13 @@ class AssetAllocationEngine {
       SettingKeys.assetAllocationInvestmentRootAccount
     );
 
-    let accounts = await appService.db.accounts
-      .where("name")
+    if (!rootAccount) {
+      throw 'Root investment account not set!'
+    }
+
+    // let accounts =
+    return appService.db.accounts
+      .where('name')
       .startsWithIgnoreCase(rootAccount);
     // accounts.each(account => {
     //   console.log(account);
@@ -91,7 +113,7 @@ class AssetAllocationEngine {
     //     let account = accounts[i]
     //     console.log(account)
     // }
-    return accounts;
+    // return accounts;
   }
 
   /**
@@ -191,7 +213,6 @@ class AssetAllocationEngine {
       let currency = amountParts[1];
       let accountName = parts[1];
 
-      // console.log(accountName, amountString, currency)
       result.push([accountName, amountString, currency]);
     }
 

@@ -42,7 +42,8 @@
         {{ assetClass.depth }},
         {{ assetClass.parentName }}, {{ assetClass.name }},
         {{ assetClass.allocation }}, {{assetClass.stocks}},
-        {{ assetClass.currentBalance }} {{ assetClass.currency }}
+        {{ assetClass.currentBalance }} 
+        <!-- {{ assetClass.currency }} -->
       </div>
     </div>
   </q-page>
