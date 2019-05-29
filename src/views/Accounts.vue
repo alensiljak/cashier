@@ -131,7 +131,7 @@
     <q-dialog v-model="confirmDeleteAllVisible" persistent content-class="bg-blue-grey-10">
       <q-card dark class="bg-red-10">
         <q-card-section class="row items-center">
-          <span>Do you want to delete all transactions?</span>
+          <span>Do you want to delete all accounts?</span>
         </q-card-section>
 
         <q-card-actions align="right">
