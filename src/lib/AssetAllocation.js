@@ -3,11 +3,59 @@
 */
 import appService from "../appService";
 import { settings, SettingKeys } from "./Configuration";
-import AssetClass from './AssetClass'
+import AssetClass from "./AssetClass";
 
-
+/**
+ * loadDefinition = loads the pre-set definition
+ *
+ */
 class AssetAllocationEngine {
-  constructor() {}
+  constructor() {
+    this.assetClassIndex = null
+    this.stockIndex = null
+  }
+
+  async loadFullAssetAllocation() {
+    // aa definition
+
+    this.assetClassIndex = await this.loadDefinition();
+
+    // build the stock index
+    this.stockIndex = this.buildStockIndex(this.assetClassIndex)
+
+    // todo load accounts with current balances
+    let invAccounts = await this.getInvestmentAccounts()
+    await invAccounts.each(account => {
+      let commodity = account.currency
+      console.log(commodity)
+      //this.assetClassIndex[]
+      //account.currentBalance
+
+    })
+
+    // todo add the account balances to asset classes
+    // todo calculate offsets
+    // console.log(definition);
+    
+    return this.assetClassIndex
+  }
+
+  buildStockIndex(asetClasses) {
+    let index = {}
+
+    for(let i = 0; i < asetClasses.length; i++) {
+      let assetClass = asetClasses[i]
+      if (!assetClass.stocks) continue
+
+      let stocks = assetClass.stocks
+      for(let j = 0; j < stocks.length; j++) {
+        let stock = stocks[j]
+        
+        index[stock] = assetClass.fullname
+      }
+    }
+    return index
+  }
 
   cleanBlankArrayItems(array) {
     let i = 0;
@@ -19,12 +67,13 @@ class AssetAllocationEngine {
         i++;
       }
     }
-    return array
+    return array;
   }
 
   /**
    * Get all the investment accounts in a dictionary.
    * Start from the investment root setting, and include the commodity.
+   * @returns Promise with investment accounts collection
    */
   async getInvestmentAccounts() {
     // get the root investment account.
@@ -34,7 +83,7 @@ class AssetAllocationEngine {
 
     let accounts = await appService.db.accounts
       .where("name")
-      .startsWithIgnoreCase(rootAccount)
+      .startsWithIgnoreCase(rootAccount);
     // accounts.each(account => {
     //   console.log(account);
     // });
@@ -42,7 +91,7 @@ class AssetAllocationEngine {
     //     let account = accounts[i]
     //     console.log(account)
     // }
-    return accounts
+    return accounts;
   }
 
   /**
@@ -88,71 +137,65 @@ class AssetAllocationEngine {
 
   /**
    * Load the asset allocation definition from persistence.
+   * @returns Array of asset class records
    */
   async loadDefinition() {
-    let stored = await appService.db.assetAllocation.toArray();
-
-    // convert the values into Asset Allocation instances
-    // for (const [key, value] of Object.entries(stored)) {
-    //   console.log(key, value);
-    // }
-
-    return stored;
+    return appService.db.assetAllocation.toArray();
   }
 
   /**
    * Parse and store the current balances ("l b ^Assets:Inv --flat -X EUR")
    * in the allocation object.
-   * @param {str} text 
+   * @param {str} text
    */
   async importCurrentBalances(text) {
     // load current allocation
     // let aa = await this.loadDefinition()
     // let accounts = await this.getInvestmentAccounts()
-    let currentArray = this.parseCurrentBalancesFile(text)
+    let currentArray = this.parseCurrentBalancesFile(text);
 
     // assign values
-    for(let i = 0; i < currentArray.length; i++) {
-      let row = currentArray[i]
+    for (let i = 0; i < currentArray.length; i++) {
+      let row = currentArray[i];
       // account name
-      let accountName = row[0]
+      let accountName = row[0];
       // balance
-      let balance = row[1]
-      balance = balance.replace(',', '')
-      let currency = row[2]
+      let balance = row[1];
+      balance = balance.replace(",", "");
+      let currency = row[2];
 
       // Save to existing accounts
-      let account = await appService.db.accounts.get(accountName)
+      let account = await appService.db.accounts.get(accountName);
       if (!account) {
-        throw "Invalid account " + accountName
+        throw "Invalid account " + accountName;
       }
-      account.currentBalance = balance
-      account.currentCurrency = currency
+      account.currentBalance = balance;
+      account.currentCurrency = currency;
 
-      await appService.db.accounts.put(account)
+      await appService.db.accounts.put(account);
     }
   }
 
   parseCurrentBalancesFile(text) {
-    let result = []
+    let result = [];
 
-    let lines = text.split('\n')
-    for(let i = 0; i < lines.length; i++) {
-      let line = lines[i]
-      let parts = line.split('  ')
-      parts = this.cleanBlankArrayItems(parts)
-      if (parts.length === 0) continue
-      
-      let amountParts = parts[0].split(' ')
-      let amountString = amountParts[0]
-      let currency = amountParts[1]
-      let accountName = parts[1]
+    let lines = text.split("\n");
+    for (let i = 0; i < lines.length; i++) {
+      let line = lines[i];
+      let parts = line.split("  ");
+      parts = this.cleanBlankArrayItems(parts);
+      if (parts.length === 0) continue;
+
+      let amountParts = parts[0].split(" ");
+      let amountString = amountParts[0];
+      let currency = amountParts[1];
+      let accountName = parts[1];
 
       // console.log(accountName, amountString, currency)
-      result.push([accountName, amountString, currency])
+      result.push([accountName, amountString, currency]);
     }
 
-    return result
+    return result;
   }
 
   /**
@@ -195,7 +238,7 @@ class AssetAllocationEngine {
     let parts = line.split("  ");
 
     // Clean up blank sections
-    parts = this.cleanBlankArrayItems(parts)
+    parts = this.cleanBlankArrayItems(parts);
 
     return parts;
   }

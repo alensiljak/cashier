@@ -37,12 +37,13 @@
     </div>
 
     <div>
-        <!-- {{allocation}} -->
-        <div v-for="assetClass in allocationContainer" :key="assetClass.full_name">
-          {{ assetClass.depth }},
-            {{ assetClass.parentName }}, {{ assetClass.name }},
-            {{ assetClass.allocation }}, {{assetClass.stocks}}
-        </div>
+      <!-- {{allocation}} -->
+      <div v-for="assetClass in allocationContainer" :key="assetClass.full_name">
+        {{ assetClass.depth }},
+        {{ assetClass.parentName }}, {{ assetClass.name }},
+        {{ assetClass.allocation }}, {{assetClass.stocks}},
+        {{ assetClass.currentBalance }} {{ assetClass.currency }}
+      </div>
     </div>
   </q-page>
 </template>
@@ -52,11 +53,11 @@ import { MAIN_TOOLBAR, TOGGLE_DRAWER } from "../mutations";
 import { engine } from "../lib/AssetAllocation";
 
 export default {
-    data() {
-        return {
-            allocationContainer: null
-        }
-    },
+  data() {
+    return {
+      allocationContainer: null
+    };
+  },
 
   created() {
     // todo check if there is a definition saved
@@ -66,23 +67,15 @@ export default {
     this.$store.commit(MAIN_TOOLBAR, false);
     // this.$store.commit(SET_TITLE, "Asset Allocation");
 
-    this.loadData()
+    this.loadData();
   },
 
   methods: {
     loadData() {
-      // aa definition
-      this.loadDefinition()
-      // todo load current balances
-      // todo load accounts
-
-      // todo add the account balances to asset classes
-      // todo calculate offsets
-    },
-    loadDefinition() {
-        engine.loadDefinition()
-            .then(allocation => this.allocationContainer = allocation)
-            .catch(reason => this.$q.notify({message: reason}))
+      engine
+        .loadFullAssetAllocation()
+        .then(result => (this.allocationContainer = result))
+        .catch(reason => this.$q.notify({ message: reason }));
     },
     menuClicked() {
       let visible = this.$store.state.drawerOpen;
