@@ -37,8 +37,8 @@
           <tr>
             <th>Asset Class</th>
             <th>Allocation</th>
-            <th>Current Balance</th>
-            <th>Current Allocation</th>
+            <th>Curr. Balance</th>
+            <th>Curr. Allocation</th>
             <th>Difference</th>
             <th>Difference %</th>
             <th>Alloc. Amount</th>
@@ -53,7 +53,7 @@
             </td>
             <td class="text-right">{{ assetClass.allocation }}</td>
             <td class="text-right">
-              <span v-if="assetClass.currentBalance">{{ assetClass.currentBalance.toFixed(2) }}</span>
+              {{ assetClass.currentBalance }}
             </td>
             <td class="text-right">{{ assetClass.currentAllocation }}</td>
             <!-- difference -->

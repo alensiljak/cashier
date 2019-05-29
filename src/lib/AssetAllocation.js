@@ -31,8 +31,11 @@ class AssetAllocationEngine {
 
     // todo validation, check the allocation for groups, compare to sum of children's
 
-    // todo calculate offsets
+    // calculate offsets
     this.calculateOffsets(this.assetClassIndex)
+
+    // todo format numbers for output
+    this.formatNumbers(this.assetClassIndex)
 
     return this.assetClassIndex;
   }
@@ -70,8 +73,9 @@ class AssetAllocationEngine {
     let total = root.currentBalance
 
     // for each row
-    Object.entries(dictionary).forEach(([key, ac]) => {
-      console.log(key)
+    Object.values(dictionary).forEach((ac) => {
+      // key
+      // console.log(key)
       // calculate current allocation
       ac.currentAllocation = (ac.currentBalance * 100 / total).toFixed(2)
 
@@ -103,8 +107,8 @@ class AssetAllocationEngine {
   findChildren(dictionary, parent) {
     let children = []
 
-    Object.entries(dictionary).forEach(([key, val]) => {
-      console.log(key); // the name of the current key.
+    Object.values(dictionary).forEach((val) => {
+      // console.log(key); // the name of the current key.
       // console.log(val); // the value of the current key.
       if (parent.fullname === val.parentName) {
         children.push(val)
@@ -112,6 +116,18 @@ class AssetAllocationEngine {
     });
 
     return children
+  }
+
+  formatNumbers(dictionary) {
+    let format = new Intl.NumberFormat("en-AU")
+
+    Object.values(dictionary).forEach((ac) => {
+      // new Intl.NumberFormat("en-AU").format(amount)
+      //console.log(ac)
+      ac.currentBalance = format.format(ac.currentBalance)
+      ac.allocatedAmount = format.format(ac.allocatedAmount)
+      ac.diffAmount = format.format(ac.diffAmount)
+    })
   }
 
   /**
