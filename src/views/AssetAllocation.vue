@@ -37,7 +37,10 @@
     </div>
 
     <div>
-        {{allocation}}
+        <!-- {{allocation}} -->
+        <div v-for="assetClass in allocationContainer" :key="assetClass.full_name">
+            {{ assetClass.parentname }} {{ assetClass.name }}
+        </div>
     </div>
   </q-page>
 </template>
@@ -45,12 +48,12 @@
 <script>
 import { MAIN_TOOLBAR, TOGGLE_DRAWER } from "../mutations";
 import { engine } from "../lib/AssetAllocation";
-import { settings, SettingKeys } from '../lib/Configuration';
+// import { settings, SettingKeys } from '../lib/Configuration';
 
 export default {
     data() {
         return {
-            allocation: null
+            allocationContainer: null
         }
     },
 
@@ -75,9 +78,7 @@ export default {
       // todo calculate offsets
     },
     loadDefinition() {
-        settings.get(SettingKeys.assetAllocationDefinition).then(allocation => {
-            this.allocation = allocation
-        })
+        engine.loadDefinition().then(allocation => this.allocationContainer = allocation)
     },
     menuClicked() {
       let visible = this.$store.state.drawerOpen;

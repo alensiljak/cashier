@@ -11,6 +11,16 @@ class AssetClass {
     this.name = null;
     this.allocation = null;
     this.stocks = null;
+    // this.level = null; // the depth level, with root Allocation = 0
+  }
+
+  /**
+   * Represents the class depth in the allocation tree.
+   * The root element (Allocation) is 0. This is effectively the number of parents.
+   */
+  get depth() {
+    let parents = this.parentname.split(':')
+    return parents.length
   }
 
   get fullname() {
@@ -91,6 +101,20 @@ class AssetAllocationEngine {
     // stockIndex
     // return index
     return settings.set(SettingKeys.assetAllocationDefinition, index)
+  }
+
+  /**
+   * Load the asset allocation definition from persistence.
+   */
+  async loadDefinition() {
+    let stored = await settings.get(SettingKeys.assetAllocationDefinition)
+    
+    // convert the values into Asset Allocation instances
+    for(const [key, value] of Object.entries(stored)) {
+        console.log(key, value)
+    }
+    
+    return stored
   }
 
   /**
