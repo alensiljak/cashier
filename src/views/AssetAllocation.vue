@@ -6,11 +6,7 @@
 
         <q-toolbar-title>Asset Allocation</q-toolbar-title>
 
-        <q-space/>
-
-        <q-btn flat round dense @click="onHelpClick">
-          <font-awesome-icon icon="question-circle"/>
-        </q-btn>
+        <!-- <q-space/> -->
 
         <q-btn flat round dense icon="more_vert">
           <q-menu>
@@ -19,6 +15,13 @@
                 <q-item-section>Setup</q-item-section>
                 <q-item-section side>
                   <font-awesome-icon icon="cog" transform="grow-9 left-5"/>
+                </q-item-section>
+              </q-item>
+
+              <q-item clickable v-close-popup @click="onHelpClick">
+                <q-item-section>Help</q-item-section>
+                <q-item-section side>
+                  <font-awesome-icon icon="question-circle" transform="grow-9 left-5"/>
                 </q-item-section>
               </q-item>
             </q-list>

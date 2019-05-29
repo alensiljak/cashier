@@ -1,7 +1,8 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
     <ul>
-      <li>For account balances, export the balance sheet with "ledger balance --flat".</li>
+      <li>For account balances, export the balance sheet with 
+        "ledger balance --flat --no-total".</li>
       <li>Export commodities with "ledger commodities"</li>
     </ul>
     <p>Import the text file</p>
