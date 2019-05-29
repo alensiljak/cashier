@@ -7,8 +7,8 @@ export default class AssetClass {
     this.allocation = null;
     this.stocks = null;
     // this.level = null; // the depth level, with root Allocation = 0
-    this.currentBalance = null
-    this.currency = null
+    this.currentBalance = null;
+    this.currency = null;
   }
 
   /**
@@ -16,6 +16,8 @@ export default class AssetClass {
    * The root element (Allocation) is 0. This is effectively the number of parents.
    */
   get depth() {
+    if (!this.parentName) return 0;
+
     let parents = this.parentName.split(":");
     return parents.length;
   }

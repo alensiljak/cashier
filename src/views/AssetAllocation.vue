@@ -38,13 +38,33 @@
 
     <div>
       <!-- {{allocation}} -->
-      <div v-for="assetClass in allocationContainer" :key="assetClass.full_name">
+      <!-- <div v-for="assetClass in assetClasses" :key="assetClass.fullname">
         {{ assetClass.depth }},
         {{ assetClass.parentName }}, {{ assetClass.name }},
-        {{ assetClass.allocation }}, {{assetClass.stocks}},
-        {{ assetClass.currentBalance }} 
-        <!-- {{ assetClass.currency }} -->
-      </div>
+        {{ assetClass.allocation }}, 
+        {{ assetClass.currency }}
+      </div>-->
+      <table>
+        <thead>
+          <tr>
+            <th>Asset Class</th>
+            <th>Allocation</th>
+            <th>Current Balance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="assetClass in assetClasses" :key="assetClass.fullname">
+            <td>
+              <span :style="{ paddingLeft: assetClass.depth + 'rem'}"></span>
+              {{ assetClass.name }}
+            </td>
+            <td class="text-right">{{ assetClass.allocation }}</td>
+            <td class="text-right">
+              <span v-if="assetClass.currentBalance">{{ assetClass.currentBalance.toFixed(2) }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </q-page>
 </template>
@@ -56,7 +76,7 @@ import { engine } from "../lib/AssetAllocation";
 export default {
   data() {
     return {
-      allocationContainer: null
+      assetClasses: null
     };
   },
 
@@ -75,7 +95,7 @@ export default {
     loadData() {
       engine
         .loadFullAssetAllocation()
-        .then(result => (this.allocationContainer = result))
+        .then(result => (this.assetClasses = result))
         .catch(reason => this.$q.notify({ message: reason }));
     },
     menuClicked() {

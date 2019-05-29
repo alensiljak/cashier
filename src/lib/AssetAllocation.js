@@ -25,9 +25,12 @@ class AssetAllocationEngine {
     this.stockIndex = this.buildStockIndex(assetClasses)
 
     // load current balances from accounts
+    // add the account balances to asset classes
     let invAccounts = await this.getInvestmentAccounts()
     await invAccounts.each(account => {
       let amount = parseFloat(account.currentBalance)
+      // amount = amount.toFixed(2)
+
       let commodity = account.currency
       // now get the asset class for this commodity
       let assetClassName = this.stockIndex[commodity]
@@ -38,10 +41,9 @@ class AssetAllocationEngine {
       }
       assetClass.currentBalance += amount
     })
+    // todo Sum the balances for groups.
 
-    // todo add the account balances to asset classes
     // todo calculate offsets
-    // console.log(definition);
     
     return this.assetClassIndex
   }
@@ -205,10 +207,12 @@ class AssetAllocationEngine {
     for (let i = 0; i < lines.length; i++) {
       let line = lines[i];
       let parts = line.split("  ");
-      parts = this.cleanBlankArrayItems(parts);
+      parts = this.cleanBlankArrayItems(parts)
       if (parts.length === 0) continue;
 
       let amountParts = parts[0].split(" ");
+      amountParts = this.cleanBlankArrayItems(amountParts)
+
       let amountString = amountParts[0];
       let currency = amountParts[1];
       let accountName = parts[1];
