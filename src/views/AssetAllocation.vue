@@ -34,7 +34,7 @@
       <q-btn @click="onRecalculateClick" color="red-10" text-color="accent" label="Recalculate"/>
     </div>
 
-    <div>
+    <div style="height: 100%; width: 100%; overflow: scroll;">
       <table>
         <thead>
           <tr>
@@ -72,9 +72,7 @@
             <!-- Allocated Value -->
             <td class="text-right">{{ assetClass.allocatedAmount }}</td>
             <!-- Current Value -->
-            <td class="text-right">
-              {{ assetClass.currentValue }}
-            </td>
+            <td class="text-right">{{ assetClass.currentValue }}</td>
             <td
               class="text-right"
               v-bind:class="{ 
