@@ -6,6 +6,7 @@
 import db from "./dataStore";
 import { Account, Transaction, Posting, Payee } from "./model";
 import { Notify } from "quasar";
+import { settings, SettingKeys } from "./lib/Configuration";
 
 class AppService {
   createAccount(name) {
@@ -16,9 +17,9 @@ class AppService {
   }
 
   addPayee(name) {
-    let payee = new Payee(name)
-    
-    return db.payees.put(payee)
+    let payee = new Payee(name);
+
+    return db.payees.put(payee);
   }
 
   createTransaction() {
@@ -36,15 +37,15 @@ class AppService {
   }
 
   deleteAccount(name) {
-    return db.accounts.delete(name)
+    return db.accounts.delete(name);
   }
 
   deleteAccounts() {
-    return db.accounts.clear()
+    return db.accounts.clear();
   }
 
   deletePayees() {
-    return db.payees.clear()
+    return db.payees.clear();
   }
 
   /**
@@ -99,48 +100,86 @@ class AppService {
       });
   }
 
+  /**
+   * Get all the investment accounts in a dictionary.
+   * Start from the investment root setting, and include the commodity.
+   * @returns Promise with investment accounts collection
+   */
+  async getInvestmentAccounts() {
+    // get the root investment account.
+    let rootAccount = await settings.get(SettingKeys.rootInvestmentAccount);
+
+    if (!rootAccount) {
+      throw "Root investment account not set!";
+    }
+
+    // let accounts =
+    return this.db.accounts.where("name").startsWithIgnoreCase(rootAccount);
+  }
+
+  /**
+   * Get all the investment commodities. These are commodities used in inv. accounts.
+   */
+  async getInvestmentCommodities() {
+    // get all investment accounts, iterate to get unique commodities?
+    let commodities = [];
+
+    let accounts = await this.getInvestmentAccounts();
+    await accounts.each(account => {
+        // console.log("each");
+        commodities.push(account.currency);
+      })
+
+    // keep only unique values
+    commodities = [...new Set(commodities)];
+    commodities.sort();
+
+    // console.log("exiting");
+    return commodities;
+  }
+
   importBalanceSheet(text) {
     if (!text) {
       Notify.create({ message: "No balance sheet selected." });
       return;
     }
 
-    var accounts = []
+    var accounts = [];
 
     // read and parse the balance sheet string
     let lines = text.split("\n");
     for (let i = 0; i < lines.length; i++) {
       // console.log(lines[i]);
-      let line = lines[i]
-      let account = new Account()
+      let line = lines[i];
+      let account = new Account();
 
-      let balancePart = line.substring(0,20)
-      balancePart = balancePart.trim()
+      let balancePart = line.substring(0, 20);
+      balancePart = balancePart.trim();
       // separate the currency
-      let balanceParts = balancePart.split(' ')
+      let balanceParts = balancePart.split(" ");
 
       // let amountPart = line.substring(0, 16)
-      let amountPart = balanceParts[0]
+      let amountPart = balanceParts[0];
       // clean-up the thousand-separators
-      amountPart = amountPart.replace(/,/g, '')
-      account.balance = parseFloat(amountPart)
+      amountPart = amountPart.replace(/,/g, "");
+      account.balance = parseFloat(amountPart);
 
       // currency
       // let currencyPart = line.substring(16, 19)
-      let currencyPart = balanceParts[1]
-      account.currency = currencyPart
+      let currencyPart = balanceParts[1];
+      account.currency = currencyPart;
 
-      let namePart = line.substring(21).trim()
-      account.name = namePart
+      let namePart = line.substring(21).trim();
+      account.name = namePart;
 
       // for now, skip the accounts which contain multiple currencies
       if (!namePart) continue;
 
       // console.log(account)
-      accounts.push(account)
+      accounts.push(account);
     }
 
-    return db.accounts.bulkPut(accounts)
+    return db.accounts.bulkPut(accounts);
   }
 
   importCommodities(text) {
@@ -149,17 +188,17 @@ class AppService {
       return;
     }
 
-    let commodities = []
+    let commodities = [];
     let lines = text.split("\n");
 
-    for(let i = 0; i < lines.length - 1; i++) {
-      let commodity = lines[i].trim()
-      commodities.push(commodity)
+    for (let i = 0; i < lines.length - 1; i++) {
+      let commodity = lines[i].trim();
+      commodities.push(commodity);
     }
-    
+
     // todo: save
 
-    return commodities
+    return commodities;
   }
 
   loadAccount(id) {

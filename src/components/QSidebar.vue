@@ -183,7 +183,7 @@
               </q-item-section>
             </q-item>
 
-            <q-item to="/prices" exact clickable v-ripple active-class="active-link"
+            <!-- <q-item to="/prices" exact clickable v-ripple active-class="active-link"
               :inset-level="1">
               <q-item-section avatar>
                 <font-awesome-icon icon="barcode" transform="grow-6 right-9"/>
@@ -191,7 +191,7 @@
               <q-item-section>
                 <q-item-label>Prices</q-item-label>
               </q-item-section>
-            </q-item>
+            </q-item> -->
 
           </q-list>
         </q-expansion-item>

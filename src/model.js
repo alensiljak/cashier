@@ -37,6 +37,18 @@ export class Posting {
     }
 }
 
+/**
+ * Used for price download and export. Not used.
+ */
+export class Price {
+    constructor() {
+        this.symbol = null  // symbol used in the book
+        this.ticker = null  // symbol on the exchange
+        this.price = null   // downloaded price
+        this.currency = null    // currency of the price
+    }
+}
+
 export class Transaction {
     constructor() {
         //this.id = newId()

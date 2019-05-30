@@ -2,7 +2,6 @@
     Asset Allocation
 */
 import appService from "../appService";
-import { settings, SettingKeys } from "./Configuration";
 import AssetClass from "./AssetClass";
 
 /**
@@ -37,10 +36,10 @@ class AssetAllocationEngine {
     // format numbers for output
     this.formatNumbers(this.assetClassIndex);
 
-    // todo convert to array for display in a table
-    let result = Object.values(this.assetClassIndex)
+    // convert to array for display in a table
+    let result = Object.values(this.assetClassIndex);
 
-    return result
+    return result;
   }
 
   buildAssetClassIndex(assetClasses) {
@@ -133,35 +132,6 @@ class AssetAllocationEngine {
   }
 
   /**
-   * Get all the investment accounts in a dictionary.
-   * Start from the investment root setting, and include the commodity.
-   * @returns Promise with investment accounts collection
-   */
-  async getInvestmentAccounts() {
-    // get the root investment account.
-    let rootAccount = await settings.get(
-      SettingKeys.assetAllocationInvestmentRootAccount
-    );
-
-    if (!rootAccount) {
-      throw "Root investment account not set!";
-    }
-
-    // let accounts =
-    return appService.db.accounts
-      .where("name")
-      .startsWithIgnoreCase(rootAccount);
-    // accounts.each(account => {
-    //   console.log(account);
-    // });
-    // for(let i = 0; i < accounts.length; i++) {
-    //     let account = accounts[i]
-    //     console.log(account)
-    // }
-    // return accounts;
-  }
-
-  /**
    * Import Asset Allocation definition.
    * @param {str} text Contents of the definition file.
    * @returns Dictionary of asset classes with allocations and stocks
@@ -204,7 +174,7 @@ class AssetAllocationEngine {
   async loadCurrentValues() {
     // load current balances from accounts
     // add the account balances to asset classes
-    let invAccounts = await this.getInvestmentAccounts();
+    let invAccounts = await appService.getInvestmentAccounts();
     await invAccounts.each(account => {
       let amount = parseFloat(account.currentValue);
       // amount = amount.toFixed(2)

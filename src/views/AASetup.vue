@@ -85,7 +85,7 @@ export default {
   methods: {
     loadData() {
       appService.db.settings
-        .get(SettingKeys.assetAllocationInvestmentRootAccount)
+        .get(SettingKeys.rootInvestmentAccount)
         .then(setting => {
           this.rootAccount = setting.value;
         });
@@ -123,7 +123,7 @@ export default {
     },
     onSaveClick() {
       let setting = new Setting(
-        SettingKeys.assetAllocationInvestmentRootAccount,
+        SettingKeys.rootInvestmentAccount,
         this.rootAccount
       );
       appService.db.settings.put(setting).then(result => {
