@@ -24,7 +24,7 @@ class AssetAllocationEngine {
     // build the stock index
     this.stockIndex = this.buildStockIndex(assetClasses);
 
-    await this.loadCurrentValues()
+    await this.loadCurrentValues();
 
     // Sum the balances for groups.
     this.sumGroupBalances(this.assetClassIndex);
@@ -32,12 +32,15 @@ class AssetAllocationEngine {
     // todo validation, check the allocation for groups, compare to sum of children's
 
     // calculate offsets
-    this.calculateOffsets(this.assetClassIndex)
+    this.calculateOffsets(this.assetClassIndex);
 
-    // todo format numbers for output
-    this.formatNumbers(this.assetClassIndex)
+    // format numbers for output
+    this.formatNumbers(this.assetClassIndex);
 
-    return this.assetClassIndex;
+    // todo convert to array for display in a table
+    let result = Object.values(this.assetClassIndex)
+
+    return result
   }
 
   buildAssetClassIndex(assetClasses) {
@@ -69,26 +72,25 @@ class AssetAllocationEngine {
   }
 
   calculateOffsets(dictionary) {
-    let root = dictionary["Allocation"]
-    let total = root.currentValue
+    let root = dictionary["Allocation"];
+    let total = root.currentValue;
 
     // for each row
-    Object.values(dictionary).forEach((ac) => {
+    Object.values(dictionary).forEach(ac => {
       // key
       // console.log(key)
       // calculate current allocation
-      ac.currentAllocation = (ac.currentValue * 100 / total).toFixed(2)
+      ac.currentAllocation = ((ac.currentValue * 100) / total).toFixed(2);
 
       // diff
-      ac.diff = (ac.currentAllocation - ac.allocation).toFixed(2)
+      ac.diff = (ac.currentAllocation - ac.allocation).toFixed(2);
       // diff %
-      ac.diffPerc = (ac.diff * 100 / ac.allocation).toFixed(2)
+      ac.diffPerc = ((ac.diff * 100) / ac.allocation).toFixed(2);
 
-      ac.allocatedAmount = (ac.allocation * total / 100).toFixed(2)
-      // diff amount = 
-      ac.diffAmount = (ac.currentValue - ac.allocatedAmount).toFixed(2)
-    })
-
+      ac.allocatedAmount = ((ac.allocation * total) / 100).toFixed(2);
+      // diff amount =
+      ac.diffAmount = (ac.currentValue - ac.allocatedAmount).toFixed(2);
+    });
   }
 
   cleanBlankArrayItems(array) {
@@ -105,29 +107,29 @@ class AssetAllocationEngine {
   }
 
   findChildren(dictionary, parent) {
-    let children = []
+    let children = [];
 
-    Object.values(dictionary).forEach((val) => {
+    Object.values(dictionary).forEach(val => {
       // console.log(key); // the name of the current key.
       // console.log(val); // the value of the current key.
       if (parent.fullname === val.parentName) {
-        children.push(val)
+        children.push(val);
       }
     });
 
-    return children
+    return children;
   }
 
   formatNumbers(dictionary) {
-    let format = new Intl.NumberFormat("en-AU")
+    let format = new Intl.NumberFormat("en-AU");
 
-    Object.values(dictionary).forEach((ac) => {
+    Object.values(dictionary).forEach(ac => {
       // new Intl.NumberFormat("en-AU").format(amount)
       //console.log(ac)
-      ac.currentValue = format.format(ac.currentValue)
-      ac.allocatedAmount = format.format(ac.allocatedAmount)
-      ac.diffAmount = format.format(ac.diffAmount)
-    })
+      ac.currentValue = format.format(ac.currentValue);
+      ac.allocatedAmount = format.format(ac.allocatedAmount);
+      ac.diffAmount = format.format(ac.diffAmount);
+    });
   }
 
   /**
@@ -216,7 +218,7 @@ class AssetAllocationEngine {
         assetClass.currentValue = 0;
       }
       assetClass.currentValue += amount;
-    });    
+    });
   }
 
   /**
@@ -330,9 +332,9 @@ class AssetAllocationEngine {
 
   sumGroupBalances(acIndex) {
     let root = acIndex["Allocation"];
-    let sum = this.sumChildren(acIndex, root)
+    let sum = this.sumChildren(acIndex, root);
 
-    root.currentValue = sum
+    root.currentValue = sum;
   }
 
   sumChildren(dictionary, item) {
@@ -340,19 +342,19 @@ class AssetAllocationEngine {
     let children = this.findChildren(dictionary, item);
     // console.log(children);
     if (children.length === 0) {
-      return item.currentValue
+      return item.currentValue;
     }
 
-    let sum = 0
-    for(let i = 0; i < children.length; i++) {
-      let child = children[i]
-      child.currentValue = this.sumChildren(dictionary, child)
+    let sum = 0;
+    for (let i = 0; i < children.length; i++) {
+      let child = children[i];
+      child.currentValue = this.sumChildren(dictionary, child);
 
-      let amount = child.currentValue
-      sum += amount
+      let amount = child.currentValue;
+      sum += amount;
     }
 
-    return sum
+    return sum;
   }
 }
 

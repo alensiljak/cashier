@@ -34,6 +34,10 @@
       <q-btn @click="onRecalculateClick" color="red-10" text-color="accent" label="Recalculate"/>
     </div>
 
+    <!-- <q-table title="Asset Allocation" :data="assetClasses" :columns="columns" 
+      dark color="amber-3" :dense="$q.screen.lt.md" :rows-per-page-options="[0, 20]"
+      row-key="fullname">
+    </q-table> -->
     <div style="height: 100%; width: 100%; overflow: scroll;">
       <table>
         <thead>
@@ -41,10 +45,10 @@
             <th>Asset Class</th>
             <th>Allocation</th>
             <th>Current</th>
-            <th>Difference</th>
-            <th>Difference %</th>
+            <th>Diff.</th>
+            <th>Diff. %</th>
             <th>Alloc. Value</th>
-            <th>Current Value</th>
+            <th>Current Val.</th>
             <th>Difference</th>
           </tr>
         </thead>
@@ -58,10 +62,10 @@
             <td class="text-right">{{ assetClass.allocation }}</td>
             <td class="text-right">{{ assetClass.currentAllocation }}</td>
             <!-- difference -->
-            <td class="text-right">{{ assetClass.diff }}</td>
+            <td class="text-right" style="width: 3rem;">{{ assetClass.diff }}</td>
             <!-- difference % -->
             <td
-              class="text-right"
+              class="text-right" style="width: 3.5rem;"
               v-bind:class="{ 
               'text-red-10': assetClass.diffPerc < -20,
               'text-red-3': (-20 < assetClass.diffPerc && assetClass.diffPerc < 0),
@@ -72,7 +76,7 @@
             <!-- Allocated Value -->
             <td class="text-right">{{ assetClass.allocatedAmount }}</td>
             <!-- Current Value -->
-            <td class="text-right">{{ assetClass.currentValue }}</td>
+            <td class="text-right" style="width: 5.5rem;">{{ assetClass.currentValue }}</td>
             <td
               class="text-right"
               v-bind:class="{ 
@@ -96,7 +100,18 @@ import { engine } from "../lib/AssetAllocation";
 export default {
   data() {
     return {
-      assetClasses: null
+      assetClasses: [],
+      columns: [
+        { name: 'name', label: 'Asset Class', align: 'left', field: 'name', 
+          format: val => `${val}`, classes: 'bg-teal-9 ellipsis' },
+        { name: 'allocation', label: 'Allocation', field: 'allocation' },
+        { name: 'current-allocation', label: 'Current', field: 'currentAllocation' },
+        { name: 'diff', label: 'Diff', field: 'diff' },
+        { name: 'diff-perc', label: 'Diff %', field: 'diffPerc' },
+        { name: 'allocatedAmount', label: 'Alloc.Value', field: 'allocatedAmount' },
+        { name: 'currentValue', label: 'Current', field: 'currentValue' },
+        { name: 'diffAmount', label: 'Difference', field: 'diffAmount' }
+      ]
     };
   },
 
