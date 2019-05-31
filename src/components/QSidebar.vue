@@ -15,14 +15,14 @@
           </q-item-section>
         </q-item>
 
-        <q-item to="/bal" exact clickable v-ripple active-class="active-link">
+        <!-- <q-item to="/bal" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
             <font-awesome-icon icon="balance-scale" transform="grow-6 right-6"/>
           </q-item-section>
           <q-item-section>
             <q-item-label>Balance Sheet</q-item-label>
           </q-item-section>
-        </q-item>
+        </q-item> -->
 
         <q-item to="/tx" clickable v-ripple active-class="active-link">
           <!-- exact active -->
@@ -43,40 +43,36 @@
           </q-item-section>
         </q-item>
 
+        <q-item
+          :to="{name: 'accounts'}"
+          clickable
+          v-ripple
+          active-class="active-link">
+          <!-- exact -->
+          <q-item-section avatar>
+            <font-awesome-icon icon="wallet" transform="grow-6 right-6"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Accounts</q-item-label>
+          </q-item-section>
+        </q-item>
+
         <!-- Entities submenu -->
-        <q-expansion-item
+        <!-- <q-expansion-item
           dark
           header-class="text-amber-2"
           expand-icon-class="text-amber-2"
           expand-separator
           icon="settings"
-          label="Entities"
-        >
+          label="Entities">
           <q-list>
-            <q-item
-              :inset-level="1"
-              :to="{name: 'accounts'}"
-              clickable
-              v-ripple
-              active-class="active-link"
-            >
-              <!-- exact -->
-              <q-item-section avatar>
-                <font-awesome-icon icon="wallet" transform="grow-6 right-6"/>
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>Accounts</q-item-label>
-              </q-item-section>
-            </q-item>
-
             <q-item
               :inset-level="1"
               :to="{name: 'payees'}"
               exact
               clickable
               v-ripple
-              active-class="active-link"
-            >
+              active-class="active-link">
               <q-item-section avatar>
                 <font-awesome-icon icon="users" transform="grow-6 right-6"/>
               </q-item-section>
@@ -100,7 +96,16 @@
               </q-item-section>
             </q-item>
           </q-list>
-        </q-expansion-item>
+        </q-expansion-item> -->
+
+        <q-item to="/assetallocation" exact clickable v-ripple active-class="active-link">
+          <q-item-section avatar>
+            <font-awesome-icon icon="business-time" transform="grow-6 right-9"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Asset Allocation</q-item-label>
+          </q-item-section>
+        </q-item>
 
         <!-- I/O -->
         <q-expansion-item
@@ -111,14 +116,14 @@
           icon="swap_horizontal_circle"
           label="I/O">
           <q-list>
-            <q-item to="/sync" :inset-level="1" exact clickable v-ripple active-class="active-link">
+            <!-- <q-item to="/sync" :inset-level="1" exact clickable v-ripple active-class="active-link">
               <q-item-section avatar>
                 <font-awesome-icon icon="sync-alt" transform="grow-6 right-6"/>
               </q-item-section>
               <q-item-section>
                 <q-item-label>Sync</q-item-label>
               </q-item-section>
-            </q-item>
+            </q-item> -->
 
             <q-item
               to="/import"
@@ -168,7 +173,7 @@
         </q-expansion-item>
 
         <!-- Asset Allocation -->
-        <q-expansion-item
+        <!-- <q-expansion-item
           dark
           header-class="text-amber-2"
           expand-icon-class="text-amber-2"
@@ -177,16 +182,6 @@
           label="Asset Allocation">
           <q-list>
             
-            <q-item to="/assetallocation" exact clickable v-ripple active-class="active-link"
-              :inset-level="1">
-              <q-item-section avatar>
-                <font-awesome-icon icon="business-time" transform="grow-6 right-9"/>
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>Asset Allocation</q-item-label>
-              </q-item-section>
-            </q-item>
-
             <q-item to="/assetallocationsetup" exact clickable v-ripple active-class="active-link"
               :inset-level="1">
               <q-item-section avatar>
@@ -195,7 +190,7 @@
               <q-item-section>
                 <q-item-label>AA Setup</q-item-label>
               </q-item-section>
-            </q-item>
+            </q-item> -->
 
             <!-- <q-item to="/prices" exact clickable v-ripple active-class="active-link"
               :inset-level="1">
