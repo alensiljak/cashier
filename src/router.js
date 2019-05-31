@@ -43,6 +43,7 @@ const QSettings = () => import('./views/QSettings.vue')
 const Register = () => import('./views/Register.vue')
 const Sync = () => import('./views/Sync.vue')
 const QTransaction = () => import(/* webpackChunkName: 'tx' */ './views/QTransaction.vue')
+// const webdav = () => import('./views/WebDAV')
 
 const routes = [
   {
@@ -68,7 +69,8 @@ const routes = [
       { path: '/reg/:name', name: 'register', component: Register },
       { path: '/settings', component: QSettings },
       { path: '/sync', name: "sync", component: Sync },
-      { path: '/tx/:id?', name: 'tx', component: QTransaction }
+      { path: '/tx/:id?', name: 'tx', component: QTransaction },
+      // { path: '/webdav', name: 'webdav', component: webdav }
     ]
   },
   // {

@@ -5,7 +5,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 // icon
 import { faBalanceScale, faBarcode, faBoxes, faBriefcase, faBusinessTime, 
     faCalendarDay, faCog,
-    faExchangeAlt, faFileAlt, faInfo, 
+    faExchangeAlt, faFileAlt, faFolder, faInfo, 
     faListUl, faLuggageCart, faMoneyBillWave, 
     faPlus, faPlusCircle, faQuestionCircle,
     faSearch, faSignInAlt, faSignOutAlt, 
@@ -16,7 +16,7 @@ import { faBalanceScale, faBarcode, faBoxes, faBriefcase, faBusinessTime,
 
 library.add(faBalanceScale, faBarcode, faBoxes, faBriefcase, faBusinessTime, 
     faCalendarDay, faCog,
-    faExchangeAlt, faFileAlt, faInfo, 
+    faExchangeAlt, faFileAlt, faFolder, faInfo, 
     faListUl, faLuggageCart, faMoneyBillWave, 
     faPlus, faPlusCircle, faQuestionCircle,
     faSearch, faSignInAlt, faSignOutAlt, 
