@@ -94,7 +94,7 @@ export default {
 
       settings
         .get(SettingKeys.rootInvestmentAccount)
-        .then(value => (this.rootInvestmentAccount = value));
+        .then(value => this.rootInvestmentAccount = value);
       settings.get(SettingKeys.currency).then(value => (this.currency = value));
     },
     onCurrencyChange() {
@@ -128,7 +128,7 @@ export default {
       let sync = new CashierSync(this.serverUrl);
       sync
         .readCurrentValues()
-        .then(result =>
+        .then(() =>
           this.$q.notify({ message: "current values loaded", color: "primary" })
         )
         .catch(reason =>
@@ -140,7 +140,7 @@ export default {
 
       sync
         .readAccounts()
-        .then(response =>
+        .then(() =>
           this.$q.notify({ message: "balances loaded", color: "primary" })
         )
         .catch(reason =>
