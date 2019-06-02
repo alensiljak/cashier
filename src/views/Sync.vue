@@ -2,9 +2,11 @@
   <q-page padding class="bg-colour1 text-colour2">
     <p>The synchronization is done with an instance of CashierSync.</p>
 
+    <!-- server URL -->
     <div class="q-my-md row">
       <div class="col">
-        <q-input v-model="serverUrl" label="Server URL" dark/>
+        <q-input v-model="serverUrl" label="Server URL" dark 
+          @change="onServerUrlChanged" debounce="1000" />
       </div>
 
       <div class="col text-center">
@@ -12,8 +14,8 @@
       </div>
     </div>
 
-    <!-- settings -->
     <div>
+    <!-- root investment account -->
       <q-input
         dark
         label="Root investment account"
@@ -21,6 +23,7 @@
         debounce="1000"
         @change="onRootAcctChange" />
 
+      <!-- currency -->
       <q-input dark label="Currency" v-model="currency" debounce="1000" @change="onCurrencyChange"/>
     </div>
 
@@ -119,10 +122,10 @@ export default {
           console.log("saved root investment account", result);
         });
     },
-    onSaveClicked() {
+    onServerUrlChanged() {
       // save settings
       settings.set(SettingKeys.syncServerUrl, this.serverUrl).then(() => {
-        this.$q.notify("settings saved");
+        this.$q.notify("server URL saved");
       });
     },
     synchronizeAaValues() {
