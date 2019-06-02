@@ -106,7 +106,8 @@ export default {
       let sync = new CashierSync(this.serverUrl);
       sync
         .healthCheck()
-        .then(response => this.$q.notify({ message: response }));
+        .then(response => this.$q.notify({ message: response }))
+        .catch(reason => this.$q.notify({message: reason, color: 'secondary'}))
     },
     onLoadClick() {
       this.loadSettings();
