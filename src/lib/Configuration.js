@@ -26,14 +26,11 @@ export class SelectionModeMetadata {
 
 
 export const SettingKeys = {
-    get favouriteAccounts() {
-        return "favouriteAccounts"
-    },
-    get syncServerUrl() {
-        return "syncServerUrl"
-    },
+    assetAllocationDefinition: 'aa.definition',
+    currency: 'currency',
+    favouriteAccounts: 'favouriteAccounts',
+    syncServerUrl: 'syncServerUrl',
     rootInvestmentAccount: 'aa.rootAccount',
-    assetAllocationDefinition: 'aa.definition'
 }
 
 

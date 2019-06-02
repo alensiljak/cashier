@@ -3,6 +3,8 @@ Synchronization module for CashierSync.
 */
 import axios from 'axios'
 import appService from '../appService'
+import { settings, SettingKeys } from './Configuration'
+import { engine } from "./AssetAllocation";
 
 export class CashierSync {
     constructor(serverUrl) {
@@ -36,5 +38,24 @@ export class CashierSync {
         let promise = appService.importBalanceSheet(content)
         
         return promise
+    }
+
+    async readCurrentValues() {
+        let rootAcct = await settings.get(SettingKeys.rootInvestmentAccount)
+        let currency = await settings.get(SettingKeys.currency)
+
+        let url = this.serverUrl + '/currentValues'
+        
+        let response = await axios.get(url, {
+            params: {
+                root: rootAcct,
+                currency: currency
+            }
+        })
+        let result = response.data
+        // console.log('response:', result)
+
+        await engine.importCurrentValues(result)
+        return "OK"
     }
 }
