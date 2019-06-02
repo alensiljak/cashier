@@ -30,7 +30,8 @@ import {
   QSelect, QMenu, 
   QCard, QCardSection, QCardActions,
   QSpace, QSlideItem, 
-  QTable, QTr, QTd, QTh
+  QTable, QTr, QTd, QTh,
+  QCheckbox
 } from 'quasar'
 
 Vue.use(Quasar, {
@@ -52,7 +53,8 @@ Vue.use(Quasar, {
     QSelect, QMenu, 
     QCard, QCardSection, QCardActions,
     QSpace, QSlideItem,
-    QTable, QTr, QTd, QTh
+    QTable, QTr, QTd, QTh,
+    QCheckbox
   },
   directives: {
     Ripple, ClosePopup

@@ -140,8 +140,10 @@ class AppService {
 
   importBalanceSheet(text) {
     if (!text) {
-      Notify.create({ message: "No balance sheet selected." });
-      return;
+      let message = "No balance sheet selected."
+      // Notify.create({ message: "No balance sheet selected." });
+      throw message
+      // return;
     }
 
     var accounts = [];

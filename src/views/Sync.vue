@@ -3,18 +3,35 @@
     <p>The synchronization is done with an instance of hledger-web.</p>
 
     <div class="q-my-md">
-      <p>Demo fetching accounts from the server</p>
       <q-input v-model="serverUrl" label="Server URL" dark/>
 
       <q-btn label="Connect" @click="onConnectClicked" color="secondary" text-color="accent"/>
-
-      <q-input dark type="textarea" v-model="content"/>
     </div>
 
+    <div class="text-center">
+      <q-list>
+        <q-item>
+          <!-- <q-item-label></q-item-label> -->
+          <q-item-section>
+            <q-checkbox dark v-model="syncBalances" label="Sync balances" />
+          </q-item-section>
+        </q-item>
+      </q-list>
+        <q-item>
+          <q-item-section>
+            <q-checkbox dark v-model="syncAaValues" label="Sync asset allocation current values" />
+          </q-item-section>
+        </q-item>
+      <q-btn label="Sync" color="secondary" text-color="accent" @click="synchronize"/>
+    </div>
+
+    <!-- <div>
+      <q-input dark type="textarea" v-model="content"/>
+    </div>
     <div>
       <q-btn @click="onSaveClicked" label="save" color="secondary" text-color="accent"/>
       <q-btn @click="onLoadClick" label="load" color="secondary" text-color="accent"/>
-    </div>
+    </div> -->
   </q-page>
 </template>
 
@@ -22,12 +39,14 @@
 import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
 // import db from '../dataStore'
 import { SettingKeys, settings } from "../lib/Configuration";
-import { SyncService } from "../sync";
+import { CashierSync } from "../lib/syncCashier";
 
 export default {
   data() {
     return {
       serverUrl: "",
+      syncBalances: true,
+      syncAaValues: true,
       content: null
     };
   },
@@ -46,20 +65,10 @@ export default {
         .then(value => (this.serverUrl = value));
     },
     onConnectClicked() {
-      let sync = new SyncService(this.serverUrl);
-
-      sync.readAccounts().then(accounts => {
-        let message = "received " + accounts.length + " accounts";
-        this.$q.notify(message);
-
-        // console.log(response)
-        let output = "";
-        for (let i = 0; i < accounts.length; i++) {
-          let account = accounts[i];
-          output += account.name + "    " + account.balance + " " + account.commodity + '\n'
-        }
-        this.content = output;
-      });
+      let sync = new CashierSync(this.serverUrl);
+      sync
+        .healthCheck()
+        .then(response => this.$q.notify({ message: response }));
     },
     onLoadClick() {
       this.loadSettings();
@@ -69,6 +78,24 @@ export default {
       settings.set(SettingKeys.syncServerUrl, this.serverUrl).then(() => {
         this.$q.notify("settings saved");
       });
+    },
+    synchronizeAaValues() {
+
+    },
+    synchronizeBalances() {
+      let sync = new CashierSync(this.serverUrl);
+
+      sync.readAccounts().then(response => {
+        this.$q.notify({message: 'balances loaded', color:'primary'})
+      });
+    },
+    synchronize() {
+      if(this.syncBalances) {
+        this.synchronizeBalances()
+      }
+      if(this.syncAaValues) {
+        this.synchronizeAaValues()
+      }
     }
   }
 };

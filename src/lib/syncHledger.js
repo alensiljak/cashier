@@ -3,7 +3,7 @@
     Connecting to an instance of hledger-web
 */
 import axios from 'axios'
-import { Account } from './model';
+import { Account } from '../model';
 
 export class SyncService {
     constructor(serverUrl) {
@@ -24,9 +24,16 @@ export class SyncService {
         // console.log('received', response)
 
         let rawArray = response.data
+        
+        let accounts = this.parseBalances(rawArray)
+        
+        return accounts
+    }
+
+    parseBalances(sourceLines) {
         let accounts = []
-        for (let i = 0; i < rawArray.length; i++) {
-            let rawItem = rawArray[i]
+        for (let i = 0; i < sourceLines.length; i++) {
+            let rawItem = sourceLines[i]
             if (rawItem.aname === 'root') continue
 
             let account = new Account()
@@ -48,9 +55,7 @@ export class SyncService {
             account.commodity = rawItem.aibalance[0].acommodity
 
             accounts.push(account)
-        }
-        
-        return accounts
+        }        
     }
 }
 
