@@ -131,6 +131,39 @@ class AssetAllocationEngine {
     });
   }
 
+    /**
+   * Parse and store the current balances ("l b ^Assets:Inv --flat -X EUR")
+   * in the allocation object.
+   * @param {str} text
+   */
+  async importCurrentValues(text) {
+    // load current allocation
+    // let aa = await this.loadDefinition()
+    // let accounts = await this.getInvestmentAccounts()
+    let currentArray = this.parseCurrentValuesFile(text);
+
+    // assign values
+    for (let i = 0; i < currentArray.length; i++) {
+      let row = currentArray[i];
+      // account name
+      let accountName = row[0];
+      // balance
+      let balance = row[1];
+      balance = balance.replace(",", "");
+      let currency = row[2];
+
+      // Save to existing accounts
+      let account = await appService.db.accounts.get(accountName);
+      if (!account) {
+        throw "Invalid account " + accountName;
+      }
+      account.currentValue = balance;
+      account.currentCurrency = currency;
+
+      await appService.db.accounts.put(account);
+    }
+  }
+
   /**
    * Import Asset Allocation definition.
    * @param {str} text Contents of the definition file.
@@ -140,10 +173,7 @@ class AssetAllocationEngine {
     if (!text) return;
 
     // parse and save into the storage.
-    // let aa = {};
-    // let index = {}; // index for all asset classes.
     let assetClasses = [];
-    // let stockIndex = {}; // index for stock symbols and the corresponding asset class.
 
     let lines = text.split("\n");
     for (let i = 0; i < lines.length; i++) {
@@ -199,39 +229,6 @@ class AssetAllocationEngine {
     return appService.db.assetAllocation.toArray();
   }
 
-  /**
-   * Parse and store the current balances ("l b ^Assets:Inv --flat -X EUR")
-   * in the allocation object.
-   * @param {str} text
-   */
-  async importCurrentValues(text) {
-    // load current allocation
-    // let aa = await this.loadDefinition()
-    // let accounts = await this.getInvestmentAccounts()
-    let currentArray = this.parseCurrentValuesFile(text);
-
-    // assign values
-    for (let i = 0; i < currentArray.length; i++) {
-      let row = currentArray[i];
-      // account name
-      let accountName = row[0];
-      // balance
-      let balance = row[1];
-      balance = balance.replace(",", "");
-      let currency = row[2];
-
-      // Save to existing accounts
-      let account = await appService.db.accounts.get(accountName);
-      if (!account) {
-        throw "Invalid account " + accountName;
-      }
-      account.currentValue = balance;
-      account.currentCurrency = currency;
-
-      await appService.db.accounts.put(account);
-    }
-  }
-
   parseCurrentValuesFile(text) {
     let result = [];
 
@@ -265,12 +262,9 @@ class AssetAllocationEngine {
     if (!parts || !parts.length) return;
 
     let ac = new AssetClass();
-    // let assetClass = parts[0]
-    // console.log(assetClass)
+
     ac.fullname = parts[0];
 
-    // let percent = parts[1]
-    // console.log(percent)
     ac.allocation = parts[1];
 
     let stocksLine = null;
