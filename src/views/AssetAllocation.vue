@@ -18,6 +18,13 @@
                 </q-item-section>
               </q-item>
 
+              <q-item clickable v-close-popup @click="onExportClick" v-if="canShare">
+                <q-item-section>Export</q-item-section>
+                <q-item-section side>
+                  <font-awesome-icon icon="sign-out-alt" transform="grow-9 left-5"/>
+                </q-item-section>
+              </q-item>
+
               <q-item clickable v-close-popup @click="onHelpClick">
                 <q-item-section>Help</q-item-section>
                 <q-item-section side>
@@ -135,6 +142,17 @@ export default {
       let visible = this.$store.state.drawerOpen;
       this.$store.commit(TOGGLE_DRAWER, !visible);
     },
+    /**
+     * Export aa
+     */
+    onExportClick() {
+      let dateFormatted = "today"
+      navigator.share({
+        title: 'Asset Allocation ' + dateFormatted,
+        text: 'asset allocation goes here',
+        url: 'https://cashier.alensiljak.ml/'
+      })
+    },
     onHelpClick() {
       // navigate to help page
       this.$router.push({ name: "assetallocationhelp" });
@@ -144,6 +162,12 @@ export default {
     },
     onSetupClick() {
       this.$router.push({ name: "assetallocationsetup" });
+    }
+  },
+
+  computed: {
+    canShare() {
+      return navigator && ('share' in navigator)
     }
   }
 };
