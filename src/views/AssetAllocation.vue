@@ -18,8 +18,8 @@
                 </q-item-section>
               </q-item>
 
-              <q-item clickable v-close-popup @click="onExportClick" v-if="canShare">
-                <q-item-section>Export</q-item-section>
+              <q-item clickable v-close-popup @click="onShareClick" v-if="canShare">
+                <q-item-section>Share</q-item-section>
                 <q-item-section side>
                   <font-awesome-icon icon="sign-out-alt" transform="grow-9 left-5"/>
                 </q-item-section>
@@ -145,7 +145,7 @@ export default {
     /**
      * Export aa
      */
-    onExportClick() {
+    onShareClick() {
       let dateFormatted = "today"
       navigator.share({
         title: 'Asset Allocation ' + dateFormatted,
