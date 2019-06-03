@@ -161,7 +161,7 @@ export default {
       filename += "-";
       filename += ("" + now.getMinutes()).padStart(2, "0");
       // filename += now.getTimezoneOffset()
-      filename += ".json";
+      filename += ".txt";
       a.download = filename;
 
       let encoded = btoa(content);
