@@ -62,6 +62,22 @@
       @keyup.enter="onEnter"
     />
 
+    <q-input
+      label="Current balance"
+      v-model="account.currentBalance"
+      dark
+      clearable
+      @keyup.enter="onEnter"
+    />
+    <q-input
+      label="Current balance currency"
+      v-model="account.currentCurrency"
+      dark
+      clearable
+      @keyup.enter="onEnter"
+    />
+
+
     <!-- Actions -->
     <div class="row q-mt-xl justify-end">
       <div class="col text-center">
