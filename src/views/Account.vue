@@ -63,14 +63,14 @@
     />
 
     <q-input
-      label="Current balance"
+      label="Current value"
       v-model="account.currentValue"
       dark
       clearable
       @keyup.enter="onEnter"
     />
     <q-input
-      label="Current balance currency"
+      label="Current value currency"
       v-model="account.currentCurrency"
       dark
       clearable
