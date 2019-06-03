@@ -126,7 +126,7 @@ class AssetAllocationEngine {
    */
   formatAllocationRowsForTxtExport(rows) {
     let outputRows = []
-    outputRows.push('Asset Class         Allocation Current  Diff.  Diff.%  Alloc.Val.  Curr. Val.  Difference')
+    outputRows.push('Asset Class       Allocation Current  Diff.  Diff.%  Alloc.Val.  Curr. Val.  Difference')
 
     for(let i = 0; i < rows.length; i++) {
       let row = rows[i]
@@ -146,7 +146,7 @@ class AssetAllocationEngine {
         space += ' '
       }
       //let name = row.name.padStart(22, ' ')
-      let firstCol = (space + row.name).padEnd(22, ' ')
+      let firstCol = (space + row.name).padEnd(20, ' ')
       let alloc = row.allocation.padStart(6, ' ')
       let curAl = row.currentAllocation.padStart(6, ' ')
       let diff = row.diff.padStart(5, ' ')
