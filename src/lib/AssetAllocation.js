@@ -86,9 +86,9 @@ class AssetAllocationEngine {
       // diff %
       ac.diffPerc = ((ac.diff * 100) / ac.allocation).toFixed(2);
 
-      ac.allocatedAmount = ((ac.allocation * total) / 100).toFixed(2);
+      ac.allocatedValue = ((ac.allocation * total) / 100).toFixed(2);
       // diff amount =
-      ac.diffAmount = (ac.currentValue - ac.allocatedAmount).toFixed(2);
+      ac.diffAmount = (ac.currentValue - ac.allocatedValue).toFixed(2);
     });
   }
 
@@ -119,6 +119,51 @@ class AssetAllocationEngine {
     return children;
   }
 
+  /**
+   * Formats the array of Asset Classes (the end result) for txt output.
+   * The output can be stored for historical purposes, compared, etc.
+   * @param {Array} rows 
+   */
+  formatAllocationRowsForTxtExport(rows) {
+    let outputRows = []
+    outputRows.push('Asset Class         Allocation Current  Diff.  Diff.%  Alloc.Val.  Curr. Val.  Difference')
+
+    for(let i = 0; i < rows.length; i++) {
+      let row = rows[i]
+      
+      /*
+            {"name": "Asset Class", "width": 22},
+            {"name": "alloc.", "width": 5},
+            {"name": "cur.al.", "width": 6},
+            {"name": "diff.", "width": 6},
+            {"name": "al.val.", "width": 8},
+            {"name": "value", "width": 8},
+            {"name": "loc.cur.", "width": 13},
+            {"name": "diff", "width": 8}
+      */
+      let space = ''
+      for(let i = row.depth * 2; i > 0; i--) {
+        space += ' '
+      }
+      //let name = row.name.padStart(22, ' ')
+      let firstCol = (space + row.name).padEnd(22, ' ')
+      let alloc = row.allocation.padStart(6, ' ')
+      let curAl = row.currentAllocation.padStart(6, ' ')
+      let diff = row.diff.padStart(5, ' ')
+      let diffPerc = row.diffPerc.padStart(6, ' ')
+      let alVal = row.allocatedValue.padStart(10, ' ')
+      let value = row.currentValue.padStart(10, ' ')
+      //let locCur = 
+      let diffAmt = row.diffAmount.padStart(10, ' ')
+      
+      let output = `${firstCol}  ${alloc}  ${curAl}  ${diff}  ${diffPerc}  ${alVal}  ${value}  ${diffAmt}`
+
+      outputRows.push(output)
+    }
+    let text = outputRows.join('\n')
+    return text
+  }
+
   formatNumbers(dictionary) {
     let format = new Intl.NumberFormat("en-AU");
 
@@ -126,12 +171,12 @@ class AssetAllocationEngine {
       // new Intl.NumberFormat("en-AU").format(amount)
       //console.log(ac)
       ac.currentValue = format.format(ac.currentValue);
-      ac.allocatedAmount = format.format(ac.allocatedAmount);
+      ac.allocatedValue = format.format(ac.allocatedValue);
       ac.diffAmount = format.format(ac.diffAmount);
     });
   }
 
-    /**
+  /**
    * Parse and store the current balances ("l b ^Assets:Inv --flat -X EUR")
    * in the allocation object.
    * @param {str} text

@@ -89,7 +89,7 @@
               }"
             >{{ assetClass.diffPerc }}</td>
             <!-- Allocated Value -->
-            <td class="text-right">{{ assetClass.allocatedAmount }}</td>
+            <td class="text-right">{{ assetClass.allocatedValue }}</td>
             <!-- Current Value -->
             <td class="text-right" style="width: 5.5rem;">{{ assetClass.currentValue }}</td>
             <td
@@ -176,7 +176,9 @@ export default {
       this.$refs.buttonContainer.removeChild(a);
     },
     getAaForExport() {
-      let output = JSON.stringify(this.assetClasses);
+      // let output = JSON.stringify(this.assetClasses);
+      let output = engine.formatAllocationRowsForTxtExport(this.assetClasses)
+      
       return output;
     },
     loadData() {
@@ -191,7 +193,7 @@ export default {
     },
     onExportClick() {
       let output = this.getAaForExport();
-      this.downloadAsFile(output)
+      this.downloadAsFile(output);
     },
     onHelpClick() {
       // navigate to help page
