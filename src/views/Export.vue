@@ -59,6 +59,7 @@ export default {
       });
     },
     downloadAsFile() {
+      let content = this.output
       var a = document.createElement("a");
 
       // filename
@@ -73,7 +74,7 @@ export default {
       filename += ".ledger";
       a.download = filename;
 
-      let encoded = btoa(this.output);
+      let encoded = btoa(content);
       //a.href = "data:application/octet-stream;base64," + Base64.encode(this.output);
       a.href = "data:text/plain;base64," + encoded;
       // charset=UTF-8;

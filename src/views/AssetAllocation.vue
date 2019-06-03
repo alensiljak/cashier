@@ -21,6 +21,13 @@
               <q-item clickable v-close-popup @click="onShareClick" v-if="canShare">
                 <q-item-section>Share</q-item-section>
                 <q-item-section side>
+                  <font-awesome-icon icon="share-alt" transform="grow-9 left-5"/>
+                </q-item-section>
+              </q-item>
+
+              <q-item clickable v-close-popup @click="onExportClick">
+                <q-item-section>Export</q-item-section>
+                <q-item-section side>
                   <font-awesome-icon icon="sign-out-alt" transform="grow-9 left-5"/>
                 </q-item-section>
               </q-item>
@@ -37,14 +44,14 @@
       </q-toolbar>
     </q-header>
 
-    <div>
+    <div ref="buttonContainer">
       <q-btn @click="onRecalculateClick" color="red-10" text-color="accent" label="Recalculate"/>
     </div>
 
     <!-- <q-table title="Asset Allocation" :data="assetClasses" :columns="columns" 
       dark color="amber-3" :dense="$q.screen.lt.md" :rows-per-page-options="[0, 20]"
       row-key="fullname">
-    </q-table> -->
+    </q-table>-->
     <div style="height: 100%; width: 100%; overflow: scroll;">
       <table>
         <thead>
@@ -72,7 +79,8 @@
             <td class="text-right" style="width: 3rem;">{{ assetClass.diff }}</td>
             <!-- difference % -->
             <td
-              class="text-right" style="width: 3.5rem;"
+              class="text-right"
+              style="width: 3.5rem;"
               v-bind:class="{ 
               'text-red-10': assetClass.diffPerc < -20,
               'text-red-3': (-20 < assetClass.diffPerc && assetClass.diffPerc < 0),
@@ -109,29 +117,68 @@ export default {
     return {
       assetClasses: [],
       columns: [
-        { name: 'name', label: 'Asset Class', align: 'left', field: 'name', 
-          format: val => `${val}`, classes: 'bg-teal-9 ellipsis' },
-        { name: 'allocation', label: 'Allocation', field: 'allocation' },
-        { name: 'current-allocation', label: 'Current', field: 'currentAllocation' },
-        { name: 'diff', label: 'Diff', field: 'diff' },
-        { name: 'diff-perc', label: 'Diff %', field: 'diffPerc' },
-        { name: 'allocatedAmount', label: 'Alloc.Value', field: 'allocatedAmount' },
-        { name: 'currentValue', label: 'Current', field: 'currentValue' },
-        { name: 'diffAmount', label: 'Difference', field: 'diffAmount' }
+        {
+          name: "name",
+          label: "Asset Class",
+          align: "left",
+          field: "name",
+          format: val => `${val}`,
+          classes: "bg-teal-9 ellipsis"
+        },
+        { name: "allocation", label: "Allocation", field: "allocation" },
+        {
+          name: "current-allocation",
+          label: "Current",
+          field: "currentAllocation"
+        },
+        { name: "diff", label: "Diff", field: "diff" },
+        { name: "diff-perc", label: "Diff %", field: "diffPerc" },
+        {
+          name: "allocatedAmount",
+          label: "Alloc.Value",
+          field: "allocatedAmount"
+        },
+        { name: "currentValue", label: "Current", field: "currentValue" },
+        { name: "diffAmount", label: "Difference", field: "diffAmount" }
       ]
     };
   },
 
   created() {
-    // todo check if there is a definition saved
-    // if not, redirect to the setup
-    //this.$router.push({ name: 'assetallocationsetup' })
-
     this.$store.commit(MAIN_TOOLBAR, false);
-    // this.$store.commit(SET_TITLE, "Asset Allocation");
   },
 
   methods: {
+    downloadAsFile(content) {
+      var a = document.createElement("a");
+
+      // filename
+      let now = new Date();
+      let filename = "asset_allocation-";
+      filename += now.toISOString().substring(0, 10);
+      filename += "_";
+      filename += ("" + now.getHours()).padStart(2, "0");
+      filename += "-";
+      filename += ("" + now.getMinutes()).padStart(2, "0");
+      // filename += now.getTimezoneOffset()
+      filename += ".txt";
+      a.download = filename;
+
+      let encoded = btoa(content);
+      //a.href = "data:application/octet-stream;base64," + Base64.encode(this.output);
+      a.href = "data:text/plain;base64," + encoded;
+      // charset=UTF-8;
+
+      this.$refs.buttonContainer.appendChild(a);
+      a.click();
+
+      // cleanup?
+      this.$refs.buttonContainer.removeChild(a);
+    },
+    getAaForExport() {
+      let output = JSON.stringify(this.assetClasses);
+      return output;
+    },
     loadData() {
       engine
         .loadFullAssetAllocation()
@@ -142,16 +189,9 @@ export default {
       let visible = this.$store.state.drawerOpen;
       this.$store.commit(TOGGLE_DRAWER, !visible);
     },
-    /**
-     * Export aa
-     */
-    onShareClick() {
-      let dateFormatted = "today"
-      navigator.share({
-        title: 'Asset Allocation ' + dateFormatted,
-        text: 'asset allocation goes here',
-        url: 'https://cashier.alensiljak.ml/'
-      })
+    onExportClick() {
+      let output = this.getAaForExport();
+      this.downloadAsFile(output)
     },
     onHelpClick() {
       // navigate to help page
@@ -162,12 +202,23 @@ export default {
     },
     onSetupClick() {
       this.$router.push({ name: "assetallocationsetup" });
+    },
+    onShareClick() {
+      // prepare for export?
+      let output = this.getAaForExport();
+
+      let dateFormatted = "today";
+      navigator.share({
+        title: "Asset Allocation " + dateFormatted,
+        text: output,
+        url: "https://cashier.alensiljak.ml/"
+      });
     }
   },
 
   computed: {
     canShare() {
-      return navigator && ('share' in navigator)
+      return navigator && "share" in navigator;
     }
   }
 };
