@@ -64,7 +64,7 @@
 
     <q-input
       label="Current balance"
-      v-model="account.currentBalance"
+      v-model="account.currentValue"
       dark
       clearable
       @keyup.enter="onEnter"

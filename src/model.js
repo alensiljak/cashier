@@ -7,7 +7,7 @@ export class Account {
         this.name = null,
         this.balance = null,
         this.currency = null,
-        this.currentBalance = null,
+        this.currentValue = null,
         this.currentCurrency = null
     }
 }
