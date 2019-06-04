@@ -29,7 +29,7 @@
       </q-toolbar>
     </q-header>
 
-    <div>Transactions go here. Show all if not filtered by a specific account.</div>
+    <!-- <div>Transactions go here. Show all if not filtered by a specific account.</div> -->
 
     <q-list dark>
       <journal-transaction
