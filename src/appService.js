@@ -63,6 +63,15 @@ class AppService {
   }
 
   /**
+   * Delete all transactions.
+   */
+  deleteTransactions() {
+    // also clear any remaining postings
+    this.db.postings.clear();
+    return this.db.transactions.clear();
+  }
+
+  /**
    * Returns all the register transactions as text,
    * ready to be exported as a file or copied as a string.
    */

@@ -11,18 +11,20 @@
           <q-menu>
             <q-list dark style="min-width: 175px" class="bg-colour1">
               <!-- dense -->
-              <!-- <q-item clickable v-close-popup>
-                <q-item-section>Synchronize</q-item-section>
-                <q-item-section side>
-                  <q-icon name="sync"/>
-                </q-item-section>
-              </q-item>-->
               <q-item clickable v-close-popup>
                 <q-item-section @click="exportJournal">Export</q-item-section>
                 <q-item-section side>
                   <font-awesome-icon icon="sign-out-alt" transform="grow-9 left-5"/>
                 </q-item-section>
               </q-item>
+
+              <q-item clickable v-close-popup @click="onDeleteAllClicked">
+                <q-item-section>Delete All</q-item-section>
+                <q-item-section side>
+                  <font-awesome-icon icon="trash-alt" transform="grow-9 left-5"/>
+                </q-item-section>
+              </q-item>
+
             </q-list>
           </q-menu>
         </q-btn>
@@ -127,6 +129,15 @@ export default {
     menuClicked() {
       let visible = this.$store.state.drawerOpen;
       this.$store.commit(TOGGLE_DRAWER, !visible);
+    },
+    onDeleteAllClicked() {
+      // delete all transactions
+      appService.deleteTransactions()
+        .then(() => {
+          this.$q.notify({message: 'transactions deleted'})
+          this.loadData()
+        })
+        .catch(reason => this.$q.notify({message: reason, color: 'danger'}))
     },
     onItemClicked(event) {
       console.log("clicked", event);
