@@ -82,7 +82,7 @@
     </div>
 
     <!-- main Actions -->
-    <div class="row q-mt-xl justify-end">
+    <div class="row q-my-xl justify-end">
       <div class="col text-center">
         <q-btn color="secondary" text-color="accent" size="medium" @click="onClear">
           <font-awesome-icon icon="times-circle" transform="grow-9" 
