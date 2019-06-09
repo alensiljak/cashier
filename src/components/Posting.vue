@@ -6,26 +6,6 @@
 
       <div class="col">
         <!-- Account -->
-        <!-- <q-select
-          clearable
-          dark
-          label="Account"
-          use-input
-          new-value-mode="add-unique"
-          fill-input
-          hide-selected
-          popup-content-class="bg-grey-10 text-amber-2"
-          :options="accountOptions"
-          v-model="posting.account"
-          @filter="filterAccounts"
-          @input="onAccountSelected"
-        >
-          <template v-slot:no-option>
-            <q-item>
-              <q-item-section class="text-grey">No accounts</q-item-section>
-            </q-item>
-          </template>
-        </q-select> -->
         <q-input dark label="Account" v-model="posting.account" @click="$emit('accountClicked')" />
       </div>
     </div>
@@ -35,7 +15,7 @@
       <div class="col-3 col-xs-5">
         <!-- Amount -->
         <q-input dark label="Amount" v-model.number="posting.amount" type="number" 
-          input-class="text-right" />
+          input-class="text-right" @change="$emit('amountChanged')" />
       </div>
 
       <div class="q-pl-sm col-3 col-xs-4">

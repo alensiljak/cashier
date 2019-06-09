@@ -61,33 +61,36 @@
             :accounts="accounts"
             v-on:delete-row="deletePosting"
             @accountClicked="onAccountClicked(index)"
+            @amountChanged="onAmountChanged"
           />
         </q-item-section>
       </q-item>
     </q-slide-item>
 
+    <!-- Sum -->
+    <q-item dark>
+      <q-item-section>
+        <q-item-label>Sum</q-item-label>
+      </q-item-section>
+      <q-item-section avatar>{{ postingSum }}</q-item-section>
+    </q-item>
+
     <!-- posting actions -->
     <div class="row q-mt-sm">
       <div class="col text-center">
-        <q-btn
-          color="primary"
-          text-color="accent"
-          size="small"
-          @click="addPosting">
-          <font-awesome-icon icon="plus-circle" transform="grow-9" 
-            class="q-icon-small on-left"/>
+        <q-btn color="primary" text-color="accent" size="small" @click="addPosting">
+          <font-awesome-icon icon="plus-circle" transform="grow-9" class="q-icon-small on-left"/>
           <div>Add Posting</div>
         </q-btn>
       </div>
     </div>
 
-    <!-- main Actions -->
+    <!-- main (tx) Actions -->
     <div class="row q-my-xl justify-end">
       <div class="col text-center">
         <q-btn color="secondary" text-color="accent" size="medium" @click="onClear">
-          <font-awesome-icon icon="times-circle" transform="grow-9" 
-            class="q-icon-small on-left"/>
-            <div>Reset</div>
+          <font-awesome-icon icon="times-circle" transform="grow-9" class="q-icon-small on-left"/>
+          <div>Reset</div>
         </q-btn>
       </div>
       <div class="col text-center">
@@ -97,9 +100,9 @@
           text-color="secondary"
           label="Save"
           size="medium"
-          @click="onSave">
-          <font-awesome-icon icon="save" transform="grow-9" 
-            class="q-icon-small on-right"/>
+          @click="onSave"
+        >
+          <font-awesome-icon icon="save" transform="grow-9" class="q-icon-small on-right"/>
         </q-btn>
       </div>
     </div>
@@ -125,7 +128,8 @@ export default {
     return {
       datePickerVisible: false,
       accounts: [],
-      resetSlide: null
+      resetSlide: null,
+      postingSum: 0
     };
   },
 
@@ -159,6 +163,7 @@ export default {
       }
 
       this.tx.postings.splice(index, 1);
+      this.recalculateSum();
     },
     echo(message) {
       this.$q.notify(message);
@@ -168,17 +173,17 @@ export default {
      * Find an empty posting, or create one.
      */
     getEmptyPostingIndex() {
-      for(let i = 0; i < this.tx.postings.length; i++) {
-        let posting = this.tx.postings[i]
+      for (let i = 0; i < this.tx.postings.length; i++) {
+        let posting = this.tx.postings[i];
         if (!posting.account && !posting.amount && !posting.commodity) {
-          return i
+          return i;
         }
       }
 
       // not found. Create a new one.
-      let posting = new Posting()
-      this.tx.postings.push(posting)
-      return (this.tx.postings.length - 1)
+      let posting = new Posting();
+      this.tx.postings.push(posting);
+      return this.tx.postings.length - 1;
     },
     finalize(reset) {
       this.timer = setTimeout(() => {
@@ -202,12 +207,12 @@ export default {
           break;
         case ACCOUNT:
           // get the posting
-          var index = null
+          var index = null;
           if (typeof select.postingIndex === "number") {
-            index = select.postingIndex
+            index = select.postingIndex;
           } else {
             // redirected from account register, find an appropriate posting
-            index = this.getEmptyPostingIndex()
+            index = this.getEmptyPostingIndex();
           }
           var posting = this.tx.postings[index];
 
@@ -267,6 +272,10 @@ export default {
       // show account picker
       this.$router.push({ name: "accounts" });
     },
+    onAmountChanged() {
+      // recalculate the sum
+      this.recalculateSum();
+    },
     onClear() {
       // Resets all Transaction fields to defaults.
       this.resetTransaction();
@@ -302,6 +311,15 @@ export default {
     onSlide({ reset }) {
       this.resetSlide = reset;
       this.finalize(reset);
+    },
+    recalculateSum() {
+      this.postingSum = 0;
+
+      for (let i = 0; i < this.tx.postings.length; i++) {
+        let posting = this.tx.postings[i];
+        //console.log(posting)
+        this.postingSum += posting.amount;
+      }
     },
     resetTransaction() {
       let tx = appService.createTransaction();
