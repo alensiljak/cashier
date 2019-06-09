@@ -63,6 +63,21 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
+    <!-- delete all dialog -->
+    <q-dialog v-model="confirmDeleteAllVisible" persistent content-class="bg-blue-grey-10">
+      <q-card dark class="bg-red-10 text-amber-2">
+        <q-card-section class="row items-center">
+          <!-- <q-avatar icon="signal_wifi_off" color="primary" text-color="amber-2"/>
+          <span class="q-ml-sm">You are currently not connected to any network.</span>-->
+          <span>Do you want to delete all transactions?</span>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="Cancel" color="amber-4" v-close-popup/>
+          <q-btn flat label="Delete" color="amber-4" v-close-popup @click="confirmDeleteAll"/>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -78,6 +93,7 @@ export default {
     return {
       transactionIdToDelete: null,
       confirmDeleteVisible: false,
+      confirmDeleteAllVisible: false,
       transactions: []
     };
   },
@@ -94,6 +110,18 @@ export default {
   methods: {
     confirmDelete() {
       this.deleteTransaction();
+    },
+    confirmDeleteAll() {
+      this.deleteAllTransactions();
+    },
+    deleteAllTransactions() {
+            // delete all transactions
+      appService.deleteTransactions()
+        .then(() => {
+          this.$q.notify({message: 'transactions deleted'})
+          this.loadData()
+        })
+        .catch(reason => this.$q.notify({message: reason, color: 'danger'}))
     },
     deleteTransaction() {
       let id = this.transactionIdToDelete;
@@ -131,13 +159,7 @@ export default {
       this.$store.commit(TOGGLE_DRAWER, !visible);
     },
     onDeleteAllClicked() {
-      // delete all transactions
-      appService.deleteTransactions()
-        .then(() => {
-          this.$q.notify({message: 'transactions deleted'})
-          this.loadData()
-        })
-        .catch(reason => this.$q.notify({message: reason, color: 'danger'}))
+      this.confirmDeleteAllVisible = true;
     },
     onItemClicked(event) {
       console.log("clicked", event);
