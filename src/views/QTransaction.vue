@@ -148,6 +148,8 @@ export default {
     // document.getElementById("payee").focus() => this.$refs.payee
     //this.$refs.date
     // this.date = new Date().toISOString().substring(0, 10);
+
+    this.recalculateSum()
   },
 
   methods: {
@@ -163,6 +165,7 @@ export default {
       }
 
       this.tx.postings.splice(index, 1);
+
       this.recalculateSum();
     },
     echo(message) {
