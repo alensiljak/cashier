@@ -57,13 +57,12 @@ export default {
     async loadPostings(accountName) {
       let postings = await appService.db.postings.where({
         account: accountName
-      }).orderBy('date').desc();
+      });
       let postingArray = await postings.toArray();
 
       return this.loadTransactions(postingArray);
     },
     async loadTransactions(postings) {
-      //   let postings = this.postings;
       let txIds = [];
       postings.forEach(posting => {
         txIds.push(posting.transactionId);
@@ -78,7 +77,7 @@ export default {
 
       // sort by date desc
       postings.sort((a, b) => {
-        return a > b ? -1 : 1;
+        return a.date > b.date ? -1 : 1;
       });
 
       this.postings = postings;
