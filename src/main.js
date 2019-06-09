@@ -25,7 +25,7 @@ Vue.config.productionTip = false
 //   render: h => h(App)
 // });
 
-Vue.prototype.$version = "v2019.06.09-1"
+Vue.prototype.$version = "v2019.06.09-2"
 
 new Vue({
   router,
