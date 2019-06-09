@@ -57,9 +57,8 @@ export default {
     async loadPostings(accountName) {
       let postings = await appService.db.postings.where({
         account: accountName
-      });
+      }).orderBy('date').desc();
       let postingArray = await postings.toArray();
-      //   this.postings = postingArray;
 
       return this.loadTransactions(postingArray);
     },

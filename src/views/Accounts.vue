@@ -12,10 +12,9 @@
           <q-menu>
             <q-list dark style="min-width: 175px" class="bg-colour1">
               <!-- dense -->
-              <q-item clickable v-close-popup>
+              <q-item clickable v-close-popup :to="{name: 'sync'}">
                 <q-item-section>Synchronize</q-item-section>
                 <q-item-section side>
-                  <!-- <q-icon name="sync"/> -->
                   <font-awesome-icon icon="sync-alt" transform="grow-9 left-5"/>
                 </q-item-section>
               </q-item>

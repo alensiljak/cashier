@@ -68,7 +68,7 @@ const routes = [
       { path: '/journal', name: 'journal', component: Journal },
       { path: '/reg/:name', name: 'register', component: Register },
       { path: '/settings', component: QSettings },
-      { path: '/sync', name: "sync", component: Sync },
+      { path: '/sync', name: 'sync', component: Sync },
       { path: '/tx/:id?', name: 'tx', component: QTransaction },
       // { path: '/webdav', name: 'webdav', component: webdav }
     ]
