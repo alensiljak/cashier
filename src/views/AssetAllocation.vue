@@ -213,7 +213,7 @@ export default {
       navigator.share({
         title: "Asset Allocation " + dateFormatted,
         text: output,
-        url: "https://cashier.alensiljak.ml/"
+        url: "https://cashier.alensiljak.eu.org/"
       });
     }
   },

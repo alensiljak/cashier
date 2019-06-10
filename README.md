@@ -1,6 +1,6 @@
 # cashier
 
-https://cashier.alensiljak.ml/
+https://cashier.alensiljak.eu.org/
 
 is a PWA GUI application for [Ledger-cli](https://ledger-cli.org). It is intended to be used for entering transactions or quickly previewing balances. The entered transactions can be exported and merged to the mail ledger file, and the accounts and balances can be imported from Ledger to establish baselines.
 
