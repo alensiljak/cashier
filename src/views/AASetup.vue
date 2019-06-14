@@ -33,18 +33,19 @@
     </div>
 
     <!-- Root investment account -->
-    <div class="row">
+    <!-- <div class="row">
       <div class="col">
         <q-input label="Root investment account to use" v-model="rootAccount" dark/>
       </div>
       <div class="q-my-md text-center col">
         <q-btn label="Save" color="red-10" text-color="amber-4" @click="onSaveClick"/>
       </div>
-    </div>
+    </div> -->
 
     <!-- Current Balances -->
     <div class="q-my-md">
-      <p>Current values, import from "ledger b ^&lt;root&gt; -X &lt;CUR&gt; --flat"</p>
+      <p>Current values</p>
+      <p>These can be transferred using Synchronization or imported from "ledger b ^&lt;root&gt; -X &lt;CUR&gt; --flat"</p>
       <div class="row">
         <div class="col">
           <q-input type="file" class="text-red" dark clearable @input="onFileSelected"/>

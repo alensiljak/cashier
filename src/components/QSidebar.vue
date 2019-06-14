@@ -22,7 +22,7 @@
           <q-item-section>
             <q-item-label>Balance Sheet</q-item-label>
           </q-item-section>
-        </q-item> -->
+        </q-item>-->
 
         <q-item to="/tx" clickable v-ripple active-class="active-link">
           <!-- exact active -->
@@ -43,11 +43,7 @@
           </q-item-section>
         </q-item>
 
-        <q-item
-          :to="{name: 'accounts'}"
-          clickable
-          v-ripple
-          active-class="active-link">
+        <q-item :to="{name: 'accounts'}" clickable v-ripple active-class="active-link">
           <!-- exact -->
           <q-item-section avatar>
             <font-awesome-icon icon="wallet" transform="grow-6 right-6"/>
@@ -96,7 +92,7 @@
               </q-item-section>
             </q-item>
           </q-list>
-        </q-expansion-item> -->
+        </q-expansion-item>-->
 
         <q-item to="/assetallocation" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
@@ -114,7 +110,8 @@
           expand-icon-class="text-amber-2"
           expand-separator
           icon="swap_horizontal_circle"
-          label="I/O">
+          label="I/O"
+        >
           <q-list>
             <q-item to="/sync" :inset-level="1" exact clickable v-ripple active-class="active-link">
               <q-item-section avatar>
@@ -131,7 +128,8 @@
               exact
               clickable
               v-ripple
-              active-class="active-link">
+              active-class="active-link"
+            >
               <q-item-section avatar>
                 <font-awesome-icon icon="sign-in-alt" transform="grow-6 right-6"/>
               </q-item-section>
@@ -146,7 +144,8 @@
               exact
               clickable
               v-ripple
-              active-class="active-link">
+              active-class="active-link"
+            >
               <q-item-section avatar>
                 <font-awesome-icon icon="sign-out-alt" transform="grow-6 right-6"/>
               </q-item-section>
@@ -168,7 +167,7 @@
               <q-item-section>
                 <q-item-label>WebDAV</q-item-label>
               </q-item-section>
-            </q-item> -->
+            </q-item>-->
           </q-list>
         </q-expansion-item>
 
@@ -203,7 +202,17 @@
             </q-item>
 
           </q-list>
-        </q-expansion-item> -->
+        </q-expansion-item>-->
+
+        <q-item :to="{name: 'settings'}" clickable v-ripple active-class="active-link">
+          <!-- exact -->
+          <q-item-section avatar>
+            <font-awesome-icon icon="cog" transform="grow-6 right-6"/>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Settings</q-item-label>
+          </q-item-section>
+        </q-item>
 
         <q-item to="/about" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>

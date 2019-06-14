@@ -1,30 +1,10 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
     <p>The synchronization is done with an instance of CashierSync.</p>
+    <p>Make sure the Settings have been configured prior to synchronization.</p>
 
-    <!-- server URL -->
-    <div class="q-my-md row">
-      <div class="col">
-        <q-input v-model="serverUrl" label="Server URL" dark 
-          @change="onServerUrlChanged" debounce="1000" />
-      </div>
-
-      <div class="col text-center">
-        <q-btn label="Connect" @click="onConnectClicked" color="secondary" text-color="accent"/>
-      </div>
-    </div>
-
-    <div>
-    <!-- root investment account -->
-      <q-input
-        dark
-        label="Root investment account"
-        v-model="rootInvestmentAccount"
-        debounce="1000"
-        @change="onRootAcctChange" />
-
-      <!-- currency -->
-      <q-input dark label="Currency" v-model="currency" debounce="1000" @change="onCurrencyChange"/>
+    <div class="text-right">
+      <q-btn label="Settings" :to="{name: 'settings'}" color="secondary" text-color="accent"/>
     </div>
 
     <div class="text-center">
@@ -69,16 +49,12 @@
 import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
 // import db from '../dataStore'
 import { SettingKeys, settings } from "../lib/Configuration";
-import { CashierSync } from "../lib/syncCashier";
 
 export default {
   data() {
     return {
-      serverUrl: "",
       syncBalances: true,
       syncAaValues: true,
-      rootInvestmentAccount: null,
-      currency: null
     };
   },
 
@@ -97,37 +73,23 @@ export default {
 
       settings
         .get(SettingKeys.rootInvestmentAccount)
-        .then(value => this.rootInvestmentAccount = value);
+        .then(value => (this.rootInvestmentAccount = value));
       settings.get(SettingKeys.currency).then(value => (this.currency = value));
     },
-    onCurrencyChange() {
-      settings.set(SettingKeys.currency, this.currency).then(result => {
-        console.log("saved currency", result);
-      });
-    },
-    onConnectClicked() {
-      let sync = new CashierSync(this.serverUrl);
-      sync
-        .healthCheck()
-        .then(response => this.$q.notify({ message: response }))
-        .catch(reason => this.$q.notify({message: reason, color: 'secondary'}))
-    },
-    onLoadClick() {
-      this.loadSettings();
-    },
-    onRootAcctChange() {
-      settings
-        .set(SettingKeys.rootInvestmentAccount, this.rootInvestmentAccount)
-        .then(result => {
-          console.log("saved root investment account", result);
-        });
-    },
-    onServerUrlChanged() {
-      // save settings
-      settings.set(SettingKeys.syncServerUrl, this.serverUrl).then(() => {
-        this.$q.notify("server URL saved");
-      });
-    },
+    // onCurrencyChange() {
+    //   settings.set(SettingKeys.currency, this.currency).then(result => {
+    //     console.log("saved currency", result);
+    //   });
+    // },
+    // onLoadClick() {
+    //   this.loadSettings();
+    // },
+    // onServerUrlChanged() {
+    //   // save settings
+    //   settings.set(SettingKeys.syncServerUrl, this.serverUrl).then(() => {
+    //     this.$q.notify("server URL saved");
+    //   });
+    // },
     synchronizeAaValues() {
       let sync = new CashierSync(this.serverUrl);
       sync
