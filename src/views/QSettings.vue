@@ -1,7 +1,5 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
-    <div class="q-my-lg row">
-    </div>
     <div class="row">
       <div class="col">
         <!-- currency -->
