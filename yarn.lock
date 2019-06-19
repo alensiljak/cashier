@@ -667,24 +667,24 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@fortawesome/fontawesome-common-types@^0.2.18":
-  version "0.2.18"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.18.tgz#c0d8f073a5116b2de0a2c8a7aba66093a6956ce7"
-  integrity sha512-834DrzO2Ne3upCW+mJJPC/E6BsFcj+2Z1HmPIhbpbj8UaKmXWum4NClqLpUiMetugRlHuG4jbIHNdv2/lc3c1Q==
+"@fortawesome/fontawesome-common-types@^0.2.19":
+  version "0.2.19"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.19.tgz#754a0f85e1290858152e1c05700ab502b11197f1"
+  integrity sha512-nd2Ul/CUs8U9sjofQYAALzOGpgkVJQgEhIJnOHaoyVR/LeC3x2mVg4eB910a4kS6WgLPebAY0M2fApEI497raQ==
 
-"@fortawesome/fontawesome-svg-core@^1.2.18":
-  version "1.2.18"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-svg-core/-/fontawesome-svg-core-1.2.18.tgz#c26cbded461895ebe260f0dea771ca29d8cb3517"
-  integrity sha512-1vyLWVQqxQ8q8bA2zgZcljk3RkeELlDJ757ymLk+ebK019AFgEFH5kTnR5OMN1SFsTwW1OHlFQO3VufdeCg/Gg==
+"@fortawesome/fontawesome-svg-core@^1.2.19":
+  version "1.2.19"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-svg-core/-/fontawesome-svg-core-1.2.19.tgz#0eca1ce9285c3d99e6e340633ee8f615f9d1a2e0"
+  integrity sha512-D4ICXg9oU08eF9o7Or392gPpjmwwgJu8ecCFusthbID95CLVXOgIyd4mOKD9Nud5Ckz+Ty59pqkNtThDKR0erA==
   dependencies:
-    "@fortawesome/fontawesome-common-types" "^0.2.18"
+    "@fortawesome/fontawesome-common-types" "^0.2.19"
 
-"@fortawesome/free-solid-svg-icons@^5.8.2":
-  version "5.8.2"
-  resolved "https://registry.yarnpkg.com/@fortawesome/free-solid-svg-icons/-/free-solid-svg-icons-5.8.2.tgz#aa2f042f73aca43eb4a26149907e63bf26d2e31c"
-  integrity sha512-5tF6WOFlqqO95zY5ukSB6jliDa3jnk1p5L4K/a58ccDFsbjSkhfGuvZkRkeWxH8uMms81pZd6yQTwQrkedeJmg==
+"@fortawesome/free-solid-svg-icons@^5.9.0":
+  version "5.9.0"
+  resolved "https://registry.yarnpkg.com/@fortawesome/free-solid-svg-icons/-/free-solid-svg-icons-5.9.0.tgz#1c73e7bac17417d23f934d83f7fff5b100a7fda9"
+  integrity sha512-U8YXPfWcSozsCW0psCtlRGKjjRs5+Am5JJwLOUmVHFZbIEWzaz4YbP84EoPwUsVmSAKrisu3QeNcVOtmGml0Xw==
   dependencies:
-    "@fortawesome/fontawesome-common-types" "^0.2.18"
+    "@fortawesome/fontawesome-common-types" "^0.2.19"
 
 "@fortawesome/vue-fontawesome@^0.1.6":
   version "0.1.6"
@@ -739,10 +739,10 @@
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
 
-"@quasar/extras@^1.0.0":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@quasar/extras/-/extras-1.1.2.tgz#8b3a5faa52a824ffe53d233b9dffa2de15377f37"
-  integrity sha512-gas3jD/ArAtRNwUgvosUNl8ueWZJD4ULd7n6nWrWIH3I+I3A1u3CJbwVlsR1czlY7eawMFXmhJ3KKnx3IbkASg==
+"@quasar/extras@^1.1.3":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@quasar/extras/-/extras-1.1.3.tgz#2d5250ef5b8529875a72ee62a73a06af13d294a3"
+  integrity sha512-ICdnCQkPvTogW19dlQpFlXwDug08kjxRdUqjJKr+Njtdn0PZySiN5FXcCRAIag4ri9sfA1o2OH487HjJGpub6Q==
 
 "@soda/friendly-errors-webpack-plugin@^1.7.1":
   version "1.7.1"
@@ -909,10 +909,10 @@
     webpack ">=4 < 4.29"
     workbox-webpack-plugin "^3.6.3"
 
-"@vue/cli-service@^3.8.0":
-  version "3.8.0"
-  resolved "https://registry.yarnpkg.com/@vue/cli-service/-/cli-service-3.8.0.tgz#47eaa169a7bd96522c1a0df89214f1afee843cd6"
-  integrity sha512-ipJF4RHjyLyLC4oLx+JM1Jk6tiIG0KjCFAqfOscQ44K4CdyS03oFMAUR+SZYy/UXKccMnoeY6Ld4YrGXSytQsg==
+"@vue/cli-service@^3.8.4":
+  version "3.8.4"
+  resolved "https://registry.yarnpkg.com/@vue/cli-service/-/cli-service-3.8.4.tgz#fecf63c8e0a838e2468d2a79059e39f2cbb1fdc5"
+  integrity sha512-OWKTPZN+Wk3gpd8ar6DsQWlpIFPCIULZuVsHarJXjlXpIx3FOleXzaT2QiDB+tprbTRZMfsMMZMt5b0nvacY9Q==
   dependencies:
     "@intervolga/optimize-cssnano-plugin" "^1.0.5"
     "@soda/friendly-errors-webpack-plugin" "^1.7.1"
@@ -937,6 +937,7 @@
     cssnano "^4.1.10"
     current-script-polyfill "^1.0.0"
     debug "^4.1.1"
+    default-gateway "^5.0.2"
     dotenv "^7.0.0"
     dotenv-expand "^5.1.0"
     escape-string-regexp "^1.0.5"
@@ -1538,6 +1539,18 @@ babel-eslint@^10.0.1:
   version "10.0.1"
   resolved "https://registry.yarnpkg.com/babel-eslint/-/babel-eslint-10.0.1.tgz#919681dc099614cd7d31d45c8908695092a1faed"
   integrity sha512-z7OT1iNV+TjOwHNLLyJk+HN+YVWX+CLE6fPD2SymJZOZQBs+QIexFjhm4keGTm8MW9xr4EC9Q0PbaLB24V5GoQ==
+  dependencies:
+    "@babel/code-frame" "^7.0.0"
+    "@babel/parser" "^7.0.0"
+    "@babel/traverse" "^7.0.0"
+    "@babel/types" "^7.0.0"
+    eslint-scope "3.7.1"
+    eslint-visitor-keys "^1.0.0"
+
+babel-eslint@^10.0.2:
+  version "10.0.2"
+  resolved "https://registry.yarnpkg.com/babel-eslint/-/babel-eslint-10.0.2.tgz#182d5ac204579ff0881684b040560fdcc1558456"
+  integrity sha512-UdsurWPtgiPgpJ06ryUnuaSXC2s0WoSZnQmEpbAH65XZSdwowgN5MvyP7e88nW07FYXv72erVtpBkxyDVKhH1Q==
   dependencies:
     "@babel/code-frame" "^7.0.0"
     "@babel/parser" "^7.0.0"
@@ -2830,6 +2843,14 @@ default-gateway@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/default-gateway/-/default-gateway-4.2.0.tgz#167104c7500c2115f6dd69b0a536bb8ed720552b"
   integrity sha512-h6sMrVB1VMWVrW13mSc6ia/DwYYw5MN6+exNu1OaJeFac5aSAvwM7lZ0NVfTABuSkQelr4h5oebg3KB1XPdjgA==
+  dependencies:
+    execa "^1.0.0"
+    ip-regex "^2.1.0"
+
+default-gateway@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/default-gateway/-/default-gateway-5.0.2.tgz#d2d8a13d6fee406d9365d19ec9adccb8a60b82b3"
+  integrity sha512-wXuT0q8T5vxQNecrTgz/KbU2lPUMRc98I9Y5dnH3yhFB3BGYqtADK4lhivLlG0OfjhmfKx1PGILG2jR4zjI+WA==
   dependencies:
     execa "^1.0.0"
     ip-regex "^2.1.0"
@@ -6864,10 +6885,10 @@ qs@~6.5.2:
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
   integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
 
-quasar@^1.0.0-rc.4:
-  version "1.0.0-rc.4"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.0.0-rc.4.tgz#a5363434e516d75035ef9eaf1b7210493013a84b"
-  integrity sha512-LHV4pNWnypleaUfUWBBg70ABoxMpZHZG853LnTlgG8Htuve6b/UmaZDytIp3KP9X6NQbsTT3W74bzHtqpvqgFg==
+quasar@^1.0.0-rc.5:
+  version "1.0.0-rc.5"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.0.0-rc.5.tgz#4cff90df487aeaff11b28f96918e44aff742c97c"
+  integrity sha512-q3KY0WMWucF9e400UZGoHfmDPghhswRF3Stage4m+Poahx/igUHW1RoXLPxMD6qx1XWsmFqj4hctY2RdKsQYhw==
 
 query-string@^5.0.1:
   version "5.1.1"
