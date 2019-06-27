@@ -147,7 +147,7 @@ class AppService {
     return commodities;
   }
 
-  importBalanceSheet(text) {
+  async importBalanceSheet(text) {
     if (!text) {
       let message = "No balance sheet selected."
       // Notify.create({ message: "No balance sheet selected." });
@@ -155,7 +155,10 @@ class AppService {
       // return;
     }
 
-    var accounts = [];
+    let accounts = [];
+    let mainCurrency = await settings.get(SettingKeys.currency)
+    let mainCurrencyAmount = null;
+    let multicurrencyAccount = false;
 
     // read and parse the balance sheet string
     let lines = text.split("\n");
@@ -169,22 +172,40 @@ class AppService {
       // separate the currency
       let balanceParts = balancePart.split(" ");
 
-      // let amountPart = line.substring(0, 16)
       let amountPart = balanceParts[0];
       // clean-up the thousand-separators
       amountPart = amountPart.replace(/,/g, "");
       account.balance = parseFloat(amountPart);
 
       // currency
-      // let currencyPart = line.substring(16, 19)
       let currencyPart = balanceParts[1];
       account.currency = currencyPart;
 
       let namePart = line.substring(21).trim();
       account.name = namePart;
 
-      // for now, skip the accounts which contain multiple currencies
-      if (!namePart) continue;
+      // If we have a currency but no account, it's a multicurrency account.
+      if (!namePart) {
+        if (currencyPart) {
+          multicurrencyAccount = true;
+
+          if (currencyPart === mainCurrency) {
+            mainCurrencyAmount = account.balance;
+          }
+        }
+
+        continue;
+      }
+
+      if (multicurrencyAccount) {
+        // Use the main currency.
+        account.currency = mainCurrency
+        account.balance = mainCurrencyAmount
+
+        // reset the indicator.
+        multicurrencyAccount = false;
+        mainCurrencyAmount = null;
+      }
 
       // console.log(account)
       accounts.push(account);
