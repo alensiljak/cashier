@@ -122,7 +122,6 @@ class AppService {
       throw "Root investment account not set!";
     }
 
-    // let accounts =
     return this.db.accounts.where("name").startsWithIgnoreCase(rootAccount);
   }
 
@@ -242,6 +241,10 @@ class AppService {
    */
   loadAccounts() {
     return db.accounts.orderBy("name");
+  }
+
+  loadAssetClass(fullname) {
+    return db.assetAllocation.get(fullname)
   }
 
   /**

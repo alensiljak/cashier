@@ -31,6 +31,7 @@ const AssetAllocation = () => import(/* webpackChunkName: 'assetallocation' */ '
 const AssetAllocationHelp = () => import('./views/AssetAllocationHelp')
 const AssetAllocationSetup = () => import('./views/AASetup.vue')
 const AssetAllocationSetupHelp = () => import('./views/AASetupHelp.vue')
+const AssetClassDetail = () => import('./views/AssetClassDetail.vue')
 const QBalanceSheet = () => import(/* webpackChunkName: 'bal' */ './views/QBalanceSheet.vue')
 const Commodities = () => import('./views/Commodities.vue')
 const Export = () => import('./views/Export.vue')
@@ -58,6 +59,7 @@ const routes = [
       { path: '/assetallocationhelp', name: 'assetallocationhelp', component: AssetAllocationHelp },
       { path: '/assetallocationsetup', name: 'assetallocationsetup', component: AssetAllocationSetup },
       { path: '/assetallocationsetuphelp', name: 'assetallocationsetuphelp', component: AssetAllocationSetupHelp },
+      { path: '/assetclassdetail/:fullname?', name: 'assetclassdetail', component: AssetClassDetail },
       { path: '/bal', name: 'balanceSheet', component: QBalanceSheet },
       { path: '/commodities', name: 'commodities', component: Commodities },
       { path: '/export', name: 'export', component: Export },

@@ -71,7 +71,9 @@
             <!-- Asset Class Name -->
             <td>
               <span :style="{ paddingLeft: assetClass.depth + 'rem'}"></span>
+              <router-link :to="{name: 'assetclassdetail', params: {fullname: assetClass.fullname}}">
               {{ assetClass.name }}
+              </router-link>
             </td>
             <td class="text-right">{{ assetClass.allocation }}</td>
             <td class="text-right">{{ assetClass.currentAllocation }}</td>
@@ -177,8 +179,8 @@ export default {
     },
     getAaForExport() {
       // let output = JSON.stringify(this.assetClasses);
-      let output = engine.formatAllocationRowsForTxtExport(this.assetClasses)
-      
+      let output = engine.formatAllocationRowsForTxtExport(this.assetClasses);
+
       return output;
     },
     loadData() {

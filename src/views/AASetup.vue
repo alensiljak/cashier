@@ -79,7 +79,6 @@ export default {
     this.$store.commit(MAIN_TOOLBAR, true);
     this.$store.commit(SET_TITLE, "AA Setup");
 
-    // this.dlPrice()
     this.loadData();
   },
 

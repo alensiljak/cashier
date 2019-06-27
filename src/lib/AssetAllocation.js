@@ -53,6 +53,10 @@ class AssetAllocationEngine {
     return index;
   }
 
+  /**
+   * Build the index of stocks for easy retrieval.
+   * @param {Array} asetClasses 
+   */
   buildStockIndex(asetClasses) {
     let index = {};
 
