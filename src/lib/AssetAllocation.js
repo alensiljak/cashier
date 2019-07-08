@@ -3,6 +3,8 @@
 */
 import appService from "../appService";
 import AssetClass from "./AssetClass";
+//import numeral from 'numeral'
+var numeral = require('numeral');
 
 /**
  * loadDefinition = loads the pre-set definition
@@ -79,21 +81,26 @@ class AssetAllocationEngine {
     let root = dictionary["Allocation"];
     let total = root.currentValue;
 
-    // for each row
+    // toFixed returns a string.
+    
     Object.values(dictionary).forEach(ac => {
-      // key
-      // console.log(key)
       // calculate current allocation
-      ac.currentAllocation = ((ac.currentValue * 100) / total).toFixed(2);
+      ac.currentAllocation = ((ac.currentValue * 100) / total) //.toFixed(2);
 
       // diff
-      ac.diff = (ac.currentAllocation - ac.allocation).toFixed(2);
-      // diff %
-      ac.diffPerc = ((ac.diff * 100) / ac.allocation).toFixed(2);
+      //ac.diff = (ac.currentAllocation - ac.allocation) //.toFixed(2);
+      ac.diff = ac.currentAllocation - ac.allocation
 
-      ac.allocatedValue = ((ac.allocation * total) / 100).toFixed(2);
-      // diff amount =
-      ac.diffAmount = (ac.currentValue - ac.allocatedValue).toFixed(2);
+      // diff %
+      //ac.diffPerc = ((ac.diff * 100) / ac.allocation) //.toFixed(2);
+      ac.diffPerc = (ac.diff * 100) / ac.allocation
+
+      //ac.allocatedValue = ((ac.allocation * total) / 100) //.toFixed(2);
+      ac.allocatedValue = (ac.allocation * total) / 100
+
+      ac.diffAmount = ac.currentValue - ac.allocatedValue
+      //ac.diffAmount = (ac.currentValue - ac.allocatedValue) //.toFixed(2);
+      //ac.diffAmount = (ac.currentValue - ac.allocatedValue).toLocaleString();
     });
   }
 
@@ -170,14 +177,24 @@ class AssetAllocationEngine {
   }
 
   formatNumbers(dictionary) {
-    let format = new Intl.NumberFormat("en-AU");
+    //let format = new Intl.NumberFormat("en-IE"); // AU
+    let format = "0,0.00"
 
     Object.values(dictionary).forEach(ac => {
-      // new Intl.NumberFormat("en-AU").format(amount)
-      //console.log(ac)
-      ac.currentValue = format.format(ac.currentValue);
-      ac.allocatedValue = format.format(ac.allocatedValue);
-      ac.diffAmount = format.format(ac.diffAmount);
+      ac.currentAllocation = numeral(ac.currentAllocation).format(format)
+
+      //ac.currentValue = format.format(ac.currentValue);
+      ac.currentValue = numeral(ac.currentValue).format(format)
+
+      //ac.allocatedValue = format.format(ac.allocatedValue);
+      ac.allocatedValue = numeral(ac.allocatedValue).format(format)
+
+      ac.diff = numeral(ac.diff).format(format)
+      ac.diffPerc = numeral(ac.diffPerc).format(format)
+      
+      //ac.diffAmount = format.format(ac.diffAmount);
+      //ac.diffAmount = ac.diffAmount.toLocaleString();
+      ac.diffAmount = numeral(ac.diffAmount).format(format)
     });
   }
 
