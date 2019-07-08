@@ -32,6 +32,13 @@
                 </q-item-section>
               </q-item>
 
+              <q-item clickable v-close-popup @click="onValidateClick">
+                <q-item-section>Validate</q-item-section>
+                <q-item-section side>
+                  <font-awesome-icon icon="balance-scale" transform="grow-9 left-5"/>
+                </q-item-section>
+              </q-item>
+
               <q-item clickable v-close-popup @click="onHelpClick">
                 <q-item-section>Help</q-item-section>
                 <q-item-section side>
@@ -217,6 +224,26 @@ export default {
         text: output,
         url: "https://cashier.alensiljak.eu.org/"
       });
+    },
+    /**
+     * validate the allocation (definition)
+     */
+    onValidateClick() {
+      if (this.assetClasses.length === 0) {
+        this.$q.notify({ message: 'Please recalculate the allocation first.' })
+      }
+
+      // confirm that the group allocations match the sum of the children's allocation.
+      let errors = engine.validate(engine.assetClassIndex)
+      if(errors.length > 0) {
+        let message = "Errors: "
+        for (let i = 0; i < errors.length; i++) {
+          message += errors[i]
+        }
+        this.$q.notify({ message: message, color: "red-10" })
+      } else {
+        this.$q.notify({ message: "The allocation is valid.", color: "teal-9" }) // teal
+      }
     }
   },
 

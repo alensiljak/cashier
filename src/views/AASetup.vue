@@ -109,7 +109,7 @@ export default {
       engine.importDefinition(this.fileContent).then(() => {
         this.$q.notify({
           message: "Definition imported",
-          color: "green-9",
+          color: "teal-9", // green-9
           textColor: "amber-2"
         });
       });

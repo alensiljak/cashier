@@ -28,7 +28,8 @@ class AssetAllocationEngine {
     // Sum the balances for groups.
     this.sumGroupBalances(this.assetClassIndex);
 
-    // todo validation, check the allocation for groups, compare to sum of children's
+    // validation, check the allocation for groups, compare to sum of children's
+    //this.validate(this.assetClassIndex);
 
     // calculate offsets
     this.calculateOffsets(this.assetClassIndex);
@@ -368,6 +369,47 @@ class AssetAllocationEngine {
     }
 
     return sum;
+  }
+
+  /**
+   * Validate Asset Allocation.
+   * Currently checks the definition by comparing group sums.
+   */
+  validate(assetClassList) {
+    let errors = [];
+    let keys = Object.keys(assetClassList);
+
+    keys.forEach(acName => {
+      let ac = assetClassList[acName]
+      let result = this.validateGroupAllocation(ac, assetClassList)
+      if (result) {
+        errors.push(result)
+      }
+    });
+
+    return errors;
+  }
+
+  /**
+   * Validate that the group's allocation matches the sum of the children classes.
+   * @param {AssetClass} assetClass 
+   */
+  validateGroupAllocation(assetClass, list) {
+    //let key = assetClass.fullname
+    let children = this.findChildren(list, assetClass)
+    if (children.length === 0) return;
+
+    // sum the children's allocation
+    let sum = 0.0;
+    for (let i = 0; i < children.length; i++) {
+      sum += parseFloat(children[i].allocation)
+    }
+    
+    let equal = parseFloat(assetClass.allocation) === sum
+    
+    if (!equal) {
+      return "* " + assetClass.fullname + " does not match the sum of child classes! "
+    }
   }
 }
 
