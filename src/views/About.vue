@@ -59,6 +59,9 @@
       <li>
         <a href="https://github.com/Akryum/vue-virtual-scroller">Vue Virtual Scroller</a>
       </li>
+      <li>
+        <a href="https://numeraljs.com/">Numeral JS</a>
+      </li>
     </ul>
 
     <h4 class="q-my-sm text-center">Resources</h4>
