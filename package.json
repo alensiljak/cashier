@@ -24,20 +24,20 @@
     "dexie": "^3.0.0-alpha.8",
     "localforage": "^1.7.3",
     "numeral": "^2.0.6",
-    "quasar": "^1.0.0-rc.5",
+    "quasar": "^1.0.5",
     "register-service-worker": "^1.6.2",
     "vue": "^2.6.10",
     "vue-hot-reload-api": "^2.3.3",
     "vue-inputmask": "^0.2.1",
-    "vue-router": "^3.0.6",
+    "vue-router": "^3.0.7",
     "vue-slideout": "^1.8.0",
     "vue-virtual-scroller": "^1.0.0-rc.2",
     "vuex": "^3.1.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.8.0",
+    "@vue/cli-plugin-babel": "^3.9.2",
     "@vue/cli-plugin-eslint": "^3.8.0",
-    "@vue/cli-plugin-pwa": "^3.8.0",
+    "@vue/cli-plugin-pwa": "^3.9.0",
     "@vue/cli-service": "^3.8.4",
     "@vue/component-compiler-utils": "^3.0.0",
     "babel-eslint": "^10.0.2",
@@ -48,7 +48,7 @@
     "sass-loader": "^7.1.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
-    "vue-cli-plugin-quasar": "^1.0.0-rc.3",
+    "vue-cli-plugin-quasar": "^1.0.0",
     "vue-template-compiler": "^2.6.10"
   },
   "bugs": {
