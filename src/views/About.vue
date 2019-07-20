@@ -24,6 +24,9 @@
         href="https://gitlab.com/alensiljak/cashier"
       >source code repository</a> on GitLab.
     </p>
+    <p>The synchronization can be done with 
+      <a href="https://gitlab.com/alensiljak/cashier-sync">CashierSync</a> Python component.
+    </p>
 
     <h4 class="q-my-sm text-center">Credits</h4>
     <ul>
