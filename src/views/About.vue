@@ -65,6 +65,9 @@
       <li>
         <a href="https://numeraljs.com/">Numeral JS</a>
       </li>
+      <li>
+        <a href="https://github.com/Jexordexan/vue-slicksort">Vue Slicksort</a>
+      </li>
     </ul>
 
     <h4 class="q-my-sm text-center">Resources</h4>
