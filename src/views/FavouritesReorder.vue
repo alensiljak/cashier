@@ -62,7 +62,8 @@ export default {
 
       settings
         .set(SettingKeys.favouriteAccounts, names)
-        .then(() => this.loadData());
+        .then(() => this.loadData())
+        .then(() => this.$q.notify('data saved'))
     }
   },
 
