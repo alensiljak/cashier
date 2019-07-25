@@ -19,8 +19,7 @@
         round
         size="sm"
         @click="onDeleteClicked"
-        :data-id="tx.id"
-      />
+        :data-id="tx.id" />
     </q-item-section>
   </q-item>
 </template>

@@ -36,6 +36,7 @@ const QBalanceSheet = () => import(/* webpackChunkName: 'bal' */ './views/QBalan
 const Commodities = () => import('./views/Commodities.vue')
 const Export = () => import('./views/Export.vue')
 const Favourites = () => import('./views/Favourites.vue')
+const FavouritesReorder = () => import('./views/FavouritesReorder')
 const Import = () => import('./views/Import.vue')
 const PayeeList = () => import('./views/Payees.vue')
 const Prices = () => import('./views/Prices')
@@ -64,6 +65,7 @@ const routes = [
       { path: '/commodities', name: 'commodities', component: Commodities },
       { path: '/export', name: 'export', component: Export },
       { path: '/favourites', name: 'favourites', component: Favourites },
+      { path: '/favouritesreorder', name: 'favreorder', component: FavouritesReorder },
       { path: '/import', name: 'import', component: Import },
       { path: '/payees', name: 'payees', component: PayeeList },
       { path: '/prices', name: 'prices', component: Prices },

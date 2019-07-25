@@ -2,11 +2,11 @@
   <q-page padding class="bg-colour1 text-colour2">
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn flat dense round @click="menuClicked" aria-label="Menu" icon="menu"/>
+        <q-btn flat dense round @click="menuClicked" aria-label="Menu" icon="menu" />
 
         <q-toolbar-title>Favourites</q-toolbar-title>
 
-        <q-space/>
+        <q-space />
 
         <q-btn flat round dense icon="more_vert">
           <q-menu>
@@ -15,14 +15,21 @@
               <q-item clickable v-close-popup @click="addAccountClick">
                 <q-item-section>Add</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="plus-circle" transform="grow-9 left-5"/>
+                  <font-awesome-icon icon="plus-circle" transform="grow-9 left-5" />
                 </q-item-section>
               </q-item>
 
-              <q-item v-close-popup @click="onDeleteAllClick">
+              <q-item clickable v-close-popup @click="onDeleteAllClick">
                 <q-item-section>Delete All</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="trash-alt" transform="grow-9 left-5"/>
+                  <font-awesome-icon icon="trash-alt" transform="grow-9 left-5" />
+                </q-item-section>
+              </q-item>
+
+              <q-item clickable v-close-popup @click="onSortClick">
+                <q-item-section>Reorder</q-item-section>
+                <q-item-section side>
+                  <font-awesome-icon icon="sort" transform="grow-9 left-5" />
                 </q-item-section>
               </q-item>
             </q-list>
@@ -41,7 +48,7 @@
       <template v-slot:right>
         <div class="row items-center text-amber-4" @click="removeAccount(index)">
           Click to confirm or wait 2s to cancel
-          <font-awesome-icon icon="trash-alt" size="2x" class="q-ml-md"/>
+          <font-awesome-icon icon="trash-alt" size="2x" class="q-ml-md" />
         </div>
       </template>
 
@@ -55,7 +62,7 @@
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab color="accent" text-color="secondary" @click="onFabClicked">
-        <font-awesome-icon icon="plus" transform="grow-6"/>
+        <font-awesome-icon icon="plus" transform="grow-6" />
       </q-btn>
     </q-page-sticky>
 
@@ -69,8 +76,8 @@
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn flat label="Cancel" color="amber-4" v-close-popup/>
-          <q-btn flat label="Delete" color="amber-4" v-close-popup @click="confirmDeleteAll"/>
+          <q-btn flat label="Cancel" color="amber-4" v-close-popup />
+          <q-btn flat label="Delete" color="amber-4" v-close-popup @click="confirmDeleteAll" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -206,13 +213,13 @@ export default {
         appService.db.accounts
           .bulkGet(favArray)
           .then(accounts => {
-            // todo adjust the balance
+            // adjust the balance
             this.adjustBalances(accounts).then(
               accounts => (this.accounts = accounts)
             );
           })
           .catch(reason => {
-            this.$q.notify({ color: 'red-10', message: reason.message });
+            this.$q.notify({ color: "red-10", message: reason.message });
           });
       });
     },
@@ -229,11 +236,14 @@ export default {
     },
     onListItemClick(accountName) {
       // console.log(accountName)
-      this.$router.push({ name: 'register', params: { name: accountName }})
+      this.$router.push({ name: "register", params: { name: accountName } });
     },
     onRightSlide({ reset }) {
       this.resetSlide = reset;
       this.finalize(this.resetSlide);
+    },
+    onSortClick() {
+      this.$router.push({ name: 'favreorder' })
     },
     removeAccount(index) {
       if (this.resetSlide) {
@@ -260,6 +270,6 @@ export default {
           .then(() => this.loadData());
       });
     }
-  }
+  },
 };
 </script>

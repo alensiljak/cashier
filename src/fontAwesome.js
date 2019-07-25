@@ -9,7 +9,7 @@ import { faBalanceScale, faBarcode, faBoxes, faBriefcase, faBusinessTime,
     faListUl, faLuggageCart, faMoneyBillWave, 
     faPlus, faPlusCircle, faQuestionCircle,
     faSearch, faSignInAlt, faSignOutAlt, 
-    faStar, faSyncAlt, faSave, faShareAlt,
+    faStar, faSyncAlt, faSave, faShareAlt, faSort,
     faTimesCircle, faTrashAlt, faUser, faUsers, faWallet } 
     from '@fortawesome/free-solid-svg-icons'
 // import { faRegular } from '@fortawesome/free-regular-svg-icons'
@@ -20,7 +20,7 @@ library.add(faBalanceScale, faBarcode, faBoxes, faBriefcase, faBusinessTime,
     faListUl, faLuggageCart, faMoneyBillWave, 
     faPlus, faPlusCircle, faQuestionCircle,
     faSearch, faSignInAlt, faSignOutAlt, 
-    faStar, faSyncAlt, faSave, faShareAlt,
+    faStar, faSyncAlt, faSave, faShareAlt, faSort,
     faTimesCircle, faTrashAlt, faUser, faUsers, faWallet)
 
 import Vue from 'vue'
