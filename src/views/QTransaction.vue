@@ -72,7 +72,7 @@
       <q-item-section>
         <q-item-label>Sum</q-item-label>
       </q-item-section>
-      <q-item-section avatar>{{ postingSum }}</q-item-section>
+      <q-item-section avatar>{{ formatNumber(postingSum) }}</q-item-section>
     </q-item>
 
     <!-- posting actions -->
@@ -171,6 +171,11 @@ export default {
     echo(message) {
       this.$q.notify(message);
       // console.log(message);
+    },
+    formatNumber(value) {
+        // let val = (value/1).toFixed(2).replace('.', ',')
+        // return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+        return value.toFixed(2);
     },
     /**
      * Find an empty posting, or create one.
