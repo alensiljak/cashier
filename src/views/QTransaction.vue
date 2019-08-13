@@ -17,21 +17,21 @@
 
     <q-input label="Date" v-model="tx.date" dark @click="datePickerVisible = true">
       <template v-slot:prepend>
-        <font-awesome-icon icon="calendar-day"/>
+        <font-awesome-icon icon="calendar-day" />
       </template>
     </q-input>
 
     <!-- payee -->
     <q-input label="Payee" dark v-model="tx.payee">
       <template v-slot:prepend>
-        <font-awesome-icon icon="user"/>
+        <font-awesome-icon icon="user" />
       </template>
     </q-input>
 
     <!--note -->
     <q-input label="Note" dark v-model="tx.note">
       <template v-slot:prepend>
-        <font-awesome-icon icon="file-alt"/>
+        <font-awesome-icon icon="file-alt" />
       </template>
     </q-input>
 
@@ -50,7 +50,7 @@
       <template v-slot:right>
         <div class="row items-center text-amber-4" @click="deletePosting(index)">
           Click to confirm or wait 2s to cancel
-          <font-awesome-icon icon="trash-alt" size="2x" class="q-ml-md"/>
+          <font-awesome-icon icon="trash-alt" size="2x" class="q-ml-md" />
         </div>
       </template>
       <q-item dark class="bg-colour1">
@@ -79,7 +79,7 @@
     <div class="row q-mt-sm">
       <div class="col text-center">
         <q-btn color="primary" text-color="accent" size="small" @click="addPosting">
-          <font-awesome-icon icon="plus-circle" transform="grow-9" class="q-icon-small on-left"/>
+          <font-awesome-icon icon="plus-circle" transform="grow-9" class="q-icon-small on-left" />
           <div>Add Posting</div>
         </q-btn>
       </div>
@@ -89,7 +89,7 @@
     <div class="row q-my-xl justify-end">
       <div class="col text-center">
         <q-btn color="secondary" text-color="accent" size="medium" @click="onClear">
-          <font-awesome-icon icon="times-circle" transform="grow-9" class="q-icon-small on-left"/>
+          <font-awesome-icon icon="times-circle" transform="grow-9" class="q-icon-small on-left" />
           <div>Reset</div>
         </q-btn>
       </div>
@@ -102,7 +102,7 @@
           size="medium"
           @click="onSave"
         >
-          <font-awesome-icon icon="save" transform="grow-9" class="q-icon-small on-right"/>
+          <font-awesome-icon icon="save" transform="grow-9" class="q-icon-small on-right" />
         </q-btn>
       </div>
     </div>
@@ -149,7 +149,7 @@ export default {
     //this.$refs.date
     // this.date = new Date().toISOString().substring(0, 10);
 
-    this.recalculateSum()
+    this.recalculateSum();
   },
 
   methods: {
@@ -170,13 +170,17 @@ export default {
     },
     echo(message) {
       this.$q.notify(message);
-      // console.log(message);
     },
     formatNumber(value) {
-      if (!value) return;
-        // let val = (value/1).toFixed(2).replace('.', ',')
-        // return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-        return value.toFixed(2);
+      //if (!value) return;
+      if (value == null) return;
+      if (Number.isNaN(value)) return;
+
+      // make sure we have a number
+      var result = Number(value)
+      // let val = (value/1).toFixed(2).replace('.', ',')
+      // return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+      return result.toFixed(2);
     },
     /**
      * Find an empty posting, or create one.
