@@ -110,6 +110,22 @@ class AppService {
   }
 
   /**
+   * Format a given value as a number with 2 decimals.
+   * @param {*} value 
+   */
+  formatNumber(value) {
+    //if (!value) return;
+    if (value == null) return;
+    if (Number.isNaN(value)) return;
+
+    // make sure we have a number
+    var result = Number(value)
+    // let val = (value/1).toFixed(2).replace('.', ',')
+    // return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+    return result.toFixed(2);
+  }
+
+  /**
    * Get all the investment accounts in a dictionary.
    * Start from the investment root setting, and include the commodity.
    * @returns Promise with investment accounts collection

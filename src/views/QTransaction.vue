@@ -171,15 +171,7 @@ export default {
       this.$q.notify(message);
     },
     formatNumber(value) {
-      //if (!value) return;
-      if (value == null) return;
-      if (Number.isNaN(value)) return;
-
-      // make sure we have a number
-      var result = Number(value)
-      // let val = (value/1).toFixed(2).replace('.', ',')
-      // return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-      return result.toFixed(2);
+      return appService.formatNumber(value);
     },
     /**
      * Find an empty posting, or create one.
