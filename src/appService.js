@@ -300,21 +300,44 @@ class AppService {
       tx.id = new Date().getTime();
     }
 
-    // set transaction id on postings
-    for (let i = 0; i < tx.postings.length; i++) {
-      tx.postings[i].transactionId = tx.id;
-    }
-    // tx.postings.forEach(p => p.transactionId == tx.id)
+    this.savePostings(tx)
     
     // save all items in a transaction
     return db.transaction("rw", db.transactions, db.postings, () => {
       db.postings.bulkPut(tx.postings);
-      // tx.postings.forEach(posting => {
-      //     db.postings.put(posting)
-      // })
 
       return db.transactions.put(tx); // returns the transaction id
     });
+  }
+
+  /**
+   * Not to be used directly. Only called when saving a transaction.
+   */
+  async savePostings(tx) {
+    var newPostingIds = []
+
+    // set transaction id on postings
+    for (let i = 0; i < tx.postings.length; i++) {
+      tx.postings[i].transactionId = tx.id;
+      newPostingIds.push(tx.postings[i].id)
+    }
+    // tx.postings.forEach(p => p.transactionId == tx.id)
+
+    // Delete any removed postings.
+    // Get the posting ids from the database.
+    var postings = await db.postings.where({'transactionId': tx.id}).toArray()
+    var oldPostingIds = []
+    for(let i = 0; i < postings.length; i++) {
+      oldPostingIds.push(postings[i].id)
+    }
+    for(let i = 0; i < oldPostingIds.length; i++) {
+      let oldPostingId = oldPostingIds[i]
+      
+      if (newPostingIds.indexOf(oldPostingId) < 0) {
+        //console.log('delete', oldPostingIds[i])
+        db.postings.delete(oldPostingIds[i])
+      }
+    }
   }
 }
 
