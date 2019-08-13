@@ -45,8 +45,7 @@
       v-for="(posting, index) in tx.postings"
       :key="index"
       right-color="red-10"
-      @right="onSlide"
-    >
+      @right="onSlide">
       <template v-slot:right>
         <div class="row items-center text-amber-4" @click="deletePosting(index)">
           Click to confirm or wait 2s to cancel

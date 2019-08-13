@@ -282,13 +282,14 @@ class AppService {
     if (tx.id === null) {
       // create a new id for the transaction
       tx.id = new Date().getTime();
-      // set transaction id on postings
-      for (let i = 0; i < tx.postings.length; i++) {
-        tx.postings[i].transactionId = tx.id;
-      }
-      // tx.postings.forEach(p => p.transactionId == tx.id)
     }
 
+    // set transaction id on postings
+    for (let i = 0; i < tx.postings.length; i++) {
+      tx.postings[i].transactionId = tx.id;
+    }
+    // tx.postings.forEach(p => p.transactionId == tx.id)
+    
     // save all items in a transaction
     return db.transaction("rw", db.transactions, db.postings, () => {
       db.postings.bulkPut(tx.postings);
