@@ -30,8 +30,8 @@ export default {
         let url = 'https://webdav.pcloud.com'
 
       const client = createClient(url, {
-        username: "alen.siljak@gmx.com",
-        password: "p84pR6sHNXv22y7e9tb8QpDKFKN3eHN8"
+        username: "user",
+        password: "pass"
       });
     //   this.listDir();
         client.getDirectoryContents("/").then(response => {
