@@ -39,6 +39,7 @@ const Favourites = () => import('./views/Favourites.vue')
 const FavouritesReorder = () => import('./views/FavouritesReorder')
 const Import = () => import('./views/Import.vue')
 const PayeeList = () => import('./views/Payees.vue')
+const Pcloud = () => import('./views/Pcloud.vue')
 const Prices = () => import('./views/Prices')
 const Journal = () => import('./views/Journal.vue')
 const QSettings = () => import('./views/QSettings.vue')
@@ -74,7 +75,9 @@ const routes = [
       { path: '/settings', name: 'settings', component: QSettings },
       { path: '/sync', name: 'sync', component: Sync },
       { path: '/tx/:id?', name: 'tx', component: QTransaction },
+      // Test
       // { path: '/webdav', name: 'webdav', component: webdav }
+      { path: '/pcloud', name: 'pcloud', component: Pcloud }
     ]
   },
   // {
