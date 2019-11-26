@@ -152,6 +152,8 @@ export default {
       for (let i = 0; i < accounts.length; i++) {
         // load all postings for the account
         let account = accounts[i];
+        if (!account.balance) continue; // null check
+
         let sum = parseFloat(account.balance);
         if (!sum) continue;
 
