@@ -72,7 +72,7 @@
         <q-card-section class="row items-center">
           <!-- <q-avatar icon="signal_wifi_off" color="primary" text-color="amber-2"/>
           <span class="q-ml-sm">You are currently not connected to any network.</span>-->
-          <span>Do you want to delete the transaction?</span>
+          <span>Do you want to unmark all the favourite accounts?</span>
         </q-card-section>
 
         <q-card-actions align="right">
@@ -179,7 +179,10 @@ export default {
       return accounts;
     },
     confirmDeleteAll() {
-      // todo delete all favourites
+      // clear all favourites
+        settings
+          .set(SettingKeys.favouriteAccounts, [])
+          .then(() => this.loadData());
     },
     finalize(reset) {
       this.timer = setTimeout(() => {
