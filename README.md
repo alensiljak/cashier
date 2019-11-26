@@ -21,6 +21,10 @@ See the [TODO](TODO) file for the list of features, technical issues, brainstorm
 
 Run the dev server `yarn serve` and open the browser on port 8080.
 
+### Maintenance
+
+Updating libraries - `yarn outdated`.
+
 ## Building
 
 Build the release version with `yarn build`.
