@@ -23,7 +23,7 @@ Run the dev server `yarn serve` and open the browser on port 8080.
 
 ### Maintenance
 
-Updating libraries - `yarn outdated`.
+Updating libraries: list outdated with `yarn outdated`.
 
 ## Building
 
