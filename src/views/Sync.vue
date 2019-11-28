@@ -15,7 +15,7 @@
             <q-checkbox
               dark
               v-model="syncBalances"
-              label="Sync balances (ledger balance --flat --no-total)"
+              label="Sync balances (ledger balance --flat --no-total). Deletes existing accounts and retrieves the list from Ledger."
             />
           </q-item-section>
         </q-item>
@@ -35,13 +35,6 @@
       <q-btn label="Sync" color="secondary" text-color="accent" @click="synchronize"/>
     </div>
 
-    <!-- <div>
-      <q-input dark type="textarea" v-model="content"/>
-    </div>
-    <div>
-      <q-btn @click="onSaveClicked" label="save" color="secondary" text-color="accent"/>
-      <q-btn @click="onLoadClick" label="load" color="secondary" text-color="accent"/>
-    </div>-->
   </q-page>
 </template>
 
@@ -50,6 +43,7 @@ import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
 // import db from '../dataStore'
 import { SettingKeys, settings } from "../lib/Configuration";
 import { CashierSync } from "../lib/syncCashier";
+import appService from "../appService";
 
 export default {
   data() {
@@ -77,20 +71,6 @@ export default {
         .then(value => (this.rootInvestmentAccount = value));
       settings.get(SettingKeys.currency).then(value => (this.currency = value));
     },
-    // onCurrencyChange() {
-    //   settings.set(SettingKeys.currency, this.currency).then(result => {
-    //     console.log("saved currency", result);
-    //   });
-    // },
-    // onLoadClick() {
-    //   this.loadSettings();
-    // },
-    // onServerUrlChanged() {
-    //   // save settings
-    //   settings.set(SettingKeys.syncServerUrl, this.serverUrl).then(() => {
-    //     this.$q.notify("server URL saved");
-    //   });
-    // },
     synchronizeAaValues() {
       let sync = new CashierSync(this.serverUrl);
       sync
@@ -116,7 +96,11 @@ export default {
     },
     synchronize() {
       if (this.syncBalances) {
-        this.synchronizeBalances();
+        // Delete all accounts, then get everything from Ledger. 
+        // This clears up accounts that still have a value in the app but Ledger does not 
+        // return them as their balance is 0.
+        appService.deleteAccounts()
+          .then(() => this.synchronizeBalances());
       }
       if (this.syncAaValues) {
         this.synchronizeAaValues();
