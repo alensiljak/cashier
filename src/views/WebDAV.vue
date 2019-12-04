@@ -9,9 +9,14 @@
 </template>
 
 <script>
+/*
+  WebDAV can't be used for pCloud from the browser, due to CORS settings!
+  ***********************************************************************
+*/
+
 import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
 //const { createClient } = require("webdav");
-// import { createClient } from "webdav";
+//import { createClient } from "webdav";
 
 export default {
   data() {
@@ -27,20 +32,20 @@ export default {
 
   methods: {
     testWebDav() {
-        let url = 'https://webdav.pcloud.com'
+        // let url = 'https://webdav.pcloud.com'
 
-      const client = createClient(url, {
-        username: "user",
-        password: "pass"
-      });
-    //   this.listDir();
-        client.getDirectoryContents("/").then(response => {
-            console.log(response)
-        })
+    //   const client = createClient(url, {
+    //     username: "user",
+    //     password: "pass"
+    //   });
+    // //   this.listDir();
+    //     client.getDirectoryContents("/").then(response => {
+    //         console.log(response)
+    //     })
     },
     async listDir() {
-      const directoryItems = await client.getDirectoryContents("/");
-      console.log(directoryItems)
+      // const directoryItems = await client.getDirectoryContents("/");
+      // console.log(directoryItems)
     }
   }
 };

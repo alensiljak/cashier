@@ -76,7 +76,7 @@ const routes = [
       { path: '/sync', name: 'sync', component: Sync },
       { path: '/tx/:id?', name: 'tx', component: QTransaction },
       // Test
-      // { path: '/webdav', name: 'webdav', component: webdav }
+      // { path: '/webdav', name: 'webdav', component: webdav },
       { path: '/pcloud', name: 'pcloud', component: Pcloud }
     ]
   },
