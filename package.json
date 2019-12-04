@@ -43,15 +43,15 @@
     "@vue/cli-service": "4.1.1",
     "@vue/component-compiler-utils": "3.0.2",
     "babel-eslint": "10.0.3",
-    "babel-plugin-transform-imports": "1.5.1",
+    "babel-plugin-transform-imports": "2.0.0",
     "eslint": "6.7.2",
     "eslint-plugin-vue": "6.0.1",
     "node-sass": "4.13.0",
     "sass-loader": "8.0.0",
     "stylus": "0.54.7",
     "stylus-loader": "^3.0.2",
-    "vue-cli-plugin-quasar": "^1.0.0",
-    "vue-template-compiler": "^2.6.10"
+    "vue-cli-plugin-quasar": "2.0.0",
+    "vue-template-compiler": "2.6.10"
   },
   "bugs": {
     "url": "https://gitlab.com/alensiljak/cashier/issues"
