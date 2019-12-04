@@ -34,7 +34,7 @@ export default {
       // get journal for export
       let output = "test"
       let client = new RemoteStorage()
-      client.store(output)
+      this.output = client.store(output)
     },
     login() {
       //   let url = "https://webdav.pcloud.com";

@@ -19,32 +19,36 @@ class PcloudClient {
     });
   }
   loginWithoutRedirect() {
-      let that = this
+    let that = this;
     pCloudSdk.oauth.initOauthPollToken({
       client_id: CLIENT_ID,
-    //   receiveToken: this.receiveTokenCb,
-        receiveToken: function(token) {
-            // that.access_token = token
-            // console.log(that.access_token)
-            that.receiveTokenCb(token)
-        },
+      //   receiveToken: this.receiveTokenCb,
+      receiveToken: function(token) {
+        // that.access_token = token
+        // console.log(that.access_token)
+        that.receiveTokenCb(token);
+      },
       onError: err => console.log(err)
     });
   }
 
   fetch() {
-    this.ensureLoggedIn();
+    this.ensureLoggedIn()
     // todo fetch the backup file
+    console.log('now')
     return this.access_token;
   }
   store(content) {
-    this.ensureLoggedIn();
+    this.ensureLoggedIn()
 
-    console.log(content)
+    console.log('now: ', content)
     // remoteupload(url: string, folderid: number, options: UploadOptions): Promise<metadata>
     //this.client.remoteUpload('url', 0, {}, false)
-    //this.client.upload('file', 0, null, false)
-    return "incomplete";
+    // let blob = new Blob(content)
+    let file = new File([content], "backup.ledger");
+    this.client.upload(file, 0, {}, false);
+
+    return "sent";
   }
 
   ensureLoggedIn() {
