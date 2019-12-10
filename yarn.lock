@@ -1170,7 +1170,22 @@
     string.prototype.padstart "^3.0.0"
     strip-ansi "^6.0.0"
 
-"@vue/component-compiler-utils@3.0.2", "@vue/component-compiler-utils@^3.0.0", "@vue/component-compiler-utils@^3.0.2":
+"@vue/component-compiler-utils@3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@vue/component-compiler-utils/-/component-compiler-utils-3.1.0.tgz#64cd394925f5af1f9c3228c66e954536f5311857"
+  integrity sha512-OJ7swvl8LtKtX5aYP8jHhO6fQBIRIGkU6rvWzK+CGJiNOnvg16nzcBkd9qMZzW8trI2AsqAKx263nv7kb5rhZw==
+  dependencies:
+    consolidate "^0.15.1"
+    hash-sum "^1.0.2"
+    lru-cache "^4.1.2"
+    merge-source-map "^1.1.0"
+    postcss "^7.0.14"
+    postcss-selector-parser "^5.0.0"
+    prettier "^1.18.2"
+    source-map "~0.6.1"
+    vue-template-es2015-compiler "^1.9.0"
+
+"@vue/component-compiler-utils@^3.0.0", "@vue/component-compiler-utils@^3.0.2":
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/@vue/component-compiler-utils/-/component-compiler-utils-3.0.2.tgz#7daf8aaf0d5faa66e7c8a1f6fea315630e45fbc9"
   integrity sha512-BSnY2PmW4QwU1AOcGSNYAmEPLjdQ9itl1YpLCWtpwMA5Jy/aqWNuzZ9+ZZ8h6yZJ53W95tVkEP6yrXJ/zUHdEA==
@@ -2664,10 +2679,10 @@ core-js-compat@^3.1.1, core-js-compat@^3.4.3:
     browserslist "^4.7.3"
     semver "^6.3.0"
 
-core-js@3.4.7:
-  version "3.4.7"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.4.7.tgz#57c35937da80fe494fbc3adcf9cf3dc00eb86b34"
-  integrity sha512-qaPVGw30J1wQ0GR3GvoPqlGf9GZfKKF4kFC7kiHlcsPTqH3txrs9crCp3ZiMAXuSenhz89Jnl4GZs/67S5VOSg==
+core-js@3.4.8:
+  version "3.4.8"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.4.8.tgz#e0fc0c61f2ef90cbc10c531dbffaa46dfb7152dd"
+  integrity sha512-b+BBmCZmVgho8KnBUOXpvlqEMguko+0P+kXCwD4vIprsXC6ht1qgPxtb1OK6XgSlrySF71wkwBQ0Hv695bk9gQ==
 
 core-js@^2.4.0:
   version "2.6.9"
@@ -7170,10 +7185,10 @@ qs@~6.5.2:
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
   integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
 
-quasar@1.5.4:
-  version "1.5.4"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.5.4.tgz#9687347603521931c34fa0cf0679d1c2417bf203"
-  integrity sha512-B3WVyXddjiJ1TpEv/ZTVFoiMSzCgLtIuCA+sXFuPqi8vENWnbmwPRvJPGPaz5ghw1mi+0TAoDL1zKpY2quXjZg==
+quasar@1.5.7:
+  version "1.5.7"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.5.7.tgz#b21ae7858513a75175435bb889e24c570bf4bf9c"
+  integrity sha512-b/0LDYS5SleQUCb92yxLGrakpv5Bssl61mmxYqABootOU1rSytFjupkC2+hB+KBtWvjgGhjpty+Kir8/0X78zA==
 
 query-string@^4.1.0:
   version "4.3.4"
