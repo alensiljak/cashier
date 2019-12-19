@@ -4,7 +4,7 @@
     <p>Make sure the Settings have been configured prior to synchronization.</p>
 
     <div class="text-right">
-      <q-btn label="Settings" :to="{name: 'settings'}" color="secondary" text-color="accent"/>
+      <q-btn label="Settings" :to="{name: 'settings'}" color="secondary" text-color="accent" />
     </div>
 
     <div class="text-center">
@@ -30,11 +30,10 @@
         </q-item-section>
       </q-item>
 
-      <div class="q-mt-sm"/>
+      <div class="q-mt-sm" />
 
-      <q-btn label="Sync" color="secondary" text-color="accent" @click="synchronize"/>
+      <q-btn label="Sync" color="secondary" text-color="accent" @click="synchronize" />
     </div>
-
   </q-page>
 </template>
 
@@ -49,7 +48,7 @@ export default {
   data() {
     return {
       syncBalances: true,
-      syncAaValues: true,
+      syncAaValues: true
     };
   },
 
@@ -75,35 +74,34 @@ export default {
       let sync = new CashierSync(this.serverUrl);
       sync
         .readCurrentValues()
-        .then(() =>
-          this.$q.notify({ message: "current values loaded", color: "primary" })
-        )
-        .catch(reason =>
-          this.$q.notify({ message: reason, color: "secondary" })
+        .then(() => this.$q.notify({ message: "current values loaded", color: "primary" }))
+        .catch(error =>
+          this.$q.notify({ message: error.message, color: "secondary" })
         );
     },
-    synchronizeBalances() {
+    async synchronizeBalances() {
       let sync = new CashierSync(this.serverUrl);
 
-      sync
-        .readAccounts()
-        .then(() =>
-          this.$q.notify({ message: "balances loaded", color: "primary" })
-        )
-        .catch(reason =>
-          this.$q.notify({ message: reason, color: "secondary" })
-        );
+      console.log("reading accounts from the server.");
+      let newAccounts = await sync.readAccounts();
+      // delete all accounts only after we have the new ones
+      console.log("deleting local account records.");
+      await appService.deleteAccounts();
+      console.log("importing accounts.");
+      await sync.importAccounts(newAccounts);
+      this.$q.notify({ message: "balances loaded", color: "primary" });
     },
-    synchronize() {
+    async synchronize() {
       if (this.syncBalances) {
-        // Delete all accounts, then get everything from Ledger. 
-        // This clears up accounts that still have a value in the app but Ledger does not 
+        // Delete all accounts, then get everything from Ledger.
+        // This clears up accounts that still have a value in the app but Ledger does not
         // return them as their balance is 0.
-        appService.deleteAccounts()
-          .then(() => this.synchronizeBalances());
+        await this.synchronizeBalances().catch(error => {
+          this.$q.notify({ message: error.message, color: "secondary" })
+        })
       }
       if (this.syncAaValues) {
-        this.synchronizeAaValues();
+        this.synchronizeAaValues()
       }
     }
   }

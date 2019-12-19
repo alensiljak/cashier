@@ -30,13 +30,19 @@ export class CashierSync {
      */
     async readAccounts() {
         let url = this.serverUrl + '/balance'
-
         let response = await axios.get(url)
-
         let content = response.data
         
-        let promise = appService.importBalanceSheet(content)
-        
+        return content
+    }
+
+    /**
+     * Imports the accounts from the JSON returned by readAccounts().
+     * @param {string} accountsJson 
+     */
+    async importAccounts(accountsJson) {
+        let promise = appService.importBalanceSheet(accountsJson)
+       
         return promise
     }
 
