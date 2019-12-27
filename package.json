@@ -1,6 +1,6 @@
 {
   "name": "cashier",
-  "version": "2019.12.19.1",
+  "version": "2019.12.27.1",
   "license": "GPL-3.0",
   "author": "Alen Siljak",
   "repository": {
@@ -25,7 +25,7 @@
     "localforage": "^1.7.3",
     "numeral": "^2.0.6",
     "pcloud-sdk-js": "^1.4.3",
-    "quasar": "1.5.9",
+    "quasar": "1.5.11",
     "register-service-worker": "^1.6.2",
     "vue": "2.6.11",
     "vue-hot-reload-api": "2.3.4",
@@ -44,8 +44,8 @@
     "@vue/component-compiler-utils": "3.1.0",
     "babel-eslint": "10.0.3",
     "babel-plugin-transform-imports": "1.5.1",
-    "eslint": "6.7.2",
-    "eslint-plugin-vue": "6.0.1",
+    "eslint": "6.8.0",
+    "eslint-plugin-vue": "6.1.0",
     "node-sass": "4.13.0",
     "sass-loader": "8.0.0",
     "stylus": "0.54.7",
