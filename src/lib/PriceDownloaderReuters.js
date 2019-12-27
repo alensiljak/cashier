@@ -20,9 +20,9 @@ class Reuters {
         return price
     }
 
-    parsePrice(html) {
-        return null
-    }
+    // parsePrice(html) {
+    //     return null
+    // }
 }
 
 export let downloader = new Reuters()

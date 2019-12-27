@@ -5,7 +5,7 @@
       <span v-for="(log, index) in logs" :key="index">{{ log }}</span>
     </div>
 
-    <input type="string" class="calculator-input" v-model="value" @keyup.enter="getResult()">
+    <input type="string" class="calculator-input" v-model="value" @keyup.enter="getResult()" />
 
     <div class="calculator-row">
       <div class="calculator-col">
@@ -81,20 +81,21 @@
 // https://vuejsexamples.com/a-basic-ios-flavor-calculator-made-with-vuejs/
 
 export default {
-    data: {
-    value: 0,
-    logs:  []
+  data() {
+    return {
+      value: 0,
+      logs: []
+    };
   },
   methods: {
     addExpresion(e) {
-      if ( Number.isInteger(this.value) )
-        this.value = ''; 
+      if (Number.isInteger(this.value)) this.value = "";
       this.value += e;
     },
     getResult() {
       let log = this.value;
       this.value = eval(this.value);
-      this.logs.push( log + `=${this.value}` );
+      this.logs.push(log + `=${this.value}`);
     },
     clear() {
       this.value = 0;
@@ -107,16 +108,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-//  https://github.com/salazarr-js/v-calculator 
+//  https://github.com/salazarr-js/v-calculator
 
 $darker: #2f2f31;
 $dark: #424345;
 $gray: #616163;
 $white: #fff;
-$light: #D4D4D2;
+$light: #d4d4d2;
 $accent: #f49e3f;
 
-*, ::after, ::before {
+*,
+::after,
+::before {
   box-sizing: border-box;
 }
 body {
@@ -128,7 +131,6 @@ body {
   justify-content: center;
   background-color: $darker;
 }
-
 
 //  CALCULATOR  \\
 #calculator {
@@ -154,18 +156,18 @@ body {
       left: 0;
       right: 0;
       height: 48px;
-      content: '';
+      content: "";
       z-index: 5;
-      position: absolute;      
+      position: absolute;
       background: linear-gradient(to bottom, $darker, rgba($darker, 0));
     }
     span {
       color: $light;
-      opacity: .75;
+      opacity: 0.75;
       display: block;
-      font-size: .8rem;
+      font-size: 0.8rem;
       text-align: right;
-      margin-top: .4rem;
+      margin-top: 0.4rem;
       line-height: 1;
       font-weight: lighter;
     }
@@ -175,13 +177,14 @@ body {
     color: $light;
     width: 100%;
     border: none;
-    padding: .8rem;
+    padding: 0.8rem;
     display: block;
     font-size: 2.4rem;
     background: none;
     text-align: right;
     font-weight: lighter;
-    &:focus, &:active {
+    &:focus,
+    &:active {
       outline: none;
     }
   }
@@ -193,7 +196,9 @@ body {
     .calculator-col {
       flex: 1;
       box-shadow: 0 0 0 1px $darker;
-      &.wide { flex: 2; }
+      &.wide {
+        flex: 2;
+      }
     }
   }
 
@@ -202,16 +207,22 @@ body {
     color: $light;
     border: none;
     cursor: pointer;
-    padding: .8rem;
+    padding: 0.8rem;
     outline: none;
     font-size: 1.6rem;
-    transition: all .3s ease-in-out;
+    transition: all 0.3s ease-in-out;
     font-weight: 200;
     justify-content: center;
     background-color: $gray;
-    &.accent { background-color: $accent; color: $white; }
-    &.gray { background-color: $dark; }
-    &.action { }
+    &.accent {
+      background-color: $accent;
+      color: $white;
+    }
+    &.gray {
+      background-color: $dark;
+    }
+    &.action {
+    }
     &:active {
       background-color: $darker;
     }
