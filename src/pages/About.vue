@@ -51,7 +51,7 @@
     <h4 class="q-my-sm text-center">Components</h4>
     <ul>
       <li>
-        <a href="https://v1.quasar-framework.org/">Quasar Framework</a>
+        <a href="https://quasar.dev/">Quasar Framework</a>
       </li>
       <li>
         <a href="https://material.io/tools/icons">Material Design Icons</a>
@@ -60,7 +60,7 @@
         <a href="http://fontawesome.com/">Font Awesome icons</a>
       </li>
       <li>
-        <a href="https://vuejs.org/">Vue JS, Vuex, Vue-cli</a>
+        <a href="https://vuejs.org/">Vue JS, Vuex</a>
       </li>
       <li>
         <a href="https://dexie.org/">Dexie.js</a>
