@@ -102,13 +102,13 @@ export default {
       var file = files[0];
 
       var reader = new FileReader();
-      //reader.readAsDataURL(file) => useful when adding the source to images directly.
+      // reader.readAsDataURL(file) => useful when adding the source to images directly.
       var component = this;
       reader.onload = function(event) {
         // File was successfully read.
         // target = FileReader
         var content = event.target.result;
-        //console.log(content)
+        // console.log(content)
 
         if (dataField) {
           component[dataField] = content;

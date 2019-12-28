@@ -77,16 +77,16 @@ export default {
   mounted: function() {
     // Set the focus on Payee field.
     // document.getElementById("payee").focus() => this.$refs.payee
-    //this.$refs.date
+    // this.$refs.date
   },
   data: function() {
     return {
-      //date: null
+      // date: null
     };
   },
   components: {
     PostingView,
-    ActionBar,
+    ActionBar
   },
   methods: {
     addPosting: function() {
@@ -127,7 +127,7 @@ export default {
       }
     },
     dateFormat() {
-      //return this.$store.state.dateFormatLong
+      // return this.$store.state.dateFormatLong
       return "D, " + this.$store.state.dateFormatLong;
     }
   }

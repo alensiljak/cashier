@@ -1,9 +1,9 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
     <div>
-      <q-input label="Remote location" dark v-model="url"/>
+      <q-input label="Remote location" dark v-model="url" />
 
-      <q-btn label="test" @click="testWebDav"/>
+      <q-btn label="test" @click="testWebDav" />
     </div>
   </q-page>
 </template>
@@ -15,8 +15,8 @@
 */
 
 import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
-//const { createClient } = require("webdav");
-//import { createClient } from "webdav";
+// const { createClient } = require("webdav");
+// import { createClient } from "webdav";
 
 export default {
   data() {
@@ -32,16 +32,15 @@ export default {
 
   methods: {
     testWebDav() {
-        // let url = 'https://webdav.pcloud.com'
-
-    //   const client = createClient(url, {
-    //     username: "user",
-    //     password: "pass"
-    //   });
-    // //   this.listDir();
-    //     client.getDirectoryContents("/").then(response => {
-    //         console.log(response)
-    //     })
+      // let url = 'https://webdav.pcloud.com'
+      //   const client = createClient(url, {
+      //     username: "user",
+      //     password: "pass"
+      //   });
+      // //   this.listDir();
+      //     client.getDirectoryContents("/").then(response => {
+      //         console.log(response)
+      //     })
     },
     async listDir() {
       // const directoryItems = await client.getDirectoryContents("/");
