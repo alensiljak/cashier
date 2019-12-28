@@ -1,7 +1,7 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
     <ul>
-      <li>For account balances, export the balance sheet with 
+      <li>For account balances, export the balance sheet with
         "ledger balance --flat --no-total".</li>
       <li>Export commodities with "ledger commodities"</li>
     </ul>
@@ -17,7 +17,7 @@
 
     <div class="row text-center q-mt-sm">
       <div class="col text-center">
-        <q-btn :disable="clicked" color="red-10" text-color="amber-4" 
+        <q-btn :disable="clicked" color="red-10" text-color="amber-4"
           @click="onImportBalanceClick">
           <font-awesome-icon icon="wallet" class="q-icon on-left"/>
           <div>Accounts</div>
@@ -68,7 +68,7 @@ export default {
       this.clicked = true
 
       appService.importCommodities(this.content).then(() => {
-        this.$router.push({name: 'commodities'})
+        this.$router.push({ name: 'commodities' })
       })
     },
     onImportBalanceClick() {
@@ -76,7 +76,7 @@ export default {
 
       appService.importBalanceSheet(this.content).then(() => {
         // this.$q.notify({ color: "teal-9", message: "Accounts imported" });
-        this.$router.push({name: 'accounts'})
+        this.$router.push({ name: 'accounts' })
       });
     },
     onFileSelected(files) {

@@ -1,18 +1,19 @@
 /*
     Vue.js initialization file.
+    Used from vue-cli.
 */
 import Vue from 'vue'
 import App from './App.vue'
-// import router from './router'
+import router from './router'
 import store from './stateStore'
-// import './registerServiceWorker'
+import './registerServiceWorker'
 import './persistentStorage'
 
 // Font Awesome configuration and import.
 // import './faConfig.js';
 
 // Quasar
-// import './quasarConfig'
+import './quasarConfig'
 import './fontAwesome'
 
 Vue.config.productionTip = false
@@ -25,7 +26,7 @@ Vue.config.productionTip = false
 Vue.prototype.$version = "v2019.12.27.1"
 
 new Vue({
-  // router,
+  router,
   store,
   render: h => h(App)
 }).$mount('#app')

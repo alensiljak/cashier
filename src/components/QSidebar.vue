@@ -8,7 +8,7 @@
 
         <q-item to="/favourites" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
-            <font-awesome-icon icon="star" transform="grow-6 right-6"/>
+            <font-awesome-icon icon="star" transform="grow-6 right-6" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Favourites</q-item-label>
@@ -27,7 +27,7 @@
         <q-item to="/tx" clickable v-ripple active-class="active-link">
           <!-- exact active -->
           <q-item-section avatar>
-            <font-awesome-icon icon="money-bill-wave" transform="grow-6 right-6"/>
+            <font-awesome-icon icon="money-bill-wave" transform="grow-6 right-6" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Transaction</q-item-label>
@@ -36,7 +36,7 @@
 
         <q-item to="/journal" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
-            <font-awesome-icon icon="list-ul" transform="grow-6 right-6"/>
+            <font-awesome-icon icon="list-ul" transform="grow-6 right-6" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Journal</q-item-label>
@@ -46,7 +46,7 @@
         <q-item :to="{name: 'accounts'}" clickable v-ripple active-class="active-link">
           <!-- exact -->
           <q-item-section avatar>
-            <font-awesome-icon icon="wallet" transform="grow-6 right-6"/>
+            <font-awesome-icon icon="wallet" transform="grow-6 right-6" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Accounts</q-item-label>
@@ -96,7 +96,7 @@
 
         <q-item to="/assetallocation" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
-            <font-awesome-icon icon="business-time" transform="grow-6 right-9"/>
+            <font-awesome-icon icon="business-time" transform="grow-6 right-9" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Asset Allocation</q-item-label>
@@ -106,7 +106,7 @@
         <!-- Sync -->
         <q-item to="/sync" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
-            <font-awesome-icon icon="sync-alt" transform="grow-6 right-6"/>
+            <font-awesome-icon icon="sync-alt" transform="grow-6 right-6" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Sync</q-item-label>
@@ -132,7 +132,7 @@
               active-class="active-link"
             >
               <q-item-section avatar>
-                <font-awesome-icon icon="sign-in-alt" transform="grow-6 right-6"/>
+                <font-awesome-icon icon="sign-in-alt" transform="grow-6 right-6" />
               </q-item-section>
               <q-item-section>
                 <q-item-label>Import</q-item-label>
@@ -148,7 +148,7 @@
               active-class="active-link"
             >
               <q-item-section avatar>
-                <font-awesome-icon icon="sign-out-alt" transform="grow-6 right-6"/>
+                <font-awesome-icon icon="sign-out-alt" transform="grow-6 right-6" />
               </q-item-section>
               <q-item-section>
                 <q-item-label>Export</q-item-label>
@@ -181,7 +181,7 @@
           icon="card_travel"
           label="Asset Allocation">
           <q-list>
-            
+
             <q-item to="/assetallocationsetup" exact clickable v-ripple active-class="active-link"
               :inset-level="1">
               <q-item-section avatar>
@@ -208,7 +208,7 @@
         <q-item :to="{name: 'settings'}" clickable v-ripple active-class="active-link">
           <!-- exact -->
           <q-item-section avatar>
-            <font-awesome-icon icon="cog" transform="grow-6 right-6"/>
+            <font-awesome-icon icon="cog" transform="grow-6 right-6" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Settings</q-item-label>
@@ -217,7 +217,7 @@
 
         <q-item to="/about" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
-            <font-awesome-icon icon="info" transform="grow-6 right-9"/>
+            <font-awesome-icon icon="info" transform="grow-6 right-9" />
           </q-item-section>
           <q-item-section>
             <q-item-label>About</q-item-label>
@@ -229,7 +229,7 @@
     <q-img class="absolute-top bg-colour5" style="height: 150px">
       <div class="absolute-bottom bg-transparent text-colour2">
         <q-avatar size="56px" class="q-mb-sm" @click="onHeaderClick">
-          <img src="../../public/img/icons/icon64.png">
+          <img src="../../public/img/icons/icon64.png" />
         </q-avatar>
         <!-- <div class="text-weight-bold">Cashier</div> -->
         <!-- <div>@cashier</div> -->
@@ -265,7 +265,7 @@ export default {
       // console.log('history:', window.history.length)
       window.history.go(back);
 
-      //this.$router.push("/");
+      // this.$router.push("/");
     },
     toggleDrawer() {
       this.drawerOpen = !this.drawerOpen;

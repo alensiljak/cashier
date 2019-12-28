@@ -55,10 +55,10 @@ class AppService {
   deleteTransaction(id) {
     return db.transaction("rw", db.transactions, db.postings, () => {
       // delete transaction record
-      db.transactions.filter(tx => tx.id == id).delete();
+      db.transactions.filter(tx => tx.id === id).delete();
 
       // delete postings
-      db.postings.filter(value => value.transactionId == id).delete();
+      db.postings.filter(value => value.transactionId === id).delete();
     });
   }
 
@@ -111,15 +111,15 @@ class AppService {
 
   /**
    * Format a given value as a number with 2 decimals.
-   * @param {*} value 
+   * @param {*} value
    */
   formatNumber(value) {
-    //if (!value) return;
+    // if (!value) return;
     if (value == null) return;
     if (Number.isNaN(value)) return;
 
     // make sure we have a number
-    var result = Number(value)
+    var result = Number(value);
     // let val = (value/1).toFixed(2).replace('.', ',')
     // return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
     return result.toFixed(2);
@@ -135,7 +135,7 @@ class AppService {
     let rootAccount = await settings.get(SettingKeys.rootInvestmentAccount);
 
     if (!rootAccount) {
-      throw "Root investment account not set!";
+      throw new Error("Root investment account not set!");
     }
 
     return this.db.accounts.where("name").startsWithIgnoreCase(rootAccount);
@@ -150,9 +150,9 @@ class AppService {
 
     let accounts = await this.getInvestmentAccounts();
     await accounts.each(account => {
-        // console.log("each");
-        commodities.push(account.currency);
-      })
+      // console.log("each");
+      commodities.push(account.currency);
+    });
 
     // keep only unique values
     commodities = [...new Set(commodities)];
@@ -164,14 +164,14 @@ class AppService {
 
   async importBalanceSheet(text) {
     if (!text) {
-      let message = "No balance sheet selected."
+      let message = "No balance sheet selected.";
       // Notify.create({ message: "No balance sheet selected." });
-      throw message
+      throw message;
       // return;
     }
 
     let accounts = [];
-    let mainCurrency = await settings.get(SettingKeys.currency)
+    let mainCurrency = await settings.get(SettingKeys.currency);
     let mainCurrencyAmount = null;
     let multicurrencyAccount = false;
 
@@ -214,8 +214,8 @@ class AppService {
 
       if (multicurrencyAccount) {
         // Use the main currency.
-        account.currency = mainCurrency
-        account.balance = mainCurrencyAmount
+        account.currency = mainCurrency;
+        account.balance = mainCurrencyAmount;
 
         // reset the indicator.
         multicurrencyAccount = false;
@@ -260,7 +260,7 @@ class AppService {
   }
 
   loadAssetClass(fullname) {
-    return db.assetAllocation.get(fullname)
+    return db.assetAllocation.get(fullname);
   }
 
   /**
@@ -300,8 +300,8 @@ class AppService {
       tx.id = new Date().getTime();
     }
 
-    this.savePostings(tx)
-    
+    this.savePostings(tx);
+
     // save all items in a transaction
     return db.transaction("rw", db.transactions, db.postings, () => {
       db.postings.bulkPut(tx.postings);
@@ -314,28 +314,28 @@ class AppService {
    * Not to be used directly. Only called when saving a transaction.
    */
   async savePostings(tx) {
-    var newPostingIds = []
+    var newPostingIds = [];
 
     // set transaction id on postings
     for (let i = 0; i < tx.postings.length; i++) {
       tx.postings[i].transactionId = tx.id;
-      newPostingIds.push(tx.postings[i].id)
+      newPostingIds.push(tx.postings[i].id);
     }
     // tx.postings.forEach(p => p.transactionId == tx.id)
 
     // Delete any removed postings.
     // Get the posting ids from the database.
-    var postings = await db.postings.where({'transactionId': tx.id}).toArray()
-    var oldPostingIds = []
-    for(let i = 0; i < postings.length; i++) {
-      oldPostingIds.push(postings[i].id)
+    var postings = await db.postings.where({ transactionId: tx.id }).toArray();
+    var oldPostingIds = [];
+    for (let i = 0; i < postings.length; i++) {
+      oldPostingIds.push(postings[i].id);
     }
-    for(let i = 0; i < oldPostingIds.length; i++) {
-      let oldPostingId = oldPostingIds[i]
-      
+    for (let i = 0; i < oldPostingIds.length; i++) {
+      let oldPostingId = oldPostingIds[i];
+
       if (newPostingIds.indexOf(oldPostingId) < 0) {
-        //console.log('delete', oldPostingIds[i])
-        db.postings.delete(oldPostingIds[i])
+        // console.log('delete', oldPostingIds[i])
+        db.postings.delete(oldPostingIds[i]);
       }
     }
   }

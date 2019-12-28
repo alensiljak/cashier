@@ -3,8 +3,8 @@
 */
 import appService from "../appService";
 import AssetClass from "./AssetClass";
-//import numeral from 'numeral'
-var numeral = require('numeral');
+// import numeral from 'numeral'
+var numeral = require("numeral");
 
 /**
  * loadDefinition = loads the pre-set definition
@@ -31,7 +31,7 @@ class AssetAllocationEngine {
     this.sumGroupBalances(this.assetClassIndex);
 
     // validation, check the allocation for groups, compare to sum of children's
-    //this.validate(this.assetClassIndex);
+    // this.validate(this.assetClassIndex);
 
     // calculate offsets
     this.calculateOffsets(this.assetClassIndex);
@@ -58,7 +58,7 @@ class AssetAllocationEngine {
 
   /**
    * Build the index of stocks for easy retrieval.
-   * @param {Array} asetClasses 
+   * @param {Array} asetClasses
    */
   buildStockIndex(asetClasses) {
     let index = {};
@@ -82,20 +82,20 @@ class AssetAllocationEngine {
     let total = root.currentValue;
 
     // toFixed returns a string.
-    
+
     Object.values(dictionary).forEach(ac => {
       // calculate current allocation
-      ac.currentAllocation = ((ac.currentValue * 100) / total)
+      ac.currentAllocation = (ac.currentValue * 100) / total;
 
       // diff
-      ac.diff = ac.currentAllocation - ac.allocation
+      ac.diff = ac.currentAllocation - ac.allocation;
 
       // diff %
-      ac.diffPerc = (ac.diff * 100) / ac.allocation
+      ac.diffPerc = (ac.diff * 100) / ac.allocation;
 
-      ac.allocatedValue = (ac.allocation * total) / 100
+      ac.allocatedValue = (ac.allocation * total) / 100;
 
-      ac.diffAmount = ac.currentValue - ac.allocatedValue
+      ac.diffAmount = ac.currentValue - ac.allocatedValue;
     });
   }
 
@@ -129,15 +129,17 @@ class AssetAllocationEngine {
   /**
    * Formats the array of Asset Classes (the end result) for txt output.
    * The output can be stored for historical purposes, compared, etc.
-   * @param {Array} rows 
+   * @param {Array} rows
    */
   formatAllocationRowsForTxtExport(rows) {
-    let outputRows = []
-    outputRows.push('Asset Class       Allocation Current  Diff.  Diff.%  Alloc.Val.  Curr. Val.  Difference')
+    let outputRows = [];
+    outputRows.push(
+      "Asset Class       Allocation Current  Diff.  Diff.%  Alloc.Val.  Curr. Val.  Difference"
+    );
 
-    for(let i = 0; i < rows.length; i++) {
-      let row = rows[i]
-      
+    for (let i = 0; i < rows.length; i++) {
+      let row = rows[i];
+
       /*
             {"name": "Asset Class", "width": 22},
             {"name": "alloc.", "width": 5},
@@ -148,44 +150,44 @@ class AssetAllocationEngine {
             {"name": "loc.cur.", "width": 13},
             {"name": "diff", "width": 8}
       */
-      let space = ''
-      for(let i = row.depth * 2; i > 0; i--) {
-        space += ' '
+      let space = "";
+      for (let i = row.depth * 2; i > 0; i--) {
+        space += " ";
       }
-      //let name = row.name.padStart(22, ' ')
-      let firstCol = (space + row.name).padEnd(20, ' ')
-      let alloc = row.allocation.padStart(6, ' ')
-      let curAl = row.currentAllocation.padStart(6, ' ')
-      let diff = row.diff.padStart(5, ' ')
-      let diffPerc = row.diffPerc.padStart(6, ' ')
-      let alVal = row.allocatedValue.padStart(10, ' ')
-      let value = row.currentValue.padStart(10, ' ')
-      //let locCur = 
-      let diffAmt = row.diffAmount.padStart(10, ' ')
-      
-      let output = `${firstCol}  ${alloc}  ${curAl}  ${diff}  ${diffPerc}  ${alVal}  ${value}  ${diffAmt}`
+      // let name = row.name.padStart(22, ' ')
+      let firstCol = (space + row.name).padEnd(20, " ");
+      let alloc = row.allocation.padStart(6, " ");
+      let curAl = row.currentAllocation.padStart(6, " ");
+      let diff = row.diff.padStart(5, " ");
+      let diffPerc = row.diffPerc.padStart(6, " ");
+      let alVal = row.allocatedValue.padStart(10, " ");
+      let value = row.currentValue.padStart(10, " ");
+      // let locCur =
+      let diffAmt = row.diffAmount.padStart(10, " ");
 
-      outputRows.push(output)
+      let output = `${firstCol}  ${alloc}  ${curAl}  ${diff}  ${diffPerc}  ${alVal}  ${value}  ${diffAmt}`;
+
+      outputRows.push(output);
     }
-    let text = outputRows.join('\n')
-    return text
+    let text = outputRows.join("\n");
+    return text;
   }
 
   formatNumbers(dictionary) {
-    let format = "0,0.00"
+    let format = "0,0.00";
 
     Object.values(dictionary).forEach(ac => {
-      ac.currentAllocation = numeral(ac.currentAllocation).format(format)
+      ac.currentAllocation = numeral(ac.currentAllocation).format(format);
 
-      ac.currentValue = numeral(ac.currentValue).format(format)
+      ac.currentValue = numeral(ac.currentValue).format(format);
 
-      ac.allocatedValue = numeral(ac.allocatedValue).format(format)
+      ac.allocatedValue = numeral(ac.allocatedValue).format(format);
 
-      ac.diff = numeral(ac.diff).format(format)
+      ac.diff = numeral(ac.diff).format(format);
 
-      ac.diffPerc = numeral(ac.diffPerc).format(format)
-      
-      ac.diffAmount = numeral(ac.diffAmount).format(format)
+      ac.diffPerc = numeral(ac.diffPerc).format(format);
+
+      ac.diffAmount = numeral(ac.diffAmount).format(format);
     });
   }
 
@@ -213,6 +215,7 @@ class AssetAllocationEngine {
       // Save to existing accounts
       let account = await appService.db.accounts.get(accountName);
       if (!account) {
+        // eslint-disable-next-line no-throw-literal
         throw "Invalid account " + accountName;
       }
       account.currentValue = balance;
@@ -388,10 +391,10 @@ class AssetAllocationEngine {
     let keys = Object.keys(assetClassList);
 
     keys.forEach(acName => {
-      let ac = assetClassList[acName]
-      let result = this.validateGroupAllocation(ac, assetClassList)
+      let ac = assetClassList[acName];
+      let result = this.validateGroupAllocation(ac, assetClassList);
       if (result) {
-        errors.push(result)
+        errors.push(result);
       }
     });
 
@@ -400,23 +403,27 @@ class AssetAllocationEngine {
 
   /**
    * Validate that the group's allocation matches the sum of the children classes.
-   * @param {AssetClass} assetClass 
+   * @param {AssetClass} assetClass
    */
   validateGroupAllocation(assetClass, list) {
-    //let key = assetClass.fullname
-    let children = this.findChildren(list, assetClass)
+    // let key = assetClass.fullname
+    let children = this.findChildren(list, assetClass);
     if (children.length === 0) return;
 
     // sum the children's allocation
     let sum = 0.0;
     for (let i = 0; i < children.length; i++) {
-      sum += parseFloat(children[i].allocation)
+      sum += parseFloat(children[i].allocation);
     }
-    
-    let equal = parseFloat(assetClass.allocation) === sum
-    
+
+    let equal = parseFloat(assetClass.allocation) === sum;
+
     if (!equal) {
-      return "* " + assetClass.fullname + " does not match the sum of child classes! "
+      return (
+        "* " +
+        assetClass.fullname +
+        " does not match the sum of child classes! "
+      );
     }
   }
 }

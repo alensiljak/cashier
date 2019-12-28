@@ -9,15 +9,15 @@
 
 <script>
 import { ContainerMixin } from "vue-slicksort";
-//import { SortableAccountItem } from './SortableAccountItem'
+// import { SortableAccountItem } from './SortableAccountItem'
 
 export default {
   mixins: [ContainerMixin],
 
   data() {
     return {};
-  },
+  }
 
-  //props: ["accounts"],
+  // props: ["accounts"],
 }
 </script>

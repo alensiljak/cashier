@@ -9,11 +9,11 @@ export class ListSearch {
    * Initialize the search with the data.
    * @param {Array} data An array of items to search through.
    */
-  constructor() {
-    // this.searchTerm = searchTerm
-    // data
-    // this.data = data;
-  }
+  // constructor() {
+  // this.searchTerm = searchTerm
+  // data
+  // this.data = data;
+  // }
 
   /**
    * Search for the given term(s).
@@ -21,7 +21,7 @@ export class ListSearch {
    * @returns A boolean indicating if there is a match.
    */
   search(searchTerm) {
-    //let expression = '^(?=.*\bjack\b)(?=.*\bjames\b).*$'
+    // let expression = '^(?=.*\bjack\b)(?=.*\bjames\b).*$'
     let regex = this.getRegex(searchTerm);
     return regex.test(searchTerm);
   }
@@ -32,13 +32,13 @@ export class ListSearch {
 
     // split the search terms
     let searchTerms = searchTerm.split(" ");
-    var expression = "^"
+    var expression = "^";
     for (let i = 0; i < searchTerms.length; i++) {
       if (!searchTerms[i]) continue;
 
-      expression += "(?=.*" + searchTerms[i] + ")"
+      expression += "(?=.*" + searchTerms[i] + ")";
     }
-    expression += ".*$"
+    expression += ".*$";
     // let expression = searchTerms.join("");
     return expression;
   }
@@ -46,7 +46,7 @@ export class ListSearch {
   getRegex(searchTerm) {
     let expression = this.getExpression(searchTerm);
 
-    let regex = new RegExp(expression, 'i');
+    let regex = new RegExp(expression, "i");
     return regex;
   }
 }

@@ -22,7 +22,7 @@
         />
       </div>
       <div class="col text-center" ref="buttonContainer">
-        <q-btn label="Download" color="red-10" text-color="amber-4" @click="downloadAsFile"/>
+        <q-btn label="Download" color="red-10" text-color="amber-4" @click="downloadAsFile" />
         <!-- <a :href="downloadLink" download="journal.ledger" >Download</a> -->
       </div>
     </div>
@@ -46,7 +46,7 @@ export default {
 
     // load the transactions for export
     appService.exportTransactions().then(output => {
-      //console.log("got the tx for export:", output);
+      // console.log("got the tx for export:", output);
       this.output = output;
     });
   },
@@ -59,7 +59,7 @@ export default {
       });
     },
     downloadAsFile() {
-      let content = this.output
+      let content = this.output;
       var a = document.createElement("a");
 
       // filename
@@ -67,15 +67,15 @@ export default {
       let filename = "export-";
       filename += now.toISOString().substring(0, 10);
       filename += "_";
-      filename += ('' + now.getHours()).padStart(2, '0');
+      filename += ("" + now.getHours()).padStart(2, "0");
       filename += "-";
-      filename += ('' + now.getMinutes()).padStart(2, '0')
+      filename += ("" + now.getMinutes()).padStart(2, "0");
       // filename += now.getTimezoneOffset()
       filename += ".ledger";
       a.download = filename;
 
       let encoded = btoa(content);
-      //a.href = "data:application/octet-stream;base64," + Base64.encode(this.output);
+      // a.href = "data:application/octet-stream;base64," + Base64.encode(this.output);
       a.href = "data:text/plain;base64," + encoded;
       // charset=UTF-8;
 

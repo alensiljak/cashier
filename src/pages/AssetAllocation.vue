@@ -2,7 +2,7 @@
   <q-page padding class="bg-colour1 text-colour2">
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn flat dense round @click="menuClicked" aria-label="Menu" icon="menu"/>
+        <q-btn flat dense round @click="menuClicked" aria-label="Menu" icon="menu" />
 
         <q-toolbar-title>Asset Allocation</q-toolbar-title>
 
@@ -14,35 +14,35 @@
               <q-item clickable v-close-popup @click="onSetupClick">
                 <q-item-section>Setup</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="cog" transform="grow-9 left-5"/>
+                  <font-awesome-icon icon="cog" transform="grow-9 left-5" />
                 </q-item-section>
               </q-item>
 
               <q-item clickable v-close-popup @click="onShareClick" v-if="canShare">
                 <q-item-section>Share</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="share-alt" transform="grow-9 left-5"/>
+                  <font-awesome-icon icon="share-alt" transform="grow-9 left-5" />
                 </q-item-section>
               </q-item>
 
               <q-item clickable v-close-popup @click="onExportClick">
                 <q-item-section>Export</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="sign-out-alt" transform="grow-9 left-5"/>
+                  <font-awesome-icon icon="sign-out-alt" transform="grow-9 left-5" />
                 </q-item-section>
               </q-item>
 
               <q-item clickable v-close-popup @click="onValidateClick">
                 <q-item-section>Validate</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="balance-scale" transform="grow-9 left-5"/>
+                  <font-awesome-icon icon="balance-scale" transform="grow-9 left-5" />
                 </q-item-section>
               </q-item>
 
               <q-item clickable v-close-popup @click="onHelpClick">
                 <q-item-section>Help</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="question-circle" transform="grow-9 left-5"/>
+                  <font-awesome-icon icon="question-circle" transform="grow-9 left-5" />
                 </q-item-section>
               </q-item>
             </q-list>
@@ -52,10 +52,10 @@
     </q-header>
 
     <div ref="buttonContainer">
-      <q-btn @click="onRecalculateClick" color="red-10" text-color="accent" label="Recalculate"/>
+      <q-btn @click="onRecalculateClick" color="red-10" text-color="accent" label="Recalculate" />
     </div>
 
-    <!-- <q-table title="Asset Allocation" :data="assetClasses" :columns="columns" 
+    <!-- <q-table title="Asset Allocation" :data="assetClasses" :columns="columns"
       dark color="amber-3" :dense="$q.screen.lt.md" :rows-per-page-options="[0, 20]"
       row-key="fullname">
     </q-table>-->
@@ -78,9 +78,9 @@
             <!-- Asset Class Name -->
             <td>
               <span :style="{ paddingLeft: assetClass.depth + 'rem'}"></span>
-              <router-link :to="{name: 'assetclassdetail', params: {fullname: assetClass.fullname}}">
-              {{ assetClass.name }}
-              </router-link>
+              <router-link
+                :to="{name: 'assetclassdetail', params: {fullname: assetClass.fullname}}"
+              >{{ assetClass.name }}</router-link>
             </td>
             <td class="text-right">{{ assetClass.allocation }}</td>
             <td class="text-right">{{ assetClass.currentAllocation }}</td>
@@ -90,11 +90,11 @@
             <td
               class="text-right"
               style="width: 3.5rem;"
-              v-bind:class="{ 
+              v-bind:class="{
               'text-red-10': assetClass.diffPerc < -20,
               'text-red-3': (-20 < assetClass.diffPerc && assetClass.diffPerc < 0),
               'text-green-3': (assetClass.diffPerc > 0 && assetClass.diffPerc < 20),
-              'text-green-9': assetClass.diffPerc > 20 
+              'text-green-9': assetClass.diffPerc > 20
               }"
             >{{ assetClass.diffPerc }}</td>
             <!-- Allocated Value -->
@@ -103,11 +103,11 @@
             <td class="text-right" style="width: 5.5rem;">{{ assetClass.currentValue }}</td>
             <td
               class="text-right"
-              v-bind:class="{ 
+              v-bind:class="{
               'text-red-10': assetClass.diff < -20,
               'text-red-3': assetClass.diff < 0,
               'text-green-3': assetClass.diff > 0,
-              'text-green-9': assetClass.diff > 20 
+              'text-green-9': assetClass.diff > 20
               }"
             >{{ assetClass.diffAmount }}</td>
           </tr>
@@ -174,7 +174,7 @@ export default {
       a.download = filename;
 
       let encoded = btoa(content);
-      //a.href = "data:application/octet-stream;base64," + Base64.encode(this.output);
+      // a.href = "data:application/octet-stream;base64," + Base64.encode(this.output);
       a.href = "data:text/plain;base64," + encoded;
       // charset=UTF-8;
 
@@ -230,19 +230,22 @@ export default {
      */
     onValidateClick() {
       if (this.assetClasses.length === 0) {
-        this.$q.notify({ message: 'Please recalculate the allocation first.' })
+        this.$q.notify({ message: "Please recalculate the allocation first." });
       }
 
       // confirm that the group allocations match the sum of the children's allocation.
-      let errors = engine.validate(engine.assetClassIndex)
-      if(errors.length > 0) {
-        let message = "Errors: "
+      let errors = engine.validate(engine.assetClassIndex);
+      if (errors.length > 0) {
+        let message = "Errors: ";
         for (let i = 0; i < errors.length; i++) {
-          message += errors[i]
+          message += errors[i];
         }
-        this.$q.notify({ message: message, color: "red-10" })
+        this.$q.notify({ message: message, color: "red-10" });
       } else {
-        this.$q.notify({ message: "The allocation is valid.", color: "teal-9" }) // teal
+        this.$q.notify({
+          message: "The allocation is valid.",
+          color: "teal-9"
+        }); // teal
       }
     }
   },

@@ -2,11 +2,11 @@
   <q-page padding class="bg-colour1 text-colour2">
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn flat dense round @click="menuClicked" aria-label="Menu" icon="menu"/>
+        <q-btn flat dense round @click="menuClicked" aria-label="Menu" icon="menu" />
 
         <q-toolbar-title>Accounts</q-toolbar-title>
 
-        <q-space/>
+        <q-space />
 
         <q-btn flat round dense icon="more_vert">
           <q-menu>
@@ -15,21 +15,21 @@
               <q-item clickable v-close-popup :to="{name: 'sync'}">
                 <q-item-section>Synchronize</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="sync-alt" transform="grow-9 left-5"/>
+                  <font-awesome-icon icon="sync-alt" transform="grow-9 left-5" />
                 </q-item-section>
               </q-item>
 
               <q-item clickable v-close-popup>
                 <q-item-section @click="onImportClick">Import</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="sign-in-alt" transform="grow-9 left-5"/>
+                  <font-awesome-icon icon="sign-in-alt" transform="grow-9 left-5" />
                 </q-item-section>
               </q-item>
 
               <q-item clickable v-close-popup>
                 <q-item-section @click="onDeleteAllClick">Delete All</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="trash-alt" transform="grow-9 left-5"/>
+                  <font-awesome-icon icon="trash-alt" transform="grow-9 left-5" />
                 </q-item-section>
               </q-item>
             </q-list>
@@ -52,7 +52,7 @@
         >
           <template v-slot:append>
             <font-awesome-icon v-if="filter === ''" icon="search" />
-            <q-icon v-else name="clear" class="cursor-pointer" @click="filter = ''"/>
+            <q-icon v-else name="clear" class="cursor-pointer" @click="filter = ''" />
           </template>
         </q-input>
       </q-toolbar>
@@ -70,7 +70,7 @@
         <q-item-section>{{ account.name }}</q-item-section>
         <q-item-section side>{{ account.balance }} {{ account.currency }}</q-item-section>
 
-        // list item context menu 
+        // list item context menu
         <q-menu touch-position context-menu content-class="bg-teal-9 text-amber-2">
           <q-list dense style="min-width: 10rem">
             <q-item clickable v-close-popup>
@@ -86,7 +86,8 @@
       :items="accounts"
       :item-size="42"
       key-field="name"
-      v-slot="{ item }">
+      v-slot="{ item }"
+    >
       <div class="scroller-item" @click="itemClicked(item.name)">
         {{ item.name }}
         <div class="fixed-right">{{ item.balance }} {{ item.currency }}</div>
@@ -113,8 +114,8 @@
         </q-card-section>
 
         <q-card-actions align="right" class="text-accent">
-          <q-btn flat label="Cancel" v-close-popup @click="onCancelAdd"/>
-          <q-btn flat label="Add" v-close-popup @click="onAddAccount"/>
+          <q-btn flat label="Cancel" v-close-popup @click="onCancelAdd" />
+          <q-btn flat label="Add" v-close-popup @click="onAddAccount" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -134,8 +135,8 @@
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn flat label="Cancel" color="amber-4" v-close-popup/>
-          <q-btn flat label="Delete" color="amber-4" v-close-popup @click="confirmDeleteAll"/>
+          <q-btn flat label="Cancel" color="amber-4" v-close-popup />
+          <q-btn flat label="Delete" color="amber-4" v-close-popup @click="confirmDeleteAll" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -143,9 +144,9 @@
 </template>
 
 <script>
-import { TOGGLE_DRAWER, MAIN_TOOLBAR, SET_SELECT_MODE  } from "../mutations";
-import appService from "@/appService";
-import { ListSearch } from "@/ListSearch.js";
+import { TOGGLE_DRAWER, MAIN_TOOLBAR, SET_SELECT_MODE } from "../mutations";
+import appService from "../appService.js";
+import { ListSearch } from "../ListSearch.js";
 import Vue from "vue";
 import { RecycleScroller } from "vue-virtual-scroller";
 import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
@@ -171,8 +172,8 @@ export default {
     this.loadData();
 
     // picker mode
-    this.pickerMode = this.$store.state.selectModeMeta ? true : false;
-},
+    this.pickerMode = !!this.$store.state.selectModeMeta;
+  },
 
   methods: {
     confirmDeleteAll() {
@@ -183,12 +184,12 @@ export default {
     itemClicked(id) {
       if (this.pickerMode) {
         // select the item and return to the caller.
-        let meta = this.$store.state.selectModeMeta
+        let meta = this.$store.state.selectModeMeta;
 
-        meta.selectedId = id
+        meta.selectedId = id;
         this.$store.commit(SET_SELECT_MODE, meta);
 
-        let route = meta.originRoute
+        let route = meta.originRoute;
         this.$router.push(route);
       } else {
         // edit account

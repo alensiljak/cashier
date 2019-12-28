@@ -115,13 +115,13 @@ export default {
       this.deleteAllTransactions();
     },
     deleteAllTransactions() {
-            // delete all transactions
+      // delete all transactions
       appService.deleteTransactions()
         .then(() => {
-          this.$q.notify({message: 'transactions deleted'})
+          this.$q.notify({ message: 'transactions deleted' })
           this.loadData()
         })
-        .catch(reason => this.$q.notify({message: reason, color: 'danger'}))
+        .catch(reason => this.$q.notify({ message: reason, color: 'danger' }))
     },
     deleteTransaction() {
       let id = this.transactionIdToDelete;

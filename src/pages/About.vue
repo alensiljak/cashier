@@ -1,9 +1,12 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
     <div style="width:100%;" class="text-center">
-      <h3 class="q-my-sm">Cashier <span style="font-size: 0.8rem">{{this.$version}}</span></h3>
+      <h3 class="q-my-sm">
+        Cashier
+        <span style="font-size: 0.8rem">{{this.$version}}</span>
+      </h3>
       <!-- <img src="/img/icons/icon96.png"> -->
-      <img src="../../public/img/icons/icon96.png">
+      <img src="../../public/img/icons/icon96.png" />
     </div>
     <div class="text-center q-my-sm">by Alen Šiljak</div>
     <div>
@@ -24,8 +27,11 @@
         href="https://gitlab.com/alensiljak/cashier"
       >source code repository</a> on GitLab.
     </p>
-    <p>The synchronization can be done with 
-      <a href="https://gitlab.com/alensiljak/cashier-sync">CashierSync</a> Python component.
+    <p>
+      The synchronization can be done with
+      <a
+        href="https://gitlab.com/alensiljak/cashier-sync"
+      >CashierSync</a> Python component.
     </p>
 
     <h4 class="q-my-sm text-center">Credits</h4>

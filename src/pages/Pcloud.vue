@@ -14,7 +14,7 @@
 
 <script>
 import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
-import RemoteStorage from "../lib/remoteStorage"
+import RemoteStorage from "../lib/remoteStorage";
 
 export default {
   data() {
@@ -32,18 +32,17 @@ export default {
   methods: {
     backup() {
       // get journal for export
-      let output = "test"
-      let client = new RemoteStorage()
-      this.output = client.store(output)
+      let output = "test";
+      let client = new RemoteStorage();
+      this.output = client.store(output);
     },
     login() {
       //   let url = "https://webdav.pcloud.com";
-    //   this.loginWithRedirect();
-        //this.loginWithoutRedirect();
-      let client = new RemoteStorage()
-      this.output = client.fetch()
-    },
-
+      //   this.loginWithRedirect();
+      // this.loginWithoutRedirect();
+      let client = new RemoteStorage();
+      this.output = client.fetch();
+    }
   }
 };
 </script>

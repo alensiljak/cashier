@@ -68,10 +68,10 @@
 </template>
 
 <script>
-import { MAIN_TOOLBAR, TOGGLE_DRAWER } from "@/mutations";
-import PayeesToolbar from "@/components/PayeesToolbar";
-import appService from "@/appService";
-import { ListSearch } from "@/ListSearch.js";
+import { MAIN_TOOLBAR, TOGGLE_DRAWER } from "../mutations";
+import PayeesToolbar from "../components/PayeesToolbar";
+import appService from "../appService";
+import { ListSearch } from "../ListSearch.js";
 import Vue from "vue";
 import { RecycleScroller } from "vue-virtual-scroller";
 import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
@@ -109,13 +109,13 @@ export default {
       if (this.filter) {
         let search = new ListSearch()
         let regex = search.getRegex(this.filter);
-        
+
         payeeSource = payeeSource.filter(payee => {
           // return payee.name.indexOf(this.filter) !== -1;
-          //var hasS = new RegExp("^[s\s]+$").test(a);
-          //let regex = new RegExp("/" + this.filter + "/")
+          // var hasS = new RegExp("^[s\s]+$").test(a);
+          // let regex = new RegExp("/" + this.filter + "/")
           // let regex = new RegExp(this.filter);
-          
+
           return regex.test(payee.name);
         });
       }

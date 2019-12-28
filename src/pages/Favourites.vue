@@ -44,7 +44,8 @@
       v-for="(account, index) in accounts"
       :key="account.name"
       right-color="red-10"
-      @right="onRightSlide">
+      @right="onRightSlide"
+    >
       <template v-slot:right>
         <div class="row items-center text-amber-4" @click="removeAccount(index)">
           Click to confirm or wait 2s to cancel
@@ -86,7 +87,11 @@
 
 <script>
 import { MAIN_TOOLBAR, SET_SELECT_MODE, TOGGLE_DRAWER } from "../mutations";
-import { SelectionModeMetadata, settings, SettingKeys } from "../lib/Configuration";
+import {
+  SelectionModeMetadata,
+  settings,
+  SettingKeys
+} from "../lib/Configuration";
 import appService from "../appService";
 
 const ACCOUNT = "account";
@@ -180,9 +185,9 @@ export default {
     },
     confirmDeleteAll() {
       // clear all favourites
-        settings
-          .set(SettingKeys.favouriteAccounts, [])
-          .then(() => this.loadData());
+      settings
+        .set(SettingKeys.favouriteAccounts, [])
+        .then(() => this.loadData());
     },
     finalize(reset) {
       this.timer = setTimeout(() => {
@@ -249,7 +254,7 @@ export default {
       this.finalize(this.resetSlide);
     },
     onSortClick() {
-      this.$router.push({ name: 'favreorder' })
+      this.$router.push({ name: "favreorder" });
     },
     removeAccount(index) {
       if (this.resetSlide) {
@@ -276,6 +281,6 @@ export default {
           .then(() => this.loadData());
       });
     }
-  },
+  }
 };
 </script>

@@ -4,37 +4,37 @@
     Useful links
     - https://dexie.org/docs/Tutorial/Design#database-versioning
 */
-import Dexie from 'dexie';
-import { Account, Transaction, Payee, Posting, Setting } from './model';
-import AssetClass from './lib/AssetClass'
+import Dexie from "dexie";
+import { Account, Transaction, Payee, Posting, Setting } from "./model";
+import AssetClass from "./lib/AssetClass";
 
 // Define the schema
 
-const db = new Dexie('Cashier');
+const db = new Dexie("Cashier");
 
 // Schema
 
 db.version(0.1).stores({
-    // transactions: "++id, date, payee, postings"
-    transactions: "++id, date",
-    postings: "++id, transactionId, account",
-    accounts: "name",
-    // todo commodities
-    payees: "++id, name",
-    settings: "key"
+  // transactions: "++id, date, payee, postings"
+  transactions: "++id, date",
+  postings: "++id, transactionId, account",
+  accounts: "name",
+  // todo commodities
+  payees: "++id, name",
+  settings: "key"
 });
 db.version(0.2).stores({
-    assetAllocation: "fullname"
-})
+  assetAllocation: "fullname"
+});
 
 // Mappings
 
-db.accounts.mapToClass(Account)
-db.assetAllocation.mapToClass(AssetClass)
+db.accounts.mapToClass(Account);
+db.assetAllocation.mapToClass(AssetClass);
 // todo commodities
-db.payees.mapToClass(Payee)
-db.postings.mapToClass(Posting)
-db.transactions.mapToClass(Transaction)
-db.settings.mapToClass(Setting)
+db.payees.mapToClass(Payee);
+db.postings.mapToClass(Posting);
+db.transactions.mapToClass(Transaction);
+db.settings.mapToClass(Setting);
 
-export default db
+export default db;

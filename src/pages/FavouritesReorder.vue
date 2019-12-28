@@ -54,16 +54,16 @@ export default {
       });
     },
     onSaveClick() {
-        // get the list of account names
-        let names = []
-        for(let i = 0; i < this.accounts.length; i++) {
-            names.push(this.accounts[i].name)
-        }
+      // get the list of account names
+      let names = [];
+      for (let i = 0; i < this.accounts.length; i++) {
+        names.push(this.accounts[i].name);
+      }
 
       settings
         .set(SettingKeys.favouriteAccounts, names)
         .then(() => this.loadData())
-        .then(() => this.$q.notify('data saved'))
+        .then(() => this.$q.notify("data saved"));
     }
   },
 

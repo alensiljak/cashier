@@ -14,21 +14,27 @@
       <div class="col-2"></div>
       <div class="col-3 col-xs-5">
         <!-- Amount -->
-        <q-input dark label="Amount" v-model.number="posting.amount" type="number" 
-          input-class="text-right" @change="$emit('amountChanged')" />
+        <q-input
+          dark
+          label="Amount"
+          v-model.number="posting.amount"
+          type="number"
+          input-class="text-right"
+          @change="$emit('amountChanged')"
+        />
       </div>
 
       <div class="q-pl-sm col-3 col-xs-4">
         <!-- currency -->
         <!-- set from the account -->
-        <q-input dark label="Currency" v-model="posting.currency"/>
+        <q-input dark label="Currency" v-model="posting.currency" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import appService from '../appService';
+import appService from "../appService";
 
 export default {
   props: ["posting", "index", "accounts"],
@@ -57,10 +63,10 @@ export default {
     onAccountSelected(name) {
       // console.log(name)
       // load account by name
-      appService.db.accounts.get({name: name}).then(account => {
+      appService.db.accounts.get({ name: name }).then(account => {
         // console.log(account.currency)
-        this.posting.currency = account.currency
-      })
+        this.posting.currency = account.currency;
+      });
     }
   }
 };

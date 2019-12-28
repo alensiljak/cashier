@@ -3,7 +3,7 @@
     <!-- toolbar -->
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn flat dense round @click="menuClicked" aria-label="Menu" icon="menu"/>
+        <q-btn flat dense round @click="menuClicked" aria-label="Menu" icon="menu" />
 
         <q-toolbar-title>Account</q-toolbar-title>
 
@@ -14,7 +14,7 @@
               <q-item clickable v-close-popup>
                 <q-item-section>Synchronize</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="sync-alt" transform="grow-9 left-7"/>
+                  <font-awesome-icon icon="sync-alt" transform="grow-9 left-7" />
                 </q-item-section>
               </q-item>
               <q-item clickable v-close-popup>
@@ -38,13 +38,7 @@
 
     <!-- <p>Editor for the Account: {{ account.name }}</p> -->
 
-    <q-input
-      label="Account Name"
-      v-model="account.name"
-      dark
-      clearable
-      @keyup.enter="onEnter"
-    />
+    <q-input label="Account Name" v-model="account.name" dark clearable @keyup.enter="onEnter" />
     <!-- balance -->
     <q-input
       label="Balance"
@@ -54,13 +48,7 @@
       clearable
       @keyup.enter="onEnter"
     />
-    <q-input
-      label="Currency"
-      v-model="account.currency"
-      dark
-      clearable
-      @keyup.enter="onEnter"
-    />
+    <q-input label="Currency" v-model="account.currency" dark clearable @keyup.enter="onEnter" />
 
     <q-input
       label="Current value"
@@ -76,7 +64,6 @@
       clearable
       @keyup.enter="onEnter"
     />
-
 
     <!-- Actions -->
     <div class="row q-mt-xl justify-end">
@@ -127,7 +114,7 @@ export default {
       appService.deleteAccount(this.account.name).then(() => history.go(-1));
     },
     loadAccount(name) {
-      this.originalName = name
+      this.originalName = name;
 
       appService.loadAccount(name).then(account => {
         this.account = account;
@@ -146,18 +133,18 @@ export default {
       this.onSave();
     },
     onSave() {
-      var deleteOldAccount = false
+      var deleteOldAccount = false;
       // check if the name was changed.
       if (this.account.name !== this.originalName) {
         // need to delete the old account
-        deleteOldAccount = true
+        deleteOldAccount = true;
       }
       // save account
       appService.saveAccount(this.account).then(() => {
         if (deleteOldAccount) {
           appService.deleteAccount(this.originalName).then(() => {
-            console.log('old account deleted', this.originalName)
-          })
+            console.log("old account deleted", this.originalName);
+          });
         }
         this.$router.push({ name: "accounts" });
       });

@@ -2,14 +2,14 @@
   <q-page padding class="bg-colour1 text-colour2">
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn flat dense round @click="menuClicked" aria-label="Menu" icon="menu"/>
+        <q-btn flat dense round @click="menuClicked" aria-label="Menu" icon="menu" />
 
         <q-toolbar-title>AA Setup</q-toolbar-title>
 
-        <q-space/>
+        <q-space />
 
         <q-btn flat round dense @click="onHelpClick">
-          <font-awesome-icon icon="question-circle"/>
+          <font-awesome-icon icon="question-circle" />
         </q-btn>
       </q-toolbar>
     </q-header>
@@ -19,7 +19,7 @@
       <p>Asset Allocation Definition</p>
       <div class="row">
         <div class="col">
-          <q-input type="file" class="text-red" dark clearable @input="onFileSelected"/>
+          <q-input type="file" class="text-red" dark clearable @input="onFileSelected" />
         </div>
         <div class="col text-center">
           <q-btn
@@ -40,7 +40,7 @@
       <div class="q-my-md text-center col">
         <q-btn label="Save" color="red-10" text-color="amber-4" @click="onSaveClick"/>
       </div>
-    </div> -->
+    </div>-->
 
     <!-- Current Balances -->
     <div class="q-my-md">
@@ -48,10 +48,10 @@
       <p>These can be transferred using Synchronization or imported from "ledger b ^&lt;root&gt; -X &lt;CUR&gt; --flat"</p>
       <div class="row">
         <div class="col">
-          <q-input type="file" class="text-red" dark clearable @input="onFileSelected"/>
+          <q-input type="file" class="text-red" dark clearable @input="onFileSelected" />
         </div>
         <div class="col text-center">
-          <q-btn label="Import" color="red-10" text-color="amber-4" @click="onCurrentBalClick"/>
+          <q-btn label="Import" color="red-10" text-color="amber-4" @click="onCurrentBalClick" />
         </div>
       </div>
     </div>
@@ -95,9 +95,10 @@ export default {
       this.$store.commit(TOGGLE_DRAWER, !visible);
     },
     onCurrentBalClick() {
-      engine.importCurrentValues(this.fileContent)
+      engine
+        .importCurrentValues(this.fileContent)
         .then(() => {
-          this.$q.notify({message: 'Values imported'})
+          this.$q.notify({ message: "Values imported" });
         })
         .catch(reason => {
           errorMessage.message = reason;

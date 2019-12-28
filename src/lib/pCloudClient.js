@@ -43,7 +43,7 @@ class PcloudClient {
 
     console.log('now: ', content)
     // remoteupload(url: string, folderid: number, options: UploadOptions): Promise<metadata>
-    //this.client.remoteUpload('url', 0, {}, false)
+    // this.client.remoteUpload('url', 0, {}, false)
     // let blob = new Blob(content)
     let file = new File([content], "backup.ledger");
     this.client.upload(file, 0, {}, false);

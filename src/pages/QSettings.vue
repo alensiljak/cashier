@@ -3,39 +3,43 @@
     <div class="row">
       <div class="col">
         <!-- currency -->
-        <q-input dark label="Main Currency" v-model="currency"/>
+        <q-input dark label="Main Currency" v-model="currency" />
       </div>
     </div>
     <p class="q-my-md">Investments</p>
     <div class="row">
       <div class="col">
         <!-- root investment account -->
-        <q-input dark label="Root investment account" v-model="rootInvestmentAccount"/>
+        <q-input dark label="Root investment account" v-model="rootInvestmentAccount" />
       </div>
     </div>
 
     <p class="q-my-md">Asset Allocation settings</p>
     <div class="row">
       <div class="col text-center">
-        <q-btn :to="{name: 'assetallocationsetup'}" label="Asset Allocation configuration"
-          color="secondary" text-color="accent"/>
+        <q-btn
+          :to="{name: 'assetallocationsetup'}"
+          label="Asset Allocation configuration"
+          color="secondary"
+          text-color="accent"
+        />
       </div>
     </div>
-    
+
     <p class="q-my-md">Synchronization</p>
     <div class="q-my-md row">
       <div class="col">
         <!-- server URL -->
-        <q-input v-model="serverUrl" label="Server URL" dark/>
+        <q-input v-model="serverUrl" label="Server URL" dark />
       </div>
 
       <div class="col text-center">
-        <q-btn label="Connect" @click="onConnectClicked" color="secondary" text-color="accent"/>
+        <q-btn label="Connect" @click="onConnectClicked" color="secondary" text-color="accent" />
       </div>
     </div>
 
     <div class="text-right q-my-md">
-      <q-btn @click="onSaveClick" label="save" color="secondary" text-color="accent"/>
+      <q-btn @click="onSaveClick" label="save" color="secondary" text-color="accent" />
     </div>
   </q-page>
 </template>

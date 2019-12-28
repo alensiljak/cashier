@@ -109,15 +109,15 @@
 </template>
 
 <script>
-import QPosting from "@/components/Posting.vue";
-import { Posting } from "@/model";
+import QPosting from "../components/Posting.vue";
+import { Posting } from "../model";
 import {
   MAIN_TOOLBAR,
   SET_TITLE,
   SET_TRANSACTION,
   SET_SELECT_MODE
-} from "@/mutations";
-import appService from "@/appService";
+} from "../mutations";
+import appService from "../appService";
 import { SelectionModeMetadata } from "../lib/Configuration";
 
 const ACCOUNT = "account";

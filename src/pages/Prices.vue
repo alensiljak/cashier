@@ -10,9 +10,10 @@
     </ul>
 
     <div>
-      <q-btn label="Get Commodities" @click="getCommodities"/>
+      <q-btn label="Get Commodities" @click="getCommodities" />
       <ul>
-        <li v-for="commodity in commodities" :key="commodity.symbol">{{ commodity.symbol }}
+        <li v-for="commodity in commodities" :key="commodity.symbol">
+          {{ commodity.symbol }}
           <!-- <q-btn label="download" @click="downloadPrice(commodity.symbol)" /> -->
         </li>
       </ul>
@@ -23,7 +24,7 @@
 <script>
 import { SET_TITLE, MAIN_TOOLBAR } from "../mutations";
 import appService from "../appService";
-import { Price } from '../model'
+import { Price } from "../model";
 // import { morningstar } from '../lib/PriceDownloaderMorningstar'
 
 export default {
@@ -40,16 +41,16 @@ export default {
 
   methods: {
     // downloadPrice(symbol) {
-      //console.log(symbol)
-      // let m = morningstar.download(symbol)
-      // console.log(m)
+    // console.log(symbol)
+    // let m = morningstar.download(symbol)
+    // console.log(m)
     // },
     getCommodities() {
       appService.getInvestmentCommodities().then(commodities => {
-        for(let i = 0; i < commodities.length; i++) {
-          let price = new Price()
-          price.symbol = commodities[i]
-          this.commodities.push(price)
+        for (let i = 0; i < commodities.length; i++) {
+          let price = new Price();
+          price.symbol = commodities[i];
+          this.commodities.push(price);
         }
       });
     }
