@@ -9,8 +9,8 @@
     "url": "https://gitlab.com/alensiljak/cashier"
   },
   "scripts": {
-    "serve": "vue-cli-service serve --host 127.0.0.1 --port 8080",
-    "build": "vue-cli-service build",
+    "dev": "quasar dev --mode pwa",
+    "build": "quasar build --mode pwa",
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
@@ -37,26 +37,19 @@
   },
   "devDependencies": {
     "@quasar/app": "^1.0.0",
-    "@vue/cli-plugin-babel": "4.1.1",
-    "@vue/cli-plugin-eslint": "4.1.1",
-    "@vue/cli-plugin-pwa": "4.1.1",
-    "@vue/cli-service": "4.1.1",
-    "@vue/component-compiler-utils": "3.1.0",
     "@vue/eslint-config-standard": "^4.0.0",
     "babel-eslint": "10.0.3",
-    "babel-plugin-transform-imports": "1.5.1",
-    "eslint": "6.8.0",
-    "eslint-loader": "^3.0.3",
-    "eslint-plugin-vue": "6.1.1",
-    "node-sass": "4.13.0",
-    "sass-loader": "8.0.0",
-    "stylus": "0.54.7",
-    "stylus-loader": "^3.0.2",
-    "vue-cli-plugin-quasar": "2.0.0",
-    "vue-template-compiler": "2.6.11"
+    "eslint": "^5.10.0",
+    "eslint-loader": "^2.1.1",
+    "eslint-plugin-vue": "^5.0.0"
   },
   "bugs": {
     "url": "https://gitlab.com/alensiljak/cashier/issues"
   },
-  "homepage": "https://alensiljak.gitlab.io/cashier/"
+  "homepage": "https://alensiljak.gitlab.io/cashier/",
+  "engines": {
+    "node": ">= 8.9.0",
+    "npm": ">= 5.6.0",
+    "yarn": ">= 1.6.0"
+  }
 }

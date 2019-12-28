@@ -14,7 +14,7 @@ import Router from 'vue-router'
 // manual layout
 // import BootstrapLayout from './layouts/Bootstrap'
 // The new layout based on Quasar
-import QuasarLayout from './layouts/Qlayout'
+// import QuasarLayout from './layouts/Qlayout'
 
 Vue.use(Router);
 
@@ -24,38 +24,38 @@ Vue.use(Router);
 // import BTransaction from './views/Transaction.vue'
 
 // Quasar version
-const About = () => import(/* webpackChunkName: 'about' */ './views/About.vue')
-const Account = () => import(/* webpackChunkName: 'account' */ './views/Account.vue')
-const Accounts = () => import(/* webpackChunkName: 'accounts' */ './views/Accounts.vue')
-const AssetAllocation = () => import(/* webpackChunkName: 'assetallocation' */ './views/AssetAllocation.vue')
-const AssetAllocationHelp = () => import('./views/AssetAllocationHelp')
-const AssetAllocationSetup = () => import('./views/AASetup.vue')
-const AssetAllocationSetupHelp = () => import('./views/AASetupHelp.vue')
-const AssetClassDetail = () => import('./views/AssetClassDetail.vue')
-const QBalanceSheet = () => import(/* webpackChunkName: 'bal' */ './views/QBalanceSheet.vue')
-const Commodities = () => import('./views/Commodities.vue')
-const Export = () => import('./views/Export.vue')
-const Favourites = () => import('./views/Favourites.vue')
-const FavouritesReorder = () => import('./views/FavouritesReorder')
-const Import = () => import('./views/Import.vue')
-const PayeeList = () => import('./views/Payees.vue')
-const Pcloud = () => import('./views/Pcloud.vue')
-const Prices = () => import('./views/Prices')
-const Journal = () => import('./views/Journal.vue')
-const QSettings = () => import('./views/QSettings.vue')
-const Register = () => import('./views/Register.vue')
-const Sync = () => import('./views/Sync.vue')
-const QTransaction = () => import(/* webpackChunkName: 'tx' */ './views/QTransaction.vue')
-// const webdav = () => import('./views/WebDAV')
+// const About = () => import(/* webpackChunkName: 'about' */ './pages/About.vue')
+// const Account = () => import(/* webpackChunkName: 'account' */ './pages/Account.vue')
+const Accounts = () => import(/* webpackChunkName: 'accounts' */ './pages/Accounts.vue')
+const AssetAllocation = () => import(/* webpackChunkName: 'assetallocation' */ './pages/AssetAllocation.vue')
+const AssetAllocationHelp = () => import('./pages/AssetAllocationHelp')
+const AssetAllocationSetup = () => import('./pages/AASetup.vue')
+const AssetAllocationSetupHelp = () => import('./pages/AASetupHelp.vue')
+const AssetClassDetail = () => import('./pages/AssetClassDetail.vue')
+const QBalanceSheet = () => import(/* webpackChunkName: 'bal' */ './pages/QBalanceSheet.vue')
+const Commodities = () => import('./pages/Commodities.vue')
+const Export = () => import('./pages/Export.vue')
+const Favourites = () => import('./pages/Favourites.vue')
+// const FavouritesReorder = () => import('./pages/FavouritesReorder')
+const Import = () => import('./pages/Import.vue')
+const PayeeList = () => import('./pages/Payees.vue')
+const Pcloud = () => import('./pages/Pcloud.vue')
+const Prices = () => import('./pages/Prices')
+const Journal = () => import('./pages/Journal.vue')
+const QSettings = () => import('./pages/QSettings.vue')
+const Register = () => import('./pages/Register.vue')
+const Sync = () => import('./pages/Sync.vue')
+const QTransaction = () => import(/* webpackChunkName: 'tx' */ './pages/QTransaction.vue')
+// const webdav = () => import('./pages/WebDAV')
 
 const routes = [
   {
     path: '/',
-    component: QuasarLayout,
+    component: () => import('./layouts/Qlayout.vue'),
     children: [
       { path: '', name: 'root', redirect: '/favourites' },
-      { path: '/about', name: 'about', component: About },
-      { path: '/account/:id', name: 'account', component: Account },
+      { path: '/about', name: 'about', component: () => import(/* webpackChunkName: 'about' */ './pages/About.vue') },
+      { path: '/account/:id', name: 'account', component: () => import(/* webpackChunkName: 'account' */ './pages/Account.vue') },
       { path: '/accounts', name: 'accounts', component: Accounts },
       { path: '/assetallocation', name: 'assetallocation', component: AssetAllocation },
       { path: '/assetallocationhelp', name: 'assetallocationhelp', component: AssetAllocationHelp },
@@ -66,7 +66,7 @@ const routes = [
       { path: '/commodities', name: 'commodities', component: Commodities },
       { path: '/export', name: 'export', component: Export },
       { path: '/favourites', name: 'favourites', component: Favourites },
-      { path: '/favouritesreorder', name: 'favreorder', component: FavouritesReorder },
+      { path: '/favouritesreorder', name: 'favreorder', component: () => import('./pages/FavouritesReorder') },
       { path: '/import', name: 'import', component: Import },
       { path: '/payees', name: 'payees', component: PayeeList },
       { path: '/prices', name: 'prices', component: Prices },
