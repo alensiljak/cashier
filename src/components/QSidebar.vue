@@ -229,7 +229,7 @@
     <q-img class="absolute-top bg-colour5" style="height: 150px">
       <div class="absolute-bottom bg-transparent text-colour2">
         <q-avatar size="56px" class="q-mb-sm" @click="onHeaderClick">
-          <img src="../../public/img/icons/icon64.png" />
+          <img src="../../src/statics/icons/icon64.png" />
         </q-avatar>
         <!-- <div class="text-weight-bold">Cashier</div> -->
         <!-- <div>@cashier</div> -->

@@ -22,7 +22,7 @@ export default {
       simple: [
         {
           label: "Chart of accounts",
-          avatar: "/img/icons/favicon-32x32.png",
+          avatar: "/statics/icons/favicon-32x32.png",
           children: [
             {
               label: "Dining",

@@ -92,7 +92,7 @@ module.exports = function(ctx) {
 
     // https://quasar.dev/quasar-cli/developing-ssr/configuring-ssr
     ssr: {
-      pwa: false
+      pwa: true
     },
 
     // https://quasar.dev/quasar-cli/developing-pwa/configuring-pwa
@@ -103,28 +103,29 @@ module.exports = function(ctx) {
         name: "Cashier",
         short_name: "Cashier",
         description: "A mobile companion to Ledger-cli",
+        start_url: "/index.html",
         display: "standalone",
         orientation: "portrait",
         background_color: "#000000",
         theme_color: "#4DBA87",
         icons: [
           {
-            src: "img/icons/icon192.png",
+            src: "statics/icons/icon192.png",
             sizes: "192x192",
             type: "image/png"
           },
           {
-            src: "img/icons/icon96.png",
+            src: "statics/icons/icon96.png",
             sizes: "96x96",
             type: "image/png"
           },
           {
-            src: "img/icons/icon64.png",
+            src: "statics/icons/icon64.png",
             sizes: "64x64",
             type: "image/png"
           },
           {
-            src: "img/icons/favicon-32x32.png",
+            src: "statics/icons/favicon-32x32.png",
             sizes: "32x32",
             type: "image/png"
           }
