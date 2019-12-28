@@ -1,13 +1,14 @@
 .DS_Store
+.thumbs.db
 node_modules
+# Quasar core related directories
+.quasar
 /dist
 
 # local env files
 .env.local
 .env.*.local
 
-# quasar cli files
-.quasar
 
 # Log files
 npm-debug.log*
