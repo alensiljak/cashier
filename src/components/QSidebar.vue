@@ -286,8 +286,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../styles/styles.scss";
-@import "../styles/palette.scss";
+@import "../css/styles.scss";
+@import "../css/palette.scss";
 
 .active-link {
   color: $colour3;

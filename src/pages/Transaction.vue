@@ -134,7 +134,7 @@ export default {
 };
 </script>
 <style lang="scss">
-@import "../styles/palette.scss";
+@import "../css/palette.scss";
 
 // calendar component
 .custom-calendar {

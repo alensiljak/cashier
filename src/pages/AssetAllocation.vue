@@ -259,7 +259,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../styles/palette.scss";
+@import "../css/palette.scss";
 a {
   color: $colour2;
   //color: $amber-2;

@@ -35,7 +35,7 @@
   </nav>
 </template>
 <style lang="scss" scoped>
-@import '../styles/palette.scss';
+@import '../css/palette.scss';
 
 // scoped
 .nav-link{

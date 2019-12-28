@@ -14,7 +14,7 @@
   </div>
 </template>
 <script>
-//import slideout from 'slideout';
+// import slideout from 'slideout';
 
 export default {
   name: "ActionBar",
@@ -28,7 +28,7 @@ export default {
 };
 </script>
 <style lang="scss">
-@import "../styles/palette.scss";
+@import "../css/palette.scss";
 
 .navbar-dark {
   background-color: $colour5;

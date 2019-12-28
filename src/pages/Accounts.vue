@@ -260,7 +260,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../styles/palette.scss";
+@import "../css/palette.scss";
 
 .bg {
   background-color: $colour1;
