@@ -145,7 +145,7 @@ export default {
   mounted: function() {
     // Set the focus on Payee field.
     // document.getElementById("payee").focus() => this.$refs.payee
-    //this.$refs.date
+    // this.$refs.date
     // this.date = new Date().toISOString().substring(0, 10);
 
     this.recalculateSum();
@@ -321,7 +321,7 @@ export default {
 
       for (let i = 0; i < this.tx.postings.length; i++) {
         let posting = this.tx.postings[i];
-        //console.log(posting)
+        // console.log(posting)
         this.postingSum += posting.amount;
       }
     },
@@ -347,7 +347,7 @@ export default {
         return tx;
       },
       set(value) {
-        //console.log('setting tx', value)
+        // console.log('setting tx', value)
         // todo save in the state store
         this.$store.commit(SET_TRANSACTION, value);
       }
