@@ -46,6 +46,11 @@
       <div class="col text-center">
         <q-btn label="Import" color="red-10" text-color="amber-4" @click="onDefinitionImportClick" />
       </div>
+      <div class="col-1">
+        <q-btn flat round dense @click="onAaHelpClick">
+          <font-awesome-icon icon="question-circle" />
+        </q-btn>
+      </div>
       <!-- </div> -->
     </div>
 
@@ -96,6 +101,10 @@ export default {
      */
     onAaFileSelected(files) {
       this.readInputFile(files[0], "fileContent");
+    },
+    onAaHelpClick() {
+      // navigate to help page
+      this.$router.push({ name: "assetallocationsetuphelp" });
     },
     onConnectClicked() {
       let sync = new CashierSync(this.serverUrl);

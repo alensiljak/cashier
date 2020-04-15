@@ -8,21 +8,8 @@
 
         <q-space />
 
-        <q-btn flat round dense @click="onHelpClick">
-          <font-awesome-icon icon="question-circle" />
-        </q-btn>
       </q-toolbar>
     </q-header>
-
-    <!-- Root investment account -->
-    <!-- <div class="row">
-      <div class="col">
-        <q-input label="Root investment account to use" v-model="rootAccount" dark/>
-      </div>
-      <div class="q-my-md text-center col">
-        <q-btn label="Save" color="red-10" text-color="amber-4" @click="onSaveClick"/>
-      </div>
-    </div>-->
 
     <!-- Current Balances -->
     <div class="q-my-md">
@@ -85,10 +72,6 @@ export default {
       //     errorMessage.message = reason;
       //     this.$q.notify(errorMessage);
       //   });
-    },
-    onHelpClick() {
-      // navigate to help page
-      this.$router.push({ name: "assetallocationsetuphelp" });
     },
     onSaveClick() {
       let setting = new Setting(
