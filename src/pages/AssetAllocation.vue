@@ -212,7 +212,7 @@ export default {
       this.loadData();
     },
     onSetupClick() {
-      this.$router.push({ name: "assetallocationsetup" });
+      this.$router.push({ name: "settings" });
     },
     onShareClick() {
       // prepare for export?
