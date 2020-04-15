@@ -14,24 +14,6 @@
       </q-toolbar>
     </q-header>
 
-    <!-- AA definition -->
-    <div class="q-mb-md">
-      <p>Asset Allocation Definition</p>
-      <div class="row">
-        <div class="col">
-          <q-input type="file" class="text-red" dark clearable @input="onFileSelected" />
-        </div>
-        <div class="col text-center">
-          <q-btn
-            label="Import"
-            color="red-10"
-            text-color="amber-4"
-            @click="onDefinitionImportClick"
-          />
-        </div>
-      </div>
-    </div>
-
     <!-- Root investment account -->
     <!-- <div class="row">
       <div class="col">
@@ -63,9 +45,8 @@ import { MAIN_TOOLBAR, SET_TITLE, TOGGLE_DRAWER } from "../mutations";
 import { SettingKeys } from "../lib/Configuration";
 import appService from "../appService";
 import { Setting } from "../model";
-import { engine } from "../lib/AssetAllocation";
 
-const errorMessage = { color: "red-10", textColor: "amber-2" };
+// const errorMessage = { color: "red-10", textColor: "amber-2" };
 
 export default {
   data() {
@@ -95,28 +76,15 @@ export default {
       this.$store.commit(TOGGLE_DRAWER, !visible);
     },
     onCurrentBalClick() {
-      engine
-        .importCurrentValues(this.fileContent)
-        .then(() => {
-          this.$q.notify({ message: "Values imported" });
-        })
-        .catch(reason => {
-          errorMessage.message = reason;
-          this.$q.notify(errorMessage);
-        });
-    },
-    onDefinitionImportClick() {
-      // import AA definition file
-      engine.importDefinition(this.fileContent).then(() => {
-        this.$q.notify({
-          message: "Definition imported",
-          color: "teal-9", // green-9
-          textColor: "amber-2"
-        });
-      });
-    },
-    onFileSelected(files) {
-      this.readInputFile(files[0], "fileContent");
+      // engine
+      //   .importCurrentValues(this.fileContent)
+      //   .then(() => {
+      //     this.$q.notify({ message: "Values imported" });
+      //   })
+      //   .catch(reason => {
+      //     errorMessage.message = reason;
+      //     this.$q.notify(errorMessage);
+      //   });
     },
     onHelpClick() {
       // navigate to help page
@@ -130,22 +98,6 @@ export default {
       appService.db.settings.put(setting).then(result => {
         this.$q.notify({ message: "saved: " + result });
       });
-    },
-    readInputFile(fileInfo, dataField) {
-      //   console.log(fileInfo);
-      var reader = new FileReader();
-
-      reader.onload = event => {
-        // File was successfully read.
-        var content = event.target.result;
-
-        if (dataField) {
-          this[dataField] = content;
-          //   console.log("read", content);
-        }
-      };
-
-      reader.readAsText(fileInfo);
     }
   },
 

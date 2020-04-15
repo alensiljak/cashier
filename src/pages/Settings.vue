@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <q-page padding>
     <ActionBar title="Settings"/>
 
     <div class="container">
@@ -53,7 +53,7 @@
       </div>
     </div>
     </div>
-  </div>
+  </q-page>
 </template>
 <script>
 import ActionBar from "../components/ActionBar.vue";
