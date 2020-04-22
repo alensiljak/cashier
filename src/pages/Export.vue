@@ -101,9 +101,9 @@ export default {
         navigator
           .share({
             title: "Cashier Transactions",
-            // text: this.output
+            text: this.output
             // url: "https://web.dev/"
-            url: this.output
+            // url: this.output
           })
           .then(() => this.$q.notify({ message: "data copied" }))
           .catch(error => this.$q.notify({ message: "error:" + error }));
