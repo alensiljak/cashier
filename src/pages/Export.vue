@@ -21,6 +21,12 @@
           @click="copyToClipboard"
         />
       </div>
+      <div class="col text-center">
+        <q-btn round :icon="mdiShareVariant"
+        color="red-10"
+        text-color="amber-4"
+        @click="webshare" />
+      </div>
       <div class="col text-center" ref="buttonContainer">
         <q-btn label="Download" color="red-10" text-color="amber-4" @click="downloadAsFile" />
         <!-- <a :href="downloadLink" download="journal.ledger" >Download</a> -->
@@ -32,11 +38,13 @@
 <script>
 import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
 import appService from "../appService";
+import { mdiShareVariant } from '@quasar/extras/mdi-v4'
 
 export default {
   data() {
     return {
-      output: ""
+      output: "",
+      mdiShareVariant: null
     };
   },
 
@@ -49,6 +57,9 @@ export default {
       // console.log("got the tx for export:", output);
       this.output = output;
     });
+
+    // icons
+    this.mdiShareVariant = mdiShareVariant
   },
 
   methods: {
@@ -84,6 +95,18 @@ export default {
 
       // cleanup?
       this.$refs.buttonContainer.removeChild(a);
+    },
+    webshare() {
+      if (navigator.share) {
+        navigator
+          .share({
+            title: "Cashier Transactions",
+            text: this.output
+            // url: "https://web.dev/"
+          })
+          .then(() => this.$q.notify({ message: "data copied" }))
+          .catch(error => this.$q.notify({ message: "error:" + error }));
+      }
     }
   },
 
