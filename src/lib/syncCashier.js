@@ -64,4 +64,22 @@ export class CashierSync {
     await engine.importCurrentValues(result);
     return "OK";
   }
+
+  /**
+   * Retrieves the Security Analysis from Cashier Sync.
+   * @param {string} symbol 
+   */
+  async readSecurityAnalysis(symbol) {
+    let currency = await settings.get(SettingKeys.currency);
+    let url = this.serverUrl + '/securitydetails'
+
+    let response = await axios.get(url, {
+      params: {
+        'symbol': symbol,
+        'currency': currency
+      }
+    })
+    let result = response.data
+    return result
+  }
 }

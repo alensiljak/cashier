@@ -8,6 +8,7 @@
     <ul>
       <li v-for="stock in stocks" v-bind:key="stock.name">{{ stock.name }}
           <ul>
+            <li v-if="stock.analysis">{{ stock.analysis }}</li>
               <li v-for="account in stock.accounts" v-bind:key="account.fullname">
                   {{ account.name }},
                   {{ account.balance }} {{ account.currency }},
@@ -24,13 +25,18 @@
 <script>
 import appService from "../appService";
 import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
+import { CashierSync } from "../lib/syncCashier";
+import { SettingKeys, settings } from "../lib/Configuration";
+import Vue from 'vue'
 
 export default {
   data() {
     return {
       assetClass: {},
       stocks: [],
-      investmentAccounts: []
+      investmentAccounts: [],
+      currency: null,
+      serverUrl: null,
     };
   },
 
@@ -49,7 +55,17 @@ export default {
         col.toArray().then(array => {
           that.investmentAccounts = array;
           this.loadAssetClass();
-        });
+        })
+        .then(() => {
+          settings
+            .get(SettingKeys.currency)
+            .then(value => this.currency = value)
+
+          settings
+            .get(SettingKeys.syncServerUrl)
+            .then(value => this.serverUrl = value)
+            .then(() => this.securityAnalysis())
+        })
       });
     },
     loadAssetClass() {
@@ -65,7 +81,7 @@ export default {
       let childNames = this.assetClass.stocks;
       let stocks = [];
 
-      // todo: load account balances
+      // load account balances
       for (let i = 0; i < childNames.length; i++) {
         let childName = childNames[i];
         let stock = {
@@ -74,7 +90,7 @@ export default {
         };
 
         let account = null;
-        // todo: find all accounts with this commodity
+        // find all accounts with this commodity
         for (let j = 0; j < this.investmentAccounts.length; j++) {
           account = this.investmentAccounts[j];
           if (account.currency === childName) {
@@ -86,7 +102,33 @@ export default {
       }
 
       this.stocks = stocks;
+    },
+    /**
+     * Retrieve the security analysis from CashierSync
+     */
+    async fetchAnalysis(symbol) {
+      // console.log('fetching analysis for', symbol)
+      let sync = new CashierSync(this.serverUrl);
+      let result = sync.readSecurityAnalysis(symbol)
+      return result
+    },
+    securityAnalysis() {
+      // todo: check if the CashierSync is running!
+
+      // load analysis for all symbols
+      for (let i = 0; i < this.stocks.length; i++) {
+        let symbol = this.stocks[i].name
+        // console.log(symbol)
+        this.fetchAnalysis(symbol)
+          .then(analysis => {
+            let stock = this.stocks.find(obj => obj.name == symbol)
+            // Use Vue.set to add a property to a reactive object.
+            Vue.set(stock, "analysis", analysis )
+          })
+        
+      }
     }
-  }
+  },
+
 };
 </script>
