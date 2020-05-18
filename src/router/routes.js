@@ -21,6 +21,7 @@ const routes = [
       { path: '/favouritesreorder', name: 'favreorder', component: () => import('../pages/FavouritesReorder') },
       { path: '/import', name: 'import', component: () => import('../pages/Import.vue') },
       { path: '/journal', name: 'journal', component: () => import('../pages/Journal.vue') },
+      { path: '/lots/:symbol', name: 'lots', component: () => import('../pages/Lots.vue') },
       { path: '/payees', name: 'payees', component: () => import('../pages/Payees.vue') },
       { path: '/prices', name: 'prices', component: () => import('../pages/Prices') },
       { path: '/reg/:name', name: 'register', component: () => import('../pages/Register.vue') },
