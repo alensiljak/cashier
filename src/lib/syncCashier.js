@@ -6,6 +6,10 @@ import appService from "../appService";
 import { settings, SettingKeys } from "./Configuration";
 import { engine } from "./AssetAllocation";
 
+/**
+ * Cashier Sync class talks to CashierSync on the server. The methods here represent the methods
+ * implemented by the server. This is a proxy class for fething Ledger data.
+ */
 export class CashierSync {
   constructor(serverUrl) {
     if (serverUrl.endsWith("/")) {
@@ -79,6 +83,15 @@ export class CashierSync {
         'currency': currency
       }
     })
+    let result = response.data
+    return result
+  }
+
+  async readLots(symbol) {
+    let url = this.serverUrl + '/lots'
+    let params = { symbol: symbol }
+
+    let response = await axios.get(url, { params: params })
     let result = response.data
     return result
   }
