@@ -1,7 +1,10 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
     <div>Lots for {{symbol}}</div>
-    <div>{{lots}}</div>
+    <!-- <div>{{lots}}</div> -->
+          <ul>
+              <li v-for="lot in lots" v-bind:key="lot">{{lot}}</li>
+          </ul>
   </q-page>
 </template>
 
@@ -36,7 +39,7 @@ export default {
     loadData() {
       let sync = new CashierSync(this.serverUrl);
       sync.readLots(this.symbol)
-        .then(lots => this.lots = lots)
+        .then(lots => this.lots = lots  )
     }
   }
 };
