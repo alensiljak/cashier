@@ -9,7 +9,7 @@
       <li v-for="stock in stocks" v-bind:key="stock.name">{{ stock.name }}
           <ul>
             <li v-if="stock.analysis">{{ stock.analysis }} - 
-        <router-link :to="{ name: 'lots', params: { symbol: stock.name }}">lots</router-link>
+        <router-link :to="{ name: 'lots', params: { symbol: stock.name }}" class="text-colour2">lots</router-link>
             </li>
               <li v-for="account in stock.accounts" v-bind:key="account.fullname">
                   {{ account.name }},
