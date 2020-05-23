@@ -46,7 +46,7 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0",
+    "eslint-plugin-standard": "^4.0.0"
   },
   "bugs": {
     "url": "https://gitlab.com/alensiljak/cashier/issues"
@@ -57,9 +57,6 @@
     "npm": ">= 6.13.4",
     "yarn": ">= 1.21.1"
   },
-  "browserslist": [
-    "last 1 version, not dead, ie >= 11"
-  ],
   "resolutions": {
     "@babel/parser": "7.7.5"
   }
