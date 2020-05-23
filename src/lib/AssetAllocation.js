@@ -226,15 +226,22 @@ class AssetAllocationEngine {
   }
 
   /**
+   * Deletes all data in Asset Allocation storage (table).
+   */
+  async emptyData() {
+    return appService.db.assetAllocation.clear();
+  }
+
+  /**
    * Import Asset Allocation definition.
    * @param {str} text Contents of the definition file.
    * @returns Dictionary of asset classes with allocations and stocks
    */
-  importDefinition(text) {
+  async importDefinition(text) {
     if (!text) return;
 
     // parse and save into the storage.
-    let assetClasses = [];
+    const assetClasses = [];
 
     let lines = text.split("\n");
     for (let i = 0; i < lines.length; i++) {

@@ -116,14 +116,18 @@ export default {
         );
     },
     onDefinitionImportClick() {
-      // import AA definition file
-      engine.importDefinition(this.fileContent).then(() => {
-        this.$q.notify({
-          message: "Definition imported",
-          color: "teal-9", // green-9
-          textColor: "amber-2"
+      // Clean-up any existing data first.
+      engine.emptyData()
+        .then(() => {
+          // import AA definition file
+          engine.importDefinition(this.fileContent).then(() => {
+            this.$q.notify({
+              message: "Definition imported",
+              color: "teal-9", // green-9
+              textColor: "amber-2"
+            });
+          });
         });
-      });
     },
     onSaveClick() {
       // currency
