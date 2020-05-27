@@ -6,18 +6,23 @@
     <!-- <div>{{ assetClass }}</div> -->
 
     <ul>
-      <li v-for="stock in stocks" v-bind:key="stock.name">{{ stock.name }}
-          <ul>
-            <li v-if="stock.analysis">{{ stock.analysis }} - 
-        <router-link :to="{ name: 'lots', params: { symbol: stock.name }}" class="text-colour2">lots</router-link>
-            </li>
-              <li v-for="account in stock.accounts" v-bind:key="account.fullname">
-                  {{ account.name }},
-                  {{ account.balance }} {{ account.currency }},
-                  {{ account.currentValue }} {{ account.currentCurrency }},
-                  <!-- {{ account }} -->
-              </li>
-          </ul>
+      <li v-for="stock in stocks" v-bind:key="stock.name">
+        {{ stock.name }}
+        <ul>
+          <li v-if="stock.analysis">
+            {{ stock.analysis }} -
+            <router-link
+              :to="{ name: 'lots', params: { symbol: stock.name }}"
+              class="text-colour2"
+            >lots</router-link>
+          </li>
+          <li v-for="account in stock.accounts" v-bind:key="account.fullname">
+            {{ account.name }},
+            {{ account.balance }} {{ account.currency }},
+            {{ account.currentValue }} {{ account.currentCurrency }},
+            <!-- {{ account }} -->
+          </li>
+        </ul>
       </li>
     </ul>
     <!-- <p>{{ stocks }}</p> -->
@@ -29,7 +34,7 @@ import appService from "../appService";
 import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
 import { CashierSync } from "../lib/syncCashier";
 import { SettingKeys, settings } from "../lib/Configuration";
-import Vue from 'vue'
+import Vue from "vue";
 
 export default {
   data() {
@@ -38,7 +43,7 @@ export default {
       stocks: [],
       investmentAccounts: [],
       currency: null,
-      serverUrl: null,
+      serverUrl: null
     };
   },
 
@@ -54,20 +59,22 @@ export default {
     loadData() {
       let that = this;
       appService.getInvestmentAccounts().then(col => {
-        col.toArray().then(array => {
-          that.investmentAccounts = array;
-          this.loadAssetClass();
-        })
-        .then(() => {
-          settings
-            .get(SettingKeys.currency)
-            .then(value => this.currency = value)
+        col
+          .toArray()
+          .then(array => {
+            that.investmentAccounts = array;
+            this.loadAssetClass();
+          })
+          .then(() => {
+            settings
+              .get(SettingKeys.currency)
+              .then(value => (this.currency = value));
 
-          settings
-            .get(SettingKeys.syncServerUrl)
-            .then(value => this.serverUrl = value)
-            .then(() => this.securityAnalysis())
-        })
+            settings
+              .get(SettingKeys.syncServerUrl)
+              .then(value => (this.serverUrl = value))
+              .then(() => this.securityAnalysis());
+          });
       });
     },
     loadAssetClass() {
@@ -111,26 +118,23 @@ export default {
     async fetchAnalysis(symbol) {
       // console.log('fetching analysis for', symbol)
       let sync = new CashierSync(this.serverUrl);
-      let result = sync.readSecurityAnalysis(symbol)
-      return result
+      let result = sync.readSecurityAnalysis(symbol);
+      return result;
     },
     securityAnalysis() {
       // todo: check if the CashierSync is running!
 
       // load analysis for all symbols
       for (let i = 0; i < this.stocks.length; i++) {
-        let symbol = this.stocks[i].name
+        let symbol = this.stocks[i].name;
         // console.log(symbol)
-        this.fetchAnalysis(symbol)
-          .then(analysis => {
-            let stock = this.stocks.find(obj => obj.name == symbol)
-            // Use Vue.set to add a property to a reactive object.
-            Vue.set(stock, "analysis", analysis )
-          })
-        
+        this.fetchAnalysis(symbol).then(analysis => {
+          let stock = this.stocks.find(obj => obj.name == symbol);
+          // Use Vue.set to add a property to a reactive object.
+          Vue.set(stock, "analysis", analysis);
+        });
       }
     }
-  },
-
+  }
 };
 </script>
