@@ -34,6 +34,9 @@
 
       <q-btn label="Sync" color="secondary" text-color="accent" @click="synchronize" />
     </div>
+    <div class="text-right">
+      <q-btn label="Shutdown Server" color="secondary" text-color="accent" @click="shutdown" />
+    </div>
   </q-page>
 </template>
 
@@ -103,6 +106,12 @@ export default {
       if (this.syncAaValues) {
         this.synchronizeAaValues()
       }
+    },
+    shutdown() {
+      let sync = new CashierSync(this.serverUrl)
+      sync.shutdown()
+        .catch(reason => this.$q.notify({ message: "Error:" + reason, color:"secondary" }))
+        .then(res => this.$q.notify({ message: "The server shutdown request sent.", color: "primary" }))
     }
   }
 };

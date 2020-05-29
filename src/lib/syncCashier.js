@@ -95,4 +95,12 @@ export class CashierSync {
     let result = response.data
     return result
   }
+
+  /**
+   * Shutdown CashierSync server from the client app.
+   */
+  shutdown() {
+    let url = this.serverUrl + '/shutdown'
+    return axios.get(url)
+  }
 }
