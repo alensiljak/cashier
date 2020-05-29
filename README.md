@@ -25,10 +25,27 @@ Run the dev server `yarn serve` and open the browser on port 8080.
 
 Updating libraries: list outdated with `yarn outdated`.
 
-## Building
+### Building
 
 Build the release version with `yarn build`.
 
-## Deployment
+### Deployment
 
 Using Netlify to serve HTTPS site, as required by PWA specs. The [base url](https://cashier-pwa.netlify.com/) is on Netlify.
+
+
+## Cashier Ecosystem
+
+Here is the description on how to set up Cashier on Android. It demonstrates the main principles on any platform.
+
+Open https://cashier.alensiljak.eu.org in the browser. Use "Add to Home screen" or "Install" options to add the app.
+
+Set up synchronization with [cashiersync](https://gitlab.com/alensiljak/cashier-sync):
+
+- Install Termux
+  - install python and ledger packages
+  - install cashiersync with pip
+- clone or create folders for the ledger book and prices
+- set up .ledgerrc in the home directory, to point to the book and prices files
+- add the Termux shortcuts for updating the data (pull)
+- add the Termux shortcut to run cashiersync
