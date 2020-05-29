@@ -7,8 +7,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-// import example from './module-example'
-
 Vue.use(Vuex);
 
 import {
@@ -21,7 +19,8 @@ import {
   SET_TRANSACTION,
   SET_TX_DATE,
   TOGGLE_DRAWER,
-  MAIN_TOOLBAR
+  MAIN_TOOLBAR,
+  SET_LEDGER_USE
 } from "../mutations";
 import { RESET_TRANSACTION } from "../actions";
 
@@ -59,7 +58,9 @@ export default new Vuex.Store({
     // Select mode: set select mode, open list, select item, save id, return to the caller.
     selectModeMeta: null,
     // unused?
-    dateFormatIso: "yyyy-MM-dd"
+    dateFormatIso: "yyyy-MM-dd",
+    // Use Cashier Sync for providing Ledger data?
+    useLedger: false
   },
   // Data transformations
   mutations: {
@@ -82,6 +83,9 @@ export default new Vuex.Store({
     },
     [TOGGLE_DRAWER](state, drawerVisible) {
       state.drawerOpen = drawerVisible;
+    },
+    [SET_LEDGER_USE](state, useLedger) {
+      state.useLedger = useLedger
     }
   },
 
@@ -118,6 +122,6 @@ export default new Vuex.Store({
   },
   getters: {
     // transaction: state => state.transaction,
-    transactions: state => state.transactions
+    //transactions: state => state.transactions
   }
 });

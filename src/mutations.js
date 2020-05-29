@@ -14,3 +14,5 @@ export const SET_SELECT_MODE = 'setSelectMode'
 export const SET_TITLE = 'setTitle'
 export const SET_TRANSACTION = 'setTransaction'
 export const TOGGLE_DRAWER = 'toggleDrawer'
+// 
+export const SET_LEDGER_USE = 'setLedgerUse'

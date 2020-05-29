@@ -239,16 +239,24 @@
         </div>
       </div>
     </q-img>
+
+    <div class="absolute-bottom text-right">
+      <label>Server-side features:</label>
+      <q-toggle v-model="serverOn" @input="onServerToggle" />
+    </div>
   </q-drawer>
 </template>
 
 <script>
-import { TOGGLE_DRAWER } from "../mutations";
+import { TOGGLE_DRAWER, SET_LEDGER_USE } from "../mutations";
+import { CashierSync } from "../lib/syncCashier";
+import { SettingKeys, settings } from "../lib/Configuration";
 
 export default {
   data() {
     return {
       // drawerOpen: this.$q.platform.is.desktop
+      serverOn: false
     };
   },
 
@@ -256,6 +264,8 @@ export default {
     // initial state of the drawer
     // this.$q.platform.is.desktop
     this.$store.commit(TOGGLE_DRAWER, this.$q.platform.is.desktop);
+
+    this.serverOn = this.$store.state.useLedger;
   },
 
   methods: {
@@ -266,6 +276,39 @@ export default {
       window.history.go(back);
 
       // this.$router.push("/");
+    },
+    onServerToggle() {
+      this.$store.commit(SET_LEDGER_USE, this.serverOn);
+      if (this.serverOn) {
+        // check if cashier sync is running
+        settings.get(SettingKeys.syncServerUrl).then(serverUrl => {
+          let sync = new CashierSync(serverUrl);
+          sync
+            .healthCheck()
+            .catch(reason => {
+              this.$q.notify({
+                message: "Error: " + reason,
+                color: "secondary"
+              });
+              // reset the setting
+              this.serverOn = false;
+            })
+            .then(value => {
+              //console.log('health check result:', value)
+              if (value === "Hello World!") {
+                this.$q.notify({
+                  message: "The CashierSync server is running.",
+                  color: "primary"
+                });
+              } else {
+                this.$q.notify({
+                  message: "The CashierSync server is not running.",
+                  color: "secondary"
+                });
+              }
+            });
+        });
+      }
     },
     toggleDrawer() {
       this.drawerOpen = !this.drawerOpen;

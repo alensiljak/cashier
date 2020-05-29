@@ -12,6 +12,9 @@ import { engine } from "./AssetAllocation";
  */
 export class CashierSync {
   constructor(serverUrl) {
+    if (!serverUrl) {
+      throw "CashierSync URL not set."
+    }
     if (serverUrl.endsWith("/")) {
       serverUrl = serverUrl.splice(0, serverUrl.length - 1);
     }
@@ -23,6 +26,9 @@ export class CashierSync {
     return axios.get(url);
   }
 
+  /**
+   * See if the server is running
+   */
   async healthCheck() {
     let result = await this.get("/");
     return result.data;
