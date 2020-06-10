@@ -12,11 +12,14 @@ module.exports = {
   },
 
   extends: [
+    "plugin:vue/base",
     // https://eslint.vuejs.org/rules/#priority-a-essential-error-prevention
     // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules.
     'plugin:vue/essential',
-    'eslint:recommended',
-    '@vue/standard'
+    //'eslint:recommended',
+    //'@vue/standard'
+    'plugin:vue/strongly-recommended',
+    "plugin:vue/recommended"
   ],
 
   // required to lint *.vue files
@@ -43,10 +46,10 @@ module.exports = {
     'one-var': 'off',
 
     'import/first': 'off',
-    'import/named': 'error',
-    'import/namespace': 'error',
-    'import/default': 'error',
-    'import/export': 'error',
+    //'import/named': 'error',
+    //'import/namespace': 'error',
+    //'import/default': 'error',
+    //'import/export': 'error',
     'import/extensions': 'off',
     'import/no-unresolved': 'off',
     'import/no-extraneous-dependencies': 'off',
@@ -54,8 +57,13 @@ module.exports = {
 
     // customizations
     'quotes': 'off',
+    //'quotes': 'warn',
     'semi': 'off',
     'space-before-function-paren': 'off',
+
+    // vue overrides
+    'vue/max-attributes-per-line': 'off',
+    'vue/singleline-html-element-content-newline': 'off',
 
     // allow debugger during development only
     //'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',

@@ -6,30 +6,30 @@
     <q-dialog ref="qDateProxy" v-model="datePickerVisible">
       <q-date
         ref="datePicker"
-        dark
         v-model="tx.date"
+        dark
         first-day-of-week="1"
         today-btn
-        @input="onDateSelected"
         mask="YYYY-MM-DD"
+        @input="onDateSelected"
       />
     </q-dialog>
 
-    <q-input label="Date" v-model="tx.date" dark @click="datePickerVisible = true">
+    <q-input v-model="tx.date" label="Date" dark @click="datePickerVisible = true">
       <template v-slot:prepend>
         <font-awesome-icon icon="calendar-day" />
       </template>
     </q-input>
 
     <!-- payee -->
-    <q-input label="Payee" dark v-model="tx.payee">
+    <q-input v-model="tx.payee" label="Payee" dark>
       <template v-slot:prepend>
         <font-awesome-icon icon="user" />
       </template>
     </q-input>
 
     <!--note -->
-    <q-input label="Note" dark v-model="tx.note">
+    <q-input v-model="tx.note" label="Note" dark>
       <template v-slot:prepend>
         <font-awesome-icon icon="file-alt" />
       </template>
@@ -41,11 +41,12 @@
 
     <!-- Postings -->
     <q-slide-item
-      dark
       v-for="(posting, index) in tx.postings"
       :key="index"
+      dark
       right-color="red-10"
-      @right="onSlide">
+      @right="onSlide"
+    >
       <template v-slot:right>
         <div class="row items-center text-amber-4" @click="deletePosting(index)">
           Click to confirm or wait 2s to cancel
@@ -58,7 +59,7 @@
             :posting="posting"
             :index="index"
             :accounts="accounts"
-            v-on:delete-row="deletePosting"
+            @delete-row="deletePosting"
             @accountClicked="onAccountClicked(index)"
             @amountChanged="onAmountChanged"
           />
@@ -123,6 +124,10 @@ import { SelectionModeMetadata } from "../lib/Configuration";
 const ACCOUNT = "account";
 
 export default {
+
+  components: {
+    QPosting
+  },
   data: function() {
     return {
       datePickerVisible: false,
@@ -130,6 +135,24 @@ export default {
       resetSlide: null,
       postingSum: 0
     };
+  },
+
+  computed: {
+    tx: {
+      get() {
+        // console.log('getting tx')
+        let tx = this.$store.state.transaction;
+        if (tx === null) {
+          tx = this.resetTransaction();
+        }
+        return tx;
+      },
+      set(value) {
+        // console.log('setting tx', value)
+        // todo save in the state store
+        this.$store.commit(SET_TRANSACTION, value);
+      }
+    }
   },
 
   created() {
@@ -329,28 +352,6 @@ export default {
       let tx = appService.createTransaction();
       this.tx = tx;
       return tx;
-    }
-  },
-
-  components: {
-    QPosting
-  },
-
-  computed: {
-    tx: {
-      get() {
-        // console.log('getting tx')
-        let tx = this.$store.state.transaction;
-        if (tx === null) {
-          tx = this.resetTransaction();
-        }
-        return tx;
-      },
-      set(value) {
-        // console.log('setting tx', value)
-        // todo save in the state store
-        this.$store.commit(SET_TRANSACTION, value);
-      }
     }
   }
 };

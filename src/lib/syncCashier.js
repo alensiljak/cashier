@@ -109,4 +109,14 @@ export class CashierSync {
     let url = this.serverUrl + '/shutdown'
     return axios.get(url)
   }
+
+  /**
+   * Retrieves the list of historical transactions from ledger.
+   * @param {string} accountName 
+   * @param {*} dateFrom 
+   * @param {*} dateTo 
+   */
+  // async transactions(accountName, dateFrom, dateTo) {
+
+  // }
 }

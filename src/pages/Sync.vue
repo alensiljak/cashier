@@ -13,8 +13,8 @@
           <!-- <q-item-label></q-item-label> -->
           <q-item-section>
             <q-checkbox
-              dark
               v-model="syncBalances"
+              dark
               label="Sync balances (ledger balance --flat --no-total). Deletes existing accounts and retrieves the list from Ledger."
             />
           </q-item-section>
@@ -23,8 +23,8 @@
       <q-item>
         <q-item-section>
           <q-checkbox
-            dark
             v-model="syncAaValues"
+            dark
             label="Sync asset allocation current values (ledger b ^<root> -X <CUR> --flat --no-total)"
           />
         </q-item-section>
@@ -77,7 +77,9 @@ export default {
       let sync = new CashierSync(this.serverUrl);
       sync
         .readCurrentValues()
-        .then(() => this.$q.notify({ message: "current values loaded", color: "primary" }))
+        .then(() =>
+          this.$q.notify({ message: "current values loaded", color: "primary" })
+        )
         .catch(error =>
           this.$q.notify({ message: error.message, color: "secondary" })
         );
@@ -100,18 +102,26 @@ export default {
         // This clears up accounts that still have a value in the app but Ledger does not
         // return them as their balance is 0.
         await this.synchronizeBalances().catch(error => {
-          this.$q.notify({ message: error.message, color: "secondary" })
-        })
+          this.$q.notify({ message: error.message, color: "secondary" });
+        });
       }
       if (this.syncAaValues) {
-        this.synchronizeAaValues()
+        this.synchronizeAaValues();
       }
     },
     shutdown() {
-      let sync = new CashierSync(this.serverUrl)
-      sync.shutdown()
-        .catch(reason => this.$q.notify({ message: "Error:" + reason, color:"secondary" }))
-        .then(res => this.$q.notify({ message: "The server shutdown request sent.", color: "primary" }))
+      let sync = new CashierSync(this.serverUrl);
+      sync
+        .shutdown()
+        .catch(reason =>
+          this.$q.notify({ message: "Error:" + reason, color: "secondary" })
+        )
+        .then(res =>
+          this.$q.notify({
+            message: "The server shutdown request sent.",
+            color: "primary"
+          })
+        );
     }
   }
 };

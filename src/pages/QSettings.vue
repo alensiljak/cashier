@@ -3,14 +3,14 @@
     <div class="row">
       <div class="col">
         <!-- currency -->
-        <q-input dark label="Main Currency" v-model="currency" />
+        <q-input v-model="currency" dark label="Main Currency" />
       </div>
     </div>
     <p class="q-my-md">Investments</p>
     <div class="row">
       <div class="col">
         <!-- root investment account -->
-        <q-input dark label="Root investment account" v-model="rootInvestmentAccount" />
+        <q-input v-model="rootInvestmentAccount" dark label="Root investment account" />
       </div>
     </div>
 
@@ -22,7 +22,7 @@
       </div>
 
       <div class="col text-center">
-        <q-btn label="Test" @click="onConnectClicked" color="secondary" text-color="accent" />
+        <q-btn label="Test" color="secondary" text-color="accent" @click="onConnectClicked" />
       </div>
     </div>
 
@@ -56,7 +56,13 @@
 
     <div class="row q-mt-lg">
       <div class="col text-center q-my-lg">
-        <q-btn @click="onSaveClick" label="save" color="secondary" text-color="accent" />
+        <q-btn label="save" color="secondary" text-color="accent" @click="onSaveClick" />
+      </div>
+    </div>
+
+    <div class="row q-mt-lg">
+      <div class="col text-center q-my-lg">
+        <q-btn label="Reload App" color="secondary" text-color="accent" @click="reloadApp" />
       </div>
     </div>
   </q-page>
@@ -69,6 +75,8 @@ import { CashierSync } from "../lib/syncCashier";
 import { engine } from "../lib/AssetAllocation";
 
 export default {
+
+  components: {},
   data: function() {
     return {
       currency: null,
@@ -165,9 +173,10 @@ export default {
       };
 
       reader.readAsText(fileInfo);
+    },
+    reloadApp() {
+      window.location.reload(true)
     }
-  },
-
-  components: {}
+  }
 };
 </script>

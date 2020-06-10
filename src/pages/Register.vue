@@ -18,7 +18,7 @@
     <!-- fab -->
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab color="accent" text-color="secondary" @click="onFabClick">
-        <font-awesome-icon icon="plus" transform="grow-6"/>
+        <font-awesome-icon icon="plus" transform="grow-6" />
       </q-btn>
     </q-page-sticky>
   </q-page>
