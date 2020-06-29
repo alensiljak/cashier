@@ -2,7 +2,7 @@
   <q-page padding class="bg-colour1 text-colour2">
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn flat dense round @click="menuClicked" aria-label="Menu" icon="menu" />
+        <q-btn flat dense round icon="menu" aria-label="Menu" @click="menuClicked" />
 
         <q-toolbar-title>Asset Allocation</q-toolbar-title>
 
@@ -11,35 +11,35 @@
         <q-btn flat round dense icon="more_vert">
           <q-menu>
             <q-list dark style="min-width: 175px" class="bg-colour1">
-              <q-item clickable v-close-popup @click="onSetupClick">
+              <q-item v-close-popup clickable @click="onSetupClick">
                 <q-item-section>Setup</q-item-section>
                 <q-item-section side>
                   <font-awesome-icon icon="cog" transform="grow-9 left-5" />
                 </q-item-section>
               </q-item>
 
-              <q-item clickable v-close-popup @click="onShareClick" v-if="canShare">
+              <q-item v-if="canShare" v-close-popup clickable @click="onShareClick">
                 <q-item-section>Share</q-item-section>
                 <q-item-section side>
                   <font-awesome-icon icon="share-alt" transform="grow-9 left-5" />
                 </q-item-section>
               </q-item>
 
-              <q-item clickable v-close-popup @click="onExportClick">
+              <q-item v-close-popup clickable @click="onExportClick">
                 <q-item-section>Export</q-item-section>
                 <q-item-section side>
                   <font-awesome-icon icon="sign-out-alt" transform="grow-9 left-5" />
                 </q-item-section>
               </q-item>
 
-              <q-item clickable v-close-popup @click="onValidateClick">
+              <q-item v-close-popup clickable @click="onValidateClick">
                 <q-item-section>Validate</q-item-section>
                 <q-item-section side>
                   <font-awesome-icon icon="balance-scale" transform="grow-9 left-5" />
                 </q-item-section>
               </q-item>
 
-              <q-item clickable v-close-popup @click="onHelpClick">
+              <q-item v-close-popup clickable @click="onHelpClick">
                 <q-item-section>Help</q-item-section>
                 <q-item-section side>
                   <font-awesome-icon icon="question-circle" transform="grow-9 left-5" />
@@ -52,7 +52,7 @@
     </q-header>
 
     <div ref="buttonContainer">
-      <q-btn @click="onRecalculateClick" color="red-10" text-color="accent" label="Recalculate" />
+      <q-btn color="red-10" text-color="accent" label="Recalculate" @click="onRecalculateClick" />
     </div>
 
     <!-- <q-table title="Asset Allocation" :data="assetClasses" :columns="columns"
@@ -77,10 +77,12 @@
           <tr v-for="assetClass in assetClasses" :key="assetClass.fullname">
             <!-- Asset Class Name -->
             <td>
-              <span :style="{ paddingLeft: assetClass.depth + 'rem'}"></span>
+              <span :style="{ paddingLeft: assetClass.depth + 'rem'}" />
               <router-link
                 :to="{name: 'assetclassdetail', params: {fullname: assetClass.fullname}}"
-              >{{ assetClass.name }}</router-link>
+              >
+                {{ assetClass.name }}
+              </router-link>
             </td>
             <td class="text-right">{{ assetClass.allocation }}</td>
             <td class="text-right">{{ assetClass.currentAllocation }}</td>
@@ -90,26 +92,30 @@
             <td
               class="text-right"
               style="width: 3.5rem;"
-              v-bind:class="{
-              'text-red-10': assetClass.diffPerc < -20,
-              'text-red-3': (-20 < assetClass.diffPerc && assetClass.diffPerc < 0),
-              'text-green-3': (assetClass.diffPerc > 0 && assetClass.diffPerc < 20),
-              'text-green-9': assetClass.diffPerc > 20
+              :class="{
+                'text-red-10': assetClass.diffPerc < -20,
+                'text-red-3': (-20 < assetClass.diffPerc && assetClass.diffPerc < 0),
+                'text-green-3': (assetClass.diffPerc > 0 && assetClass.diffPerc < 20),
+                'text-green-9': assetClass.diffPerc > 20
               }"
-            >{{ assetClass.diffPerc }}</td>
+            >
+              {{ assetClass.diffPerc }}
+            </td>
             <!-- Allocated Value -->
             <td class="text-right">{{ assetClass.allocatedValue }}</td>
             <!-- Current Value -->
             <td class="text-right" style="width: 5.5rem;">{{ assetClass.currentValue }}</td>
             <td
               class="text-right"
-              v-bind:class="{
-              'text-red-10': assetClass.diff < -20,
-              'text-red-3': assetClass.diff < 0,
-              'text-green-3': assetClass.diff > 0,
-              'text-green-9': assetClass.diff > 20
+              :class="{
+                'text-red-10': assetClass.diff < -20,
+                'text-red-3': assetClass.diff < 0,
+                'text-green-3': assetClass.diff > 0,
+                'text-green-9': assetClass.diff > 20
               }"
-            >{{ assetClass.diffAmount }}</td>
+            >
+              {{ assetClass.diffAmount }}
+            </td>
           </tr>
         </tbody>
       </table>
@@ -151,6 +157,12 @@ export default {
         { name: "diffAmount", label: "Difference", field: "diffAmount" }
       ]
     };
+  },
+
+  computed: {
+    canShare() {
+      return navigator && "share" in navigator;
+    }
   },
 
   created() {
@@ -247,12 +259,6 @@ export default {
           color: "teal-9"
         }); // teal
       }
-    }
-  },
-
-  computed: {
-    canShare() {
-      return navigator && "share" in navigator;
     }
   }
 };

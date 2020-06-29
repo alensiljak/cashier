@@ -3,7 +3,7 @@
     <!-- Toolbar -->
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn flat dense round @click="menuClicked" aria-label="Menu" icon="menu"/>
+        <q-btn flat dense round aria-label="Menu" icon="menu" @click="menuClicked" />
 
         <q-toolbar-title>Journal</q-toolbar-title>
 
@@ -11,20 +11,19 @@
           <q-menu>
             <q-list dark style="min-width: 175px" class="bg-colour1">
               <!-- dense -->
-              <q-item clickable v-close-popup>
+              <q-item v-close-popup clickable>
                 <q-item-section @click="exportJournal">Export</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="sign-out-alt" transform="grow-9 left-5"/>
+                  <font-awesome-icon icon="sign-out-alt" transform="grow-9 left-5" />
                 </q-item-section>
               </q-item>
 
-              <q-item clickable v-close-popup @click="onDeleteAllClicked">
+              <q-item v-close-popup clickable @click="onDeleteAllClicked">
                 <q-item-section>Delete All</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="trash-alt" transform="grow-9 left-5"/>
+                  <font-awesome-icon icon="trash-alt" transform="grow-9 left-5" />
                 </q-item-section>
               </q-item>
-
             </q-list>
           </q-menu>
         </q-btn>
@@ -58,8 +57,8 @@
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn flat label="Cancel" color="amber-4" v-close-popup/>
-          <q-btn flat label="Delete" color="amber-4" v-close-popup @click="confirmDelete"/>
+          <q-btn v-close-popup flat label="Cancel" color="amber-4" />
+          <q-btn v-close-popup flat label="Delete" color="amber-4" @click="confirmDelete" />
         </q-card-actions>
       </q-card>
     </q-dialog>
