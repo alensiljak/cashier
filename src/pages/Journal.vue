@@ -5,8 +5,9 @@
       <q-toolbar class="text-colour2">
         <q-btn flat dense round aria-label="Menu" icon="menu" @click="menuClicked" />
 
-        <q-toolbar-title>Journal</q-toolbar-title>
+        <q-toolbar-title>Device Journal</q-toolbar-title>
 
+        <!-- <q-btn flat round dense icon="sim_card" class="q-mr-xs" /> -->
         <q-btn flat round dense icon="more_vert">
           <q-menu>
             <q-list dark style="min-width: 175px" class="bg-colour1">
@@ -24,6 +25,13 @@
                   <font-awesome-icon icon="trash-alt" transform="grow-9 left-5" />
                 </q-item-section>
               </q-item>
+
+              <!-- <q-item v-close-popup clickable @click="onHelpClick">
+                <q-item-section>Help</q-item-section>
+                <q-item-section side>
+                  <font-awesome-icon icon="question-circle" transform="grow-9 left-5" />
+                </q-item-section>
+              </q-item> -->
             </q-list>
           </q-menu>
         </q-btn>
@@ -72,7 +80,7 @@
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn flat label="Cancel" color="amber-4" v-close-popup/>
+          <q-btn flat label="Cancel" v-close-popup color="amber-4"/>
           <q-btn flat label="Delete" color="amber-4" v-close-popup @click="confirmDeleteAll"/>
         </q-card-actions>
       </q-card>
@@ -88,6 +96,9 @@ import JournalTransaction from "../components/JournalTransaction";
 const errorMessage = { color: "secondary", message: "" };
 
 export default {
+  components: {
+    JournalTransaction
+  },
   data() {
     return {
       transactionIdToDelete: null,
@@ -123,7 +134,7 @@ export default {
         .catch(reason => this.$q.notify({ message: reason, color: 'danger' }))
     },
     deleteTransaction() {
-      let id = this.transactionIdToDelete;
+      let id = this.transactionIdToDelete
 
       appService
         .deleteTransaction(id)
@@ -160,6 +171,9 @@ export default {
     onDeleteAllClicked() {
       this.confirmDeleteAllVisible = true;
     },
+    onHelpClick(event) {
+      // todo: show help
+    },
     onItemClicked(event) {
       console.log("clicked", event);
     },
@@ -171,9 +185,6 @@ export default {
     openNewTransaction() {
       this.$router.push({ name: "tx" });
     }
-  },
-  components: {
-    JournalTransaction
   }
 };
 </script>

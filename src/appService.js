@@ -50,16 +50,28 @@ class AppService {
 
   /**
    * Delete transaction and related postings.
-   * @param {*} id
+   * @param {*} id Int/long id of the transaction to delete
    */
   deleteTransaction(id) {
-    return db.transaction("rw", db.transactions, db.postings, () => {
-      // delete transaction record
-      db.transactions.filter(tx => tx.id === id).delete();
+    if (typeof id == "string") {
+      id = Number(id)
+    }
 
+    return this.db.transaction("rw", this.db.transactions, this.db.postings, async (tx) => {
+      let x = await db.transactions.where("id").equals(id).count()
+      console.log("count:", x)
+
+      // delete transaction record
+      await db.transactions.where("id").equals(id).delete()
+        .then(result => console.log("transactions -", result))
       // delete postings
-      db.postings.filter(value => value.transactionId === id).delete();
-    });
+      await db.postings.where("transactionId").equals(id).delete()
+        .then(result => console.log("postings -", result))
+
+      return "Transaction complete"
+    })
+      .then(() => console.log("Delete transaction completed."))
+      .catch(error => console.error("Error on Delete Transaction:", error));
   }
 
   /**

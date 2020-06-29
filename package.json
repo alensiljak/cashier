@@ -22,7 +22,6 @@
     "axios": "^0.19.2",
     "core-js": "2.6.10",
     "dexie": "^3.0.1",
-    "localforage": "^1.7.3",
     "numeral": "^2.0.6",
     "pcloud-sdk-js": "^1.4.4",
     "quasar": "^1.12.4",

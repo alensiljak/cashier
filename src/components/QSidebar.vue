@@ -6,7 +6,16 @@
       <q-list padding>
         <!-- <q-item-label header>Navigation</q-item-label> -->
 
-        <q-item to="/favourites" exact clickable v-ripple active-class="active-link">
+        <q-item v-ripple to="/journal" exact clickable active-class="active-link">
+          <q-item-section avatar>
+            <font-awesome-icon icon="list-ul" transform="grow-6 right-6" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Device Journal</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item v-ripple to="/favourites" exact clickable active-class="active-link">
           <q-item-section avatar>
             <font-awesome-icon icon="star" transform="grow-6 right-6" />
           </q-item-section>
@@ -31,15 +40,6 @@
           </q-item-section>
           <q-item-section>
             <q-item-label>Transaction</q-item-label>
-          </q-item-section>
-        </q-item>
-
-        <q-item to="/journal" exact clickable v-ripple active-class="active-link">
-          <q-item-section avatar>
-            <font-awesome-icon icon="list-ul" transform="grow-6 right-6" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label>Journal</q-item-label>
           </q-item-section>
         </q-item>
 
@@ -140,11 +140,11 @@
             </q-item>
 
             <q-item
+              v-ripple
               to="/export"
               :inset-level="1"
               exact
               clickable
-              v-ripple
               active-class="active-link"
             >
               <q-item-section avatar>
@@ -215,7 +215,7 @@
           </q-item-section>
         </q-item>
 
-        <q-item to="/about" exact clickable v-ripple active-class="active-link">
+        <q-item v-ripple to="/about" exact clickable active-class="active-link">
           <q-item-section avatar>
             <font-awesome-icon icon="info" transform="grow-6 right-9" />
           </q-item-section>
@@ -229,13 +229,13 @@
     <q-img class="absolute-top bg-colour5" style="height: 150px">
       <div class="absolute-bottom bg-transparent text-colour2">
         <q-avatar size="56px" class="q-mb-sm" @click="onHeaderClick">
-          <img src="../../src/statics/icons/icon64.png" />
+          <img src="../../src/statics/icons/icon64.png">
         </q-avatar>
         <!-- <div class="text-weight-bold">Cashier</div> -->
         <!-- <div>@cashier</div> -->
         <div style="font-size: 2rem;">
           Cashier
-          <span style="font-size: 0.75rem" class="q-my-none">{{this.$version}}</span>
+          <span style="font-size: 0.75rem" class="q-my-none">{{ this.$version }}</span>
         </div>
       </div>
     </q-img>

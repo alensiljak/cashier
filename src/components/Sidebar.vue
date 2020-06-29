@@ -1,4 +1,6 @@
 <template>
+  <!-- This is not used! -->
+  
   <nav>
     <header class="text-center">
       <img src="/statics/icons/icon64.png" class="mt-4">
@@ -15,7 +17,7 @@
         <router-link to="/bal" class="nav-link">Balance Sheet</router-link>
       </li>
       <li class="nav-item">
-        <router-link to="/journal" class="nav-link">Journal</router-link>
+        <router-link to="/journal" class="nav-link">Device Journal</router-link>
       </li>
       <li class="nav-item">
         <router-link to="/payees" class="nav-link">Payees</router-link>

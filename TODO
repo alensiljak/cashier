@@ -166,14 +166,13 @@
         - Balance sheet
             - click to open account register
         - Data Storage
-            - localforage
+            - localForage
             - primary keys
                 - https://developers.google.com/web/ilt/pwa/working-with-indexeddb
             - https://github.com/erikolson186/zangodb
             - https://dexie.org/
             - dexie-syncable
             - use store per type of object. keep Ids as keys.
-            - localForage
             - [working with indexeddb](https://developers.google.com/web/ilt/pwa/working-with-indexeddb)
             - [best practices](https://developers.google.com/web/fundamentals/instant-and-offline/web-storage/indexeddb-best-practices)
         - Entities menu
