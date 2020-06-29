@@ -51,7 +51,7 @@
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab color="accent" text-color="secondary" @click="openNewTransaction">
-        <font-awesome-icon icon="plus" transform="grow-6"/>
+        <font-awesome-icon icon="plus" transform="grow-6" />
       </q-btn>
     </q-page-sticky>
 
@@ -80,8 +80,8 @@
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn flat label="Cancel" v-close-popup color="amber-4"/>
-          <q-btn flat label="Delete" color="amber-4" v-close-popup @click="confirmDeleteAll"/>
+          <q-btn v-close-popup flat label="Cancel" color="amber-4" />
+          <q-btn v-close-popup flat label="Delete" color="amber-4" @click="confirmDeleteAll" />
         </q-card-actions>
       </q-card>
     </q-dialog>

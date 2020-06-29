@@ -1,6 +1,6 @@
 <template>
   <!-- This is not used! -->
-  
+
   <nav>
     <header class="text-center">
       <img src="/statics/icons/icon64.png" class="mt-4">
@@ -32,6 +32,7 @@
         <router-link to="/q" class="nav-link">Quasar version</router-link>
       </li>
       <li>
+        &nbsp;
       </li>
     </ul>
   </nav>
