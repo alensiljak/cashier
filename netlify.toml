@@ -1,0 +1,7 @@
+[build]
+  # publish = "/"
+  publish = "dist/pwa"
+  # Default build command.
+  command = "yarn build"
+
+#[context.production]
