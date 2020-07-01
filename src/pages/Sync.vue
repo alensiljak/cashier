@@ -103,7 +103,7 @@ export default {
         .healthCheck()
         .then(response => this.$q.notify({ message: response, color: "primary" }))
         .catch(reason =>
-          this.$q.notify({ message: reason, color: "secondary" })
+          this.$q.notify({ message: "Connecting to CashierSync: " + reason, color: "secondary" })
         );
     },
     saveSyncServerUrl() {
