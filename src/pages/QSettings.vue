@@ -90,14 +90,20 @@ export default {
       engine.emptyData()
         .then(() => {
           // import AA definition file
-          engine.importDefinition(this.fileContent).then(() => {
+          engine.importDefinition(this.fileContent)
+          .then(() => {
             this.$q.notify({
               message: "Definition imported",
               color: "teal-9", // green-9
               textColor: "amber-2"
-            });
-          });
-        });
+            })
+          })
+          .catch(msg => this.$q.notify({
+              message: "Error during import: " + msg,
+              color: "secondary",
+              textColor: "amber-2"
+          }))
+        })
     },
     onSaveClick() {
       // currency

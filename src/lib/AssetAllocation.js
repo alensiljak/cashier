@@ -112,6 +112,13 @@ class AssetAllocationEngine {
     return array;
   }
 
+    /**
+   * Deletes all data in Asset Allocation storage (table).
+   */
+  async emptyData() {
+    return appService.db.assetAllocation.clear();
+  }
+
   findChildren(dictionary, parent) {
     let children = [];
 
@@ -226,13 +233,6 @@ class AssetAllocationEngine {
   }
 
   /**
-   * Deletes all data in Asset Allocation storage (table).
-   */
-  async emptyData() {
-    return appService.db.assetAllocation.clear();
-  }
-
-  /**
    * Import Asset Allocation definition.
    * @param {str} text Contents of the definition file.
    * @returns Dictionary of asset classes with allocations and stocks
@@ -261,6 +261,11 @@ class AssetAllocationEngine {
       //     }
       //   }
     }
+
+    // Validate
+    let assetClassIndex = this.buildAssetClassIndex(assetClasses);
+    let errors = this.validate(assetClassIndex)
+    if (errors) throw "Validation failed: " + errors
 
     // persist?
     // stockIndex
@@ -427,9 +432,9 @@ class AssetAllocationEngine {
 
     if (!equal) {
       return (
-        "* " +
+        "- '" +
         assetClass.fullname +
-        " does not match the sum of child classes! "
+        "' does not match the sum of child classes!\n"
       );
     }
   }

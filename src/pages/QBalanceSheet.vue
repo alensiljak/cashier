@@ -3,10 +3,10 @@
     <p>Display the chart of accounts with balances and currencies. Selecting one opens the register.</p>
     <p>The list should be customizable by selecting which accounts to show (favourite).</p>
 
-    <q-tree color="colour2" text-color="amber-2" dark :nodes="simple" node-key="label"/>
+    <q-tree color="colour2" text-color="amber-2" dark :nodes="simple" node-key="label" />
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn fab color="accent" text-color="secondary" v-on:click="openNewTransaction">
+      <q-btn fab color="accent" text-color="secondary" @click="openNewTransaction">
         <font-awesome-icon icon="plus" transform="grow-6" />
       </q-btn>
     </q-page-sticky>
