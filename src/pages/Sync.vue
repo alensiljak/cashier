@@ -18,9 +18,9 @@
       </div>
     </div>
 
-    <div class="text-right">
+    <!-- <div class="text-right">
       <q-btn label="Settings" :to="{name: 'settings'}" color="secondary" text-color="accent" />
-    </div>
+    </div> -->
 
     <h4 class="q-my-md">Synchronization</h4>
     <div class="text-center">
