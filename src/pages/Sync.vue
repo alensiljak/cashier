@@ -1,6 +1,10 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
     <p>CashierSync needs to be running and accessible.</p>
+    <p>
+      To run locally, install cashiersync with pip and run.
+      Configure ledger with .ledgerrc in the root Termux user folder.
+    </p>
 
     <h4 class="q-my-md">Settings</h4>
     <div class="q-my-md row">
