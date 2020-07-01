@@ -70,6 +70,7 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
+    
     <!-- delete all dialog -->
     <q-dialog v-model="confirmDeleteAllVisible" persistent content-class="bg-blue-grey-10">
       <q-card dark class="bg-red-10 text-amber-2">
@@ -124,8 +125,10 @@ export default {
     confirmDeleteAll() {
       this.deleteAllTransactions();
     },
+    /**
+     * delete all transactions
+     */
     deleteAllTransactions() {
-      // delete all transactions
       appService.deleteTransactions()
         .then(() => {
           this.$q.notify({ message: 'transactions deleted' })
