@@ -51,9 +51,9 @@
       </q-toolbar>
     </q-header>
 
-    <div ref="buttonContainer">
+    <!-- <div ref="buttonContainer">
       <q-btn color="red-10" text-color="accent" label="Recalculate" @click="onRecalculateClick" />
-    </div>
+    </div> -->
 
     <!-- <q-table title="Asset Allocation" :data="assetClasses" :columns="columns"
       dark color="amber-3" :dense="$q.screen.lt.md" :rows-per-page-options="[0, 20]"
@@ -169,6 +169,10 @@ export default {
     this.$store.commit(MAIN_TOOLBAR, false);
   },
 
+  mounted() {
+    this.loadData();
+  },
+
   methods: {
     downloadAsFile(content) {
       var a = document.createElement("a");
@@ -220,9 +224,9 @@ export default {
       // navigate to help page
       this.$router.push({ name: "assetallocationhelp" });
     },
-    onRecalculateClick() {
-      this.loadData();
-    },
+    // onRecalculateClick() {
+    //   this.loadData();
+    // },
     onSetupClick() {
       this.$router.push({ name: "settings" });
     },
