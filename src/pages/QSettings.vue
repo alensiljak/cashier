@@ -14,32 +14,8 @@
       </div>
     </div>
 
-    <p class="q-my-md">Synchronization</p>
-    <div class="q-my-md row">
-      <div class="col">
-        <!-- server URL -->
-        <q-input v-model="serverUrl" label="Server URL" dark />
-      </div>
-
-      <div class="col text-center">
-        <q-btn label="Test" color="secondary" text-color="accent" @click="onConnectClicked" />
-      </div>
-    </div>
-
     <p class="q-my-md">Asset Allocation settings</p>
     <div class="row">
-      <!-- <div class="col text-center">
-        <q-btn
-          :to="{name: 'assetallocationsetup'}"
-          label="Asset Allocation configuration"
-          color="secondary"
-          text-color="accent"
-        />
-      </div>-->
-
-      <!-- AA definition -->
-      <!-- <div class="q-mb-md"> -->
-      <!-- <p>Asset Allocation Definition</p> -->
       <div class="col">
         <q-input type="file" class="text-red" dark clearable @input="onAaFileSelected" />
       </div>
@@ -80,8 +56,7 @@ export default {
   data: function() {
     return {
       currency: null,
-      rootInvestmentAccount: null,
-      serverUrl: ""
+      rootInvestmentAccount: null
     };
   },
 
@@ -99,10 +74,6 @@ export default {
       settings
         .get(SettingKeys.rootInvestmentAccount)
         .then(value => (this.rootInvestmentAccount = value));
-
-      settings
-        .get(SettingKeys.syncServerUrl)
-        .then(value => (this.serverUrl = value));
     },
     /**
      * The Asset Allocation definition selected.
@@ -113,15 +84,6 @@ export default {
     onAaHelpClick() {
       // navigate to help page
       this.$router.push({ name: "assetallocationsetuphelp" });
-    },
-    onConnectClicked() {
-      let sync = new CashierSync(this.serverUrl);
-      sync
-        .healthCheck()
-        .then(response => this.$q.notify({ message: response }))
-        .catch(reason =>
-          this.$q.notify({ message: reason, color: "secondary" })
-        );
     },
     onDefinitionImportClick() {
       // Clean-up any existing data first.
@@ -149,11 +111,6 @@ export default {
         .then(() =>
           this.$q.notify({ message: "root investment account saved" })
         );
-
-      // sync server.
-      settings
-        .set(SettingKeys.syncServerUrl, this.serverUrl)
-        .then(() => this.$q.notify({ message: "sync server saved" }));
     },
     /**
      * Load Asset Allocation from the file.

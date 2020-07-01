@@ -109,7 +109,7 @@
             <font-awesome-icon icon="sync-alt" transform="grow-6 right-6" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>Sync</q-item-label>
+            <q-item-label>CashierSync</q-item-label>
           </q-item-section>
         </q-item>
 

@@ -1,12 +1,24 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
-    <p>The synchronization is done with an instance of CashierSync.</p>
-    <p>Make sure the Settings have been configured prior to synchronization.</p>
+    <p>CashierSync needs to be running and accessible.</p>
+
+    <h4 class="q-my-md">Settings</h4>
+    <div class="q-my-md row">
+      <div class="col">
+        <!-- server URL -->
+        <q-input v-model="serverUrl" label="Server URL" dark @change="saveSyncServerUrl" />
+      </div>
+
+      <div class="col text-center">
+        <q-btn label="Test" color="secondary" text-color="accent" @click="onConnectClicked" />
+      </div>
+    </div>
 
     <div class="text-right">
       <q-btn label="Settings" :to="{name: 'settings'}" color="secondary" text-color="accent" />
     </div>
 
+    <h4 class="q-my-md">Synchronization</h4>
     <div class="text-center">
       <q-list>
         <q-item>
@@ -34,7 +46,9 @@
 
       <q-btn label="Sync" color="secondary" text-color="accent" @click="synchronize" />
     </div>
-    <div class="text-right">
+
+    <h4 class="q-my-md">Maintenance</h4>
+    <div class="text-center">
       <q-btn label="Shutdown Server" color="secondary" text-color="accent" @click="shutdown" />
     </div>
   </q-page>
@@ -51,12 +65,13 @@ export default {
   data() {
     return {
       syncBalances: true,
-      syncAaValues: true
+      syncAaValues: true,
+      serverUrl: "http://localhost:5000" // the default value
     };
   },
 
   created() {
-    this.$store.commit(SET_TITLE, "Synchronization");
+    this.$store.commit(SET_TITLE, "CashierSync");
     this.$store.commit(MAIN_TOOLBAR, true);
 
     this.loadSettings();
@@ -71,7 +86,27 @@ export default {
       settings
         .get(SettingKeys.rootInvestmentAccount)
         .then(value => (this.rootInvestmentAccount = value));
+      
       settings.get(SettingKeys.currency).then(value => (this.currency = value));
+
+      settings
+        .get(SettingKeys.syncServerUrl)
+        .then(value => (this.serverUrl = value));
+    },
+    onConnectClicked() {
+      let sync = new CashierSync(this.serverUrl);
+      sync
+        .healthCheck()
+        .then(response => this.$q.notify({ message: response, color: "primary" }))
+        .catch(reason =>
+          this.$q.notify({ message: reason, color: "secondary" })
+        );
+    },
+    saveSyncServerUrl() {
+      // sync server.
+      settings
+        .set(SettingKeys.syncServerUrl, this.serverUrl)
+        .then(() => this.$q.notify({ message: "sync server saved" }));
     },
     synchronizeAaValues() {
       let sync = new CashierSync(this.serverUrl);
@@ -123,6 +158,7 @@ export default {
           })
         );
     }
+   
   }
 };
 </script>
