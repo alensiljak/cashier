@@ -265,7 +265,7 @@ class AssetAllocationEngine {
     // Validate
     let assetClassIndex = this.buildAssetClassIndex(assetClasses);
     let errors = this.validate(assetClassIndex)
-    if (errors) throw "Validation failed: " + errors
+    if (errors.length) throw "Validation failed: " + errors
 
     // persist?
     // stockIndex
@@ -410,6 +410,8 @@ class AssetAllocationEngine {
       }
     });
 
+    console.log("AA validation results: ", errors)
+    
     return errors;
   }
 
