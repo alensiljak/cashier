@@ -33,15 +33,14 @@
           </q-item-section>
         </q-item>-->
 
-        <q-item to="/tx" clickable v-ripple active-class="active-link">
-          <!-- exact active -->
+        <!-- <q-item v-ripple to="/tx" clickable active-class="active-link">
           <q-item-section avatar>
             <font-awesome-icon icon="money-bill-wave" transform="grow-6 right-6" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Transaction</q-item-label>
           </q-item-section>
-        </q-item>
+        </q-item> -->
 
         <q-item :to="{name: 'accounts'}" clickable v-ripple active-class="active-link">
           <!-- exact -->
