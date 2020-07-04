@@ -3,8 +3,8 @@
     <p>Export your journal in ledger format</p>
 
     <q-input
-      type="textarea"
       v-model="output"
+      type="textarea"
       autogrow
       filled
       style="width: 100%; max-height: 90%"
@@ -86,11 +86,7 @@ export default {
     this.$store.commit(SET_TITLE, "Export");
     this.$store.commit(MAIN_TOOLBAR, true);
 
-    // load the transactions for export
-    appService.exportTransactions().then(output => {
-      // console.log("got the tx for export:", output);
-      this.output = output;
-    });
+    this.loadData()
 
     // icons
     this.mdiShareVariant = mdiShareVariant
@@ -113,7 +109,7 @@ export default {
       appService.deleteTransactions()
         .then(() => {
           this.$q.notify({ message: 'transactions deleted' })
-          // this.loadData()
+          this.loadData()
         })
         .catch(reason => this.$q.notify({ message: reason, color: 'danger' }))
     },
@@ -143,6 +139,14 @@ export default {
 
       // cleanup?
       this.$refs.buttonContainer.removeChild(a);
+    },
+    loadData() {
+      // load the transactions for export
+      appService.exportTransactions().then(output => {
+        // console.log("got the tx for export:", output);
+        if (!output) output = ""
+        this.output = output;
+      });
     },
     onDeleteAllClicked() {
       this.confirmDeleteAllVisible = true;
