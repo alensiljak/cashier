@@ -1,8 +1,8 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated class="glossy" v-if="toolbarVisible">
+    <q-header v-if="toolbarVisible" elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn flat dense round @click="toggleDrawer" aria-label="Menu" icon="menu" />
+        <q-btn flat dense round aria-label="Menu" icon="menu" @click="toggleDrawer" />
 
         <q-toolbar-title>{{ title }}</q-toolbar-title>
       </q-toolbar>
@@ -10,7 +10,7 @@
 
     <QSidebar ref="sidebar" />
 
-    <q-page-container v-on:menu-clicked="console.log('yo')">
+    <q-page-container @menu-clicked="console.log('yo')">
       <router-view />
     </q-page-container>
   </q-layout>
@@ -22,16 +22,14 @@ import QSidebar from "../components/QSidebar";
 export default {
   name: "LayoutDefault",
 
+  components: {
+    QSidebar
+  },
+
   data() {
     return {
       // title: 'Cashier'
     };
-  },
-
-  methods: {
-    toggleDrawer() {
-      this.$refs.sidebar.toggleDrawer();
-    }
   },
 
   computed: {
@@ -43,8 +41,10 @@ export default {
     }
   },
 
-  components: {
-    QSidebar
+  methods: {
+    toggleDrawer() {
+      this.$refs.sidebar.toggleDrawer();
+    }
   }
 };
 </script>

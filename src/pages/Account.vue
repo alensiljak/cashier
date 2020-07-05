@@ -3,7 +3,7 @@
     <!-- toolbar -->
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn flat dense round @click="menuClicked" aria-label="Menu" icon="menu" />
+        <q-btn flat dense round aria-label="Menu" icon="menu" @click="menuClicked" />
 
         <q-toolbar-title>Account</q-toolbar-title>
 
@@ -11,19 +11,19 @@
           <q-menu>
             <q-list dark style="min-width: 175px" class="bg-colour1">
               <!-- dense -->
-              <q-item clickable v-close-popup>
+              <q-item v-close-popup clickable>
                 <q-item-section>Synchronize</q-item-section>
                 <q-item-section side>
                   <font-awesome-icon icon="sync-alt" transform="grow-9 left-7" />
                 </q-item-section>
               </q-item>
-              <q-item clickable v-close-popup>
+              <q-item v-close-popup clickable>
                 <q-item-section>Import</q-item-section>
                 <q-item-section side>
                   <font-awesome-icon icon="sign-in-alt" transform="grow-9 left-7" />
                 </q-item-section>
               </q-item>
-              <q-item clickable v-close-popup>
+              <q-item v-close-popup clickable>
                 <q-item-section @click="deleteAccount">Delete</q-item-section>
                 <q-item-section side>
                   <!-- <q-icon name="star"/> -->
@@ -38,28 +38,28 @@
 
     <!-- <p>Editor for the Account: {{ account.name }}</p> -->
 
-    <q-input label="Account Name" v-model="account.name" dark clearable @keyup.enter="onEnter" />
+    <q-input v-model="account.name" label="Account Name" dark clearable @keyup.enter="onEnter" />
     <!-- balance -->
     <q-input
-      label="Balance"
       v-model.number="account.balance"
+      label="Balance"
       type="number"
       dark
       clearable
       @keyup.enter="onEnter"
     />
-    <q-input label="Currency" v-model="account.currency" dark clearable @keyup.enter="onEnter" />
+    <q-input v-model="account.currency" label="Currency" dark clearable @keyup.enter="onEnter" />
 
     <q-input
-      label="Current value"
       v-model="account.currentValue"
+      label="Current value"
       dark
       clearable
       @keyup.enter="onEnter"
     />
     <q-input
-      label="Current value currency"
       v-model="account.currentCurrency"
+      label="Current value currency"
       dark
       clearable
       @keyup.enter="onEnter"

@@ -6,7 +6,7 @@
         <span style="font-size: 0.8rem">{{ this.$version }}</span>
       </h3>
       <!-- <img src="/icons/icon96.png"> -->
-      <img src="../../public/icons/icon96.png" >
+      <img src="../../public/icons/icon96.png">
     </div>
     <div class="text-center q-my-sm">by Alen Šiljak</div>
     <div>
@@ -93,9 +93,7 @@ export default {
   created() {
     this.$store.commit(SET_TITLE, "About");
     this.$store.commit(MAIN_TOOLBAR, true);
-  },
-
-  components: {}
+  }
 };
 </script>
 

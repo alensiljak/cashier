@@ -42,7 +42,7 @@
           </q-item-section>
         </q-item> -->
 
-        <q-item :to="{name: 'accounts'}" clickable v-ripple active-class="active-link">
+        <q-item v-ripple :to="{name: 'accounts'}" clickable active-class="active-link">
           <!-- exact -->
           <q-item-section avatar>
             <font-awesome-icon icon="wallet" transform="grow-6 right-6" />
@@ -93,7 +93,7 @@
           </q-list>
         </q-expansion-item>-->
 
-        <q-item to="/assetallocation" exact clickable v-ripple active-class="active-link">
+        <q-item to="/assetallocation" exact v-ripple clickable active-class="active-link">
           <q-item-section avatar>
             <font-awesome-icon icon="business-time" transform="grow-6 right-9" />
           </q-item-section>
@@ -103,7 +103,7 @@
         </q-item>
 
         <!-- Sync -->
-        <q-item to="/sync" exact clickable v-ripple active-class="active-link">
+        <q-item to="/sync" exact v-ripple clickable active-class="active-link">
           <q-item-section avatar>
             <font-awesome-icon icon="sync-alt" transform="grow-6 right-6" />
           </q-item-section>
@@ -204,7 +204,7 @@
           </q-list>
         </q-expansion-item>-->
 
-        <q-item :to="{name: 'settings'}" clickable v-ripple active-class="active-link">
+        <q-item :to="{name: 'settings'}" v-ripple clickable active-class="active-link">
           <!-- exact -->
           <q-item-section avatar>
             <font-awesome-icon icon="cog" transform="grow-6 right-6" />
@@ -259,6 +259,17 @@ export default {
     };
   },
 
+  computed: {
+    drawerOpen: {
+      get() {
+        return this.$store.state.drawerOpen;
+      },
+      set(value) {
+        this.$store.commit(TOGGLE_DRAWER, value);
+      }
+    }
+  },
+
   created() {
     // initial state of the drawer
     // this.$q.platform.is.desktop
@@ -311,17 +322,6 @@ export default {
     },
     toggleDrawer() {
       this.drawerOpen = !this.drawerOpen;
-    }
-  },
-
-  computed: {
-    drawerOpen: {
-      get() {
-        return this.$store.state.drawerOpen;
-      },
-      set(value) {
-        this.$store.commit(TOGGLE_DRAWER, value);
-      }
     }
   }
 };

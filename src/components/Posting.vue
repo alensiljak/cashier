@@ -2,22 +2,22 @@
   <div>
     <div class="row">
       <!-- spacer -->
-      <div class="col-1"></div>
+      <div class="col-1" />
 
       <div class="col">
         <!-- Account -->
-        <q-input dark label="Account" v-model="posting.account" @click="$emit('accountClicked')" />
+        <q-input v-model="posting.account" dark label="Account" @click="$emit('accountClicked')" />
       </div>
     </div>
 
     <div class="row justify-end">
-      <div class="col-2"></div>
+      <div class="col-2" />
       <div class="col-3 col-xs-5">
         <!-- Amount -->
         <q-input
+          v-model.number="posting.amount"
           dark
           label="Amount"
-          v-model.number="posting.amount"
           type="number"
           input-class="text-right"
           @change="$emit('amountChanged')"
@@ -27,7 +27,7 @@
       <div class="q-pl-sm col-3 col-xs-4">
         <!-- currency -->
         <!-- set from the account -->
-        <q-input dark label="Currency" v-model="posting.currency" />
+        <q-input v-model="posting.currency" dark label="Currency" />
       </div>
     </div>
   </div>

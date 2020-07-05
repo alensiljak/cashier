@@ -2,7 +2,7 @@
   <q-page padding class="bg-colour1 text-colour2">
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn flat dense round @click="menuClicked" aria-label="Menu" icon="menu" />
+        <q-btn flat dense round aria-label="Menu" icon="menu" @click="menuClicked" />
 
         <q-toolbar-title>Accounts</q-toolbar-title>
 
@@ -12,21 +12,21 @@
           <q-menu>
             <q-list dark style="min-width: 175px" class="bg-colour1">
               <!-- dense -->
-              <q-item clickable v-close-popup :to="{name: 'sync'}">
+              <q-item v-close-popup clickable :to="{name: 'sync'}">
                 <q-item-section>Synchronize</q-item-section>
                 <q-item-section side>
                   <font-awesome-icon icon="sync-alt" transform="grow-9 left-5" />
                 </q-item-section>
               </q-item>
 
-              <q-item clickable v-close-popup>
+              <q-item v-close-popup clickable>
                 <q-item-section @click="onImportClick">Import</q-item-section>
                 <q-item-section side>
                   <font-awesome-icon icon="sign-in-alt" transform="grow-9 left-5" />
                 </q-item-section>
               </q-item>
 
-              <q-item clickable v-close-popup>
+              <q-item v-close-popup clickable>
                 <q-item-section @click="onDeleteAllClick">Delete All</q-item-section>
                 <q-item-section side>
                   <font-awesome-icon icon="trash-alt" transform="grow-9 left-5" />
@@ -40,6 +40,7 @@
       <q-toolbar class="text-white flex flex-center">
         <!-- <q-toolbar-title> -->
         <q-input
+          v-model="filter"
           autofocus
           rounded
           standout
@@ -47,7 +48,6 @@
           dark
           color="amber-4"
           style="width: 23rem;"
-          v-model="filter"
           debounce="500"
         >
           <template v-slot:append>
@@ -82,11 +82,11 @@
     </q-list>-->
 
     <RecycleScroller
+      v-slot="{ item }"
       class="scroller"
       :items="accounts"
       :item-size="42"
       key-field="name"
-      v-slot="{ item }"
     >
       <div class="scroller-item" @click="itemClicked(item.name)">
         {{ item.name }}
@@ -95,7 +95,7 @@
     </RecycleScroller>
 
     <!-- new account (name) dialog -->
-    <q-dialog dark v-model="dialogVisible">
+    <q-dialog v-model="dialogVisible" dark>
       <!-- persistent -->
       <q-card style="min-width: 400px" class="bg-primary text-colour2">
         <q-card-section>
@@ -104,18 +104,18 @@
 
         <q-card-section>
           <q-input
-            dense
             v-model="newAccount"
+            dense
             autofocus
-            @keyup.enter="onAddAccount"
             input-class="text-amber-2"
             color="amber-4"
+            @keyup.enter="onAddAccount"
           />
         </q-card-section>
 
         <q-card-actions align="right" class="text-accent">
-          <q-btn flat label="Cancel" v-close-popup @click="onCancelAdd" />
-          <q-btn flat label="Add" v-close-popup @click="onAddAccount" />
+          <q-btn v-close-popup flat label="Cancel" @click="onCancelAdd" />
+          <q-btn v-close-popup flat label="Add" @click="onAddAccount" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -135,8 +135,8 @@
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn flat label="Cancel" color="amber-4" v-close-popup />
-          <q-btn flat label="Delete" color="amber-4" v-close-popup @click="confirmDeleteAll" />
+          <q-btn v-close-popup flat label="Cancel" color="amber-4" />
+          <q-btn v-close-popup flat label="Delete" color="amber-4" @click="confirmDeleteAll" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -163,6 +163,18 @@ export default {
       filterText: null, // filter for the account name
       pickerMode: false
     };
+  },
+
+  computed: {
+    filter: {
+      get() {
+        return this.filterText;
+      },
+      set(value) {
+        this.filterText = value;
+        this.loadData();
+      }
+    }
   },
 
   created() {
@@ -242,18 +254,6 @@ export default {
     },
     onImportClick() {
       this.$router.push({ name: "import" });
-    }
-  },
-
-  computed: {
-    filter: {
-      get() {
-        return this.filterText;
-      },
-      set(value) {
-        this.filterText = value;
-        this.loadData();
-      }
     }
   }
 };

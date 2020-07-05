@@ -3,11 +3,11 @@
     <!-- clickable @click="onItemClicked" -->
     <q-item-section @click="itemClicked(tx.id)">
       <q-item-label>{{ tx.date }} {{ tx.payee }}</q-item-label>
-      <q-item-label caption class="q-ml-xl text-amber-2" v-if="tx.comment">{{tx.comment}}</q-item-label>
+      <q-item-label v-if="tx.comment" caption class="q-ml-xl text-amber-2">{{ tx.comment }}</q-item-label>
       <q-item-label caption class="q-ml-xl text-amber-2">
-        <div class="row" v-for="posting in tx.postings" :key="posting.id">
+        <div v-for="posting in tx.postings" :key="posting.id" class="row">
           <div class="col">{{ posting.account }}</div>
-          <div v-if="posting.amount">{{posting.amount}} {{posting.currency}}</div>
+          <div v-if="posting.amount">{{ posting.amount }} {{ posting.currency }}</div>
         </div>
       </q-item-label>
     </q-item-section>
@@ -18,14 +18,16 @@
         icon="delete"
         round
         size="sm"
+        :data-id="tx.id"
         @click="onDeleteClicked"
-        :data-id="tx.id" />
+      />
     </q-item-section>
   </q-item>
 </template>
 
 <script>
 export default {
+  props: ["tx"],
   data() {
     return {
       confirmDelete: false
@@ -52,7 +54,6 @@ export default {
       // request transaction deletion
       this.$emit("txDeleteClicked", { id: id });
     }
-  },
-  props: ["tx"]
+  }
 };
 </script>
