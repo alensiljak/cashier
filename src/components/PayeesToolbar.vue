@@ -1,9 +1,9 @@
 <template>
   <q-header elevated class="glossy">
     <q-toolbar class="text-colour2">
-      <q-btn flat dense round @click="$emit('menuClicked')" aria-label="Menu" icon="menu" />
+      <q-btn flat dense round aria-label="Menu" icon="menu" @click="$emit('menuClicked')" />
 
-      <q-toolbar-title>{{title}}</q-toolbar-title>
+      <q-toolbar-title>{{ title }}</q-toolbar-title>
 
       <q-space />
 
@@ -27,13 +27,13 @@
     <q-toolbar class="text-white flex flex-center">
       <!-- <q-toolbar-title> -->
       <q-input
+        v-model="myFilter"
         rounded
         standout
         dense
         dark
         color="amber-4"
         style="width: 23rem;"
-        v-model="myFilter"
         debounce="500"
       >
         <template v-slot:append>
@@ -47,13 +47,16 @@
 
 <script>
 export default {
+
+  props: {
+    title: { type: String, default: "" },
+    filter: { type: String, default: "" }
+  },
   data() {
     return {
       //   filter: ""
     };
   },
-
-  props: ["title", "filter"],
 
   computed: {
     myFilter: {

@@ -37,7 +37,11 @@
 import appService from "../appService";
 
 export default {
-  props: ["posting", "index", "accounts"],
+  props: {
+    posting: { type: Object, default: null }, 
+    index: { type: Number, default: null },
+    accounts: { type: Array, default: null }
+  },
 
   data: function() {
     return {

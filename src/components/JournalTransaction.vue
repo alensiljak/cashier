@@ -27,7 +27,9 @@
 
 <script>
 export default {
-  props: ["tx"],
+  props: {
+    tx: { type: Object, default: null }
+  },
   data() {
     return {
       confirmDelete: false

@@ -93,7 +93,7 @@
           </q-list>
         </q-expansion-item>-->
 
-        <q-item to="/assetallocation" exact v-ripple clickable active-class="active-link">
+        <q-item v-ripple to="/assetallocation" exact clickable active-class="active-link">
           <q-item-section avatar>
             <font-awesome-icon icon="business-time" transform="grow-6 right-9" />
           </q-item-section>
@@ -103,7 +103,7 @@
         </q-item>
 
         <!-- Sync -->
-        <q-item to="/sync" exact v-ripple clickable active-class="active-link">
+        <q-item v-ripple to="/sync" exact clickable active-class="active-link">
           <q-item-section avatar>
             <font-awesome-icon icon="sync-alt" transform="grow-6 right-6" />
           </q-item-section>
@@ -123,11 +123,11 @@
         >
           <q-list>
             <q-item
+              v-ripple
               to="/import"
               :inset-level="1"
               exact
               clickable
-              v-ripple
               active-class="active-link"
             >
               <q-item-section avatar>
@@ -204,7 +204,7 @@
           </q-list>
         </q-expansion-item>-->
 
-        <q-item :to="{name: 'settings'}" v-ripple clickable active-class="active-link">
+        <q-item v-ripple :to="{name: 'settings'}" clickable active-class="active-link">
           <!-- exact -->
           <q-item-section avatar>
             <font-awesome-icon icon="cog" transform="grow-6 right-6" />
