@@ -1,7 +1,7 @@
 <template>
-  <q-item clickable v-ripple class="list-item">
+  <q-item v-ripple clickable class="list-item">
     <q-item-section>{{ account.name }}</q-item-section>
-    <q-item-section side>{{ account.balance}} {{account.currency}}</q-item-section>
+    <q-item-section side>{{ account.balance }} {{ account.currency }}</q-item-section>
   </q-item>
 
   <!-- <li class="list-item">{{item}}</li> -->
@@ -12,6 +12,8 @@ import { ElementMixin } from "vue-slicksort";
 
 export default {
   mixins: [ElementMixin],
-  props: ["account"]
+  props: {
+    account: String
+  }
 };
 </script>

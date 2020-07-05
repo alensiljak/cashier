@@ -7,7 +7,7 @@
 
       <q-btn label="Backup" color="red-10" text-color="amber-4" @click="backup" />
 
-      <p>{{output}}</p>
+      <p>{{ output }}</p>
     </div>
   </q-page>
 </template>
@@ -40,7 +40,7 @@ export default {
       //   let url = "https://webdav.pcloud.com";
       //   this.loginWithRedirect();
       // this.loginWithoutRedirect();
-      let client = new RemoteStorage();
+      const client = new RemoteStorage();
       this.output = client.fetch();
     }
   }

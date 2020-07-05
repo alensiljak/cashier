@@ -3,7 +3,8 @@ module.exports = {
 
   parserOptions: {
     parser: 'babel-eslint',
-    sourceType: 'module'
+    ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
+    sourceType: 'module' // Allows for the use of imports
   },
 
   env: {
@@ -19,7 +20,8 @@ module.exports = {
     //'eslint:recommended',
     //'@vue/standard'
     'plugin:vue/strongly-recommended',
-    "plugin:vue/recommended"
+    "plugin:vue/recommended",
+    //'standard'
   ],
 
   // required to lint *.vue files
@@ -68,6 +70,7 @@ module.exports = {
     // allow debugger during development only
     //'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   }
 }

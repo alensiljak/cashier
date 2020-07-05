@@ -47,7 +47,7 @@
 <script>
 import { SET_TITLE, MAIN_TOOLBAR } from "../mutations";
 import { SettingKeys, settings } from "../lib/Configuration";
-import { CashierSync } from "../lib/syncCashier";
+// import { CashierSync } from "../lib/syncCashier";
 import { engine } from "../lib/AssetAllocation";
 
 export default {
@@ -91,18 +91,18 @@ export default {
         .then(() => {
           // import AA definition file
           engine.importDefinition(this.fileContent)
-          .then(() => {
-            this.$q.notify({
-              message: "Definition imported",
-              color: "teal-9", // green-9
-              textColor: "amber-2"
+            .then(() => {
+              this.$q.notify({
+                message: "Definition imported",
+                color: "teal-9", // green-9
+                textColor: "amber-2"
+              })
             })
-          })
-          .catch(msg => this.$q.notify({
+            .catch(msg => this.$q.notify({
               message: "Error during import: " + msg,
               color: "secondary",
               textColor: "amber-2"
-          }))
+            }))
         })
     },
     onSaveClick() {

@@ -2,7 +2,7 @@
   <q-page padding class="bg-colour1 text-colour2">
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn flat dense round @click="menuClicked" aria-label="Menu" icon="menu" />
+        <q-btn flat dense round aria-label="Menu" icon="menu" @click="menuClicked" />
 
         <q-toolbar-title>Favourites</q-toolbar-title>
 
@@ -12,21 +12,21 @@
           <q-menu>
             <q-list dark style="min-width: 175px" class="bg-colour1">
               <!-- dense -->
-              <q-item clickable v-close-popup @click="addAccountClick">
+              <q-item v-close-popup clickable @click="addAccountClick">
                 <q-item-section>Add</q-item-section>
                 <q-item-section side>
                   <font-awesome-icon icon="plus-circle" transform="grow-9 left-5" />
                 </q-item-section>
               </q-item>
 
-              <q-item clickable v-close-popup @click="onDeleteAllClick">
+              <q-item v-close-popup clickable @click="onDeleteAllClick">
                 <q-item-section>Delete All</q-item-section>
                 <q-item-section side>
                   <font-awesome-icon icon="trash-alt" transform="grow-9 left-5" />
                 </q-item-section>
               </q-item>
 
-              <q-item clickable v-close-popup @click="onSortClick">
+              <q-item v-close-popup clickable @click="onSortClick">
                 <q-item-section>Reorder</q-item-section>
                 <q-item-section side>
                   <font-awesome-icon icon="sort" transform="grow-9 left-5" />
@@ -40,9 +40,9 @@
 
     <!-- account list -->
     <q-slide-item
-      dark
       v-for="(account, index) in accounts"
       :key="account.name"
+      dark
       right-color="red-10"
       @right="onRightSlide"
     >
@@ -54,9 +54,9 @@
       </template>
 
       <q-list dark separator class="bg-colour1">
-        <q-item clickable v-ripple @click="onListItemClick(account.name)">
+        <q-item v-ripple clickable @click="onListItemClick(account.name)">
           <q-item-section>{{ account.name }}</q-item-section>
-          <q-item-section side>{{ account.balance}} {{account.currency}}</q-item-section>
+          <q-item-section side>{{ account.balance }} {{ account.currency }}</q-item-section>
         </q-item>
       </q-list>
     </q-slide-item>
@@ -77,8 +77,8 @@
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn flat label="Cancel" color="amber-4" v-close-popup />
-          <q-btn flat label="Delete" color="amber-4" v-close-popup @click="confirmDeleteAll" />
+          <q-btn v-close-popup flat label="Cancel" color="amber-4" />
+          <q-btn v-close-popup flat label="Delete" color="amber-4" @click="confirmDeleteAll" />
         </q-card-actions>
       </q-card>
     </q-dialog>

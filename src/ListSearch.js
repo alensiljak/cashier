@@ -22,7 +22,7 @@ export class ListSearch {
    */
   search(searchTerm) {
     // let expression = '^(?=.*\bjack\b)(?=.*\bjames\b).*$'
-    let regex = this.getRegex(searchTerm);
+    const regex = this.getRegex(searchTerm);
     return regex.test(searchTerm);
   }
 
@@ -31,7 +31,7 @@ export class ListSearch {
     // ^(?=.*\bjack\b)(?=.*\bjames\b).*$
 
     // split the search terms
-    let searchTerms = searchTerm.split(" ");
+    const searchTerms = searchTerm.split(" ");
     var expression = "^";
     for (let i = 0; i < searchTerms.length; i++) {
       if (!searchTerms[i]) continue;
@@ -44,9 +44,9 @@ export class ListSearch {
   }
 
   getRegex(searchTerm) {
-    let expression = this.getExpression(searchTerm);
+    const expression = this.getExpression(searchTerm);
 
-    let regex = new RegExp(expression, "i");
+    const regex = new RegExp(expression, "i");
     return regex;
   }
 }

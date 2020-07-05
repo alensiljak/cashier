@@ -1,10 +1,10 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
-    <accounts-list lockAxis="y" v-model="accounts">
+    <accounts-list v-model="accounts" lock-axis="y">
       <account-item
         v-for="(account, index) in accounts"
-        :index="index"
         :key="index"
+        :index="index"
         :account="account"
       />
     </accounts-list>
@@ -23,6 +23,11 @@ import { settings, SettingKeys } from "../lib/Configuration";
 import appService from "../appService";
 
 export default {
+
+  components: {
+    AccountsList,
+    AccountItem
+  },
   data() {
     return {
       accounts: []
@@ -65,11 +70,6 @@ export default {
         .then(() => this.loadData())
         .then(() => this.$q.notify("data saved"));
     }
-  },
-
-  components: {
-    AccountsList,
-    AccountItem
   }
 };
 </script>

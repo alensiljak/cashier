@@ -48,7 +48,7 @@ export default {
     getCommodities() {
       appService.getInvestmentCommodities().then(commodities => {
         for (let i = 0; i < commodities.length; i++) {
-          let price = new Price();
+          const price = new Price();
           price.symbol = commodities[i];
           this.commodities.push(price);
         }

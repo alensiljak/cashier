@@ -10,9 +10,9 @@ var cacheName = "cashier";
 var filesToCache = [
   //    "favicon.png",
   "index.html",
-  "statics/icons/favicon-16x16.png",
-  "statics/icons/icon96.png",
-  "statics/icons/icon192.png"
+  "icons/favicon-16x16.png",
+  "icons/icon96.png",
+  "icons/icon192.png"
 ];
 
 self.addEventListener("install", function(e) {

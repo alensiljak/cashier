@@ -51,26 +51,26 @@ export default {
       return appService.formatNumber(value);
     },
     loadData() {
-      let accountName = this.$route.params.name;
+      const accountName = this.$route.params.name;
       appService.db.accounts.get(accountName).then(account => {
         this.account = account;
         this.loadPostings(accountName);
       });
     },
     async loadPostings(accountName) {
-      let postings = await appService.db.postings.where({
+      const postings = await appService.db.postings.where({
         account: accountName
       });
-      let postingArray = await postings.toArray();
+      const postingArray = await postings.toArray();
 
       return this.loadTransactions(postingArray);
     },
     async loadTransactions(postings) {
-      let txIds = [];
+      const txIds = [];
       postings.forEach(posting => {
         txIds.push(posting.transactionId);
       });
-      let txs = await appService.db.transactions.bulkGet(txIds);
+      const txs = await appService.db.transactions.bulkGet(txIds);
 
       // Append display fields to the postings directly.
       txs.forEach((tx, index) => {
@@ -93,7 +93,7 @@ export default {
       this.$router.push({ name: "tx", params: { id: txId } });
     },
     sendAccountToTransaction(account) {
-      let selectMode = new SelectionModeMetadata();
+      const selectMode = new SelectionModeMetadata();
 
       // set the type
       selectMode.selectionType = ACCOUNT;

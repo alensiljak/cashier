@@ -90,7 +90,7 @@ export default {
       settings
         .get(SettingKeys.rootInvestmentAccount)
         .then(value => (this.rootInvestmentAccount = value));
-      
+
       settings.get(SettingKeys.currency).then(value => (this.currency = value));
 
       settings
@@ -98,7 +98,7 @@ export default {
         .then(value => (this.serverUrl = value));
     },
     onConnectClicked() {
-      let sync = new CashierSync(this.serverUrl);
+      const sync = new CashierSync(this.serverUrl);
       sync
         .healthCheck()
         .then(response => this.$q.notify({ message: response, color: "primary" }))
@@ -113,7 +113,7 @@ export default {
         .then(() => this.$q.notify({ message: "sync server saved" }));
     },
     synchronizeAaValues() {
-      let sync = new CashierSync(this.serverUrl);
+      const sync = new CashierSync(this.serverUrl);
       sync
         .readCurrentValues()
         .then(() =>
@@ -124,10 +124,10 @@ export default {
         );
     },
     async synchronizeBalances() {
-      let sync = new CashierSync(this.serverUrl);
+      const sync = new CashierSync(this.serverUrl);
 
       console.log("reading accounts from the server.");
-      let newAccounts = await sync.readAccounts();
+      const newAccounts = await sync.readAccounts();
       // delete all accounts only after we have the new ones
       console.log("deleting local account records.");
       await appService.deleteAccounts();
@@ -149,7 +149,7 @@ export default {
       }
     },
     shutdown() {
-      let sync = new CashierSync(this.serverUrl);
+      const sync = new CashierSync(this.serverUrl);
       sync
         .shutdown()
         .catch(reason =>
@@ -162,7 +162,7 @@ export default {
           })
         );
     }
-   
+
   }
 };
 </script>

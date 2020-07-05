@@ -9,11 +9,11 @@
     />
 
     <RecycleScroller
+      v-slot="{ item }"
       class="scroller"
       :items="payees"
       :item-size="42"
       key-field="id"
-      v-slot="{ item }"
     >
       <div class="scroller-item" @click="itemClicked(item.id)">{{ item.name }}</div>
     </RecycleScroller>
@@ -26,7 +26,7 @@
     </q-page-sticky>
 
     <!-- new payee (name) dialog -->
-    <q-dialog dark v-model="addDialogVisible">
+    <q-dialog v-model="addDialogVisible" dark>
       <!-- persistent -->
       <q-card style="min-width: 400px" class="bg-primary text-colour2">
         <q-card-section>
@@ -35,18 +35,18 @@
 
         <q-card-section>
           <q-input
-            dense
             v-model="newPayee"
+            dense
             autofocus
-            @keyup.enter="onAddPayee"
             input-class="text-amber-2"
             color="amber-4"
+            @keyup.enter="onAddPayee"
           />
         </q-card-section>
 
         <q-card-actions align="right" class="text-accent">
-          <q-btn flat label="Cancel" v-close-popup @click="onCancelAdd"/>
-          <q-btn flat label="Add" v-close-popup @click="onAddPayee"/>
+          <q-btn v-close-popup flat label="Cancel" @click="onCancelAdd" />
+          <q-btn v-close-popup flat label="Add" @click="onAddPayee" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -59,8 +59,8 @@
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn flat label="Cancel" color="amber-4" v-close-popup/>
-          <q-btn flat label="Delete" color="amber-4" v-close-popup @click="deleteAllConfirmed"/>
+          <q-btn v-close-popup flat label="Cancel" color="amber-4" />
+          <q-btn v-close-popup flat label="Delete" color="amber-4" @click="deleteAllConfirmed" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -79,6 +79,10 @@ import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
 Vue.component("RecycleScroller", RecycleScroller);
 
 export default {
+
+  components: {
+    PayeesToolbar
+  },
   data: function() {
     return {
       payees: [],
@@ -107,8 +111,8 @@ export default {
       let payeeSource = appService.db.payees;
 
       if (this.filter) {
-        let search = new ListSearch()
-        let regex = search.getRegex(this.filter);
+        const search = new ListSearch()
+        const regex = search.getRegex(this.filter);
 
         payeeSource = payeeSource.filter(payee => {
           // return payee.name.indexOf(this.filter) !== -1;
@@ -150,13 +154,9 @@ export default {
       this.loadData();
     },
     onMenuClicked() {
-      let visible = this.$store.state.drawerOpen;
+      const visible = this.$store.state.drawerOpen;
       this.$store.commit(TOGGLE_DRAWER, !visible);
     }
-  },
-
-  components: {
-    PayeesToolbar
   }
 };
 </script>

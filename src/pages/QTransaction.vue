@@ -201,14 +201,14 @@ export default {
      */
     getEmptyPostingIndex() {
       for (let i = 0; i < this.tx.postings.length; i++) {
-        let posting = this.tx.postings[i];
+        const posting = this.tx.postings[i];
         if (!posting.account && !posting.amount && !posting.commodity) {
           return i;
         }
       }
 
       // not found. Create a new one.
-      let posting = new Posting();
+      const posting = new Posting();
       this.tx.postings.push(posting);
       return this.tx.postings.length - 1;
     },
@@ -225,8 +225,8 @@ export default {
      */
     handleSelection() {
       // todo handle blank id if the user presses 'back'.
-      let select = this.$store.state.selectModeMeta;
-      let id = select.selectedId;
+      const select = this.$store.state.selectModeMeta;
+      const id = select.selectedId;
 
       switch (select.selectionType) {
         case "payee":
@@ -268,7 +268,7 @@ export default {
      */
     loadData() {
       // Transaction
-      let id = this.$route.params.id;
+      const id = this.$route.params.id;
       if (id) {
         this.loadTransaction(id);
       } else {
@@ -285,7 +285,7 @@ export default {
       });
     },
     onAccountClicked(index) {
-      let selectMode = new SelectionModeMetadata();
+      const selectMode = new SelectionModeMetadata();
 
       // save the index of the posting being edited
       selectMode.postingIndex = index;
@@ -343,13 +343,13 @@ export default {
       this.postingSum = 0;
 
       for (let i = 0; i < this.tx.postings.length; i++) {
-        let posting = this.tx.postings[i];
+        const posting = this.tx.postings[i];
         // console.log(posting)
         this.postingSum += posting.amount;
       }
     },
     resetTransaction() {
-      let tx = appService.createTransaction();
+      const tx = appService.createTransaction();
       this.tx = tx;
       return tx;
     }

@@ -3,7 +3,7 @@
 
   <nav>
     <header class="text-center">
-      <img src="/statics/icons/icon64.png" class="mt-4">
+      <img src="/icons/icon64.png" class="mt-4">
       <h2 class="mt-2 mb-3">Cashier</h2>
     </header>
     <ul class="nav flex-column">

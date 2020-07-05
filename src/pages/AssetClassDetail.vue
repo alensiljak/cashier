@@ -6,7 +6,7 @@
     <!-- <div>{{ assetClass }}</div> -->
 
     <ul>
-      <li v-for="stock in stocks" v-bind:key="stock.name">
+      <li v-for="stock in stocks" :key="stock.name">
         {{ stock.name }}
         <ul>
           <li v-if="stock.analysis">
@@ -14,9 +14,11 @@
             <router-link
               :to="{ name: 'lots', params: { symbol: stock.name }}"
               class="text-colour2"
-            >lots</router-link>
+            >
+              lots
+            </router-link>
           </li>
-          <li v-for="account in stock.accounts" v-bind:key="account.fullname">
+          <li v-for="account in stock.accounts" :key="account.fullname">
             {{ account.name }},
             {{ account.balance }} {{ account.currency }},
             {{ account.currentValue }} {{ account.currentCurrency }},

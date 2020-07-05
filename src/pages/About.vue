@@ -3,10 +3,10 @@
     <div style="width:100%;" class="text-center">
       <h3 class="q-my-sm">
         Cashier
-        <span style="font-size: 0.8rem">{{this.$version}}</span>
+        <span style="font-size: 0.8rem">{{ this.$version }}</span>
       </h3>
-      <!-- <img src="/statics/icons/icon96.png"> -->
-      <img src="../../src/statics/icons/icon96.png" />
+      <!-- <img src="/icons/icon96.png"> -->
+      <img src="../../public/icons/icon96.png" >
     </div>
     <div class="text-center q-my-sm">by Alen Šiljak</div>
     <div>

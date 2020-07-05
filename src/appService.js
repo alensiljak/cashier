@@ -53,12 +53,12 @@ class AppService {
    * @param {*} id Int/long id of the transaction to delete
    */
   deleteTransaction(id) {
-    if (typeof id == "string") {
+    if (typeof id === "string") {
       id = Number(id)
     }
 
     return this.db.transaction("rw", this.db.transactions, this.db.postings, async (tx) => {
-      let x = await db.transactions.where("id").equals(id).count()
+      const x = await db.transactions.where("id").equals(id).count()
       console.log("count:", x)
 
       // delete transaction record
@@ -144,7 +144,7 @@ class AppService {
    */
   async getInvestmentAccounts() {
     // get the root investment account.
-    let rootAccount = await settings.get(SettingKeys.rootInvestmentAccount);
+    const rootAccount = await settings.get(SettingKeys.rootInvestmentAccount);
 
     if (!rootAccount) {
       throw new Error("Root investment account not set!");
@@ -160,7 +160,7 @@ class AppService {
     // get all investment accounts, iterate to get unique commodities?
     let commodities = [];
 
-    let accounts = await this.getInvestmentAccounts();
+    const accounts = await this.getInvestmentAccounts();
     await accounts.each(account => {
       // console.log("each");
       commodities.push(account.currency);
@@ -176,28 +176,28 @@ class AppService {
 
   async importBalanceSheet(text) {
     if (!text) {
-      let message = "No balance sheet selected.";
+      const message = "No balance sheet selected.";
       // Notify.create({ message: "No balance sheet selected." });
       throw message;
       // return;
     }
 
-    let accounts = [];
-    let mainCurrency = await settings.get(SettingKeys.currency);
+    const accounts = [];
+    const mainCurrency = await settings.get(SettingKeys.currency);
     let mainCurrencyAmount = null;
     let multicurrencyAccount = false;
 
     // read and parse the balance sheet string
-    let lines = text.split("\n");
+    const lines = text.split("\n");
     for (let i = 0; i < lines.length; i++) {
       // console.log(lines[i]);
-      let line = lines[i];
-      let account = new Account();
+      const line = lines[i];
+      const account = new Account();
 
       let balancePart = line.substring(0, 20);
       balancePart = balancePart.trim();
       // separate the currency
-      let balanceParts = balancePart.split(" ");
+      const balanceParts = balancePart.split(" ");
 
       let amountPart = balanceParts[0];
       // clean-up the thousand-separators
@@ -247,11 +247,11 @@ class AppService {
       return;
     }
 
-    let commodities = [];
-    let lines = text.split("\n");
+    const commodities = [];
+    const lines = text.split("\n");
 
     for (let i = 0; i < lines.length - 1; i++) {
-      let commodity = lines[i].trim();
+      const commodity = lines[i].trim();
       commodities.push(commodity);
     }
 
