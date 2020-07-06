@@ -129,6 +129,11 @@ module.exports = function (/* ctx */) {
         theme_color: "#4DBA87",
         icons: [
           {
+            'src': 'icons/icon-128x128.png',
+            'sizes': '128x128',
+            'type': 'image/png'
+          },          
+          {
             src: "icons/icon192.png",
             sizes: "192x192",
             type: "image/png"
