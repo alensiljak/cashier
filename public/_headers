@@ -1,4 +1,0 @@
-# https://quasar.dev/quasar-cli/developing-pwa/handling-service-worker
-/service-worker.js
-    # don't cache
-    Cache-Control: no-cache

@@ -5,3 +5,12 @@
   command = "yarn build"
 
 #[context.production]
+
+[[headers]]
+  # https://quasar.dev/quasar-cli/developing-pwa/handling-service-worker
+  #for = "/*"
+  for = "/service-worker.js"
+  [headers.values]
+    Cache-Control = "no-cache"
+    #X-Frame-Options = "DENY"
+    #X-XSS-Protection = "1; mode=block"
