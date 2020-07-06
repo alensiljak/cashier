@@ -24,32 +24,32 @@ register(process.env.SERVICE_WORKER_FILE, {
   },
 
   cached (/* registration */) {
-    if (process.env.DEV) {
+    //if (process.env.DEV) {
       console.log('Content has been cached for offline use.')
-    }
+    //}
   },
 
   updatefound (/* registration */) {
-    if (process.env.DEV) {
+    //if (process.env.DEV) {
       console.log('New content is downloading.')
-    }
+    //}
   },
 
   updated (/* registration */) {
-    if (process.env.DEV) {
+    //if (process.env.DEV) {
       console.log('New content is available; please refresh.')
-    }
+    //}
   },
 
   offline () {
-    if (process.env.DEV) {
+    //if (process.env.DEV) {
       console.log('No internet connection found. App is running in offline mode.')
-    }
+    //}
   },
 
   error (err) {
-    if (process.env.DEV) {
+    //if (process.env.DEV) {
       console.error('Error during service worker registration:', err)
-    }
+    //}
   }
 })
