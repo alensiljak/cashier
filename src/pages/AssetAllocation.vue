@@ -51,9 +51,10 @@
       </q-toolbar>
     </q-header>
 
-    <!-- <div ref="buttonContainer">
+    <!-- the button is required for file export -->
+    <div ref="buttonContainer" hidden="hidden">
       <q-btn color="red-10" text-color="accent" label="Recalculate" @click="onRecalculateClick" />
-    </div> -->
+    </div>
 
     <!-- <q-table title="Asset Allocation" :data="assetClasses" :columns="columns"
       dark color="amber-3" :dense="$q.screen.lt.md" :rows-per-page-options="[0, 20]"
