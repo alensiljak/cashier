@@ -186,6 +186,8 @@ class AppService {
 
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
+      if (line === "") continue;
+      
       const account = new Account()
       account.name = line
       accounts.push(account);
@@ -195,10 +197,7 @@ class AppService {
 
   async importBalanceSheet(text) {
     if (!text) {
-      const message = "No balance sheet selected.";
-      // Notify.create({ message: "No balance sheet selected." });
-      throw message;
-      // return;
+      throw "No balance sheet selected."
     }
 
     const accounts = [];
@@ -206,22 +205,15 @@ class AppService {
     let mainCurrencyAmount = null;
     let multicurrencyAccount = false;
 
-    // load local accounts.
-    //let localAccounts = await this.loadAccounts()
-    //console.log(localAccounts)
-
     // read and parse the balance sheet string
     const lines = text.split("\n");
     for (let i = 0; i < lines.length; i++) {
       // console.log(lines[i]);
       const line = lines[i];
+      if (line === "") continue;
 
       const account = new Account();
       let namePart = line.substring(21).trim();
-      // const account = localAccounts.filter(function(account) {
-      //   console.log(account)
-      //   return account.name == namePart
-      // })
 
       let balancePart = line.substring(0, 20);
       balancePart = balancePart.trim();
