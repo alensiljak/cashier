@@ -117,7 +117,7 @@ export default {
       sync
         .readCurrentValues()
         .then(() =>
-          this.$q.notify({ message: "current values loaded", color: "primary" })
+          this.$q.notify({ message: "Asset Allocation values loaded", color: "primary" })
         )
         .catch(error =>
           this.$q.notify({ message: error.message, color: "secondary" })
@@ -126,13 +126,27 @@ export default {
     async synchronizeBalances() {
       const sync = new CashierSync(this.serverUrl);
 
-      console.log("reading accounts from the server.");
-      const newAccounts = await sync.readAccounts();
+      console.log("reading accounts from the server...");
+      const ledgerAccounts = await sync.readAccounts()
+        .catch(error => this.$q.notify({ message: "Read Accouns:" + error.message, color: "secondary" }))
       // delete all accounts only after we have the new ones
-      console.log("deleting local account records.");
-      await appService.deleteAccounts();
-      console.log("importing accounts.");
-      await sync.importAccounts(newAccounts);
+      console.log("deleting local account records...");
+      await appService.deleteAccounts()
+        .catch(error => this.$q.notify({ message: "Delete Accouns:" + error.message, color: "secondary" }))
+      console.log("importing accounts...");
+      //console.log(ledgerAccounts)
+      await appService.importAccounts(ledgerAccounts)
+        .catch(error => this.$q.notify({ message: "Import Accouns:" + error.message, color: "secondary" }))
+      this.$q.notify({ message: "accounts loaded", color: "primary" });
+      console.log("Accounts imported.")
+
+      // synchronize the account balances
+      console.log("importing balances...");
+      const balances = await sync.readBalances()
+      //console.log(balances)
+      await appService.importBalanceSheet(balances)
+        .catch(error => this.$q.notify({ message: "Import Balances:" + error.message, color: "secondary" }))
+
       this.$q.notify({ message: "balances loaded", color: "primary" });
     },
     async synchronize() {
@@ -140,7 +154,8 @@ export default {
         // Delete all accounts, then get everything from Ledger.
         // This clears up accounts that still have a value in the app but Ledger does not
         // return them as their balance is 0.
-        await this.synchronizeBalances().catch(error => {
+        await this.synchronizeBalances()
+        .catch(error => {
           this.$q.notify({ message: error.message, color: "secondary" });
         });
       }

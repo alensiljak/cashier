@@ -174,6 +174,25 @@ class AppService {
     return commodities;
   }
 
+  async importAccounts(accountsList) {
+    //console.log(accountsList)
+    if (!accountsList) {
+      const message = "The accounts list is empty!";
+      throw message;
+    }
+
+    const accounts = [];
+    const lines = accountsList.split("\n");
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      const account = new Account()
+      account.name = line
+      accounts.push(account);
+    }
+    return db.accounts.bulkPut(accounts);
+  }
+
   async importBalanceSheet(text) {
     if (!text) {
       const message = "No balance sheet selected.";
@@ -187,12 +206,22 @@ class AppService {
     let mainCurrencyAmount = null;
     let multicurrencyAccount = false;
 
+    // load local accounts.
+    //let localAccounts = await this.loadAccounts()
+    //console.log(localAccounts)
+
     // read and parse the balance sheet string
     const lines = text.split("\n");
     for (let i = 0; i < lines.length; i++) {
       // console.log(lines[i]);
       const line = lines[i];
+
       const account = new Account();
+      let namePart = line.substring(21).trim();
+      // const account = localAccounts.filter(function(account) {
+      //   console.log(account)
+      //   return account.name == namePart
+      // })
 
       let balancePart = line.substring(0, 20);
       balancePart = balancePart.trim();
@@ -208,7 +237,7 @@ class AppService {
       let currencyPart = balanceParts[1];
       account.currency = currencyPart;
 
-      let namePart = line.substring(21).trim();
+      // name
       account.name = namePart;
 
       // If we have a currency but no account, it's a multicurrency account.
