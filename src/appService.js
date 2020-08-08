@@ -95,11 +95,13 @@ class AppService {
         var output = "";
 
         for (let i = 0; i < txs.length; i++) {
-          let tx = txs[i];
+          let tx = txs[i]
           // transaction
-          output += tx.date;
-          output += " " + tx.payee;
-          output += "\n";
+          output += tx.date
+          output += " " + tx.payee
+          output += "\n"
+          // note
+          output += "    " + tx.note + "\n"
           // postings
           for (let j = 0; j < tx.postings.length; j++) {
             let p = tx.postings[j];
