@@ -101,7 +101,7 @@ class AppService {
           output += " " + tx.payee
           output += "\n"
           // note
-          output += "    " + tx.note + "\n"
+          output += "    ; " + tx.note + "\n"
           // postings
           for (let j = 0; j < tx.postings.length; j++) {
             let p = tx.postings[j];
