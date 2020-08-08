@@ -3,7 +3,7 @@
     <!-- clickable @click="onItemClicked" -->
     <q-item-section @click="itemClicked(tx.id)">
       <q-item-label>{{ tx.date }} {{ tx.payee }}</q-item-label>
-      <q-item-label v-if="tx.comment" caption class="q-ml-xl text-amber-2">{{ tx.comment }}</q-item-label>
+      <q-item-label v-if="tx.note" caption class="q-ml-xl text-amber-2">{{ tx.note }}</q-item-label>
       <q-item-label caption class="q-ml-xl text-amber-2">
         <div v-for="posting in tx.postings" :key="posting.id" class="row">
           <div class="col">{{ posting.account }}</div>
