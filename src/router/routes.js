@@ -18,6 +18,7 @@ const routes = [
       { path: '/assetallocationsetuphelp', name: 'assetallocationsetuphelp', component: () => import('../pages/AASetupHelp.vue') },
       { path: '/assetclassdetail/:fullname?', name: 'assetclassdetail', component: () => import('../pages/AssetClassDetail.vue') },
       { path: '/bal', name: 'balanceSheet', component: () => import(/* webpackChunkName: 'bal' */ '../pages/QBalanceSheet.vue') },
+      { path: '/cards', name: 'cards', component: () => import(/* webpackChunkName: 'cards' */ '../pages/Cards.vue')},
       { path: '/commodities', name: 'commodities', component: () => import('../pages/Commodities.vue') },
       { path: '/export', name: 'export', component: () => import('../pages/Export.vue') },
       { path: '/favourites', name: 'favourites', component: () => import('../pages/Favourites.vue') },
