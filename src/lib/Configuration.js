@@ -27,7 +27,8 @@ export const SettingKeys = {
   currency: "currency",
   favouriteAccounts: "favouriteAccounts",
   syncServerUrl: "syncServerUrl",
-  rootInvestmentAccount: "aa.rootAccount"
+  rootInvestmentAccount: "aa.rootAccount",
+  writeableJournalFilePath: "writeableJournalFilePath"
 };
 
 class Settings {

@@ -30,6 +30,18 @@
       <!-- </div> -->
     </div>
 
+    <div class="row">
+      <div class="col">
+        <p class="q-my-md">
+          Set the path to the writeable file, to which to append the transactions. 
+          The path is relative to the start location of the CashierSync. Example: ./book/mobile.ledger
+        </p>
+        <q-input v-model="journalFilePath" type="text" class="text-red" dark clearable
+                 label="Writeable journal file path:"
+        />
+      </div>
+    </div>
+
     <div class="row q-mt-lg">
       <div class="col text-center q-my-lg">
         <q-btn label="save" color="secondary" text-color="accent" @click="onSaveClick" />
@@ -38,6 +50,10 @@
 
     <div class="row q-mt-lg">
       <div class="col text-center q-my-lg">
+        <p>
+          Force-reload the page to refresh the version in case the background worker 
+          does not manage to update to the latest version.
+        </p>
         <q-btn label="Reload App" color="secondary" text-color="accent" @click="reloadApp" />
       </div>
     </div>
@@ -56,7 +72,8 @@ export default {
   data: function() {
     return {
       currency: null,
-      rootInvestmentAccount: null
+      rootInvestmentAccount: null,
+      journalFilePath: null
     };
   },
 
@@ -69,11 +86,15 @@ export default {
 
   methods: {
     loadSettings() {
-      settings.get(SettingKeys.currency).then(value => (this.currency = value));
+      settings.get(SettingKeys.currency)
+        .then(value => (this.currency = value));
 
       settings
         .get(SettingKeys.rootInvestmentAccount)
         .then(value => (this.rootInvestmentAccount = value));
+
+      settings.get(SettingKeys.writeableJournalFilePath)
+        .then(value => this.journalFilePath = value);
     },
     /**
      * The Asset Allocation definition selected.
@@ -117,6 +138,9 @@ export default {
         .then(() =>
           this.$q.notify({ message: "root investment account saved" })
         );
+
+      settings.set(SettingKeys.writeableJournalFilePath, this.journalFilePath)
+        .then(() => this.$q.notify({ message: "Writeable journal file path saved." }))
     },
     /**
      * Load Asset Allocation from the file.
