@@ -60,7 +60,6 @@
 
 <script>
 import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
-// import db from '../dataStore'
 import { SettingKeys, settings } from "../lib/Configuration";
 import { CashierSync } from "../lib/syncCashier";
 import appService from "../appService";

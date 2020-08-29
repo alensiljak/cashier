@@ -28,6 +28,7 @@ const routes = [
       { path: '/lots/:symbol', name: 'lots', component: () => import('../pages/Lots.vue') },
       { path: '/payees', name: 'payees', component: () => import('../pages/Payees.vue') },
       { path: '/prices', name: 'prices', component: () => import('../pages/Prices') },
+      { path: '/repository', name: 'repository', component: () => import('../pages/Repository') },
       { path: '/reg/:name', name: 'register', component: () => import('../pages/Register.vue') },
       { path: '/settings', name: 'settings', component: () => import('../pages/QSettings.vue') },
       { path: '/sync', name: 'sync', component: () => import('../pages/Sync.vue') },

@@ -5,8 +5,8 @@
         <span class="navbar-toggler-icon"></span>
       </div>-->
       <div class="navbar-brand">
-        <span v-on:click="togglerClicked">
-          <font-awesome-icon icon="bars"/>
+        <span @click="togglerClicked">
+          <font-awesome-icon icon="bars" />
         </span>
         <span class="ml-4">{{ title }}</span>
       </div>

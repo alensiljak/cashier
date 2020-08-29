@@ -122,6 +122,7 @@
           label="I/O"
         >
           <q-list>
+            <!-- Import -->
             <q-item
               v-ripple
               to="/import"
@@ -138,19 +139,35 @@
               </q-item-section>
             </q-item>
 
-            <q-item
-              v-ripple
-              to="/export"
-              :inset-level="1"
-              exact
-              clickable
-              active-class="active-link"
+            <!-- Export -->
+            <q-item v-ripple
+                    to="/export"
+                    :inset-level="1"
+                    exact
+                    clickable
+                    active-class="active-link"
             >
               <q-item-section avatar>
                 <font-awesome-icon icon="sign-out-alt" transform="grow-6 right-6" />
               </q-item-section>
               <q-item-section>
                 <q-item-label>Export</q-item-label>
+              </q-item-section>
+            </q-item>
+
+            <!-- Git Repository -->
+            <q-item v-ripple
+                    to="repository"
+                    :inset-level="1"
+                    exact
+                    clickable
+                    active-class="active-link"
+            >
+              <q-item-section avatar>
+                <font-awesome-icon icon="code-branch" transform="grow-6 right-6" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Repository</q-item-label>
               </q-item-section>
             </q-item>
 
@@ -171,39 +188,7 @@
           </q-list>
         </q-expansion-item>
 
-        <!-- Asset Allocation -->
-        <!-- <q-expansion-item
-          dark
-          header-class="text-amber-2"
-          expand-icon-class="text-amber-2"
-          expand-separator
-          icon="card_travel"
-          label="Asset Allocation">
-          <q-list>
-
-            <q-item to="/assetallocationsetup" exact clickable v-ripple active-class="active-link"
-              :inset-level="1">
-              <q-item-section avatar>
-                <font-awesome-icon icon="cog" transform="grow-6 right-9"/>
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>AA Setup</q-item-label>
-              </q-item-section>
-            </q-item>
-
-            <q-item to="/prices" exact clickable v-ripple active-class="active-link"
-              :inset-level="1">
-              <q-item-section avatar>
-                <font-awesome-icon icon="barcode" transform="grow-6 right-9"/>
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>Prices</q-item-label>
-              </q-item-section>
-            </q-item>
-
-          </q-list>
-        </q-expansion-item>-->
-
+        <!-- Settings -->
         <q-item v-ripple :to="{name: 'settings'}" clickable active-class="active-link">
           <!-- exact -->
           <q-item-section avatar>
