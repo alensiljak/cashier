@@ -106,6 +106,19 @@ export class CashierSync {
   }
 
   /**
+   * Pull from the remote repository. 
+   * @param {string} repoPath The path to the repository.
+   */
+  async repoPull(repoPath) {
+    let url = `${this.serverUrl}/repopull`
+    let response = await axios.post(url, {
+      repoPath: repoPath
+    })
+    let content = response.data;
+    return content;
+  }
+
+  /**
    * Shutdown CashierSync server from the client app.
    */
   shutdown() {

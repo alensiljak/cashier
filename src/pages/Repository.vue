@@ -10,17 +10,27 @@
     </p>
 
     <div>
+      <div class="q-my-sm">
+        <q-input v-model="repoPath" type="text" class="text-red" dark clearable 
+                 label="Repository path" 
+                 @change="onRepoChange"
+        />
+      </div>
+    </div>
+
+    <div>
       <p>
         Pull changes from the remote repository.
       </p>
       <div class="text-center">
-        <q-btn color="secondary" text-color="accent">
+        <q-btn color="secondary" text-color="accent" @click="onPullClick">
           <font-awesome-icon icon="download" transform="grow-6 right-6" class="q-mr-sm" />
           <span class="q-ml-sm">Pull</span>
         </q-btn>
       </div>
     </div>
 
+    <!-- commit -->
     <div class="q-my-md">
       <p>
         Commit changes to the local repository.
@@ -58,7 +68,8 @@ import { CashierSync } from "../lib/syncCashier";
 export default {
     data() {
         return {
-            serverUrl: null
+            serverUrl: null,
+            repoPath: null
         }
     },
 
@@ -69,7 +80,10 @@ export default {
         // load settings.
       settings
         .get(SettingKeys.syncServerUrl)
-        .then(value => (this.serverUrl = value));
+        .then(value => this.serverUrl = value);
+      settings
+        .get(SettingKeys.repositoryPath)
+        .then(value => this.repoPath = value)
     },
 
     methods: {
@@ -79,9 +93,18 @@ export default {
         onPullClick() {
             // run the cashiersync service for git pull.
             const sync = new CashierSync(this.serverUrl);
+            sync.repoPull(this.repoPath)
+                .then(result => this.$q.notify(result))
+                .catch(error => this.$q.notify(error))
         },
         onPushClick() {
             
+        },
+        onRepoChange() {
+            // this.$q.notify(this.repoPath)
+            settings.set(SettingKeys.repositoryPath, this.repoPath)
+                .then(() => this.$q.notify("path saved"))
+                .catch(error => this.$q.notify(error))
         }
     }
 }
