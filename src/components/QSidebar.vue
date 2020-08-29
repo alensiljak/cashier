@@ -240,9 +240,26 @@
     </q-img>
 
     <div class="absolute-bottom text-right">
-      <label>Server-side features:</label>
-      <q-toggle v-model="serverOn" @input="onServerToggle" />
+      <label>Live Mode:</label>
+      <q-toggle v-model="serverOn" @input="liveModeToggle" />
+      <font-awesome-icon icon="question-circle" transform="grow-9 left-5" 
+                         @click="onHelpClick"
+      />
     </div>
+
+    <!-- help dialog -->
+    <q-dialog v-model="liveModeHelpVisible" persistent content-class="bg-blue-grey-10">
+      <q-card dark class="bg-red-10 text-amber-2">
+        <q-card-section class="row items-center">
+          <!-- <q-avatar icon="signal_wifi_off" color="primary" text-color="amber-2"/>-->
+          <span>Live Mode uses CashierSync for all the data. CashierSync must be running.</span>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn v-close-popup flat label="OK" color="amber-4" @click="liveModeHelpVisible = false" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-drawer>
 </template>
 
@@ -255,7 +272,8 @@ export default {
   data() {
     return {
       // drawerOpen: this.$q.platform.is.desktop
-      serverOn: false
+      serverOn: false,
+      liveModeHelpVisible: false
     };
   },
 
@@ -287,7 +305,10 @@ export default {
 
       // this.$router.push("/");
     },
-    onServerToggle() {
+    onHelpClick() {
+      this.liveModeHelpVisible = true;
+    },
+    liveModeToggle() {
       this.$store.commit(SET_LEDGER_USE, this.serverOn);
       if (this.serverOn) {
         // check if cashier sync is running
