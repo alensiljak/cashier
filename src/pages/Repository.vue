@@ -12,7 +12,7 @@
     <!-- prices -->
     <q-card dark bordered class="q-px-sm text-colour2 rounded-border q-mb-md">
       <q-card-section>
-        <p>Prices</p>
+        <p class="text-h5">Prices</p>
         <q-input v-model="pricesRepoPath" type="text" class="text-red" dark clearable 
                  label="Prices repository path" 
                  @change="onPricesRepoChange"
@@ -20,13 +20,16 @@
       </q-card-section>
       <q-separator dark />
       <q-card-actions>
-        <q-btn color="secondary" text-color="accent" @click="pricesRepoPull">Pull</q-btn>
+        <q-btn color="secondary" text-color="accent" @click="pricesRepoPull">
+          <font-awesome-icon icon="download" transform="grow-6 right-6" class="q-mr-sm" />
+          <span class="q-ml-sm">Pull</span>
+        </q-btn>
       </q-card-actions>
     </q-card>
 
     <!-- Journal section -->
     <div>
-      Journal Repository
+      <span class="text-h5">Journal</span>
       <p>
         This is the repository that contains the book / journal. Used as the main data source,
         configured in .ledgerrc.
@@ -46,15 +49,20 @@
       </div>
     </div>
 
-    <!-- Pull -->
-    <div>
-      <p>
-        Pull changes from the remote repository.
-      </p>
-      <div class="text-center">
+    <!-- pull / push operations -->
+    <div class="row">
+      <div class="col text-center">
+        <!-- Pull -->
         <q-btn color="secondary" text-color="accent" @click="onPullClick">
           <font-awesome-icon icon="download" transform="grow-6 right-6" class="q-mr-sm" />
           <span class="q-ml-sm">Pull</span>
+        </q-btn>
+      </div>
+      <!-- Push -->
+      <div class="col text-center">
+        <q-btn color="secondary" text-color="accent" @click="onPushClick">
+          <font-awesome-icon icon="upload" transform="grow-6 right-6" class="q-mr-sm" />
+          <span class="q-ml-sm">Push</span>
         </q-btn>
       </div>
     </div>
@@ -80,19 +88,6 @@
         <q-btn color="secondary" text-color="accent">
           <font-awesome-icon icon="save" transform="grow-6 right-6" class="q-mr-sm" />
           <span class="q-ml-sm">Commit</span>
-        </q-btn>
-      </div>
-    </div>
-
-    <!-- Push -->
-    <div>
-      <p>
-        Push changes from the remote repository.
-      </p>
-      <div class="text-center">
-        <q-btn color="secondary" text-color="accent" @click="onPushClick">
-          <font-awesome-icon icon="upload" transform="grow-6 right-6" class="q-mr-sm" />
-          <span class="q-ml-sm">Push</span>
         </q-btn>
       </div>
     </div>
