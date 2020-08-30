@@ -118,6 +118,16 @@ export class CashierSync {
     return content;
   }
 
+  async repoCommit(repoPath, commitMessage) {
+    let url = `${this.serverUrl}/repo/commit`
+    let response = await axios.post(url, {
+      repoPath: repoPath,
+      commitMessage: commitMessage
+    })
+    let content = response.data;
+    return content;
+  }
+
   async repoPush(repoPath) {
     let url = `${this.serverUrl}/repo/push`
     let response = await axios.post(url, {

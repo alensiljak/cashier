@@ -80,12 +80,14 @@
         <q-input v-model="journalFile" type="text" class="text-red" dark clearable 
                  label="Journal file path"
         />
-        <q-input v-model="commitMessage" type="text" class="text-red" dark clearable 
+        <q-input ref="input" v-model="commitMessage" type="text" class="text-red" dark
+                 clearable
+                 :rules="[val => !!val || 'Field is required']"
                  label="Commit message"
         />
       </div>
       <div class="text-center">
-        <q-btn color="secondary" text-color="accent">
+        <q-btn color="secondary" text-color="accent" @click="onCommitClick">
           <font-awesome-icon icon="save" transform="grow-6 right-6" class="q-mr-sm" />
           <span class="q-ml-sm">Commit</span>
         </q-btn>
@@ -146,51 +148,62 @@ export default {
         settings.get(SettingKeys.writeableJournalFilePath)
           .then(value => this.journalFile = value);
       },
+      onCommitClick() {
+        // the commit message is mandatory
+        if(!this.commitMessage) {
+          this.$q.notify({ message: "The commit message is mandatory!", color: "red-10" })
+          return
+        }
+        const sync = new CashierSync(this.serverUrl);
+        sync.repoCommit(this.repoPath, this.commitMessage)
+            .then(result => this.$q.notify(result))
+            .catch(error => this.$q.notify({ message: error, color: "red-10" }))
+      },
       onPricesRepoChange() {
             settings.set(SettingKeys.pricesRepositoryPath, this.pricesRepoPath)
                 .then(() => this.$q.notify("prices path saved"))
                 .catch(error => this.$q.notify(error))
       },
-        /**
-         * pull the book changes
-         */
-        onPullClick() {
-            // run the cashiersync service for git pull.
-            const sync = new CashierSync(this.serverUrl);
-            sync.repoPull(this.repoPath)
-                .then(result => this.$q.notify(result))
-                .catch(error => this.$q.notify({ message: error, color: "red-10" }))
-        },
-        onPushClick() {
-            const sync = new CashierSync(this.serverUrl);
-            sync.repoPush(this.repoPath)
-                .then(result => this.$q.notify(result))
-                .catch(error => this.$q.notify({ message: error, color: "red-10" }))
-        },
-        onRepoChange() {
-            // this.$q.notify(this.repoPath)
-            settings.set(SettingKeys.repositoryPath, this.repoPath)
-                .then(() => this.$q.notify("journal path saved"))
-                .catch(error => this.$q.notify({ message: error, color: "red-10" }))
-        },
-        onWriteableJournalPathChange() {
-          settings.set(SettingKeys.writeableJournalFilePath, this.journalFile)
-            .then(() => this.$q.notify({ message: "Writeable journal file path saved." }))
-        },
-        onRefreshClick() {
-          // Refresh the repository status.
-          const sync = new CashierSync(this.serverUrl);
-          sync.repoStatus(this.repoPath)
-            .then(result => this.gitStatus = result)
+      /**
+       * pull the book changes
+       */
+      onPullClick() {
+        // run the cashiersync service for git pull.
+        const sync = new CashierSync(this.serverUrl);
+        sync.repoPull(this.repoPath)
+            .then(result => this.$q.notify(result))
             .catch(error => this.$q.notify({ message: error, color: "red-10" }))
+      },
+      onPushClick() {
+          const sync = new CashierSync(this.serverUrl);
+          sync.repoPush(this.repoPath)
+              .then(result => this.$q.notify(result))
+              .catch(error => this.$q.notify({ message: error, color: "red-10" }))
+      },
+      onRepoChange() {
+          // this.$q.notify(this.repoPath)
+          settings.set(SettingKeys.repositoryPath, this.repoPath)
+              .then(() => this.$q.notify("journal path saved"))
+              .catch(error => this.$q.notify({ message: error, color: "red-10" }))
+      },
+      onWriteableJournalPathChange() {
+        settings.set(SettingKeys.writeableJournalFilePath, this.journalFile)
+          .then(() => this.$q.notify({ message: "Writeable journal file path saved." }))
+      },
+      onRefreshClick() {
+        // Refresh the repository status.
+        const sync = new CashierSync(this.serverUrl);
+        sync.repoStatus(this.repoPath)
+          .then(result => this.gitStatus = result)
+          .catch(error => this.$q.notify({ message: error, color: "red-10" }))
 
-        },
-        pricesRepoPull() {
-            const sync = new CashierSync(this.serverUrl);
-            sync.repoPull(this.pricesRepoPath)
-                .then(result => this.$q.notify(result))
-                .catch(error => this.$q.notify({ message: error, color: "red-10" }))
-        }
+      },
+      pricesRepoPull() {
+          const sync = new CashierSync(this.serverUrl);
+          sync.repoPull(this.pricesRepoPath)
+              .then(result => this.$q.notify(result))
+              .catch(error => this.$q.notify({ message: error, color: "red-10" }))
+      }
     }
 }
 </script>
