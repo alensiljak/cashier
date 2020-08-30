@@ -79,6 +79,7 @@
       <div class="q-my-sm">
         <q-input v-model="journalFile" type="text" class="text-red" dark clearable 
                  label="Journal file path"
+                 @change="onJournalPathChange"
         />
         <q-input ref="input" v-model="commitMessage" type="text" class="text-red" dark
                  clearable
@@ -186,7 +187,7 @@ export default {
               .then(() => this.$q.notify("journal path saved"))
               .catch(error => this.$q.notify({ message: error, color: "red-10" }))
       },
-      onWriteableJournalPathChange() {
+      onJournalPathChange() {
         settings.set(SettingKeys.writeableJournalFilePath, this.journalFile)
           .then(() => this.$q.notify({ message: "Writeable journal file path saved." }))
       },
