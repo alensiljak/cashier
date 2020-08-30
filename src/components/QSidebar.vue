@@ -24,7 +24,9 @@
           </q-item-section>
         </q-item>
 
-        <q-item v-ripple to="tx-search" exact clickable active-class="active-link">
+        <q-item v-if="liveModeOn" v-ripple to="tx-search" exact clickable
+                active-class="active-link"
+        >
           <q-item-section avatar>
             <font-awesome-icon icon="search-dollar" transform="grow-6 right-6" />
           </q-item-section>
@@ -112,7 +114,9 @@
         </q-item>
 
         <!-- Sync -->
-        <q-item v-ripple to="/sync" exact clickable active-class="active-link">
+        <q-item v-if="liveModeOn" v-ripple to="/sync" exact clickable 
+                active-class="active-link"
+        >
           <q-item-section avatar>
             <font-awesome-icon icon="sync-alt" transform="grow-6 right-6" />
           </q-item-section>
@@ -165,12 +169,9 @@
             </q-item>
 
             <!-- Git Repository -->
-            <q-item v-ripple
-                    to="repository"
+            <q-item v-if="liveModeOn" v-ripple to="repository" exact
                     :inset-level="1"
-                    exact
-                    clickable
-                    active-class="active-link"
+                    clickable active-class="active-link"
             >
               <q-item-section avatar>
                 <font-awesome-icon icon="code-branch" transform="grow-6 right-6" />
@@ -235,7 +236,7 @@
 
     <div class="absolute-bottom text-right">
       <label>Live Mode:</label>
-      <q-toggle v-model="serverOn" @input="liveModeToggle" />
+      <q-toggle v-model="liveModeOn" @input="liveModeToggle" />
       <font-awesome-icon icon="question-circle" transform="grow-9 left-5" 
                          @click="onHelpClick"
       />
@@ -266,7 +267,7 @@ export default {
   data() {
     return {
       // drawerOpen: this.$q.platform.is.desktop
-      serverOn: false,
+      liveModeOn: false,
       liveModeHelpVisible: false
     };
   },
@@ -287,7 +288,7 @@ export default {
     // this.$q.platform.is.desktop
     this.$store.commit(TOGGLE_DRAWER, this.$q.platform.is.desktop);
 
-    this.serverOn = this.$store.state.useLedger;
+    this.liveModeOn = this.$store.state.useLedger;
   },
 
   methods: {
@@ -303,8 +304,8 @@ export default {
       this.liveModeHelpVisible = true;
     },
     liveModeToggle() {
-      this.$store.commit(SET_LEDGER_USE, this.serverOn);
-      if (this.serverOn) {
+      this.$store.commit(SET_LEDGER_USE, this.liveModeOn);
+      if (this.liveModeOn) {
         // check if cashier sync is running
         settings.get(SettingKeys.syncServerUrl).then(serverUrl => {
           let sync = new CashierSync(serverUrl);
@@ -316,7 +317,7 @@ export default {
                 color: "secondary"
               });
               // reset the setting
-              this.serverOn = false;
+              this.liveModeOn = false;
             })
             .then(value => {
               //console.log('health check result:', value)
