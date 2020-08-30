@@ -162,7 +162,10 @@ export default {
                 .catch(error => this.$q.notify({ message: error, color: "red-10" }))
         },
         onPushClick() {
-            // sync.repoPush(this.repoPath)
+            const sync = new CashierSync(this.serverUrl);
+            sync.repoPush(this.repoPath)
+                .then(result => this.$q.notify(result))
+                .catch(error => this.$q.notify({ message: error, color: "red-10" }))
         },
         onRepoChange() {
             // this.$q.notify(this.repoPath)
