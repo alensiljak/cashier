@@ -110,12 +110,20 @@ export class CashierSync {
    * @param {string} repoPath The path to the repository.
    */
   async repoPull(repoPath) {
-    let url = `${this.serverUrl}/repopull`
+    let url = `${this.serverUrl}/repo/pull`
     let response = await axios.post(url, {
       repoPath: repoPath
     })
     let content = response.data;
     return content;
+  }
+
+  async repoStatus(repoPath) {
+    let url = `${this.serverUrl}/repo/status`
+    let params = { repoPath: repoPath }
+    let response = await axios.get(url, { params: params })
+    let result = response.data
+    return result
   }
 
   /**

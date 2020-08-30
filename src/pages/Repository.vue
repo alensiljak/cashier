@@ -91,6 +91,20 @@
         </q-btn>
       </div>
     </div>
+
+    <!-- status -->
+    <div>
+      Status
+      <pre>{{ gitStatus }}</pre>
+      <div class="row">
+        <div class="col">
+          <q-btn color="secondary" text-color="accent" @click="onRefreshClick">
+            <font-awesome-icon icon="sync-alt" transform="grow-6 right-6" class="q-mr-sm" />
+            <span class="q-ml-sm">Refresh</span>
+          </q-btn>
+        </div>
+      </div>
+    </div>
   </q-page>
 </template>
 
@@ -103,6 +117,7 @@ export default {
     data() {
         return {
           commitMessage: null,
+          gitStatus: "Not refreshed yet.",
           serverUrl: null,
           repoPath: null,
           pricesRepoPath: null,
@@ -147,7 +162,7 @@ export default {
                 .catch(error => this.$q.notify({ message: error, color: "red-10" }))
         },
         onPushClick() {
-            
+            // sync.repoPush(this.repoPath)
         },
         onRepoChange() {
             // this.$q.notify(this.repoPath)
@@ -158,6 +173,14 @@ export default {
         onWriteableJournalPathChange() {
           settings.set(SettingKeys.writeableJournalFilePath, this.journalFile)
             .then(() => this.$q.notify({ message: "Writeable journal file path saved." }))
+        },
+        onRefreshClick() {
+          // Refresh the repository status.
+          const sync = new CashierSync(this.serverUrl);
+          sync.repoStatus(this.repoPath)
+            .then(result => this.gitStatus = result)
+            .catch(error => this.$q.notify({ message: error, color: "red-10" }))
+
         },
         pricesRepoPull() {
             const sync = new CashierSync(this.serverUrl);
