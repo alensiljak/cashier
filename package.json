@@ -53,7 +53,7 @@
   },
   "homepage": "https://alensiljak.gitlab.io/cashier/",
   "engines": {
-    "node": ">= 10.18.1",
+    "node": ">= 12",
     "npm": ">= 6.13.4",
     "yarn": ">= 1.13.0"
   }
