@@ -9,7 +9,35 @@
       set up.
     </p>
 
+    <!-- prices -->
+    <q-card dark bordered class="q-px-sm text-colour2 rounded-border q-mb-md">
+      <q-card-section>
+        <p>Prices</p>
+        <q-input v-model="pricesRepoPath" type="text" class="text-red" dark clearable 
+                 label="Prices repository path" 
+                 @change="onPricesRepoChange"
+        />
+      </q-card-section>
+      <q-separator dark />
+      <q-card-actions>
+        <q-btn color="secondary" text-color="accent" @click="pricesRepoPull">Pull</q-btn>
+      </q-card-actions>
+    </q-card>
+
+    <!-- Journal section -->
     <div>
+      Journal Repository
+      <p>
+        This is the repository that contains the book / journal. Used as the main data source,
+        configured in .ledgerrc.
+      </p>
+    </div>
+
+    <!-- Repo path -->
+    <div>
+      <p>
+        Add the relative path to the book / journal repository.
+      </p>
       <div class="q-my-sm">
         <q-input v-model="repoPath" type="text" class="text-red" dark clearable 
                  label="Repository path" 
@@ -18,6 +46,7 @@
       </div>
     </div>
 
+    <!-- Pull -->
     <div>
       <p>
         Pull changes from the remote repository.
@@ -35,8 +64,17 @@
       <p>
         Commit changes to the local repository.
       </p>
+      <p class="q-my-md">
+        Set the path to the writeable file, to which to append the transactions. 
+        The path is relative to the start location of the CashierSync. Example: book/sync.ledger
+      </p>
       <div class="q-my-sm">
-        <q-input type="text" class="text-red" dark clearable label="Commit message" />
+        <q-input v-model="journalFile" type="text" class="text-red" dark clearable 
+                 label="Journal file path"
+        />
+        <q-input v-model="commitMessage" type="text" class="text-red" dark clearable 
+                 label="Commit message"
+        />
       </div>
       <div class="text-center">
         <q-btn color="secondary" text-color="accent">
@@ -46,6 +84,7 @@
       </div>
     </div>
 
+    <!-- Push -->
     <div>
       <p>
         Push changes from the remote repository.
@@ -68,8 +107,11 @@ import { CashierSync } from "../lib/syncCashier";
 export default {
     data() {
         return {
-            serverUrl: null,
-            repoPath: null
+          commitMessage: null,
+          serverUrl: null,
+          repoPath: null,
+          pricesRepoPath: null,
+          journalFile: null
         }
     },
 
@@ -77,16 +119,28 @@ export default {
         this.$store.commit(SET_TITLE, "Repository");
         this.$store.commit(MAIN_TOOLBAR, true);
 
-        // load settings.
-      settings
-        .get(SettingKeys.syncServerUrl)
-        .then(value => this.serverUrl = value);
-      settings
-        .get(SettingKeys.repositoryPath)
-        .then(value => this.repoPath = value)
+        this.loadSettings()
     },
 
     methods: {
+      loadSettings() {
+        settings
+          .get(SettingKeys.syncServerUrl)
+          .then(value => this.serverUrl = value);
+        settings
+          .get(SettingKeys.repositoryPath)
+          .then(value => this.repoPath = value)
+        settings
+          .get(SettingKeys.pricesRepositoryPath)
+          .then(value => this.pricesRepoPath = value)
+        settings.get(SettingKeys.writeableJournalFilePath)
+          .then(value => this.journalFile = value);
+      },
+      onPricesRepoChange() {
+            settings.set(SettingKeys.pricesRepositoryPath, this.pricesRepoPath)
+                .then(() => this.$q.notify("prices path saved"))
+                .catch(error => this.$q.notify(error))
+      },
         /**
          * pull the book changes
          */
@@ -95,7 +149,7 @@ export default {
             const sync = new CashierSync(this.serverUrl);
             sync.repoPull(this.repoPath)
                 .then(result => this.$q.notify(result))
-                .catch(error => this.$q.notify(error))
+                .catch(error => this.$q.notify({ message: error, color: "red-10" }))
         },
         onPushClick() {
             
@@ -103,8 +157,18 @@ export default {
         onRepoChange() {
             // this.$q.notify(this.repoPath)
             settings.set(SettingKeys.repositoryPath, this.repoPath)
-                .then(() => this.$q.notify("path saved"))
-                .catch(error => this.$q.notify(error))
+                .then(() => this.$q.notify("journal path saved"))
+                .catch(error => this.$q.notify({ message: error, color: "red-10" }))
+        },
+        onWriteableJournalPathChange() {
+          settings.set(SettingKeys.writeableJournalFilePath, this.journalFile)
+            .then(() => this.$q.notify({ message: "Writeable journal file path saved." }))
+        },
+        pricesRepoPull() {
+            const sync = new CashierSync(this.serverUrl);
+            sync.repoPull(this.pricesRepoPath)
+                .then(result => this.$q.notify(result))
+                .catch(error => this.$q.notify({ message: error, color: "red-10" }))
         }
     }
 }

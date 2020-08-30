@@ -27,6 +27,8 @@ export const SettingKeys = {
   currency: "currency",
   favouriteAccounts: "favouriteAccounts",
   syncServerUrl: "syncServerUrl",
+  // path to the prices repository for CashierSync.
+  pricesRepositoryPath: "pricesRepositoryPath",
   // path to the book repository for CashierSync.
   repositoryPath: "repositoryPath",
   rootInvestmentAccount: "aa.rootAccount",
