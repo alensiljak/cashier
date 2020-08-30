@@ -165,14 +165,14 @@ export default {
         // run the cashiersync service for git pull.
         const sync = new CashierSync(this.serverUrl);
         sync.repoPull(this.repoPath)
-            .then(result => this.$q.notify(result))
-            .catch(error => this.$q.notify({ message: error, color: "red-10" }))
+            .then(result => this.$q.notify({ message: result, color: "primary" }))
+            .catch(error => this.$q.notify({ message: error, color: "secondary" }))
       },
       onPushClick() {
           const sync = new CashierSync(this.serverUrl);
           sync.repoPush(this.repoPath)
-              .then(result => this.$q.notify(result))
-              .catch(error => this.$q.notify({ message: error, color: "red-10" }))
+              .then(result => this.$q.notify({ message: result, color: "primary" }))
+              .catch(error => this.$q.notify({ message: error, color: "secondary" }))
       },
       onRepoChange() {
           // this.$q.notify(this.repoPath)
@@ -185,14 +185,14 @@ export default {
         const sync = new CashierSync(this.serverUrl);
         sync.repoStatus(this.repoPath)
           .then(result => this.gitStatus = result)
-          .catch(error => this.$q.notify({ message: error, color: "red-10" }))
+          .catch(error => this.$q.notify({ message: error, color: "secondary" }))
 
       },
       pricesRepoPull() {
           const sync = new CashierSync(this.serverUrl);
           sync.repoPull(this.pricesRepoPath)
-              .then(result => this.$q.notify(result))
-              .catch(error => this.$q.notify({ message: error, color: "red-10" }))
+              .then(result => this.$q.notify({ message: result, color: "primary" }))
+              .catch(error => this.$q.notify({ message: error, color: "secondary" }))
       }
     }
 }

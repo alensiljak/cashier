@@ -24,6 +24,15 @@
           </q-item-section>
         </q-item>
 
+        <q-item v-ripple to="tx-search" exact clickable active-class="active-link">
+          <q-item-section avatar>
+            <font-awesome-icon icon="search-dollar" transform="grow-6 right-6" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Transaction Search</q-item-label>
+          </q-item-section>
+        </q-item>
+
         <!-- <q-item to="/bal" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
             <font-awesome-icon icon="balance-scale" transform="grow-6 right-6"/>
