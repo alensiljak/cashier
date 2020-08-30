@@ -2,7 +2,7 @@
   <q-page padding class="bg-colour1 text-amber-2">
     <!-- Transaction -->
 
-    <!-- date control -->
+    <!-- date -->
     <q-dialog ref="qDateProxy" v-model="datePickerVisible">
       <q-date
         ref="datePicker"
@@ -128,7 +128,7 @@ export default {
   components: {
     QPosting
   },
-  data: function() {
+  data() {
     return {
       datePickerVisible: false,
       accounts: [],
