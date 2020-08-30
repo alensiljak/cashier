@@ -34,13 +34,46 @@
       </div>
     </div>
 
-    <p class="q-my-lg">Clean-up</p>
-
-    <div class="row q-mt-md">
-      <q-btn label="Delete all local transactions" color="red-10" text-color="amber-4"
-             @click="onDeleteAllClicked"
+    <!-- export to ledger repository -->
+    <q-card bordered dark class="q-pa-sm text-colour2 q-mb-md q-my-md">
+      <p>
+        Export to a writeable journal file in the book repository. See the
+        <router-link to="repository">Repository</router-link> page
+        for repository operations. The path to the file must be absolute and the file
+        must exist in the filesystem.
+      </p>
+      <q-input v-model="journalFile" type="text" class="text-red" dark clearable 
+               label="Journal file path"
+               @change="onJournalPathChange"
       />
-    </div>
+      <div class="text-center q-my-md">
+        <q-btn color="secondary" text-color="accent" @click="onSaveClick">
+          <font-awesome-icon icon="save" transform="grow-6 right-6" class="q-mr-sm" />
+          <span class="q-ml-sm">Write to journal</span>
+        </q-btn>
+      </div>
+      <p>
+        After writing to a configured journal file, use the Repository page to
+      </p>
+      <ul>
+        <li>confirm that all the changes, and only the desired changes, are in the journal</li>
+        <li>check the repository status</li>
+        <li>commit the changes with a meaningful commit message</li>
+        <li>push the changes to a remote repository</li>
+        <li>delete the local transactions using the button below</li>
+      </ul>
+    </q-card>
+
+    <!-- clean-up -->
+    <q-card bordered dark class="q-pa-sm text-colour2 q-mb-md">
+      <p class="q-my-lg">Clean-up</p>
+
+      <div class="row q-mt-md">
+        <q-btn label="Delete all local transactions" color="red-10" text-color="amber-4"
+               @click="onDeleteAllClicked"
+        />
+      </div>
+    </q-card>
 
     <!-- delete all dialog -->
     <q-dialog v-model="confirmDeleteAllVisible" persistent content-class="bg-blue-grey-10">
@@ -62,8 +95,10 @@
 
 <script>
 import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
+import { SettingKeys, settings } from "../lib/Configuration";
 import appService from "../appService";
 import { mdiShareVariant } from '@quasar/extras/mdi-v4'
+import { CashierSync } from "../lib/syncCashier";
 
 export default {
   data() {
@@ -71,6 +106,9 @@ export default {
       output: "",
       mdiShareVariant: null,
       confirmDeleteAllVisible: false,
+      // export to journal
+      serverUrl: null,
+      journalFile: null
     };
   },
 
@@ -86,6 +124,7 @@ export default {
     this.$store.commit(SET_TITLE, "Export");
     this.$store.commit(MAIN_TOOLBAR, true);
 
+    this.loadSettings()
     this.loadData()
 
     // icons
@@ -148,8 +187,35 @@ export default {
         this.output = output;
       });
     },
+    loadSettings() {
+      settings
+        .get(SettingKeys.syncServerUrl)
+        .then(value => this.serverUrl = value)
+
+      settings.get(SettingKeys.writeableJournalFilePath)
+        .then(value => this.journalFile = value);
+    },
     onDeleteAllClicked() {
       this.confirmDeleteAllVisible = true;
+    },
+    onJournalPathChange() {
+      settings.set(SettingKeys.writeableJournalFilePath, this.journalFile)
+        .then(() => this.$q.notify({ message: "Writeable journal file path saved." }))
+    },
+    onSaveClick() {
+      // validation
+      // the output file must be configured
+      if(!this.journalFile) {
+        const message = "The writeable journal file must be configured!"
+        this.$q.notify({ message: message, color: "secondary" })
+        return
+      }
+
+      // save to file
+      const sync = new CashierSync(this.serverUrl);
+      sync.append(this.journalFile, this.output)
+          .then(result => this.$q.notify({ message: result, color: "primary" }))
+          .catch(error => this.$q.notify({ message: error, color: "secondary" }))
     },
     webshare() {
       if (navigator.share) {
@@ -167,3 +233,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+a:visited {
+  color: goldenrod;
+}
+</style>

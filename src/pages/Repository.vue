@@ -77,10 +77,6 @@
         The path is relative to the start location of the CashierSync. Example: book/sync.ledger
       </p>
       <div class="q-my-sm">
-        <q-input v-model="journalFile" type="text" class="text-red" dark clearable 
-                 label="Journal file path"
-                 @change="onJournalPathChange"
-        />
         <q-input ref="input" v-model="commitMessage" type="text" class="text-red" dark
                  clearable
                  :rules="[val => !!val || 'Field is required']"
@@ -123,8 +119,7 @@ export default {
           gitStatus: "Not refreshed yet.",
           serverUrl: null,
           repoPath: null,
-          pricesRepoPath: null,
-          journalFile: null
+          pricesRepoPath: null
         }
     },
 
@@ -146,8 +141,6 @@ export default {
         settings
           .get(SettingKeys.pricesRepositoryPath)
           .then(value => this.pricesRepoPath = value)
-        settings.get(SettingKeys.writeableJournalFilePath)
-          .then(value => this.journalFile = value);
       },
       onCommitClick() {
         // the commit message is mandatory
@@ -186,10 +179,6 @@ export default {
           settings.set(SettingKeys.repositoryPath, this.repoPath)
               .then(() => this.$q.notify("journal path saved"))
               .catch(error => this.$q.notify({ message: error, color: "red-10" }))
-      },
-      onJournalPathChange() {
-        settings.set(SettingKeys.writeableJournalFilePath, this.journalFile)
-          .then(() => this.$q.notify({ message: "Writeable journal file path saved." }))
       },
       onRefreshClick() {
         // Refresh the repository status.

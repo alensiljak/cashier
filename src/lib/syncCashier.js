@@ -106,6 +106,21 @@ export class CashierSync {
   }
 
   /**
+   * Appends the given content to a file. Used to write the transactions to journal.
+   * @param {string} filePath 
+   * @param {string} content 
+   */
+  async append(filePath, content) {
+    let url = `${this.serverUrl}/append`
+    let response = await axios.post(url, {
+      filePath: filePath,
+      content: content
+    })
+    let result = response.data;
+    return result;
+  }
+
+  /**
    * Pull from the remote repository. 
    * @param {string} repoPath The path to the repository.
    */
