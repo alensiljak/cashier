@@ -41,6 +41,10 @@ export default {
     }
   },
 
+  created() {
+
+  },
+
   methods: {
     toggleDrawer() {
       this.$refs.sidebar.toggleDrawer();

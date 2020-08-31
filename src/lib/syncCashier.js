@@ -160,6 +160,13 @@ export class CashierSync {
     return result
   }
 
+  async search(searchParams) {
+    let url = `${this.serverUrl}/search`
+    let response = await axios.post(url, { query: searchParams })
+    let result = response.data
+    return result
+  }
+
   /**
    * Shutdown CashierSync server from the client app.
    */
