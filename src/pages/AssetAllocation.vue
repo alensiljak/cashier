@@ -94,10 +94,10 @@
               class="text-right"
               style="width: 3.5rem;"
               :class="{
-                'text-red-10': assetClass.diffPerc < -20,
+                'text-red-10': assetClass.diffPerc <= -20,
                 'text-red-3': (-20 < assetClass.diffPerc && assetClass.diffPerc < 0),
                 'text-green-3': (assetClass.diffPerc > 0 && assetClass.diffPerc < 20),
-                'text-green-9': assetClass.diffPerc > 20
+                'text-green-9': assetClass.diffPerc >= 20
               }"
             >
               {{ assetClass.diffPerc }}
