@@ -1,8 +1,10 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
-    <p>Date presets (last week, month, quarter, year)</p>
-
     <!-- date -->
+    <q-select v-model="datePeriod" :options="datePeriods" label="Date Period" dark
+              @input="onDatePeriodChanged"
+    />
+
     <q-dialog ref="qDateProxy" v-model="datePickerVisible">
       <q-card dark>
         <q-card-section class="q-pa-none">
@@ -98,11 +100,15 @@
 import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
 import { settings, SettingKeys } from 'src/lib/Configuration';
 import { CashierSync } from "../lib/syncCashier";
+import { date } from 'quasar'
+const { subtractFromDate } = date
 
 export default {
     data() {
       return {
         freeText: null,
+        datePeriods: ['Today', 'Last Week', 'Last Month', 'Last Quarter', 'Last Year'],
+        datePeriod: 'Last Week',
         datePickerVisible: false,
         dateToPickerVisible: false,
         dateFrom: null,
@@ -121,12 +127,7 @@ export default {
   },
   mounted() {
     // the defaults
-    let today = new Date()
-    //const dateTimeFormat = new Intl.DateTimeFormat('en', { year: 'numeric', month: '2-digit', day: '2-digit' })
-    // let startDate = new Date(today.getFullYear() - 1, today.getMonth(), today.getDate())
-    //let startDate = dateTimeFormat.format(today)
-    let startDate = today.toJSON().slice(0, 10)
-    this.dateFrom = startDate
+    this.selectDatePeriod('Last Week')
   },
 
   methods: {
@@ -137,6 +138,9 @@ export default {
         // handle Enter
         this.search()
       }
+    },
+    onDatePeriodChanged(period) {
+      this.selectDatePeriod(period)
     },
     onDateSelected(value, reason) {
       // console.log(value, reason)
@@ -174,6 +178,45 @@ export default {
           })
           .then(result => this.results = result)
           .catch(error => this.$q.notify({ message: error, color: "secondary" }))
+    },
+    selectDatePeriod(period) {
+      let today = new Date()
+
+      //const dateTimeFormat = new Intl.DateTimeFormat('en', { year: 'numeric', month: '2-digit', day: '2-digit' })
+      // let startDate = new Date(today.getFullYear() - 1, today.getMonth(), today.getDate())
+      //let startDate = dateTimeFormat.format(today)
+      let startDate = today
+      let endDate = today
+
+      switch(period) {
+        case 'Today':
+          startDate = today
+          endDate = today
+          break;
+
+        case 'Last Week':
+          startDate = subtractFromDate(today, { days: 7 })
+          endDate = today
+          break;
+
+        case 'Last Month':
+          startDate = subtractFromDate(today, { month: 1 })
+          endDate = today
+          break;
+
+        case 'Last Quarter':
+          startDate = subtractFromDate(today, { month: 3 })
+          endDate = today
+          break;
+
+        case 'Last Year':
+          startDate = subtractFromDate(today, { year: 1 })
+          endDate = today
+          break;
+      }
+      this.dateFrom = startDate.toJSON().slice(0, 10)
+      this.dateTo = endDate.toJSON().slice(0, 10)
+
     }
   }
 }
