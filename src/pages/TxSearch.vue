@@ -51,14 +51,14 @@
       </q-card>
     </q-dialog>
     <!-- <div class="row"> -->
-      <!-- <div class="col-9"> -->
-        <q-input v-model="dateTo" label="Date To" dark @click="dateToPickerVisible = true">
-          <template v-slot:prepend>
-            <font-awesome-icon icon="calendar-day" />
-          </template>
-        </q-input>
-      <!-- </div> -->
-      <!-- <div class="col">
+    <!-- <div class="col-9"> -->
+    <q-input v-model="dateTo" label="Date To" dark @click="dateToPickerVisible = true">
+      <template v-slot:prepend>
+        <font-awesome-icon icon="calendar-day" />
+      </template>
+    </q-input>
+    <!-- </div> -->
+    <!-- <div class="col">
         <q-checkbox v-model="sameDate" label="Same as From" />
       </div> -->
     <!-- </div> -->
@@ -71,6 +71,11 @@
     </q-input> -->
 
     <q-input v-model="freeText" label="Free-text search" dark @keypress="handleEnter" />
+
+    <p>
+      Hints: ^ = begins with, $ = ends with, --related and --related-all show related postings, use 'and'
+      for multiple search criteria.
+    </p>
 
     <!-- search button -->
     <div class="text-center q-my-lg">
