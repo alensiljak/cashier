@@ -98,8 +98,6 @@
 import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
 import { settings, SettingKeys } from 'src/lib/Configuration';
 import { CashierSync } from "../lib/syncCashier";
-//import { date } from 'quasar'
-//const { subtractFromDate } = date
 
 export default {
     data() {

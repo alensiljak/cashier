@@ -35,7 +35,7 @@
           </q-item-section>
         </q-item>
 
-        <q-item v-if="liveModeOn" v-ripple to="xact" exact clickable
+        <!-- <q-item v-if="liveModeOn" v-ripple to="xact" exact clickable
                 active-class="active-link"
         >
           <q-item-section avatar>
@@ -44,7 +44,7 @@
           <q-item-section>
             <q-item-label>Xact</q-item-label>
           </q-item-section>
-        </q-item>
+        </q-item> -->
 
         <!-- <q-item to="/bal" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>

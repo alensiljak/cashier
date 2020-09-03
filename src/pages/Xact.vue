@@ -45,6 +45,8 @@ view<template>
 
 <script>
 import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
+import { settings, SettingKeys } from 'src/lib/Configuration';
+import { CashierSync } from "../lib/syncCashier";
 
 export default {
   data() {
@@ -79,7 +81,23 @@ export default {
       // the date is saved on close.
     },
     run() {
-        // todo: run xact
+        // run xact
+
+        let searchParams = {
+          date: this.date,
+          freeText: this.freeText
+        }
+
+        settings.get(SettingKeys.syncServerUrl)
+          .then(serverUrl => {
+            if (!serverUrl) throw "Sync Server URL is not set!"
+
+            const sync = new CashierSync(serverUrl);
+            // todo: new method
+            return sync.search(searchParams)
+          })
+          .then(result => this.results = result)
+          .catch(error => this.$q.notify({ message: error, color: "secondary" }))
     }
   }
 };
