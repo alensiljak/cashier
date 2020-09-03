@@ -50,18 +50,18 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
-    <div class="row">
-      <div class="col-9">
+    <!-- <div class="row"> -->
+      <!-- <div class="col-9"> -->
         <q-input v-model="dateTo" label="Date To" dark @click="dateToPickerVisible = true">
           <template v-slot:prepend>
             <font-awesome-icon icon="calendar-day" />
           </template>
         </q-input>
-      </div>
-      <div class="col">
+      <!-- </div> -->
+      <!-- <div class="col">
         <q-checkbox v-model="sameDate" label="Same as From" />
-      </div>
-    </div>
+      </div> -->
+    <!-- </div> -->
 
     <!-- payee -->
     <!-- <q-input v-model="payee" label="Payee" dark>
@@ -107,7 +107,7 @@ export default {
     data() {
       return {
         freeText: null,
-        datePeriods: ['Today', 'Last Week', 'Last Month', 'Last Quarter', 'Last Year'],
+        datePeriods: ['Today', 'Last Week', 'Last Month', 'Last Quarter', 'Last Year', 'All'],
         datePeriod: 'Last Week',
         datePickerVisible: false,
         dateToPickerVisible: false,
@@ -213,9 +213,18 @@ export default {
           startDate = subtractFromDate(today, { year: 1 })
           endDate = today
           break;
+        
+        case 'All':
+          startDate = null
+          this.dateFrom = null
+          endDate = today
+          break;
       }
-      this.dateFrom = startDate.toJSON().slice(0, 10)
-      this.dateTo = endDate.toJSON().slice(0, 10)
+
+      if (startDate)
+        this.dateFrom = startDate.toJSON().slice(0, 10)
+      if (endDate)
+        this.dateTo = endDate.toJSON().slice(0, 10)
 
     }
   }
