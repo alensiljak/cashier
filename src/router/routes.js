@@ -34,6 +34,7 @@ const routes = [
       { path: '/sync', name: 'sync', component: () => import('../pages/Sync.vue') },
       { path: '/tx/:id?', name: 'tx', component: () => import(/* webpackChunkName: 'tx' */ '../pages/QTransaction.vue') },
       { path: '/tx-search', name: 'tx-search', component: () => import('../pages/TxSearch.vue') },
+      { path: '/xact', name: 'xact', component: () => import('../pages/Xact.vue') },
       // Test
       // { path: '/webdav', name: 'webdav', component: webdav },
       { path: '/pcloud', name: 'pcloud', component: () => import('../pages/Pcloud.vue') }

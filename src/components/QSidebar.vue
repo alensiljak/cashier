@@ -35,6 +35,17 @@
           </q-item-section>
         </q-item>
 
+        <q-item v-if="liveModeOn" v-ripple to="xact" exact clickable
+                active-class="active-link"
+        >
+          <q-item-section avatar>
+            <font-awesome-icon icon="scroll" transform="grow-6 right-6" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Xact</q-item-label>
+          </q-item-section>
+        </q-item>
+
         <!-- <q-item to="/bal" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
             <font-awesome-icon icon="balance-scale" transform="grow-6 right-6"/>
@@ -54,7 +65,6 @@
         </q-item> -->
 
         <q-item v-ripple :to="{name: 'accounts'}" clickable active-class="active-link">
-          <!-- exact -->
           <q-item-section avatar>
             <font-awesome-icon icon="wallet" transform="grow-6 right-6" />
           </q-item-section>
