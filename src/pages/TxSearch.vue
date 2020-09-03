@@ -88,7 +88,9 @@
       input-class="text-amber-2"
       color="primary"
     /> -->
-    <pre>{{ results }}</pre>
+    <div id="resultsPanel">
+      <pre>{{ results }}</pre>
+    </div>
   </q-page>
 </template>
 
@@ -180,5 +182,9 @@ export default {
 </script>
 
 <style>
-
+#resultsPanel {
+  /* overflow: overflow-x; */
+  overflow-x: auto;
+  width: 100%;
+}
 </style>
