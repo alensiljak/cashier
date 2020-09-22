@@ -106,7 +106,7 @@ import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
 import { settings, SettingKeys } from 'src/lib/Configuration';
 import { CashierSync } from "../lib/syncCashier";
 import { date } from 'quasar'
-const { subtractFromDate } = date
+const { subtractFromDate, addToDate } = date
 
 export default {
     data() {
@@ -186,43 +186,43 @@ export default {
     },
     selectDatePeriod(period) {
       let today = new Date()
+      let tomorrow = addToDate(today, { days: 1 })
 
-      //const dateTimeFormat = new Intl.DateTimeFormat('en', { year: 'numeric', month: '2-digit', day: '2-digit' })
-      // let startDate = new Date(today.getFullYear() - 1, today.getMonth(), today.getDate())
-      //let startDate = dateTimeFormat.format(today)
+      // the default values are from today to tomorrow.
       let startDate = today
-      let endDate = today
+      // The end value is not inclusive.
+      let endDate = tomorrow
 
       switch(period) {
         case 'Today':
-          startDate = today
-          endDate = today
+          //startDate = today
+          //endDate = today
           break;
 
         case 'Last Week':
           startDate = subtractFromDate(today, { days: 7 })
-          endDate = today
+          //endDate = today
           break;
 
         case 'Last Month':
           startDate = subtractFromDate(today, { month: 1 })
-          endDate = today
+          //endDate = today
           break;
 
         case 'Last Quarter':
           startDate = subtractFromDate(today, { month: 3 })
-          endDate = today
+          //endDate = today
           break;
 
         case 'Last Year':
           startDate = subtractFromDate(today, { year: 1 })
-          endDate = today
+          //endDate = today
           break;
         
         case 'All':
           startDate = null
           this.dateFrom = null
-          endDate = today
+          //endDate = today
           break;
       }
 
