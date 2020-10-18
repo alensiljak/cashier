@@ -18,7 +18,7 @@
 
 export default {
   name: "ActionBar",
-  props: ["title"],
+  props: { title: { type: String, default: 'Cashier'} },
   methods: {
     togglerClicked() {
       // todo: update the menu visibility? or raise an event

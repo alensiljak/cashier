@@ -46,7 +46,7 @@
       right-color="red-10"
       @right="onRightSlide"
     >
-      <template v-slot:right>
+      <template #right>
         <div class="row items-center text-amber-4" @click="removeAccount(index)">
           Click to confirm or wait 2s to cancel
           <font-awesome-icon icon="trash-alt" size="2x" class="q-ml-md" />

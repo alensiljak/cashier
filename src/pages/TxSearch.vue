@@ -26,7 +26,7 @@
     </q-dialog>
 
     <q-input v-model="dateFrom" label="Date From" dark @click="datePickerVisible = true">
-      <template v-slot:prepend>
+      <template #prepend>
         <font-awesome-icon icon="calendar-day" />
       </template>
     </q-input>
@@ -53,7 +53,7 @@
     <!-- <div class="row"> -->
     <!-- <div class="col-9"> -->
     <q-input v-model="dateTo" label="Date To" dark @click="dateToPickerVisible = true">
-      <template v-slot:prepend>
+      <template #prepend>
         <font-awesome-icon icon="calendar-day" />
       </template>
     </q-input>

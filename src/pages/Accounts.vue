@@ -50,7 +50,7 @@
           style="width: 23rem;"
           debounce="500"
         >
-          <template v-slot:append>
+          <template #append>
             <font-awesome-icon v-if="filter === ''" icon="search" />
             <q-icon v-else name="clear" class="cursor-pointer" @click="filter = ''" />
           </template>

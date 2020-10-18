@@ -54,7 +54,7 @@ export default {
       // this.$q.notify(errorMessage)
 
       // request transaction deletion
-      this.$emit("txDeleteClicked", { id: id });
+      this.$emit("tx-delete-clicked", { id: id });
     }
   }
 };

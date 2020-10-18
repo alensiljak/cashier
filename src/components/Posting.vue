@@ -6,7 +6,7 @@
 
       <div class="col">
         <!-- Account -->
-        <q-input v-model="posting.account" dark label="Account" @click="$emit('accountClicked')" />
+        <q-input v-model="posting.account" dark label="Account" @click="$emit('account-clicked')" />
       </div>
     </div>
 
@@ -20,7 +20,7 @@
           label="Amount"
           type="number"
           input-class="text-right"
-          @change="$emit('amountChanged')"
+          @change="$emit('amount-changed')"
         />
       </div>
 

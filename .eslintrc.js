@@ -66,6 +66,7 @@ module.exports = {
     // vue overrides
     'vue/max-attributes-per-line': 'off',
     'vue/singleline-html-element-content-newline': 'off',
+    'vue/no-mutating-props': 'off',
 
     // allow debugger during development only
     //'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',

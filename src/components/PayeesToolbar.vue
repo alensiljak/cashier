@@ -1,7 +1,7 @@
 <template>
   <q-header elevated class="glossy">
     <q-toolbar class="text-colour2">
-      <q-btn flat dense round aria-label="Menu" icon="menu" @click="$emit('menuClicked')" />
+      <q-btn flat dense round aria-label="Menu" icon="menu" @click="$emit('menu-clicked')" />
 
       <q-toolbar-title>{{ title }}</q-toolbar-title>
 
@@ -13,7 +13,7 @@
             <!-- dense -->
 
             <q-item v-close-popup>
-              <q-item-section @click="$emit('deleteAllClicked')">Delete All</q-item-section>
+              <q-item-section @click="$emit('delete-all-clicked')">Delete All</q-item-section>
               <q-item-section side>
                 <font-awesome-icon icon="trash-alt" transform="grow-9 left-5" />
               </q-item-section>
@@ -36,7 +36,7 @@
         style="width: 23rem;"
         debounce="500"
       >
-        <template v-slot:append>
+        <template #append>
           <font-awesome-icon v-if="myFilter === ''" icon="search" />
           <q-icon v-else name="clear" class="cursor-pointer" @click="myFilter = ''" />
         </template>

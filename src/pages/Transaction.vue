@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ActionBar title="Transaction"/>
+    <ActionBar title="Transaction" />
 
     <div class="container-fluid">
       <form>
@@ -17,10 +17,10 @@
               <label for="payee">Payee</label>
               <input
                 ref="payee"
+                v-model="payee"
                 type="text"
                 class="form-control"
                 placeholder="Payee"
-                v-model="payee"
               >
               <!-- autofocus -->
             </div>
@@ -37,18 +37,18 @@
           :key="index"
           :posting="posting"
           :index="index"
-          v-on:delete-row="deletePosting"
-        ></posting-view>
+          @delete-row="deletePosting"
+        />
 
         <!-- Actions -->
         <div class="row mt-3">
           <div class="col">
-            <button type="button" class="btn btn-secondary" v-on:click="addPosting">Add Posting</button>
+            <button type="button" class="btn btn-secondary" @click="addPosting">Add Posting</button>
           </div>
 
           <div class="col text-right">
-            <button type="button" class="btn btn-secondary mr-1" v-on:click="onClear">Clear</button>
-            <button type="button" class="btn btn-primary px-4" v-on:click="onSave">Save</button>
+            <button type="button" class="btn btn-secondary mr-1" @click="onClear">Clear</button>
+            <button type="button" class="btn btn-primary px-4" @click="onSave">Save</button>
           </div>
         </div>
       </form>
@@ -69,40 +69,14 @@ import {
 import { RESET_TRANSACTION, SAVE_TRANSACTION } from "../actions";
 
 export default {
-  created() {
-    // get the data
-    // Add the two initial postings
-    this.$store.dispatch(RESET_TRANSACTION);
-  },
-  mounted: function() {
-    // Set the focus on Payee field.
-    // document.getElementById("payee").focus() => this.$refs.payee
-    // this.$refs.date
+  components: {
+    PostingView,
+    ActionBar
   },
   data: function() {
     return {
       // date: null
     };
-  },
-  components: {
-    PostingView,
-    ActionBar
-  },
-  methods: {
-    addPosting: function() {
-      this.$store.dispatch(ADD_POSTING);
-    },
-    deletePosting: function(index) {
-      this.$store.dispatch(DELETE_POSTING, index);
-    },
-    onClear() {
-      // Resets all Transaction fields to defaults.
-      this.$store.dispatch(RESET_TRANSACTION);
-    },
-    onSave() {
-      // store the transaction
-      this.$store.dispatch(SAVE_TRANSACTION);
-    }
   },
   computed: {
     postings: {
@@ -129,6 +103,32 @@ export default {
     dateFormat() {
       // return this.$store.state.dateFormatLong
       return "D, " + this.$store.state.dateFormatLong;
+    }
+  },
+  created() {
+    // get the data
+    // Add the two initial postings
+    this.$store.dispatch(RESET_TRANSACTION);
+  },
+  mounted: function() {
+    // Set the focus on Payee field.
+    // document.getElementById("payee").focus() => this.$refs.payee
+    // this.$refs.date
+  },
+  methods: {
+    addPosting: function() {
+      this.$store.dispatch(ADD_POSTING);
+    },
+    deletePosting: function(index) {
+      this.$store.dispatch(DELETE_POSTING, index);
+    },
+    onClear() {
+      // Resets all Transaction fields to defaults.
+      this.$store.dispatch(RESET_TRANSACTION);
+    },
+    onSave() {
+      // store the transaction
+      this.$store.dispatch(SAVE_TRANSACTION);
     }
   }
 };

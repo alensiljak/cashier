@@ -82,7 +82,7 @@ library.add(
 
 import Vue from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-Vue.component("font-awesome-icon", FontAwesomeIcon);
+Vue.component("FontAwesomeIcon", FontAwesomeIcon);
 
 // const camera = icon({ prefix: 'fas', iconName: 'camera' })
 // export { camera }
