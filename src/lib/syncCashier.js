@@ -44,7 +44,6 @@ export class CashierSync {
    * @returns array of Account objects
    */
   async readAccounts() {
-    //let url = this.serverUrl + "/balance";
     let url = this.accountsUrl
     let response = await axios.get(url)
     let content = response.data

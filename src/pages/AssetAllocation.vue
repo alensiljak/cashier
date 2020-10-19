@@ -2,7 +2,14 @@
   <q-page padding class="bg-colour1 text-colour2">
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn flat dense round icon="menu" aria-label="Menu" @click="menuClicked" />
+        <q-btn
+          flat
+          dense
+          round
+          icon="menu"
+          aria-label="Menu"
+          @click="menuClicked"
+        />
 
         <q-toolbar-title>Asset Allocation</q-toolbar-title>
 
@@ -18,31 +25,48 @@
                 </q-item-section>
               </q-item>
 
-              <q-item v-if="canShare" v-close-popup clickable @click="onShareClick">
+              <q-item
+                v-if="canShare"
+                v-close-popup
+                clickable
+                @click="onShareClick"
+              >
                 <q-item-section>Share</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="share-alt" transform="grow-9 left-5" />
+                  <font-awesome-icon
+                    icon="share-alt"
+                    transform="grow-9 left-5"
+                  />
                 </q-item-section>
               </q-item>
 
               <q-item v-close-popup clickable @click="onExportClick">
                 <q-item-section>Export</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="sign-out-alt" transform="grow-9 left-5" />
+                  <font-awesome-icon
+                    icon="sign-out-alt"
+                    transform="grow-9 left-5"
+                  />
                 </q-item-section>
               </q-item>
 
               <q-item v-close-popup clickable @click="onValidateClick">
                 <q-item-section>Validate</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="balance-scale" transform="grow-9 left-5" />
+                  <font-awesome-icon
+                    icon="balance-scale"
+                    transform="grow-9 left-5"
+                  />
                 </q-item-section>
               </q-item>
 
               <q-item v-close-popup clickable @click="onHelpClick">
                 <q-item-section>Help</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="question-circle" transform="grow-9 left-5" />
+                  <font-awesome-icon
+                    icon="question-circle"
+                    transform="grow-9 left-5"
+                  />
                 </q-item-section>
               </q-item>
             </q-list>
@@ -53,14 +77,19 @@
 
     <!-- the button is required for file export -->
     <div ref="buttonContainer" hidden="hidden">
-      <q-btn color="red-10" text-color="accent" label="Recalculate" @click="onRecalculateClick" />
+      <q-btn
+        color="red-10"
+        text-color="accent"
+        label="Recalculate"
+        @click="onRecalculateClick"
+      />
     </div>
 
     <!-- <q-table title="Asset Allocation" :data="assetClasses" :columns="columns"
       dark color="amber-3" :dense="$q.screen.lt.md" :rows-per-page-options="[0, 20]"
       row-key="fullname">
     </q-table>-->
-    <div style="height: 100%; width: 100%; overflow: scroll;">
+    <div style="height: 100%; width: 100%; overflow: scroll">
       <table>
         <thead>
           <tr>
@@ -78,9 +107,12 @@
           <tr v-for="assetClass in assetClasses" :key="assetClass.fullname">
             <!-- Asset Class Name -->
             <td>
-              <span :style="{ paddingLeft: assetClass.depth + 'rem'}" />
+              <span :style="{ paddingLeft: assetClass.depth + 'rem' }" />
               <router-link
-                :to="{name: 'assetclassdetail', params: {fullname: assetClass.fullname}}"
+                :to="{
+                  name: 'assetclassdetail',
+                  params: { fullname: assetClass.fullname },
+                }"
               >
                 {{ assetClass.name }}
               </router-link>
@@ -88,16 +120,20 @@
             <td class="text-right">{{ assetClass.allocation }}</td>
             <td class="text-right">{{ assetClass.currentAllocation }}</td>
             <!-- difference -->
-            <td class="text-right" style="width: 3rem;">{{ assetClass.diff }}</td>
+            <td class="text-right" style="width: 3rem">
+              {{ assetClass.diff }}
+            </td>
             <!-- difference % -->
             <td
               class="text-right"
-              style="width: 3.5rem;"
+              style="width: 3.5rem"
               :class="{
                 'text-red-10': assetClass.diffPerc <= -20,
-                'text-red-3': (-20 < assetClass.diffPerc && assetClass.diffPerc < 0),
-                'text-green-3': (assetClass.diffPerc > 0 && assetClass.diffPerc < 20),
-                'text-green-9': assetClass.diffPerc >= 20
+                'text-red-3':
+                  -20 < assetClass.diffPerc && assetClass.diffPerc < 0,
+                'text-green-3':
+                  assetClass.diffPerc > 0 && assetClass.diffPerc < 20,
+                'text-green-9': assetClass.diffPerc >= 20,
               }"
             >
               {{ assetClass.diffPerc }}
@@ -105,14 +141,16 @@
             <!-- Allocated Value -->
             <td class="text-right">{{ assetClass.allocatedValue }}</td>
             <!-- Current Value -->
-            <td class="text-right" style="width: 5.5rem;">{{ assetClass.currentValue }}</td>
+            <td class="text-right" style="width: 5.5rem">
+              {{ assetClass.currentValue }}
+            </td>
             <td
               class="text-right"
               :class="{
                 'text-red-10': assetClass.diff < -20,
                 'text-red-3': assetClass.diff < 0,
                 'text-green-3': assetClass.diff > 0,
-                'text-green-9': assetClass.diff > 20
+                'text-green-9': assetClass.diff > 20,
               }"
             >
               {{ assetClass.diffAmount }}
@@ -138,32 +176,32 @@ export default {
           label: "Asset Class",
           align: "left",
           field: "name",
-          format: val => `${val}`,
-          classes: "bg-teal-9 ellipsis"
+          format: (val) => `${val}`,
+          classes: "bg-teal-9 ellipsis",
         },
         { name: "allocation", label: "Allocation", field: "allocation" },
         {
           name: "current-allocation",
           label: "Current",
-          field: "currentAllocation"
+          field: "currentAllocation",
         },
         { name: "diff", label: "Diff", field: "diff" },
         { name: "diff-perc", label: "Diff %", field: "diffPerc" },
         {
           name: "allocatedAmount",
           label: "Alloc.Value",
-          field: "allocatedAmount"
+          field: "allocatedAmount",
         },
         { name: "currentValue", label: "Current", field: "currentValue" },
-        { name: "diffAmount", label: "Difference", field: "diffAmount" }
-      ]
+        { name: "diffAmount", label: "Difference", field: "diffAmount" },
+      ],
     };
   },
 
   computed: {
     canShare() {
       return navigator && "share" in navigator;
-    }
+    },
   },
 
   created() {
@@ -207,11 +245,13 @@ export default {
 
       return output;
     },
-    loadData() {
-      engine
-        .loadFullAssetAllocation()
-        .then(result => (this.assetClasses = result))
-        .catch(reason => this.$q.notify({ message: reason }));
+    async loadData() {
+      try {
+        let result = await engine.loadFullAssetAllocation();
+        this.assetClasses = result;
+      } catch (reason) {
+        this.$q.notify({ message: reason });
+      }
     },
     menuClicked() {
       let visible = this.$store.state.drawerOpen;
@@ -239,7 +279,7 @@ export default {
       navigator.share({
         title: "Asset Allocation " + dateFormatted,
         text: output,
-        url: "https://cashier.alensiljak.eu.org/"
+        url: "https://cashier.alensiljak.eu.org/",
       });
     },
     /**
@@ -261,11 +301,11 @@ export default {
       } else {
         this.$q.notify({
           message: "The allocation is valid.",
-          color: "teal-9"
+          color: "teal-9",
         }); // teal
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

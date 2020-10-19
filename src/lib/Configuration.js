@@ -41,26 +41,26 @@ class Settings {
    * @param {any} key
    * @returns Promise with the Setting object
    */
-  get(key) {
-    return db.settings.get(key).then(setting => {
-      if (!setting) return null;
+  async get(key) {
+    const setting = await db.settings.get(key);
 
-      let value = null;
-      try {
-        value = JSON.parse(setting.value);
-      } catch (e) {
-        value = setting.value;
-      }
+    if (!setting) return null;
 
-      return value;
-    });
+    let value = null;
+    try {
+      value = JSON.parse(setting.value);
+    } catch (e) {
+      value = setting.value;
+    }
+
+    return value;
   }
 
-  set(key, value) {
+  async set(key, value) {
     let jsonValue = JSON.stringify(value);
     let setting = new Setting(key, jsonValue);
 
-    return db.settings.put(setting);
+    await db.settings.put(setting);
   }
 }
 

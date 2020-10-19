@@ -2,7 +2,14 @@
   <q-page padding class="bg-colour1 text-colour2">
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn flat dense round aria-label="Menu" icon="menu" @click="menuClicked" />
+        <q-btn
+          flat
+          dense
+          round
+          aria-label="Menu"
+          icon="menu"
+          @click="menuClicked"
+        />
 
         <q-toolbar-title>Accounts</q-toolbar-title>
 
@@ -12,24 +19,35 @@
           <q-menu>
             <q-list dark style="min-width: 175px" class="bg-colour1">
               <!-- dense -->
-              <q-item v-close-popup clickable :to="{name: 'sync'}">
+              <q-item v-close-popup clickable :to="{ name: 'sync' }">
                 <q-item-section>Synchronize</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="sync-alt" transform="grow-9 left-5" />
+                  <font-awesome-icon
+                    icon="sync-alt"
+                    transform="grow-9 left-5"
+                  />
                 </q-item-section>
               </q-item>
 
               <q-item v-close-popup clickable>
                 <q-item-section @click="onImportClick">Import</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="sign-in-alt" transform="grow-9 left-5" />
+                  <font-awesome-icon
+                    icon="sign-in-alt"
+                    transform="grow-9 left-5"
+                  />
                 </q-item-section>
               </q-item>
 
               <q-item v-close-popup clickable>
-                <q-item-section @click="onDeleteAllClick">Delete All</q-item-section>
+                <q-item-section @click="onDeleteAllClick">
+                  Delete All
+                </q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="trash-alt" transform="grow-9 left-5" />
+                  <font-awesome-icon
+                    icon="trash-alt"
+                    transform="grow-9 left-5"
+                  />
                 </q-item-section>
               </q-item>
             </q-list>
@@ -47,12 +65,17 @@
           dense
           dark
           color="amber-4"
-          style="width: 23rem;"
+          style="width: 23rem"
           debounce="500"
         >
           <template #append>
             <font-awesome-icon v-if="filter === ''" icon="search" />
-            <q-icon v-else name="clear" class="cursor-pointer" @click="filter = ''" />
+            <q-icon
+              v-else
+              name="clear"
+              class="cursor-pointer"
+              @click="filter = ''"
+            />
           </template>
         </q-input>
       </q-toolbar>
@@ -128,7 +151,11 @@
     </q-page-sticky>
 
     <!-- confirm deletion dialog -->
-    <q-dialog v-model="confirmDeleteAllVisible" persistent content-class="bg-blue-grey-10">
+    <q-dialog
+      v-model="confirmDeleteAllVisible"
+      persistent
+      content-class="bg-blue-grey-10"
+    >
       <q-card dark class="bg-red-10">
         <q-card-section class="row items-center">
           <span>Do you want to delete all accounts?</span>
@@ -136,7 +163,13 @@
 
         <q-card-actions align="right">
           <q-btn v-close-popup flat label="Cancel" color="amber-4" />
-          <q-btn v-close-popup flat label="Delete" color="amber-4" @click="confirmDeleteAll" />
+          <q-btn
+            v-close-popup
+            flat
+            label="Delete"
+            color="amber-4"
+            @click="confirmDeleteAll"
+          />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -161,7 +194,7 @@ export default {
       newAccount: null,
       accounts: [],
       filterText: null, // filter for the account name
-      pickerMode: false
+      pickerMode: false,
     };
   },
 
@@ -173,8 +206,8 @@ export default {
       set(value) {
         this.filterText = value;
         this.loadData();
-      }
-    }
+      },
+    },
   },
 
   created() {
@@ -215,9 +248,9 @@ export default {
         let search = new ListSearch();
         let regex = search.getRegex(this.filter);
 
-        accounts = accounts.filter(account => regex.test(account.name));
+        accounts = accounts.filter((account) => regex.test(account.name));
       }
-      accounts.toArray().then(accounts => (this.accounts = accounts));
+      accounts.toArray().then((accounts) => (this.accounts = accounts));
     },
     menuClicked() {
       let visible = this.$store.state.drawerOpen;
@@ -239,11 +272,10 @@ export default {
       this.dialogVisible = false;
       this.newAccount = null;
     },
-    onDeleteAccount(accountName) {
+    async onDeleteAccount(accountName) {
       // console.log(event);
-      appService.deleteAccount(accountName).then(() => {
-        this.loadData();
-      });
+      await appService.deleteAccount(accountName);
+      this.loadData();
     },
     onDeleteAllClick() {
       this.confirmDeleteAllVisible = true;
@@ -254,8 +286,8 @@ export default {
     },
     onImportClick() {
       this.$router.push({ name: "import" });
-    }
-  }
+    },
+  },
 };
 </script>
 

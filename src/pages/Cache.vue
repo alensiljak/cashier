@@ -34,7 +34,7 @@
           />
         </div>
         <div class="col">
-                      <q-btn
+          <q-btn
             label="Clear"
             color="secondary"
             text-color="accent"

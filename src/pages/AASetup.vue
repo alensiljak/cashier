@@ -2,25 +2,45 @@
   <q-page padding class="bg-colour1 text-colour2">
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn flat dense round @click="menuClicked" aria-label="Menu" icon="menu" />
+        <q-btn
+          flat
+          dense
+          round
+          @click="menuClicked"
+          aria-label="Menu"
+          icon="menu"
+        />
 
         <q-toolbar-title>AA Setup</q-toolbar-title>
 
         <q-space />
-
       </q-toolbar>
     </q-header>
 
     <!-- Current Balances -->
     <div class="q-my-md">
       <p>Current values</p>
-      <p>These can be transferred using Synchronization or imported from "ledger b ^&lt;root&gt; -X &lt;CUR&gt; --flat"</p>
+      <p>
+        These can be transferred using Synchronization or imported from "ledger
+        b ^&lt;root&gt; -X &lt;CUR&gt; --flat"
+      </p>
       <div class="row">
         <div class="col">
-          <q-input type="file" class="text-red" dark clearable @input="onFileSelected" />
+          <q-input
+            type="file"
+            class="text-red"
+            dark
+            clearable
+            @input="onFileSelected"
+          />
         </div>
         <div class="col text-center">
-          <q-btn label="Import" color="red-10" text-color="amber-4" @click="onCurrentBalClick" />
+          <q-btn
+            label="Import"
+            color="red-10"
+            text-color="amber-4"
+            @click="onCurrentBalClick"
+          />
         </div>
       </div>
     </div>
@@ -39,7 +59,7 @@ export default {
   data() {
     return {
       fileContent: null,
-      rootAccount: null
+      rootAccount: null,
     };
   },
 
@@ -51,12 +71,11 @@ export default {
   },
 
   methods: {
-    loadData() {
-      appService.db.settings
-        .get(SettingKeys.rootInvestmentAccount)
-        .then(setting => {
-          this.rootAccount = setting.value;
-        });
+    async loadData() {
+      const setting = await appService.db.settings.get(
+        SettingKeys.rootInvestmentAccount
+      );
+      this.rootAccount = setting.value;
     },
     menuClicked() {
       let visible = this.$store.state.drawerOpen;
@@ -78,12 +97,11 @@ export default {
         SettingKeys.rootInvestmentAccount,
         this.rootAccount
       );
-      appService.db.settings.put(setting).then(result => {
+      appService.db.settings.put(setting).then((result) => {
         this.$q.notify({ message: "saved: " + result });
       });
-    }
+    },
   },
 
-  computed: {}
 };
 </script>

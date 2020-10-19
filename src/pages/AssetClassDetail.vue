@@ -12,15 +12,14 @@
           <li v-if="stock.analysis">
             {{ stock.analysis }} -
             <router-link
-              :to="{ name: 'lots', params: { symbol: stock.name }}"
+              :to="{ name: 'lots', params: { symbol: stock.name } }"
               class="text-colour2"
             >
               lots
             </router-link>
           </li>
           <li v-for="account in stock.accounts" :key="account.fullname">
-            {{ account.name }},
-            {{ account.balance }} {{ account.currency }},
+            {{ account.name }}, {{ account.balance }} {{ account.currency }},
             {{ account.currentValue }} {{ account.currentCurrency }},
             <!-- {{ account }} -->
           </li>
@@ -45,7 +44,7 @@ export default {
       stocks: [],
       investmentAccounts: [],
       currency: null,
-      serverUrl: null
+      serverUrl: null,
     };
   },
 
@@ -58,32 +57,21 @@ export default {
   },
 
   methods: {
-    loadData() {
+    async loadData() {
       let that = this;
-      appService.getInvestmentAccounts().then(col => {
-        col
-          .toArray()
-          .then(array => {
-            that.investmentAccounts = array;
-            this.loadAssetClass();
-          })
-          .then(() => {
-            settings
-              .get(SettingKeys.currency)
-              .then(value => (this.currency = value));
+      let col = await appService.getInvestmentAccounts();
+      let array = await col.toArray();
+      that.investmentAccounts = array;
+      this.loadAssetClass();
 
-            settings
-              .get(SettingKeys.syncServerUrl)
-              .then(value => (this.serverUrl = value))
-              .then(() => this.securityAnalysis());
-          });
-      });
+      this.currency = await settings.get(SettingKeys.currency)
+      this.serverUrl = await settings.get(SettingKeys.syncServerUrl)
+      this.securityAnalysis()
     },
-    loadAssetClass() {
-      appService.loadAssetClass(this.$route.params.fullname).then(ac => {
-        this.assetClass = ac;
-        this.loadConstituents();
-      });
+    async loadAssetClass() {
+      const ac = await appService.loadAssetClass(this.$route.params.fullname);
+      this.assetClass = ac;
+      await this.loadConstituents();
     },
     /**
      * Load all constituents - stocks, currencies.
@@ -97,7 +85,7 @@ export default {
         let childName = childNames[i];
         let stock = {
           name: childName,
-          accounts: []
+          accounts: [],
         };
 
         let account = null;
@@ -130,13 +118,13 @@ export default {
       for (let i = 0; i < this.stocks.length; i++) {
         let symbol = this.stocks[i].name;
         // console.log(symbol)
-        this.fetchAnalysis(symbol).then(analysis => {
-          let stock = this.stocks.find(obj => obj.name == symbol);
+        this.fetchAnalysis(symbol).then((analysis) => {
+          let stock = this.stocks.find((obj) => obj.name == symbol);
           // Use Vue.set to add a property to a reactive object.
           Vue.set(stock, "analysis", analysis);
         });
       }
-    }
-  }
+    },
+  },
 };
 </script>

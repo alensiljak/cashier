@@ -336,10 +336,8 @@
       <q-card dark class="bg-red-10 text-amber-2">
         <q-card-section class="row items-center">
           <!-- <q-avatar icon="signal_wifi_off" color="primary" text-color="amber-2"/>-->
-          <span
-            >Live Mode uses CashierSync for all the data. CashierSync must be
-            running.</span
-          >
+          <span>Live Mode uses CashierSync for all the data. CashierSync must be
+            running.</span>
         </q-card-section>
 
         <q-card-actions align="right">
@@ -401,36 +399,37 @@ export default {
     onHelpClick() {
       this.liveModeHelpVisible = true;
     },
-    liveModeToggle() {
+    async liveModeToggle() {
       this.$store.commit(SET_LEDGER_USE, this.liveModeOn);
+
       if (this.liveModeOn) {
-        // check if cashier sync is running
-        settings.get(SettingKeys.syncServerUrl).then((serverUrl) => {
-          let sync = new CashierSync(serverUrl);
-          sync
-            .healthCheck()
-            .catch((reason) => {
-              this.$q.notify({
-                message: "Error: " + reason,
-                color: "secondary",
-              });
-              // reset the setting
-              this.liveModeOn = false;
-            })
-            .then((value) => {
-              //console.log('health check result:', value)
-              if (value === "Hello World!") {
-                this.$q.notify({
-                  message: "The CashierSync server is running.",
-                  color: "primary",
-                });
-              } else {
-                this.$q.notify({
-                  message: "The CashierSync server is not running.",
-                  color: "secondary",
-                });
-              }
-            });
+        await this.liveModeTest();
+      }
+    },
+    async liveModeTest() {
+      // check if cashier sync is running
+      const serverUrl = await settings.get(SettingKeys.syncServerUrl);
+      let sync = new CashierSync(serverUrl);
+
+      const value = await sync.healthCheck().catch((reason) => {
+        this.$q.notify({
+          message: "Error: " + reason,
+          color: "secondary",
+        });
+        // reset the setting
+        this.liveModeOn = false;
+      });
+
+      //console.log('health check result:', value)
+      if (value === "Hello World!") {
+        this.$q.notify({
+          message: "The CashierSync server is running.",
+          color: "primary",
+        });
+      } else {
+        this.$q.notify({
+          message: "The CashierSync server is not running.",
+          color: "secondary",
         });
       }
     },

@@ -144,53 +144,31 @@ export default {
     async synchronizeBalances() {
       const sync = new CashierSync(this.serverUrl);
 
+      /// Accounts
+
       console.log("reading accounts from the server...");
-      const ledgerAccounts = await sync
-        .readAccounts()
-        .catch((error) =>
-          this.$q.notify({
-            message: "Read Accouns:" + error.message,
-            color: "secondary",
-          })
-        );
+      const ledgerAccounts = await sync.readAccounts()
+
       // delete all accounts only after we have the new ones
       console.log("deleting local account records...");
-      await appService
-        .deleteAccounts()
-        .catch((error) =>
-          this.$q.notify({
-            message: "Delete Accouns:" + error.message,
-            color: "secondary",
-          })
-        );
+      await appService.deleteAccounts()
+
       console.log("importing accounts...");
       //console.log(ledgerAccounts)
-      await appService
-        .importAccounts(ledgerAccounts)
-        .catch((error) =>
-          this.$q.notify({
-            message: "Import Accouns:" + error.message,
-            color: "secondary",
-          })
-        );
+      await appService.importAccounts(ledgerAccounts)
       this.$q.notify({ message: "accounts loaded", color: "primary" });
-      console.log("Accounts imported.");
+      // console.log("Accounts imported.");
+
+      /// Balances
 
       // synchronize the account balances
       console.log("importing balances...");
       const balances = await sync.readBalances();
       //console.log(balances)
-      await appService
-        .importBalanceSheet(balances)
-        .catch((error) =>
-          this.$q.notify({
-            message: "Import Balances:" + error.message,
-            color: "secondary",
-          })
-        );
-
+      await appService.importBalanceSheet(balances)
       this.$q.notify({ message: "balances loaded", color: "primary" });
     },
+
     async synchronize() {
       if (this.syncBalances) {
         // Delete all accounts, then get everything from Ledger.

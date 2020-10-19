@@ -12,7 +12,8 @@ async function isStoragePersisted() {
         navigator.storage.persisted();
 }
 
-isStoragePersisted().then(async isPersisted => {
+isStoragePersisted()
+.then(async isPersisted => {
     if (isPersisted) {
         console.log(":) Storage is successfully persisted.");
     } else {

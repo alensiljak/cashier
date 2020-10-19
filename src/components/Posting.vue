@@ -6,7 +6,12 @@
 
       <div class="col">
         <!-- Account -->
-        <q-input v-model="posting.account" dark label="Account" @click="$emit('account-clicked')" />
+        <q-input
+          v-model="posting.account"
+          dark
+          label="Account"
+          @click="$emit('account-clicked')"
+        />
       </div>
     </div>
 
@@ -38,14 +43,14 @@ import appService from "../appService";
 
 export default {
   props: {
-    posting: { type: Object, default: null }, 
+    posting: { type: Object, default: null },
     index: { type: Number, default: null },
-    accounts: { type: Array, default: null }
+    accounts: { type: Array, default: null },
   },
 
-  data: function() {
+  data: function () {
     return {
-      accountOptions: null
+      accountOptions: null,
     };
   },
 
@@ -60,19 +65,17 @@ export default {
       update(() => {
         const needle = val.toLowerCase();
         this.accountOptions = this.accounts.filter(
-          account => account.toLowerCase().indexOf(needle) > -1
+          (account) => account.toLowerCase().indexOf(needle) > -1
         );
       });
     },
-    onAccountSelected(name) {
+    async onAccountSelected(name) {
       // console.log(name)
       // load account by name
-      appService.db.accounts.get({ name: name }).then(account => {
-        // console.log(account.currency)
-        this.posting.currency = account.currency;
-      });
-    }
-  }
+      const account = await appService.db.accounts.get({ name: name });
+      this.posting.currency = account.currency;
+    },
+  },
 };
 </script>
 

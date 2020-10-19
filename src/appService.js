@@ -54,22 +54,33 @@ class AppService {
    */
   deleteTransaction(id) {
     if (typeof id === "string") {
-      id = Number(id)
+      id = Number(id);
     }
 
-    return this.db.transaction("rw", this.db.transactions, this.db.postings, async (tx) => {
-      const x = await db.transactions.where("id").equals(id).count()
-      console.log("count:", x)
+    return this.db
+      .transaction("rw", this.db.transactions, this.db.postings, async tx => {
+        const x = await db.transactions
+          .where("id")
+          .equals(id)
+          .count();
+        console.log("count:", x);
 
-      // delete transaction record
-      await db.transactions.where("id").equals(id).delete()
-        .then(result => console.log("transactions -", result))
-      // delete postings
-      await db.postings.where("transactionId").equals(id).delete()
-        .then(result => console.log("postings -", result))
+        // delete transaction record
+        result = await db.transactions
+          .where("id")
+          .equals(id)
+          .delete();
+        console.log("transactions -", result);
 
-      return "Transaction complete"
-    })
+        // delete postings
+        result = await db.postings
+          .where("transactionId")
+          .equals(id)
+          .delete();
+        console.log("postings -", result);
+
+        return "Transaction complete";
+      })
       .then(() => console.log("Delete transaction completed."))
       .catch(error => console.error("Error on Delete Transaction:", error));
   }
@@ -77,52 +88,49 @@ class AppService {
   /**
    * Delete all transactions.
    */
-  deleteTransactions() {
+  async deleteTransactions() {
     // also clear any remaining postings
     this.db.postings.clear();
-    return this.db.transactions.clear();
+    await this.db.transactions.clear();
   }
 
   /**
    * Returns all the register transactions as text,
    * ready to be exported as a file or copied as a string.
    */
-  exportTransactions() {
-    return db.transactions
-      .orderBy("date")
-      .toArray()
-      .then(txs => {
-        var output = "";
+  async exportTransactions() {
+    let txs = await db.transactions.orderBy("date").toArray();
 
-        for (let i = 0; i < txs.length; i++) {
-          let tx = txs[i]
-          // transaction
-          output += tx.date
-          output += " " + tx.payee
-          output += "\n"
-          // note
-          if(tx.note) {
-            output += "    ; " + tx.note + "\n"
-          }
-          // postings
-          for (let j = 0; j < tx.postings.length; j++) {
-            let p = tx.postings[j];
-            if (!p.account) continue;
+    var output = "";
 
-            output += "    ";
-            output += p.account == null ? "" : p.account;
-            if (p.amount) {
-              output += "  ";
-              output += p.amount == null ? "" : p.amount;
-              output += " ";
-              output += p.currency == null ? "" : p.currency;
-            }
-            output += "\n";
-          }
-          output += "\n";
+    for (let i = 0; i < txs.length; i++) {
+      let tx = txs[i];
+      // transaction
+      output += tx.date;
+      output += " " + tx.payee;
+      output += "\n";
+      // note
+      if (tx.note) {
+        output += "    ; " + tx.note + "\n";
+      }
+      // postings
+      for (let j = 0; j < tx.postings.length; j++) {
+        let p = tx.postings[j];
+        if (!p.account) continue;
+
+        output += "    ";
+        output += p.account == null ? "" : p.account;
+        if (p.amount) {
+          output += "  ";
+          output += p.amount == null ? "" : p.amount;
+          output += " ";
+          output += p.currency == null ? "" : p.currency;
         }
-        return output;
-      });
+        output += "\n";
+      }
+      output += "\n";
+    }
+    return output;
   }
 
   /**
@@ -191,9 +199,9 @@ class AppService {
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
       if (line === "") continue;
-      
-      const account = new Account()
-      account.name = line
+
+      const account = new Account();
+      account.name = line;
       accounts.push(account);
     }
     return db.accounts.bulkPut(accounts);
@@ -201,7 +209,7 @@ class AppService {
 
   async importBalanceSheet(text) {
     if (!text) {
-      throw "No balance sheet selected."
+      throw "No balance sheet selected.";
     }
 
     const accounts = [];
