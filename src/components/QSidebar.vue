@@ -1,12 +1,26 @@
 <template>
-  <q-drawer v-model="drawerOpen" bordered content-class="bg-colour1 text-amber-2">
+  <q-drawer
+    v-model="drawerOpen"
+    bordered
+    content-class="bg-colour1 text-amber-2"
+  >
     <q-scroll-area
-      style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd"
+      style="
+        height: calc(100% - 150px);
+        margin-top: 150px;
+        border-right: 1px solid #ddd;
+      "
     >
       <q-list padding>
         <!-- <q-item-label header>Navigation</q-item-label> -->
 
-        <q-item v-ripple to="/journal" exact clickable active-class="active-link">
+        <q-item
+          v-ripple
+          to="/journal"
+          exact
+          clickable
+          active-class="active-link"
+        >
           <q-item-section avatar>
             <font-awesome-icon icon="list-ul" transform="grow-6 right-6" />
           </q-item-section>
@@ -15,7 +29,13 @@
           </q-item-section>
         </q-item>
 
-        <q-item v-ripple to="/favourites" exact clickable active-class="active-link">
+        <q-item
+          v-ripple
+          to="/favourites"
+          exact
+          clickable
+          active-class="active-link"
+        >
           <q-item-section avatar>
             <font-awesome-icon icon="star" transform="grow-6 right-6" />
           </q-item-section>
@@ -24,11 +44,19 @@
           </q-item-section>
         </q-item>
 
-        <q-item v-if="liveModeOn" v-ripple to="tx-search" exact clickable
-                active-class="active-link"
+        <q-item
+          v-if="liveModeOn"
+          v-ripple
+          to="tx-search"
+          exact
+          clickable
+          active-class="active-link"
         >
           <q-item-section avatar>
-            <font-awesome-icon icon="search-dollar" transform="grow-6 right-6" />
+            <font-awesome-icon
+              icon="search-dollar"
+              transform="grow-6 right-6"
+            />
           </q-item-section>
           <q-item-section>
             <q-item-label>Transaction Search</q-item-label>
@@ -64,7 +92,12 @@
           </q-item-section>
         </q-item> -->
 
-        <q-item v-ripple :to="{name: 'accounts'}" clickable active-class="active-link">
+        <q-item
+          v-ripple
+          :to="{ name: 'accounts' }"
+          clickable
+          active-class="active-link"
+        >
           <q-item-section avatar>
             <font-awesome-icon icon="wallet" transform="grow-6 right-6" />
           </q-item-section>
@@ -114,9 +147,18 @@
           </q-list>
         </q-expansion-item>-->
 
-        <q-item v-ripple to="/assetallocation" exact clickable active-class="active-link">
+        <q-item
+          v-ripple
+          to="/assetallocation"
+          exact
+          clickable
+          active-class="active-link"
+        >
           <q-item-section avatar>
-            <font-awesome-icon icon="business-time" transform="grow-6 right-9" />
+            <font-awesome-icon
+              icon="business-time"
+              transform="grow-6 right-9"
+            />
           </q-item-section>
           <q-item-section>
             <q-item-label>Asset Allocation</q-item-label>
@@ -124,8 +166,13 @@
         </q-item>
 
         <!-- Sync -->
-        <q-item v-if="liveModeOn" v-ripple to="/sync" exact clickable 
-                active-class="active-link"
+        <q-item
+          v-if="liveModeOn"
+          v-ripple
+          to="/sync"
+          exact
+          clickable
+          active-class="active-link"
         >
           <q-item-section avatar>
             <font-awesome-icon icon="sync-alt" transform="grow-6 right-6" />
@@ -155,7 +202,10 @@
               active-class="active-link"
             >
               <q-item-section avatar>
-                <font-awesome-icon icon="sign-in-alt" transform="grow-6 right-6" />
+                <font-awesome-icon
+                  icon="sign-in-alt"
+                  transform="grow-6 right-6"
+                />
               </q-item-section>
               <q-item-section>
                 <q-item-label>Import</q-item-label>
@@ -163,15 +213,19 @@
             </q-item>
 
             <!-- Export -->
-            <q-item v-ripple
-                    to="/export"
-                    :inset-level="1"
-                    exact
-                    clickable
-                    active-class="active-link"
+            <q-item
+              v-ripple
+              to="/export"
+              :inset-level="1"
+              exact
+              clickable
+              active-class="active-link"
             >
               <q-item-section avatar>
-                <font-awesome-icon icon="sign-out-alt" transform="grow-6 right-6" />
+                <font-awesome-icon
+                  icon="sign-out-alt"
+                  transform="grow-6 right-6"
+                />
               </q-item-section>
               <q-item-section>
                 <q-item-label>Export</q-item-label>
@@ -179,12 +233,20 @@
             </q-item>
 
             <!-- Git Repository -->
-            <q-item v-if="liveModeOn" v-ripple to="repository" exact
-                    :inset-level="1"
-                    clickable active-class="active-link"
+            <q-item
+              v-if="liveModeOn"
+              v-ripple
+              to="repository"
+              exact
+              :inset-level="1"
+              clickable
+              active-class="active-link"
             >
               <q-item-section avatar>
-                <font-awesome-icon icon="code-branch" transform="grow-6 right-6" />
+                <font-awesome-icon
+                  icon="code-branch"
+                  transform="grow-6 right-6"
+                />
               </q-item-section>
               <q-item-section>
                 <q-item-label>Repository</q-item-label>
@@ -209,7 +271,12 @@
         </q-expansion-item>
 
         <!-- Settings -->
-        <q-item v-ripple :to="{name: 'settings'}" clickable active-class="active-link">
+        <q-item
+          v-ripple
+          :to="{ name: 'settings' }"
+          clickable
+          active-class="active-link"
+        >
           <!-- exact -->
           <q-item-section avatar>
             <font-awesome-icon icon="cog" transform="grow-6 right-6" />
@@ -237,31 +304,52 @@
         </q-avatar>
         <!-- <div class="text-weight-bold">Cashier</div> -->
         <!-- <div>@cashier</div> -->
-        <div style="font-size: 2rem;">
+        <div style="font-size: 2rem">
           Cashier
-          <span style="font-size: 0.75rem" class="q-my-none">{{ this.$version }}</span>
+          <span style="font-size: 0.75rem" class="q-my-none">{{
+            this.$version
+          }}</span>
         </div>
       </div>
     </q-img>
 
-    <div class="absolute-bottom text-right">
-      <label>Live Mode:</label>
-      <q-toggle v-model="liveModeOn" @input="liveModeToggle" />
-      <font-awesome-icon icon="question-circle" transform="grow-9 left-5" 
-                         @click="onHelpClick"
-      />
+    <div class="absolute-bottom row">
+      <div class="col">
+        <label class="q-mr-sm">Live Mode:</label>
+        <font-awesome-icon
+          icon="question-circle"
+          transform="grow-9 "
+          @click="onHelpClick"
+        />
+      </div>
+      <div class="col text-right">
+        <q-toggle v-model="liveModeOn" @input="liveModeToggle" />
+      </div>
     </div>
 
     <!-- help dialog -->
-    <q-dialog v-model="liveModeHelpVisible" persistent content-class="bg-blue-grey-10">
+    <q-dialog
+      v-model="liveModeHelpVisible"
+      persistent
+      content-class="bg-blue-grey-10"
+    >
       <q-card dark class="bg-red-10 text-amber-2">
         <q-card-section class="row items-center">
           <!-- <q-avatar icon="signal_wifi_off" color="primary" text-color="amber-2"/>-->
-          <span>Live Mode uses CashierSync for all the data. CashierSync must be running.</span>
+          <span
+            >Live Mode uses CashierSync for all the data. CashierSync must be
+            running.</span
+          >
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn v-close-popup flat label="OK" color="amber-4" @click="liveModeHelpVisible = false" />
+          <q-btn
+            v-close-popup
+            flat
+            label="OK"
+            color="amber-4"
+            @click="liveModeHelpVisible = false"
+          />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -278,7 +366,7 @@ export default {
     return {
       // drawerOpen: this.$q.platform.is.desktop
       liveModeOn: false,
-      liveModeHelpVisible: false
+      liveModeHelpVisible: false,
     };
   },
 
@@ -289,8 +377,8 @@ export default {
       },
       set(value) {
         this.$store.commit(TOGGLE_DRAWER, value);
-      }
-    }
+      },
+    },
   },
 
   created() {
@@ -317,29 +405,29 @@ export default {
       this.$store.commit(SET_LEDGER_USE, this.liveModeOn);
       if (this.liveModeOn) {
         // check if cashier sync is running
-        settings.get(SettingKeys.syncServerUrl).then(serverUrl => {
+        settings.get(SettingKeys.syncServerUrl).then((serverUrl) => {
           let sync = new CashierSync(serverUrl);
           sync
             .healthCheck()
-            .catch(reason => {
+            .catch((reason) => {
               this.$q.notify({
                 message: "Error: " + reason,
-                color: "secondary"
+                color: "secondary",
               });
               // reset the setting
               this.liveModeOn = false;
             })
-            .then(value => {
+            .then((value) => {
               //console.log('health check result:', value)
               if (value === "Hello World!") {
                 this.$q.notify({
                   message: "The CashierSync server is running.",
-                  color: "primary"
+                  color: "primary",
                 });
               } else {
                 this.$q.notify({
                   message: "The CashierSync server is not running.",
-                  color: "secondary"
+                  color: "secondary",
                 });
               }
             });
@@ -348,8 +436,8 @@ export default {
     },
     toggleDrawer() {
       this.drawerOpen = !this.drawerOpen;
-    }
-  }
+    },
+  },
 };
 </script>
 
