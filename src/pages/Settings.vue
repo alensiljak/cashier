@@ -1,130 +1,150 @@
 <template>
-  <q-page padding>
-    <ActionBar title="Settings"/>
-
-    <div class="container">
-      <p>Here you can import the data required for the operation.</p>
-
-    <div>
-      <h2>Balances</h2>
-      <p>
-        Loading a balance sheet will provide the accounts list, their balances,
-        and commodities/currencies. Export from Ledger with "ledger balances".
-      </p>
-      <input
-        type="file"
-        class="form-control-input"
-        v-on:dragover="onFileHover"
-        v-on:change="onBalancesFile"
-      >
-      <div class="form-row">
-        <textarea v-model="balanceSheetContent"></textarea>
+  <q-page padding class="bg-colour1 text-colour2">
+    <div class="row">
+      <div class="col">
+        <!-- currency -->
+        <q-input v-model="currency" dark label="Main Currency" />
+      </div>
+    </div>
+    <p class="q-my-md">Investments</p>
+    <div class="row">
+      <div class="col">
+        <!-- root investment account -->
+        <q-input v-model="rootInvestmentAccount" dark label="Root investment account" />
       </div>
     </div>
 
-    <h2>Payees</h2>
-
-    <div class="mt-3">
-      <p>
-        Load payees from Ledger. Export with "ledger payees". Then either select a file or paste
-        the contents into the box below.
-      </p>
-      <!-- <div id="drop_zone" v-on:dragover="onFileHover">Drop files here</div> -->
-      <div class="form-row">
-        <div class="col">
-          <input
-            id="payeesFile"
-            class="form-control-file"
-            type="file"
-            v-on:dragover="onFileHover"
-            v-on:change="onPayeesFile"
-          >
-        </div>
-        <div class="col text-right">
-          <button type="button" class="btn btn-info" v-on:click="onDummyPayeesClick">Dummy data</button>
-        </div>
+    <p class="q-my-md">Asset Allocation settings</p>
+    <div class="row">
+      <div class="col">
+        <q-input type="file" class="text-red" dark clearable @input="onAaFileSelected" />
       </div>
-      <div class="form-row">
-        <textarea v-model="payeesContent"></textarea>
+      <div class="col text-center">
+        <q-btn label="Import" color="red-10" text-color="amber-4" @click="onDefinitionImportClick" />
       </div>
+      <div class="col-1">
+        <q-btn flat round dense @click="onAaHelpClick">
+          <font-awesome-icon icon="question-circle" />
+        </q-btn>
+      </div>
+      <!-- </div> -->
+    </div>
 
-      <div class="text-center mt-1 mb-5">
-        <button type="button" class="btn btn-primary" v-on:click="onPayeesImport">Import Payees</button>
+    <div class="row q-mt-lg">
+      <div class="col text-center q-my-lg">
+        <q-btn label="save" color="secondary" text-color="accent" @click="onSaveClick" />
       </div>
     </div>
+
+    <div class="row q-mt-lg">
+      <div class="col text-center q-my-lg">
+        <p>
+          Force-reload the page to refresh the version in case the background worker 
+          does not manage to update to the latest version.
+        </p>
+        <q-btn label="Reload App" color="secondary" text-color="accent" @click="reloadApp" />
+      </div>
     </div>
   </q-page>
 </template>
+
 <script>
-import ActionBar from "../components/ActionBar.vue";
-import PayeeImporter from "../components/PayeeImporter";
-import { SET_PAYEES } from "../mutations";
+import { SET_TITLE, MAIN_TOOLBAR } from "../mutations";
+import { SettingKeys, settings } from "../lib/Configuration";
+// import { CashierSync } from "../lib/syncCashier";
+import { engine } from "../lib/AssetAllocation";
 
 export default {
+
+  components: {},
   data: function() {
     return {
-      balanceSheetContent: null,
-      payeesContent: null
+      currency: null,
+      rootInvestmentAccount: null
     };
   },
+
+  created() {
+    this.$store.commit(MAIN_TOOLBAR, true);
+    this.$store.commit(SET_TITLE, "Settings");
+
+    this.loadSettings();
+  },
+
   methods: {
-    onBalancesFile: function(event) {
-      this.readFileContent(event, "balanceSheetContent");
-    },
-    onPayeesFile: function(event) {
-      this.readFileContent(event, "payeesContent");
-    },
-    onFileHover: function(evt) {
-      evt.stopPropagation();
-      evt.preventDefault();
-      evt.dataTransfer.dropEffect = "copy"; // Explicitly show this is a copy.
-    },
-    onDummyPayeesClick: function() {
-      // use some dummy data
-      this.payeesContent = "Payee 1\nGrocery Store\nElectricity Bill\n";
-    },
-    onPayeesImport: function() {
-      // import the payees
-      const importer = new PayeeImporter();
-      var payees = importer.import(this.content);
-      this.$store.dispatch(SET_PAYEES, payees);
+    loadSettings() {
+      settings.get(SettingKeys.currency)
+        .then(value => (this.currency = value));
+
+      settings
+        .get(SettingKeys.rootInvestmentAccount)
+        .then(value => (this.rootInvestmentAccount = value));
     },
     /**
-     * event = fileInput.changed event
-     * dataField = name of the field on data object to which the content will be saved.
+     * The Asset Allocation definition selected.
      */
-    readFileContent: function(event, dataField) {
-      // Receive a fileInput.changed event. Read the file content and
-      // invoke the callback function, if any, passing the contents.
-      // https://developer.mozilla.org/en-US/docs/Web/API/FileReader/onload
+    onAaFileSelected(files) {
+      this.readInputFile(files[0], "fileContent");
+    },
+    onAaHelpClick() {
+      // navigate to help page
+      this.$router.push({ name: "assetallocationsetuphelp" });
+    },
+    onDefinitionImportClick() {
+      // Clean-up any existing data first.
+      engine.emptyData()
+        .then(() => {
+          // import AA definition file
+          engine.importDefinition(this.fileContent)
+            .then(() => {
+              this.$q.notify({
+                message: "Definition imported",
+                color: "teal-9", // green-9
+                textColor: "amber-2"
+              })
+            })
+            .catch(msg => this.$q.notify({
+              message: "Error during import: " + msg,
+              color: "secondary",
+              textColor: "amber-2"
+            }))
+        })
+    },
+    onSaveClick() {
+      // currency
+      settings
+        .set(SettingKeys.currency, this.currency)
+        .then(() => this.$q.notify({ message: "currency saved" }));
 
-      var files = event.target.files;
-      var file = files[0];
-
+      // root investment account
+      settings
+        .set(SettingKeys.rootInvestmentAccount, this.rootInvestmentAccount)
+        .then(() =>
+          this.$q.notify({ message: "root investment account saved" })
+        );
+    },
+    /**
+     * Load Asset Allocation from the file.
+     */
+    readInputFile(fileInfo, dataField) {
+      //   console.log(fileInfo);
       var reader = new FileReader();
-      // reader.readAsDataURL(file) => useful when adding the source to images directly.
-      var component = this;
-      reader.onload = function(event) {
+
+      reader.onload = event => {
         // File was successfully read.
-        // target = FileReader
         var content = event.target.result;
-        // console.log(content)
 
         if (dataField) {
-          component[dataField] = content;
+          this[dataField] = content;
+          //   console.log("read", content);
         }
       };
-      reader.readAsText(file);
+
+      reader.readAsText(fileInfo);
+    },
+    reloadApp() {
+      window.location.reload(true)
     }
-  },
-  components: {
-    ActionBar
   }
 };
 </script>
-<style>
-textarea {
-  width: 100%;
-  height: 10em;
-}
-</style>
