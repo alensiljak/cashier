@@ -66,12 +66,13 @@ export default {
     };
   },
 
-  async created() {
+  created() {
     this.$store.commit(MAIN_TOOLBAR, true);
     this.$store.commit(SET_TITLE, "Cache");
 
-    await this.loadSettings();
-    await this.loadStatuses();
+    this.loadSettings()
+        // need to have value below in order to resolve the promise!
+        .then(value => this.loadStatuses())
   },
 
   methods: {
@@ -79,7 +80,7 @@ export default {
       const value = await settings.get(SettingKeys.syncServerUrl);
       this.serverUrl = value;
 
-      return Promise.resolve(value);
+      return value
     },
     async loadStatuses() {
       let cashierSync = new CashierSync(this.serverUrl);
