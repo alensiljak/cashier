@@ -1,5 +1,5 @@
 /*
-Synchronization module for CashierSync.
+  Synchronization with CashierSync.
 */
 import axios from "axios";
 import appService from "../appService";
@@ -11,6 +11,8 @@ import { engine } from "./AssetAllocation";
  * implemented by the server. This is a proxy class for fething Ledger data.
  */
 export class CashierSync {
+  static accountsUrl = '/accounts'
+
   constructor(serverUrl) {
     if (!serverUrl) {
       throw "CashierSync URL not set."
@@ -19,6 +21,7 @@ export class CashierSync {
       serverUrl = serverUrl.splice(0, serverUrl.length - 1);
     }
     this.serverUrl = serverUrl;
+    this.accountsUrl = this.serverUrl + CashierSync.accountsUrl;
   }
 
   get(path) {
@@ -40,11 +43,11 @@ export class CashierSync {
    */
   async readAccounts() {
     //let url = this.serverUrl + "/balance";
-    let url = this.serverUrl + "/accounts";
-    let response = await axios.get(url);
-    let content = response.data;
+    let url = this.accountsUrl
+    let response = await axios.get(url)
+    let content = response.data
 
-    return content;
+    return content
   }
 
    /**

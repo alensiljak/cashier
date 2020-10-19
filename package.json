@@ -46,6 +46,7 @@
     "eslint-plugin-promise": "4.2.1",
     "eslint-plugin-standard": "4.0.1",
     "eslint-plugin-vue": "7.0.1",
+    "ky": "0.23.0",
     "workbox-webpack-plugin": "5.1.4"
   },
   "bugs": {

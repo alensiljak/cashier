@@ -36,6 +36,16 @@
       </div>
     </div>
 
+    <hr>
+
+    <div class="row q-my-lg">
+      <div class="col">
+        <router-link to="cacheapi">Cache API</router-link>
+      </div>
+    </div>
+
+    <hr>
+
     <div class="row q-mt-lg">
       <div class="col text-center q-my-lg">
         <p>
