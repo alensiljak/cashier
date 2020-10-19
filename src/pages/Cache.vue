@@ -1,6 +1,6 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
-    <div>Control the cached data from Cashier-Sync.</div>
+    <p>Control the cached data from Cashier-Sync.</p>
     <div>
       <div class="row">
         <div class="col">Accounts</div>
@@ -42,7 +42,27 @@
           />
         </div>
       </div>
-      Payees, Clear All
+      <div class="row">
+        <div class="col">Asset Allocation</div>
+        <div class="col">{{ assetAllocationStatus }}</div>
+        <div class="col">
+          <q-btn
+            label="Fetch"
+            color="secondary"
+            text-color="accent"
+            @click="fetchAssetAllocation"
+          />
+        </div>
+        <div class="col">
+          <q-btn
+            label="Clear"
+            color="secondary"
+            text-color="accent"
+            @click="clearAssetAllocation"
+          />
+        </div>
+      </div>
+      Payees
     </div>
   </q-page>
 </template>
@@ -62,6 +82,7 @@ export default {
     return {
       serverUrl: null,
       accountsStatus: "unknown",
+      assetAllocationStatus: 'unknown',
       balancesStatus: "unknown",
     };
   },
@@ -94,6 +115,9 @@ export default {
       // Balances
       const balances = await storage.match(cashierSync.balancesUrl);
       this.balancesStatus = balances ? ExistsStatus : NoneStatus;
+
+      const currentValues = await storage.match(cashierSync.currentValuesUrl)
+      this.assetAllocationStatus = currentValues ? ExistsStatus : NoneStatus
     },
 
     async clearAccounts() {
@@ -104,6 +128,11 @@ export default {
     async clearBalances() {
       let cashierSync = new CashierSync(this.serverUrl);
       const url = cashierSync.balancesUrl;
+      await this.clearCache(url);
+    },
+    async clearAssetAllocation() {
+      let cashierSync = new CashierSync(this.serverUrl);
+      const url = cashierSync.currentValuesUrl;
       await this.clearCache(url);
     },
 
@@ -125,6 +154,9 @@ export default {
         return;
       }
 
+      // don't cache invalid responses
+      if (!response.ok) return
+
       // cache them
       const cache = await caches.open(CacheName);
       await cache.put(url, response.clone());
@@ -142,7 +174,11 @@ export default {
       const url = cashierSync.accountsUrl;
       await this.cacheUrl(url);
     },
-
+    async fetchAssetAllocation() {
+      let cashierSync = new CashierSync(this.serverUrl);
+      const url = cashierSync.currentValuesUrl
+      await this.cacheUrl(url);
+    },
     async fetchBalances() {
       let cashierSync = new CashierSync(this.serverUrl);
       const url = cashierSync.balancesUrl;

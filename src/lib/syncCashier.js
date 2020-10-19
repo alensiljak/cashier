@@ -13,6 +13,7 @@ import { engine } from "./AssetAllocation";
 export class CashierSync {
   static accountsUrl = '/accounts'
   static balancesUrl = '/balance'
+  static currentValuesUrl = '/currentValues'
 
   constructor(serverUrl) {
     if (!serverUrl) {
@@ -24,6 +25,7 @@ export class CashierSync {
     this.serverUrl = serverUrl;
     this.accountsUrl = this.serverUrl + CashierSync.accountsUrl;
     this.balancesUrl = this.serverUrl + CashierSync.balancesUrl;
+    this.currentValuesUrl = this.serverUrl + CashierSync.currentValuesUrl
   }
 
   get(path) {
@@ -67,8 +69,7 @@ export class CashierSync {
     let rootAcct = await settings.get(SettingKeys.rootInvestmentAccount);
     let currency = await settings.get(SettingKeys.currency);
 
-    let url = this.serverUrl + "/currentValues";
-
+    let url = this.currentValuesUrl
     let response = await axios.get(url, {
       params: {
         root: rootAcct,
