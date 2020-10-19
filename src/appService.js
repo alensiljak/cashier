@@ -187,7 +187,6 @@ class AppService {
   }
 
   async importAccounts(accountsList) {
-    //console.log(accountsList)
     if (!accountsList) {
       const message = "The accounts list is empty!";
       throw message;
@@ -267,7 +266,6 @@ class AppService {
         mainCurrencyAmount = null;
       }
 
-      // console.log(account)
       accounts.push(account);
     }
 
@@ -314,20 +312,15 @@ class AppService {
    * @returns Transaction with Postings
    */
   loadTransaction(id) {
-    return db.transaction("r", db.transactions, db.postings, () => {
-      return db.transactions.get(id).then(tx => {
-        // todo load postings
-        return db.postings
-          .where({ transactionId: tx.id })
-          .toArray()
-          .then(postings => {
-            // console.log('posting', postings)
-            tx.postings = postings;
-            return tx;
-          });
+    return db.transaction("r", db.transactions, db.postings, async () => {
+      const tx = await db.transactions.get(id);
+      // todo load postings
+      const postings = await db.postings
+        .where({ transactionId: tx.id })
+        .toArray();
 
-        // return tx
-      });
+      tx.postings = postings;
+      return tx;
     });
   }
 

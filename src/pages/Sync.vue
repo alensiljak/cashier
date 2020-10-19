@@ -154,10 +154,8 @@ export default {
       await appService.deleteAccounts()
 
       console.log("importing accounts...");
-      //console.log(ledgerAccounts)
       await appService.importAccounts(ledgerAccounts)
       this.$q.notify({ message: "accounts loaded", color: "primary" });
-      // console.log("Accounts imported.");
 
       /// Balances
 
