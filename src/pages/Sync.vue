@@ -2,19 +2,29 @@
   <q-page padding class="bg-colour1 text-colour2">
     <p>CashierSync needs to be running and accessible.</p>
     <p>
-      To run locally, install cashiersync with pip and run.
-      Configure ledger with .ledgerrc in the root Termux user folder.
+      To run locally, install cashiersync with pip and run. Configure ledger
+      with .ledgerrc in the root Termux user folder.
     </p>
 
     <h4 class="q-my-md">Settings</h4>
     <div class="q-my-md row">
       <div class="col">
         <!-- server URL -->
-        <q-input v-model="serverUrl" label="Server URL" dark @change="saveSyncServerUrl" />
+        <q-input
+          v-model="serverUrl"
+          label="Server URL"
+          dark
+          @change="saveSyncServerUrl"
+        />
       </div>
 
       <div class="col text-center">
-        <q-btn label="Test" color="secondary" text-color="accent" @click="onConnectClicked" />
+        <q-btn
+          label="Test"
+          color="secondary"
+          text-color="accent"
+          @click="onConnectClicked"
+        />
       </div>
     </div>
 
@@ -48,12 +58,22 @@
 
       <div class="q-mt-sm" />
 
-      <q-btn label="Sync" color="secondary" text-color="accent" @click="synchronize" />
+      <q-btn
+        label="Sync"
+        color="secondary"
+        text-color="accent"
+        @click="synchronize"
+      />
     </div>
 
     <h4 class="q-my-md">Maintenance</h4>
     <div class="text-center">
-      <q-btn label="Shutdown Server" color="secondary" text-color="accent" @click="shutdown" />
+      <q-btn
+        label="Shutdown Server"
+        color="secondary"
+        text-color="accent"
+        @click="shutdown"
+      />
     </div>
   </q-page>
 </template>
@@ -69,7 +89,7 @@ export default {
     return {
       syncBalances: true,
       syncAaValues: true,
-      serverUrl: "http://localhost:5000" // the default value
+      serverUrl: "http://localhost:5000", // the default value
     };
   },
 
@@ -81,44 +101,43 @@ export default {
   },
 
   methods: {
-    loadSettings() {
-      settings
-        .get(SettingKeys.syncServerUrl)
-        .then(value => (this.serverUrl = value));
-
-      settings
-        .get(SettingKeys.rootInvestmentAccount)
-        .then(value => (this.rootInvestmentAccount = value));
-
-      settings.get(SettingKeys.currency).then(value => (this.currency = value));
-
-      settings
-        .get(SettingKeys.syncServerUrl)
-        .then(value => (this.serverUrl = value));
+    async loadSettings() {
+      this.serverUrl = await settings.get(SettingKeys.syncServerUrl);
+      this.rootInvestmentAccount = await settings.get(
+        SettingKeys.rootInvestmentAccount
+      );
+      this.currency = await settings.get(SettingKeys.currency);
     },
     onConnectClicked() {
       const sync = new CashierSync(this.serverUrl);
       sync
         .healthCheck()
-        .then(response => this.$q.notify({ message: response, color: "primary" }))
-        .catch(reason =>
-          this.$q.notify({ message: "Connecting to CashierSync: " + reason, color: "secondary" })
+        .then((response) =>
+          this.$q.notify({ message: response, color: "primary" })
+        )
+        .catch((reason) =>
+          this.$q.notify({
+            message: "Connecting to CashierSync: " + reason,
+            color: "secondary",
+          })
         );
     },
-    saveSyncServerUrl() {
+    async saveSyncServerUrl() {
       // sync server.
-      settings
-        .set(SettingKeys.syncServerUrl, this.serverUrl)
-        .then(() => this.$q.notify({ message: "sync server saved" }));
+      await settings.set(SettingKeys.syncServerUrl, this.serverUrl);
+      this.$q.notify({ message: "sync server saved" });
     },
     synchronizeAaValues() {
       const sync = new CashierSync(this.serverUrl);
       sync
         .readCurrentValues()
         .then(() =>
-          this.$q.notify({ message: "Asset Allocation values loaded", color: "primary" })
+          this.$q.notify({
+            message: "Asset Allocation values loaded",
+            color: "primary",
+          })
         )
-        .catch(error =>
+        .catch((error) =>
           this.$q.notify({ message: error.message, color: "secondary" })
         );
     },
@@ -126,25 +145,49 @@ export default {
       const sync = new CashierSync(this.serverUrl);
 
       console.log("reading accounts from the server...");
-      const ledgerAccounts = await sync.readAccounts()
-        .catch(error => this.$q.notify({ message: "Read Accouns:" + error.message, color: "secondary" }))
+      const ledgerAccounts = await sync
+        .readAccounts()
+        .catch((error) =>
+          this.$q.notify({
+            message: "Read Accouns:" + error.message,
+            color: "secondary",
+          })
+        );
       // delete all accounts only after we have the new ones
       console.log("deleting local account records...");
-      await appService.deleteAccounts()
-        .catch(error => this.$q.notify({ message: "Delete Accouns:" + error.message, color: "secondary" }))
+      await appService
+        .deleteAccounts()
+        .catch((error) =>
+          this.$q.notify({
+            message: "Delete Accouns:" + error.message,
+            color: "secondary",
+          })
+        );
       console.log("importing accounts...");
       //console.log(ledgerAccounts)
-      await appService.importAccounts(ledgerAccounts)
-        .catch(error => this.$q.notify({ message: "Import Accouns:" + error.message, color: "secondary" }))
+      await appService
+        .importAccounts(ledgerAccounts)
+        .catch((error) =>
+          this.$q.notify({
+            message: "Import Accouns:" + error.message,
+            color: "secondary",
+          })
+        );
       this.$q.notify({ message: "accounts loaded", color: "primary" });
-      console.log("Accounts imported.")
+      console.log("Accounts imported.");
 
       // synchronize the account balances
       console.log("importing balances...");
-      const balances = await sync.readBalances()
+      const balances = await sync.readBalances();
       //console.log(balances)
-      await appService.importBalanceSheet(balances)
-        .catch(error => this.$q.notify({ message: "Import Balances:" + error.message, color: "secondary" }))
+      await appService
+        .importBalanceSheet(balances)
+        .catch((error) =>
+          this.$q.notify({
+            message: "Import Balances:" + error.message,
+            color: "secondary",
+          })
+        );
 
       this.$q.notify({ message: "balances loaded", color: "primary" });
     },
@@ -153,8 +196,7 @@ export default {
         // Delete all accounts, then get everything from Ledger.
         // This clears up accounts that still have a value in the app but Ledger does not
         // return them as their balance is 0.
-        await this.synchronizeBalances()
-        .catch(error => {
+        await this.synchronizeBalances().catch((error) => {
           this.$q.notify({ message: error.message, color: "secondary" });
         });
       }
@@ -166,17 +208,16 @@ export default {
       const sync = new CashierSync(this.serverUrl);
       sync
         .shutdown()
-        .catch(reason =>
+        .catch((reason) =>
           this.$q.notify({ message: "Error:" + reason, color: "secondary" })
         )
-        .then(res =>
+        .then((res) =>
           this.$q.notify({
             message: "The server shutdown request sent.",
-            color: "primary"
+            color: "primary",
           })
         );
-    }
-
-  }
+    },
+  },
 };
 </script>
