@@ -42,7 +42,7 @@
           />
         </div>
       </div>
-      Payees Fetch Clear Clear All
+      Payees, Clear All
     </div>
   </q-page>
 </template>

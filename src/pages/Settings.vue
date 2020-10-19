@@ -10,17 +10,32 @@
     <div class="row">
       <div class="col">
         <!-- root investment account -->
-        <q-input v-model="rootInvestmentAccount" dark label="Root investment account" />
+        <q-input
+          v-model="rootInvestmentAccount"
+          dark
+          label="Root investment account"
+        />
       </div>
     </div>
 
     <p class="q-my-md">Asset Allocation settings</p>
     <div class="row">
       <div class="col">
-        <q-input type="file" class="text-red" dark clearable @input="onAaFileSelected" />
+        <q-input
+          type="file"
+          class="text-red"
+          dark
+          clearable
+          @input="onAaFileSelected"
+        />
       </div>
       <div class="col text-center">
-        <q-btn label="Import" color="red-10" text-color="amber-4" @click="onDefinitionImportClick" />
+        <q-btn
+          label="Import"
+          color="red-10"
+          text-color="amber-4"
+          @click="onDefinitionImportClick"
+        />
       </div>
       <div class="col-1">
         <q-btn flat round dense @click="onAaHelpClick">
@@ -32,11 +47,16 @@
 
     <div class="row q-mt-lg">
       <div class="col text-center q-my-lg">
-        <q-btn label="save" color="secondary" text-color="accent" @click="onSaveClick" />
+        <q-btn
+          label="save"
+          color="secondary"
+          text-color="accent"
+          @click="onSaveClick"
+        />
       </div>
     </div>
 
-    <hr>
+    <hr />
 
     <div class="row q-my-lg">
       <div class="col">
@@ -44,15 +64,20 @@
       </div>
     </div>
 
-    <hr>
+    <hr />
 
     <div class="row q-mt-lg">
       <div class="col text-center q-my-lg">
         <p>
-          Force-reload the page to refresh the version in case the background worker 
-          does not manage to update to the latest version.
+          Force-reload the page to refresh the version in case the background
+          worker does not manage to update to the latest version.
         </p>
-        <q-btn label="Reload App" color="secondary" text-color="accent" @click="reloadApp" />
+        <q-btn
+          label="Reload App"
+          color="secondary"
+          text-color="accent"
+          @click="reloadApp"
+        />
       </div>
     </div>
   </q-page>
@@ -65,12 +90,11 @@ import { SettingKeys, settings } from "../lib/Configuration";
 import { engine } from "../lib/AssetAllocation";
 
 export default {
-
   components: {},
-  data: function() {
+  data: function () {
     return {
       currency: null,
-      rootInvestmentAccount: null
+      rootInvestmentAccount: null,
     };
   },
 
@@ -82,13 +106,11 @@ export default {
   },
 
   methods: {
-    loadSettings() {
-      settings.get(SettingKeys.currency)
-        .then(value => (this.currency = value));
-
-      settings
-        .get(SettingKeys.rootInvestmentAccount)
-        .then(value => (this.rootInvestmentAccount = value));
+    async loadSettings() {
+      this.currency = await settings.get(SettingKeys.currency);
+      this.rootInvestmentAccount = await settings.get(
+        SettingKeys.rootInvestmentAccount
+      );
     },
     /**
      * The Asset Allocation definition selected.
@@ -100,38 +122,36 @@ export default {
       // navigate to help page
       this.$router.push({ name: "assetallocationsetuphelp" });
     },
-    onDefinitionImportClick() {
+    async onDefinitionImportClick() {
       // Clean-up any existing data first.
-      engine.emptyData()
-        .then(() => {
-          // import AA definition file
-          engine.importDefinition(this.fileContent)
-            .then(() => {
-              this.$q.notify({
-                message: "Definition imported",
-                color: "teal-9", // green-9
-                textColor: "amber-2"
-              })
-            })
-            .catch(msg => this.$q.notify({
-              message: "Error during import: " + msg,
-              color: "secondary",
-              textColor: "amber-2"
-            }))
-        })
+      await engine.emptyData();
+      // import AA definition file
+      await engine.importDefinition(this.fileContent);
+      this.$q.notify({
+        message: "Definition imported",
+        color: "teal-9", // green-9
+        textColor: "amber-2",
+      });
+
+      // .catch((msg) =>
+      //   this.$q.notify({
+      //     message: "Error during import: " + msg,
+      //     color: "secondary",
+      //     textColor: "amber-2",
+      //   })
+      // );
     },
-    onSaveClick() {
+    async onSaveClick() {
       // currency
-      settings
-        .set(SettingKeys.currency, this.currency)
-        .then(() => this.$q.notify({ message: "currency saved" }));
+      await settings.set(SettingKeys.currency, this.currency);
+      this.$q.notify({ message: "currency saved" });
 
       // root investment account
-      settings
-        .set(SettingKeys.rootInvestmentAccount, this.rootInvestmentAccount)
-        .then(() =>
-          this.$q.notify({ message: "root investment account saved" })
-        );
+      await settings.set(
+        SettingKeys.rootInvestmentAccount,
+        this.rootInvestmentAccount
+      );
+      this.$q.notify({ message: "root investment account saved" });
     },
     /**
      * Load Asset Allocation from the file.
@@ -140,7 +160,7 @@ export default {
       //   console.log(fileInfo);
       var reader = new FileReader();
 
-      reader.onload = event => {
+      reader.onload = (event) => {
         // File was successfully read.
         var content = event.target.result;
 
@@ -153,8 +173,8 @@ export default {
       reader.readAsText(fileInfo);
     },
     reloadApp() {
-      window.location.reload(true)
-    }
-  }
+      window.location.reload(true);
+    },
+  },
 };
 </script>
