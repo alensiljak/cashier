@@ -12,6 +12,7 @@ import { engine } from "./AssetAllocation";
  */
 export class CashierSync {
   static accountsUrl = '/accounts'
+  static balancesUrl = '/balance'
 
   constructor(serverUrl) {
     if (!serverUrl) {
@@ -22,6 +23,7 @@ export class CashierSync {
     }
     this.serverUrl = serverUrl;
     this.accountsUrl = this.serverUrl + CashierSync.accountsUrl;
+    this.balancesUrl = this.serverUrl + CashierSync.balancesUrl;
   }
 
   get(path) {
@@ -55,7 +57,7 @@ export class CashierSync {
    * @returns array of Account objects
    */
   async readBalances() {
-    let url = this.serverUrl + "/balance";
+    let url = this.balancesUrl
     let response = await axios.get(url);
     let content = response.data;
 
