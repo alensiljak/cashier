@@ -18,6 +18,10 @@
                 <font-awesome-icon icon="trash-alt" transform="grow-9 left-5" />
               </q-item-section>
             </q-item>
+
+            <q-item>
+              <q-item-section @click="goToCache">Cache</q-item-section>
+            </q-item>
           </q-list>
         </q-menu>
       </q-btn>
@@ -66,6 +70,12 @@ export default {
       set(value) {
         this.$emit("filter", value);
       }
+    }
+  },
+
+  methods: {
+    goToCache() {
+      this.$router.push({ name: "cache" });
     }
   }
 };

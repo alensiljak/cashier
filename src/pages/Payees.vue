@@ -127,8 +127,17 @@ export default {
       const cashierSync = new CashierSync(serverUrl);
       const payeesCache = await cache.match(cashierSync.payeesUrl);
 
-      const payees = await payeesCache.text()
-      this.payees = payees.split('\n')
+      let payees = await payeesCache.text()
+      payees = payees.split('\n')
+
+      // Apply filter
+      if (this.filter) {
+        // todo: option for case-sensitivity?
+        this.payees = payees.filter(
+          payee => payee.toLowerCase().indexOf(this.filter.toLowerCase()) != -1)
+      } else {
+        this.payees = payees
+      }
     },
     onAddPayee() {
       if (!this.newPayee) return;
@@ -153,10 +162,9 @@ export default {
     //   this.newPayee = this.filter;
     //   this.addDialogVisible = true;
     // },
-    onFilter(text) {
-      // console.log('filter:', text)
+    async onFilter(text) {
       this.filter = text;
-      this.loadData();
+      await this.loadData();
     },
     onMenuClicked() {
       const visible = this.$store.state.drawerOpen;

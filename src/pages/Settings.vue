@@ -60,7 +60,7 @@
 
     <div class="row q-my-lg">
       <div class="col">
-        <router-link to="cacheapi">Cache API</router-link>
+        <router-link to="cache">Cache API</router-link>
       </div>
     </div>
 
