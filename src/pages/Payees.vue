@@ -107,23 +107,8 @@ export default {
       console.log("item:", id);
     },
     loadData() {
-      // get the payees
-      let payeeSource = appService.db.payees;
-
-      if (this.filter) {
-        const search = new ListSearch()
-        const regex = search.getRegex(this.filter);
-
-        payeeSource = payeeSource.filter(payee => {
-          // return payee.name.indexOf(this.filter) !== -1;
-          // var hasS = new RegExp("^[s\s]+$").test(a);
-          // let regex = new RegExp("/" + this.filter + "/")
-          // let regex = new RegExp(this.filter);
-
-          return regex.test(payee.name);
-        });
-      }
-      payeeSource.toArray().then(payees => (this.payees = payees));
+      // get the payees from the cache
+      // todo
     },
     onAddPayee() {
       if (!this.newPayee) return;

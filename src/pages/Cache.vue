@@ -62,38 +62,60 @@
           />
         </div>
       </div>
-      Payees
+
+      <!-- Payees -->
+      <div class="row">
+        <div class="col">Payees</div>
+        <div class="col">{{ payeesStatus }}</div>
+        <div class="col">
+          <q-btn
+            label="Fetch"
+            color="secondary"
+            text-color="accent"
+            @click="fetchPayees"
+          />
+        </div>
+        <div class="col">
+          <q-btn
+            label="Clear"
+            color="secondary"
+            text-color="accent"
+            @click="clearAccounts"
+          />
+        </div>
+      </div>
     </div>
   </q-page>
 </template>
 
 <script>
-import { SET_TITLE, MAIN_TOOLBAR } from "../mutations";
-import { SettingKeys, settings } from "../lib/Configuration";
-import { CashierSync } from "../lib/syncCashier";
-import ky from "ky";
+import { SET_TITLE, MAIN_TOOLBAR } from '../mutations';
+import { SettingKeys, settings } from '../lib/Configuration';
+import { CashierSync } from '../lib/syncCashier';
+import ky from 'ky';
 
-const CacheName = "cashier";
-const NoneStatus = "None";
-const ExistsStatus = "Exists";
+const CacheName = 'cashier';
+const NoneStatus = 'None';
+const ExistsStatus = 'Exists';
 
 export default {
   data() {
     return {
       serverUrl: null,
-      accountsStatus: "unknown",
+      accountsStatus: 'unknown',
       assetAllocationStatus: 'unknown',
-      balancesStatus: "unknown",
+      balancesStatus: 'unknown',
+      payeesStatus: 'unknown',
     };
   },
 
   created() {
     this.$store.commit(MAIN_TOOLBAR, true);
-    this.$store.commit(SET_TITLE, "Cache");
+    this.$store.commit(SET_TITLE, 'Cache');
 
     this.loadSettings()
-        // need to have value below in order to resolve the promise!
-        .then(value => this.loadStatuses())
+      // need to have value below in order to resolve the promise!
+      .then((value) => this.loadStatuses());
   },
 
   methods: {
@@ -101,7 +123,7 @@ export default {
       const value = await settings.get(SettingKeys.syncServerUrl);
       this.serverUrl = value;
 
-      return value
+      return value;
     },
     async loadStatuses() {
       let cashierSync = new CashierSync(this.serverUrl);
@@ -116,8 +138,11 @@ export default {
       const balances = await storage.match(cashierSync.balancesUrl);
       this.balancesStatus = balances ? ExistsStatus : NoneStatus;
 
-      const currentValues = await storage.match(cashierSync.currentValuesUrl)
-      this.assetAllocationStatus = currentValues ? ExistsStatus : NoneStatus
+      const currentValues = await storage.match(cashierSync.currentValuesUrl);
+      this.assetAllocationStatus = currentValues ? ExistsStatus : NoneStatus;
+
+      const payees = await storage.match(cashierSync.payeesUrl)
+      this.payeesStatus = payees ? ExistsStatus : NoneStatus
     },
 
     async clearAccounts() {
@@ -146,27 +171,27 @@ export default {
         console.error(reason);
         // show message
         this.$q.notify({
-          message: "Error: " + reason,
-          color: "secondary", // "teal-9", // green-9
-          textColor: "amber-2",
+          message: 'Error: ' + reason,
+          color: 'secondary', // "teal-9", // green-9
+          textColor: 'amber-2',
         });
 
         return;
       }
 
       // don't cache invalid responses
-      if (!response.ok) return
+      if (!response.ok) return;
 
       // cache them
       const cache = await caches.open(CacheName);
       await cache.put(url, response.clone());
-      await this.loadStatuses()
+      await this.loadStatuses();
     },
 
     async clearCache(url) {
       const cache = await caches.open(CacheName);
       await cache.delete(url);
-      await this.loadStatuses()
+      await this.loadStatuses();
     },
 
     async fetchAccounts() {
@@ -176,7 +201,7 @@ export default {
     },
     async fetchAssetAllocation() {
       let cashierSync = new CashierSync(this.serverUrl);
-      const url = cashierSync.currentValuesUrl
+      const url = cashierSync.currentValuesUrl;
       await this.cacheUrl(url);
     },
     async fetchBalances() {
@@ -184,6 +209,11 @@ export default {
       const url = cashierSync.balancesUrl;
       await this.cacheUrl(url);
     },
+    async fetchPayees() {
+      let cashierSync = new CashierSync(this.serverUrl);
+      const url = cashierSync.payeesUrl;
+      await this.cacheUrl(url);
+    }
   },
 };
 </script>

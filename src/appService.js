@@ -16,11 +16,11 @@ class AppService {
     return db.accounts.add(acc);
   }
 
-  addPayee(name) {
-    let payee = new Payee(name);
+  // addPayee(name) {
+  //   let payee = new Payee(name);
 
-    return db.payees.put(payee);
-  }
+  //   return db.payees.put(payee);
+  // }
 
   createTransaction() {
     var tx = new Transaction();
@@ -44,9 +44,9 @@ class AppService {
     return db.accounts.clear();
   }
 
-  deletePayees() {
-    return db.payees.clear();
-  }
+  // deletePayees() {
+  //   return db.payees.clear();
+  // }
 
   /**
    * Delete transaction and related postings.
