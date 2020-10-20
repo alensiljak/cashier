@@ -15,19 +15,20 @@
       :item-size="42"
       key-field="id"
     >
-      <div class="scroller-item" @click="itemClicked(item.id)">{{ item.name }}</div>
+      <div class="scroller-item" @click="itemClicked(item.id)">
+        {{ item }}
+      </div>
     </RecycleScroller>
 
     <!-- floating action button -->
-    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+    <!-- <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab color="accent" text-color="secondary" @click="onFab">
         <font-awesome-icon icon="plus" transform="grow-6" />
       </q-btn>
-    </q-page-sticky>
+    </q-page-sticky> -->
 
     <!-- new payee (name) dialog -->
-    <q-dialog v-model="addDialogVisible" dark>
-      <!-- persistent -->
+    <!-- <q-dialog v-model="addDialogVisible" dark>
       <q-card style="min-width: 400px" class="bg-primary text-colour2">
         <q-card-section>
           <div class="text-h6">New Payee</div>
@@ -49,10 +50,14 @@
           <q-btn v-close-popup flat label="Add" @click="onAddPayee" />
         </q-card-actions>
       </q-card>
-    </q-dialog>
+    </q-dialog> -->
 
     <!-- confirm deletion dialog -->
-    <q-dialog v-model="confirmDeleteAllVisible" persistent content-class="bg-blue-grey-10">
+    <q-dialog
+      v-model="confirmDeleteAllVisible"
+      persistent
+      content-class="bg-blue-grey-10"
+    >
       <q-card dark class="bg-red-10">
         <q-card-section class="row items-center">
           <span>Do you want to delete all payees?</span>
@@ -60,7 +65,13 @@
 
         <q-card-actions align="right">
           <q-btn v-close-popup flat label="Cancel" color="amber-4" />
-          <q-btn v-close-popup flat label="Delete" color="amber-4" @click="deleteAllConfirmed" />
+          <q-btn
+            v-close-popup
+            flat
+            label="Delete"
+            color="amber-4"
+            @click="deleteAllConfirmed"
+          />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -68,28 +79,29 @@
 </template>
 
 <script>
-import { MAIN_TOOLBAR, TOGGLE_DRAWER } from "../mutations";
-import PayeesToolbar from "../components/PayeesToolbar";
-import appService from "../appService";
-import { ListSearch } from "../ListSearch.js";
-import Vue from "vue";
-import { RecycleScroller } from "vue-virtual-scroller";
-import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
+import { MAIN_TOOLBAR, TOGGLE_DRAWER } from '../mutations';
+import PayeesToolbar from '../components/PayeesToolbar';
+import appService from '../appService';
+import { ListSearch } from '../ListSearch.js';
+import Vue from 'vue';
+import { RecycleScroller } from 'vue-virtual-scroller';
+import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
+import { Constants, settings, SettingKeys } from '../lib/Configuration';
+import { CashierSync } from '../lib/syncCashier';
 
-Vue.component("RecycleScroller", RecycleScroller);
+Vue.component('RecycleScroller', RecycleScroller);
 
 export default {
-
   components: {
-    PayeesToolbar
+    PayeesToolbar,
   },
-  data: function() {
+  data: function () {
     return {
       payees: [],
       addDialogVisible: false,
       newPayee: null,
       filter: null,
-      confirmDeleteAllVisible: false
+      confirmDeleteAllVisible: false,
     };
   },
 
@@ -100,15 +112,23 @@ export default {
   mounted() {},
 
   methods: {
-    deleteAllConfirmed() {
-      appService.deletePayees().then(() => this.loadData());
+    async deleteAllConfirmed() {
+      await appService.deletePayees();
+      await this.loadData();
     },
     itemClicked(id) {
-      console.log("item:", id);
+      console.log('item:', id);
     },
-    loadData() {
+    async loadData() {
       // get the payees from the cache
-      // todo
+      const cache = await caches.open(Constants.CacheName);
+
+      const serverUrl = await settings.get(SettingKeys.syncServerUrl);
+      const cashierSync = new CashierSync(serverUrl);
+      const payeesCache = await cache.match(cashierSync.payeesUrl);
+
+      const payees = await payeesCache.text()
+      this.payees = payees.split('\n')
     },
     onAddPayee() {
       if (!this.newPayee) return;
@@ -129,10 +149,10 @@ export default {
       // confirm
       this.confirmDeleteAllVisible = true;
     },
-    onFab() {
-      this.newPayee = this.filter;
-      this.addDialogVisible = true;
-    },
+    // onFab() {
+    //   this.newPayee = this.filter;
+    //   this.addDialogVisible = true;
+    // },
     onFilter(text) {
       // console.log('filter:', text)
       this.filter = text;
@@ -141,7 +161,7 @@ export default {
     onMenuClicked() {
       const visible = this.$store.state.drawerOpen;
       this.$store.commit(TOGGLE_DRAWER, !visible);
-    }
-  }
+    },
+  },
 };
 </script>

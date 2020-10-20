@@ -19,14 +19,6 @@ export class Commodity {
   }
 }
 
-export class Payee {
-  constructor(name) {
-    // Remember the last transaction, to fill on selection.
-    this.name = name;
-    this.lastTransactionId = null;
-  }
-}
-
 export class Posting {
   constructor() {
     // Id is inserted automatically.

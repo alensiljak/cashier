@@ -4,7 +4,7 @@
     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export
 */
 import db from "./dataStore";
-import { Account, Transaction, Posting, Payee } from "./model";
+import { Account, Transaction, Posting } from "./model";
 import { Notify } from "quasar";
 import { settings, SettingKeys } from "./lib/Configuration";
 
@@ -15,12 +15,6 @@ class AppService {
 
     return db.accounts.add(acc);
   }
-
-  // addPayee(name) {
-  //   let payee = new Payee(name);
-
-  //   return db.payees.put(payee);
-  // }
 
   createTransaction() {
     var tx = new Transaction();
@@ -43,10 +37,6 @@ class AppService {
   deleteAccounts() {
     return db.accounts.clear();
   }
-
-  // deletePayees() {
-  //   return db.payees.clear();
-  // }
 
   /**
    * Delete transaction and related postings.

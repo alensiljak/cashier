@@ -80,7 +80,7 @@
             label="Clear"
             color="secondary"
             text-color="accent"
-            @click="clearAccounts"
+            @click="clearPayees"
           />
         </div>
       </div>
@@ -90,11 +90,10 @@
 
 <script>
 import { SET_TITLE, MAIN_TOOLBAR } from '../mutations';
-import { SettingKeys, settings } from '../lib/Configuration';
+import { SettingKeys, settings, Constants } from '../lib/Configuration';
 import { CashierSync } from '../lib/syncCashier';
 import ky from 'ky';
 
-const CacheName = 'cashier';
 const NoneStatus = 'None';
 const ExistsStatus = 'Exists';
 
@@ -129,19 +128,19 @@ export default {
       let cashierSync = new CashierSync(this.serverUrl);
 
       // get the statuses of all cache items.
-      const storage = await caches.open(CacheName);
+      const cache = await caches.open(Constants.CacheName);
       // Accounts
-      const accounts = await storage.match(cashierSync.accountsUrl);
+      const accounts = await cache.match(cashierSync.accountsUrl);
       this.accountsStatus = accounts ? ExistsStatus : NoneStatus;
 
       // Balances
-      const balances = await storage.match(cashierSync.balancesUrl);
+      const balances = await cache.match(cashierSync.balancesUrl);
       this.balancesStatus = balances ? ExistsStatus : NoneStatus;
 
-      const currentValues = await storage.match(cashierSync.currentValuesUrl);
+      const currentValues = await cache.match(cashierSync.currentValuesUrl);
       this.assetAllocationStatus = currentValues ? ExistsStatus : NoneStatus;
 
-      const payees = await storage.match(cashierSync.payeesUrl)
+      const payees = await cache.match(cashierSync.payeesUrl)
       this.payeesStatus = payees ? ExistsStatus : NoneStatus
     },
 
@@ -158,6 +157,11 @@ export default {
     async clearAssetAllocation() {
       let cashierSync = new CashierSync(this.serverUrl);
       const url = cashierSync.currentValuesUrl;
+      await this.clearCache(url);
+    },
+    async clearPayees() {
+      let cashierSync = new CashierSync(this.serverUrl);
+      const url = cashierSync.payeesUrl;
       await this.clearCache(url);
     },
 
@@ -183,13 +187,13 @@ export default {
       if (!response.ok) return;
 
       // cache them
-      const cache = await caches.open(CacheName);
+      const cache = await caches.open(Constants.CacheName);
       await cache.put(url, response.clone());
       await this.loadStatuses();
     },
 
     async clearCache(url) {
-      const cache = await caches.open(CacheName);
+      const cache = await caches.open(Constants.CacheName);
       await cache.delete(url);
       await this.loadStatuses();
     },

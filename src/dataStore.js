@@ -19,8 +19,6 @@ db.version(0.1).stores({
   transactions: "++id, date",
   postings: "++id, transactionId, account",
   accounts: "name",
-  // commodities
-  //payees: "++id, name",
   settings: "key"
 });
 db.version(0.2).stores({
@@ -31,8 +29,6 @@ db.version(0.2).stores({
 
 db.accounts.mapToClass(Account);
 db.assetAllocation.mapToClass(AssetClass);
-// todo commodities
-//db.payees.mapToClass(Payee);
 db.postings.mapToClass(Posting);
 db.transactions.mapToClass(Transaction);
 db.settings.mapToClass(Setting);
