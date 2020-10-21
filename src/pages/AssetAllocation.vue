@@ -13,8 +13,6 @@
 
         <q-toolbar-title>Asset Allocation</q-toolbar-title>
 
-        <!-- <q-space/> -->
-
         <q-btn flat round dense icon="more_vert">
           <q-menu>
             <q-list dark style="min-width: 175px" class="bg-colour1">
@@ -75,20 +73,15 @@
       </q-toolbar>
     </q-header>
 
-    <!-- the button is required for file export -->
-    <!-- <div ref="buttonContainer" hidden="hidden">
+    <!-- The button is required for file export, to attach the event! -->
+    <div ref="buttonContainer" hidden="hidden">
       <q-btn
         color="red-10"
         text-color="accent"
-        label="Recalculate"
-        @click="onRecalculateClick"
+        label="Export"
       />
-    </div> -->
+    </div>
 
-    <!-- <q-table title="Asset Allocation" :data="assetClasses" :columns="columns"
-      dark color="amber-3" :dense="$q.screen.lt.md" :rows-per-page-options="[0, 20]"
-      row-key="fullname">
-    </q-table>-->
     <div style="height: 100%; width: 100%; overflow: scroll">
       <table>
         <thead>
@@ -265,9 +258,6 @@ export default {
       // navigate to help page
       this.$router.push({ name: "assetallocationhelp" });
     },
-    // onRecalculateClick() {
-    //   this.loadData();
-    // },
     onSetupClick() {
       this.$router.push({ name: "settings" });
     },
