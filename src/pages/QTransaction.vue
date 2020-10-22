@@ -15,7 +15,12 @@
       />
     </q-dialog>
 
-    <q-input v-model="tx.date" label="Date" dark @click="datePickerVisible = true">
+    <q-input
+      v-model="tx.date"
+      label="Date"
+      dark
+      @click="datePickerVisible = true"
+    >
       <template #prepend>
         <font-awesome-icon icon="calendar-day" />
       </template>
@@ -48,7 +53,10 @@
       @right="onSlide"
     >
       <template #right>
-        <div class="row items-center text-amber-4" @click="deletePosting(index)">
+        <div
+          class="row items-center text-amber-4"
+          @click="deletePosting(index)"
+        >
           Click to confirm or wait 2s to cancel
           <font-awesome-icon icon="trash-alt" size="2x" class="q-ml-md" />
         </div>
@@ -60,8 +68,8 @@
             :index="index"
             :accounts="accounts"
             @delete-row="deletePosting"
-            @accountClicked="onAccountClicked(index)"
-            @amountChanged="onAmountChanged"
+            @account-clicked="onAccountClicked(index)"
+            @amount-changed="onAmountChanged"
           />
         </q-item-section>
       </q-item>
@@ -78,8 +86,17 @@
     <!-- posting actions -->
     <div class="row q-mt-sm">
       <div class="col text-center">
-        <q-btn color="primary" text-color="accent" size="small" @click="addPosting">
-          <font-awesome-icon icon="plus-circle" transform="grow-9" class="q-icon-small on-left" />
+        <q-btn
+          color="primary"
+          text-color="accent"
+          size="small"
+          @click="addPosting"
+        >
+          <font-awesome-icon
+            icon="plus-circle"
+            transform="grow-9"
+            class="q-icon-small on-left"
+          />
           <div>Add Posting</div>
         </q-btn>
       </div>
@@ -88,8 +105,17 @@
     <!-- main (tx) Actions -->
     <div class="row q-my-xl justify-end">
       <div class="col text-center">
-        <q-btn color="secondary" text-color="accent" size="medium" @click="onClear">
-          <font-awesome-icon icon="times-circle" transform="grow-9" class="q-icon-small on-left" />
+        <q-btn
+          color="secondary"
+          text-color="accent"
+          size="medium"
+          @click="onClear"
+        >
+          <font-awesome-icon
+            icon="times-circle"
+            transform="grow-9"
+            class="q-icon-small on-left"
+          />
           <div>Reset</div>
         </q-btn>
       </div>
@@ -102,7 +128,11 @@
           size="medium"
           @click="onSave"
         >
-          <font-awesome-icon icon="save" transform="grow-9" class="q-icon-small on-right" />
+          <font-awesome-icon
+            icon="save"
+            transform="grow-9"
+            class="q-icon-small on-right"
+          />
         </q-btn>
       </div>
     </div>
@@ -110,30 +140,29 @@
 </template>
 
 <script>
-import QPosting from "../components/Posting.vue";
-import { Posting } from "../model";
+import QPosting from '../components/Posting.vue';
+import { Posting } from '../model';
 import {
   MAIN_TOOLBAR,
   SET_TITLE,
   SET_TRANSACTION,
-  SET_SELECT_MODE
-} from "../mutations";
-import appService from "../appService";
-import { SelectionModeMetadata } from "../lib/Configuration";
+  SET_SELECT_MODE,
+} from '../mutations';
+import appService from '../appService';
+import { SelectionModeMetadata } from '../lib/Configuration';
 
-const ACCOUNT = "account";
+const ACCOUNT = 'account';
 
 export default {
-
   components: {
-    QPosting
+    QPosting,
   },
   data() {
     return {
       datePickerVisible: false,
       accounts: [],
       resetSlide: null,
-      postingSum: 0
+      postingSum: 0,
     };
   },
 
@@ -151,12 +180,12 @@ export default {
         // console.log('setting tx', value)
         // todo save in the state store
         this.$store.commit(SET_TRANSACTION, value);
-      }
-    }
+      },
+    },
   },
 
   created() {
-    this.$store.commit(SET_TITLE, "New Transaction");
+    this.$store.commit(SET_TITLE, 'New Transaction');
     this.$store.commit(MAIN_TOOLBAR, true);
 
     // get the data
@@ -165,7 +194,7 @@ export default {
     // are we back from the select mode?
     if (this.$store.state.selectModeMeta) this.handleSelection();
   },
-  mounted: function() {
+  mounted: function () {
     // Set the focus on Payee field.
     // document.getElementById("payee").focus() => this.$refs.payee
     // this.$refs.date
@@ -229,13 +258,13 @@ export default {
       const id = select.selectedId;
 
       switch (select.selectionType) {
-        case "payee":
-          console.log("payee", id);
+        case 'payee':
+          console.log('payee', id);
           break;
         case ACCOUNT:
           // get the posting
           var index = null;
-          if (typeof select.postingIndex === "number") {
+          if (typeof select.postingIndex === 'number') {
             index = select.postingIndex;
           } else {
             // redirected from account register, find an appropriate posting
@@ -243,7 +272,7 @@ export default {
           }
           var posting = this.tx.postings[index];
 
-          appService.db.accounts.get(id).then(account => {
+          appService.db.accounts.get(id).then((account) => {
             posting.account = account.name;
             posting.currency = account.currency;
           });
@@ -257,11 +286,11 @@ export default {
     loadAccounts() {
       // load accounts from storage.
       appService.db.accounts
-        .orderBy("name")
+        .orderBy('name')
         // .toCollection()
         // .primaryKeys()
         .uniqueKeys()
-        .then(accountNames => (this.accounts = accountNames));
+        .then((accountNames) => (this.accounts = accountNames));
     },
     /**
      * Load all data for the view.
@@ -280,7 +309,7 @@ export default {
       // this.loadAccounts();
     },
     loadTransaction(id) {
-      appService.loadTransaction(id).then(tx => {
+      appService.loadTransaction(id).then((tx) => {
         this.tx = tx;
       });
     },
@@ -292,12 +321,12 @@ export default {
       // set the type
       selectMode.selectionType = ACCOUNT;
       // set the return route
-      selectMode.originRoute = { name: "tx" };
+      selectMode.originRoute = { name: 'tx' };
 
       // set the selection mode
       this.$store.commit(SET_SELECT_MODE, selectMode);
       // show account picker
-      this.$router.push({ name: "accounts" });
+      this.$router.push({ name: 'accounts' });
     },
     onAmountChanged() {
       // recalculate the sum
@@ -311,7 +340,7 @@ export default {
      * (value, reason, details)
      */
     onDateSelected(value, reason) {
-      if (reason !== "day" && reason !== "today") return;
+      if (reason !== 'day' && reason !== 'today') return;
       // close the picker if the date was selected
       this.$refs.qDateProxy.hide();
       // the date is saved on close.
@@ -329,9 +358,9 @@ export default {
           // clear Transaction entry
           this.onClear();
           // go to journal?
-          this.$router.push({ name: "journal" });
+          this.$router.push({ name: 'journal' });
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err);
         });
     },
@@ -352,11 +381,11 @@ export default {
       const tx = appService.createTransaction();
       this.tx = tx;
       return tx;
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-@import "../css/styles.scss";
+@import '../css/styles.scss';
 </style>

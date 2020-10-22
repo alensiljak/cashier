@@ -4,8 +4,8 @@
       title="Payees"
       :filter="filter"
       @filter="onFilter"
-      @menuClicked="onMenuClicked"
-      @deleteAllClicked="onDeleteAllClicked"
+      @menu-clicked="onMenuClicked"
+      @delete-all-clicked="onDeleteAllClicked"
     />
 
     <RecycleScroller

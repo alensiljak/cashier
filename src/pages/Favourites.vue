@@ -2,7 +2,7 @@
   <q-page padding class="bg-colour1 text-colour2">
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn flat dense round aria-label="Menu" icon="menu" @click="menuClicked" />
+        <q-btn flat dense round aria-label="Menu" icon="menu" @click="menu-clicked" />
 
         <q-toolbar-title>Favourites</q-toolbar-title>
 

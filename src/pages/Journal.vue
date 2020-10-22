@@ -3,7 +3,7 @@
     <!-- Toolbar -->
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn flat dense round aria-label="Menu" icon="menu" @click="menuClicked" />
+        <q-btn flat dense round aria-label="Menu" icon="menu" @click="menu-clicked" />
 
         <q-toolbar-title>Device Journal</q-toolbar-title>
 
@@ -45,7 +45,7 @@
         v-for="tx in transactions"
         :key="tx.id"
         :tx="tx"
-        @txDeleteClicked="onTransactionDeleteClicked"
+        @tx-delete-clicked="onTransactionDeleteClicked"
       />
     </q-list>
 
