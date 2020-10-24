@@ -8,7 +8,7 @@
           round
           aria-label="Menu"
           icon="menu"
-          @click="menu-clicked"
+          @click="menuClicked"
         />
 
         <q-toolbar-title>Accounts</q-toolbar-title>
