@@ -3,7 +3,7 @@
     <!-- Toolbar -->
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn flat dense round aria-label="Menu" icon="menu" @click="menu-clicked" />
+        <q-btn flat dense round aria-label="Menu" icon="menu" @click="menuClicked" />
 
         <q-toolbar-title>Device Journal</q-toolbar-title>
 

@@ -8,7 +8,7 @@
           round
           icon="menu"
           aria-label="Menu"
-          @click="menu-clicked"
+          @click="menuClicked"
         />
 
         <q-toolbar-title>Asset Allocation</q-toolbar-title>
