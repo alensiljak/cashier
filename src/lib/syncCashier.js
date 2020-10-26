@@ -212,7 +212,7 @@ export class CashierSync {
     //Object.keys(searchParams).forEach(key => params.append(key, searchParams[key]))
     
     const response = await ky.post(url, { json: { query: searchParams } })
-    const result = await response.text()
+    const result = await response.json()
     return result
   }
 

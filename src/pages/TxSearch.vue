@@ -130,9 +130,26 @@
       input-class="text-amber-2"
       color="primary"
     /> -->
-    <div id="resultsPanel">
+    <!-- <div id="resultsPanel">
       <pre>{{ results }}</pre>
-    </div>
+    </div> -->
+    <RecycleScroller
+      v-slot="{ item }"
+      class="scroller"
+      :items="results"
+      :item-size="40"
+      key-field="id"
+    >
+      <div class="scroller-item row">
+        <div class="col-1 q-mr-md">
+          <span v-if="item.payee">{{ item.date }}</span>
+        </div>
+        <div class="col">{{ item.payee }}</div>
+        <div class="col">{{ item.account }}</div>
+        <div class="col-1 text-right">{{ item.amount }}</div>
+        <div class="col-1 text-right">{{ item.currency }}</div>
+      </div>
+    </RecycleScroller>
   </q-page>
 </template>
 
@@ -142,6 +159,10 @@ import { settings, SettingKeys } from 'src/lib/Configuration'
 import { CashierSync } from '../lib/syncCashier'
 import { date } from 'quasar'
 const { subtractFromDate, addToDate } = date
+import { RecycleScroller } from 'vue-virtual-scroller'
+
+import Vue from 'vue'
+Vue.component('RecycleScroller', RecycleScroller)
 
 export default {
   data() {
@@ -162,7 +183,7 @@ export default {
       dateTo: null,
       sameDate: true,
       payee: null,
-      results: null,
+      results: [],
     }
   },
 
@@ -230,6 +251,10 @@ export default {
         this.$q.notify({ message: error.message, color: 'secondary' })
       }
 
+      // append artificial ids
+      let i = 0
+      searchResults.forEach((item) => (item.id = i++))
+
       this.results = searchResults
     },
     selectDatePeriod(period) {
@@ -281,10 +306,22 @@ export default {
 }
 </script>
 
-<style>
-#resultsPanel {
-  /* overflow: overflow-x; */
+<style lang="scss" scoped>
+// #resultsPanel {
+//   /* overflow: overflow-x; */
+//   overflow-x: auto;
+//   width: 100%;
+// }
+.scroller {
+  min-height: 20rem;
+  height: 40rem;
   overflow-x: auto;
-  width: 100%;
+  border: 1px solid $primary;
+}
+.scroller-item {
+  height: 0.1rem;
+  padding: 0 12px;
+  display: flex;
+  align-items: top;
 }
 </style>
