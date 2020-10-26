@@ -1,7 +1,7 @@
 /**
  * Price downloader from Morningstar
  */
-import axios from 'axios';
+import ky from 'ky'
 
 class Morningstar {
     constructor() {
@@ -13,7 +13,7 @@ class Morningstar {
         
         let url = this.url + encodeURI(symbol)
   
-        let response = await axios.get(url)
+        let response = await ky.get(url)
         
         this.parsePrice(response.data)
       }

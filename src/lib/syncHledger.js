@@ -2,7 +2,7 @@
     Synchronization code. 
     Connecting to an instance of hledger-web
 */
-import axios from 'axios'
+import ky from 'ky'
 import { Account } from '../model';
 
 export class SyncService {
@@ -20,7 +20,7 @@ export class SyncService {
     async readAccounts() {
         let url = this.serverUrl + '/accounts'
 
-        let response = await axios.get(url)
+        let response = await ky.get(url)
         // console.log('received', response)
 
         let rawArray = response.data

@@ -434,7 +434,6 @@ export default {
         this.liveModeOn = false;
       });
 
-      //console.log('health check result:', value)
       if (value === "Hello World!") {
         this.$q.notify({
           message: "The CashierSync server is running.",

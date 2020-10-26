@@ -27,7 +27,7 @@
     </q-input>
 
     <!-- payee -->
-    <q-input v-model="tx.payee" label="Payee" dark>
+    <q-input v-model="tx.payee" label="Payee" dark @change="onPayeeChange">
       <template #prepend>
         <font-awesome-icon icon="user" />
       </template>
@@ -344,6 +344,12 @@ export default {
       // close the picker if the date was selected
       this.$refs.qDateProxy.hide();
       // the date is saved on close.
+    },
+    onPayeeChange(event) {
+      // search when min. 2 characters typed
+      if(this.tx.payee.length < 2) return;
+
+      console.log('yo')
     },
     onSave() {
       // console.log("save clicked");

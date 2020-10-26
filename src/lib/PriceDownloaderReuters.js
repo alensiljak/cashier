@@ -4,7 +4,7 @@
 
     https://www.reuters.com/finance/stocks/overview/VMID.L
 */
-import axios from 'axios'
+import ky from 'ky'
 
 class Reuters {
     constructor() {
@@ -14,7 +14,7 @@ class Reuters {
     async download(symbol) {
         let url = this.url + symbol
 
-        let response = axios.get(url)
+        let response = ky.get(url)
 
         let price = this.parsePrice(response.data)
         return price
