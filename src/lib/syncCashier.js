@@ -205,12 +205,13 @@ export class CashierSync {
 
   async search(searchParams) {
     const url = new URL(`${this.serverUrl}/search`)
-    const params = { query: searchParams }
-    Object.keys(params).forEach(key =>
-      url.searchParams.append(key, params[key])
-    )
-
-    let response = await ky.post(url)
+    
+    //const params = new URLSearchParams() // use params.set()
+    //Object.keys(searchParams).forEach(key => params.set(key, searchParams[key]))
+    //const params = new FormData(); // use params.append()
+    //Object.keys(searchParams).forEach(key => params.append(key, searchParams[key]))
+    
+    const response = await ky.post(url, { json: { query: searchParams } })
     const result = await response.text()
     return result
   }

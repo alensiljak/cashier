@@ -1,8 +1,12 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
     <!-- date -->
-    <q-select v-model="datePeriod" :options="datePeriods" label="Date Period" dark
-              @input="onDatePeriodChanged"
+    <q-select
+      v-model="datePeriod"
+      :options="datePeriods"
+      label="Date Period"
+      dark
+      @input="onDatePeriodChanged"
     />
 
     <q-dialog ref="qDateProxy" v-model="datePickerVisible">
@@ -20,12 +24,23 @@
         </q-card-section>
         <q-separator dark />
         <q-card-actions align="right">
-          <q-btn v-close-popup label="OK" flat color="secondary" text-color="accent" />
+          <q-btn
+            v-close-popup
+            label="OK"
+            flat
+            color="secondary"
+            text-color="accent"
+          />
         </q-card-actions>
       </q-card>
     </q-dialog>
 
-    <q-input v-model="dateFrom" label="Date From" dark @click="datePickerVisible = true">
+    <q-input
+      v-model="dateFrom"
+      label="Date From"
+      dark
+      @click="datePickerVisible = true"
+    >
       <template #prepend>
         <font-awesome-icon icon="calendar-day" />
       </template>
@@ -46,13 +61,24 @@
         </q-card-section>
         <q-separator dark />
         <q-card-actions align="right">
-          <q-btn v-close-popup label="OK" flat color="secondary" text-color="accent" />
+          <q-btn
+            v-close-popup
+            label="OK"
+            flat
+            color="secondary"
+            text-color="accent"
+          />
         </q-card-actions>
       </q-card>
     </q-dialog>
     <!-- <div class="row"> -->
     <!-- <div class="col-9"> -->
-    <q-input v-model="dateTo" label="Date To" dark @click="dateToPickerVisible = true">
+    <q-input
+      v-model="dateTo"
+      label="Date To"
+      dark
+      @click="dateToPickerVisible = true"
+    >
       <template #prepend>
         <font-awesome-icon icon="calendar-day" />
       </template>
@@ -70,17 +96,26 @@
       </template>
     </q-input> -->
 
-    <q-input v-model="freeText" label="Free-text search" dark @keypress="handleEnter" />
+    <q-input
+      v-model="freeText"
+      label="Free-text search"
+      dark
+      @keypress="handleEnter"
+    />
 
     <p>
-      Hints: ^ = begins with, $ = ends with, --related and --related-all show related postings, use 'and'
-      for multiple search criteria.
+      Hints: ^ = begins with, $ = ends with, --related and --related-all show
+      related postings, use 'and' for multiple search criteria.
     </p>
 
     <!-- search button -->
     <div class="text-center q-my-lg">
       <q-btn color="secondary" text-color="accent" @click="search">
-        <font-awesome-icon icon="search" transform="grow-6 right-6" class="q-mr-sm" />
+        <font-awesome-icon
+          icon="search"
+          transform="grow-6 right-6"
+          class="q-mr-sm"
+        />
         <span class="q-ml-sm">Search</span>
       </q-btn>
     </div>
@@ -102,31 +137,38 @@
 </template>
 
 <script>
-import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
-import { settings, SettingKeys } from 'src/lib/Configuration';
-import { CashierSync } from "../lib/syncCashier";
+import { MAIN_TOOLBAR, SET_TITLE } from '../mutations'
+import { settings, SettingKeys } from 'src/lib/Configuration'
+import { CashierSync } from '../lib/syncCashier'
 import { date } from 'quasar'
 const { subtractFromDate, addToDate } = date
 
 export default {
-    data() {
-      return {
-        freeText: null,
-        datePeriods: ['Today', 'Last Week', 'Last Month', 'Last Quarter', 'Last Year', 'All'],
-        datePeriod: 'Last Week',
-        datePickerVisible: false,
-        dateToPickerVisible: false,
-        dateFrom: null,
-        dateTo: null,
-        sameDate: true,
-        payee: null,
-        results: null
-      }
-    },
+  data() {
+    return {
+      freeText: null,
+      datePeriods: [
+        'Today',
+        'Last Week',
+        'Last Month',
+        'Last Quarter',
+        'Last Year',
+        'All',
+      ],
+      datePeriod: 'Last Week',
+      datePickerVisible: false,
+      dateToPickerVisible: false,
+      dateFrom: null,
+      dateTo: null,
+      sameDate: true,
+      payee: null,
+      results: null,
+    }
+  },
 
   created() {
-    this.$store.commit(SET_TITLE, "Transaction Search");
-    this.$store.commit(MAIN_TOOLBAR, true);
+    this.$store.commit(SET_TITLE, 'Transaction Search')
+    this.$store.commit(MAIN_TOOLBAR, true)
 
     //this.loadSettings();
   },
@@ -149,40 +191,46 @@ export default {
     },
     onDateSelected(value, reason) {
       // console.log(value, reason)
-      if (reason !== "day" && reason !== "today") return;
+      if (reason !== 'day' && reason !== 'today') return
       // close the picker if the date was selected
-      this.$refs.qDateProxy.hide();
+      this.$refs.qDateProxy.hide()
       // the date is saved on close.
     },
     onDateToSelected(value, reason) {
-      if (reason !== "day" && reason !== "today") return;
-      this.$refs.qDateToProxy.hide();
+      if (reason !== 'day' && reason !== 'today') return
+      this.$refs.qDateToProxy.hide()
     },
-    search() {
-        // run the search
-        //const message = "Not implemented yet"
-        //this.$q.notify({ message: message, color: "primary" }) // green
-        //this.$q.notify({ message: message, color: "secondary" }) // red
-        if(!this.freeText && !this.dateFrom && !this.dateTo) {
-          this.$q.notify({ message: "No search parameters selected", color: "secondary" })
-          return
-        }
+    async search() {
+      // run the search
+      //this.$q.notify({ message: message, color: "primary" }) // green
+      //this.$q.notify({ message: message, color: "secondary" }) // red
+      if (!this.freeText && !this.dateFrom && !this.dateTo) {
+        this.$q.notify({
+          message: 'No search parameters selected',
+          color: 'secondary',
+        })
+        return
+      }
 
-        let searchParams = {
-          dateFrom: this.dateFrom,
-          dateTo: this.dateTo,
-          freeText: this.freeText
-        }
+      let searchParams = {
+        dateFrom: this.dateFrom,
+        dateTo: this.dateTo,
+        freeText: this.freeText,
+      }
 
-        settings.get(SettingKeys.syncServerUrl)
-          .then(serverUrl => {
-            if (!serverUrl) throw "Sync Server URL is not set!"
+      const serverUrl = await settings.get(SettingKeys.syncServerUrl)
+      if (!serverUrl) throw 'Sync Server URL is not set!'
 
-            const sync = new CashierSync(serverUrl);
-            return sync.search(searchParams)
-          })
-          .then(result => this.results = result)
-          .catch(error => this.$q.notify({ message: error, color: "secondary" }))
+      const sync = new CashierSync(serverUrl)
+      let searchResults = null
+      try {
+        searchResults = await sync.search(searchParams)
+      } catch (error) {
+        console.log(error)
+        this.$q.notify({ message: error.message, color: 'secondary' })
+      }
+
+      this.results = searchResults
     },
     selectDatePeriod(period) {
       let today = new Date()
@@ -193,46 +241,43 @@ export default {
       // The end value is not inclusive.
       let endDate = tomorrow
 
-      switch(period) {
+      switch (period) {
         case 'Today':
           //startDate = today
           //endDate = today
-          break;
+          break
 
         case 'Last Week':
           startDate = subtractFromDate(today, { days: 7 })
           //endDate = today
-          break;
+          break
 
         case 'Last Month':
           startDate = subtractFromDate(today, { month: 1 })
           //endDate = today
-          break;
+          break
 
         case 'Last Quarter':
           startDate = subtractFromDate(today, { month: 3 })
           //endDate = today
-          break;
+          break
 
         case 'Last Year':
           startDate = subtractFromDate(today, { year: 1 })
           //endDate = today
-          break;
-        
+          break
+
         case 'All':
           startDate = null
           this.dateFrom = null
           //endDate = today
-          break;
+          break
       }
 
-      if (startDate)
-        this.dateFrom = startDate.toJSON().slice(0, 10)
-      if (endDate)
-        this.dateTo = endDate.toJSON().slice(0, 10)
-
-    }
-  }
+      if (startDate) this.dateFrom = startDate.toJSON().slice(0, 10)
+      if (endDate) this.dateTo = endDate.toJSON().slice(0, 10)
+    },
+  },
 }
 </script>
 
