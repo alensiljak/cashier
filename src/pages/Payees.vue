@@ -15,7 +15,7 @@
       :item-size="42"
       key-field="id"
     >
-      <div class="scroller-item" @click="itemClicked(item.id)">
+      <div class="scroller-item" @click="itemClicked(item)">
         {{ item }}
       </div>
     </RecycleScroller>
@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import { MAIN_TOOLBAR, TOGGLE_DRAWER } from '../mutations';
+import { MAIN_TOOLBAR, TOGGLE_DRAWER, SET_SELECT_MODE } from '../mutations';
 import PayeesToolbar from '../components/PayeesToolbar';
 import appService from '../appService';
 import { ListSearch } from '../ListSearch.js';
@@ -117,7 +117,15 @@ export default {
       await this.loadData();
     },
     itemClicked(id) {
-      console.log('item:', id);
+      // console.log('item:', id);
+        // select the item and return to the caller.
+        let meta = this.$store.state.selectModeMeta;
+
+        meta.selectedId = id;
+        this.$store.commit(SET_SELECT_MODE, meta);
+
+        let route = meta.originRoute;
+        this.$router.push(route);
     },
     async loadData() {
       // get the payees from the cache

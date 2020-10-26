@@ -27,7 +27,7 @@
     </q-input>
 
     <!-- payee -->
-    <q-input v-model="tx.payee" label="Payee" dark @change="onPayeeChange">
+    <q-input v-model="tx.payee" label="Payee" dark @click="onPayeeClick">
       <template #prepend>
         <font-awesome-icon icon="user" />
       </template>
@@ -259,8 +259,8 @@ export default {
 
       switch (select.selectionType) {
         case 'payee':
-          console.log('payee', id);
-          break;
+          this.tx.payee = id
+          break
         case ACCOUNT:
           // get the posting
           var index = null;
@@ -319,7 +319,7 @@ export default {
       // save the index of the posting being edited
       selectMode.postingIndex = index;
       // set the type
-      selectMode.selectionType = ACCOUNT;
+      selectMode.selectionType = ACCOUNT
       // set the return route
       selectMode.originRoute = { name: 'tx' };
 
@@ -345,11 +345,21 @@ export default {
       this.$refs.qDateProxy.hide();
       // the date is saved on close.
     },
-    onPayeeChange(event) {
+    onPayeeClick() {
       // search when min. 2 characters typed
-      if(this.tx.payee.length < 2) return;
+      //if(this.tx.payee.length < 2) return;
 
-      console.log('yo')
+      const selectMode = new SelectionModeMetadata();
+
+      // set the type
+      selectMode.selectionType = 'payee';
+      // set the return route
+      selectMode.originRoute = { name: 'tx' };
+
+      // set the selection mode
+      this.$store.commit(SET_SELECT_MODE, selectMode);
+      // show account picker
+      this.$router.push({ name: 'payees' });
     },
     onSave() {
       // console.log("save clicked");
