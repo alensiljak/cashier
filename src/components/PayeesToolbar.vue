@@ -32,6 +32,7 @@
       <!-- <q-toolbar-title> -->
       <q-input
         v-model="myFilter"
+        autofocus
         rounded
         standout
         dense
