@@ -137,17 +137,17 @@
       v-slot="{ item }"
       class="scroller"
       :items="results"
-      :item-size="40"
+      :item-size="7"
       key-field="id"
     >
-      <div class="scroller-item row">
-        <div class="col-1 q-mr-md">
-          <span v-if="item.payee">{{ item.date }}</span>
-        </div>
+      <div v-if="item.payee" class="scroller-item row">
+        <div class="col-1 q-mr-md">{{ item.date }}</div>
         <div class="col">{{ item.payee }}</div>
+      </div>
+      <div v-if="!item.payee" class="scroller-item row">
+        <div class="col-1" />
         <div class="col">{{ item.account }}</div>
-        <div class="col-1 text-right">{{ item.amount }}</div>
-        <div class="col-1 text-right">{{ item.currency }}</div>
+        <div class="col-2 text-right">{{ item.amount }} {{ item.currency }}</div>
       </div>
     </RecycleScroller>
   </q-page>
@@ -251,11 +251,40 @@ export default {
         this.$q.notify({ message: error.message, color: 'secondary' })
       }
 
-      // append artificial ids
-      let i = 0
-      searchResults.forEach((item) => (item.id = i++))
+      searchResults = this.adjustResults(searchResults)
 
       this.results = searchResults
+    },
+    adjustResults(searchResults) {
+      // Massage the data
+      let rows = []
+
+      // Create separate rows for date/payee, and postings
+      for(var i = 0; i < searchResults.length; i++) {
+        const result_row = searchResults[i]
+        let new_row = {}
+        // is this the main tx record?
+        if(result_row.date) {
+          // yes, create a header record
+          new_row.date = result_row.date
+          new_row.payee = result_row.payee
+          
+          rows.push(new_row)
+        }
+
+        // add the account row
+        new_row = {}
+        new_row.account = result_row.account
+        new_row.amount = result_row.amount
+        new_row.currency = result_row.currency
+        rows.push(new_row)
+      }
+
+      // append artificial ids
+      let index = 0
+      rows.forEach((item) => (item.id = index++))
+
+      return rows
     },
     selectDatePeriod(period) {
       let today = new Date()
@@ -313,13 +342,12 @@ export default {
 //   width: 100%;
 // }
 .scroller {
-  min-height: 20rem;
   height: 40rem;
   overflow-x: auto;
   border: 1px solid $primary;
 }
 .scroller-item {
-  height: 0.1rem;
+  //height: 32%;
   padding: 0 12px;
   display: flex;
   align-items: top;
