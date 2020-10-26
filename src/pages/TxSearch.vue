@@ -133,23 +133,33 @@
     <!-- <div id="resultsPanel">
       <pre>{{ results }}</pre>
     </div> -->
-    <RecycleScroller
+    <!-- <RecycleScroller
       v-slot="{ item }"
       class="scroller"
       :items="results"
-      :item-size="7"
+      :item-size="15"
       key-field="id"
     >
-      <div v-if="item.payee" class="scroller-item row">
-        <div class="col-1 q-mr-md">{{ item.date }}</div>
-        <div class="col">{{ item.payee }}</div>
+      <div v-if="item.payee" class="scroller-item">
+        <span class="q-mr-md">{{ item.date }}</span>
+        {{ item.payee }}
       </div>
       <div v-if="!item.payee" class="scroller-item row">
-        <div class="col-1" />
-        <div class="col">{{ item.account }}</div>
-        <div class="col-2 text-right">{{ item.amount }} {{ item.currency }}</div>
+        <div class="col q-ml-md">{{ item.account }}</div>
+        <div class="text-right">{{ item.amount }} {{ item.currency }}</div>
       </div>
-    </RecycleScroller>
+    </RecycleScroller> -->
+
+    <div v-for="item in results" :key="item.id">
+      <div v-if="item.payee" class="txrow">
+        <span class="q-mr-sm">{{ item.date }}</span>
+        {{ item.payee }}
+      </div>
+      <div v-if="!item.payee" class="scroller-item row">
+        <div class="col q-ml-md">{{ item.account }}</div>
+        <div class="text-right">{{ item.amount }} {{ item.currency }}</div>
+      </div>
+    </div>
   </q-page>
 </template>
 
@@ -341,15 +351,19 @@ export default {
 //   overflow-x: auto;
 //   width: 100%;
 // }
-.scroller {
-  height: 40rem;
-  overflow-x: auto;
-  border: 1px solid $primary;
-}
-.scroller-item {
-  //height: 32%;
-  padding: 0 12px;
-  display: flex;
-  align-items: top;
+// .scroller {
+//   height: 40rem;
+//   overflow-x: auto;
+//   border: 1px solid $primary;
+// }
+// .scroller-item {
+//   height: 15%;
+//   //height: 1rem;
+//   padding: 0 6px;
+//   display: flex;
+//   align-items: top;
+// }
+.txrow {
+  border-top: 1px solid $secondary;
 }
 </style>
