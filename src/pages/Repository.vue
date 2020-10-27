@@ -241,9 +241,7 @@ export default {
       sync
         .repoPull(this.pricesRepoPath)
         .then((result) => this.$q.notify({ message: result, color: 'primary' }))
-        .catch((error) =>
-          this.$q.notify({ message: error, color: 'secondary' })
-        )
+        .catch((error) => this.$q.notify({ message: error, color: 'secondary' }))
     },
   },
 }
