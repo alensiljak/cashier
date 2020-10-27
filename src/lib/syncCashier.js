@@ -135,11 +135,8 @@ export class CashierSync {
       filePath: filePath,
       content: content
     }
-    Object.keys(params).forEach(key =>
-      url.searchParams.append(key, params[key])
-    )
 
-    const response = await ky.post(url)
+    const response = await ky.post(url, { json: params })
     let result = await response.text()
     return result
   }
@@ -153,11 +150,8 @@ export class CashierSync {
     const params = {
       repoPath: repoPath
     }
-    Object.keys(params).forEach(key =>
-      url.searchParams.append(key, params[key])
-    )
 
-    const response = await ky.post(url)
+    const response = await ky.post(url, { json: params })
     let content = await response.text()
     return content
   }
@@ -168,11 +162,8 @@ export class CashierSync {
       repoPath: repoPath,
       commitMessage: commitMessage
     }
-    Object.keys(params).forEach(key =>
-      url.searchParams.append(key, params[key])
-    )
 
-    const response = await ky.post(url, )
+    const response = await ky.post(url, { json: params })
     const content = await response.text()
     return content
   }
@@ -182,11 +173,8 @@ export class CashierSync {
     const params = {
       repoPath: repoPath
     }
-    Object.keys(params).forEach(key =>
-      url.searchParams.append(key, params[key])
-    )
 
-    const response = await ky.post(url)
+    const response = await ky.post(url, { json: params })
     const content = await response.text()
     return content
   }
