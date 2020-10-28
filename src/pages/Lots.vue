@@ -1,7 +1,6 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
     <div>Lots for {{ symbol }}</div>
-    <!-- <div>{{lots}}</div> -->
     <ul>
       <li v-for="lot in lots" :key="lot">{{ lot }}</li>
     </ul>
@@ -29,17 +28,17 @@ export default {
     settings
       .get(SettingKeys.syncServerUrl)
       .then(value => (this.serverUrl = value))
-      .then(() => this.loadData(this.symbol));
+      .then(() => this.loadData());
   },
 
   methods: {
     /**
      * Load lots for the symbol
      */
-    loadData() {
+    async loadData() {
       const sync = new CashierSync(this.serverUrl);
-      sync.readLots(this.symbol)
-        .then(lots => { this.lots = lots })
+      const lots = await sync.readLots(this.symbol)
+      this.lots = lots
     }
   }
 };

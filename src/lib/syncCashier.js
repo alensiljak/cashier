@@ -120,7 +120,9 @@ export class CashierSync {
     )
 
     const response = await ky.get(url)
-    const result = await response.text()
+    if(!response.ok) throw "error fetching lots: " + response.text()
+    
+    const result = await response.json()
     return result
   }
 
