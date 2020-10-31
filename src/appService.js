@@ -71,7 +71,7 @@ class AppService {
 
         return 'Transaction complete'
       })
-    console.log('Delete transaction completed.')
+    console.log('Delete transaction completed.', id)
     //.catch(error => console.error('Error on Delete Transaction:', error))
   }
 

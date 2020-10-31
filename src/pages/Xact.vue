@@ -31,22 +31,13 @@ view<template>
       </q-card>
     </q-dialog>
 
-    <q-input
-      v-model="date"
-      label="Date"
-      dark
-      @click="datePickerVisible = true"
-    >
+    <q-input v-model="date" label="Date" dark @click="datePickerVisible = true">
       <template #prepend>
         <font-awesome-icon icon="calendar-day" />
       </template>
     </q-input>
 
-    <q-input
-      v-model="payee"
-      label="Payee"
-      dark
-    />
+    <q-input v-model="payee" label="Payee" dark />
 
     <q-input
       v-model="freeText"
@@ -68,14 +59,19 @@ view<template>
     </div>
 
     <div>
-      <pre>
-{{ results }}
+      <pre
+        >{{ results }}
       </pre>
     </div>
 
     <!-- "Use" button -->
     <div v-if="results" class="text-center">
-      <q-btn color="secondary" text-color="accent" label="Use" @click="useResult" />
+      <q-btn
+        color="secondary"
+        text-color="accent"
+        label="Use"
+        @click="useResult"
+      />
     </div>
   </q-page>
 </template>
@@ -85,6 +81,7 @@ import { MAIN_TOOLBAR, SET_TITLE } from '../mutations'
 import { settings, SettingKeys } from 'src/lib/Configuration'
 import { CashierSync } from '../lib/syncCashier'
 import { XactParser } from '../lib/XactParser'
+import appService from '../appService'
 
 export default {
   data() {
@@ -93,7 +90,7 @@ export default {
       payee: null,
       datePickerVisible: false,
       freeText: null,
-      results: null
+      results: null,
     }
   },
 
@@ -167,11 +164,13 @@ export default {
       // parse the Xact results
       const parser = new XactParser()
       const tx = parser.parse(this.results)
-      console.log(tx)
 
-      // todo: create transaction
-      // todo: save in the store
-    }
+      // save transaction
+      const tx_id = await appService.saveTransaction(tx)
+
+      // open for editing?
+      this.$router.push({ name: 'tx', params: { id: tx_id } })
+    },
   },
 }
 </script>

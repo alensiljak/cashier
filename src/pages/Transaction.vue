@@ -365,24 +365,17 @@ export default {
       // show account picker
       this.$router.push({ name: 'payees' })
     },
-    onSave() {
-      // console.log("save clicked");
-      // store the transaction
-      // let model = this.$store.state.transaction;
-
-      appService
-        .saveTransaction(this.tx)
-        .then(() => {
-          // transaction committed
-          // console.log("saved.", id);
-          // clear Transaction entry
-          this.onClear()
-          // go to journal?
-          this.$router.push({ name: 'journal' })
-        })
-        .catch((err) => {
-          console.error(err)
-        })
+    async onSave() {
+      try {
+        await appService.saveTransaction(this.tx)
+        // transaction committed
+        // clear Transaction entry
+        this.onClear()
+        // go to journal?
+        this.$router.push({ name: 'journal' })
+      } catch (err) {
+        console.error(err)
+      }
     },
     onSlide({ reset }) {
       this.resetSlide = reset
