@@ -20,85 +20,126 @@ view<template>
         </q-card-section>
         <q-separator dark />
         <q-card-actions align="right">
-          <q-btn v-close-popup label="OK" flat color="secondary" text-color="accent" />
+          <q-btn
+            v-close-popup
+            label="OK"
+            flat
+            color="secondary"
+            text-color="accent"
+          />
         </q-card-actions>
       </q-card>
     </q-dialog>
 
-    <q-input v-model="date" label="Date From" dark @click="datePickerVisible = true">
+    <q-input
+      v-model="date"
+      label="Date"
+      dark
+      @click="datePickerVisible = true"
+    >
       <template #prepend>
         <font-awesome-icon icon="calendar-day" />
       </template>
     </q-input>
 
-    <q-input v-model="freeText" label="Free-text search" dark @keypress="handleEnter" />
+    <q-input
+      v-model="freeText"
+      label="Free-text search"
+      dark
+      @keypress="handleEnter"
+    />
 
     <!-- action button -->
     <div class="text-center q-my-lg">
       <q-btn color="secondary" text-color="accent" @click="run">
-        <font-awesome-icon icon="search" transform="grow-6 right-6" class="q-mr-sm" />
+        <font-awesome-icon
+          icon="search"
+          transform="grow-6 right-6"
+          class="q-mr-sm"
+        />
         <span class="q-ml-sm">Xact</span>
       </q-btn>
+    </div>
+
+    <div>
+      <pre>
+{{ results }}
+      </pre>
     </div>
   </q-page>
 </template>
 
 <script>
-import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
-import { settings, SettingKeys } from 'src/lib/Configuration';
-import { CashierSync } from "../lib/syncCashier";
+import { MAIN_TOOLBAR, SET_TITLE } from '../mutations'
+import { settings, SettingKeys } from 'src/lib/Configuration'
+import { CashierSync } from '../lib/syncCashier'
 
 export default {
   data() {
     return {
-        date: null,
-        datePickerVisible: false,
-        freeText: null
-    };
+      date: null,
+      datePickerVisible: false,
+      freeText: null,
+      results: null
+    }
   },
 
   created() {
-    this.$store.commit(SET_TITLE, "Xact");
-    this.$store.commit(MAIN_TOOLBAR, true);
+    this.$store.commit(SET_TITLE, 'Xact')
+    this.$store.commit(MAIN_TOOLBAR, true)
+  },
 
-    //this.loadSettings();
+  mounted() {
+    // load any parameters
+    this.readParameters()
   },
 
   methods: {
-    handleEnter(e) {
+    async handleEnter(e) {
       //
       //console.log(e)
       if (e.keyCode === 13) {
         // handle Enter
-        this.search()
+        await this.run()
       }
     },
     onDateSelected(value, reason) {
       // console.log(value, reason)
-      if (reason !== "day" && reason !== "today") return;
+      if (reason !== 'day' && reason !== 'today') return
       // close the picker if the date was selected
-      this.$refs.qDateProxy.hide();
+      this.$refs.qDateProxy.hide()
       // the date is saved on close.
     },
-    run() {
-        // run xact
+    async run() {
+      // run xact
 
-        let searchParams = {
-          date: this.date,
-          freeText: this.freeText
-        }
+      let searchParams = {}
+      if (this.date) {
+        searchParams.date = this.date
+      }
+      if (this.freeText) {
+        searchParams.freeText = this.freeText
+      }
 
-        settings.get(SettingKeys.syncServerUrl)
-          .then(serverUrl => {
-            if (!serverUrl) throw "Sync Server URL is not set!"
+      try {
+        const serverUrl = await settings.get(SettingKeys.syncServerUrl)
+        if (!serverUrl) throw 'Sync Server URL is not set!'
 
-            const sync = new CashierSync(serverUrl);
-            // todo: new method
-            return sync.search(searchParams)
-          })
-          .then(result => this.results = result)
-          .catch(error => this.$q.notify({ message: error, color: "secondary" }))
-    }
-  }
-};
+        const sync = new CashierSync(serverUrl)
+        // todo: new method
+        const result = await sync.xact(searchParams)
+        this.results = result
+      } catch (error) {
+        this.$q.notify({ message: error, color: 'secondary' })
+      }
+    },
+    async readParameters() {
+      const payee = this.$route.params.payee
+      if (payee) {
+        this.freeText = '@' + payee
+        await this.run()
+      }
+    },
+  },
+}
 </script>

@@ -206,6 +206,14 @@ export class CashierSync {
     return result
   }
 
+  async xact(parameters) {
+    const url = new URL(`${this.serverUrl}/xact`)
+    const response = await ky.post(url, { json: parameters })
+    //const result = await response.json()
+    const result = await response.text()
+    return result
+  }
+
   /**
    * Shutdown CashierSync server from the client app.
    */

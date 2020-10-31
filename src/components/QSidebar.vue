@@ -419,6 +419,8 @@ export default {
       if (this.liveModeOn) {
         await this.liveModeTest();
       }
+
+      //this.$emit('live-mode-on')
     },
     async liveModeTest() {
       // check if cashier sync is running

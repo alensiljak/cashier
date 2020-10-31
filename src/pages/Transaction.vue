@@ -33,6 +33,14 @@
       </template>
     </q-input>
 
+    <div v-if="$store.state.useLedger" class="text-center">
+      <q-btn label="xact"
+             color="secondary"
+             text-color="accent"
+             @click="onXactClicked"
+      />
+    </div>
+
     <!--note -->
     <q-input v-model="tx.note" label="Note" dark>
       <template #prepend>
@@ -163,6 +171,7 @@ export default {
       accounts: [],
       resetSlide: null,
       postingSum: 0,
+      liveModeOn: false
     };
   },
 
@@ -189,7 +198,7 @@ export default {
     this.$store.commit(MAIN_TOOLBAR, true);
 
     // get the data
-    this.loadData();
+    this.loadData()
 
     // are we back from the select mode?
     if (this.$store.state.selectModeMeta) this.handleSelection();
@@ -383,6 +392,9 @@ export default {
     onSlide({ reset }) {
       this.resetSlide = reset;
       this.finalize(reset);
+    },
+    onXactClicked() {
+      this.$router.push({name: 'xact', params: { payee: this.tx.payee }})
     },
     recalculateSum() {
       this.postingSum = 0;
