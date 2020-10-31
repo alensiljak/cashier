@@ -33,7 +33,7 @@ const routes = [
       { path: '/reg/:name', name: 'register', component: () => import('../pages/Register.vue') },
       { path: '/settings', name: 'settings', component: () => import('../pages/Settings.vue') },
       { path: '/sync', name: 'sync', component: () => import('../pages/Sync.vue') },
-      { path: '/tx/:id?', name: 'tx', component: () => import(/* webpackChunkName: 'tx' */ '../pages/QTransaction.vue') },
+      { path: '/tx/:id?', name: 'tx', component: () => import(/* webpackChunkName: 'tx' */ '../pages/Transaction.vue') },
       { path: '/tx-search', name: 'tx-search', component: () => import('../pages/TxSearch.vue') },
       { path: '/xact', name: 'xact', component: () => import('../pages/Xact.vue') },
       // Test
