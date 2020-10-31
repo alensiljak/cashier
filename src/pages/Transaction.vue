@@ -34,10 +34,11 @@
     </q-input>
 
     <div v-if="$store.state.useLedger" class="text-center">
-      <q-btn label="xact"
-             color="secondary"
-             text-color="accent"
-             @click="onXactClicked"
+      <q-btn
+        label="xact"
+        color="secondary"
+        text-color="accent"
+        @click="onXactClicked"
       />
     </div>
 
@@ -148,18 +149,18 @@
 </template>
 
 <script>
-import QPosting from '../components/Posting.vue';
-import { Posting } from '../model';
+import QPosting from '../components/Posting.vue'
+import { Posting } from '../model'
 import {
   MAIN_TOOLBAR,
   SET_TITLE,
   SET_TRANSACTION,
   SET_SELECT_MODE,
-} from '../mutations';
-import appService from '../appService';
-import { SelectionModeMetadata } from '../lib/Configuration';
+} from '../mutations'
+import appService from '../appService'
+import { SelectionModeMetadata } from '../lib/Configuration'
 
-const ACCOUNT = 'account';
+const ACCOUNT = 'account'
 
 export default {
   components: {
@@ -171,37 +172,37 @@ export default {
       accounts: [],
       resetSlide: null,
       postingSum: 0,
-      liveModeOn: false
-    };
+      liveModeOn: false,
+    }
   },
 
   computed: {
     tx: {
       get() {
         // console.log('getting tx')
-        let tx = this.$store.state.transaction;
+        let tx = this.$store.state.transaction
         if (tx === null) {
-          tx = this.resetTransaction();
+          tx = this.resetTransaction()
         }
-        return tx;
+        return tx
       },
       set(value) {
         // console.log('setting tx', value)
         // todo save in the state store
-        this.$store.commit(SET_TRANSACTION, value);
+        this.$store.commit(SET_TRANSACTION, value)
       },
     },
   },
 
   created() {
-    this.$store.commit(SET_TITLE, 'New Transaction');
-    this.$store.commit(MAIN_TOOLBAR, true);
+    this.$store.commit(SET_TITLE, 'New Transaction')
+    this.$store.commit(MAIN_TOOLBAR, true)
 
     // get the data
     this.loadData()
 
     // are we back from the select mode?
-    if (this.$store.state.selectModeMeta) this.handleSelection();
+    if (this.$store.state.selectModeMeta) this.handleSelection()
   },
   mounted: function () {
     // Set the focus on Payee field.
@@ -209,62 +210,62 @@ export default {
     // this.$refs.date
     // this.date = new Date().toISOString().substring(0, 10);
 
-    this.recalculateSum();
+    this.recalculateSum()
   },
 
   methods: {
     addPosting() {
       // this.$store.dispatch(ADD_POSTING);
-      this.tx.postings.push(new Posting());
+      this.tx.postings.push(new Posting())
     },
     deletePosting(index) {
       if (this.resetSlide) {
         // remove the slide section.
-        this.resetSlide();
-        this.resetSlide = null;
+        this.resetSlide()
+        this.resetSlide = null
       }
 
-      this.tx.postings.splice(index, 1);
+      this.tx.postings.splice(index, 1)
 
-      this.recalculateSum();
+      this.recalculateSum()
     },
     echo(message) {
-      this.$q.notify(message);
+      this.$q.notify(message)
     },
     formatNumber(value) {
-      return appService.formatNumber(value);
+      return appService.formatNumber(value)
     },
     /**
      * Find an empty posting, or create one.
      */
     getEmptyPostingIndex() {
       for (let i = 0; i < this.tx.postings.length; i++) {
-        const posting = this.tx.postings[i];
+        const posting = this.tx.postings[i]
         if (!posting.account && !posting.amount && !posting.commodity) {
-          return i;
+          return i
         }
       }
 
       // not found. Create a new one.
-      const posting = new Posting();
-      this.tx.postings.push(posting);
-      return this.tx.postings.length - 1;
+      const posting = new Posting()
+      this.tx.postings.push(posting)
+      return this.tx.postings.length - 1
     },
     finalize(reset) {
       this.timer = setTimeout(() => {
         // has it been already deleted?
-        if (!reset) return;
+        if (!reset) return
 
-        reset();
-      }, 2000);
+        reset()
+      }, 2000)
     },
     /**
      * Handle selection after a picker returned.
      */
     handleSelection() {
       // todo handle blank id if the user presses 'back'.
-      const select = this.$store.state.selectModeMeta;
-      const id = select.selectedId;
+      const select = this.$store.state.selectModeMeta
+      const id = select.selectedId
 
       switch (select.selectionType) {
         case 'payee':
@@ -272,25 +273,25 @@ export default {
           break
         case ACCOUNT:
           // get the posting
-          var index = null;
+          var index = null
           if (typeof select.postingIndex === 'number') {
-            index = select.postingIndex;
+            index = select.postingIndex
           } else {
             // redirected from account register, find an appropriate posting
-            index = this.getEmptyPostingIndex();
+            index = this.getEmptyPostingIndex()
           }
-          var posting = this.tx.postings[index];
+          var posting = this.tx.postings[index]
 
           appService.db.accounts.get(id).then((account) => {
-            posting.account = account.name;
-            posting.currency = account.currency;
-          });
+            posting.account = account.name
+            posting.currency = account.currency
+          })
           // console.log("account", id);
-          break;
+          break
       }
 
       // clean-up, reset the selection values
-      this.$store.commit(SET_SELECT_MODE, null);
+      this.$store.commit(SET_SELECT_MODE, null)
     },
     loadAccounts() {
       // load accounts from storage.
@@ -299,76 +300,70 @@ export default {
         // .toCollection()
         // .primaryKeys()
         .uniqueKeys()
-        .then((accountNames) => (this.accounts = accountNames));
+        .then((accountNames) => (this.accounts = accountNames))
     },
     /**
      * Load all data for the view.
      */
     loadData() {
       // Transaction
-      const id = this.$route.params.id;
+      const id = this.$route.params.id
       if (id) {
-        this.loadTransaction(id);
-      } else {
-        // new item.
-        // this.resetTransaction();
-        // just use the item from the store
+        this.loadTransaction(id)
       }
-      // Accounts
-      // this.loadAccounts();
     },
     loadTransaction(id) {
       appService.loadTransaction(id).then((tx) => {
-        this.tx = tx;
-      });
+        this.tx = tx
+      })
     },
     onAccountClicked(index) {
-      const selectMode = new SelectionModeMetadata();
+      const selectMode = new SelectionModeMetadata()
 
       // save the index of the posting being edited
-      selectMode.postingIndex = index;
+      selectMode.postingIndex = index
       // set the type
       selectMode.selectionType = ACCOUNT
       // set the return route
-      selectMode.originRoute = { name: 'tx' };
+      selectMode.originRoute = { name: 'tx' }
 
       // set the selection mode
-      this.$store.commit(SET_SELECT_MODE, selectMode);
+      this.$store.commit(SET_SELECT_MODE, selectMode)
       // show account picker
-      this.$router.push({ name: 'accounts' });
+      this.$router.push({ name: 'accounts' })
     },
     onAmountChanged() {
       // recalculate the sum
-      this.recalculateSum();
+      this.recalculateSum()
     },
     onClear() {
       // Resets all Transaction fields to defaults.
-      this.resetTransaction();
+      this.resetTransaction()
     },
     /**
      * (value, reason, details)
      */
     onDateSelected(value, reason) {
-      if (reason !== 'day' && reason !== 'today') return;
+      if (reason !== 'day' && reason !== 'today') return
       // close the picker if the date was selected
-      this.$refs.qDateProxy.hide();
+      this.$refs.qDateProxy.hide()
       // the date is saved on close.
     },
     onPayeeClick() {
       // search when min. 2 characters typed
       //if(this.tx.payee.length < 2) return;
 
-      const selectMode = new SelectionModeMetadata();
+      const selectMode = new SelectionModeMetadata()
 
       // set the type
-      selectMode.selectionType = 'payee';
+      selectMode.selectionType = 'payee'
       // set the return route
-      selectMode.originRoute = { name: 'tx' };
+      selectMode.originRoute = { name: 'tx' }
 
       // set the selection mode
-      this.$store.commit(SET_SELECT_MODE, selectMode);
+      this.$store.commit(SET_SELECT_MODE, selectMode)
       // show account picker
-      this.$router.push({ name: 'payees' });
+      this.$router.push({ name: 'payees' })
     },
     onSave() {
       // console.log("save clicked");
@@ -381,37 +376,37 @@ export default {
           // transaction committed
           // console.log("saved.", id);
           // clear Transaction entry
-          this.onClear();
+          this.onClear()
           // go to journal?
-          this.$router.push({ name: 'journal' });
+          this.$router.push({ name: 'journal' })
         })
         .catch((err) => {
-          console.error(err);
-        });
+          console.error(err)
+        })
     },
     onSlide({ reset }) {
-      this.resetSlide = reset;
-      this.finalize(reset);
+      this.resetSlide = reset
+      this.finalize(reset)
     },
     onXactClicked() {
-      this.$router.push({name: 'xact', params: { payee: this.tx.payee }})
+      this.$router.push({ name: 'xact', params: { payee: this.tx.payee } })
     },
     recalculateSum() {
-      this.postingSum = 0;
+      this.postingSum = 0
 
       for (let i = 0; i < this.tx.postings.length; i++) {
-        const posting = this.tx.postings[i];
+        const posting = this.tx.postings[i]
         // console.log(posting)
-        this.postingSum += posting.amount;
+        this.postingSum += posting.amount
       }
     },
     resetTransaction() {
-      const tx = appService.createTransaction();
-      this.tx = tx;
-      return tx;
+      const tx = appService.createTransaction()
+      this.tx = tx
+      return tx
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

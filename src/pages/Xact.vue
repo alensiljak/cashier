@@ -72,6 +72,11 @@ view<template>
 {{ results }}
       </pre>
     </div>
+
+    <!-- "Use" button -->
+    <div v-if="results" class="text-center">
+      <q-btn color="secondary" text-color="accent" label="Use" @click="useResult" />
+    </div>
   </q-page>
 </template>
 
@@ -79,6 +84,7 @@ view<template>
 import { MAIN_TOOLBAR, SET_TITLE } from '../mutations'
 import { settings, SettingKeys } from 'src/lib/Configuration'
 import { CashierSync } from '../lib/syncCashier'
+import { XactParser } from '../lib/XactParser'
 
 export default {
   data() {
@@ -154,6 +160,18 @@ export default {
         await this.run()
       }
     },
+    /**
+     * Parse the result and use as the current Transaction.
+     */
+    async useResult() {
+      // parse the Xact results
+      const parser = new XactParser()
+      const tx = parser.parse(this.results)
+      console.log(tx)
+
+      // todo: create transaction
+      // todo: save in the store
+    }
   },
 }
 </script>
