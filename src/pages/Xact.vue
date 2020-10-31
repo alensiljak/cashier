@@ -43,6 +43,12 @@ view<template>
     </q-input>
 
     <q-input
+      v-model="payee"
+      label="Payee"
+      dark
+    />
+
+    <q-input
       v-model="freeText"
       label="Free-text search"
       dark
@@ -78,6 +84,7 @@ export default {
   data() {
     return {
       date: null,
+      payee: null,
       datePickerVisible: false,
       freeText: null,
       results: null
@@ -95,6 +102,19 @@ export default {
   },
 
   methods: {
+    getSearchParameters() {
+      let searchParams = {}
+      if (this.date) {
+        searchParams.date = this.date
+      }
+      if (this.payee) {
+        searchParams.payee = this.payee
+      }
+      if (this.freeText) {
+        searchParams.freeText = this.freeText
+      }
+      return searchParams
+    },
     async handleEnter(e) {
       //
       //console.log(e)
@@ -113,13 +133,7 @@ export default {
     async run() {
       // run xact
 
-      let searchParams = {}
-      if (this.date) {
-        searchParams.date = this.date
-      }
-      if (this.freeText) {
-        searchParams.freeText = this.freeText
-      }
+      const searchParams = this.getSearchParameters()
 
       try {
         const serverUrl = await settings.get(SettingKeys.syncServerUrl)
@@ -136,7 +150,7 @@ export default {
     async readParameters() {
       const payee = this.$route.params.payee
       if (payee) {
-        this.freeText = '@' + payee
+        this.payee = payee
         await this.run()
       }
     },
