@@ -59,9 +59,7 @@ view<template>
     </div>
 
     <div>
-      <pre
-        >{{ results }}
-      </pre>
+      <pre>{{ results }}</pre>
     </div>
 
     <!-- "Use" button -->
