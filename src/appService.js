@@ -3,76 +3,76 @@
 
     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export
 */
-import db from "./dataStore";
-import { Account, Transaction, Posting } from "./model";
-import { Notify } from "quasar";
-import { settings, SettingKeys } from "./lib/Configuration";
+import db from './dataStore'
+import { Account, Transaction, Posting } from './model'
+import { Notify } from 'quasar'
+import { settings, SettingKeys } from './lib/Configuration'
 
 class AppService {
   createAccount(name) {
-    let acc = new Account();
-    acc.name = name;
+    let acc = new Account()
+    acc.name = name
 
-    return db.accounts.add(acc);
+    return db.accounts.add(acc)
   }
 
   createTransaction() {
-    var tx = new Transaction();
-    tx.date = new Date().toISOString().substring(0, 10);
+    var tx = new Transaction()
+    tx.date = new Date().toISOString().substring(0, 10)
 
-    tx.postings.push(new Posting());
-    tx.postings.push(new Posting());
+    tx.postings.push(new Posting())
+    tx.postings.push(new Posting())
 
-    return tx;
+    return tx
   }
 
   get db() {
-    return db;
+    return db
   }
 
   deleteAccount(name) {
-    return db.accounts.delete(name);
+    return db.accounts.delete(name)
   }
 
   deleteAccounts() {
-    return db.accounts.clear();
+    return db.accounts.clear()
   }
 
   /**
    * Delete transaction and related postings.
    * @param {*} id Int/long id of the transaction to delete
    */
-  deleteTransaction(id) {
-    if (typeof id === "string") {
-      id = Number(id);
+  async deleteTransaction(id) {
+    if (typeof id === 'string') {
+      id = Number(id)
     }
 
-    return this.db
-      .transaction("rw", this.db.transactions, this.db.postings, async tx => {
+    await this.db
+      .transaction('rw', this.db.transactions, this.db.postings, async tx => {
         const x = await db.transactions
-          .where("id")
+          .where('id')
           .equals(id)
-          .count();
-        console.log("count:", x);
+          .count()
+        console.log('count:', x)
 
         // delete transaction record
-        result = await db.transactions
-          .where("id")
+        let result = await db.transactions
+          .where('id')
           .equals(id)
-          .delete();
-        console.log("transactions -", result);
+          .delete()
+        console.log('transactions -', result)
 
         // delete postings
         result = await db.postings
-          .where("transactionId")
+          .where('transactionId')
           .equals(id)
-          .delete();
-        console.log("postings -", result);
+          .delete()
+        console.log('postings -', result)
 
-        return "Transaction complete";
+        return 'Transaction complete'
       })
-      .then(() => console.log("Delete transaction completed."))
-      .catch(error => console.error("Error on Delete Transaction:", error));
+    console.log('Delete transaction completed.')
+    //.catch(error => console.error('Error on Delete Transaction:', error))
   }
 
   /**
@@ -80,8 +80,8 @@ class AppService {
    */
   async deleteTransactions() {
     // also clear any remaining postings
-    this.db.postings.clear();
-    await this.db.transactions.clear();
+    this.db.postings.clear()
+    await this.db.transactions.clear()
   }
 
   /**
@@ -89,38 +89,38 @@ class AppService {
    * ready to be exported as a file or copied as a string.
    */
   async exportTransactions() {
-    let txs = await db.transactions.orderBy("date").toArray();
+    let txs = await db.transactions.orderBy('date').toArray()
 
-    var output = "";
+    var output = ''
 
     for (let i = 0; i < txs.length; i++) {
-      let tx = txs[i];
+      let tx = txs[i]
       // transaction
-      output += tx.date;
-      output += " " + tx.payee;
-      output += "\n";
+      output += tx.date
+      output += ' ' + tx.payee
+      output += '\n'
       // note
       if (tx.note) {
-        output += "    ; " + tx.note + "\n";
+        output += '    ; ' + tx.note + '\n'
       }
       // postings
       for (let j = 0; j < tx.postings.length; j++) {
-        let p = tx.postings[j];
-        if (!p.account) continue;
+        let p = tx.postings[j]
+        if (!p.account) continue
 
-        output += "    ";
-        output += p.account == null ? "" : p.account;
+        output += '    '
+        output += p.account == null ? '' : p.account
         if (p.amount) {
-          output += "  ";
-          output += p.amount == null ? "" : p.amount;
-          output += " ";
-          output += p.currency == null ? "" : p.currency;
+          output += '  '
+          output += p.amount == null ? '' : p.amount
+          output += ' '
+          output += p.currency == null ? '' : p.currency
         }
-        output += "\n";
+        output += '\n'
       }
-      output += "\n";
+      output += '\n'
     }
-    return output;
+    return output
   }
 
   /**
@@ -129,14 +129,14 @@ class AppService {
    */
   formatNumber(value) {
     // if (!value) return;
-    if (value == null) return;
-    if (Number.isNaN(value)) return;
+    if (value == null) return
+    if (Number.isNaN(value)) return
 
     // make sure we have a number
-    var result = Number(value);
+    var result = Number(value)
     // let val = (value/1).toFixed(2).replace('.', ',')
     // return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-    return result.toFixed(2);
+    return result.toFixed(2)
   }
 
   /**
@@ -146,13 +146,13 @@ class AppService {
    */
   async getInvestmentAccounts() {
     // get the root investment account.
-    const rootAccount = await settings.get(SettingKeys.rootInvestmentAccount);
+    const rootAccount = await settings.get(SettingKeys.rootInvestmentAccount)
 
     if (!rootAccount) {
-      throw new Error("Root investment account not set!");
+      throw new Error('Root investment account not set!')
     }
 
-    return this.db.accounts.where("name").startsWithIgnoreCase(rootAccount);
+    return this.db.accounts.where('name').startsWithIgnoreCase(rootAccount)
   }
 
   /**
@@ -160,140 +160,140 @@ class AppService {
    */
   async getInvestmentCommodities() {
     // get all investment accounts, iterate to get unique commodities?
-    let commodities = [];
+    let commodities = []
 
-    const accounts = await this.getInvestmentAccounts();
+    const accounts = await this.getInvestmentAccounts()
     await accounts.each(account => {
       // console.log("each");
-      commodities.push(account.currency);
-    });
+      commodities.push(account.currency)
+    })
 
     // keep only unique values
-    commodities = [...new Set(commodities)];
-    commodities.sort();
+    commodities = [...new Set(commodities)]
+    commodities.sort()
 
     // console.log("exiting");
-    return commodities;
+    return commodities
   }
 
   async importAccounts(accountsList) {
     if (!accountsList) {
-      const message = "The accounts list is empty!";
-      throw message;
+      const message = 'The accounts list is empty!'
+      throw message
     }
 
-    const accounts = [];
-    const lines = accountsList.split("\n");
+    const accounts = []
+    const lines = accountsList.split('\n')
 
     for (let i = 0; i < lines.length; i++) {
-      const line = lines[i];
-      if (line === "") continue;
+      const line = lines[i]
+      if (line === '') continue
 
-      const account = new Account();
-      account.name = line;
-      accounts.push(account);
+      const account = new Account()
+      account.name = line
+      accounts.push(account)
     }
-    return db.accounts.bulkPut(accounts);
+    return db.accounts.bulkPut(accounts)
   }
 
   async importBalanceSheet(text) {
     if (!text) {
-      throw "No balance sheet selected.";
+      throw 'No balance sheet selected.'
     }
 
-    const accounts = [];
-    const mainCurrency = await settings.get(SettingKeys.currency);
-    let mainCurrencyAmount = null;
-    let multicurrencyAccount = false;
+    const accounts = []
+    const mainCurrency = await settings.get(SettingKeys.currency)
+    let mainCurrencyAmount = null
+    let multicurrencyAccount = false
 
     // read and parse the balance sheet string
-    const lines = text.split("\n");
+    const lines = text.split('\n')
     for (let i = 0; i < lines.length; i++) {
       // console.log(lines[i]);
-      const line = lines[i];
-      if (line === "") continue;
+      const line = lines[i]
+      if (line === '') continue
 
-      const account = new Account();
-      let namePart = line.substring(21).trim();
+      const account = new Account()
+      let namePart = line.substring(21).trim()
 
-      let balancePart = line.substring(0, 20);
-      balancePart = balancePart.trim();
+      let balancePart = line.substring(0, 20)
+      balancePart = balancePart.trim()
       // separate the currency
-      const balanceParts = balancePart.split(" ");
+      const balanceParts = balancePart.split(' ')
 
-      let amountPart = balanceParts[0];
+      let amountPart = balanceParts[0]
       // clean-up the thousand-separators
-      amountPart = amountPart.replace(/,/g, "");
-      account.balance = parseFloat(amountPart);
+      amountPart = amountPart.replace(/,/g, '')
+      account.balance = parseFloat(amountPart)
 
       // currency
-      let currencyPart = balanceParts[1];
-      account.currency = currencyPart;
+      let currencyPart = balanceParts[1]
+      account.currency = currencyPart
 
       // name
-      account.name = namePart;
+      account.name = namePart
 
       // If we have a currency but no account, it's a multicurrency account.
       if (!namePart) {
         if (currencyPart) {
-          multicurrencyAccount = true;
+          multicurrencyAccount = true
 
           if (currencyPart === mainCurrency) {
-            mainCurrencyAmount = account.balance;
+            mainCurrencyAmount = account.balance
           }
         }
 
-        continue;
+        continue
       }
 
       if (multicurrencyAccount) {
         // Use the main currency.
-        account.currency = mainCurrency;
-        account.balance = mainCurrencyAmount;
+        account.currency = mainCurrency
+        account.balance = mainCurrencyAmount
 
         // reset the indicator.
-        multicurrencyAccount = false;
-        mainCurrencyAmount = null;
+        multicurrencyAccount = false
+        mainCurrencyAmount = null
       }
 
-      accounts.push(account);
+      accounts.push(account)
     }
 
-    return db.accounts.bulkPut(accounts);
+    return db.accounts.bulkPut(accounts)
   }
 
   importCommodities(text) {
     if (!text) {
-      Notify.create({ message: "No data to import." });
-      return;
+      Notify.create({ message: 'No data to import.' })
+      return
     }
 
-    const commodities = [];
-    const lines = text.split("\n");
+    const commodities = []
+    const lines = text.split('\n')
 
     for (let i = 0; i < lines.length - 1; i++) {
-      const commodity = lines[i].trim();
-      commodities.push(commodity);
+      const commodity = lines[i].trim()
+      commodities.push(commodity)
     }
 
     // todo: save
 
-    return commodities;
+    return commodities
   }
 
   loadAccount(id) {
-    return db.accounts.get(id);
+    return db.accounts.get(id)
   }
 
   /**
    * @returns Collection
    */
   loadAccounts() {
-    return db.accounts.orderBy("name");
+    return db.accounts.orderBy('name')
   }
 
   loadAssetClass(fullname) {
-    return db.assetAllocation.get(fullname);
+    return db.assetAllocation.get(fullname)
   }
 
   /**
@@ -302,72 +302,79 @@ class AppService {
    * @returns Transaction with Postings
    */
   loadTransaction(id) {
-    return db.transaction("r", db.transactions, db.postings, async () => {
-      const tx = await db.transactions.get(id);
+    return db.transaction('r', db.transactions, db.postings, async () => {
+      const tx = await db.transactions.get(id)
       // todo load postings
       const postings = await db.postings
         .where({ transactionId: tx.id })
-        .toArray();
+        .toArray()
 
-      tx.postings = postings;
-      return tx;
-    });
+      tx.postings = postings
+      return tx
+    })
   }
 
   saveAccount(account) {
-    return db.accounts.put(account);
+    return db.accounts.put(account)
   }
 
   /**
    * Save the transaction to the database.
    * @param {Transaction} tx The transaction object
    */
-  saveTransaction(tx) {
+  async saveTransaction(tx) {
     if (tx.id === null) {
       // create a new id for the transaction
-      tx.id = new Date().getTime();
+      tx.id = new Date().getTime()
     }
 
-    this.savePostings(tx);
+    this.savePostings(tx)
 
     // save all items in a transaction
-    return db.transaction("rw", db.transactions, db.postings, () => {
-      db.postings.bulkPut(tx.postings);
+    var id = await db.transaction(
+      'rw',
+      db.transactions,
+      db.postings,
+      async () => {
+        db.postings.bulkPut(tx.postings)
 
-      return db.transactions.put(tx); // returns the transaction id
-    });
+        var id = await db.transactions.put(tx) // returns the transaction id
+        return id
+      }
+    )
+    return id
   }
 
   /**
    * Not to be used directly. Only called when saving a transaction.
    */
   async savePostings(tx) {
-    var newPostingIds = [];
+    var newPostingIds = []
 
     // set transaction id on postings
     for (let i = 0; i < tx.postings.length; i++) {
-      tx.postings[i].transactionId = tx.id;
-      newPostingIds.push(tx.postings[i].id);
+      tx.postings[i].transactionId = tx.id
+      newPostingIds.push(tx.postings[i].id)
     }
     // tx.postings.forEach(p => p.transactionId == tx.id)
 
     // Delete any removed postings.
     // Get the posting ids from the database.
-    var postings = await db.postings.where({ transactionId: tx.id }).toArray();
-    var oldPostingIds = [];
+    var postings = await db.postings.where({ transactionId: tx.id }).toArray()
+    var oldPostingIds = []
     for (let i = 0; i < postings.length; i++) {
-      oldPostingIds.push(postings[i].id);
+      oldPostingIds.push(postings[i].id)
     }
     for (let i = 0; i < oldPostingIds.length; i++) {
-      let oldPostingId = oldPostingIds[i];
+      let oldPostingId = oldPostingIds[i]
 
       if (newPostingIds.indexOf(oldPostingId) < 0) {
         // console.log('delete', oldPostingIds[i])
-        db.postings.delete(oldPostingIds[i]);
+        db.postings.delete(oldPostingIds[i])
       }
     }
   }
 }
 
 // export const appService = new AppService();
-export default new AppService();
+export default new AppService()
