@@ -262,6 +262,8 @@ export default {
       this.results = searchResults
     },
     adjustResults(searchResults) {
+      if (!searchResults) return null;
+
       // Massage the data
       let rows = []
 
