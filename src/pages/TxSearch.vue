@@ -84,12 +84,13 @@
     </q-input>
 
     <!-- payee -->
-    <q-input v-model="payee" label="Payee" dark>
+    <q-input v-model="payee" label="Payee" dark @keypress="handleEnter">
       <template #prepend>
         <font-awesome-icon icon="user" />
       </template>
     </q-input>
 
+    <!-- free text -->
     <q-input
       v-model="freeText"
       label="Free-text search"
@@ -183,8 +184,6 @@ export default {
 
   methods: {
     handleEnter(e) {
-      //
-      //console.log(e)
       if (e.keyCode === 13) {
         // handle Enter
         this.search()
