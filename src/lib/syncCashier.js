@@ -195,13 +195,14 @@ export class CashierSync {
 
   async search(searchParams) {
     const url = new URL(`${this.serverUrl}/search`)
-    
+
+    // For GET, use URL Search Params, for POST, use Form Data:
     //const params = new URLSearchParams() // use params.set()
     //Object.keys(searchParams).forEach(key => params.set(key, searchParams[key]))
     //const params = new FormData(); // use params.append()
     //Object.keys(searchParams).forEach(key => params.append(key, searchParams[key]))
     
-    const response = await ky.post(url, { json: { query: searchParams } })
+    const response = await ky.post(url, { json: searchParams })
     const result = await response.json()
     return result
   }

@@ -71,8 +71,7 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
-    <!-- <div class="row"> -->
-    <!-- <div class="col-9"> -->
+
     <q-input
       v-model="dateTo"
       label="Date To"
@@ -83,18 +82,13 @@
         <font-awesome-icon icon="calendar-day" />
       </template>
     </q-input>
-    <!-- </div> -->
-    <!-- <div class="col">
-        <q-checkbox v-model="sameDate" label="Same as From" />
-      </div> -->
-    <!-- </div> -->
 
     <!-- payee -->
-    <!-- <q-input v-model="payee" label="Payee" dark>
-      <template v-slot:prepend>
+    <q-input v-model="payee" label="Payee" dark>
+      <template #prepend>
         <font-awesome-icon icon="user" />
       </template>
-    </q-input> -->
+    </q-input>
 
     <q-input
       v-model="freeText"
@@ -235,9 +229,10 @@ export default {
       // run the search
       //this.$q.notify({ message: message, color: "primary" }) // green
       //this.$q.notify({ message: message, color: "secondary" }) // red
-      if (!this.freeText && !this.dateFrom && !this.dateTo) {
+
+      if (!this.freeText && !this.dateFrom && !this.dateTo && !this.payee) {
         this.$q.notify({
-          message: 'No search parameters selected',
+          message: 'No search parameters entered/selected!',
           color: 'secondary',
         })
         return
@@ -246,6 +241,7 @@ export default {
       let searchParams = {
         dateFrom: this.dateFrom,
         dateTo: this.dateTo,
+        payee: this.payee,
         freeText: this.freeText,
       }
 
