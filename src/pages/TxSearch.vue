@@ -157,6 +157,7 @@ export default {
         'Last Week',
         'Last Month',
         'Last Quarter',
+        'Last 6 Months',
         'Last Year',
         'All',
       ],
@@ -310,6 +311,10 @@ export default {
         case 'Last Quarter':
           startDate = subtractFromDate(today, { month: 3 })
           //endDate = today
+          break
+
+        case 'Last 6 Months':
+          startDate = subtractFromDate(today, { month: 6 })
           break
 
         case 'Last Year':
