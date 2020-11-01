@@ -115,45 +115,24 @@
     </div>
 
     <!-- results -->
-    <!-- <q-input
-      v-model="results"
-      type="textarea"
-      autogrow
-      filled
-      style="width: 100%; max-height: 90%"
-      input-class="text-amber-2"
-      color="primary"
-    /> -->
-    <!-- <div id="resultsPanel">
-      <pre>{{ results }}</pre>
-    </div> -->
-    <!-- <RecycleScroller
-      v-slot="{ item }"
-      class="scroller"
-      :items="results"
-      :item-size="15"
-      key-field="id"
-    >
-      <div v-if="item.payee" class="scroller-item">
-        <span class="q-mr-md">{{ item.date }}</span>
-        {{ item.payee }}
-      </div>
-      <div v-if="!item.payee" class="scroller-item row">
-        <div class="col q-ml-md">{{ item.account }}</div>
-        <div class="text-right">{{ item.amount }} {{ item.currency }}</div>
-      </div>
-    </RecycleScroller> -->
-
-    <div v-for="item in results" :key="item.id">
-      <div v-if="item.payee" class="txrow">
-        <span class="q-mr-sm">{{ item.date }}</span>
-        {{ item.payee }}
-      </div>
-      <div v-if="!item.payee" class="scroller-item row">
-        <div class="col q-ml-md">{{ item.account }}</div>
-        <div class="text-right">{{ item.amount }} {{ item.currency }}</div>
-      </div>
-    </div>
+    <q-list dark separator>
+      <q-item v-for="tx in results" :key="tx.id" v-ripple clickable>
+        <q-item-section>
+          <!-- <q-item-label overline>
+            {{ tx.header.date }} {{ tx.header.payee }}
+          </q-item-label> -->
+          <q-item-label>
+            <span class="q-mr-sm">{{ tx.header.date }}</span> {{ tx.header.payee }}
+          </q-item-label>
+          <q-item-label v-for="(posting, index) in tx.postings" :key="index" caption
+                        class="q-ml-md"
+          >
+            {{ posting.account }}
+            <span style="float: right;">{{ posting.amount }} {{ posting.currency }}</span>
+          </q-item-label>
+        </q-item-section>
+      </q-item>
+    </q-list>
   </q-page>
 </template>
 
@@ -257,35 +236,45 @@ export default {
         this.$q.notify({ message: error.message, color: 'secondary' })
       }
 
-      searchResults = this.adjustResults(searchResults)
+      searchResults = this.parseResults(searchResults)
 
       this.results = searchResults
     },
-    adjustResults(searchResults) {
-      if (!searchResults) return null;
+    parseResults(searchResults) {
+      if (!searchResults) return null
 
       // Massage the data
       let rows = []
 
-      // Create separate rows for date/payee, and postings
-      for(var i = 0; i < searchResults.length; i++) {
+      // Create tx records.
+      let tx = null
+      for (var i = 0; i < searchResults.length; i++) {
         const result_row = searchResults[i]
-        let new_row = {}
+
         // is this the main tx record?
-        if(result_row.date) {
+        if (result_row.date) {
+          if (tx) {
+            // Complete the existing transaction.
+            rows.push(tx)
+          }
+          // start a new transaction.
+          tx = {}
+          tx.postings = []
+
+          let header = {}
           // yes, create a header record
-          new_row.date = result_row.date
-          new_row.payee = result_row.payee
-          
-          rows.push(new_row)
+          header.date = result_row.date
+          header.payee = result_row.payee
+
+          tx.header = header
         }
 
         // add the account row
-        new_row = {}
-        new_row.account = result_row.account
-        new_row.amount = result_row.amount
-        new_row.currency = result_row.currency
-        rows.push(new_row)
+        let posting = {}
+        posting.account = result_row.account
+        posting.amount = result_row.amount
+        posting.currency = result_row.currency
+        tx.postings.push(posting)
       }
 
       // append artificial ids
@@ -344,23 +333,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// #resultsPanel {
-//   /* overflow: overflow-x; */
-//   overflow-x: auto;
-//   width: 100%;
-// }
-// .scroller {
-//   height: 40rem;
-//   overflow-x: auto;
-//   border: 1px solid $primary;
-// }
-// .scroller-item {
-//   height: 15%;
-//   //height: 1rem;
-//   padding: 0 6px;
-//   display: flex;
-//   align-items: top;
-// }
 .txrow {
   border-top: 1px solid $secondary;
 }
