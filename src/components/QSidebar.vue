@@ -14,6 +14,15 @@
       <q-list padding>
         <!-- <q-item-label header>Navigation</q-item-label> -->
 
+        <q-item v-ripple to="/home" exact clickable active-class="active-link">
+          <q-item-section avatar>
+            <font-awesome-icon icon="home" transform="grow-6 right-6" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Home</q-item-label>
+          </q-item-section>
+        </q-item>
+
         <q-item
           v-ripple
           to="/journal"
@@ -63,8 +72,13 @@
           </q-item-section>
         </q-item>
 
-        <q-item v-if="liveModeOn" v-ripple to="xact" exact clickable
-                active-class="active-link"
+        <q-item
+          v-if="liveModeOn"
+          v-ripple
+          to="xact"
+          exact
+          clickable
+          active-class="active-link"
         >
           <q-item-section avatar>
             <font-awesome-icon icon="scroll" transform="grow-6 right-6" />
@@ -314,7 +328,7 @@
     <q-img class="absolute-top bg-colour5" style="height: 150px">
       <div class="absolute-bottom bg-transparent text-colour2">
         <q-avatar size="56px" class="q-mb-sm" @click="onHeaderClick">
-          <img src="/icons/icon64.png">
+          <img src="/icons/icon64.png" />
         </q-avatar>
         <!-- <div class="text-weight-bold">Cashier</div> -->
         <!-- <div>@cashier</div> -->
@@ -350,8 +364,10 @@
       <q-card dark class="bg-red-10 text-amber-2">
         <q-card-section class="row items-center">
           <!-- <q-avatar icon="signal_wifi_off" color="primary" text-color="amber-2"/>-->
-          <span>Live Mode uses CashierSync for all the data. CashierSync must be
-            running.</span>
+          <span
+            >Live Mode uses CashierSync for all the data. CashierSync must be
+            running.</span
+          >
         </q-card-section>
 
         <q-card-actions align="right">
@@ -369,9 +385,9 @@
 </template>
 
 <script>
-import { TOGGLE_DRAWER, SET_LEDGER_USE } from "../mutations";
-import { CashierSync } from "../lib/syncCashier";
-import { SettingKeys, settings } from "../lib/Configuration";
+import { TOGGLE_DRAWER, SET_LEDGER_USE } from '../mutations'
+import { CashierSync } from '../lib/syncCashier'
+import { SettingKeys, settings } from '../lib/Configuration'
 
 export default {
   data() {
@@ -379,16 +395,16 @@ export default {
       // drawerOpen: this.$q.platform.is.desktop
       liveModeOn: false,
       liveModeHelpVisible: false,
-    };
+    }
   },
 
   computed: {
     drawerOpen: {
       get() {
-        return this.$store.state.drawerOpen;
+        return this.$store.state.drawerOpen
       },
       set(value) {
-        this.$store.commit(TOGGLE_DRAWER, value);
+        this.$store.commit(TOGGLE_DRAWER, value)
       },
     },
   },
@@ -396,68 +412,68 @@ export default {
   created() {
     // initial state of the drawer
     // this.$q.platform.is.desktop
-    this.$store.commit(TOGGLE_DRAWER, this.$q.platform.is.desktop);
+    this.$store.commit(TOGGLE_DRAWER, this.$q.platform.is.desktop)
 
-    this.liveModeOn = this.$store.state.useLedger;
+    this.liveModeOn = this.$store.state.useLedger
   },
 
   methods: {
     onHeaderClick() {
       // "reset browser history" by going back to the beginning.
-      let back = (window.history.length - 1) * -1;
+      let back = (window.history.length - 1) * -1
       // console.log('history:', window.history.length)
-      window.history.go(back);
+      window.history.go(back)
 
       // this.$router.push("/");
     },
     onHelpClick() {
-      this.liveModeHelpVisible = true;
+      this.liveModeHelpVisible = true
     },
     async liveModeToggle() {
-      this.$store.commit(SET_LEDGER_USE, this.liveModeOn);
+      this.$store.commit(SET_LEDGER_USE, this.liveModeOn)
 
       if (this.liveModeOn) {
-        await this.liveModeTest();
+        await this.liveModeTest()
       }
 
       //this.$emit('live-mode-on')
     },
     async liveModeTest() {
       // check if cashier sync is running
-      const serverUrl = await settings.get(SettingKeys.syncServerUrl);
-      let sync = new CashierSync(serverUrl);
+      const serverUrl = await settings.get(SettingKeys.syncServerUrl)
+      let sync = new CashierSync(serverUrl)
 
       const value = await sync.healthCheck().catch((reason) => {
         this.$q.notify({
-          message: "Error: " + reason,
-          color: "secondary",
-        });
+          message: 'Error: ' + reason,
+          color: 'secondary',
+        })
         // reset the setting
-        this.liveModeOn = false;
-      });
+        this.liveModeOn = false
+      })
 
-      if (value === "Hello World!") {
+      if (value === 'Hello World!') {
         this.$q.notify({
-          message: "The CashierSync server is running.",
-          color: "primary",
-        });
+          message: 'The CashierSync server is running.',
+          color: 'primary',
+        })
       } else {
         this.$q.notify({
-          message: "The CashierSync server is not running.",
-          color: "secondary",
-        });
+          message: 'The CashierSync server is not running.',
+          color: 'secondary',
+        })
       }
     },
     toggleDrawer() {
-      this.drawerOpen = !this.drawerOpen;
+      this.drawerOpen = !this.drawerOpen
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
-@import "../css/styles.scss";
-@import "../css/palette.scss";
+@import '../css/styles.scss';
+@import '../css/palette.scss';
 
 .active-link {
   color: $colour3;
