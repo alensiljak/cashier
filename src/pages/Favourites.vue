@@ -240,26 +240,22 @@ export default {
       // cleanup
       this.$store.commit(SET_SELECT_MODE, null)
     },
-    loadData() {
-      settings.get(SettingKeys.favouriteAccounts).then((favArray) => {
+    async loadData() {
+      try {
+        const favArray = await settings.get(SettingKeys.favouriteAccounts)
         // load account details
         if (!favArray) {
           console.log('no favourite accounts selected yet')
           return
         }
 
-        appService.db.accounts
-          .bulkGet(favArray)
-          .then((accounts) => {
-            // adjust the balance
-            this.adjustBalances(accounts).then(
-              (accounts) => (this.accounts = accounts)
-            )
-          })
-          .catch((reason) => {
-            this.$q.notify({ color: 'red-10', message: reason.message })
-          })
-      })
+        let accounts = await appService.db.accounts.bulkGet(favArray)
+        // adjust the balance
+        accounts = await this.adjustBalances(accounts)
+        this.accounts = accounts
+      } catch (reason) {
+        this.$q.notify({ color: 'red-10', message: reason.message })
+      }
     },
     menuClicked() {
       let visible = this.$store.state.drawerOpen
