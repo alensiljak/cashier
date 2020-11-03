@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="row"> <!-- absolute-bottom -->
+    <div class="row">
+      <!-- absolute-bottom -->
       <div class="col">
         <label class="q-mr-sm">Live Mode:</label>
         <font-awesome-icon
