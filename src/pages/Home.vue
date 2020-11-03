@@ -29,12 +29,23 @@
     <q-card dark bordered class="my-card" @click="onJournalClick">
       <q-card-section>Journal</q-card-section>
       <q-card-section>journal card</q-card-section>
+
+      <q-separator />
+
+      <q-card-actions align="right">
+        <q-btn flat>New</q-btn>
+      </q-card-actions>
     </q-card>
 
     <q-card dark class="my-card bg-primary">
       <q-card-section>{{ lorem }}</q-card-section>
       <q-separator />
       <q-card-section>{{ lorem }}</q-card-section>
+    </q-card>
+
+    <q-card dark bordered class="my-card">
+      <q-card-section>Upcoming Transactions</q-card-section>
+      <q-card-actions>actions</q-card-actions>
     </q-card>
 
     <q-card dark bordered class="my-card">
