@@ -247,7 +247,7 @@
             </q-item>
 
             <!-- Git Repository -->
-            <q-item
+            <!-- <q-item
               v-if="liveModeOn"
               v-ripple
               to="repository"
@@ -265,7 +265,7 @@
               <q-item-section>
                 <q-item-label>Repository</q-item-label>
               </q-item-section>
-            </q-item>
+            </q-item> -->
 
             <!-- <q-item
               to="/webdav"
