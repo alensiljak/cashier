@@ -1,27 +1,32 @@
 <template>
-  <div>
-    <ActionBar title="Cashier"/>
+  <q-page class="flex flex-center bg-colour1">
+    <img alt="Quasar logo" src="/icons/icon96.png">
 
-    <div class="container-fluid">
-      <h1>Home</h1>
-      <p>Some basic page, to serve as a temporary home page</p>
+    <q-card dark class="my-card bg-primary q-mb-md">
+      <q-card-section>{{ lorem }}</q-card-section>
+      <q-separator />
+      <q-card-section>{{ lorem }}</q-card-section>
+    </q-card>
 
-      <!-- <comp1></comp1> -->
-    </div>
-  </div>
+    <q-card dark bordered class="my-card q-mb-md">
+      <q-card-section>{{ lorem }}</q-card-section>
+    </q-card>
+  </q-page>
 </template>
-<script>
-import ActionBar from "../components/ActionBar.vue";
 
+<script>
 export default {
-  created() {
-    // todo: load data here
-    //console.log('created', this.$store)
+  name: 'PageHome',
+  data() {
+    return {
+      lorem: 'some text',
+    }
   },
-  mounted: function() {},
-  computed: {},
-  components: {
-    ActionBar
-  }
-};
+}
 </script>
+
+<style lang="sass" scoped>
+.my-card
+  width: 100%
+  // max-width: 450px 
+</style>
