@@ -33,7 +33,12 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat>New</q-btn>
+        <q-btn flat dark color="primary"
+               text-color="accent"
+               @click.stop="onNewTxClick"
+        >
+          New
+        </q-btn>
       </q-card-actions>
     </q-card>
 
@@ -43,9 +48,9 @@
       <q-card-section>{{ lorem }}</q-card-section>
     </q-card>
 
-    <q-card dark bordered class="my-card">
+    <q-card dark bordered class="my-card" @click="onScheduledClick">
       <q-card-section>Upcoming Transactions</q-card-section>
-      <q-card-actions>actions</q-card-actions>
+      <q-card-section>scheduled transactions</q-card-section>
     </q-card>
 
     <q-card dark bordered class="my-card">
@@ -84,6 +89,12 @@ export default {
     onJournalClick() {
       this.$router.push({ name: 'journal' })
     },
+    onNewTxClick() {
+      this.$router.push({ name: 'tx' })
+    },
+    onScheduledClick() {
+      this.$router.push({ name: 'scheduled' })
+    }
   },
 }
 </script>

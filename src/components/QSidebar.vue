@@ -193,6 +193,24 @@
           </q-item-section>
         </q-item>
 
+        <q-item
+          v-ripple
+          to="/scheduled"
+          exact
+          clickable
+          active-class="active-link"
+        >
+          <q-item-section avatar>
+            <font-awesome-icon
+              icon="calendar-alt"
+              transform="grow-6 right-9"
+            />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Scheduled Transactions</q-item-label>
+          </q-item-section>
+        </q-item>
+
         <!-- Sync -->
         <q-item
           v-if="liveModeOn"
@@ -214,7 +232,6 @@
         <q-item
           v-ripple
           to="/export"
-          :inset-level="1"
           exact
           clickable
           active-class="active-link"
