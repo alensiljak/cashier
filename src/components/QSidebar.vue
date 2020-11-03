@@ -344,6 +344,8 @@
 </template>
 
 <script>
+import { TOGGLE_DRAWER } from '../mutations'
+
 export default {
   data() {
     return {

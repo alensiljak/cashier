@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { TOGGLE_DRAWER, SET_LEDGER_USE } from '../mutations'
+import { SET_LEDGER_USE } from '../mutations'
 import { CashierSync } from '../lib/syncCashier'
 import { SettingKeys, settings } from '../lib/Configuration'
 
