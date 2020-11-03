@@ -383,6 +383,10 @@ export default {
 
       // this.$router.push("/");
     },
+    toggleDrawer() {
+      // called from all the pages with standard toolbar.
+      this.drawerOpen = !this.drawerOpen
+    }
   },
 }
 </script>

@@ -144,14 +144,6 @@ export default {
     }
   },
 
-  computed: {
-    // downloadLink() {
-    //   let result = "data:text/plain;base64,";
-    //   result += btoa(this.output);
-    //   return result;
-    // }
-  },
-
   created() {
     this.$store.commit(SET_TITLE, 'Export')
     this.$store.commit(MAIN_TOOLBAR, true)
