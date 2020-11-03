@@ -8,7 +8,7 @@ const routes = [
     component: () => import('../layouts/Qlayout'),
     children: [
       // { path: '', component: () => import('pages/Index.vue') }
-      { path: '', name: 'root', redirect: '/journal' },
+      { path: '', name: 'root', redirect: '/home' },
       { path: '/about', name: 'about', component: () => import(/* webpackChunkName: 'about' */ '../pages/About.vue') },
       { path: '/account/:id', name: 'account', component: () => import(/* webpackChunkName: 'account' */ '../pages/Account.vue') },
       { path: '/accounts', name: 'accounts', component: () => import(/* webpackChunkName: 'accounts' */ '../pages/Accounts.vue') },

@@ -21,16 +21,14 @@
 
     <!-- Cards -->
 
-    <q-card dark bordered class="my-card">
-      <q-card-section>
-        <div class="text-h6">Our Changing Planet</div>
-        <div class="text-subtitle2">by John Doe</div>
-      </q-card-section>
+    <q-card dark bordered class="my-card" @click="onFavClick">
       <q-card-section>Favourites</q-card-section>
+      <q-card-section><favourites-card /></q-card-section>
     </q-card>
 
-    <q-card dark bordered class="my-card">
+    <q-card dark bordered class="my-card" @click="onJournalClick">
       <q-card-section>Journal</q-card-section>
+      <q-card-section>journal card</q-card-section>
     </q-card>
 
     <q-card dark class="my-card bg-primary">
@@ -48,13 +46,15 @@
 
 <script>
 import { MAIN_TOOLBAR, TOGGLE_DRAWER } from '../mutations'
-import SyncCard from '../components/Sync'
+import SyncCard from '../components/SyncCard.vue'
+import FavouritesCard from '../components/FavouritesCard'
 
 export default {
   name: 'PageHome',
 
   components: {
     SyncCard,
+    FavouritesCard,
   },
   data() {
     return {
@@ -66,6 +66,12 @@ export default {
     menuClicked() {
       let visible = this.$store.state.drawerOpen
       this.$store.commit(TOGGLE_DRAWER, !visible)
+    },
+    onFavClick() {
+      this.$router.push({ name: 'favourites' })
+    },
+    onJournalClick() {
+      this.$router.push({ name: 'journal' })
     },
   },
 }

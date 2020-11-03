@@ -72,9 +72,9 @@
       <q-list dark separator class="bg-colour1">
         <q-item v-ripple clickable @click="onListItemClick(account.name)">
           <q-item-section>{{ account.name }}</q-item-section>
-          <q-item-section side
-            >{{ account.balance }} {{ account.currency }}</q-item-section
-          >
+          <q-item-section side>
+            {{ account.balance }} {{ account.currency }}
+          </q-item-section>
         </q-item>
       </q-list>
     </q-slide-item>

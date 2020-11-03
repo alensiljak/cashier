@@ -91,7 +91,7 @@ export default {
           color: 'secondary',
         })
         // reset the setting
-        this.liveModeOn = false
+        this.$store.commit(SET_LEDGER_USE, false)
       })
 
       if (value === 'Hello World!') {
