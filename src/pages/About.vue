@@ -27,11 +27,16 @@
         href="https://gitlab.com/alensiljak/cashier"
       >source code repository</a> on GitLab.
     </p>
+
+    <h4 class="q-my-sm text-center">Process</h4>
     <p>
-      The synchronization can be done with
+      The application data is provided by
       <a
         href="https://gitlab.com/alensiljak/cashier-sync"
-      >CashierSync</a> Python component.
+      >CashierSync</a> Python application, which needs to be set-up to read your Ledger book.
+    </p>
+    <p>
+      To perform write operations to a Ledger book, you can use a terminal with git, nano editor, and lazygit GUI. 
     </p>
 
     <h4 class="q-my-sm text-center">Credits</h4>
