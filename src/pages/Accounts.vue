@@ -177,14 +177,14 @@
 </template>
 
 <script>
-import { TOGGLE_DRAWER, MAIN_TOOLBAR, SET_SELECT_MODE } from "../mutations";
-import appService from "../appService.js";
-import { ListSearch } from "../ListSearch.js";
-import Vue from "vue";
-import { RecycleScroller } from "vue-virtual-scroller";
-import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
+import { TOGGLE_DRAWER, MAIN_TOOLBAR, SET_SELECT_MODE } from '../mutations'
+import appService from '../appService.js'
+import { ListSearch } from '../ListSearch.js'
+import Vue from 'vue'
+import { RecycleScroller } from 'vue-virtual-scroller'
+import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 
-Vue.component("RecycleScroller", RecycleScroller);
+Vue.component('RecycleScroller', RecycleScroller)
 
 export default {
   data() {
@@ -195,104 +195,103 @@ export default {
       accounts: [],
       filterText: null, // filter for the account name
       pickerMode: false,
-    };
+    }
   },
 
   computed: {
     filter: {
       get() {
-        return this.filterText;
+        return this.filterText
       },
       set(value) {
-        this.filterText = value;
-        this.loadData();
+        this.filterText = value
+        this.loadData()
       },
     },
   },
 
   created() {
-    this.$store.commit(MAIN_TOOLBAR, false);
+    this.$store.commit(MAIN_TOOLBAR, false)
 
     // console.log('accounts:', this.accounts)
-    this.loadData();
+    this.loadData()
 
     // picker mode
-    this.pickerMode = !!this.$store.state.selectModeMeta;
+    this.pickerMode = !!this.$store.state.selectModeMeta
   },
 
   methods: {
-    confirmDeleteAll() {
-      appService.deleteAccounts().then(() => {
-        this.loadData();
-      });
+    async confirmDeleteAll() {
+      await appService.deleteAccounts()
+      await this.loadData()
     },
     itemClicked(id) {
       if (this.pickerMode) {
         // select the item and return to the caller.
-        let meta = this.$store.state.selectModeMeta;
+        let meta = this.$store.state.selectModeMeta
 
-        meta.selectedId = id;
-        this.$store.commit(SET_SELECT_MODE, meta);
+        meta.selectedId = id
+        this.$store.commit(SET_SELECT_MODE, meta)
 
-        let route = meta.originRoute;
-        this.$router.push(route);
+        let route = meta.originRoute
+        this.$router.push(route)
       } else {
         // edit account
-        this.$router.push({ name: "account", params: { id: id } });
+        this.$router.push({ name: 'account', params: { id: id } })
       }
     },
-    loadData() {
-      let accounts = appService.db.accounts.orderBy("name");
+    async loadData() {
+      let accounts = appService.db.accounts.orderBy('name')
 
       if (this.filter) {
-        let search = new ListSearch();
-        let regex = search.getRegex(this.filter);
+        let search = new ListSearch()
+        let regex = search.getRegex(this.filter)
 
-        accounts = accounts.filter((account) => regex.test(account.name));
+        accounts = accounts.filter((account) => regex.test(account.name))
       }
-      accounts.toArray().then((accounts) => (this.accounts = accounts));
+      let accounts_array = await accounts.toArray()
+      this.accounts = accounts_array
     },
     menuClicked() {
-      let visible = this.$store.state.drawerOpen;
-      this.$store.commit(TOGGLE_DRAWER, !visible);
+      let visible = this.$store.state.drawerOpen
+      this.$store.commit(TOGGLE_DRAWER, !visible)
     },
-    onAddAccount() {
+    async onAddAccount() {
       // create new account
-      if (!this.newAccount) return;
-      this.dialogVisible = false;
+      if (!this.newAccount) return
+      this.dialogVisible = false
 
-      appService.createAccount(this.newAccount).then(() => {
-        // reset the new account name.
-        this.newAccount = null;
+      await appService.createAccount(this.newAccount)
+      // reset the new account name.
+      this.newAccount = null
 
-        this.loadData();
-      });
+      await this.loadData()
     },
     onCancelAdd() {
-      this.dialogVisible = false;
-      this.newAccount = null;
+      this.dialogVisible = false
+      this.newAccount = null
     },
     async onDeleteAccount(accountName) {
       // console.log(event);
-      await appService.deleteAccount(accountName);
-      this.loadData();
+      await appService.deleteAccount(accountName)
+      this.loadData()
     },
     onDeleteAllClick() {
-      this.confirmDeleteAllVisible = true;
+      this.confirmDeleteAllVisible = true
     },
     onFab() {
       // New Account
-      this.dialogVisible = true;
+      this.dialogVisible = true
     },
     onImportClick() {
-      this.$router.push({ name: "import" });
+      this.$router.push({ name: 'import' })
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
-@import "../css/palette.scss";
+@import '../css/palette.scss';
 
 .bg {
   background-color: $colour1;

@@ -3,7 +3,14 @@
     <!-- toolbar -->
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn flat dense round aria-label="Menu" icon="menu" @click="menuClicked" />
+        <q-btn
+          flat
+          dense
+          round
+          aria-label="Menu"
+          icon="menu"
+          @click="menuClicked"
+        />
 
         <q-toolbar-title>Account</q-toolbar-title>
 
@@ -14,20 +21,29 @@
               <q-item v-close-popup clickable>
                 <q-item-section>Synchronize</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="sync-alt" transform="grow-9 left-7" />
+                  <font-awesome-icon
+                    icon="sync-alt"
+                    transform="grow-9 left-7"
+                  />
                 </q-item-section>
               </q-item>
               <q-item v-close-popup clickable>
                 <q-item-section>Import</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="sign-in-alt" transform="grow-9 left-7" />
+                  <font-awesome-icon
+                    icon="sign-in-alt"
+                    transform="grow-9 left-7"
+                  />
                 </q-item-section>
               </q-item>
               <q-item v-close-popup clickable>
                 <q-item-section @click="deleteAccount">Delete</q-item-section>
                 <q-item-section side>
                   <!-- <q-icon name="star"/> -->
-                  <font-awesome-icon icon="trash-alt" transform="grow-9 left-7" />
+                  <font-awesome-icon
+                    icon="trash-alt"
+                    transform="grow-9 left-7"
+                  />
                 </q-item-section>
               </q-item>
             </q-list>
@@ -38,7 +54,13 @@
 
     <!-- <p>Editor for the Account: {{ account.name }}</p> -->
 
-    <q-input v-model="account.name" label="Account Name" dark clearable @keyup.enter="onEnter" />
+    <q-input
+      v-model="account.name"
+      label="Account Name"
+      dark
+      clearable
+      @keyup.enter="onEnter"
+    />
     <!-- balance -->
     <q-input
       v-model.number="account.balance"
@@ -48,7 +70,13 @@
       clearable
       @keyup.enter="onEnter"
     />
-    <q-input v-model="account.currency" label="Currency" dark clearable @keyup.enter="onEnter" />
+    <q-input
+      v-model="account.currency"
+      label="Currency"
+      dark
+      clearable
+      @keyup.enter="onEnter"
+    />
 
     <q-input
       v-model="account.currentValue"
@@ -91,64 +119,61 @@
 </template>
 
 <script>
-import { TOGGLE_DRAWER, MAIN_TOOLBAR } from "../mutations";
-import appService from "../appService";
+import { TOGGLE_DRAWER, MAIN_TOOLBAR } from '../mutations'
+import appService from '../appService'
 
 export default {
   data() {
     return {
       account: {},
-      originalName: null // track name change
-    };
+      originalName: null, // track name change
+    }
   },
 
   created() {
-    this.$store.commit(MAIN_TOOLBAR, false);
+    this.$store.commit(MAIN_TOOLBAR, false)
 
-    this.loadAccount(this.$route.params.id);
+    this.loadAccount(this.$route.params.id)
   },
 
   methods: {
-    deleteAccount() {
+    async deleteAccount() {
       // delete the account and go back
-      appService.deleteAccount(this.account.name).then(() => history.go(-1));
+      await appService.deleteAccount(this.account.name)
+      history.go(-1)
     },
-    loadAccount(name) {
-      this.originalName = name;
+    async loadAccount(name) {
+      this.originalName = name
 
-      appService.loadAccount(name).then(account => {
-        this.account = account;
-        // console.log('loaded account:', account)
-      });
+      let account = await appService.loadAccount(name)
+      this.account = account
     },
     menuClicked() {
-      let visible = this.$store.state.drawerOpen;
-      this.$store.commit(TOGGLE_DRAWER, !visible);
+      let visible = this.$store.state.drawerOpen
+      this.$store.commit(TOGGLE_DRAWER, !visible)
     },
     onCancel() {
-      this.$router.push({ name: "accounts" });
+      this.$router.push({ name: 'accounts' })
     },
     onEnter() {
       // Enter pressed in one of the fields. Save.
-      this.onSave();
+      this.onSave()
     },
-    onSave() {
-      var deleteOldAccount = false;
+    async onSave() {
+      var deleteOldAccount = false
       // check if the name was changed.
       if (this.account.name !== this.originalName) {
         // need to delete the old account
-        deleteOldAccount = true;
+        deleteOldAccount = true
       }
       // save account
-      appService.saveAccount(this.account).then(() => {
-        if (deleteOldAccount) {
-          appService.deleteAccount(this.originalName).then(() => {
-            console.log("old account deleted", this.originalName);
-          });
-        }
-        this.$router.push({ name: "accounts" });
-      });
-    }
-  }
-};
+      await appService.saveAccount(this.account)
+      if (deleteOldAccount) {
+        await appService.deleteAccount(this.originalName)
+        console.log('old account deleted', this.originalName)
+      }
+      this.$router.push({ name: 'accounts' })
+    },
+  },
+}
 </script>

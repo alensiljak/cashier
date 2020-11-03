@@ -57,11 +57,13 @@ class PcloudClient {
     }
   }
 
-  children(metadata) {
-    return Promise.resolve(metadata.contents);
+  async children(metadata) {
+    return metadata.contents
   }
-  files(metadata) {
-    return this.children(metadata).then(this.filter(f => !f.isfolder));
+  async files(metadata) {
+     let meta = await this.children(metadata)
+     meta = meta.filter(f => !f.isfolder)
+     return meta
   }
   filter(f) {
     return iterable => {

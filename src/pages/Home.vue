@@ -22,6 +22,10 @@
     <!-- Cards -->
 
     <q-card dark bordered class="my-card">
+      <q-card-section>
+        <div class="text-h6">Our Changing Planet</div>
+        <div class="text-subtitle2">by John Doe</div>
+      </q-card-section>
       <q-card-section>Favourites</q-card-section>
     </q-card>
 
@@ -50,7 +54,7 @@ export default {
   name: 'PageHome',
 
   components: {
-    SyncCard
+    SyncCard,
   },
   data() {
     return {
@@ -63,7 +67,7 @@ export default {
       let visible = this.$store.state.drawerOpen
       this.$store.commit(TOGGLE_DRAWER, !visible)
     },
-  }
+  },
 }
 </script>
 
