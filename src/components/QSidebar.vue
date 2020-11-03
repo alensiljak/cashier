@@ -210,93 +210,25 @@
           </q-item-section>
         </q-item>
 
-        <!-- I/O -->
-        <q-expansion-item
-          dark
-          header-class="text-amber-2"
-          expand-icon-class="text-amber-2"
-          expand-separator
-          icon="swap_horizontal_circle"
-          label="I/O"
+        <!-- Export -->
+        <q-item
+          v-ripple
+          to="/export"
+          :inset-level="1"
+          exact
+          clickable
+          active-class="active-link"
         >
-          <q-list>
-            <!-- Import -->
-            <q-item
-              v-ripple
-              to="/import"
-              :inset-level="1"
-              exact
-              clickable
-              active-class="active-link"
-            >
-              <q-item-section avatar>
-                <font-awesome-icon
-                  icon="sign-in-alt"
-                  transform="grow-6 right-6"
-                />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>Import</q-item-label>
-              </q-item-section>
-            </q-item>
-
-            <!-- Export -->
-            <q-item
-              v-ripple
-              to="/export"
-              :inset-level="1"
-              exact
-              clickable
-              active-class="active-link"
-            >
-              <q-item-section avatar>
-                <font-awesome-icon
-                  icon="sign-out-alt"
-                  transform="grow-6 right-6"
-                />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>Export</q-item-label>
-              </q-item-section>
-            </q-item>
-
-            <!-- Git Repository -->
-            <!-- <q-item
-              v-if="liveModeOn"
-              v-ripple
-              to="repository"
-              exact
-              :inset-level="1"
-              clickable
-              active-class="active-link"
-            >
-              <q-item-section avatar>
-                <font-awesome-icon
-                  icon="code-branch"
-                  transform="grow-6 right-6"
-                />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>Repository</q-item-label>
-              </q-item-section>
-            </q-item> -->
-
-            <!-- <q-item
-              to="/webdav"
-              :inset-level="1"
-              exact
-              clickable
-              v-ripple
-              active-class="active-link">
-              <q-item-section avatar>
-                <font-awesome-icon icon="folder" transform="grow-6 right-6"/>
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>WebDAV</q-item-label>
-              </q-item-section>
-            </q-item>-->
-          </q-list>
-        </q-expansion-item>
+          <q-item-section avatar>
+            <font-awesome-icon
+              icon="sign-out-alt"
+              transform="grow-6 right-6"
+            />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Export</q-item-label>
+          </q-item-section>
+        </q-item>
 
         <!-- Settings -->
         <q-item
