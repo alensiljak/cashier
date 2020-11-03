@@ -71,6 +71,12 @@ export default {
   created() {
     //this.liveModeOn = this.$store.state.useLedger
   },
+  mounted() {
+    // turn on Live Mode if the server is up.
+    if (this.liveModeTest(false)) {
+      this.$store.commit(SET_LEDGER_USE, true)
+    }
+  },
 
   methods: {
     onHelpClick() {
@@ -85,34 +91,41 @@ export default {
 
       //this.$emit('live-mode-on')
     },
-    async liveModeTest() {
+    async liveModeTest(showMessages = true) {
       // check if cashier sync is running
       const serverUrl = await settings.get(SettingKeys.syncServerUrl)
       let sync = new CashierSync(serverUrl)
 
-      const value = await sync.healthCheck().catch((reason) => {
-        this.$q.notify({
-          message: 'Error: ' + reason,
-          color: 'secondary',
-        })
+      let value = null
+      try {
+        value = await sync.healthCheck()
+      } catch (reason) {
+        // this.$q.notify({
+        //   message: 'Error: ' + reason,
+        //   color: 'secondary',
+        // })
         // reset the setting
         this.$store.commit(SET_LEDGER_USE, false)
-      })
-
-      if (value === 'Hello World!') {
-        this.$q.notify({
-          message: 'The CashierSync server is running.',
-          color: 'primary',
-        })
-      } else {
-        this.$q.notify({
-          message: 'The CashierSync server is not running.',
-          color: 'secondary',
-        })
       }
-    },
-    toggleDrawer() {
-      this.drawerOpen = !this.drawerOpen
+
+      const result = value === 'Hello World!'
+
+      // Show notification?
+      if (showMessages) {
+        if (result) {
+          this.$q.notify({
+            message: 'The CashierSync server is running.',
+            color: 'primary',
+          })
+        } else {
+          this.$q.notify({
+            message: 'The CashierSync server is not running.',
+            color: 'secondary',
+          })
+        }
+      }
+
+      return result
     },
   },
 }

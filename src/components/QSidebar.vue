@@ -331,7 +331,6 @@ export default {
       window.history.go(back)
     },
     toggleDrawer() {
-      // called from all the pages with standard toolbar.
       this.drawerOpen = !this.drawerOpen
     }
   },
