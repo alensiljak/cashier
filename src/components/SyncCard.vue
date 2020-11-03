@@ -1,5 +1,6 @@
 <template>
   <div>
+    Sync, Sync Settings, Shutdown Server
     <div class="row">
       <!-- absolute-bottom -->
       <div class="col">
@@ -59,6 +60,10 @@ export default {
     liveModeOn: {
       get() {
         return this.$store.state.useLedger
+      },
+      set(value) {
+        let currentValue = this.$store.state.useLedger
+        this.$store.commit(SET_LEDGER_USE, !currentValue)
       },
     },
   },

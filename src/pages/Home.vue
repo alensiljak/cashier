@@ -14,7 +14,7 @@
           @click="menuClicked"
         />
 
-        <q-toolbar-title>Cashier</q-toolbar-title>
+        <q-toolbar-title>Cashier <span style="font-size: small;">({{ this.$version }})</span></q-toolbar-title>
       </q-toolbar>
     </q-header>
     <!-- <img alt="Quasar logo" src="/icons/icon96.png"> -->
