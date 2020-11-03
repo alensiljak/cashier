@@ -52,9 +52,9 @@
       </div>
     </q-card-section>
     <q-card-actions>
-      <q-btn flat dark color="primary" text-color="accent" @click="onSyncClick">
+      <!-- <q-btn flat dark color="primary" text-color="accent" @click="onSyncClick">
         Sync
-      </q-btn>
+      </q-btn> -->
       <q-btn
         flat
         dark
@@ -64,7 +64,7 @@
       >
         Sync Settings
       </q-btn>
-      <q-btn
+      <!-- <q-btn
         flat
         dark
         color="primary"
@@ -72,7 +72,7 @@
         @click="onShutdownClick"
       >
         Shutdown Server
-      </q-btn>
+      </q-btn> -->
     </q-card-actions>
   </q-card>
 </template>
@@ -166,8 +166,12 @@ export default {
     onSettingsClick() {
       this.$router.push({ name: 'sync' })
     },
-    onShutdownClick() {},
-    onSyncClick() {},
+    onShutdownClick() {
+      this.$q.notify({ message: 'not implemented', color: 'secondary' })
+    },
+    onSyncClick() {
+      this.$q.notify({ message: 'not implemented', color: 'secondary' })
+    },
   },
 }
 </script>

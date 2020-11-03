@@ -14,18 +14,17 @@
           @click="menuClicked"
         />
 
-        <q-toolbar-title
-          >Cashier
-          <span style="font-size: small"
-            >({{ this.$version }})</span
-          ></q-toolbar-title
-        >
+        <q-toolbar-title>
+          Cashier
+          <span style="font-size: small">({{ this.$version }})</span>
+        </q-toolbar-title>
       </q-toolbar>
     </q-header>
     <!-- <img alt="Quasar logo" src="/icons/icon96.png"> -->
 
     <!-- Cards -->
 
+    <!-- Favourites -->
     <q-card dark bordered class="my-card" @click="onFavClick">
       <q-card-section class="text-subtitle2">Favourites</q-card-section>
       <q-card-section><favourites-card /></q-card-section>
@@ -52,11 +51,11 @@
     </q-card>
 
     <!-- dummy -->
-    <q-card dark class="my-card bg-primary">
+    <!-- <q-card dark class="my-card bg-primary">
       <q-card-section>{{ lorem }}</q-card-section>
       <q-separator />
       <q-card-section>{{ lorem }}</q-card-section>
-    </q-card>
+    </q-card> -->
 
     <!-- Scheduled Transactions -->
     <q-card dark bordered class="my-card" @click="onScheduledClick">
