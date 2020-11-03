@@ -276,6 +276,10 @@ export default {
         posting.currency = result_row.currency
         tx.postings.push(posting)
       }
+      // Append the last transaction
+      if (tx.header) {
+        rows.push(tx)
+      }
 
       // append artificial ids
       let index = 0
