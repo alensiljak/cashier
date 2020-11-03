@@ -14,7 +14,12 @@
           @click="menuClicked"
         />
 
-        <q-toolbar-title>Cashier <span style="font-size: small;">({{ this.$version }})</span></q-toolbar-title>
+        <q-toolbar-title
+          >Cashier
+          <span style="font-size: small"
+            >({{ this.$version }})</span
+          ></q-toolbar-title
+        >
       </q-toolbar>
     </q-header>
     <!-- <img alt="Quasar logo" src="/icons/icon96.png"> -->
@@ -34,9 +39,12 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat dark color="primary"
-               text-color="accent"
-               @click.stop="onNewTxClick"
+        <q-btn
+          flat
+          dark
+          color="primary"
+          text-color="accent"
+          @click.stop="onNewTxClick"
         >
           New
         </q-btn>
@@ -56,11 +64,8 @@
       <q-card-section>scheduled transactions</q-card-section>
     </q-card>
 
-    <q-card dark bordered class="my-card">
-      <q-card-section class="text-subtitle2">CashierSync</q-card-section>
-      <q-card-section><sync-card /></q-card-section>
-      <q-card-actions>actions</q-card-actions>
-    </q-card>
+    <!-- CashierSync -->
+    <sync-card />
   </q-page>
 </template>
 
@@ -98,7 +103,7 @@ export default {
     },
     onScheduledClick() {
       this.$router.push({ name: 'scheduled' })
-    }
+    },
   },
 }
 </script>

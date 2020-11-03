@@ -1,46 +1,80 @@
 <template>
-  <div>
-    Sync, Sync Settings, Shutdown Server
-    <div class="row">
-      <!-- absolute-bottom -->
-      <div class="col">
-        <label class="q-mr-sm">Live Mode:</label>
-        <font-awesome-icon
-          icon="question-circle"
-          transform="grow-9 "
-          @click="onHelpClick"
-        />
-      </div>
-      <div class="col text-right">
-        <q-toggle v-model="liveModeOn" @input="liveModeToggle" />
-      </div>
-    </div>
+  <q-card dark bordered class="my-card">
+    <q-card-section class="text-subtitle2">CashierSync</q-card-section>
+    <q-card-section>
+      <div class="row">
+        <div class="col">
+          Status:
+          <span v-if="serverStatus === true">
+            <font-awesome-icon icon="check" class="on" /> Running
+          </span>
+          <span v-if="serverStatus === false">
+            <font-awesome-icon icon="skull" class="off" /> Not running
+          </span>
+        </div>
 
-    <!-- help dialog -->
-    <q-dialog
-      v-model="liveModeHelpVisible"
-      persistent
-      content-class="bg-blue-grey-10"
-    >
-      <q-card dark class="bg-red-10 text-amber-2">
-        <q-card-section class="row items-center">
-          <!-- <q-avatar icon="signal_wifi_off" color="primary" text-color="amber-2"/>-->
-          Live Mode uses CashierSync for all the data. CashierSync must be
-          running.
-        </q-card-section>
-
-        <q-card-actions align="right">
-          <q-btn
-            v-close-popup
-            flat
-            label="OK"
-            color="amber-4"
-            @click="liveModeHelpVisible = false"
+        <div class="col">
+          <font-awesome-icon
+            icon="question-circle"
+            transform="grow-9 "
+            @click="onHelpClick"
           />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
-  </div>
+        </div>
+        <div class="col text-right">
+          <label class="q-mr-sm">Live Mode:</label>
+          <q-toggle v-model="liveModeOn" @input="liveModeToggle" />
+        </div>
+
+        <!-- help dialog -->
+        <q-dialog
+          v-model="liveModeHelpVisible"
+          persistent
+          content-class="bg-blue-grey-10"
+        >
+          <q-card dark class="bg-red-10 text-amber-2">
+            <q-card-section class="row items-center">
+              <!-- <q-avatar icon="signal_wifi_off" color="primary" text-color="amber-2"/>-->
+              Live Mode uses CashierSync for all the data. CashierSync must be
+              running.
+            </q-card-section>
+
+            <q-card-actions align="right">
+              <q-btn
+                v-close-popup
+                flat
+                label="OK"
+                color="amber-4"
+                @click="liveModeHelpVisible = false"
+              />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
+      </div>
+    </q-card-section>
+    <q-card-actions>
+      <q-btn flat dark color="primary" text-color="accent" @click="onSyncClick">
+        Sync
+      </q-btn>
+      <q-btn
+        flat
+        dark
+        color="primary"
+        text-color="accent"
+        @click="onSettingsClick"
+      >
+        Sync Settings
+      </q-btn>
+      <q-btn
+        flat
+        dark
+        color="primary"
+        text-color="accent"
+        @click="onShutdownClick"
+      >
+        Shutdown Server
+      </q-btn>
+    </q-card-actions>
+  </q-card>
 </template>
 
 <script>
@@ -53,6 +87,7 @@ export default {
     return {
       //liveModeOn: false,
       liveModeHelpVisible: false,
+      serverStatus: false,
     }
   },
 
@@ -71,10 +106,11 @@ export default {
   created() {
     //this.liveModeOn = this.$store.state.useLedger
   },
-  mounted() {
+  async mounted() {
     // turn on Live Mode if the server is up.
-    if (this.liveModeTest(false)) {
-      this.$store.commit(SET_LEDGER_USE, true)
+    this.serverStatus = await this.liveModeTest(false)
+    if (this.serverStatus) {
+      this.liveModeOn = true
     }
   },
 
@@ -127,6 +163,19 @@ export default {
 
       return result
     },
+    onSettingsClick() {
+      this.$router.push({ name: 'sync' })
+    },
+    onShutdownClick() {},
+    onSyncClick() {},
   },
 }
 </script>
+
+<style lang="sass" scoped>
+.on
+  color: $secondary
+
+.off
+  color: $red-10
+</style>

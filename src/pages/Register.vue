@@ -11,10 +11,10 @@
       >
         <q-item-section side>{{ posting.date }}</q-item-section>
         <q-item-section>{{ posting.title }}</q-item-section>
-        <q-item-section side
-          >{{ formatNumber(posting.amount) }}
-          {{ posting.currency }}</q-item-section
-        >
+        <q-item-section side>
+          {{ formatNumber(posting.amount) }}
+          {{ posting.currency }}
+        </q-item-section>
       </q-item>
     </q-list>
 
