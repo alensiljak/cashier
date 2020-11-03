@@ -50,13 +50,21 @@ import { SettingKeys, settings } from '../lib/Configuration'
 export default {
   data() {
     return {
-      liveModeOn: false,
+      //liveModeOn: false,
       liveModeHelpVisible: false,
     }
   },
 
+  computed: {
+    liveModeOn: {
+      get() {
+        return this.$store.state.useLedger
+      },
+    },
+  },
+
   created() {
-    this.liveModeOn = this.$store.state.useLedger
+    //this.liveModeOn = this.$store.state.useLedger
   },
 
   methods: {
