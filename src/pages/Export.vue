@@ -42,7 +42,7 @@
     </div>
 
     <!-- export to ledger repository -->
-    <q-card bordered dark class="q-pa-sm text-colour2 q-mb-md q-my-md">
+    <!-- <q-card bordered dark class="q-pa-sm text-colour2 q-mb-md q-my-md">
       <p>
         Export to a writeable journal file in the book repository. See the
         <router-link to="repository">Repository</router-link> page for
@@ -81,7 +81,7 @@
         <li>push the changes to a remote repository</li>
         <li>delete the local transactions using the button below</li>
       </ul>
-    </q-card>
+    </q-card> -->
 
     <!-- clean-up -->
     <q-card bordered dark class="q-pa-sm text-colour2 q-mb-md">
