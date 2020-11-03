@@ -380,8 +380,6 @@ export default {
       let back = (window.history.length - 1) * -1
       // console.log('history:', window.history.length)
       window.history.go(back)
-
-      // this.$router.push("/");
     },
     toggleDrawer() {
       // called from all the pages with standard toolbar.
