@@ -221,34 +221,33 @@ export default {
       let value = await settings.get(SettingKeys.syncServerUrl)
       this.serverUrl = value
 
-      value = settings.get(SettingKeys.writeableJournalFilePath)
-      this.journalFile = value
+      // value = await settings.get(SettingKeys.writeableJournalFilePath)
+      // this.journalFile = value
     },
     onDeleteAllClicked() {
       this.confirmDeleteAllVisible = true
     },
-    async onJournalPathChange() {
-      await settings.set(SettingKeys.writeableJournalFilePath, this.journalFile)
-      this.$q.notify({ message: 'Writeable journal file path saved.' })
-    },
-    async onSaveClick() {
-      // validation
-      // the output file must be configured
-      if (!this.journalFile) {
-        const message = 'The writeable journal file must be configured!'
-        this.$q.notify({ message: message, color: 'secondary' })
-        return
-      }
-
-      // save to file
-      try {
-        const sync = new CashierSync(this.serverUrl)
-        let result = await sync.append(this.journalFile, this.output)
-        this.$q.notify({ message: result, color: 'primary' })
-      } catch (error) {
-        this.$q.notify({ message: error, color: 'secondary' })
-      }
-    },
+    // async onJournalPathChange() {
+    //   await settings.set(SettingKeys.writeableJournalFilePath, this.journalFile)
+    //   this.$q.notify({ message: 'Writeable journal file path saved.' })
+    // },
+    // async onSaveClick() {
+    //   // validation
+    //   // the output file must be configured
+    //   if (!this.journalFile) {
+    //     const message = 'The writeable journal file must be configured!'
+    //     this.$q.notify({ message: message, color: 'secondary' })
+    //     return
+    //   }
+    //   // save to file
+    //   try {
+    //     const sync = new CashierSync(this.serverUrl)
+    //     let result = await sync.append(this.journalFile, this.output)
+    //     this.$q.notify({ message: result, color: 'primary' })
+    //   } catch (error) {
+    //     this.$q.notify({ message: error, color: 'secondary' })
+    //   }
+    // },
     webshare() {
       if (navigator.share) {
         navigator
