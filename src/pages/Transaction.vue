@@ -93,7 +93,7 @@
     </q-item>
 
     <!-- posting actions -->
-    <div class="row q-mt-sm">
+    <div class="row q-mt-sm q-mb-xl">
       <div class="col text-center">
         <q-btn
           color="primary"
@@ -110,6 +110,8 @@
         </q-btn>
       </div>
     </div>
+
+    <q-separator dark />
 
     <!-- main (tx) Actions -->
     <div class="row q-my-xl justify-end">
@@ -133,15 +135,15 @@
           class="q-px-lg"
           color="accent"
           text-color="secondary"
-          label="Save"
           size="medium"
           @click="onSave"
         >
           <font-awesome-icon
             icon="save"
             transform="grow-9"
-            class="q-icon-small on-right"
+            class="q-icon-small on-left"
           />
+          Save
         </q-btn>
       </div>
     </div>
