@@ -1,14 +1,25 @@
 <template>
-  <div>
-    <q-list dense>
-      <q-item v-for="account in accounts" :key="account.name">
-        <q-item-section>{{ account.name }}</q-item-section>
-        <q-item-section side>
-          {{ account.balance }} {{ account.currency }}
-        </q-item-section>
-      </q-item>
-    </q-list>
-  </div>
+  <q-card dark bordered @click="onCardClick">
+    <!-- <q-card-section class="text-subtitle2">Favourites</q-card-section> -->
+    <q-card-section class="q-pb-none">
+      <strong>Favourites</strong>
+    </q-card-section>
+    <q-card-section>
+      <q-list>
+        <q-item
+          v-for="account in accounts"
+          :key="account.name"
+          class="q-px-none"
+          dense
+        >
+          <q-item-section>{{ account.name }}</q-item-section>
+          <q-item-section side>
+            {{ account.balance }} {{ account.currency }}
+          </q-item-section>
+        </q-item>
+      </q-list>
+    </q-card-section>
+  </q-card>
 </template>
 
 <script>
@@ -47,6 +58,9 @@ export default {
         this.$q.notify({ color: 'red-10', message: reason.message })
       }
     },
+    onCardClick() {
+      this.$emit('click')
+    }
   },
 }
 </script>

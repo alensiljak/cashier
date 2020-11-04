@@ -25,33 +25,10 @@
     <!-- Cards -->
 
     <!-- Favourites -->
-    <q-card dark bordered class="my-card" @click="onFavClick">
-      <!-- <q-card-section class="text-subtitle2">Favourites</q-card-section> -->
-      <q-card-section>
-        <strong>Favourites</strong>
-        <favourites-card />
-      </q-card-section>
-    </q-card>
+    <favourites-card class="q-mb-md" @click="onFavClick" />
 
     <!-- Device Journal -->
-    <q-card dark bordered class="my-card" @click="onJournalClick">
-      <q-card-section class="text-subtitle2">Device Journal</q-card-section>
-      <q-card-section>journal card</q-card-section>
-
-      <q-separator />
-
-      <q-card-actions align="right">
-        <q-btn
-          flat
-          dark
-          color="primary"
-          text-color="accent"
-          @click.stop="onNewTxClick"
-        >
-          New
-        </q-btn>
-      </q-card-actions>
-    </q-card>
+    <journal-card class="my-card" @click="onJournalClick" />
 
     <!-- dummy -->
     <!-- <q-card dark class="my-card bg-primary">
@@ -62,7 +39,9 @@
 
     <!-- Scheduled Transactions -->
     <q-card dark bordered class="my-card" @click="onScheduledClick">
-      <q-card-section class="text-subtitle2">Upcoming Transactions</q-card-section>
+      <q-card-section class="text-subtitle2"
+        >Upcoming Transactions</q-card-section
+      >
       <q-card-section>scheduled transactions</q-card-section>
     </q-card>
 
@@ -75,6 +54,7 @@
 import { MAIN_TOOLBAR, TOGGLE_DRAWER } from '../mutations'
 import SyncCard from '../components/SyncCard.vue'
 import FavouritesCard from '../components/FavouritesCard'
+import JournalCard from '../components/JournalCard'
 
 export default {
   name: 'PageHome',
@@ -82,6 +62,7 @@ export default {
   components: {
     SyncCard,
     FavouritesCard,
+    JournalCard,
   },
   data() {
     return {
@@ -99,9 +80,6 @@ export default {
     },
     onJournalClick() {
       this.$router.push({ name: 'journal' })
-    },
-    onNewTxClick() {
-      this.$router.push({ name: 'tx' })
     },
     onScheduledClick() {
       this.$router.push({ name: 'scheduled' })
