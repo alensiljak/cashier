@@ -3,30 +3,7 @@
     <toolbar :title="'New Transaction'" />
 
     <!-- Transaction -->
-
-    <!-- date -->
-    <q-dialog ref="qDateProxy" v-model="datePickerVisible">
-      <q-date
-        ref="datePicker"
-        v-model="tx.date"
-        dark
-        first-day-of-week="1"
-        today-btn
-        mask="YYYY-MM-DD"
-        @input="onDateSelected"
-      />
-    </q-dialog>
-
-    <q-input
-      v-model="tx.date"
-      label="Date"
-      dark
-      @click="datePickerVisible = true"
-    >
-      <template #prepend>
-        <font-awesome-icon icon="calendar-day" />
-      </template>
-    </q-input>
+    <tx-editor />
 
     <!-- payee -->
     <q-input v-model="tx.payee" label="Payee" dark @click="onPayeeClick">
@@ -56,58 +33,60 @@
     </div>
 
     <!-- Postings -->
-    <q-slide-item
-      v-for="(posting, index) in tx.postings"
-      :key="index"
-      dark
-      right-color="red-10"
-      @right="onSlide"
-    >
-      <template #right>
-        <div
-          class="row items-center text-amber-4"
-          @click="deletePosting(index)"
-        >
-          Click to confirm or wait 2s to cancel
-          <font-awesome-icon icon="trash-alt" size="2x" class="q-ml-md" />
-        </div>
-      </template>
-      <q-item dark class="bg-colour1">
+    <div>
+      <q-slide-item
+        v-for="(posting, index) in tx.postings"
+        :key="index"
+        dark
+        right-color="red-10"
+        @right="onSlide"
+      >
+        <template #right>
+          <div
+            class="row items-center text-amber-4"
+            @click="deletePosting(index)"
+          >
+            Click to confirm or wait 2s to cancel
+            <font-awesome-icon icon="trash-alt" size="2x" class="q-ml-md" />
+          </div>
+        </template>
+        <q-item dark class="bg-colour1">
+          <q-item-section>
+            <QPosting
+              :index="index"
+              @delete-row="deletePosting"
+              @account-clicked="onAccountClicked(index)"
+              @amount-changed="onAmountChanged"
+            />
+          </q-item-section>
+        </q-item>
+      </q-slide-item>
+
+      <!-- Sum -->
+      <q-item dark>
         <q-item-section>
-          <QPosting
-            :index="index"
-            @delete-row="deletePosting"
-            @account-clicked="onAccountClicked(index)"
-            @amount-changed="onAmountChanged"
-          />
+          <q-item-label>Sum</q-item-label>
         </q-item-section>
+        <q-item-section avatar>{{ formatNumber(postingSum) }}</q-item-section>
       </q-item>
-    </q-slide-item>
 
-    <!-- Sum -->
-    <q-item dark>
-      <q-item-section>
-        <q-item-label>Sum</q-item-label>
-      </q-item-section>
-      <q-item-section avatar>{{ formatNumber(postingSum) }}</q-item-section>
-    </q-item>
-
-    <!-- posting actions -->
-    <div class="row q-mt-sm q-mb-xl">
-      <div class="col text-center">
-        <q-btn
-          color="primary"
-          text-color="accent"
-          size="small"
-          @click="addPosting"
-        >
-          <font-awesome-icon
-            icon="plus-circle"
-            transform="grow-9"
-            class="q-icon-small on-left"
-          />
-          <div>Add Posting</div>
-        </q-btn>
+      <!-- posting actions -->
+      <div class="row q-mt-sm q-mb-xl">
+        <div class="col text-center">
+          <q-btn
+            color="primary"
+            text-color="accent"
+            size="small"
+            @click="addPosting"
+          >
+            <font-awesome-icon
+              icon="plus-circle"
+              transform="grow-9"
+              class="q-icon-small on-left"
+            />
+            <div>Add Posting</div>
+          </q-btn>
+        </div>
       </div>
     </div>
 
@@ -214,6 +193,7 @@ import { SET_TRANSACTION, SET_SELECT_MODE } from '../mutations'
 import appService from '../appService'
 import { SelectionModeMetadata } from '../lib/Configuration'
 import Toolbar from '../components/Toolbar'
+import TxEditor from '../components/TransactionEditor'
 
 const ACCOUNT = 'account'
 
@@ -221,11 +201,11 @@ export default {
   components: {
     QPosting,
     Toolbar,
+    TxEditor
   },
   data() {
     return {
       confirmDeleteVisible: false,
-      datePickerVisible: false,
       resetSlide: null,
       postingSum: 0,
       liveModeOn: false,
@@ -235,11 +215,7 @@ export default {
   computed: {
     tx: {
       get() {
-        let tx = this.$store.getters.transaction
-        if (tx === null) {
-          tx = this.resetTransaction()
-        }
-        return tx
+        return this.$store.getters.transaction
       },
       set(value) {
         // save in the state store
@@ -249,10 +225,16 @@ export default {
   },
 
   created() {
+    // for New Tx, clear the transaction store
+    if (!this.tx) this.resetTransaction()
+
+    // For Edit Tx, load the tx from database.
     this.loadData()
 
     // are we back from the select mode?
-    if (this.$store.state.selectModeMeta) this.handleSelection()
+    if (this.$store.state.selectModeMeta) {
+      this.handleSelection()
+    }
   },
   mounted: function () {
     // Set the focus on Payee field.
@@ -393,15 +375,6 @@ export default {
     onClear() {
       // Resets all Transaction fields to defaults.
       this.resetTransaction()
-    },
-    /**
-     * (value, reason, details)
-     */
-    onDateSelected(value, reason) {
-      if (reason !== 'day' && reason !== 'today') return
-      // close the picker if the date was selected
-      this.$refs.qDateProxy.hide()
-      // the date is saved on close.
     },
     onDeleteClick() {
       // show the confirmation dialog.
