@@ -160,7 +160,6 @@ export default {
   },
   data() {
     return {
-      transactionIdToDelete: null,
       confirmDeleteVisible: false,
       confirmDeleteAllVisible: false,
       transactions: [],
@@ -192,18 +191,19 @@ export default {
       }
     },
     async deleteTransaction(id) {
-      //let id = this.transactionIdToDelete
       if (!id) {
-        this.$q.notify({ color: 'secondary', message: 'No transaction id sent for deletion.' })
+        this.$q.notify({
+          color: 'secondary',
+          message: 'No transaction id sent for deletion.',
+        })
       }
 
       try {
         await appService.deleteTransaction(id)
         this.$q.notify('Transaction deleted')
         await this.loadData()
-      } catch (reason) {
-        errorMessage.message = reason.message
-        this.$q.notify(errorMessage)
+      } catch (error) {
+        this.$q.notify({ color: 'secondary', message: error.message })
       }
     },
     exportJournal() {
@@ -219,17 +219,15 @@ export default {
     },
     async loadData() {
       // load all transactions and related postings
-      appService.db.transactions
-        .orderBy('date')
-        .reverse()
-        .toArray()
-        .then((value) => {
-          this.transactions = value
-        })
-        .catch((reason) => {
-          errorMessage.message = reason
-          this.$q.notify(errorMessage)
-        })
+      try {
+        this.transactions = await appService.db.transactions
+          .orderBy('date')
+          .reverse()
+          .toArray()
+      } catch (error) {
+        errorMessage.message = error
+        this.$q.notify(errorMessage)
+      }
     },
     menuClicked() {
       let visible = this.$store.state.drawerOpen
