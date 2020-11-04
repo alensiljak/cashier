@@ -15,6 +15,7 @@ import {
   DELETE_POSTING,
   SET_SELECT_MODE,
   SET_PAYEE,
+  SET_POSTING,
   SET_TRANSACTION,
   SET_TX_DATE,
   TOGGLE_DRAWER,
@@ -70,6 +71,11 @@ export default new Vuex.Store({
     },
     [SET_TRANSACTION](state, transaction) {
       state.transaction = transaction;
+    },
+    [SET_POSTING](state, payload) {
+      let index = payload.index
+      let posting = payload.posting
+      state.transaction.postings[index] = posting
     },
     [TOGGLE_DRAWER](state, drawerVisible) {
       state.drawerOpen = drawerVisible;

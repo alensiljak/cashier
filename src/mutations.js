@@ -10,6 +10,7 @@ export const SET_PAYEES = 'setPayees'
 // Selection mode
 export const SET_SELECT_MODE = 'setSelectMode'
 //
+export const SET_POSTING = 'setPosting'
 export const SET_TRANSACTION = 'setTransaction'
 export const TOGGLE_DRAWER = 'toggleDrawer'
 // 

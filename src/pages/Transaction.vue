@@ -75,7 +75,6 @@
       <q-item dark class="bg-colour1">
         <q-item-section>
           <QPosting
-            :posting="posting"
             :index="index"
             @delete-row="deletePosting"
             @account-clicked="onAccountClicked(index)"
@@ -372,7 +371,6 @@ export default {
 
       for (let i = 0; i < this.tx.postings.length; i++) {
         const posting = this.tx.postings[i]
-        // console.log(posting)
         this.postingSum += posting.amount
       }
     },
