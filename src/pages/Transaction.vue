@@ -175,7 +175,6 @@ export default {
   computed: {
     tx: {
       get() {
-        //let tx = this.$store.state.transaction
         let tx = this.$store.getters.transaction
         if (tx === null) {
           tx = this.resetTransaction()
@@ -206,7 +205,6 @@ export default {
 
   methods: {
     addPosting() {
-      // this.$store.dispatch(ADD_POSTING);
       this.tx.postings.push(new Posting())
     },
     deletePosting(index) {
@@ -219,9 +217,6 @@ export default {
       this.tx.postings.splice(index, 1)
 
       this.recalculateSum()
-    },
-    echo(message) {
-      this.$q.notify(message)
     },
     formatNumber(value) {
       return appService.formatNumber(value)
