@@ -125,7 +125,7 @@
             transform="grow-9"
             class="q-icon-small on-left"
           />
-          <div>Reset</div>
+          Clear
         </q-btn>
       </div>
       <div class="col text-center">
@@ -145,6 +145,49 @@
         </q-btn>
       </div>
     </div>
+    <div class="row q-mb-xl justify-end">
+      <div class="col text-center">
+        <q-btn
+          v-if="tx.id"
+          color="secondary"
+          text-color="accent"
+          size="medium"
+          @click="onDeleteClick"
+        >
+          <font-awesome-icon
+            icon="trash-alt"
+            transform="grow-9"
+            class="q-icon-small on-left"
+          />
+          Delete
+        </q-btn>
+      </div>
+      <div class="col">&nbsp;</div>
+    </div>
+
+    <!-- confirm deletion dialog -->
+    <q-dialog
+      v-model="confirmDeleteVisible"
+      persistent
+      content-class="bg-blue-grey-10"
+    >
+      <q-card dark class="bg-red-10 text-amber-2">
+        <q-card-section class="row items-center">
+          <span>Do you want to delete the transaction?</span>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn v-close-popup flat label="Cancel" color="amber-4" />
+          <q-btn
+            v-close-popup
+            flat
+            label="Delete"
+            color="amber-4"
+            @click="confirmDelete"
+          />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -165,6 +208,7 @@ export default {
   },
   data() {
     return {
+      confirmDeleteVisible: false,
       datePickerVisible: false,
       resetSlide: null,
       postingSum: 0,
@@ -207,6 +251,12 @@ export default {
     addPosting() {
       this.tx.postings.push(new Posting())
     },
+    /**
+     * The user confirmed the deletion.
+     */
+    async confirmDelete() {
+      await this.deleteTransaction()
+    },
     deletePosting(index) {
       if (this.resetSlide) {
         // remove the slide section.
@@ -217,6 +267,18 @@ export default {
       this.tx.postings.splice(index, 1)
 
       this.recalculateSum()
+    },
+    async deleteTransaction() {
+      let id = this.tx.id
+
+      try {
+        await appService.deleteTransaction(id)
+        this.$q.notify('Transaction deleted')
+
+        this.resetTransaction()
+      } catch (reason) {
+        this.$q.notify({ color: 'secondary', message: reason.message })
+      }
     },
     formatNumber(value) {
       return appService.formatNumber(value)
@@ -324,6 +386,10 @@ export default {
       // close the picker if the date was selected
       this.$refs.qDateProxy.hide()
       // the date is saved on close.
+    },
+    onDeleteClick() {
+      // show the confirmation dialog.
+      this.confirmDeleteVisible = true
     },
     onPayeeClick() {
       // search when min. 2 characters typed

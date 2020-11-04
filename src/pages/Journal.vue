@@ -81,8 +81,6 @@
     >
       <q-card dark class="bg-red-10 text-amber-2">
         <q-card-section class="row items-center">
-          <!-- <q-avatar icon="signal_wifi_off" color="primary" text-color="amber-2"/>
-          <span class="q-ml-sm">You are currently not connected to any network.</span>-->
           <span>Do you want to delete the transaction?</span>
         </q-card-section>
 
@@ -163,14 +161,15 @@ export default {
     /**
      * delete all transactions
      */
-    deleteAllTransactions() {
-      appService
-        .deleteTransactions()
-        .then(() => {
-          this.$q.notify({ message: 'transactions deleted' })
-          this.loadData()
-        })
-        .catch((reason) => this.$q.notify({ message: reason, color: 'danger' }))
+    async deleteAllTransactions() {
+      try {
+        await appService.deleteTransactions()
+        this.$q.notify({ message: 'transactions deleted' })
+
+        await this.loadData()
+      } catch (reason) {
+        this.$q.notify({ message: reason, color: 'danger' })
+      }
     },
     async deleteTransaction() {
       let id = this.transactionIdToDelete
@@ -178,7 +177,7 @@ export default {
       try {
         await appService.deleteTransaction(id)
         this.$q.notify('Transaction deleted')
-        this.loadData()
+        await this.loadData()
       } catch (reason) {
         errorMessage.message = reason.message
         this.$q.notify(errorMessage)
@@ -187,7 +186,7 @@ export default {
     exportJournal() {
       this.$router.push({ name: 'export' })
     },
-    loadData() {
+    async loadData() {
       // load all transactions and related postings
       appService.db.transactions
         .orderBy('date')
