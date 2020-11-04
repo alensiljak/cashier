@@ -1,5 +1,7 @@
 <template>
   <q-page padding class="bg-colour1 text-amber-2">
+    <toolbar :title="'New Transaction'" />
+
     <!-- Transaction -->
 
     <!-- date -->
@@ -152,19 +154,21 @@
 import QPosting from '../components/Posting.vue'
 import { Posting } from '../model'
 import {
-  MAIN_TOOLBAR,
-  SET_TITLE,
+  // MAIN_TOOLBAR,
+  // SET_TITLE,
   SET_TRANSACTION,
   SET_SELECT_MODE,
 } from '../mutations'
 import appService from '../appService'
 import { SelectionModeMetadata } from '../lib/Configuration'
+import Toolbar from '../components/Toolbar'
 
 const ACCOUNT = 'account'
 
 export default {
   components: {
     QPosting,
+    Toolbar,
   },
   data() {
     return {
@@ -179,7 +183,6 @@ export default {
   computed: {
     tx: {
       get() {
-        // console.log('getting tx')
         let tx = this.$store.state.transaction
         if (tx === null) {
           tx = this.resetTransaction()
@@ -187,7 +190,6 @@ export default {
         return tx
       },
       set(value) {
-        // console.log('setting tx', value)
         // todo save in the state store
         this.$store.commit(SET_TRANSACTION, value)
       },
@@ -195,8 +197,8 @@ export default {
   },
 
   created() {
-    this.$store.commit(SET_TITLE, 'New Transaction')
     this.$store.commit(MAIN_TOOLBAR, true)
+    this.$store.commit(SET_TITLE, 'New Transaction')
 
     // get the data
     this.loadData()
@@ -325,7 +327,8 @@ export default {
       // set the type
       selectMode.selectionType = ACCOUNT
       // set the return route
-      selectMode.originRoute = { name: 'tx' }
+      // todo: this could also be 'edittx'
+      selectMode.originRoute = { name: 'newtx' }
 
       // set the selection mode
       this.$store.commit(SET_SELECT_MODE, selectMode)
@@ -358,7 +361,8 @@ export default {
       // set the type
       selectMode.selectionType = 'payee'
       // set the return route
-      selectMode.originRoute = { name: 'tx' }
+      // todo: this could also be 'edittx'
+      selectMode.originRoute = { name: 'newtx' }
 
       // set the selection mode
       this.$store.commit(SET_SELECT_MODE, selectMode)

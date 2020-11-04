@@ -266,7 +266,6 @@ export default {
       this.confirmDeleteDialogVisible = true
     },
     onFabClicked() {
-      //this.$router.push({ name: "tx" });
       this.addAccountClick()
     },
     onListItemClick(accountName) {

@@ -67,7 +67,7 @@ export default {
 
   methods: {
     openNewTransaction() {
-      this.$router.push({ name: "tx" });
+      this.$router.push({ name: 'newtx' });
     }
   }
 };

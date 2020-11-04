@@ -167,7 +167,7 @@ export default {
       const tx_id = await appService.saveTransaction(tx)
 
       // open for editing?
-      this.$router.push({ name: 'tx', params: { id: tx_id } })
+      this.$router.push({ name: 'edittx', params: { id: tx_id } })
     },
   },
 }

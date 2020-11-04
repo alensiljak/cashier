@@ -1,16 +1,9 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header v-if="toolbarVisible" elevated class="glossy">
-      <q-toolbar class="text-colour2">
-        <q-btn flat dense round aria-label="Menu" icon="menu" @click="toggleDrawer" />
-
-        <q-toolbar-title>{{ title }}</q-toolbar-title>
-      </q-toolbar>
-    </q-header>
-
+    <toolbar />
     <QSidebar ref="sidebar" />
 
-    <q-page-container @menu-clicked="console.log('yo')">
+    <q-page-container>
       <router-view />
     </q-page-container>
   </q-layout>
@@ -18,12 +11,14 @@
 
 <script>
 import QSidebar from "../components/QSidebar";
+import Toolbar from '../components/Toolbar'
 
 export default {
   name: "LayoutDefault",
 
   components: {
-    QSidebar
+    QSidebar,
+    Toolbar
   },
 
   data() {

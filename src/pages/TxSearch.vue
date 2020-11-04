@@ -1,5 +1,7 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
+    <toolbar :title="'Transaction Search'" />
+
     <!-- date -->
     <q-select
       v-model="datePeriod"
@@ -144,11 +146,15 @@ import { CashierSync } from '../lib/syncCashier'
 import { date } from 'quasar'
 const { subtractFromDate, addToDate } = date
 import { RecycleScroller } from 'vue-virtual-scroller'
+import Toolbar from '../components/Toolbar'
 
 import Vue from 'vue'
 Vue.component('RecycleScroller', RecycleScroller)
 
 export default {
+  components: {
+    Toolbar
+  },
   data() {
     return {
       freeText: null,
@@ -173,10 +179,6 @@ export default {
   },
 
   created() {
-    this.$store.commit(SET_TITLE, 'Transaction Search')
-    this.$store.commit(MAIN_TOOLBAR, true)
-
-    //this.loadSettings();
   },
   mounted() {
     // the defaults

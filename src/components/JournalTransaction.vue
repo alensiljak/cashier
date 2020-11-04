@@ -42,11 +42,7 @@ export default {
 
   methods: {
     itemClicked(id) {
-      //   console.log("item clicked", id);
-
-      // todo make sure delete button is not clicked
-      // :to="{ name: 'tx', params: { id: tx.id }}"
-      this.$router.push({ name: "tx", params: { id: id } });
+      this.$router.push({ name: "edittx", params: { id: id } });
     },
     onDeleteClicked: function(event) {
       let ctl = event.currentTarget;

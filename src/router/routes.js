@@ -17,10 +17,10 @@ const routes = [
       { path: '/assetclassdetail/:fullname?', name: 'assetclassdetail', component: () => import('../pages/AssetClassDetail.vue') },
       { path: '/bal', name: 'balanceSheet', component: () => import(/* webpackChunkName: 'bal' */ '../pages/QBalanceSheet.vue') },
       { path: '/cache', name: 'cache', component: () => import(/* webpackChunkName: 'cache' */ '../pages/Cache.vue')},
-      { path: '/commodities', name: 'commodities', component: () => import('../pages/Commodities.vue') },
+      { path: '/commodities', name: 'commodities', component: () => import(/* webpackChunkName: 'commodities' */'../pages/Commodities.vue') },
       { path: '/export', name: 'export', component: () => import('../pages/Export.vue') },
       { path: '/favourites', name: 'favourites', component: () => import('../pages/Favourites.vue') },
-      { path: '/favouritesreorder', name: 'favreorder', component: () => import('../pages/FavouritesReorder') },
+      { path: '/favouritesreorder', name: 'favreorder', component: () => import(/* webpackChunkName: 'favreorder' */'../pages/FavouritesReorder') },
       { path: '/home', name: 'home', component: () => import('../pages/Home.vue') },
       { path: '/journal', name: 'journal', component: () => import('../pages/Journal.vue') },
       { path: '/lots/:symbol', name: 'lots', component: () => import(/* webpackChunkName: 'lots' */ '../pages/Lots.vue') },
@@ -30,10 +30,11 @@ const routes = [
       { path: '/settings', name: 'settings', component: () => import('../pages/Settings.vue') },
       { path: '/scheduled', name: 'scheduled', component: () => import(/* webpackChunkName: 'scheduled' */'../pages/ScheduledTransactions.vue') },
       { path: '/sync', name: 'sync', component: () => import('../pages/Sync.vue') },
-      { path: '/tx/:id?', name: 'tx', component: () => import(/* webpackChunkName: 'tx' */ '../pages/Transaction.vue') },
-      { path: '/tx-search', name: 'tx-search', component: () => import('../pages/TxSearch.vue') },
-      { path: '/xact', name: 'xact', component: () => import('../pages/Xact.vue') },
-      { path: '/pcloud', name: 'pcloud', component: () => import('../pages/Pcloud.vue') }
+      { path: '/newtx', name: 'newtx', component: () => import('../pages/Transaction.vue') },
+      { path: '/edittx/:id', name: 'edittx', component: () => import('../pages/Transaction.vue') },
+      { path: '/tx-search', name: 'tx-search', component: () => import(/* webpackChunkName: 'txsearch' */'../pages/TxSearch.vue') },
+      { path: '/xact', name: 'xact', component: () => import(/* webpackChunkName: 'xact' */'../pages/Xact.vue') },
+      { path: '/pcloud', name: 'pcloud', component: () => import(/* webpackChunkName: 'pcloud' */'../pages/Pcloud.vue') }
     ]
   },
   {

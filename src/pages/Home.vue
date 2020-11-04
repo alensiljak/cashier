@@ -39,9 +39,9 @@
 
     <!-- Scheduled Transactions -->
     <q-card dark bordered class="my-card" @click="onScheduledClick">
-      <q-card-section class="text-subtitle2"
-        >Upcoming Transactions</q-card-section
-      >
+      <q-card-section class="text-subtitle2">
+        Upcoming Transactions
+      </q-card-section>
       <q-card-section>scheduled transactions</q-card-section>
     </q-card>
 

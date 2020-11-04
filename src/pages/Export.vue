@@ -1,5 +1,7 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
+    <toolbar :title="'Export'" />
+
     <p>Export your journal in ledger format</p>
 
     <q-input
@@ -126,13 +128,18 @@
 </template>
 
 <script>
-import { MAIN_TOOLBAR, SET_TITLE } from '../mutations'
+// import { MAIN_TOOLBAR, SET_TITLE } from '../mutations'
 import { SettingKeys, settings } from '../lib/Configuration'
 import appService from '../appService'
 import { mdiShareVariant } from '@quasar/extras/mdi-v4'
 import { CashierSync } from '../lib/syncCashier'
+import Toolbar from '../components/Toolbar'
 
 export default {
+
+  components: {
+    Toolbar
+  },
   data() {
     return {
       output: '',
@@ -145,8 +152,8 @@ export default {
   },
 
   created() {
-    this.$store.commit(SET_TITLE, 'Export')
-    this.$store.commit(MAIN_TOOLBAR, true)
+    // this.$store.commit(SET_TITLE, 'Export')
+    // this.$store.commit(MAIN_TOOLBAR, true)
 
     this.loadSettings()
     this.loadData()
@@ -253,7 +260,7 @@ export default {
           .catch((error) => this.$q.notify({ message: 'error:' + error }))
       }
     },
-  },
+  }
 }
 </script>
 

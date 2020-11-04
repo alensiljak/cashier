@@ -30,7 +30,7 @@ export default {
       this.$emit('click')
     },
     onNewTxClick() {
-      this.$router.push({ name: 'tx' })
+      this.$router.push({ name: 'newtx' })
     },
   },
 }
