@@ -97,8 +97,7 @@ export default {
         return this.$store.state.useLedger
       },
       set(value) {
-        let currentValue = this.$store.state.useLedger
-        this.$store.commit(SET_LEDGER_USE, !currentValue)
+        this.$store.commit(SET_LEDGER_USE, value)
       },
     },
   },
