@@ -313,7 +313,7 @@ export default {
       this.tx.postings.push(posting)
       return this.tx.postings.length - 1
     },
-    finalize(reset) {
+    finalizeSlide(reset) {
       this.timer = setTimeout(() => {
         // has it been already deleted?
         if (!reset) return
@@ -439,7 +439,7 @@ export default {
     },
     onSlide({ reset }) {
       this.resetSlide = reset
-      this.finalize(reset)
+      this.finalizeSlide(reset)
     },
     onXactClicked() {
       this.$router.push({ name: 'xact', params: { payee: this.tx.payee } })

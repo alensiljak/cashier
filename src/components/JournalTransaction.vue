@@ -1,6 +1,5 @@
 <template>
   <q-item clickable class="text-amber-2">
-    <!-- clickable @click="onItemClicked" -->
     <q-item-section @click="itemClicked(tx.id)">
       <q-item-label>{{ tx.date }} {{ tx.payee }}</q-item-label>
       <q-item-label v-if="tx.note" caption class="q-ml-xl text-amber-2">{{ tx.note }}</q-item-label>
@@ -11,7 +10,7 @@
         </div>
       </q-item-label>
     </q-item-section>
-    <q-item-section avatar>
+    <!-- <q-item-section avatar>
       <q-btn
         color="secondary"
         text-color="accent"
@@ -21,7 +20,7 @@
         :data-id="tx.id"
         @click="onDeleteClicked"
       />
-    </q-item-section>
+    </q-item-section> -->
   </q-item>
 </template>
 
@@ -44,14 +43,14 @@ export default {
     itemClicked(id) {
       this.$router.push({ name: "edittx", params: { id: id } });
     },
-    onDeleteClicked: function(event) {
-      let ctl = event.currentTarget;
-      let id = ctl.getAttribute("data-id");
-      // this.$q.notify(errorMessage)
+    // onDeleteClicked: function(event) {
+    //   let ctl = event.currentTarget;
+    //   let id = ctl.getAttribute("data-id");
+    //   // this.$q.notify(errorMessage)
 
-      // request transaction deletion
-      this.$emit("tx-delete-clicked", { id: id });
-    }
+    //   // request transaction deletion
+    //   this.$emit("tx-delete-clicked", { id: id });
+    // }
   }
 };
 </script>

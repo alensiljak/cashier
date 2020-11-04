@@ -53,14 +53,37 @@
 
     <!-- <div>Transactions go here. Show all if not filtered by a specific account.</div> -->
 
-    <q-list dark>
+    <!-- <q-list dark>
       <journal-transaction
         v-for="tx in transactions"
         :key="tx.id"
         :tx="tx"
         @tx-delete-clicked="onTransactionDeleteClicked"
       />
-    </q-list>
+    </q-list> -->
+
+    <q-slide-item
+      v-for="tx in transactions"
+      :key="tx.id"
+      dark
+      right-color="red-10"
+      @right="onSlide"
+    >
+      <template #right>
+        <div
+          class="row items-center text-amber-4"
+          @click="deleteTransaction(tx.id)"
+        >
+          Click to confirm or wait 2s to cancel
+          <font-awesome-icon icon="trash-alt" size="2x" class="q-ml-md" />
+        </div>
+      </template>
+      <q-item dark class="bg-colour1">
+        <q-item-section>
+          <journal-transaction :tx="tx" />
+        </q-item-section>
+      </q-item>
+    </q-slide-item>
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn
@@ -147,9 +170,6 @@ export default {
   created() {
     this.loadData()
   },
-  mounted() {
-    // this.$q.notify('yo')
-  },
 
   methods: {
     confirmDelete() {
@@ -171,8 +191,11 @@ export default {
         this.$q.notify({ message: reason, color: 'danger' })
       }
     },
-    async deleteTransaction() {
-      let id = this.transactionIdToDelete
+    async deleteTransaction(id) {
+      //let id = this.transactionIdToDelete
+      if (!id) {
+        this.$q.notify({ color: 'secondary', message: 'No transaction id sent for deletion.' })
+      }
 
       try {
         await appService.deleteTransaction(id)
@@ -185,6 +208,14 @@ export default {
     },
     exportJournal() {
       this.$router.push({ name: 'export' })
+    },
+    finalizeSlide(reset) {
+      this.timer = setTimeout(() => {
+        // has it been already deleted?
+        if (!reset) return
+
+        reset()
+      }, 2000)
     },
     async loadData() {
       // load all transactions and related postings
@@ -207,11 +238,9 @@ export default {
     onDeleteAllClicked() {
       this.confirmDeleteAllVisible = true
     },
-    onHelpClick(event) {
-      // todo: show help
-    },
-    onItemClicked(event) {
-      console.log('clicked', event)
+    onSlide({ reset }) {
+      this.resetSlide = reset
+      this.finalizeSlide(reset)
     },
     onTransactionDeleteClicked(data) {
       // confirm
