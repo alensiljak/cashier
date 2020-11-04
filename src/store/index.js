@@ -46,7 +46,7 @@ import { RESET_TRANSACTION } from "../actions";
 // }
 
 export default new Vuex.Store({
-  // strict: true,
+  // todo: strict: true,
   state: {
     activeAccount: null,
     drawerOpen: null,

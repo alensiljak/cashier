@@ -77,7 +77,6 @@
           <QPosting
             :posting="posting"
             :index="index"
-            :accounts="accounts"
             @delete-row="deletePosting"
             @account-clicked="onAccountClicked(index)"
             @amount-changed="onAmountChanged"
@@ -171,7 +170,6 @@ export default {
   data() {
     return {
       datePickerVisible: false,
-      accounts: [],
       resetSlide: null,
       postingSum: 0,
       liveModeOn: false,
@@ -288,15 +286,6 @@ export default {
 
       // clean-up, reset the selection values
       this.$store.commit(SET_SELECT_MODE, null)
-    },
-    loadAccounts() {
-      // load accounts from storage.
-      appService.db.accounts
-        .orderBy('name')
-        // .toCollection()
-        // .primaryKeys()
-        .uniqueKeys()
-        .then((accountNames) => (this.accounts = accountNames))
     },
     /**
      * Load all data for the view.

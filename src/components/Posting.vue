@@ -44,7 +44,6 @@ export default {
   props: {
     posting: { type: Object, default: null },
     index: { type: Number, default: null },
-    accounts: { type: Array, default: null },
   },
 
   data: function () {
@@ -58,29 +57,6 @@ export default {
   },
 
   methods: {
-    filterAccounts(val, update) {
-      // val, update, abort
-
-      update(() => {
-        const needle = val.toLowerCase();
-        this.accountOptions = this.accounts.filter(
-          (account) => account.toLowerCase().indexOf(needle) > -1
-        );
-      });
-    },
-    async onAccountSelected(name) {
-      // console.log(name)
-      // load account by name
-      const account = await appService.db.accounts.get({ name: name });
-      this.posting.currency = account.currency;
-    },
   },
 };
 </script>
-
-<style lang="scss" scoped>
-//@import '../css/styles.scss';
-// .q-qitem--active {
-//   color: red;
-// }
-</style>
