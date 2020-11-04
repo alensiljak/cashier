@@ -1,5 +1,7 @@
 <template>
   <q-page padding class="bg-colour1 text-amber-2">
+    <toolbar :title="'Prices'" />
+
     <p>Prices:</p>
     <ul>
       <li>Add the commodities</li>
@@ -22,12 +24,15 @@
 </template>
 
 <script>
-import { SET_TITLE, MAIN_TOOLBAR } from "../mutations";
 import appService from "../appService";
 import { Price } from "../model";
 // import { morningstar } from '../lib/PriceDownloaderMorningstar'
+import Toolbar from '../components/Toolbar'
 
 export default {
+  components: {
+    Toolbar
+  },
   data() {
     return {
       commodities: []
@@ -35,8 +40,6 @@ export default {
   },
 
   created() {
-    this.$store.commit(SET_TITLE, "Prices");
-    this.$store.commit(MAIN_TOOLBAR, true);
   },
 
   methods: {

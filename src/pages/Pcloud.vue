@@ -1,5 +1,7 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
+    <toolbar :title="'pCloud'" />
+
     <div>
       <!-- <q-input label="Remote location" dark v-model="url" /> -->
 
@@ -13,10 +15,13 @@
 </template>
 
 <script>
-import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
 import RemoteStorage from "../lib/remoteStorage";
+import Toolbar from '../components/Toolbar'
 
 export default {
+  components: {
+    Toolbar
+  },
   data() {
     return {
       // url: null,
@@ -25,8 +30,6 @@ export default {
   },
 
   created() {
-    this.$store.commit(MAIN_TOOLBAR, true);
-    this.$store.commit(SET_TITLE, "pCloud");
   },
 
   methods: {

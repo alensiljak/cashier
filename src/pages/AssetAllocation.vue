@@ -156,7 +156,6 @@
 </template>
 
 <script>
-import { MAIN_TOOLBAR, TOGGLE_DRAWER } from "../mutations";
 import { engine } from "../lib/AssetAllocation";
 
 export default {
@@ -198,7 +197,6 @@ export default {
   },
 
   created() {
-    this.$store.commit(MAIN_TOOLBAR, false);
   },
 
   mounted() {

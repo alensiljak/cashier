@@ -1,5 +1,7 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
+    <toolbar :title="'Lots'" />
+
     <div>Lots for {{ symbol }}</div>
     <ul>
       <li v-for="lot in lots" :key="lot">{{ lot }}</li>
@@ -8,11 +10,14 @@
 </template>
 
 <script>
-import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
+import Toolbar from '../components/Toolbar'
 import { CashierSync } from "../lib/syncCashier";
 import { SettingKeys, settings } from "../lib/Configuration";
 
 export default {
+  components: {
+    Toolbar
+  },
   data() {
     return {
       symbol: null,
@@ -21,9 +26,6 @@ export default {
     };
   },
   created() {
-    this.$store.commit(MAIN_TOOLBAR, true);
-    this.$store.commit(SET_TITLE, "Lots");
-
     this.symbol = this.$route.params.symbol;
     settings
       .get(SettingKeys.syncServerUrl)

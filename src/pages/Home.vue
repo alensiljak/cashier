@@ -51,7 +51,8 @@
 </template>
 
 <script>
-import { MAIN_TOOLBAR, TOGGLE_DRAWER } from '../mutations'
+import Toolbar from '../components/Toolbar'
+import { TOGGLE_DRAWER } from '../mutations'
 import SyncCard from '../components/SyncCard.vue'
 import FavouritesCard from '../components/FavouritesCard'
 import JournalCard from '../components/JournalCard'

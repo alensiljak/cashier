@@ -1,5 +1,7 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
+    <toolbar :title="'About'" />
+
     <div style="width: 100%" class="text-center">
       <h3 class="q-my-sm">
         Cashier
@@ -88,12 +90,13 @@
 </template>
 
 <script>
-import { MAIN_TOOLBAR, SET_TITLE } from '../mutations'
+import Toolbar from '../components/Toolbar'
 
 export default {
+  components: {
+    Toolbar
+  },
   created() {
-    this.$store.commit(SET_TITLE, 'About')
-    this.$store.commit(MAIN_TOOLBAR, true)
   },
 }
 </script>

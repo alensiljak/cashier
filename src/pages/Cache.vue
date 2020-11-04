@@ -1,5 +1,7 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
+    <toolbar :title="'Cache'" />
+
     <p>Control the cached data from Cashier-Sync.</p>
     <div>
       <div class="row">
@@ -89,15 +91,18 @@
 </template>
 
 <script>
-import { SET_TITLE, MAIN_TOOLBAR } from '../mutations';
 import { SettingKeys, settings, Constants } from '../lib/Configuration';
 import { CashierSync } from '../lib/syncCashier';
 import ky from 'ky';
+import Toolbar from '../components/Toolbar'
 
 const NoneStatus = 'None';
 const ExistsStatus = 'Exists';
 
 export default {
+  components: {
+    Toolbar
+  },
   data() {
     return {
       serverUrl: null,
@@ -109,9 +114,6 @@ export default {
   },
 
   created() {
-    this.$store.commit(MAIN_TOOLBAR, true);
-    this.$store.commit(SET_TITLE, 'Cache');
-
     this.loadSettings()
       // need to have value below in order to resolve the promise!
       .then((value) => this.loadStatuses());

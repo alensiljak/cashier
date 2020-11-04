@@ -1,5 +1,7 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
+    <toolbar :title="'Register'" />
+
     <!-- <p>Register for {{account.name}}</p> -->
 
     <q-list>
@@ -28,13 +30,17 @@
 </template>
 
 <script>
+import Toolbar from '../components/Toolbar'
 import appService from '../appService'
-import { MAIN_TOOLBAR, SET_TITLE, SET_SELECT_MODE } from '../mutations'
+import { SET_SELECT_MODE } from '../mutations'
 import { SelectionModeMetadata } from '../lib/Configuration'
 
 const ACCOUNT = 'account'
 
 export default {
+  components: {
+    Toolbar
+  },
   data() {
     return {
       account: {},
@@ -43,9 +49,6 @@ export default {
   },
 
   created() {
-    this.$store.commit(MAIN_TOOLBAR, true)
-    this.$store.commit(SET_TITLE, 'Register')
-
     this.loadData()
   },
 

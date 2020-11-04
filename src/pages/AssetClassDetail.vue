@@ -1,5 +1,7 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
+    <toolbar :title="'Asset Class Detail'" />
+    
     <div>{{ assetClass.fullname }}</div>
     <p>{{ assetClass.name }}</p>
     <div>Allocation: {{ assetClass.allocation }}</div>
@@ -32,12 +34,15 @@
 
 <script>
 import appService from '../appService'
-import { MAIN_TOOLBAR, SET_TITLE } from '../mutations'
 import { CashierSync } from '../lib/syncCashier'
 import { SettingKeys, settings } from '../lib/Configuration'
 import Vue from 'vue'
+import Toolbar from '../components/Toolbar'
 
 export default {
+  components: {
+    Toolbar
+  },
   data() {
     return {
       assetClass: {},
@@ -49,10 +54,6 @@ export default {
   },
 
   created() {
-    this.$store.commit(MAIN_TOOLBAR, true)
-    this.$store.commit(SET_TITLE, 'Asset Class Detail')
-
-    // load data
     this.loadData()
   },
 

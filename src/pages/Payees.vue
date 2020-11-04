@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import { MAIN_TOOLBAR, TOGGLE_DRAWER, SET_SELECT_MODE } from '../mutations'
+import { TOGGLE_DRAWER, SET_SELECT_MODE } from '../mutations'
 import PayeesToolbar from '../components/PayeesToolbar'
 import appService from '../appService'
 import { ListSearch } from '../ListSearch.js'
@@ -103,7 +103,6 @@ export default {
   },
 
   created() {
-    this.$store.commit(MAIN_TOOLBAR, false)
     this.loadData()
   },
 

@@ -1,5 +1,7 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
+    <toolbar :title="'Asset Allocation Help'" />
+    
     <h4>Asset Allocation Setup</h4>
 
     <p>To set up the Asset Allocation, the following information is required:</p>
@@ -35,12 +37,13 @@
 </template>
 
 <script>
-import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
+import Toolbar from '../components/Toolbar'
 
 export default {
+  components: {
+    Toolbar
+  },
   created() {
-    this.$store.commit(MAIN_TOOLBAR, true);
-    this.$store.commit(SET_TITLE, "Asset Allocation Help");
   }
 };
 </script>

@@ -86,9 +86,7 @@
 </template>
 
 <script>
-// import { SET_TITLE, MAIN_TOOLBAR } from "../mutations";
 import { SettingKeys, settings } from "../lib/Configuration";
-// import { CashierSync } from "../lib/syncCashier";
 import { engine } from "../lib/AssetAllocation";
 import Toolbar from '../components/Toolbar'
 
@@ -104,9 +102,6 @@ export default {
   },
 
   created() {
-    // this.$store.commit(MAIN_TOOLBAR, true);
-    // this.$store.commit(SET_TITLE, "Settings");
-
     this.loadSettings();
   },
 

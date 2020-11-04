@@ -15,11 +15,9 @@ import {
   DELETE_POSTING,
   SET_SELECT_MODE,
   SET_PAYEE,
-  SET_TITLE,
   SET_TRANSACTION,
   SET_TX_DATE,
   TOGGLE_DRAWER,
-  MAIN_TOOLBAR,
   SET_LEDGER_USE
 } from "../mutations";
 import { RESET_TRANSACTION } from "../actions";
@@ -50,8 +48,6 @@ import { RESET_TRANSACTION } from "../actions";
 export default new Vuex.Store({
   // strict: true,
   state: {
-    mainToolbarVisible: true,
-    pageTitle: "Cashier", // the title in the toolbar
     activeAccount: null,
     drawerOpen: null,
     transaction: null, // The transaction being edited.
@@ -64,9 +60,6 @@ export default new Vuex.Store({
   },
   // Data transformations
   mutations: {
-    [MAIN_TOOLBAR](state, visible) {
-      state.mainToolbarVisible = visible;
-    },
     /**
      * Set the metadata for the select mode.
      * @param {*} state
@@ -74,9 +67,6 @@ export default new Vuex.Store({
      */
     [SET_SELECT_MODE](state, metadata) {
       state.selectModeMeta = metadata;
-    },
-    [SET_TITLE](state, title) {
-      state.pageTitle = title;
     },
     [SET_TRANSACTION](state, transaction) {
       state.transaction = transaction;

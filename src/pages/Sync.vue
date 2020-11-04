@@ -1,5 +1,7 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
+    <toolbar :title="'CashierSync'" />
+
     <p>CashierSync needs to be running and accessible.</p>
     <p>
       To run locally, install cashiersync with pip and run. Configure ledger
@@ -79,12 +81,15 @@
 </template>
 
 <script>
-import { MAIN_TOOLBAR, SET_TITLE } from '../mutations'
+import Toolbar from '../components/Toolbar'
 import { SettingKeys, settings } from '../lib/Configuration'
 import { CashierSync } from '../lib/syncCashier'
 import appService from '../appService'
 
 export default {
+  components: {
+    Toolbar
+  },
   data() {
     return {
       syncBalances: true,
@@ -94,9 +99,6 @@ export default {
   },
 
   created() {
-    this.$store.commit(SET_TITLE, 'CashierSync')
-    this.$store.commit(MAIN_TOOLBAR, true)
-
     this.loadSettings()
   },
 

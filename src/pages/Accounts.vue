@@ -177,7 +177,7 @@
 </template>
 
 <script>
-import { TOGGLE_DRAWER, MAIN_TOOLBAR, SET_SELECT_MODE } from '../mutations'
+import { TOGGLE_DRAWER, SET_SELECT_MODE } from '../mutations'
 import appService from '../appService.js'
 import { ListSearch } from '../ListSearch.js'
 import Vue from 'vue'
@@ -187,6 +187,7 @@ import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 Vue.component('RecycleScroller', RecycleScroller)
 
 export default {
+
   data() {
     return {
       confirmDeleteAllVisible: false,
@@ -211,9 +212,6 @@ export default {
   },
 
   created() {
-    this.$store.commit(MAIN_TOOLBAR, false)
-
-    // console.log('accounts:', this.accounts)
     this.loadData()
 
     // picker mode

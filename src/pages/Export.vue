@@ -128,7 +128,6 @@
 </template>
 
 <script>
-// import { MAIN_TOOLBAR, SET_TITLE } from '../mutations'
 import { SettingKeys, settings } from '../lib/Configuration'
 import appService from '../appService'
 import { mdiShareVariant } from '@quasar/extras/mdi-v4'
@@ -152,9 +151,6 @@ export default {
   },
 
   created() {
-    // this.$store.commit(SET_TITLE, 'Export')
-    // this.$store.commit(MAIN_TOOLBAR, true)
-
     this.loadSettings()
     this.loadData()
 

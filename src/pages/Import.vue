@@ -1,5 +1,7 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
+    <toolbar :title="'Import'" />
+
     <ul>
       <li>
         For account balances, export the balance sheet with
@@ -51,10 +53,13 @@
 </template>
 
 <script>
-import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
+import Toolbar from '../components/Toolbar'
 import appService from "../appService";
 
 export default {
+  components: {
+    Toolbar
+  },
   data() {
     return {
       content: null,
@@ -63,8 +68,6 @@ export default {
   },
 
   created() {
-    this.$store.commit(SET_TITLE, "Import");
-    this.$store.commit(MAIN_TOOLBAR, true);
   },
 
   methods: {

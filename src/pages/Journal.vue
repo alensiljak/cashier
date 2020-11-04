@@ -128,7 +128,6 @@
 </template>
 
 <script>
-import { MAIN_TOOLBAR, TOGGLE_DRAWER } from '../mutations'
 import appService from '../appService'
 import JournalTransaction from '../components/JournalTransaction'
 
@@ -148,8 +147,6 @@ export default {
   },
 
   created() {
-    this.$store.commit(MAIN_TOOLBAR, false)
-
     this.loadData()
   },
   mounted() {

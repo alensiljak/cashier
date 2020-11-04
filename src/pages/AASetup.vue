@@ -1,21 +1,6 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
-    <q-header elevated class="glossy">
-      <q-toolbar class="text-colour2">
-        <q-btn
-          flat
-          dense
-          round
-          @click="menuClicked"
-          aria-label="Menu"
-          icon="menu"
-        />
-
-        <q-toolbar-title>AA Setup</q-toolbar-title>
-
-        <q-space />
-      </q-toolbar>
-    </q-header>
+    <toolbar :title="'AA Setup'" />
 
     <!-- Current Balances -->
     <div class="q-my-md">
@@ -48,14 +33,17 @@
 </template>
 
 <script>
-import { MAIN_TOOLBAR, SET_TITLE, TOGGLE_DRAWER } from "../mutations";
 import { SettingKeys } from "../lib/Configuration";
 import appService from "../appService";
 import { Setting } from "../model";
+import Toolbar from '../components/Toolbar'
 
 // const errorMessage = { color: "red-10", textColor: "amber-2" };
 
 export default {
+  components: {
+    Toolbar
+  },
   data() {
     return {
       fileContent: null,
@@ -64,9 +52,6 @@ export default {
   },
 
   created() {
-    this.$store.commit(MAIN_TOOLBAR, true);
-    this.$store.commit(SET_TITLE, "AA Setup");
-
     this.loadData();
   },
 
@@ -76,10 +61,6 @@ export default {
         SettingKeys.rootInvestmentAccount
       );
       this.rootAccount = setting.value;
-    },
-    menuClicked() {
-      let visible = this.$store.state.drawerOpen;
-      this.$store.commit(TOGGLE_DRAWER, !visible);
     },
     onCurrentBalClick() {
       // engine

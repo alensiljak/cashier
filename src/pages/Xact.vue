@@ -1,5 +1,7 @@
 view<template>
   <q-page padding class="bg-colour1 text-colour2">
+    <toolbar :title="'Xact'" />
+
     <p>
       This will execute Ledger Xact command, creating a matching transaction.
     </p>
@@ -75,13 +77,16 @@ view<template>
 </template>
 
 <script>
-import { MAIN_TOOLBAR, SET_TITLE } from '../mutations'
+import Toolbar from '../components/Toolbar'
 import { settings, SettingKeys } from 'src/lib/Configuration'
 import { CashierSync } from '../lib/syncCashier'
 import { XactParser } from '../lib/XactParser'
 import appService from '../appService'
 
 export default {
+  components: {
+    Toolbar
+  },
   data() {
     return {
       date: null,
@@ -90,11 +95,6 @@ export default {
       freeText: null,
       results: null,
     }
-  },
-
-  created() {
-    this.$store.commit(SET_TITLE, 'Xact')
-    this.$store.commit(MAIN_TOOLBAR, true)
   },
 
   mounted() {

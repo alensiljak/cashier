@@ -1,5 +1,7 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
+    <toolbar :title="'Reorder Favourites'" />
+
     <accounts-list v-model="accounts" lock-axis="y">
       <account-item
         v-for="(account, index) in accounts"
@@ -16,17 +18,17 @@
 </template>
 
 <script>
-import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
+import Toolbar from '../components/Toolbar'
 import AccountsList from "../components/SortableAccountsList";
 import AccountItem from "../components/SortableAccountItem";
 import { settings, SettingKeys } from "../lib/Configuration";
 import appService from "../appService";
 
 export default {
-
   components: {
     AccountsList,
-    AccountItem
+    AccountItem,
+    Toolbar
   },
   data() {
     return {
@@ -35,9 +37,6 @@ export default {
   },
 
   created() {
-    this.$store.commit(MAIN_TOOLBAR, true);
-    this.$store.commit(SET_TITLE, "Reorder Favourites");
-
     this.loadData();
   },
 

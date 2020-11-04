@@ -1,5 +1,7 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
+    <toolbar :title="'Balance Sheet'" />
+
     <p>Display the chart of accounts with balances and currencies. Selecting one opens the register.</p>
     <p>The list should be customizable by selecting which accounts to show (favourite).</p>
 
@@ -14,9 +16,12 @@
 </template>
 
 <script>
-import { SET_TITLE, MAIN_TOOLBAR } from "../mutations";
+import Toolbar from '../components/Toolbar'
 
 export default {
+  components: {
+    Toolbar
+  },
   data() {
     return {
       simple: [
@@ -61,8 +66,6 @@ export default {
   },
 
   created() {
-    this.$store.commit(SET_TITLE, "Balance Sheet");
-    this.$store.commit(MAIN_TOOLBAR, true);
   },
 
   methods: {

@@ -154,8 +154,6 @@
 import QPosting from '../components/Posting.vue'
 import { Posting } from '../model'
 import {
-  // MAIN_TOOLBAR,
-  // SET_TITLE,
   SET_TRANSACTION,
   SET_SELECT_MODE,
 } from '../mutations'
@@ -197,10 +195,6 @@ export default {
   },
 
   created() {
-    this.$store.commit(MAIN_TOOLBAR, true)
-    this.$store.commit(SET_TITLE, 'New Transaction')
-
-    // get the data
     this.loadData()
 
     // are we back from the select mode?

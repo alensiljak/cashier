@@ -114,7 +114,7 @@
 </template>
 
 <script>
-import { MAIN_TOOLBAR, SET_SELECT_MODE, TOGGLE_DRAWER } from '../mutations'
+import { SET_SELECT_MODE, TOGGLE_DRAWER } from '../mutations'
 import {
   SelectionModeMetadata,
   settings,
@@ -134,8 +134,6 @@ export default {
   },
 
   created() {
-    this.$store.commit(MAIN_TOOLBAR, false)
-
     if (this.$store.state.selectModeMeta) this.handleSelection()
 
     // load favourite accounts

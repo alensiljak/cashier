@@ -1,5 +1,7 @@
 <template>
   <q-page padding class="bg-colour1 text-amber-2">
+    <toolbar :title="'Asset Allocation Help'" />
+   
     <h4>Asset Allocation</h4>
     <p>Asset Allocation displays the allocation of your investments in the given Asset Classes.</p>
     <p>For this to work, you need the following:</p>
@@ -18,12 +20,13 @@
 </template>
 
 <script>
-import { SET_TITLE, MAIN_TOOLBAR } from "../mutations";
+import Toolbar from '../components/Toolbar'
 
 export default {
+  components: {
+    Toolbar
+  },
   created() {
-    this.$store.commit(SET_TITLE, "Asset Allocation Help");
-    this.$store.commit(MAIN_TOOLBAR, true);
   }
 };
 </script>

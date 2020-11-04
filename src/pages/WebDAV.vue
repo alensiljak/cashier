@@ -1,7 +1,9 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
+    <toolbar :title="'WebDAV'" />
+
     <div>
-      <q-input label="Remote location" dark v-model="url" />
+      <q-input v-model="url" label="Remote location" dark />
 
       <q-btn label="test" @click="testWebDav" />
     </div>
@@ -14,11 +16,14 @@
   ***********************************************************************
 */
 
-import { MAIN_TOOLBAR, SET_TITLE } from "../mutations";
 // const { createClient } = require("webdav");
 // import { createClient } from "webdav";
+import Toolbar from '../components/Toolbar'
 
 export default {
+  components: {
+    Toolbar
+  },
   data() {
     return {
       url: null
@@ -26,8 +31,6 @@ export default {
   },
 
   created() {
-    this.$store.commit(MAIN_TOOLBAR, true);
-    this.$store.commit(SET_TITLE, "WebDAV");
   },
 
   methods: {

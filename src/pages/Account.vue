@@ -119,7 +119,6 @@
 </template>
 
 <script>
-import { TOGGLE_DRAWER, MAIN_TOOLBAR } from '../mutations'
 import appService from '../appService'
 
 export default {
@@ -131,8 +130,6 @@ export default {
   },
 
   created() {
-    this.$store.commit(MAIN_TOOLBAR, false)
-
     this.loadAccount(this.$route.params.id)
   },
 
