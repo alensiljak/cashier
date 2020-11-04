@@ -26,8 +26,11 @@
 
     <!-- Favourites -->
     <q-card dark bordered class="my-card" @click="onFavClick">
-      <q-card-section class="text-subtitle2">Favourites</q-card-section>
-      <q-card-section><favourites-card /></q-card-section>
+      <!-- <q-card-section class="text-subtitle2">Favourites</q-card-section> -->
+      <q-card-section>
+        <strong>Favourites</strong>
+        <favourites-card />
+      </q-card-section>
     </q-card>
 
     <!-- Device Journal -->
