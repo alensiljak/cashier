@@ -26,6 +26,7 @@
           type="number"
           input-class="text-right"
           @change="$emit('amount-changed')"
+          @focus="onAmountFocus"
         />
       </div>
 
@@ -50,7 +51,7 @@ export default {
   data: function () {
     return {
       accountOptions: null,
-    };
+    }
   },
 
   computed: {
@@ -62,7 +63,7 @@ export default {
         let posting = this.$store.state.transaction.postings[this.index]
         posting.account = value
         this.$store.commit(SET_POSTING, { index: this.index, posting: posting })
-      }
+      },
     },
     amount: {
       get() {
@@ -72,7 +73,7 @@ export default {
         let posting = this.$store.state.transaction.postings[this.index]
         posting.amount = value
         this.$store.commit(SET_POSTING, { index: this.index, posting: posting })
-      }
+      },
     },
     currency: {
       get() {
@@ -82,15 +83,14 @@ export default {
         let posting = this.$store.state.transaction.postings[this.index]
         posting.currency = value
         this.$store.commit(SET_POSTING, { index: this.index, posting: posting })
-      }
+      },
     },
   },
 
-  created() {
-    // console.log(this.accounts)
-  },
-
   methods: {
+    onAmountFocus(e) {
+      e.target.select()
+    }
   }
-};
+}
 </script>
