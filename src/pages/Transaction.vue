@@ -152,10 +152,7 @@
 <script>
 import QPosting from '../components/Posting.vue'
 import { Posting } from '../model'
-import {
-  SET_TRANSACTION,
-  SET_SELECT_MODE,
-} from '../mutations'
+import { SET_TRANSACTION, SET_SELECT_MODE } from '../mutations'
 import appService from '../appService'
 import { SelectionModeMetadata } from '../lib/Configuration'
 import Toolbar from '../components/Toolbar'
@@ -256,7 +253,7 @@ export default {
     /**
      * Handle selection after a picker returned.
      */
-    handleSelection() {
+    async handleSelection() {
       // todo handle blank id if the user presses 'back'.
       const select = this.$store.state.selectModeMeta
       const id = select.selectedId
@@ -276,11 +273,9 @@ export default {
           }
           var posting = this.tx.postings[index]
 
-          appService.db.accounts.get(id).then((account) => {
-            posting.account = account.name
-            posting.currency = account.currency
-          })
-          // console.log("account", id);
+          const account = await appService.db.accounts.get(id)
+          posting.account = account.name
+          posting.currency = account.currency
           break
       }
 
