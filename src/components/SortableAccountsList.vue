@@ -17,7 +17,5 @@ export default {
   data() {
     return {};
   }
-
-  // props: ["accounts"],
 }
 </script>

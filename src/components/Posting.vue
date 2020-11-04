@@ -31,7 +31,6 @@
 
       <div class="q-pl-sm col-3 col-xs-4">
         <!-- currency -->
-        <!-- set from the account -->
         <q-input v-model="posting.currency" dark label="Currency" />
       </div>
     </div>
@@ -39,7 +38,7 @@
 </template>
 
 <script>
-import appService from "../appService";
+import appService from '../appService'
 
 export default {
   props: {
