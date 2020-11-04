@@ -195,7 +195,7 @@
 
         <q-item
           v-ripple
-          to="/scheduled"
+          to="/scheduledtransactions"
           exact
           clickable
           active-class="active-link"

@@ -83,7 +83,7 @@ export default {
       this.$router.push({ name: 'journal' })
     },
     onScheduledClick() {
-      this.$router.push({ name: 'scheduled' })
+      this.$router.push({ name: 'scheduledtransactions' })
     },
   },
 }

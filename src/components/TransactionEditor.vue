@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- date -->
-    <div>
+    <div id="dateSelector">
       <q-dialog ref="qDateProxy" v-model="datePickerVisible">
         <q-date
           ref="datePicker"

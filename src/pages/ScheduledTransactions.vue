@@ -25,7 +25,7 @@ export default {
 
   methods: {
     onFabClicked() {
-      this.$router.push({ name: 'newtx' })
+      this.$router.push({ name: 'scheduledtxeditor' })
     }
   }
 }
