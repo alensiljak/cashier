@@ -2,13 +2,24 @@
   <q-page padding class="bg-colour1 text-colour2">
     <toolbar :title="'Scheduled Transactions'" />
 
+    <q-list dark>
+      <q-item v-ripple clickable>
+        <!-- <q-item-label>Label</q-item-label> -->
+        <q-item-section>Scheduled transaction</q-item-section>
+        <q-item-section side>
+          <!-- top -->
+          <div>
+            <q-btn class="q-mr-md">Skip</q-btn>
+            <q-btn>Post</q-btn>
+          </div>
+          <!-- <q-item-label caption>Skip</q-item-label>
+          <q-item-label caption>Post</q-item-label> -->
+        </q-item-section>
+      </q-item>
+    </q-list>
+
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn
-        fab
-        color="accent"
-        text-color="secondary"
-        @click="onFabClicked"
-      >
+      <q-btn fab color="accent" text-color="secondary" @click="onFabClicked">
         <font-awesome-icon icon="plus" transform="grow-6" />
       </q-btn>
     </q-page-sticky>
@@ -26,7 +37,7 @@ export default {
   methods: {
     onFabClicked() {
       this.$router.push({ name: 'scheduledtxeditor' })
-    }
-  }
+    },
+  },
 }
 </script>
