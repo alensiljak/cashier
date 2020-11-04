@@ -29,6 +29,7 @@ const routes = [
       { path: '/reg/:name', name: 'register', component: () => import(/* webpackChunkName: 'register' */ '../pages/Register.vue') },
       { path: '/settings', name: 'settings', component: () => import('../pages/Settings.vue') },
       { path: '/scheduled', name: 'scheduled', component: () => import(/* webpackChunkName: 'scheduled' */'../pages/ScheduledTransactions.vue') },
+      { path: '/scheduleeditor', name: 'schedule-editor', component: () => import(/* webpackChunkName: 'scheduleeditor' */'../pages/ScheduleEditor.vue') },
       { path: '/sync', name: 'sync', component: () => import('../pages/Sync.vue') },
       { path: '/newtx', name: 'newtx', component: () => import('../pages/Transaction.vue') },
       { path: '/edittx/:id', name: 'edittx', component: () => import('../pages/Transaction.vue') },

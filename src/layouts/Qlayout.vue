@@ -20,32 +20,6 @@ export default {
     QSidebar,
     Toolbar
   },
-
-  data() {
-    return {
-      // title: 'Cashier'
-    };
-  },
-
-  computed: {
-    title() {
-      return this.$store.state.pageTitle;
-    },
-    toolbarVisible() {
-      return this.$store.state.mainToolbarVisible;
-    }
-  },
-
-  created() {
-
-  },
-
-  methods: {
-    toggleDrawer() {
-      // console.log(this.$refs.sidebar)
-      this.$refs.sidebar.toggleDrawer();
-    }
-  }
 };
 </script>
 

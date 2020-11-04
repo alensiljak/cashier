@@ -305,7 +305,7 @@ export default {
   computed: {
     drawerOpen: {
       get() {
-        return this.$store.state.drawerOpen
+        return this.$store.getters.drawerOpen
       },
       set(value) {
         this.$store.commit(TOGGLE_DRAWER, value)

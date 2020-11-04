@@ -117,6 +117,7 @@ export default new Vuex.Store({
     }
   },
   getters: {
+    drawerOpen: state => state.drawerOpen,
     transaction: state => state.transaction,
     // transactions: state => state.transactions
   }

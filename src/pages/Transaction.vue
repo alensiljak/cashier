@@ -162,7 +162,21 @@
           Delete
         </q-btn>
       </div>
-      <div class="col">&nbsp;</div>
+      <div class="col text-center">
+        <q-btn
+          color="accent"
+          text-color="secondary"
+          size="medium"
+          @click="onScheduleClick"
+        >
+          <font-awesome-icon
+            icon="calendar-alt"
+            transform="grow-9"
+            class="q-icon-small on-left"
+          />
+          Schedule
+        </q-btn>
+      </div>
     </div>
 
     <!-- confirm deletion dialog -->
@@ -419,6 +433,9 @@ export default {
       } catch (err) {
         console.error(err)
       }
+    },
+    onScheduleClick() {
+      this.$router.push({ name: 'schedule-editor' })
     },
     onSlide({ reset }) {
       this.resetSlide = reset
