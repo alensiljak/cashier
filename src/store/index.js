@@ -111,7 +111,7 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    // transaction: state => state.transaction,
+    transaction: state => state.transaction,
     // transactions: state => state.transactions
   }
 });

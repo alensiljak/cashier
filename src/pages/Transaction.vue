@@ -176,14 +176,15 @@ export default {
   computed: {
     tx: {
       get() {
-        let tx = this.$store.state.transaction
+        //let tx = this.$store.state.transaction
+        let tx = this.$store.getters.transaction
         if (tx === null) {
           tx = this.resetTransaction()
         }
         return tx
       },
       set(value) {
-        // todo save in the state store
+        // save in the state store
         this.$store.commit(SET_TRANSACTION, value)
       },
     },
