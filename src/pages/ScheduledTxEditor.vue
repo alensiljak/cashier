@@ -11,12 +11,12 @@
     <schedule-editor v-model="schedule" />
 
     <div class="text-center">
-      <div class="row">
+      <div class="row q-py-lg">
         <div class="col">
           <q-btn>Delete</q-btn>
         </div>
         <div class="col">
-          <q-btn>Save</q-btn>
+          <q-btn @click="save">Save</q-btn>
         </div>
       </div>
       <div class="row">
@@ -38,6 +38,7 @@ import ScheduleEditor from '../components/ScheduleEditor'
 import appService from '../appService'
 import { CurrentTransactionService } from '../lib/currentTransactionService'
 import { ScheduledTransaction, Transaction } from '../model'
+import moment from 'moment'
 
 export default {
   components: {
@@ -58,15 +59,32 @@ export default {
     }
   },
 
-  computed: {
-
-  },
+  computed: {},
 
   async created() {
     await this.loadData()
   },
 
   methods: {
+    /**
+     * Calculate the schedule based on the given parameters.
+     */
+    calculateSchedule() {
+      const count = this.schedule.count
+      const period = this.schedule.period
+      const startDate = this.transaction.date
+      const dateFormat = "YYYY-MM-DD"
+
+      // Get the start point.
+      const start = moment(startDate)
+      console.log('now:', start.format(dateFormat))
+
+      // add the given period
+      const next = start.add(count, period)
+      console.log('next:', next.format(dateFormat))
+
+      // calculate next iteration from the given date.
+    },
     async loadData() {
       const id = this.$route.params.id
       if (!id) {
@@ -88,8 +106,14 @@ export default {
       }
     },
     save() {
-      //this.scheduledTx.id =
-      // = new Date().getTime() <= set on save?
+      if (!this.scheduledTx.id) {
+        this.scheduledTx.id = new Date().getTime()
+      }
+      // todo: serialize transaction
+      // todo: calculate schedule
+      this.scheduledTx.schedule = this.calculateSchedule()
+      // todo: serialize schedule
+      // todo: save schedule input parameters
     },
   },
 }

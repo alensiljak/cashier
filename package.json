@@ -20,6 +20,7 @@
     "@fortawesome/vue-fontawesome": "2.0.0",
     "core-js": "3.6.5",
     "dexie": "3.0.2",
+    "moment": "2.29.0",
     "numeral": "2.0.6",
     "pcloud-sdk-js": "2.0.0",
     "quasar": "1.14.3",
