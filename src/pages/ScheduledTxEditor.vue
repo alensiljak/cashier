@@ -10,13 +10,23 @@
 
     <schedule-editor v-model="schedule" />
 
-    <div>
-      <q-btn class="q-mr-md">Skip</q-btn>
-      <q-btn>Enter</q-btn>
-    </div>
-    <div>
-      <q-btn>Delete</q-btn>
-      <q-btn>Save</q-btn>
+    <div class="text-center">
+      <div class="row">
+        <div class="col">
+          <q-btn>Delete</q-btn>
+        </div>
+        <div class="col">
+          <q-btn>Save</q-btn>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <q-btn class="q-mr-md">Skip</q-btn>
+        </div>
+        <div class="col">
+          <q-btn>Enter</q-btn>
+        </div>
+      </div>
     </div>
   </q-page>
 </template>
@@ -46,6 +56,10 @@ export default {
         endDate: null,
       },
     }
+  },
+
+  computed: {
+
   },
 
   created() {

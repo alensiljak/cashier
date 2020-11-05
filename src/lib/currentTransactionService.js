@@ -3,6 +3,7 @@ Operations on the current transaction.
 The transaction editors keep the currently-edited transaction in the store.
 To avoid chaos with store operations, these are encapsulated here.
 */
+import { Transaction, Posting } from '../model'
 
 export class CurrentTransactionService {
     constructor() {

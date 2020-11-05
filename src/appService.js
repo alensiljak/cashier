@@ -4,7 +4,7 @@
     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export
 */
 import db from './dataStore'
-import { Account, Transaction, Posting } from './model'
+import { Account, Transaction } from './model'
 import { Notify } from 'quasar'
 import { settings, SettingKeys } from './lib/Configuration'
 
