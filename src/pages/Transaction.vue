@@ -410,7 +410,7 @@ export default {
       }
     },
     onScheduleClick() {
-      this.$router.push({ name: 'schedule-editor' })
+      this.$router.push({ name: 'scheduledtxeditor' })
     },
     onSlide({ reset }) {
       this.resetSlide = reset

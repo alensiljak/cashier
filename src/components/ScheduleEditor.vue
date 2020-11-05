@@ -1,7 +1,5 @@
 <template>
-  <q-page padding class="bg-colour1 text-colour2">
-    <toolbar :title="'Schedule Editor'" />
-
+  <div>
     <p>Transaction</p>
     <journal-transaction :tx="tx" />
 
@@ -10,30 +8,29 @@
     <p>Schedule</p>
     <div>
       <ul>
-        <li>Once on ...</li>
-        <li>Every ...</li>
+        <li>Once (null)</li>
+        <li>Every 'count' 'periods'</li>
       </ul>
     </div>
 
-    <div>End on ...; never</div>
+    <div>End on 'endDate'; never (null)</div>
 
     <div>Delete Schedule; Save Schedule</div>
-  </q-page>
+  </div>
 </template>
 
 <script>
-import Toolbar from '../components/Toolbar'
 import JournalTransaction from '../components/JournalTransaction'
 
 export default {
   components: {
     JournalTransaction,
-    Toolbar,
   },
 
   data() {
     return {
       tx: null,
+      scheduledTx: null
     }
   },
 

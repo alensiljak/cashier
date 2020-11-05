@@ -30,7 +30,6 @@ const routes = [
       { path: '/settings', name: 'settings', component: () => import('../pages/Settings.vue') },
       { path: '/scheduledtransactions', name: 'scheduledtransactions', component: () => import(/* webpackChunkName: 'scheduledtransactions' */'../pages/ScheduledTransactions.vue') },
       { path: '/scheduledtxeditor', name: 'scheduledtxeditor', component: () => import(/* webpackChunkName: 'scheduledtxeditor' */'../pages/ScheduledTxEditor.vue') },
-      { path: '/scheduleeditor', name: 'schedule-editor', component: () => import(/* webpackChunkName: 'scheduleeditor' */'../pages/ScheduleEditor.vue') },
       { path: '/sync', name: 'sync', component: () => import('../pages/Sync.vue') },
       { path: '/newtx', name: 'newtx', component: () => import('../pages/Transaction.vue') },
       { path: '/edittx/:id', name: 'edittx', component: () => import('../pages/Transaction.vue') },
