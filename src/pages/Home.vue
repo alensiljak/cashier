@@ -38,12 +38,7 @@
     </q-card> -->
 
     <!-- Scheduled Transactions -->
-    <q-card dark bordered class="my-card" @click="onScheduledClick">
-      <q-card-section class="text-subtitle2">
-        Upcoming Transactions
-      </q-card-section>
-      <q-card-section>scheduled transactions</q-card-section>
-    </q-card>
+    <scheduled-card />
 
     <!-- CashierSync -->
     <sync-card />
@@ -56,11 +51,13 @@ import { TOGGLE_DRAWER } from '../mutations'
 import SyncCard from '../components/SyncCard.vue'
 import FavouritesCard from '../components/FavouritesCard'
 import JournalCard from '../components/JournalCard'
+import ScheduledCard from '../components/ScheduledTxCard'
 
 export default {
   name: 'PageHome',
 
   components: {
+    ScheduledCard,
     SyncCard,
     FavouritesCard,
     JournalCard,
