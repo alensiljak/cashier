@@ -20,55 +20,6 @@
       </div>
     </RecycleScroller>
 
-    <!-- new payee (name) dialog -->
-    <!-- <q-dialog v-model="addDialogVisible" dark>
-      <q-card style="min-width: 400px" class="bg-primary text-colour2">
-        <q-card-section>
-          <div class="text-h6">New Payee</div>
-        </q-card-section>
-
-        <q-card-section>
-          <q-input
-            v-model="newPayee"
-            dense
-            autofocus
-            input-class="text-amber-2"
-            color="amber-4"
-            @keyup.enter="onAddPayee"
-          />
-        </q-card-section>
-
-        <q-card-actions align="right" class="text-accent">
-          <q-btn v-close-popup flat label="Cancel" @click="onCancelAdd" />
-          <q-btn v-close-popup flat label="Add" @click="onAddPayee" />
-        </q-card-actions>
-      </q-card>
-    </q-dialog> -->
-
-    <!-- confirm deletion dialog -->
-    <q-dialog
-      v-model="confirmDeleteAllVisible"
-      persistent
-      content-class="bg-blue-grey-10"
-    >
-      <q-card dark class="bg-red-10">
-        <q-card-section class="row items-center">
-          <span>Do you want to delete all payees?</span>
-        </q-card-section>
-
-        <q-card-actions align="right">
-          <q-btn v-close-popup flat label="Cancel" color="amber-4" />
-          <q-btn
-            v-close-popup
-            flat
-            label="Delete"
-            color="amber-4"
-            @click="deleteAllConfirmed"
-          />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
-
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab icon="check" color="accent" text-color="secondary" @click="onAcceptClick" />
     </q-page-sticky>
@@ -107,20 +58,18 @@ export default {
   },
 
   methods: {
-    async deleteAllConfirmed() {
-      await appService.deletePayees()
-      await this.loadData()
-    },
     itemClicked(id) {
-      // console.log('item:', id);
       // select the item and return to the caller.
       let meta = this.$store.state.selectModeMeta
+      if (!meta || meta.selectionType !== 'payee') {
+        throw('Invalid selection mode!')
+      }
 
       meta.selectedId = id
       this.$store.commit(SET_SELECT_MODE, meta)
 
-      let route = meta.originRoute
-      this.$router.push(route)
+      // Simply go back, assuming that the previous page is requesting the data.
+      this.$router.go(-1)
     },
     async loadData() {
       // get the payees from the cache
@@ -155,18 +104,10 @@ export default {
         this.loadData()
       })
     },
-    onCancelAdd() {
-      // console.log('cancel add')
-      this.newPayee = null
-    },
     onDeleteAllClicked() {
       // confirm
       this.confirmDeleteAllVisible = true
     },
-    // onFab() {
-    //   this.newPayee = this.filter;
-    //   this.addDialogVisible = true;
-    // },
     onAcceptClick() {
       this.itemClicked(this.filter)
     },

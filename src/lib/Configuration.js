@@ -17,8 +17,6 @@ export class SelectionModeMetadata {
     this.selectionType = null;
     // The id of the selected item.
     this.selectedId = null;
-    // the route object to use when returning back from selection.
-    this.originRoute = null;
   }
 }
 

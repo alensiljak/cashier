@@ -147,8 +147,6 @@ export default {
 
       // set the type
       selectMode.selectionType = ACCOUNT
-      // set the return route
-      selectMode.originRoute = { name: 'favourites' }
 
       // set the selection mode
       this.$store.commit(SET_SELECT_MODE, selectMode)

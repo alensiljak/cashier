@@ -231,8 +231,7 @@ export default {
         meta.selectedId = id
         this.$store.commit(SET_SELECT_MODE, meta)
 
-        let route = meta.originRoute
-        this.$router.push(route)
+        this.$router.go(-1)
       } else {
         // edit account
         this.$router.push({ name: 'account', params: { id: id } })

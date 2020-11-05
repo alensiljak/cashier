@@ -5,13 +5,6 @@
     <!-- Transaction -->
     <tx-editor />
 
-    <!-- payee -->
-    <q-input v-model="tx.payee" label="Payee" dark @click="onPayeeClick">
-      <template #prepend>
-        <font-awesome-icon icon="user" />
-      </template>
-    </q-input>
-
     <div v-if="$store.getters.liveModeOn" class="text-center">
       <q-btn
         label="xact"
@@ -209,7 +202,6 @@ export default {
       confirmDeleteVisible: false,
       resetSlide: null,
       postingSum: 0,
-      liveModeOn: false,
     }
   },
 
@@ -358,9 +350,6 @@ export default {
       selectMode.postingIndex = index
       // set the type
       selectMode.selectionType = ACCOUNT
-      // set the return route
-      // todo: this could also be 'edittx'
-      selectMode.originRoute = { name: 'newtx' }
 
       // set the selection mode
       this.$store.commit(SET_SELECT_MODE, selectMode)
@@ -378,23 +367,6 @@ export default {
     onDeleteClick() {
       // show the confirmation dialog.
       this.confirmDeleteVisible = true
-    },
-    onPayeeClick() {
-      // search when min. 2 characters typed
-      //if(this.tx.payee.length < 2) return;
-
-      const selectMode = new SelectionModeMetadata()
-
-      // set the type
-      selectMode.selectionType = 'payee'
-      // set the return route
-      // todo: this could also be 'edittx'
-      selectMode.originRoute = { name: 'newtx' }
-
-      // set the selection mode
-      this.$store.commit(SET_SELECT_MODE, selectMode)
-      // show account picker
-      this.$router.push({ name: 'payees' })
     },
     async onSave() {
       try {
