@@ -47,7 +47,6 @@ export class ScheduledTransaction {
     this.id = null
     this.nextDate = null
     this.transaction = null
-    this.schedule = null
     this.period = null
     this.count = null
     this.endDate = null
