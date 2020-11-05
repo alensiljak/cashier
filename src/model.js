@@ -42,6 +42,18 @@ export class Price {
   }
 }
 
+export class ScheduledTransaction {
+  constructor() {
+    this.id = null
+    this.nextDate = null
+    this.transaction = null
+    this.schedule = null
+    this.period = null
+    this.count = null
+    this.endDate = null
+  }
+}
+
 export class Transaction {
   constructor() {
     // this.id = newId()
