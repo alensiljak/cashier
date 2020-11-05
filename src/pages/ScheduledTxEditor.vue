@@ -16,7 +16,7 @@
           <q-btn>Delete</q-btn>
         </div>
         <div class="col">
-          <q-btn @click="save">Save</q-btn>
+          <q-btn @click.once="save">Save</q-btn>
         </div>
       </div>
       <div class="row">
@@ -73,7 +73,7 @@ export default {
       const count = this.schedule.count
       const period = this.schedule.period
       const startDate = this.transaction.date
-      const dateFormat = "YYYY-MM-DD"
+      const dateFormat = 'YYYY-MM-DD'
 
       // Get the start point.
       const start = moment(startDate)
@@ -88,13 +88,8 @@ export default {
     async loadData() {
       const id = this.$route.params.id
       if (!id) {
-        // create blank record
-        this.scheduledTx = new ScheduledTransaction()
-
-        const svc = new CurrentTransactionService(this.$store)
-        const tx = svc.createTransaction()
-        svc.setTx(tx)
-        this.transaction = tx
+        // todo: enable this after testing.
+        // this.resetTransaction()
       } else {
         console.log('loading sch.tx. ', id)
 
@@ -104,16 +99,36 @@ export default {
         this.schedule = {
           count: this.scheduledTx.count,
           period: this.scheduledTx.period,
-          endDate: this.scheduledTx.endDate
+          endDate: this.scheduledTx.endDate,
         }
       }
     },
-    save() {
+    resetTransaction() {
+      // create blank record
+      this.scheduledTx = new ScheduledTransaction()
+
+      const svc = new CurrentTransactionService(this.$store)
+      const tx = svc.createTransaction()
+      svc.setTx(tx)
+      this.transaction = tx
+    },
+    async save() {
       if (!this.scheduledTx.id) {
         this.scheduledTx.id = new Date().getTime()
       }
-      // todo: serialize transaction
-      // todo: save schedule input parameters
+      // serialize transaction
+      const txSvc = new CurrentTransactionService(this.$store)
+      const tx = txSvc.getTx()
+      const txStr = JSON.stringify(tx)
+      this.scheduledTx.transaction = txStr
+
+      // save schedule input parameters
+      this.scheduledTx.endDate = this.schedule.endDate
+      this.scheduledTx.count = this.schedule.count
+      this.scheduledTx.period = this.schedule.period
+
+      const result = await appService.db.scheduled.put(this.scheduledTx)
+      console.log(result)
     },
   },
 }

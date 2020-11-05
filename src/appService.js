@@ -304,14 +304,6 @@ class AppService {
     })
   }
 
-  async loadScheduledTransaction(id) {
-    if(!db) {
-      throw('The id parameter is required')
-    }
-    
-    return db.scheduled.get(id)
-  }
-
   saveAccount(account) {
     return db.accounts.put(account)
   }
