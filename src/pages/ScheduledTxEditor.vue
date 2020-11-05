@@ -90,12 +90,18 @@ export default {
       if (!id) {
         // todo: enable this after testing.
         // this.resetTransaction()
+        console.log('blank transaction')
       } else {
         console.log('loading sch.tx. ', id)
 
         // load existing record
-        this.scheduledTx = await appService.loadScheduledTransaction(id)
+        this.scheduledTx = await appService.db.scheduled.get(id)
         this.transaction = JSON.parse(this.scheduledTx.transaction)
+        
+        // make tx available for editing
+        const txSvc = new CurrentTransactionService(this.$store)
+        txSvc.setTx(this.transaction)
+
         this.schedule = {
           count: this.scheduledTx.count,
           period: this.scheduledTx.period,
@@ -115,6 +121,7 @@ export default {
     async save() {
       if (!this.scheduledTx.id) {
         this.scheduledTx.id = new Date().getTime()
+        console.log('new id generated:', this.scheduledTx.id)
       }
       // serialize transaction
       const txSvc = new CurrentTransactionService(this.$store)
@@ -122,13 +129,17 @@ export default {
       const txStr = JSON.stringify(tx)
       this.scheduledTx.transaction = txStr
 
+      this.scheduledTx.nextDate = tx.date
+
       // save schedule input parameters
       this.scheduledTx.endDate = this.schedule.endDate
       this.scheduledTx.count = this.schedule.count
       this.scheduledTx.period = this.schedule.period
 
       const result = await appService.db.scheduled.put(this.scheduledTx)
-      console.log(result)
+      console.log('saved', result)
+
+      if(result) this.$router.push({ name: 'scheduledtransactions' })
     },
   },
 }

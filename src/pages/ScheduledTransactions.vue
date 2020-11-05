@@ -2,7 +2,9 @@
   <q-page padding class="bg-colour1 text-colour2">
     <toolbar :title="'Scheduled Transactions'" />
 
-    <div v-if="transactions.length === 0">There are no scheduled transactions</div>
+    <div v-if="transactions.length === 0">
+      There are no scheduled transactions
+    </div>
 
     <q-list dark>
       <q-item
@@ -10,10 +12,15 @@
         :key="stx.id"
         v-ripple
         clickable
-        @click="showTx(id)"
+        @click="showTx(stx.id)"
       >
         <!-- <q-item-label>Label</q-item-label> -->
-        <q-item-section>Scheduled transaction</q-item-section>
+        <q-item-section avatar :class="{ red: stx.nextDate < today, yellow: stx.nextDate === today }">
+          {{ stx.nextDate }}
+        </q-item-section>
+        <q-item-section>
+          {{ JSON.parse(stx.transaction).payee }}
+        </q-item-section>
         <q-item-section side>
           <!-- top -->
           >
@@ -33,6 +40,8 @@
 
 <script>
 import Toolbar from '../components/Toolbar'
+import appService from '../appService'
+import moment from 'moment'
 
 export default {
   components: {
@@ -42,10 +51,23 @@ export default {
   data() {
     return {
       transactions: [],
+      today: null
     }
   },
 
+  created() {
+    this.today = moment().format('YYYY-MM-DD')
+    this.loadData()
+  },
+
   methods: {
+    async loadData() {
+      this.transactions = await appService.db.scheduled
+        .orderBy('nextDate')
+        // .reverse()
+        .toArray()
+      console.log('data loaded')
+    },
     onFabClicked() {
       this.$router.push({ name: 'scheduledtxeditor' })
     },
@@ -55,3 +77,10 @@ export default {
   },
 }
 </script>
+<style lang="sass" scoped>
+.red
+  color: $red-10
+
+.yellow
+  color: yellow
+</style>
