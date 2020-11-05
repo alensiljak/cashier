@@ -251,7 +251,7 @@ export default {
       this.accounts = accounts_array
     },
     menuClicked() {
-      let visible = this.$store.state.drawerOpen
+      let visible = this.$store.getters.drawerOpen
       this.$store.commit(TOGGLE_DRAWER, !visible)
     },
     async onAddAccount() {

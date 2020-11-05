@@ -70,7 +70,7 @@ export default {
 
   methods: {
     menuClicked() {
-      let visible = this.$store.state.drawerOpen
+      let visible = this.$store.getters.drawerOpen
       this.$store.commit(TOGGLE_DRAWER, !visible)
     },
     onFavClick() {

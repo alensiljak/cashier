@@ -175,7 +175,7 @@ export default {
       await this.loadData()
     },
     onMenuClicked() {
-      const visible = this.$store.state.drawerOpen
+      const visible = this.$store.getters.drawerOpen
       this.$store.commit(TOGGLE_DRAWER, !visible)
     },
   },
