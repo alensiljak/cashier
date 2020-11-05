@@ -10,14 +10,9 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 import {
-  ADD_POSTING,
-  CLEAR_POSTINGS,
-  DELETE_POSTING,
   SET_SELECT_MODE,
-  SET_PAYEE,
   SET_POSTING,
   SET_TRANSACTION,
-  SET_TX_DATE,
   TOGGLE_DRAWER,
   SET_LEDGER_USE
 } from "../mutations";
@@ -87,38 +82,9 @@ export default new Vuex.Store({
 
   // Business logic.
   actions: {
-    [ADD_POSTING](context) {
-      context.commit(ADD_POSTING);
-    },
-    [CLEAR_POSTINGS](context) {
-      context.commit(CLEAR_POSTINGS);
-    },
-    [DELETE_POSTING](context, index) {
-      // delete one of the postings in the New Transaction
-      context.commit(DELETE_POSTING, index);
-    },
-    [SET_PAYEE](context, payee) {
-      context.commit(SET_PAYEE, payee);
-    },
-    [SET_TX_DATE](context, date) {
-      context.commit(SET_TX_DATE, date);
-    },
-    [RESET_TRANSACTION](context) {
-      context.commit(CLEAR_POSTINGS);
-      // add the default postings
-      context.commit(ADD_POSTING);
-      context.commit(ADD_POSTING);
-
-      context.commit(SET_PAYEE, "");
-
-      // set today as a default
-      var today = new Date().toISOString().substring(0, 10);
-      context.commit(SET_TX_DATE, today);
-    }
   },
   getters: {
     drawerOpen: state => state.drawerOpen,
     transaction: state => state.transaction,
-    // transactions: state => state.transactions
   }
 });
