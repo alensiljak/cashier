@@ -16,7 +16,6 @@ import {
   TOGGLE_DRAWER,
   SET_LEDGER_USE
 } from "../mutations";
-import { RESET_TRANSACTION } from "../actions";
 
 /*
  * If not building with SSR mode, you can

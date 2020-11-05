@@ -1,52 +1,94 @@
 <template>
   <div>
-    <p>Transaction</p>
-    <journal-transaction :tx="tx" />
-
-    <q-separator dark class="q-my-lg" />
-
-    <p>Schedule</p>
+    <p>Repeats</p>
     <div>
       <ul>
-        <li>Once (null)</li>
+        <li>Never (null)</li>
         <li>Every 'count' 'periods'</li>
       </ul>
+
+      <q-input
+        v-model="schedule.count"
+        type="number"
+        label="Count"
+        dark
+        @change="onDataChanged"
+      />
+      <q-select
+        v-model="schedule.period"
+        :options="periods"
+        label="Periods"
+        dark
+        @input="onDataChanged"
+      />
     </div>
 
     <div>End on 'endDate'; never (null)</div>
-
-    <div>Delete Schedule; Save Schedule</div>
+    <q-input
+      v-model="schedule.endDate"
+      label="End date"
+      dark
+      @click="datePickerVisible = true"
+      @change="onDataChanged"
+    />
+    <q-dialog ref="qDateProxy" v-model="datePickerVisible">
+      <q-date
+        ref="datePicker"
+        v-model="schedule.endDate"
+        dark
+        first-day-of-week="1"
+        today-btn
+        mask="YYYY-MM-DD"
+        @input="onDateSelected"
+      >
+        <div class="row items-center justify-end q-gutter-sm">
+          <!-- <q-btn v-close-popup label="Cancel" color="primary" flat /> -->
+          <q-btn v-close-popup label="OK" color="accent" flat />
+        </div>
+      </q-date>
+    </q-dialog>
   </div>
 </template>
 
 <script>
-import JournalTransaction from '../components/JournalTransaction'
-
 export default {
-  components: {
-    JournalTransaction,
-  },
-
   props: {
-    scheduledTx: {
-      type: Object, default: null
-    }
+    value: {
+      type: Object,
+      default: null,
+    },
   },
 
   data() {
     return {
-      tx: null,
-      // scheduledTx: null
+      schedule: {
+        count: null,
+        period: null,
+        endDate: null,
+      },
+      periods: [],
+      datePickerVisible: false,
     }
   },
 
   created() {
-    this.loadTransaction()
+    this.createPeriods()
+    this.schedule = this.value
   },
 
   methods: {
-    loadTransaction() {
-      this.tx = this.$store.getters.transaction
+    createPeriods() {
+      this.periods = ['days', 'weeks', 'months', 'years']
+    },
+    onDataChanged() {
+      this.$emit('input', this.schedule)
+    },
+    onDateSelected(value, reason) {
+      if (reason !== 'day' && reason !== 'today') return
+
+      // close the picker if the date was selected
+      this.$refs.qDateProxy.hide()
+      // the date is saved on close.
     },
   },
 }
