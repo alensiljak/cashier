@@ -38,7 +38,7 @@
     </q-card> -->
 
     <!-- Scheduled Transactions -->
-    <scheduled-card />
+    <scheduled-card class="my-card" @click="onScheduledClick" />
 
     <!-- CashierSync -->
     <sync-card />

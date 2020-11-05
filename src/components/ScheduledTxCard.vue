@@ -1,5 +1,5 @@
 <template>
-  <q-card dark bordered class="my-card" @click="onScheduledClick">
+  <q-card dark bordered class="my-card" @click="onCardClick">
     <q-card-section class="text-subtitle2">
       Upcoming Transactions
     </q-card-section>
@@ -40,6 +40,9 @@ export default {
         this.$q.notify({ color: 'secondary', message: error.message })
       }
     },
+    onCardClick() {
+        this.$emit('click')
+    }
   },
 }
 </script>
