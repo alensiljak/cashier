@@ -3,15 +3,12 @@
     <toolbar :title="'Scheduled Transactions'" />
 
     <q-list dark>
-      <q-item v-ripple clickable>
+      <q-item v-ripple clickable @click="showTx">
         <!-- <q-item-label>Label</q-item-label> -->
         <q-item-section>Scheduled transaction</q-item-section>
         <q-item-section side>
           <!-- top -->
-          <div>
-            <q-btn class="q-mr-md">Skip</q-btn>
-            <q-btn>Post</q-btn>
-          </div>
+          >
           <!-- <q-item-label caption>Skip</q-item-label>
           <q-item-label caption>Post</q-item-label> -->
         </q-item-section>
@@ -38,6 +35,9 @@ export default {
     onFabClicked() {
       this.$router.push({ name: 'scheduledtxeditor' })
     },
+    showTx(id) {
+      this.$router.push({ name: 'scheduledtxeditor', params: { id: id }})
+    }
   },
 }
 </script>

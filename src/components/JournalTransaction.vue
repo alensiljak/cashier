@@ -27,7 +27,7 @@
 <script>
 export default {
   props: {
-    tx: { type: Object, default: null }
+    tx: { type: Object, default: () => {} }
   },
   data() {
     return {

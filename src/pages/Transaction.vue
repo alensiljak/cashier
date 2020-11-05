@@ -347,10 +347,8 @@ export default {
         this.loadTransaction(id)
       }
     },
-    loadTransaction(id) {
-      appService.loadTransaction(id).then((tx) => {
-        this.tx = tx
-      })
+    async loadTransaction(id) {
+      this.tx = await appService.loadTransaction(id)
     },
     onAccountClicked(index) {
       const selectMode = new SelectionModeMetadata()

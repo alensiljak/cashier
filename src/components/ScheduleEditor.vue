@@ -27,10 +27,16 @@ export default {
     JournalTransaction,
   },
 
+  props: {
+    scheduledTx: {
+      type: Object, default: null
+    }
+  },
+
   data() {
     return {
       tx: null,
-      scheduledTx: null
+      // scheduledTx: null
     }
   },
 

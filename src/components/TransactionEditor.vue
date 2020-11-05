@@ -38,6 +38,9 @@
   </div>
 </template>
 <script>
+import appService from '../appService'
+import { SET_TRANSACTION, SET_SELECT_MODE } from '../mutations'
+
 export default {
   data() {
     return {
@@ -71,6 +74,11 @@ export default {
       // close the picker if the date was selected
       this.$refs.qDateProxy.hide()
       // the date is saved on close.
+    },
+    resetTransaction() {
+      const tx = appService.createTransaction()
+      this.tx = tx
+      return tx
     },
   },
 }

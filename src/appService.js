@@ -281,7 +281,7 @@ class AppService {
     return commodities
   }
 
-  loadAccount(id) {
+  async loadAccount(id) {
     return db.accounts.get(id)
   }
 
@@ -312,6 +312,10 @@ class AppService {
       tx.postings = postings
       return tx
     })
+  }
+
+  async loadScheduledTransaction(id) {
+    return db.scheduled.get(id)
   }
 
   saveAccount(account) {
