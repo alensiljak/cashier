@@ -5,6 +5,10 @@
       <strong>Favourites</strong>
     </q-card-section>
     <q-card-section>
+      <div v-if="accounts.length === 0">
+        There are no favourite accounts defined
+      </div>
+
       <q-list>
         <q-item
           v-for="account in accounts"

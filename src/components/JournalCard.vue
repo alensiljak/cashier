@@ -3,12 +3,18 @@
     <!-- <q-card-section class="text-subtitle2">Device Journal</q-card-section> -->
     <q-card-section><strong>Device Journal</strong></q-card-section>
 
-    <q-list dense>
-      <q-item v-for="tx in transactions" :key="tx.id">
-        <span class="q-mr-lg">{{ tx.date }}</span>
-        {{ tx.payee }}
-      </q-item>
-    </q-list>
+    <q-card-section>
+      <div v-if="transactions.length === 0">
+        There are no local transactions
+      </div>
+
+      <q-list dense>
+        <q-item v-for="tx in transactions" :key="tx.id">
+          <span class="q-mr-lg">{{ tx.date }}</span>
+          {{ tx.payee }}
+        </q-item>
+      </q-list>
+    </q-card-section>
 
     <q-separator />
 
