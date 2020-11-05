@@ -72,9 +72,11 @@ export default {
       if (!id) {
         // create blank record
         this.scheduledTx = new ScheduledTransaction()
-        this.transaction = new Transaction()
 
-        const svc = new CurrentTransactionService()
+        const svc = new CurrentTransactionService(this.$store)
+        const tx = svc.createTransaction()
+        svc.setTx(tx)
+        this.transaction = tx
       } else {
         console.log('loading sch.tx. ', id)
 

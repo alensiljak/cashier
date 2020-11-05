@@ -12,6 +12,7 @@
         type="number"
         label="Count"
         dark
+        input-class="text-center"
         @change="onDataChanged"
       />
       <q-select

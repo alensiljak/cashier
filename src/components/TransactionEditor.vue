@@ -130,7 +130,7 @@ export default {
       this.$router.push({ name: 'payees' })
     },
     resetTransaction() {
-      const tx = new CurrentTransactionService().createTransaction()
+      const tx = new CurrentTransactionService(this.$store).createTransaction()
       this.tx = tx
       return tx
     },

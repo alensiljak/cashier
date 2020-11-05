@@ -207,11 +207,11 @@ export default {
   computed: {
     tx: {
       get() {
-        return this.$store.getters.transaction
+        return new CurrentTransactionService(this.$store).getTx()
       },
       set(value) {
         // save in the state store
-        this.$store.commit(SET_TRANSACTION, value)
+        new CurrentTransactionService(this.$store).setTx(value)
       },
     },
   },
@@ -361,7 +361,7 @@ export default {
       }
     },
     resetTransaction() {
-      this.tx = new CurrentTransactionService().createTransaction()
+      this.tx = new CurrentTransactionService(this.$store).createTransaction()
     },
   },
 }
