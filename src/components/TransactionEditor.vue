@@ -54,7 +54,7 @@ export default {
       get() {
         let tx = this.$store.getters.transaction
         if (tx === null) {
-          this.resetTransaction()
+          tx = this.resetTransaction()
         }
         return tx
       },
@@ -77,7 +77,9 @@ export default {
       // the date is saved on close.
     },
     resetTransaction() {
-      this.tx = new CurrentTransactionService().createTransaction()
+      const tx = new CurrentTransactionService().createTransaction()
+      this.tx = tx
+      return tx
     },
   },
 }

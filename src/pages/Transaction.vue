@@ -12,7 +12,7 @@
       </template>
     </q-input>
 
-    <div v-if="$store.state.useLedger" class="text-center">
+    <div v-if="$store.getters.liveModeOn" class="text-center">
       <q-btn
         label="xact"
         color="secondary"

@@ -2,8 +2,16 @@
   <q-page padding class="bg-colour1 text-colour2">
     <toolbar :title="'Scheduled Transactions'" />
 
+    <div v-if="transactions.length === 0">There are no scheduled transactions</div>
+
     <q-list dark>
-      <q-item v-ripple clickable @click="showTx">
+      <q-item
+        v-for="stx in transactions"
+        :key="stx.id"
+        v-ripple
+        clickable
+        @click="showTx(id)"
+      >
         <!-- <q-item-label>Label</q-item-label> -->
         <q-item-section>Scheduled transaction</q-item-section>
         <q-item-section side>
@@ -31,13 +39,19 @@ export default {
     Toolbar,
   },
 
+  data() {
+    return {
+      transactions: [],
+    }
+  },
+
   methods: {
     onFabClicked() {
       this.$router.push({ name: 'scheduledtxeditor' })
     },
     showTx(id) {
-      this.$router.push({ name: 'scheduledtxeditor', params: { id: id }})
-    }
+      this.$router.push({ name: 'scheduledtxeditor', params: { id: id } })
+    },
   },
 }
 </script>

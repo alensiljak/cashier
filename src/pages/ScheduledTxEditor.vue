@@ -62,8 +62,8 @@ export default {
 
   },
 
-  created() {
-    this.loadData()
+  async created() {
+    await this.loadData()
   },
 
   methods: {
@@ -76,6 +76,8 @@ export default {
 
         const svc = new CurrentTransactionService()
       } else {
+        console.log('loading sch.tx. ', id)
+
         // load existing record
         this.data = await appService.loadScheduledTransaction(id)
         // todo: parse transaction and schedule JSON?
