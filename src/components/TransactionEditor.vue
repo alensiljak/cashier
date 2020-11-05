@@ -40,6 +40,7 @@
 <script>
 import appService from '../appService'
 import { SET_TRANSACTION, SET_SELECT_MODE } from '../mutations'
+import { CurrentTransactionService } from '../lib/currentTransactionService'
 
 export default {
   data() {
@@ -53,7 +54,7 @@ export default {
       get() {
         let tx = this.$store.getters.transaction
         if (tx === null) {
-          tx = this.resetTransaction()
+          this.resetTransaction()
         }
         return tx
       },
@@ -76,9 +77,7 @@ export default {
       // the date is saved on close.
     },
     resetTransaction() {
-      const tx = appService.createTransaction()
-      this.tx = tx
-      return tx
+      this.tx = new CurrentTransactionService().createTransaction()
     },
   },
 }

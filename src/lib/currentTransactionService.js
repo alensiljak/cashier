@@ -22,4 +22,15 @@ export class CurrentTransactionService {
     setTx(tx) {
 
     }
+
+    createTransaction() {
+        var tx = new Transaction()
+        tx.date = new Date().toISOString().substring(0, 10)
+    
+        tx.postings.push(new Posting())
+        tx.postings.push(new Posting())
+    
+        return tx
+      }
+    
 }

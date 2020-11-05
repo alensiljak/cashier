@@ -194,6 +194,7 @@ import appService from '../appService'
 import { SelectionModeMetadata } from '../lib/Configuration'
 import Toolbar from '../components/Toolbar'
 import TxEditor from '../components/TransactionEditor'
+import { CurrentTransactionService } from '../lib/currentTransactionService'
 
 const ACCOUNT = 'account'
 
@@ -426,9 +427,7 @@ export default {
       }
     },
     resetTransaction() {
-      const tx = appService.createTransaction()
-      this.tx = tx
-      return tx
+      this.tx = new CurrentTransactionService().createTransaction()
     },
   },
 }
