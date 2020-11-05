@@ -86,5 +86,6 @@ export default new Vuex.Store({
     drawerOpen: state => state.drawerOpen,
     transaction: state => state.transaction,
     liveModeOn: state => state.useLedger,
+    selectionModeMeta: state => state.selectModeMeta
   }
 });

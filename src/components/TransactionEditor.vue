@@ -68,7 +68,46 @@ export default {
     },
   },
 
+  created() {
+    // are we back from the select mode?
+    if (this.$store.getters.selectionModeMeta) {
+      this.handleSelection()
+    }
+  },
+
   methods: {
+    /**
+     * Handle selection after a picker returned.
+     */
+    async handleSelection() {
+      // todo handle blank id if the user presses 'back'.
+      const select = this.$store.state.selectModeMeta
+      const id = select.selectedId
+
+      switch (select.selectionType) {
+        case 'payee':
+          this.tx.payee = id
+          break
+        case 'account':
+          // get the posting
+          var index = null
+          if (typeof select.postingIndex === 'number') {
+            index = select.postingIndex
+          } else {
+            // redirected from account register, find an appropriate posting
+            index = this.getEmptyPostingIndex()
+          }
+          var posting = this.tx.postings[index]
+
+          const account = await appService.db.accounts.get(id)
+          posting.account = account.name
+          posting.currency = account.currency
+          break
+      }
+
+      // clean-up, reset the selection values
+      this.$store.commit(SET_SELECT_MODE, null)
+    },
     /**
      * (value, reason, details)
      */

@@ -189,7 +189,6 @@ import Toolbar from '../components/Toolbar'
 import TxEditor from '../components/TransactionEditor'
 import { CurrentTransactionService } from '../lib/currentTransactionService'
 
-const ACCOUNT = 'account'
 
 export default {
   components: {
@@ -223,11 +222,6 @@ export default {
 
     // For Edit Tx, load the tx from database.
     this.loadData()
-
-    // are we back from the select mode?
-    if (this.$store.state.selectModeMeta) {
-      this.handleSelection()
-    }
   },
   mounted: function () {
     // Set the focus on Payee field.
@@ -299,38 +293,6 @@ export default {
       }, 2000)
     },
     /**
-     * Handle selection after a picker returned.
-     */
-    async handleSelection() {
-      // todo handle blank id if the user presses 'back'.
-      const select = this.$store.state.selectModeMeta
-      const id = select.selectedId
-
-      switch (select.selectionType) {
-        case 'payee':
-          this.tx.payee = id
-          break
-        case ACCOUNT:
-          // get the posting
-          var index = null
-          if (typeof select.postingIndex === 'number') {
-            index = select.postingIndex
-          } else {
-            // redirected from account register, find an appropriate posting
-            index = this.getEmptyPostingIndex()
-          }
-          var posting = this.tx.postings[index]
-
-          const account = await appService.db.accounts.get(id)
-          posting.account = account.name
-          posting.currency = account.currency
-          break
-      }
-
-      // clean-up, reset the selection values
-      this.$store.commit(SET_SELECT_MODE, null)
-    },
-    /**
      * Load all data for the view.
      */
     loadData() {
@@ -349,7 +311,7 @@ export default {
       // save the index of the posting being edited
       selectMode.postingIndex = index
       // set the type
-      selectMode.selectionType = ACCOUNT
+      selectMode.selectionType = 'account'
 
       // set the selection mode
       this.$store.commit(SET_SELECT_MODE, selectMode)
