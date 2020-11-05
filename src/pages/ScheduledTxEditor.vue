@@ -99,10 +99,13 @@ export default {
         console.log('loading sch.tx. ', id)
 
         // load existing record
-        this.data = await appService.loadScheduledTransaction(id)
-        // todo: parse transaction and schedule JSON?
-        // this.transaction = ?
-        // this.schedule = {}
+        this.scheduledTx = await appService.loadScheduledTransaction(id)
+        this.transaction = JSON.parse(this.scheduledTx.transaction)
+        this.schedule = {
+          count: this.scheduledTx.count,
+          period: this.scheduledTx.period,
+          endDate: this.scheduledTx.endDate
+        }
       }
     },
     save() {
@@ -110,9 +113,6 @@ export default {
         this.scheduledTx.id = new Date().getTime()
       }
       // todo: serialize transaction
-      // todo: calculate schedule
-      this.scheduledTx.schedule = this.calculateSchedule()
-      // todo: serialize schedule
       // todo: save schedule input parameters
     },
   },
