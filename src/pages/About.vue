@@ -41,10 +41,6 @@
     <h4 class="q-my-sm text-center">Credits</h4>
     <ul>
       <li>
-        <a href="https://www.freepik.com/free-photos-vectors/sale">
-          Sale vector created by macrovector - www.freepik.com</a>
-      </li>
-      <li>
         <a href="https://www.freepik.com/free-photos-vectors/gold">
           Gold vector created by freepik - www.freepik.com</a>
       </li>
