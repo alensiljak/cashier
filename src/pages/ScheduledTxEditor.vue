@@ -13,7 +13,7 @@
     <div class="text-center">
       <div class="row q-py-lg">
         <div class="col">
-          <q-btn>Delete</q-btn>
+          <q-btn @click="confirmDeleteVisible = true">Delete</q-btn>
         </div>
         <div class="col">
           <q-btn @click.once="save">Save</q-btn>
@@ -27,6 +27,32 @@
           <q-btn>Enter</q-btn>
         </div>
       </div>
+    </div>
+
+    <div id="dialogs">
+      <!-- confirm deletion dialog -->
+      <q-dialog
+        v-model="confirmDeleteVisible"
+        persistent
+        content-class="bg-blue-grey-10"
+      >
+        <q-card dark class="bg-red-10 text-amber-2">
+          <q-card-section class="row items-center">
+            <span>Do you want to delete the scheduled transaction?</span>
+          </q-card-section>
+
+          <q-card-actions align="right">
+            <q-btn v-close-popup flat label="Cancel" color="amber-4" />
+            <q-btn
+              v-close-popup
+              flat
+              label="Delete"
+              color="amber-4"
+              @click="confirmDelete"
+            />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
     </div>
   </q-page>
 </template>
@@ -51,13 +77,22 @@ export default {
     return {
       scheduledTx: {}, // complete object
       transaction: {},
+      confirmDeleteVisible: false
     }
   },
 
   computed: {
     schedule: {
       get() {
-        return this.$store.getters.clipboard
+        let result = this.$store.getters.clipboard
+        if (!result) {
+          result = {
+            count: null,
+            period: null,
+            endDate: null,
+          }
+        }
+        return result
       },
       set(value) {
         this.$store.commit('saveToClipboard', value)
@@ -89,17 +124,28 @@ export default {
 
       // calculate next iteration from the given date.
     },
+    async confirmDelete() {
+      const id = this.scheduledTx.id
+      if (!id) {
+        console.error('the current scheduled transaction does not have an id')
+        return
+      }
+
+      const result = await appService.db.scheduled
+        .where('id').equals(id)
+        .delete()
+      console.log('deletion result:', result)
+
+      this.resetTransaction()
+
+      this.$router.push({ name: 'scheduledtransactions'})
+    },
     async loadData() {
       const id = this.$route.params.id
       if (!id) {
         // todo: enable this after testing.
         // this.resetTransaction()
         console.log('blank transaction')
-        this.schedule = {
-          count: null,
-          period: null,
-          endDate: null,
-        }
       } else {
         console.log('loading sch.tx. ', id)
 
@@ -111,11 +157,9 @@ export default {
         const txSvc = new CurrentTransactionService(this.$store)
         txSvc.setTx(this.transaction)
 
-        this.schedule = {
-          count: this.scheduledTx.count,
-          period: this.scheduledTx.period,
-          endDate: this.scheduledTx.endDate,
-        }
+        this.schedule.count = this.scheduledTx.count
+        this.schedule.period = this.scheduledTx.period
+        this.schedule.endDate = this.scheduledTx.endDate
       }
     },
     resetTransaction() {
@@ -126,6 +170,9 @@ export default {
       const tx = svc.createTransaction()
       svc.setTx(tx)
       this.transaction = tx
+
+      // Reset the schedule
+      this.schedule = null
     },
     async save() {
       if (!this.scheduledTx.id) {
@@ -148,7 +195,10 @@ export default {
       const result = await appService.db.scheduled.put(this.scheduledTx)
       console.log('saved', result)
 
-      if (result) this.$router.push({ name: 'scheduledtransactions' })
+      if (result) {
+        this.resetTransaction()
+        this.$router.push({ name: 'scheduledtransactions' })
+      }
     },
   },
 }

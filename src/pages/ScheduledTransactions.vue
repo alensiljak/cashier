@@ -64,9 +64,7 @@ export default {
     async loadData() {
       this.transactions = await appService.db.scheduled
         .orderBy('nextDate')
-        // .reverse()
         .toArray()
-      console.log('data loaded')
     },
     onFabClicked() {
       this.$router.push({ name: 'scheduledtxeditor' })
