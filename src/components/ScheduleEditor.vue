@@ -11,7 +11,7 @@
     <div v-show="repetition === true" class="row q-pl-xl">
       <div class="col">
         <q-input
-          v-model="schedule.count"
+          v-model="scheduledTx.count"
           type="number"
           label="Count"
           dark
@@ -22,7 +22,7 @@
       </div>
       <div class="col">
         <q-select
-          v-model="schedule.period"
+          v-model="scheduledTx.period"
           :options="periods"
           label="Periods"
           dark
@@ -31,30 +31,39 @@
       </div>
     </div>
 
-    <div>End on 'endDate'; never (null)</div>
-    <q-input
-      v-model="schedule.endDate"
-      label="End date"
+    <div>End on</div>
+    <q-option-group
+      v-model="endOn"
       dark
-      @click="datePickerVisible = true"
-      @change="onDataChanged"
+      :options="endOptions"
+      label="End on"
+      type="radio"
     />
-    <q-dialog ref="qDateProxy" v-model="datePickerVisible">
-      <q-date
-        ref="datePicker"
-        v-model="schedule.endDate"
+    <div v-show="endOn" class="q-pl-xl">
+      <q-input
+        v-model="scheduledTx.endDate"
+        label="End date"
         dark
-        first-day-of-week="1"
-        today-btn
-        mask="YYYY-MM-DD"
-        @input="onDateSelected"
-      >
-        <div class="row items-center justify-end q-gutter-sm">
-          <!-- <q-btn v-close-popup label="Cancel" color="primary" flat /> -->
-          <q-btn v-close-popup label="OK" color="accent" flat />
-        </div>
-      </q-date>
-    </q-dialog>
+        @click="datePickerVisible = true"
+        @change="onDataChanged"
+      />
+      <q-dialog ref="qDateProxy" v-model="datePickerVisible">
+        <q-date
+          ref="datePicker"
+          v-model="scheduledTx.endDate"
+          dark
+          first-day-of-week="1"
+          today-btn
+          mask="YYYY-MM-DD"
+          @input="onDateSelected"
+        >
+          <div class="row items-center justify-end q-gutter-sm">
+            <!-- <q-btn v-close-popup label="Cancel" color="primary" flat /> -->
+            <q-btn v-close-popup label="OK" color="accent" flat />
+          </div>
+        </q-date>
+      </q-dialog>
+    </div>
   </div>
 </template>
 
@@ -62,27 +71,20 @@
 import { ScheduledTransaction } from '../model'
 
 export default {
-  // props: {
-  //   value: {
-  //     type: Object,
-  //     default: null,
-  //   },
-  // },
-
   data() {
     return {
-      schedule: {
-        count: null,
-        period: null,
-        endDate: null,
-      },
       periods: [],
       datePickerVisible: false,
       repeatOptions: [
         { label: 'Never', value: false },
         { label: 'Every ...', value: true },
       ],
-      repetition: false,
+      //repetition: false,
+      endOptions: [
+        { label: 'Never', value: false },
+        { label: 'On', value: true },
+      ],
+      // endOn: false,
     }
   },
 
@@ -90,13 +92,31 @@ export default {
     scheduledTx: {
       get() {
         let result = this.$store.getters.clipboard
-        if (!result) {
-          result = new ScheduledTransaction()
-        }
+        // if (!result) {
+        //   result = new ScheduledTransaction()
+        // }
         return result
       },
       set(value) {
         this.$store.commit('saveToClipboard', value)
+      },
+    },
+    repetition: {
+      get() {
+        return this.scheduledTx.repetition
+      },
+      set(value) {
+        this.$set(this.scheduledTx, 'repetition', value)
+        //this.scheduledTx.repetition = value
+      },
+    },
+    endOn: {
+      get() {
+        return this.scheduledTx.endOn
+      },
+      set(value) {
+        this.$set(this.scheduledTx, 'endOn', value)
+        //this.scheduledTx.endOn = value
       },
     },
   },
@@ -104,20 +124,31 @@ export default {
   created() {
     this.createPeriods()
     //this.schedule = this.value
-    this.load()
+    if (this.scheduledTx === null) {
+      this.scheduledTx = new ScheduledTransaction()
+    }
+
+    if (this.scheduledTx) {
+      // repetition
+      if (this.scheduledTx.repetition === undefined) {
+        const repetition =
+          this.scheduledTx.count != null || this.scheduledTx.period != null
+        this.$set(this.scheduledTx, 'repetition', repetition)
+      }
+      if (this.scheduledTx.endOn === undefined) {
+        const endOn = this.scheduledTx.endDate != null
+        this.$set(this.scheduledTx, 'endOn', endOn)
+      }
+    }
   },
 
   methods: {
     createPeriods() {
       this.periods = ['days', 'weeks', 'months', 'years']
     },
-    load() {
-      this.schedule = this.scheduledTx
-      this.repetition = (this.scheduledTx.count != null) || (this.scheduledTx.period != null)
-    },
     onDataChanged() {
       //this.$emit('input', this.schedule)
-      this.scheduledTx = this.schedule
+      //this.scheduledTx = this.schedule
     },
     onDateSelected(value, reason) {
       if (reason !== 'day' && reason !== 'today') return
