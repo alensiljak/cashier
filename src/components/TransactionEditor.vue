@@ -55,7 +55,7 @@
         v-for="(posting, index) in tx.postings"
         :key="index"
         dark
-        right-color="red-10"
+        right-color="secondary"
         @right="onSlide"
       >
         <template #right>

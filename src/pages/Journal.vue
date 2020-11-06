@@ -78,11 +78,8 @@
           <font-awesome-icon icon="trash-alt" size="2x" class="q-ml-md" />
         </div>
       </template>
-      <q-item dark class="bg-colour1">
-        <q-item-section>
-          <journal-transaction :tx="tx" />
-        </q-item-section>
-      </q-item>
+
+      <journal-transaction :tx="tx" />
     </q-slide-item>
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">

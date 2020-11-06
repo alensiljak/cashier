@@ -56,7 +56,7 @@
       v-for="(account, index) in accounts"
       :key="account.name"
       dark
-      right-color="red-10"
+      right-color="secondary"
       @right="onRightSlide"
     >
       <template #right>
