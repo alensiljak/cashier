@@ -30,7 +30,7 @@
           color="accent"
           text-color="secondary"
           size="medium"
-          @click="onSave"
+          @click.once="onSave"
         >
           <font-awesome-icon
             icon="save"
@@ -48,7 +48,7 @@
           color="secondary"
           text-color="accent"
           size="medium"
-          @click="onDeleteClick"
+          @click.once="onDeleteClick"
         >
           <font-awesome-icon
             icon="trash-alt"

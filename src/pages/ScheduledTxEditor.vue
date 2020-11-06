@@ -11,10 +11,36 @@
     <div class="text-center">
       <div class="row q-py-lg">
         <div class="col">
-          <q-btn @click="confirmDeleteVisible = true">Delete</q-btn>
+          <q-btn
+            v-if="scheduledTx.id"
+            color="secondary"
+            text-color="accent"
+            size="medium"
+            @click.once="confirmDeleteVisible = true"
+          >
+            <font-awesome-icon
+              icon="trash-alt"
+              transform="grow-9"
+              class="q-icon-small on-left"
+            />
+            Delete
+          </q-btn>
         </div>
         <div class="col">
-          <q-btn @click.once="save">Save</q-btn>
+          <q-btn
+            class="q-px-lg"
+            color="accent"
+            text-color="secondary"
+            size="medium"
+            @click.once="onSave"
+          >
+            <font-awesome-icon
+              icon="save"
+              transform="grow-9"
+              class="q-icon-small on-left"
+            />
+            Save
+          </q-btn>
         </div>
       </div>
       <div class="row">
