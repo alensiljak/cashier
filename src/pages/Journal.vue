@@ -209,7 +209,7 @@ export default {
       try {
         const result = await appService.deleteTransaction(id)
         // console.debug('delete result:', result)
-        this.$q.notify('Transaction deleted')
+        this.$q.notify({ message: 'Transaction deleted', color: 'positive' })
 
         await this.loadData()
       } catch (error) {

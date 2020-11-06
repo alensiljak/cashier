@@ -305,7 +305,9 @@ export default {
       // calculate the next iteration.
       let newDate = this.calculateNextIteration(startDate, count, period, endDate)
       if (!newDate) {
-        throw new Error(`invalid date calculated: ${newDate}`)
+        // throw new Error(`invalid date calculated: ${newDate}`)
+        // Passed the End Date.
+        newDate = '0000-00-00'
       }
 
       // update the date on the transaction
