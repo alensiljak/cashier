@@ -35,7 +35,8 @@ Using Netlify to serve HTTPS site, as required by PWA specs. The [base url](http
 
 The automatic deployment is triggered when the Release branch is updated.
 
-The manual deployment is done with `netlify-cli` (installed from NPM), using `netlify deploy` from the root project directory. This requires netlify.toml. Otherwise, run from dist/pwa directory.
+The manual deployment is done with `netlify-cli` (installed from NPM), using `netlify deploy` from the root project directory. This requires netlify.toml. Otherwise, run from dist/pwa directory.  
+To deploy the Prod version, run `netlify deploy --prod`.
 
 
 ## Cashier Ecosystem
