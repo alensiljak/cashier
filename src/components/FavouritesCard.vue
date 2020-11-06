@@ -1,9 +1,10 @@
 <template>
   <q-card dark bordered @click="onCardClick">
     <!-- <q-card-section class="text-subtitle2">Favourites</q-card-section> -->
-    <q-card-section class="q-pb-none">
+    <q-card-section class="bg-primary">
       <strong>Favourites</strong>
     </q-card-section>
+
     <q-card-section>
       <div v-if="accounts.length === 0">
         There are no favourite accounts defined

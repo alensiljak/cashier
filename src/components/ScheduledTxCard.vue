@@ -1,6 +1,9 @@
 <template>
   <q-card dark bordered @click="onCardClick">
-    <q-card-section class="q-pb-none"> Upcoming Transactions </q-card-section>
+    <q-card-section class="bg-primary">
+      <strong>Upcoming Transactions</strong>
+    </q-card-section>
+
     <q-card-section>
       <div v-if="list.length === 0">There are no scheduled transactions</div>
 

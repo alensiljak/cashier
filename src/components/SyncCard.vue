@@ -1,6 +1,8 @@
 <template>
   <q-card dark bordered class="my-card">
-    <q-card-section class="text-subtitle2">CashierSync</q-card-section>
+    <q-card-section class="bg-primary">
+      <strong>CashierSync</strong>
+    </q-card-section>
     <q-card-section>
       <div class="row">
         <div class="col">
