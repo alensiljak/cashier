@@ -163,16 +163,17 @@ export default {
       confirmDeleteVisible: false,
       confirmDeleteAllVisible: false,
       transactions: [],
+      resetSlide: null,
     }
   },
 
   created() {
-    this.loadData()
+    this.loadData().then(() => console.debug('data loaded'))
   },
 
   methods: {
-    confirmDelete() {
-      this.deleteTransaction()
+    async confirmDelete() {
+      await this.deleteTransaction()
     },
     confirmDeleteAll() {
       this.deleteAllTransactions()
@@ -193,26 +194,35 @@ export default {
     async deleteTransaction(id) {
       if (!id) {
         this.$q.notify({
-          color: 'secondary',
+          color: 'negative',
           message: 'No transaction id sent for deletion.',
         })
       }
 
+      // remove the reset reference.
+      if (this.resetSlide) {
+        // remove the slide section.
+        this.resetSlide()
+        this.resetSlide = null
+      }
+
       try {
-        await appService.deleteTransaction(id)
+        const result = await appService.deleteTransaction(id)
+        // console.debug('delete result:', result)
         this.$q.notify('Transaction deleted')
+
         await this.loadData()
       } catch (error) {
-        this.$q.notify({ color: 'secondary', message: error.message })
+        this.$q.notify({ color: 'negative', message: error.message })
       }
     },
     exportJournal() {
       this.$router.push({ name: 'export' })
     },
-    finalizeSlide(reset) {
+    finalize(reset) {
       this.timer = setTimeout(() => {
         // has it been already deleted?
-        if (!reset) return
+        if (!this.resetSlide) return
 
         reset()
       }, 2000)
@@ -238,7 +248,7 @@ export default {
     },
     onSlide({ reset }) {
       this.resetSlide = reset
-      this.finalizeSlide(reset)
+      this.finalize(reset)
     },
     onTransactionDeleteClicked(data) {
       // confirm
