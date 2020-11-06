@@ -60,11 +60,11 @@ export default {
 </script>
 <style lang="sass" scoped>
 .red
-  color: $red-10
+  color: $negative
 
 .yellow
-  color: gold
+  color: $warning
 
 .green
-  color: $secondary
+  color: $positive
 </style>

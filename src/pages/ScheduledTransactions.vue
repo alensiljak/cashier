@@ -17,7 +17,7 @@
         <!-- <q-item-label>Label</q-item-label> -->
         <q-item-section
           avatar
-          :class="{ red: stx.nextDate < today, yellow: stx.nextDate === today }"
+          :class="{ red: stx.nextDate < today, yellow: stx.nextDate === today, green: stx.nextDate > today }"
         >
           {{ stx.nextDate }}
         </q-item-section>
@@ -76,8 +76,11 @@ export default {
 </script>
 <style lang="sass" scoped>
 .red
-  color: $red-10
+  color: $negative
 
 .yellow
-  color: yellow
+  color: $warning
+
+.green
+  color: $positive
 </style>
