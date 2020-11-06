@@ -8,7 +8,7 @@
 
     <div>Schedule</div>
 
-    <schedule-editor v-model="schedule" />
+    <schedule-editor v-model="scheduledTx" />
 
     <div class="text-center">
       <div class="row q-py-lg">
@@ -75,22 +75,18 @@ export default {
 
   data() {
     return {
-      scheduledTx: {}, // complete object
+      // scheduledTx: {}, // complete object
       transaction: {},
-      confirmDeleteVisible: false
+      confirmDeleteVisible: false,
     }
   },
 
   computed: {
-    schedule: {
+    scheduledTx: {
       get() {
         let result = this.$store.getters.clipboard
         if (!result) {
-          result = {
-            count: null,
-            period: null,
-            endDate: null,
-          }
+          result = new ScheduledTransaction()
         }
         return result
       },
@@ -109,8 +105,8 @@ export default {
      * Calculate the schedule based on the given parameters.
      */
     calculateSchedule() {
-      const count = this.schedule.count
-      const period = this.schedule.period
+      const count = this.scheduledTx.count
+      const period = this.scheduledTx.period
       const startDate = this.transaction.date
       const dateFormat = 'YYYY-MM-DD'
 
@@ -132,35 +128,51 @@ export default {
       }
 
       const result = await appService.db.scheduled
-        .where('id').equals(id)
+        .where('id')
+        .equals(id)
         .delete()
       console.log('deletion result:', result)
 
       this.resetTransaction()
 
-      this.$router.push({ name: 'scheduledtransactions'})
+      this.$router.push({ name: 'scheduledtransactions' })
     },
     async loadData() {
       const id = this.$route.params.id
       if (!id) {
         // todo: enable this after testing.
         // this.resetTransaction()
-        console.log('blank transaction')
+        console.log('blank transaction, using clipboard values')
       } else {
         console.log('loading sch.tx. ', id)
 
         // load existing record
-        this.scheduledTx = await appService.db.scheduled.get(id)
-        this.transaction = JSON.parse(this.scheduledTx.transaction)
-
-        // make tx available for editing
-        const txSvc = new CurrentTransactionService(this.$store)
-        txSvc.setTx(this.transaction)
-
-        this.schedule.count = this.scheduledTx.count
-        this.schedule.period = this.scheduledTx.period
-        this.schedule.endDate = this.scheduledTx.endDate
+        const schTx = await appService.db.scheduled.get(id)
+        this.use(schTx)
       }
+    },
+    /**
+     * Sets the given Scheduled Transaction as the active object, being edited.
+     */
+    use(scheduledTransaction) {
+      if (this.scheduledTx === null) {
+        this.scheduledTx = new ScheduledTransaction()
+      }
+
+      // transfer the properties to reactive model
+      for (var prop in scheduledTransaction) {
+        if (Object.prototype.hasOwnProperty.call(scheduledTransaction, prop)) {
+          this.$set(this.scheduledTx, prop, scheduledTransaction[prop])
+        }
+      }
+      // save to store
+      this.scheduledTx = scheduledTransaction
+
+      this.transaction = JSON.parse(scheduledTransaction.transaction)
+
+      // make tx available for editing
+      const txSvc = new CurrentTransactionService(this.$store)
+      txSvc.setTx(this.transaction)
     },
     resetTransaction() {
       // create blank record
@@ -172,7 +184,7 @@ export default {
       this.transaction = tx
 
       // Reset the schedule
-      this.schedule = null
+      this.scheduledTx = null
     },
     async save() {
       if (!this.scheduledTx.id) {
@@ -186,11 +198,6 @@ export default {
       this.scheduledTx.transaction = txStr
 
       this.scheduledTx.nextDate = tx.date
-
-      // save schedule input parameters
-      this.scheduledTx.endDate = this.schedule.endDate
-      this.scheduledTx.count = this.schedule.count
-      this.scheduledTx.period = this.schedule.period
 
       const result = await appService.db.scheduled.put(this.scheduledTx)
       console.log('saved', result)
