@@ -43,13 +43,12 @@ import {
 export default new Vuex.Store({
   // strict: true,
   state: {
-    activeAccount: null,
+    // for storing the transactions being edited or anything else, temporarily.
+    clipboard: null,
     drawerOpen: null,
     transaction: null, // The transaction being edited.
     // Select mode: set select mode, open list, select item, save id, return to the caller.
     selectModeMeta: null,
-    // unused?
-    dateFormatIso: "yyyy-MM-dd",
     // Use Cashier Sync for providing Ledger data?
     useLedger: false
   },
@@ -76,6 +75,9 @@ export default new Vuex.Store({
     },
     [SET_LEDGER_USE](state, useLedger) {
       state.useLedger = useLedger
+    },
+    saveToClipboard(state, payload) {
+      state.clipboard = payload
     }
   },
 
@@ -83,6 +85,7 @@ export default new Vuex.Store({
   actions: {
   },
   getters: {
+    clipboard: state => state.clipboard,
     drawerOpen: state => state.drawerOpen,
     transaction: state => state.transaction,
     liveModeOn: state => state.useLedger,

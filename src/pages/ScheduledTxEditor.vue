@@ -51,15 +51,19 @@ export default {
     return {
       scheduledTx: {}, // complete object
       transaction: {},
-      schedule: {
-        count: null,
-        period: null,
-        endDate: null,
-      },
     }
   },
 
-  computed: {},
+  computed: {
+    schedule: {
+      get() {
+        return this.$store.getters.clipboard
+      },
+      set(value) {
+        this.$store.commit('saveToClipboard', value)
+      },
+    },
+  },
 
   async created() {
     await this.loadData()
@@ -91,6 +95,11 @@ export default {
         // todo: enable this after testing.
         // this.resetTransaction()
         console.log('blank transaction')
+        this.schedule = {
+          count: null,
+          period: null,
+          endDate: null,
+        }
       } else {
         console.log('loading sch.tx. ', id)
 
@@ -102,9 +111,11 @@ export default {
         const txSvc = new CurrentTransactionService(this.$store)
         txSvc.setTx(this.transaction)
 
-        this.schedule.count = this.scheduledTx.count
-        this.schedule.period = this.scheduledTx.period
-        this.schedule.endDate = this.scheduledTx.endDate
+        this.schedule = {
+          count: this.scheduledTx.count,
+          period: this.scheduledTx.period,
+          endDate: this.scheduledTx.endDate,
+        }
       }
     },
     resetTransaction() {
