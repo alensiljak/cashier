@@ -32,7 +32,7 @@
             color="accent"
             text-color="secondary"
             size="medium"
-            @click.once="onSave"
+            @click.once="save"
           >
             <font-awesome-icon
               icon="save"
