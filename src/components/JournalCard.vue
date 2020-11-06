@@ -26,6 +26,7 @@
         text-color="accent"
         @click.stop="onNewTxClick"
       >
+        <font-awesome-icon icon="plus" class="q-icon-small on-left" />
         New
       </q-btn>
     </q-card-actions>
