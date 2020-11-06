@@ -37,6 +37,75 @@
         <font-awesome-icon icon="user" />
       </template>
     </q-input>
+
+    <!--note -->
+    <q-input v-model="tx.note" label="Note" dark>
+      <template #prepend>
+        <font-awesome-icon icon="file-alt" />
+      </template>
+    </q-input>
+
+    <!-- Postings -->
+    <div class="form-row q-mt-sm">
+      <div class="col">Postings</div>
+    </div>
+
+    <div>
+      <q-slide-item
+        v-for="(posting, index) in tx.postings"
+        :key="index"
+        dark
+        right-color="red-10"
+        @right="onSlide"
+      >
+        <template #right>
+          <div
+            class="row items-center text-amber-4"
+            @click="deletePosting(index)"
+          >
+            Click to confirm or wait 2s to cancel
+            <font-awesome-icon icon="trash-alt" size="2x" class="q-ml-md" />
+          </div>
+        </template>
+        <q-item dark class="bg-colour1">
+          <q-item-section>
+            <QPosting
+              :index="index"
+              @delete-row="deletePosting"
+              @account-clicked="onAccountClicked(index)"
+              @amount-changed="onAmountChanged"
+            />
+          </q-item-section>
+        </q-item>
+      </q-slide-item>
+
+      <!-- Sum -->
+      <q-item dark>
+        <q-item-section>
+          <q-item-label>Sum</q-item-label>
+        </q-item-section>
+        <q-item-section avatar>{{ formatNumber(postingSum) }}</q-item-section>
+      </q-item>
+
+      <!-- posting actions -->
+      <div class="row q-mt-sm q-mb-xl">
+        <div class="col text-center">
+          <q-btn
+            color="primary"
+            text-color="accent"
+            size="small"
+            @click="addPosting"
+          >
+            <font-awesome-icon
+              icon="plus-circle"
+              transform="grow-9"
+              class="q-icon-small on-left"
+            />
+            <div>Add Posting</div>
+          </q-btn>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -44,18 +113,26 @@ import appService from '../appService'
 import { SET_TRANSACTION, SET_SELECT_MODE } from '../mutations'
 import { CurrentTransactionService } from '../lib/currentTransactionService'
 import { SelectionModeMetadata } from '../lib/Configuration'
+import QPosting from '../components/Posting.vue'
+import { Posting } from '../model'
 
 export default {
+  components: {
+    QPosting,
+  },
+
   data() {
     return {
       datePickerVisible: false,
+      resetSlide: null,
+      postingSum: 0,
     }
   },
 
   computed: {
     tx: {
       get() {
-        let tx = this.$store.getters.transaction
+        let tx = new CurrentTransactionService(this.$store).getTx()
         if (tx === null) {
           tx = this.resetTransaction()
         }
@@ -63,7 +140,7 @@ export default {
       },
       set(value) {
         // save in the state store
-        this.$store.commit(SET_TRANSACTION, value)
+        new CurrentTransactionService(this.$store).setTx(value)
       },
     },
   },
@@ -74,8 +151,41 @@ export default {
       this.handleSelection()
     }
   },
+  mounted: function () {
+    // Set the focus on Payee field.
+    // document.getElementById("payee").focus() => this.$refs.payee
+    // this.$refs.date
+    // this.date = new Date().toISOString().substring(0, 10);
+
+    this.recalculateSum()
+  },
 
   methods: {
+    addPosting() {
+      this.tx.postings.push(new Posting())
+    },
+    deletePosting(index) {
+      if (this.resetSlide) {
+        // remove the slide section.
+        this.resetSlide()
+        this.resetSlide = null
+      }
+
+      this.tx.postings.splice(index, 1)
+
+      this.recalculateSum()
+    },
+    finalizeSlide(reset) {
+      this.timer = setTimeout(() => {
+        // has it been already deleted?
+        if (!reset) return
+
+        reset()
+      }, 2000)
+    },
+    formatNumber(value) {
+      return appService.formatNumber(value)
+    },
     /**
      * Handle selection after a picker returned.
      */
@@ -108,6 +218,23 @@ export default {
       // clean-up, reset the selection values
       this.$store.commit(SET_SELECT_MODE, null)
     },
+    onAccountClicked(index) {
+      const selectMode = new SelectionModeMetadata()
+
+      // save the index of the posting being edited
+      selectMode.postingIndex = index
+      // set the type
+      selectMode.selectionType = 'account'
+
+      // set the selection mode
+      this.$store.commit(SET_SELECT_MODE, selectMode)
+      // show account picker
+      this.$router.push({ name: 'accounts' })
+    },
+    onAmountChanged() {
+      // recalculate the sum
+      this.recalculateSum()
+    },
     /**
      * (value, reason, details)
      */
@@ -128,6 +255,18 @@ export default {
       this.$store.commit(SET_SELECT_MODE, selectMode)
       // show account picker
       this.$router.push({ name: 'payees' })
+    },
+    onSlide({ reset }) {
+      this.resetSlide = reset
+      this.finalizeSlide(reset)
+    },
+    recalculateSum() {
+      this.postingSum = 0
+
+      for (let i = 0; i < this.tx.postings.length; i++) {
+        const posting = this.tx.postings[i]
+        this.postingSum += posting.amount
+      }
     },
     resetTransaction() {
       const tx = new CurrentTransactionService(this.$store).createTransaction()

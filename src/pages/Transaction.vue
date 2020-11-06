@@ -5,84 +5,6 @@
     <!-- Transaction -->
     <tx-editor />
 
-    <div v-if="$store.getters.liveModeOn" class="text-center">
-      <q-btn
-        label="xact"
-        color="secondary"
-        text-color="accent"
-        @click="onXactClicked"
-      />
-    </div>
-
-    <!--note -->
-    <q-input v-model="tx.note" label="Note" dark>
-      <template #prepend>
-        <font-awesome-icon icon="file-alt" />
-      </template>
-    </q-input>
-
-    <div class="form-row q-mt-sm">
-      <div class="col">Postings</div>
-    </div>
-
-    <!-- Postings -->
-    <div>
-      <q-slide-item
-        v-for="(posting, index) in tx.postings"
-        :key="index"
-        dark
-        right-color="red-10"
-        @right="onSlide"
-      >
-        <template #right>
-          <div
-            class="row items-center text-amber-4"
-            @click="deletePosting(index)"
-          >
-            Click to confirm or wait 2s to cancel
-            <font-awesome-icon icon="trash-alt" size="2x" class="q-ml-md" />
-          </div>
-        </template>
-        <q-item dark class="bg-colour1">
-          <q-item-section>
-            <QPosting
-              :index="index"
-              @delete-row="deletePosting"
-              @account-clicked="onAccountClicked(index)"
-              @amount-changed="onAmountChanged"
-            />
-          </q-item-section>
-        </q-item>
-      </q-slide-item>
-
-      <!-- Sum -->
-      <q-item dark>
-        <q-item-section>
-          <q-item-label>Sum</q-item-label>
-        </q-item-section>
-        <q-item-section avatar>{{ formatNumber(postingSum) }}</q-item-section>
-      </q-item>
-
-      <!-- posting actions -->
-      <div class="row q-mt-sm q-mb-xl">
-        <div class="col text-center">
-          <q-btn
-            color="primary"
-            text-color="accent"
-            size="small"
-            @click="addPosting"
-          >
-            <font-awesome-icon
-              icon="plus-circle"
-              transform="grow-9"
-              class="q-icon-small on-left"
-            />
-            <div>Add Posting</div>
-          </q-btn>
-        </div>
-      </div>
-    </div>
-
     <q-separator dark />
 
     <!-- main (tx) Actions -->
@@ -152,8 +74,16 @@
         </q-btn>
       </div>
     </div>
+    <div v-if="$store.getters.liveModeOn" class="text-center">
+      <q-btn
+        label="xact"
+        color="secondary"
+        text-color="accent"
+        @click="onXactClicked"
+      />
+    </div>
 
-    <!-- confirm deletion dialog -->
+    <!-- confirm tx deletion dialog -->
     <q-dialog
       v-model="confirmDeleteVisible"
       persistent
@@ -180,27 +110,20 @@
 </template>
 
 <script>
-import QPosting from '../components/Posting.vue'
-import { Posting } from '../model'
 import { SET_TRANSACTION, SET_SELECT_MODE } from '../mutations'
 import appService from '../appService'
-import { SelectionModeMetadata } from '../lib/Configuration'
 import Toolbar from '../components/Toolbar'
 import TxEditor from '../components/TransactionEditor'
 import { CurrentTransactionService } from '../lib/currentTransactionService'
 
-
 export default {
   components: {
-    QPosting,
     Toolbar,
     TxEditor
   },
   data() {
     return {
       confirmDeleteVisible: false,
-      resetSlide: null,
-      postingSum: 0,
     }
   },
 
@@ -223,35 +146,13 @@ export default {
     // For Edit Tx, load the tx from database.
     this.loadData()
   },
-  mounted: function () {
-    // Set the focus on Payee field.
-    // document.getElementById("payee").focus() => this.$refs.payee
-    // this.$refs.date
-    // this.date = new Date().toISOString().substring(0, 10);
-
-    this.recalculateSum()
-  },
 
   methods: {
-    addPosting() {
-      this.tx.postings.push(new Posting())
-    },
     /**
      * The user confirmed the deletion.
      */
     async confirmDelete() {
       await this.deleteTransaction()
-    },
-    deletePosting(index) {
-      if (this.resetSlide) {
-        // remove the slide section.
-        this.resetSlide()
-        this.resetSlide = null
-      }
-
-      this.tx.postings.splice(index, 1)
-
-      this.recalculateSum()
     },
     async deleteTransaction() {
       let id = this.tx.id
@@ -264,9 +165,6 @@ export default {
       } catch (reason) {
         this.$q.notify({ color: 'secondary', message: reason.message })
       }
-    },
-    formatNumber(value) {
-      return appService.formatNumber(value)
     },
     /**
      * Find an empty posting, or create one.
@@ -284,14 +182,6 @@ export default {
       this.tx.postings.push(posting)
       return this.tx.postings.length - 1
     },
-    finalizeSlide(reset) {
-      this.timer = setTimeout(() => {
-        // has it been already deleted?
-        if (!reset) return
-
-        reset()
-      }, 2000)
-    },
     /**
      * Load all data for the view.
      */
@@ -304,23 +194,6 @@ export default {
     },
     async loadTransaction(id) {
       this.tx = await appService.loadTransaction(id)
-    },
-    onAccountClicked(index) {
-      const selectMode = new SelectionModeMetadata()
-
-      // save the index of the posting being edited
-      selectMode.postingIndex = index
-      // set the type
-      selectMode.selectionType = 'account'
-
-      // set the selection mode
-      this.$store.commit(SET_SELECT_MODE, selectMode)
-      // show account picker
-      this.$router.push({ name: 'accounts' })
-    },
-    onAmountChanged() {
-      // recalculate the sum
-      this.recalculateSum()
     },
     onClear() {
       // Resets all Transaction fields to defaults.
@@ -345,20 +218,8 @@ export default {
     onScheduleClick() {
       this.$router.push({ name: 'scheduledtxeditor' })
     },
-    onSlide({ reset }) {
-      this.resetSlide = reset
-      this.finalizeSlide(reset)
-    },
     onXactClicked() {
       this.$router.push({ name: 'xact', params: { payee: this.tx.payee } })
-    },
-    recalculateSum() {
-      this.postingSum = 0
-
-      for (let i = 0; i < this.tx.postings.length; i++) {
-        const posting = this.tx.postings[i]
-        this.postingSum += posting.amount
-      }
     },
     resetTransaction() {
       this.tx = new CurrentTransactionService(this.$store).createTransaction()
