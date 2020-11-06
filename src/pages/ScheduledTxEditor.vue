@@ -97,16 +97,14 @@ export default {
         // load existing record
         this.scheduledTx = await appService.db.scheduled.get(id)
         this.transaction = JSON.parse(this.scheduledTx.transaction)
-        
+
         // make tx available for editing
         const txSvc = new CurrentTransactionService(this.$store)
         txSvc.setTx(this.transaction)
 
-        this.schedule = {
-          count: this.scheduledTx.count,
-          period: this.scheduledTx.period,
-          endDate: this.scheduledTx.endDate,
-        }
+        this.schedule.count = this.scheduledTx.count
+        this.schedule.period = this.scheduledTx.period
+        this.schedule.endDate = this.scheduledTx.endDate
       }
     },
     resetTransaction() {
@@ -139,7 +137,7 @@ export default {
       const result = await appService.db.scheduled.put(this.scheduledTx)
       console.log('saved', result)
 
-      if(result) this.$router.push({ name: 'scheduledtransactions' })
+      if (result) this.$router.push({ name: 'scheduledtransactions' })
     },
   },
 }
