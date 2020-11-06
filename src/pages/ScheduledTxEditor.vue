@@ -8,8 +8,8 @@
 
     <schedule-editor v-model="scheduledTx" />
 
-    <div class="text-center">
-      <div class="row q-py-lg">
+    <div id="actions" class="text-center">
+      <div class="row q-py-xl">
         <div class="col">
           <q-btn
             v-if="scheduledTx.id"
@@ -32,7 +32,7 @@
             color="accent"
             text-color="secondary"
             size="medium"
-            @click.once="save"
+            @click.once="onSaveClicked"
           >
             <font-awesome-icon
               icon="save"
@@ -45,16 +45,18 @@
       </div>
       <div class="row">
         <div class="col">
-          <q-btn class="q-mr-md">Skip</q-btn>
+          <q-btn color="primary" text-color="accent" @click="skipConfirmationVisible = true">
+            Skip
+          </q-btn>
         </div>
         <div class="col">
-          <q-btn>Enter</q-btn>
+          <q-btn color="accent" text-color="secondary">Enter</q-btn>
         </div>
       </div>
     </div>
 
     <div id="dialogs">
-      <!-- confirm deletion dialog -->
+      <!-- confirm stx deletion dialog -->
       <q-dialog
         v-model="confirmDeleteVisible"
         persistent
@@ -73,6 +75,29 @@
               label="Delete"
               color="amber-4"
               @click="confirmDelete"
+            />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+      <!-- skip dialog -->
+      <q-dialog
+        v-model="skipConfirmationVisible"
+        persistent
+        content-class="bg-blue-grey-10"
+      >
+        <q-card dark class="bg-primary text-amber-2">
+          <q-card-section class="row items-center">
+            <span>Do you want to skip the next iteration?</span>
+          </q-card-section>
+
+          <q-card-actions align="right">
+            <q-btn v-close-popup flat label="No" color="accent" />
+            <q-btn
+              v-close-popup
+              flat
+              label="Yes"
+              color="accent"
+              @click="onSkipConfirmed"
             />
           </q-card-actions>
         </q-card>
@@ -102,6 +127,7 @@ export default {
       // scheduledTx: {}, // complete object
       transaction: {},
       confirmDeleteVisible: false,
+      skipConfirmationVisible: false,
     }
   },
 
@@ -132,10 +158,10 @@ export default {
     /**
      * Calculate the schedule based on the given parameters.
      */
-    calculateSchedule() {
+    calculateNextIteration(startDate) {
       const count = this.scheduledTx.count
       const period = this.scheduledTx.period
-      const startDate = this.transaction.date
+      //const startDate = this.transaction.date
       const dateFormat = 'YYYY-MM-DD'
 
       // Get the start point.
@@ -179,6 +205,27 @@ export default {
         this.use(schTx)
       }
     },
+    onSkipConfirmed() {
+      // Skips the next iteration.
+
+      let stx = this.scheduledTx
+      const startDate = stx.nextDate
+
+      // calculate the next iteration.
+      let newDate = this.calculateNextIteration()
+
+      // update the nextDate
+      stx.nextDate = newDate
+      // update the date on the transaction
+      const txSvc = new CurrentTransactionService(this.$store)
+      const tx = txSvc.getTx()
+      tx.date = newDate
+
+      this.saveData()
+
+      // refresh the view
+      this.use(stx)
+    },
     /**
      * Sets the given Scheduled Transaction as the active object, being edited.
      */
@@ -214,10 +261,12 @@ export default {
       // Reset the schedule
       this.scheduledTx = null
     },
-    async save() {
+    async saveData() {
+      // Saves the Stx record
+
       if (!this.scheduledTx.id) {
         this.scheduledTx.id = new Date().getTime()
-        console.log('new id generated:', this.scheduledTx.id)
+        // console.log('new id generated:', this.scheduledTx.id)
       }
       // serialize transaction
       const txSvc = new CurrentTransactionService(this.$store)
@@ -228,7 +277,12 @@ export default {
       this.scheduledTx.nextDate = tx.date
 
       const result = await appService.db.scheduled.put(this.scheduledTx)
-      console.log('saved', result)
+      // console.log('saved', result)
+    },
+    async onSaveClicked() {
+      /// Triggered on Save button click
+
+      await this.saveData()
 
       if (result) {
         this.resetTransaction()
@@ -238,3 +292,7 @@ export default {
   },
 }
 </script>
+<style lang="sass" scoped>
+.actionButton
+  bg-color: $accent
+</style>

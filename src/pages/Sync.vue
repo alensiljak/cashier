@@ -115,19 +115,19 @@ export default {
       sync
         .healthCheck()
         .then((response) =>
-          this.$q.notify({ message: response, color: 'primary' })
+          this.$q.notify({ message: response, color: 'positive' })
         )
         .catch((reason) =>
           this.$q.notify({
             message: 'Connecting to CashierSync: ' + reason,
-            color: 'secondary',
+            color: 'negative',
           })
         )
     },
     async saveSyncServerUrl() {
       // sync server.
       await settings.set(SettingKeys.syncServerUrl, this.serverUrl)
-      this.$q.notify({ message: 'sync server saved' })
+      this.$q.notify({ message: 'sync server saved', color: 'info' })
     },
     synchronizeAaValues() {
       const sync = new CashierSync(this.serverUrl)
