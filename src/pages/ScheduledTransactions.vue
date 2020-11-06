@@ -24,12 +24,6 @@
         <q-item-section>
           {{ JSON.parse(stx.transaction).payee }}
         </q-item-section>
-        <q-item-section side>
-          <!-- top -->
-          >
-          <!-- <q-item-label caption>Skip</q-item-label>
-          <q-item-label caption>Post</q-item-label> -->
-        </q-item-section>
       </q-item>
     </q-list>
 
