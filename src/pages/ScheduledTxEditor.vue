@@ -43,7 +43,7 @@
           </q-btn>
         </div>
       </div>
-      <div class="row">
+      <div class="row q-pb-lg">
         <div class="col">
           <q-btn
             color="primary"
