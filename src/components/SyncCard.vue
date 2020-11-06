@@ -53,7 +53,10 @@
         </q-dialog>
       </div>
     </q-card-section>
-    <q-card-actions>
+
+    <q-separator dark />
+
+    <q-card-actions align="right">
       <!-- <q-btn flat dark color="primary" text-color="accent" @click="onSyncClick">
         Sync
       </q-btn> -->

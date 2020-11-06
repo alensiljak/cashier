@@ -12,13 +12,16 @@
 // to match your app's branding.
 // Tip: Use the "Theme Builder" on Quasar's documentation website.
 
-// $primary   : #027BE3;
-// $secondary : #26A69A;
-// $accent    : #9C27B0;
+// ***
+// This file loads by default (Sass, Scss), without any addional configuration.
 
-// $dark      : #1D1D1D;
+$primary   : #076461;
+$secondary : #92140c;
+$accent    : #ffd700;
 
-// $positive  : #21BA45;
-// $negative  : #C10015;
-// $info      : #31CCEC;
-// $warning   : #F2C037;
+$dark      : #1D1D1D;
+
+$positive  : #21BA45;
+$negative  : #C10015;
+$info      : #31CCEC;
+$warning   : #F2C037;

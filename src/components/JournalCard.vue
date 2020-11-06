@@ -73,5 +73,5 @@ export default {
 </script>
 <style lang="sass" scoped>
 .cardActionButton
-  border: 1px solid $primary
+  border: 1px solid $accent
 </style>
