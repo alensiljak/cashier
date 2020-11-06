@@ -64,7 +64,7 @@
           standout
           dense
           dark
-          color="amber-4"
+          color="accent"
           style="width: 23rem"
           debounce="500"
         >
@@ -131,7 +131,7 @@
             dense
             autofocus
             input-class="text-amber-2"
-            color="amber-4"
+            color="accent"
             @keyup.enter="onAddAccount"
           />
         </q-card-section>
@@ -162,12 +162,12 @@
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn v-close-popup flat label="Cancel" color="amber-4" />
+          <q-btn v-close-popup flat label="Cancel" color="accent" />
           <q-btn
             v-close-popup
             flat
             label="Delete"
-            color="amber-4"
+            color="accent"
             @click="confirmDeleteAll"
           />
         </q-card-actions>

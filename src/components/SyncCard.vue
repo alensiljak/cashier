@@ -45,7 +45,7 @@
                 v-close-popup
                 flat
                 label="OK"
-                color="amber-4"
+                color="accent"
                 @click="liveModeHelpVisible = false"
               />
             </q-card-actions>

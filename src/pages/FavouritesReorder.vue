@@ -12,7 +12,7 @@
     </accounts-list>
 
     <div class="row q-my-xl justify-end">
-      <q-btn color="red-10" text-color="amber-4" label="Save" @click="onSaveClick" />
+      <q-btn color="red-10" text-color="accent" label="Save" @click="onSaveClick" />
     </div>
   </q-page>
 </template>

@@ -60,7 +60,7 @@
       >
         <template #right>
           <div
-            class="row items-center text-amber-4"
+            class="row items-center text-accent"
             @click="deletePosting(index)"
           >
             Click to confirm or wait 2s to cancel

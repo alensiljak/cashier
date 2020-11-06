@@ -19,7 +19,7 @@
         <q-btn
           label="Copy to clipboard"
           color="red-10"
-          text-color="amber-4"
+          text-color="accent"
           @click="copyToClipboard"
         />
       </div>
@@ -28,7 +28,7 @@
           round
           :icon="mdiShareVariant"
           color="red-10"
-          text-color="amber-4"
+          text-color="accent"
           @click="webshare"
         />
       </div>
@@ -36,7 +36,7 @@
         <q-btn
           label="Download"
           color="red-10"
-          text-color="amber-4"
+          text-color="accent"
           @click="downloadAsFile"
         />
         <!-- <a :href="downloadLink" download="journal.ledger" >Download</a> -->
@@ -93,7 +93,7 @@
         <q-btn
           label="Delete all local transactions"
           color="red-10"
-          text-color="amber-4"
+          text-color="accent"
           @click="onDeleteAllClicked"
         />
       </div>
@@ -113,12 +113,12 @@
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn v-close-popup flat label="Cancel" color="amber-4" />
+          <q-btn v-close-popup flat label="Cancel" color="accent" />
           <q-btn
             v-close-popup
             flat
             label="Delete"
-            color="amber-4"
+            color="accent"
             @click="confirmDeleteAll"
           />
         </q-card-actions>

@@ -23,7 +23,7 @@
           <q-btn
             label="Import"
             color="red-10"
-            text-color="amber-4"
+            text-color="accent"
             @click="onCurrentBalClick"
           />
         </div>

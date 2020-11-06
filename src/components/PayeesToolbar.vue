@@ -37,7 +37,7 @@
         standout
         dense
         dark
-        color="amber-4"
+        color="accent"
         style="width: 23rem;"
         debounce="500"
       >

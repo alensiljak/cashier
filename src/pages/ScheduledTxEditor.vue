@@ -68,12 +68,12 @@
           </q-card-section>
 
           <q-card-actions align="right">
-            <q-btn v-close-popup flat label="Cancel" color="amber-4" />
+            <q-btn v-close-popup flat label="Cancel" color="accent" />
             <q-btn
               v-close-popup
               flat
               label="Delete"
-              color="amber-4"
+              color="accent"
               @click="confirmDelete"
             />
           </q-card-actions>
