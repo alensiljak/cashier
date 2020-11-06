@@ -120,8 +120,12 @@ export default {
     },
   },
 
-  async created() {
-    await this.loadData()
+  created() {
+    if (this.scheduledTx === null) {
+      this.scheduledTx = new ScheduledTransaction()
+    }
+
+    this.loadData()
   },
 
   methods: {

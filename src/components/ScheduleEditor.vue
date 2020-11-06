@@ -103,20 +103,33 @@ export default {
     },
     repetition: {
       get() {
-        return this.scheduledTx.repetition
+        // return this.scheduledTx.repetition
+        return this.scheduledTx.count != null || this.scheduledTx.period != null
       },
       set(value) {
-        this.$set(this.scheduledTx, 'repetition', value)
+        //this.$set(this.scheduledTx, 'repetition', value)
         //this.scheduledTx.repetition = value
+        if (value) {
+          this.scheduledTx.period = 'days'
+        } else {
+          this.scheduledTx.count = null
+          this.scheduledTx.period = null
+        }
       },
     },
     endOn: {
       get() {
-        return this.scheduledTx.endOn
+        // return this.scheduledTx.endOn
+        return this.scheduledTx.endDate != null
       },
       set(value) {
-        this.$set(this.scheduledTx, 'endOn', value)
+        //this.$set(this.scheduledTx, 'endOn', value)
         //this.scheduledTx.endOn = value
+        if (value) {
+          this.scheduledTx.endDate = ''
+        } else {
+          this.scheduledTx.endDate = null
+        }
       },
     },
   },
@@ -124,22 +137,22 @@ export default {
   created() {
     this.createPeriods()
     //this.schedule = this.value
-    if (this.scheduledTx === null) {
-      this.scheduledTx = new ScheduledTransaction()
-    }
+    // if (this.scheduledTx === null) {
+    //   this.scheduledTx = new ScheduledTransaction()
+    // }
 
-    if (this.scheduledTx) {
-      // repetition
-      if (this.scheduledTx.repetition === undefined) {
-        const repetition =
-          this.scheduledTx.count != null || this.scheduledTx.period != null
-        this.$set(this.scheduledTx, 'repetition', repetition)
-      }
-      if (this.scheduledTx.endOn === undefined) {
-        const endOn = this.scheduledTx.endDate != null
-        this.$set(this.scheduledTx, 'endOn', endOn)
-      }
-    }
+    // if (this.scheduledTx) {
+    //   // repetition
+    //   if (this.scheduledTx.repetition === undefined) {
+    //     const repetition =
+    //       this.scheduledTx.count != null || this.scheduledTx.period != null
+    //     this.$set(this.scheduledTx, 'repetition', repetition)
+    //   }
+    //   if (this.scheduledTx.endOn === undefined) {
+    //     const endOn = this.scheduledTx.endDate != null
+    //     this.$set(this.scheduledTx, 'endOn', endOn)
+    //   }
+    // }
   },
 
   methods: {
