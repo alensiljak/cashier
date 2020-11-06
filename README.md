@@ -27,11 +27,15 @@ Updating libraries: list outdated with `yarn outdated`.
 
 ### Building
 
-Build the release version with `yarn build`.
+Build the release version with `yarn build`. Or `yarn run build`?
 
 ### Deployment
 
 Using Netlify to serve HTTPS site, as required by PWA specs. The [base url](https://cashier-pwa.netlify.com/) is on Netlify.
+
+The automatic deployment is triggered when the Release branch is updated.
+
+The manual deployment is done with `netlify-cli` (installed from NPM), using `netlify deploy` from the root project directory. This requires netlify.toml. Otherwise, run from dist/pwa directory.
 
 
 ## Cashier Ecosystem

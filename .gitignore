@@ -27,3 +27,6 @@ yarn-error.log*
 # custom
 .cache/
 .yarn/
+
+# Local Netlify folder
+.netlify
