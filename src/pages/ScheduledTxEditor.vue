@@ -226,14 +226,6 @@ export default {
       this.scheduledTx.transaction = txStr
 
       this.scheduledTx.nextDate = tx.date
-      // the nullable properties
-      if (this.scheduledTx.repetition === false) {
-        this.scheduledTx.count = null
-        this.scheduledTx.period = null
-      }
-      if (this.scheduledTx.endOn === false) {
-        this.scheduledTx.endDate = null
-      }
 
       const result = await appService.db.scheduled.put(this.scheduledTx)
       console.log('saved', result)
