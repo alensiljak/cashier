@@ -86,8 +86,8 @@
     </q-card> -->
 
     <!-- clean-up -->
-    <q-card bordered dark class="q-pa-sm text-colour2 q-mb-md">
-      <p class="q-my-lg">Clean-up</p>
+    <q-card bordered dark class="q-mt-md q-pa-sm text-colour2 q-mb-md">
+      <p class="q-my-md">Clean-up</p>
 
       <div class="row q-mt-md">
         <q-btn
