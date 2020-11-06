@@ -64,6 +64,11 @@
             text-color="secondary"
             @click="enterConfirmationVisible = true"
           >
+            <font-awesome-icon
+              icon="scroll"
+              transform="grow-9"
+              class="q-icon-small on-left"
+            />
             Enter
           </q-btn>
         </div>
@@ -199,7 +204,7 @@ export default {
     calculateNextIteration(startDate, count, period, endDate) {
       // calculate next iteration from the given date.
 
-      if (!startDate || !count || !period || !endDate) {
+      if (!startDate || !count || !period) {
         throw new Error(`missing input parameter(s), received: ${startDate} ${count} ${period}`)
       }
 
@@ -211,11 +216,16 @@ export default {
 
       // add the given period
       const next = start.add(count, period)
+      let output = next.format(isoDateFormat)
 
-      // todo: handle end date.
-      // if next > endDate return null
+      // handle end date.
+      if (endDate) {
+        if (output > endDate) {
+          // no more iterations, end date passed
+          return null
+        }
+      }
 
-      const output = next.format(isoDateFormat)
       console.debug('next:', output)
 
       return output
@@ -248,7 +258,7 @@ export default {
       await this.skip()
 
       // open the transaction
-      this.$router.push({ name: 'tx', params: { id: id }})
+      this.$router.push({ name: 'edittx', params: { id: id }})
     },
     async loadData() {
       const id = this.$route.params.id
