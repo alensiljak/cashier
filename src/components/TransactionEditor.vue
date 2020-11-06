@@ -187,6 +187,22 @@ export default {
       return appService.formatNumber(value)
     },
     /**
+     * Find an empty posting, or create one.
+     */
+    getEmptyPostingIndex() {
+      for (let i = 0; i < this.tx.postings.length; i++) {
+        const posting = this.tx.postings[i]
+        if (!posting.account && !posting.amount && !posting.commodity) {
+          return i
+        }
+      }
+
+      // not found. Create a new one.
+      const posting = new Posting()
+      this.tx.postings.push(posting)
+      return this.tx.postings.length - 1
+    },
+    /**
      * Handle selection after a picker returned.
      */
     async handleSelection() {

@@ -167,22 +167,6 @@ export default {
       }
     },
     /**
-     * Find an empty posting, or create one.
-     */
-    getEmptyPostingIndex() {
-      for (let i = 0; i < this.tx.postings.length; i++) {
-        const posting = this.tx.postings[i]
-        if (!posting.account && !posting.amount && !posting.commodity) {
-          return i
-        }
-      }
-
-      // not found. Create a new one.
-      const posting = new Posting()
-      this.tx.postings.push(posting)
-      return this.tx.postings.length - 1
-    },
-    /**
      * Load all data for the view.
      */
     loadData() {
@@ -216,6 +200,7 @@ export default {
       }
     },
     onScheduleClick() {
+      // the transaction stays in the store and is available in the sch.tx editor.
       this.$router.push({ name: 'scheduledtxeditor' })
     },
     onXactClicked() {
