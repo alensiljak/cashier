@@ -46,6 +46,11 @@
       <div class="row">
         <div class="col">
           <q-btn color="primary" text-color="accent" @click="skipConfirmationVisible = true">
+            <font-awesome-icon
+              icon="forward"
+              transform="grow-9"
+              class="q-icon-small on-left"
+            />
             Skip
           </q-btn>
         </div>
@@ -124,7 +129,6 @@ export default {
 
   data() {
     return {
-      // scheduledTx: {}, // complete object
       transaction: {},
       confirmDeleteVisible: false,
       skipConfirmationVisible: false,
@@ -158,21 +162,25 @@ export default {
     /**
      * Calculate the schedule based on the given parameters.
      */
-    calculateNextIteration(startDate) {
-      const count = this.scheduledTx.count
-      const period = this.scheduledTx.period
-      //const startDate = this.transaction.date
-      const dateFormat = 'YYYY-MM-DD'
+    calculateNextIteration(startDate, count, period) {
+      // calculate next iteration from the given date.
+
+      if(!startDate || !count || !period) {
+        throw new Error(`invalid data sent: ${startDate} ${count} ${period}`)
+      }
+
+      const isoDateFormat = 'YYYY-MM-DD'
 
       // Get the start point.
       const start = moment(startDate)
-      console.log('now:', start.format(dateFormat))
+      console.debug('now:', start.format(isoDateFormat))
 
       // add the given period
       const next = start.add(count, period)
-      console.log('next:', next.format(dateFormat))
+      const output = next.format(isoDateFormat)
+      console.debug('next:', output)
 
-      // calculate next iteration from the given date.
+      return output
     },
     async confirmDelete() {
       const id = this.scheduledTx.id
@@ -205,23 +213,36 @@ export default {
         this.use(schTx)
       }
     },
-    onSkipConfirmed() {
+    async onSkipConfirmed() {
+      try {
+        await this.skip()
+      } catch(err) {
+        this.$q.notify({ color: 'negative', message: err.message })
+      }
+    },
+    async skip() {
       // Skips the next iteration.
 
       let stx = this.scheduledTx
       const startDate = stx.nextDate
+      const count = this.scheduledTx.count
+      const period = this.scheduledTx.period
 
       // calculate the next iteration.
-      let newDate = this.calculateNextIteration()
+      let newDate = this.calculateNextIteration(startDate, count, period)
+      if (!newDate) {
+        throw new Error(`invalid date calculated: ${newDate}`)
+      }
 
       // update the nextDate
-      stx.nextDate = newDate
+      //stx.nextDate = newDate
       // update the date on the transaction
       const txSvc = new CurrentTransactionService(this.$store)
       const tx = txSvc.getTx()
       tx.date = newDate
+      txSvc.setTx(tx)
 
-      this.saveData()
+      await this.saveData()
 
       // refresh the view
       this.use(stx)
@@ -264,25 +285,29 @@ export default {
     async saveData() {
       // Saves the Stx record
 
-      if (!this.scheduledTx.id) {
-        this.scheduledTx.id = new Date().getTime()
+      const stx = this.scheduledTx
+
+      if (!stx.id) {
+        stx.id = new Date().getTime()
         // console.log('new id generated:', this.scheduledTx.id)
       }
       // serialize transaction
       const txSvc = new CurrentTransactionService(this.$store)
       const tx = txSvc.getTx()
       const txStr = JSON.stringify(tx)
-      this.scheduledTx.transaction = txStr
+      stx.transaction = txStr
 
-      this.scheduledTx.nextDate = tx.date
+      // reuse transaction date. For indexing only.
+      stx.nextDate = tx.date
 
-      const result = await appService.db.scheduled.put(this.scheduledTx)
+      const result = await appService.db.scheduled.put(stx)
       // console.log('saved', result)
+      return result
     },
     async onSaveClicked() {
       /// Triggered on Save button click
 
-      await this.saveData()
+      const result = await this.saveData()
 
       if (result) {
         this.resetTransaction()
