@@ -270,12 +270,12 @@ export default {
     },
     onRightSlide({ reset }) {
       this.resetSlide = reset
-      this.finalize(this.resetSlide)
+      this.finalize(reset)
     },
     onSortClick() {
       this.$router.push({ name: 'favreorder' })
     },
-    removeAccount(index) {
+    async removeAccount(index) {
       if (this.resetSlide) {
         // remove the slide section.
         this.resetSlide()

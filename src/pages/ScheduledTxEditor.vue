@@ -252,13 +252,18 @@ export default {
       // save journal transaction
       const txSvc = new CurrentTransactionService(this.$store)
       const tx = txSvc.getTx()
+      // delete the id field, if any
+      tx.id = null
       const id = await appService.saveTransaction(tx)
 
       // update iteration date
       await this.skip()
 
-      // open the transaction
-      this.$router.push({ name: 'edittx', params: { id: id }})
+      this.$q.notify({ message: 'Transaction created', color: 'positive' })
+
+      // open the transaction?
+      //this.$router.push({ name: 'edittx', params: { id: id }})
+      this.$router.push({ name: 'journal' })
     },
     async loadData() {
       const id = this.$route.params.id
@@ -361,6 +366,8 @@ export default {
       // serialize transaction
       const txSvc = new CurrentTransactionService(this.$store)
       const tx = txSvc.getTx()
+      // do not store any transaction ids!
+      tx.id = null
       const txStr = JSON.stringify(tx)
       stx.transaction = txStr
 
