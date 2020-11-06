@@ -15,7 +15,10 @@
         @click="showTx(stx.id)"
       >
         <!-- <q-item-label>Label</q-item-label> -->
-        <q-item-section avatar :class="{ red: stx.nextDate < today, yellow: stx.nextDate === today }">
+        <q-item-section
+          avatar
+          :class="{ red: stx.nextDate < today, yellow: stx.nextDate === today }"
+        >
           {{ stx.nextDate }}
         </q-item-section>
         <q-item-section>
@@ -51,7 +54,7 @@ export default {
   data() {
     return {
       transactions: [],
-      today: null
+      today: null,
     }
   },
 
@@ -67,6 +70,8 @@ export default {
         .toArray()
     },
     onFabClicked() {
+      // reset any cached values
+      this.$store.commit('saveToClipboard', null)
       this.$router.push({ name: 'scheduledtxeditor' })
     },
     showTx(id) {
