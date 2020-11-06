@@ -45,7 +45,11 @@
       </div>
       <div class="row">
         <div class="col">
-          <q-btn color="primary" text-color="accent" @click="skipConfirmationVisible = true">
+          <q-btn
+            color="primary"
+            text-color="accent"
+            @click="skipConfirmationVisible = true"
+          >
             <font-awesome-icon
               icon="forward"
               transform="grow-9"
@@ -55,7 +59,13 @@
           </q-btn>
         </div>
         <div class="col">
-          <q-btn color="accent" text-color="secondary">Enter</q-btn>
+          <q-btn
+            color="accent"
+            text-color="secondary"
+            @click="enterConfirmationVisible = true"
+          >
+            Enter
+          </q-btn>
         </div>
       </div>
     </div>
@@ -84,7 +94,7 @@
           </q-card-actions>
         </q-card>
       </q-dialog>
-      <!-- skip dialog -->
+      <!-- 'Skip' confirmation dialog -->
       <q-dialog
         v-model="skipConfirmationVisible"
         persistent
@@ -103,6 +113,29 @@
               label="Yes"
               color="accent"
               @click="onSkipConfirmed"
+            />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+      <!-- 'Enter' confirmation dialog -->
+      <q-dialog
+        v-model="enterConfirmationVisible"
+        persistent
+        content-class="bg-blue-grey-10"
+      >
+        <q-card dark class="bg-primary text-amber-2">
+          <q-card-section class="row items-center">
+            <span>Do you want to enter this transaction into journal?</span>
+          </q-card-section>
+
+          <q-card-actions align="right">
+            <q-btn v-close-popup flat label="No" color="accent" />
+            <q-btn
+              v-close-popup
+              flat
+              label="Yes"
+              color="accent"
+              @click="onEnterConfirmed"
             />
           </q-card-actions>
         </q-card>
@@ -132,6 +165,7 @@ export default {
       transaction: {},
       confirmDeleteVisible: false,
       skipConfirmationVisible: false,
+      enterConfirmationVisible: false,
     }
   },
 
@@ -162,11 +196,11 @@ export default {
     /**
      * Calculate the schedule based on the given parameters.
      */
-    calculateNextIteration(startDate, count, period) {
+    calculateNextIteration(startDate, count, period, endDate) {
       // calculate next iteration from the given date.
 
-      if(!startDate || !count || !period) {
-        throw new Error(`invalid data sent: ${startDate} ${count} ${period}`)
+      if (!startDate || !count || !period || !endDate) {
+        throw new Error(`missing input parameter(s), received: ${startDate} ${count} ${period}`)
       }
 
       const isoDateFormat = 'YYYY-MM-DD'
@@ -177,6 +211,10 @@ export default {
 
       // add the given period
       const next = start.add(count, period)
+
+      // todo: handle end date.
+      // if next > endDate return null
+
       const output = next.format(isoDateFormat)
       console.debug('next:', output)
 
@@ -199,6 +237,19 @@ export default {
 
       this.$router.push({ name: 'scheduledtransactions' })
     },
+    async enterTransaction() {
+      // enter the transaction into journal and update the next date on schedule
+      // save journal transaction
+      const txSvc = new CurrentTransactionService(this.$store)
+      const tx = txSvc.getTx()
+      const id = await appService.saveTransaction(tx)
+
+      // update iteration date
+      await this.skip()
+
+      // open the transaction
+      this.$router.push({ name: 'tx', params: { id: id }})
+    },
     async loadData() {
       const id = this.$route.params.id
       if (!id) {
@@ -213,10 +264,17 @@ export default {
         this.use(schTx)
       }
     },
+    async onEnterConfirmed() {
+      try {
+        await this.enterTransaction()
+      } catch(err) {
+        this.$q.notify({ color: 'negative', message: err.message })
+      }
+    },
     async onSkipConfirmed() {
       try {
         await this.skip()
-      } catch(err) {
+      } catch (err) {
         this.$q.notify({ color: 'negative', message: err.message })
       }
     },
@@ -225,17 +283,16 @@ export default {
 
       let stx = this.scheduledTx
       const startDate = stx.nextDate
-      const count = this.scheduledTx.count
-      const period = this.scheduledTx.period
+      const count = stx.count
+      const period = stx.period
+      const endDate = stx.endDate
 
       // calculate the next iteration.
-      let newDate = this.calculateNextIteration(startDate, count, period)
+      let newDate = this.calculateNextIteration(startDate, count, period, endDate)
       if (!newDate) {
         throw new Error(`invalid date calculated: ${newDate}`)
       }
 
-      // update the nextDate
-      //stx.nextDate = newDate
       // update the date on the transaction
       const txSvc = new CurrentTransactionService(this.$store)
       const tx = txSvc.getTx()

@@ -66,7 +66,7 @@
       v-for="tx in transactions"
       :key="tx.id"
       dark
-      right-color="red-10"
+      right-color="secondary"
       @right="onSlide"
     >
       <template #right>
