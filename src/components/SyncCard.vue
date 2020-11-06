@@ -131,6 +131,8 @@ export default {
       const serverUrl = await settings.get(SettingKeys.syncServerUrl)
       let sync = new CashierSync(serverUrl)
 
+      const currentState = this.$store.getters.liveModeOn
+
       let value = null
       try {
         value = await sync.healthCheck()
@@ -140,7 +142,9 @@ export default {
         //   color: 'secondary',
         // })
         // reset the setting
-        this.$store.commit(SET_LEDGER_USE, false)
+        if (currentState === true) {
+          this.$store.commit(SET_LEDGER_USE, false)
+        }
       }
 
       const result = value === 'Hello World!'
