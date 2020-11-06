@@ -11,6 +11,7 @@
             :class="{
               red: stx.nextDate < today,
               yellow: stx.nextDate === today,
+              green: stx.nextDate > today
             }"
           >
             {{ stx.nextDate }}</span>
@@ -59,5 +60,8 @@ export default {
   color: $red-10
 
 .yellow
-  color: yellow
+  color: gold
+
+.green
+  color: $secondary
 </style>
