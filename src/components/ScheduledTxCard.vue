@@ -1,15 +1,21 @@
 <template>
   <q-card dark bordered @click="onCardClick">
-    <q-card-section class="q-pb-none"><!-- text-subtitle2 -->
-      Upcoming Transactions
-    </q-card-section>
+    <q-card-section class="q-pb-none"> Upcoming Transactions </q-card-section>
     <q-card-section>
       <div v-if="list.length === 0">There are no scheduled transactions</div>
 
       <q-list>
-        <q-item v-for="tx in list" :key="tx.id" dense class="q-px-none">
-          <span class="q-mr-lg">{{ tx.nextDate }}</span>
-          {{ tx.endDate }}
+        <q-item v-for="stx in list" :key="stx.id" dense class="q-px-none">
+          <span
+            class="q-mr-lg"
+            :class="{
+              red: stx.nextDate < today,
+              yellow: stx.nextDate === today,
+            }"
+          >
+            {{ stx.nextDate }}</span>
+          {{ JSON.parse(stx.transaction).payee }}
+          <!-- <span side>{{ stx.endDate }}</span> -->
         </q-item>
       </q-list>
     </q-card-section>
@@ -17,14 +23,17 @@
 </template>
 <script>
 import appService from '../appService'
+import moment from 'moment'
 
 export default {
   data() {
     return {
       list: [],
+      today: null
     }
   },
   created() {
+    this.today = moment().format('YYYY-MM-DD')
     this.loadData()
   },
 
@@ -40,8 +49,15 @@ export default {
       }
     },
     onCardClick() {
-        this.$emit('click')
-    }
+      this.$emit('click')
+    },
   },
 }
 </script>
+<style lang="sass" scoped>
+.red
+  color: $red-10
+
+.yellow
+  color: yellow
+</style>
