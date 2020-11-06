@@ -1,6 +1,6 @@
 <template>
   <q-card dark bordered class="my-card">
-    <q-card-section class="bg-primary">
+    <q-card-section class="bg-primary q-pa-sm">
       <strong>CashierSync</strong>
     </q-card-section>
     <q-card-section>

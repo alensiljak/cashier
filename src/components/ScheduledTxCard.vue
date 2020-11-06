@@ -1,6 +1,6 @@
 <template>
   <q-card dark bordered @click="onCardClick">
-    <q-card-section class="bg-primary">
+    <q-card-section class="bg-primary q-pa-sm">
       <strong>Upcoming Transactions</strong>
     </q-card-section>
 

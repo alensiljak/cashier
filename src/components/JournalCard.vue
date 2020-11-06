@@ -1,7 +1,7 @@
 <template>
   <q-card dark bordered class="my-card" @click="onCardClick">
     <!-- <q-card-section class="text-subtitle2">Device Journal</q-card-section> -->
-    <q-card-section class="bg-primary">
+    <q-card-section class="bg-primary q-pa-sm">
       <strong>Device Journal</strong>
     </q-card-section>
 
@@ -72,6 +72,6 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-.cardActionButton
-  border: 1px solid $accent
+// .cardActionButton
+//   border: 1px solid $accent
 </style>
