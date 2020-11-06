@@ -6,7 +6,6 @@
 
     <q-separator dark class="q-my-lg" />
 
-    <div>Schedule</div>
 
     <schedule-editor v-model="scheduledTx" />
 
