@@ -120,6 +120,7 @@
 
 <script>
 import appService from '../appService'
+import { TOGGLE_DRAWER } from '../mutations'
 
 export default {
   data() {

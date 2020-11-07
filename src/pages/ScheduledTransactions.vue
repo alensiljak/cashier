@@ -1,6 +1,10 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
-    <toolbar :title="'Scheduled Transactions'" />
+    <!-- <toolbar :title="'Scheduled Transactions'" /> -->
+    <stx-toolbar
+      title="Scheduled Transactions"
+      @export-clicked="onExportClicked"
+    />
 
     <div v-if="transactions.length === 0">
       There are no scheduled transactions
@@ -17,7 +21,11 @@
         <!-- <q-item-label>Label</q-item-label> -->
         <q-item-section
           avatar
-          :class="{ red: stx.nextDate < today, yellow: stx.nextDate === today, green: stx.nextDate > today }"
+          :class="{
+            red: stx.nextDate < today,
+            yellow: stx.nextDate === today,
+            green: stx.nextDate > today,
+          }"
         >
           {{ stx.nextDate }}
         </q-item-section>
@@ -36,13 +44,15 @@
 </template>
 
 <script>
-import Toolbar from '../components/Toolbar'
+// import Toolbar from '../components/Toolbar'
 import appService from '../appService'
 import moment from 'moment'
+import StxToolbar from '../components/ScheduledTxToolbar'
 
 export default {
   components: {
-    Toolbar,
+    StxToolbar,
+    // Toolbar,
   },
 
   data() {
@@ -62,6 +72,9 @@ export default {
       this.transactions = await appService.db.scheduled
         .orderBy('nextDate')
         .toArray()
+    },
+    onExportClicked() {
+      this.$router.push({ name: 'export', params: { type: 'scheduled' }})
     },
     onFabClicked() {
       // reset any cached values

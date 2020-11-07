@@ -129,8 +129,8 @@ export default {
       await engine.importDefinition(this.fileContent);
       this.$q.notify({
         message: "Definition imported",
-        color: "teal-9", // green-9
-        textColor: "amber-2",
+        color: 'positive',
+        textColor: 'accent',
       });
 
       // .catch((msg) =>
