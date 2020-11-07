@@ -127,7 +127,7 @@ export default {
       return value;
     },
     async loadStatuses() {
-      let cashierSync = new CashierSync(this.serverUrl);
+      const cashierSync = new CashierSync(this.serverUrl);
 
       // get the statuses of all cache items.
       const cache = await caches.open(Constants.CacheName);
