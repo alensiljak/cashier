@@ -21,6 +21,12 @@
               <q-item-section @click="$emit('export-clicked')">
                 Export
               </q-item-section>
+              <q-item-section side>
+                <font-awesome-icon
+                  icon="sign-out-alt"
+                  transform="grow-9 left-5"
+                />
+              </q-item-section>
             </q-item>
           </q-list>
         </q-menu>
@@ -37,11 +43,10 @@ export default {
   },
 
   methods: {
-      onMenuClicked() {
+    onMenuClicked() {
       let visible = this.$store.getters.drawerOpen
       this.$store.commit(TOGGLE_DRAWER, !visible)
-
-      }
-  }
+    },
+  },
 }
 </script>

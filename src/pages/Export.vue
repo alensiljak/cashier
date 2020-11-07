@@ -1,6 +1,6 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
-    <toolbar :title="'Export'" />
+    <toolbar :title="title" />
 
     <p>Export your data - {{ dataType }}:</p>
     <p>Note: Journal is exported in ledger format, Scheduled Transactions in JSON.</p>
@@ -8,14 +8,16 @@
     <q-input
       v-model="output"
       type="textarea"
-      autogrow
-      filled
-      style="width: 100%; max-height: 90%"
+      outlined
+      dark
+      style="max-height: 25rem"
       input-class="text-amber-2"
       color="primary"
+      rows="50"
     />
+    <!-- autogrow -->
 
-    <q-separator dark />
+    <!-- <q-separator dark /> -->
 
     <div class="row q-mt-lg">
       <div class="col text-center">
@@ -64,6 +66,7 @@ export default {
       output: '',
       mdiShareVariant: null,
       dataType: 'journal', // journal, scheduled
+      title: 'Export',
     }
   },
 
@@ -118,11 +121,15 @@ export default {
     },
     async loadData() {
       // uses a route parameter for the type of data to load.
-      const dataType = this.$route.params.type
-      //console.debug(dataType)
+      let dataType = this.$route.params.type
+      console.debug(dataType)
       if (dataType) {
         this.dataType = dataType
+      } else {
+        // use default
+        dataType = this.dataType
       }
+      this.title = `${this.title} ${dataType}`
 
       let output = null
 
