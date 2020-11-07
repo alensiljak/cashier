@@ -64,7 +64,7 @@
         label="Sync"
         color="secondary"
         text-color="accent"
-        @click="synchronize"
+        @click="onSyncClicked"
       />
     </div>
 
@@ -142,45 +142,45 @@ export default {
         this.$q.notify({ message: error.message, color: 'secondary' })
       }
     },
+    /**
+     * Loads all accounts (ledger accounts) + balances (ledger balance)
+     */
     async synchronizeBalances() {
       const sync = new CashierSync(this.serverUrl)
 
       /// Accounts
 
-      console.log('reading accounts from the server...')
+      console.debug('reading accounts from the server...')
       const ledgerAccounts = await sync.readAccounts()
 
-      // delete all accounts only after we have the new ones
-      console.log('deleting local account records...')
+      // delete all accounts only after we have retrieved the new ones.
+      //console.debug('deleting local account records...')
       await appService.deleteAccounts()
 
-      console.log('importing accounts...')
+      //console.debug('importing accounts...')
       await appService.importAccounts(ledgerAccounts)
       this.$q.notify({ message: 'accounts loaded', color: 'primary' })
 
       /// Balances
 
-      // synchronize the account balances
-      console.log('importing balances...')
+      // Import the account balances.
+      console.debug('importing balances...')
       const balances = await sync.readBalances()
-      //console.log(balances)
       await appService.importBalanceSheet(balances)
       this.$q.notify({ message: 'balances loaded', color: 'primary' })
     },
-
-    async synchronize() {
-      if (this.syncBalances) {
-        // Delete all accounts, then get everything from Ledger.
-        // This clears up accounts that still have a value in the app but Ledger does not
-        // return them as their balance is 0.
-        try {
+    async onSyncClicked() {
+      try {
+        if (this.syncBalances) {
+          // Accounts + balances
           await this.synchronizeBalances()
-        } catch (error) {
-          this.$q.notify({ message: error.message, color: 'secondary' })
         }
-      }
-      if (this.syncAaValues) {
-        await this.synchronizeAaValues()
+        // Investment account balances in base currency, for Asset Allocation.
+        if (this.syncAaValues) {
+          await this.synchronizeAaValues()
+        }
+      } catch (error) {
+        this.$q.notify({ message: error.message, color: 'negative' })
       }
     },
     shutdown() {

@@ -168,21 +168,20 @@ class AppService {
 
   async importAccounts(accountsList) {
     if (!accountsList) {
-      const message = 'The accounts list is empty!'
-      throw message
+      throw new Error('The accounts list is required!')
     }
 
     const accounts = []
-    const lines = accountsList.split('\n')
 
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i]
+    for (let i = 0; i < accountsList.length; i++) {
+      const line = accountsList[i]
       if (line === '') continue
 
       const account = new Account()
       account.name = line
       accounts.push(account)
     }
+    
     return db.accounts.bulkPut(accounts)
   }
 

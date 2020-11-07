@@ -40,7 +40,7 @@ export class CashierSync {
    */
   async healthCheck() {
     // HEAD is enough to check if the server is online.
-    let result = await this.get('/')
+    const result = await this.get('/')
     if (!result.ok) {
       throw new Error('Error contacting CashierSync server!')
     }
@@ -54,9 +54,13 @@ export class CashierSync {
    * @returns array of Account objects
    */
   async readAccounts() {
-    let url = new URL(this.accountsUrl)
-    let response = await ky(url)
-    let content = await response.text()
+    const url = new URL(this.accountsUrl)
+    const response = await ky(url)
+    if (!response.ok) {
+      throw new Error('Error reading accounts!')
+    }
+    //let content = await response.text()
+    const content = await response.json()
 
     return content
   }
