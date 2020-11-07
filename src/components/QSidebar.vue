@@ -201,10 +201,7 @@
           active-class="active-link"
         >
           <q-item-section avatar>
-            <font-awesome-icon
-              icon="calendar-alt"
-              transform="grow-6 right-9"
-            />
+            <font-awesome-icon icon="calendar-alt" transform="grow-6 right-9" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Scheduled Transactions</q-item-label>
@@ -275,17 +272,17 @@
     </q-scroll-area>
 
     <q-img class="absolute-top bg-colour5" style="height: 150px">
-      <div class="absolute-bottom bg-transparent text-colour2">
+      <div class="absolute-bottom bg-transparent text-colour2 text-center">
         <q-avatar size="56px" class="q-mb-sm" @click="onHeaderClick">
           <img src="/icons/icon64.png">
         </q-avatar>
         <!-- <div class="text-weight-bold">Cashier</div> -->
         <!-- <div>@cashier</div> -->
-        <div style="font-size: 2rem">
+        <div style="font-size: 2rem" class="q-pb-none">
           Cashier
-          <span style="font-size: 0.75rem" class="q-my-none">{{
-            this.$version
-          }}</span>
+          <span style="font-size: 0.75rem">
+            {{ this.$version }}
+          </span>
         </div>
       </div>
     </q-img>
@@ -332,7 +329,7 @@ export default {
     },
     toggleDrawer() {
       this.drawerOpen = !this.drawerOpen
-    }
+    },
   },
 }
 </script>
