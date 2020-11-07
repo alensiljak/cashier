@@ -229,7 +229,7 @@
         </q-item>
 
         <!-- Export -->
-        <q-item
+        <!-- <q-item
           v-ripple
           to="/export"
           exact
@@ -245,7 +245,7 @@
           <q-item-section>
             <q-item-label>Export</q-item-label>
           </q-item-section>
-        </q-item>
+        </q-item> -->
 
         <!-- Settings -->
         <q-item

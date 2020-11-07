@@ -19,7 +19,7 @@ See the [TODO](TODO) file for the list of features, technical issues, brainstorm
 
 ## Development 
 
-Run the dev server `yarn serve` and open the browser on port 8080.
+Run the dev server `yarn serve` or `yarn dev` and open the browser on http://localhost:8080.
 
 ### Maintenance
 
@@ -27,7 +27,7 @@ Updating libraries: list outdated with `yarn outdated`.
 
 ### Building
 
-Build the release version with `yarn build` or `yarn run build`.
+Build the release version with `yarn build` (this is the equivalent of `yarn run build`).
 
 ### Deployment
 
