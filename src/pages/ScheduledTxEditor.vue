@@ -304,6 +304,8 @@ export default {
       const period = stx.period
       const endDate = stx.endDate
 
+      // todo: handle the one-off occurrence (no count and no period)
+
       // calculate the next iteration.
       let newDate = this.calculateNextIteration(startDate, count, period, endDate)
       if (!newDate) {
