@@ -289,6 +289,8 @@ export default {
     async onSkipConfirmed() {
       try {
         await this.skip()
+
+        this.$router.push({ name: 'scheduledtransactions' })
       } catch (err) {
         this.$q.notify({ color: 'negative', message: err.message })
       }
