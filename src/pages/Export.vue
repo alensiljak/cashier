@@ -108,7 +108,8 @@ export default {
     },
     getFileExtension() {
       // extension
-      let extension = '.txt'
+      let extension = 'txt'
+
       switch (this.dataType) {
         case 'journal':
           extension = 'ledger'
