@@ -130,7 +130,7 @@
       >
         <q-card dark class="bg-primary text-amber-2">
           <q-card-section class="row items-center">
-            <span>Do you want to enter this transaction into journal?</span>
+            <span>Do you want to enter this transaction into the journal?</span>
           </q-card-section>
 
           <q-card-actions align="right">
