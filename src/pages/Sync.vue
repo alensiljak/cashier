@@ -88,7 +88,7 @@ import appService from '../appService'
 
 export default {
   components: {
-    Toolbar
+    Toolbar,
   },
   data() {
     return {
@@ -110,38 +110,37 @@ export default {
       )
       this.currency = await settings.get(SettingKeys.currency)
     },
-    onConnectClicked() {
+    async onConnectClicked() {
       const sync = new CashierSync(this.serverUrl)
-      sync
-        .healthCheck()
-        .then((response) =>
-          this.$q.notify({ message: response, color: 'positive' })
-        )
-        .catch((reason) =>
-          this.$q.notify({
-            message: 'Connecting to CashierSync: ' + reason,
-            color: 'negative',
-          })
-        )
+      try {
+        const response = await sync.healthCheck()
+
+        this.$q.notify({ message: response, color: 'positive' })
+      } catch (err) {
+        this.$q.notify({
+          message: 'Connecting to CashierSync: ' + err.message,
+          color: 'negative',
+        })
+      }
     },
     async saveSyncServerUrl() {
       // sync server.
       await settings.set(SettingKeys.syncServerUrl, this.serverUrl)
+
       this.$q.notify({ message: 'sync server saved', color: 'info' })
     },
-    synchronizeAaValues() {
+    async synchronizeAaValues() {
       const sync = new CashierSync(this.serverUrl)
-      sync
-        .readCurrentValues()
-        .then(() =>
-          this.$q.notify({
-            message: 'Asset Allocation values loaded',
-            color: 'primary',
-          })
-        )
-        .catch((error) =>
-          this.$q.notify({ message: error.message, color: 'secondary' })
-        )
+      try {
+        await sync.readCurrentValues()
+
+        this.$q.notify({
+          message: 'Asset Allocation values loaded',
+          color: 'primary',
+        })
+      } catch (error) {
+        this.$q.notify({ message: error.message, color: 'secondary' })
+      }
     },
     async synchronizeBalances() {
       const sync = new CashierSync(this.serverUrl)
@@ -181,7 +180,7 @@ export default {
         }
       }
       if (this.syncAaValues) {
-        this.synchronizeAaValues()
+        await this.synchronizeAaValues()
       }
     },
     shutdown() {

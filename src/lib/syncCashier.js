@@ -17,7 +17,7 @@ export class CashierSync {
 
   constructor(serverUrl) {
     if (!serverUrl) {
-      throw 'CashierSync URL not set.'
+      throw new Error('CashierSync URL not set.')
     }
     if (serverUrl.endsWith('/')) {
       serverUrl = serverUrl.splice(0, serverUrl.length - 1)
@@ -41,7 +41,9 @@ export class CashierSync {
   async healthCheck() {
     // HEAD is enough to check if the server is online.
     let result = await this.get('/')
-    if (!result.ok) throw 'Error contacting CashierSync server!'
+    if (!result.ok) {
+      throw new Error('Error contacting CashierSync server!')
+    }
 
     const text = await result.text()
     return text
@@ -120,8 +122,8 @@ export class CashierSync {
     )
 
     const response = await ky.get(url)
-    if(!response.ok) throw "error fetching lots: " + response.text()
-    
+    if (!response.ok) throw new Error('error fetching lots: ' + response.text())
+
     const result = await response.json()
     return result
   }
@@ -201,7 +203,7 @@ export class CashierSync {
     //Object.keys(searchParams).forEach(key => params.set(key, searchParams[key]))
     //const params = new FormData(); // use params.append()
     //Object.keys(searchParams).forEach(key => params.append(key, searchParams[key]))
-    
+
     const response = await ky.post(url, { json: searchParams })
     const result = await response.json()
     return result
