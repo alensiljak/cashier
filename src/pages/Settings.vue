@@ -34,7 +34,7 @@
       <div class="col text-center">
         <q-btn
           label="Import"
-          color="red-10"
+          color="secondary"
           text-color="accent"
           @click="onDefinitionImportClick"
         />

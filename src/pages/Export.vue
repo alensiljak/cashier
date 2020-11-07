@@ -18,7 +18,7 @@
       <div class="col text-center">
         <q-btn
           label="Copy to clipboard"
-          color="red-10"
+          color="secondary"
           text-color="accent"
           @click="copyToClipboard"
         />
@@ -27,7 +27,7 @@
         <q-btn
           round
           :icon="mdiShareVariant"
-          color="red-10"
+          color="secondary"
           text-color="accent"
           @click="webshare"
         />
@@ -35,55 +35,13 @@
       <div ref="buttonContainer" class="col text-center">
         <q-btn
           label="Download"
-          color="red-10"
+          color="secondary"
           text-color="accent"
           @click="downloadAsFile"
         />
         <!-- <a :href="downloadLink" download="journal.ledger" >Download</a> -->
       </div>
     </div>
-
-    <!-- export to ledger repository -->
-    <!-- <q-card bordered dark class="q-pa-sm text-colour2 q-mb-md q-my-md">
-      <p>
-        Export to a writeable journal file in the book repository. See the
-        <router-link to="repository">Repository</router-link> page for
-        repository operations. The path to the file must be absolute and the
-        file must exist in the filesystem.
-      </p>
-      <q-input
-        v-model="journalFile"
-        type="text"
-        class="text-red"
-        dark
-        clearable
-        label="Journal file path"
-        @change="onJournalPathChange"
-      />
-      <div class="text-center q-my-md">
-        <q-btn color="secondary" text-color="accent" @click="onSaveClick">
-          <font-awesome-icon
-            icon="save"
-            transform="grow-6 right-6"
-            class="q-mr-sm"
-          />
-          <span class="q-ml-sm">Write to journal</span>
-        </q-btn>
-      </div>
-      <p>
-        After writing to a configured journal file, use the Repository page to
-      </p>
-      <ul>
-        <li>
-          confirm that all the changes, and only the desired changes, are in the
-          journal
-        </li>
-        <li>check the repository status</li>
-        <li>commit the changes with a meaningful commit message</li>
-        <li>push the changes to a remote repository</li>
-        <li>delete the local transactions using the button below</li>
-      </ul>
-    </q-card> -->
 
     <!-- clean-up -->
     <q-card bordered dark class="q-mt-md q-pa-sm text-colour2 q-mb-md">
@@ -92,7 +50,7 @@
       <div class="row q-mt-md">
         <q-btn
           label="Delete all local transactions"
-          color="red-10"
+          color="secondary"
           text-color="accent"
           @click="onDeleteAllClicked"
         />
@@ -105,10 +63,8 @@
       persistent
       content-class="bg-blue-grey-10"
     >
-      <q-card dark class="bg-red-10 text-amber-2">
+      <q-card dark class="bg-secondary text-amber-2">
         <q-card-section class="row items-center">
-          <!-- <q-avatar icon="signal_wifi_off" color="primary" text-color="amber-2"/>
-          <span class="q-ml-sm">You are currently not connected to any network.</span>-->
           <span>Do you want to delete all transactions?</span>
         </q-card-section>
 

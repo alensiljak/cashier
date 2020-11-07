@@ -12,7 +12,7 @@
     </accounts-list>
 
     <div class="row q-my-xl justify-end">
-      <q-btn color="red-10" text-color="accent" label="Save" @click="onSaveClick" />
+      <q-btn color="secondary" text-color="accent" label="Save" @click="onSaveClick" />
     </div>
   </q-page>
 </template>
@@ -53,7 +53,7 @@ export default {
           .bulkGet(favArray)
           .then(accounts => (this.accounts = accounts))
           .catch(reason => {
-            this.$q.notify({ color: "red-10", message: reason.message });
+            this.$q.notify({ color: "secondary", message: reason.message });
           });
       });
     },

@@ -123,7 +123,7 @@
       persistent
       content-class="bg-blue-grey-10"
     >
-      <q-card dark class="bg-red-10">
+      <q-card dark class="bg-secondary">
         <q-card-section class="row items-center">
           <span>Do you want to delete all accounts?</span>
         </q-card-section>

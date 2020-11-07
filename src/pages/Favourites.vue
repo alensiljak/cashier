@@ -91,7 +91,7 @@
       persistent
       content-class="bg-blue-grey-10"
     >
-      <q-card dark class="bg-red-10 text-amber-2">
+      <q-card dark class="bg-secondary text-amber-2">
         <q-card-section class="row items-center">
           <!-- <q-avatar icon="signal_wifi_off" color="primary" text-color="amber-2"/>
           <span class="q-ml-sm">You are currently not connected to any network.</span>-->
@@ -250,7 +250,7 @@ export default {
         accounts = await this.adjustBalances(accounts)
         this.accounts = accounts
       } catch (reason) {
-        this.$q.notify({ color: 'red-10', message: reason.message })
+        this.$q.notify({ color: 'secondary', message: reason.message })
       }
     },
     menuClicked() {

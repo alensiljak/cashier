@@ -22,7 +22,7 @@
         <div class="col text-center">
           <q-btn
             label="Import"
-            color="red-10"
+            color="secondary"
             text-color="accent"
             @click="onCurrentBalClick"
           />
@@ -38,7 +38,7 @@ import appService from "../appService";
 import { Setting } from "../model";
 import Toolbar from '../components/Toolbar'
 
-// const errorMessage = { color: "red-10", textColor: "amber-2" };
+// const errorMessage = { color: "secondary", textColor: "amber-2" };
 
 export default {
   components: {

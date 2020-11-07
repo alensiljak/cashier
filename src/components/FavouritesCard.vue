@@ -60,7 +60,7 @@ export default {
         //accounts = await this.adjustBalances(accounts)
         this.accounts = accounts
       } catch (reason) {
-        this.$q.notify({ color: 'red-10', message: reason.message })
+        this.$q.notify({ color: 'secondary', message: reason.message })
       }
     },
     onCardClick() {

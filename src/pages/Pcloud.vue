@@ -5,9 +5,9 @@
     <div>
       <!-- <q-input label="Remote location" dark v-model="url" /> -->
 
-      <q-btn label="Fetch" color="red-10" text-color="accent" @click="login" />
+      <q-btn label="Fetch" color="secondary" text-color="accent" @click="login" />
 
-      <q-btn label="Backup" color="red-10" text-color="accent" @click="backup" />
+      <q-btn label="Backup" color="secondary" text-color="accent" @click="backup" />
 
       <p>{{ output }}</p>
     </div>

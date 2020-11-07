@@ -76,7 +76,7 @@
     <!-- The button is required for file export, to attach the event! -->
     <div ref="buttonContainer" hidden="hidden">
       <q-btn
-        color="red-10"
+        color="secondary"
         text-color="accent"
         label="Export"
       />
@@ -285,7 +285,7 @@ export default {
         for (let i = 0; i < errors.length; i++) {
           message += errors[i];
         }
-        this.$q.notify({ message: message, color: "red-10" });
+        this.$q.notify({ message: message, color: "secondary" });
       } else {
         this.$q.notify({
           message: "The allocation is valid.",

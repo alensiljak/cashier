@@ -21,7 +21,7 @@
 
     <div class="row text-center q-mt-sm">
       <div class="col text-center">
-        <q-btn :disable="clicked" color="red-10" text-color="accent"
+        <q-btn :disable="clicked" color="secondary" text-color="accent"
                @click="onImportBalanceClick"
         >
           <font-awesome-icon icon="wallet" class="q-icon on-left" />
@@ -32,7 +32,7 @@
 
     <div class="row q-mt-md">
       <div class="col text-center">
-        <q-btn disable color="red-10" text-color="accent">
+        <q-btn disable color="secondary" text-color="accent">
           <font-awesome-icon icon="users" class="q-icon on-left" />
           <div>Payees</div>
         </q-btn>
@@ -41,7 +41,7 @@
 
     <div class="row q-mt-md">
       <div class="col text-center">
-        <q-btn color="red-10" text-color="accent" :disable="clicked"
+        <q-btn color="secondary" text-color="accent" :disable="clicked"
                @click="importCommoditiesClick"
         >
           <font-awesome-icon icon="boxes" class="q-icon on-left" />

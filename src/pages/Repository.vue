@@ -179,7 +179,7 @@ export default {
       if (!this.commitMessage) {
         this.$q.notify({
           message: 'The commit message is mandatory!',
-          color: 'red-10',
+          color: 'secondary',
         })
         return
       }
@@ -187,7 +187,7 @@ export default {
       sync
         .repoCommit(this.repoPath, this.commitMessage)
         .then((result) => this.$q.notify(result))
-        .catch((error) => this.$q.notify({ message: error, color: 'red-10' }))
+        .catch((error) => this.$q.notify({ message: error, color: 'secondary' }))
     },
     async onPricesRepoChange() {
       try {
@@ -227,7 +227,7 @@ export default {
       settings
         .set(SettingKeys.repositoryPath, this.repoPath)
         .then(() => this.$q.notify('journal path saved'))
-        .catch((error) => this.$q.notify({ message: error, color: 'red-10' }))
+        .catch((error) => this.$q.notify({ message: error, color: 'secondary' }))
     },
     async onRefreshClick() {
       // Refresh the repository status.

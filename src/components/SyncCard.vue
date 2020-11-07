@@ -33,7 +33,7 @@
           persistent
           content-class="bg-blue-grey-10"
         >
-          <q-card dark class="bg-red-10 text-amber-2">
+          <q-card dark class="bg-secondary text-amber-2">
             <q-card-section class="row items-center">
               <!-- <q-avatar icon="signal_wifi_off" color="primary" text-color="amber-2"/>-->
               Live Mode uses CashierSync for all the data. CashierSync must be
