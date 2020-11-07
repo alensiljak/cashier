@@ -2,10 +2,8 @@
   <q-page padding class="bg-colour1 text-colour2">
     <toolbar :title="'Export'" />
 
-    <p>
-      Export your data (journal in ledger format or scheduled transactions in
-      JSON):
-    </p>
+    <p>Export your data - {{ dataType }}:</p>
+    <p>Note: Journal is exported in ledger format, Scheduled Transactions in JSON.</p>
 
     <q-input
       v-model="output"
@@ -65,6 +63,7 @@ export default {
     return {
       output: '',
       mdiShareVariant: null,
+      dataType: 'journal', // journal, scheduled
     }
   },
 
@@ -84,14 +83,15 @@ export default {
       this.$q.notify({ message: 'data copied' })
     },
     downloadAsFile() {
-      let content = this.output
       var a = document.createElement('a')
 
+      let extension = this.getFileExtension()
       // filename
       const now = moment().format('YYYY-MM-DD_HH-mm')
-      let filename = `cashier_export_${now}.ledger`
+      let filename = `cashier_${this.dataType}_${now}.${extension}`
       a.download = filename
 
+      const content = this.output
       let encoded = btoa(content)
       // a.href = "data:application/octet-stream;base64," + Base64.encode(this.output);
       a.href = 'data:text/plain;base64,' + encoded
@@ -103,21 +103,37 @@ export default {
       // cleanup?
       this.$refs.buttonContainer.removeChild(a)
     },
+    getFileExtension() {
+      // extension
+      let extension = '.txt'
+      switch (this.dataType) {
+        case 'journal':
+          extension = 'ledger'
+          break
+        case 'scheduled':
+          extension = 'json'
+          break
+      }
+      return extension
+    },
     async loadData() {
       // uses a route parameter for the type of data to load.
       const dataType = this.$route.params.type
-      console.debug(dataType)
+      //console.debug(dataType)
+      if (dataType) {
+        this.dataType = dataType
+      }
+
       let output = null
 
-      if (!dataType) {
-        // The default, old behaviour: use transactions
-        output = await appService.exportTransactions()
-      } else {
-        switch (dataType) {
-          case 'scheduled':
-            output = await this.loadScheduledTransactions()
-            break
-        }
+      switch (dataType) {
+        case 'journal':
+          // The default, old behaviour: use transactions
+          output = await appService.exportTransactions()
+          break
+        case 'scheduled':
+          output = await this.loadScheduledTransactions()
+          break
       }
 
       if (!output) output = ''
@@ -131,9 +147,6 @@ export default {
       const output = JSON.stringify(collection)
       return output
     },
-    onDeleteAllClicked() {
-      this.confirmDeleteAllVisible = true
-    },
     webshare() {
       if (navigator.share) {
         navigator
@@ -143,8 +156,15 @@ export default {
             // url: "https://web.dev/"
             // url: this.output
           })
-          .then(() => this.$q.notify({ message: 'data copied' }))
-          .catch((error) => this.$q.notify({ message: 'error:' + error }))
+          .then(() =>
+            this.$q.notify({ message: 'data copied', color: 'positive' })
+          )
+          .catch((error) =>
+            this.$q.notify({
+              message: 'error:' + error.message,
+              color: 'negative',
+            })
+          )
       }
     },
   },
