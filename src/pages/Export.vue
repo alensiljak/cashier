@@ -3,7 +3,10 @@
     <toolbar :title="title" />
 
     <p>Export your data - {{ dataType }}:</p>
-    <p>Note: Journal is exported in ledger format, Scheduled Transactions in JSON.</p>
+    <p>
+      Note: Journal is exported in ledger format, Scheduled Transactions in
+      JSON.
+    </p>
 
     <q-input
       v-model="output"
@@ -56,6 +59,7 @@ import { mdiShareVariant } from '@quasar/extras/mdi-v4'
 import { CashierSync } from '../lib/syncCashier'
 import Toolbar from '../components/Toolbar'
 import moment from 'moment'
+import FileSaver from 'file-saver'
 
 export default {
   components: {
@@ -86,12 +90,24 @@ export default {
       this.$q.notify({ message: 'data copied' })
     },
     downloadAsFile() {
+      // use FileSaver
+
+      const filename = this.getFilename()
+      const content = this.output
+
+      var blob = new Blob([content], {
+        type: 'text/plain;charset=utf-8',
+      })
+      FileSaver.saveAs(blob, filename)
+    },
+    /**
+     * This was the original implementation but it stopped working in Firefox on Android.
+     */
+    downloadAsFile_orig() {
+      const filename = this.getFilename()
+
       var a = document.createElement('a')
 
-      let extension = this.getFileExtension()
-      // filename
-      const now = moment().format('YYYY-MM-DD_HH-mm')
-      let filename = `cashier_${this.dataType}_${now}.${extension}`
       a.download = filename
 
       const content = this.output
@@ -105,6 +121,14 @@ export default {
 
       // cleanup?
       this.$refs.buttonContainer.removeChild(a)
+    },
+    getFilename() {
+      // create the file name for the downloaded export file.
+      let extension = this.getFileExtension()
+      // filename
+      const now = moment().format('YYYY-MM-DD_HH-mm')
+      let filename = `cashier_${this.dataType}_${now}.${extension}`
+      return filename
     },
     getFileExtension() {
       // extension
