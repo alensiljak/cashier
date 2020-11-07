@@ -30,16 +30,6 @@
               </q-item>
 
               <q-item v-close-popup clickable>
-                <q-item-section @click="onImportClick">Import</q-item-section>
-                <q-item-section side>
-                  <font-awesome-icon
-                    icon="sign-in-alt"
-                    transform="grow-9 left-5"
-                  />
-                </q-item-section>
-              </q-item>
-
-              <q-item v-close-popup clickable>
                 <q-item-section @click="onDeleteAllClick">
                   Delete All
                 </q-item-section>
@@ -80,29 +70,6 @@
         </q-input>
       </q-toolbar>
     </q-header>
-
-    <!-- Account list -->
-    <!-- <q-list bordered separator>
-      <q-item
-        clickable
-        v-ripple
-        v-for="account in accounts"
-        :key="account.id"
-        :to="{ name: 'account', params: { id: account.id }}"
-      >
-        <q-item-section>{{ account.name }}</q-item-section>
-        <q-item-section side>{{ account.balance }} {{ account.currency }}</q-item-section>
-
-        // list item context menu
-        <q-menu touch-position context-menu content-class="bg-teal-9 text-amber-2">
-          <q-list dense style="min-width: 10rem">
-            <q-item clickable v-close-popup>
-              <q-item-section @click="onDeleteAccount(account.id)">Delete</q-item-section>
-            </q-item>
-          </q-list>
-        </q-menu>
-      </q-item>
-    </q-list>-->
 
     <RecycleScroller
       v-slot="{ item }"
@@ -279,9 +246,6 @@ export default {
     onFab() {
       // New Account
       this.dialogVisible = true
-    },
-    onImportClick() {
-      this.$router.push({ name: 'import' })
     },
   },
 }

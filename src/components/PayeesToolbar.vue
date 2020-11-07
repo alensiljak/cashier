@@ -10,15 +10,6 @@
       <q-btn flat round dense icon="more_vert">
         <q-menu>
           <q-list dark style="min-width: 175px" class="bg-colour1">
-            <!-- dense -->
-
-            <q-item v-close-popup>
-              <q-item-section @click="$emit('delete-all-clicked')">Delete All</q-item-section>
-              <q-item-section side>
-                <font-awesome-icon icon="trash-alt" transform="grow-9 left-5" />
-              </q-item-section>
-            </q-item>
-
             <q-item>
               <q-item-section @click="goToCache">Cache</q-item-section>
             </q-item>

@@ -5,7 +5,6 @@
       :filter="filter"
       @filter="onFilter"
       @menu-clicked="onMenuClicked"
-      @delete-all-clicked="onDeleteAllClicked"
     />
 
     <RecycleScroller
@@ -49,7 +48,6 @@ export default {
       addDialogVisible: false,
       newPayee: null,
       filter: null,
-      confirmDeleteAllVisible: false,
     }
   },
 
@@ -103,10 +101,6 @@ export default {
         this.newPayee = null
         this.loadData()
       })
-    },
-    onDeleteAllClicked() {
-      // confirm
-      this.confirmDeleteAllVisible = true
     },
     onAcceptClick() {
       this.itemClicked(this.filter)

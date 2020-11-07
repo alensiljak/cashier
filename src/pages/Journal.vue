@@ -148,6 +148,7 @@
 <script>
 import appService from '../appService'
 import JournalTransaction from '../components/JournalTransaction'
+import { TOGGLE_DRAWER } from '../mutations'
 
 const errorMessage = { color: 'secondary', message: '' }
 
@@ -165,7 +166,7 @@ export default {
   },
 
   created() {
-    this.loadData().then(() => console.debug('data loaded'))
+    this.loadData()
   },
 
   methods: {
