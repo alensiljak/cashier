@@ -186,8 +186,8 @@ export default {
 
 <style lang="sass" scoped>
 .on
-  color: $secondary
+  color: $positive
 
 .off
-  color: $red-10
+  color: $negative
 </style>
