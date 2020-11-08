@@ -128,6 +128,11 @@ export default {
   },
 
   computed: {
+    isNew: {
+      get() {
+        return this.tx.id === null
+      }
+    },
     tx: {
       get() {
         return new CurrentTransactionService(this.$store).getTx()
