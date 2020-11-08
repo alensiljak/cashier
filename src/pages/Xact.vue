@@ -3,7 +3,8 @@ view<template>
     <toolbar :title="'Xact'" />
 
     <p>
-      This will execute Ledger Xact command, creating a matching transaction.
+      This will execute Ledger Xact command, creating a matching transaction. 
+      Note that this may be case-sensitive depending on your OS and ledger.
     </p>
 
     <!-- date -->
