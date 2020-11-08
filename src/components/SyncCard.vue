@@ -13,6 +13,12 @@
           <span v-if="serverStatus === false">
             <font-awesome-icon icon="skull" class="off" /> Not running
           </span>
+          <!-- <q-img
+            v-show="false"
+            src="http://localhost:5000/hello"
+            @error="onStatusError"
+            @load="onStatusSuccess"
+          /> -->
         </div>
 
         <div class="col">
@@ -90,7 +96,6 @@ import { SettingKeys, settings } from '../lib/Configuration'
 export default {
   data() {
     return {
-      //liveModeOn: false,
       liveModeHelpVisible: false,
       serverStatus: false,
     }
@@ -99,7 +104,7 @@ export default {
   computed: {
     liveModeOn: {
       get() {
-        return this.$store.state.useLedger
+        return this.$store.getters.liveModeOn
       },
       set(value) {
         this.$store.commit(SET_LEDGER_USE, value)
@@ -113,9 +118,7 @@ export default {
   async mounted() {
     // turn on Live Mode if the server is up.
     this.serverStatus = await this.liveModeTest(false)
-    if (this.serverStatus) {
-      this.liveModeOn = true
-    }
+    this.liveModeOn = this.serverStatus
   },
 
   methods: {
@@ -128,8 +131,6 @@ export default {
       if (this.liveModeOn) {
         await this.liveModeTest()
       }
-
-      //this.$emit('live-mode-on')
     },
     async liveModeTest(showMessages = true) {
       // check if cashier sync is running
@@ -177,6 +178,17 @@ export default {
     onShutdownClick() {
       this.$q.notify({ message: 'not implemented', color: 'secondary' })
     },
+    // onStatusError(e) {
+    //   // could not reach the server hello image
+    //   console.debug('CashierSync offline', e)
+
+    //   this.serverStatus = false
+    // },
+    // onStatusSuccess() {
+    //   console.debug('CashierSync online')
+
+    //   this.serverStatus = true
+    // },
     onSyncClick() {
       this.$q.notify({ message: 'not implemented', color: 'secondary' })
     },
