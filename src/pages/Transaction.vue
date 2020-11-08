@@ -157,10 +157,6 @@ export default {
         return new CurrentTransactionService(this.$store).getTx()
       },
       set(value) {
-        if (!value) {
-          console.debug('tx is null')
-          debugger
-        }
         // save in the state store
         new CurrentTransactionService(this.$store).setTx(value)
       },
@@ -206,7 +202,6 @@ export default {
     async loadData() {
       // Transaction
       const id = this.$route.params.id
-      // console.debug('id', id, 'type', typeof(id))
       // Ignore string ids. This is coming from the route when 'back' clicked.
       if (typeof(id) === 'string') return;
 
