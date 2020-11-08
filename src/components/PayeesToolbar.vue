@@ -30,7 +30,7 @@
         dark
         color="accent"
         style="width: 23rem;"
-        debounce="500"
+        debounce="400"
       >
         <template #append>
           <font-awesome-icon v-if="myFilter === ''" icon="search" />
