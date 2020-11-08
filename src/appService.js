@@ -99,26 +99,26 @@ class AppService {
     return output
   }
 
-    /**
-     * Load data from a file.
-     * @param {FileInfo} fileInfo The file info from the input control.
-     * @param {Function} callback A function to run when complete, passing the file content.
-     */
-    readFile(fileInfo, callback) {
-      if (!fileInfo) return
-      //   console.log(fileInfo);
+  /**
+   * Load data from a file.
+   * @param {FileInfo} fileInfo The file info from the input control.
+   * @param {Function} callback A function to run when complete, passing the file content.
+   */
+  readFile(fileInfo, callback) {
+    if (!fileInfo) return
+    //   console.log(fileInfo);
 
-      var reader = new FileReader();
+    var reader = new FileReader()
 
-      reader.onload = (event) => {
-        // File was successfully read.
-        var content = event.target.result;
+    reader.onload = event => {
+      // File was successfully read.
+      var content = event.target.result
 
-        callback(content)
-      };
-
-      reader.readAsText(fileInfo);
+      callback(content)
     }
+
+    reader.readAsText(fileInfo)
+  }
 
   /**
    * Translates Transaction into a ledger entry.
@@ -316,7 +316,7 @@ class AppService {
 
   /**
    * Imports Scheduled Transactions from a JSON String backup (from the export file).
-   * @param {String} jsonList 
+   * @param {String} jsonList
    */
   async importScheduledTransactions(jsonList) {
     if (!jsonList) {
@@ -351,17 +351,17 @@ class AppService {
    * @param {int} id Transaction id
    * @returns Transaction with Postings
    */
-  loadTransaction(id) {
-    return db.transaction('r', db.transactions, db.postings, async () => {
-      const tx = await db.transactions.get(id)
-      // todo load postings
-      const postings = await db.postings
-        .where({ transactionId: tx.id })
-        .toArray()
+  async loadTransaction(id) {
+    if (typeof id === 'string') {
+      throw new Error('numeric ids are required as keys!')
+    }
 
-      tx.postings = postings
-      return tx
-    })
+    const tx = await db.transactions.get(id)
+    // load postings
+    const postings = await db.postings.where({ transactionId: tx.id }).toArray()
+
+    tx.postings = postings
+    return tx
   }
 
   saveAccount(account) {

@@ -91,11 +91,7 @@
         </q-btn>
       </div>
       <div class="col">
-        <q-btn
-          color="accent"
-          text-color="secondary"
-          @click="onCopyClicked"
-        >
+        <q-btn color="accent" text-color="secondary" @click="onCopyClicked">
           <font-awesome-icon
             icon="copy"
             transform="grow-9"
@@ -161,18 +157,26 @@ export default {
         return new CurrentTransactionService(this.$store).getTx()
       },
       set(value) {
+        if (!value) {
+          console.debug('tx is null')
+          debugger
+        }
         // save in the state store
         new CurrentTransactionService(this.$store).setTx(value)
       },
     },
   },
 
-  created() {
+  async created() {
     // for New Tx, clear the transaction store
     if (!this.tx) this.resetTransaction()
 
     // For Edit Tx, load the tx from database.
-    this.loadData()
+    try {
+      await this.loadData()
+    } catch (error) {
+      this.$q.notify({ message: error.message, color: 'negative' })
+    }
   },
 
   methods: {
@@ -199,15 +203,20 @@ export default {
     /**
      * Load all data for the view.
      */
-    loadData() {
+    async loadData() {
       // Transaction
       const id = this.$route.params.id
+      // console.debug('id', id, 'type', typeof(id))
+      // Ignore string ids. This is coming from the route when 'back' clicked.
+      if (typeof(id) === 'string') return;
+
       if (id) {
-        this.loadTransaction(id)
+        await this.loadTransaction(id)
       }
     },
     async loadTransaction(id) {
-      this.tx = await appService.loadTransaction(id)
+      const tx = await appService.loadTransaction(id)
+      this.tx = tx
     },
     onClear() {
       // Resets all Transaction fields to defaults.
@@ -219,7 +228,10 @@ export default {
 
       // copy to clipboard
       await navigator.clipboard.writeText(text)
-      this.$q.notify({ message: 'transaction copied to clipboard', color: 'positive' })
+      this.$q.notify({
+        message: 'transaction copied to clipboard',
+        color: 'positive',
+      })
     },
     onDeleteClick() {
       // show the confirmation dialog.
@@ -246,7 +258,9 @@ export default {
       this.$router.push({ name: 'xact', params: { payee: this.tx.payee } })
     },
     resetTransaction() {
-      this.tx = new CurrentTransactionService(this.$store).createTransaction()
+      const svc = new CurrentTransactionService(this.$store)
+      const tx = svc.createTransaction()
+      this.tx = tx
     },
   },
 }
