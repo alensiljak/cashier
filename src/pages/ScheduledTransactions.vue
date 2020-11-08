@@ -16,6 +16,7 @@
         :key="stx.id"
         v-ripple
         clickable
+        class="q-px-none"
         @click="showTx(stx.id)"
       >
         <!-- <q-item-label>Label</q-item-label> -->
