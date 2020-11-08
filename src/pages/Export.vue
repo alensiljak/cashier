@@ -87,7 +87,7 @@ export default {
     },
     async copyToClipboard() {
       await navigator.clipboard.writeText(this.output)
-      this.$q.notify({ message: 'data copied' })
+      this.$q.notify({ message: 'data copied', color: 'positive' })
     },
     downloadAsFile() {
       // use FileSaver

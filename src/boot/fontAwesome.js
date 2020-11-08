@@ -12,8 +12,10 @@ import {
   faCalendarAlt,
   faCalendarDay,
   faCheck,
+  faClipboard,
   faCodeBranch,
   faCog,
+  faCopy,
   faDatabase,
   faDownload,
   faExchangeAlt,
@@ -44,7 +46,7 @@ import {
   faUpload,
   faUser,
   faUsers,
-  faWallet
+  faWallet,
 } from "@fortawesome/free-solid-svg-icons";
 // import { faRegular } from '@fortawesome/free-regular-svg-icons'
 
@@ -57,8 +59,10 @@ library.add(
   faCalendarAlt,
   faCalendarDay,
   faCheck,
+  faClipboard,
   faCodeBranch,
   faCog,
+  faCopy,
   faDatabase,
   faDownload,
   faExchangeAlt,
@@ -90,7 +94,7 @@ library.add(
   faUser,
   faUsers,
   faWallet
-);
+)
 
 import Vue from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";

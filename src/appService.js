@@ -37,8 +37,11 @@ class AppService {
       id = Number(id)
     }
 
-    await this.db
-      .transaction('rw', this.db.transactions, this.db.postings, async tx => {
+    await this.db.transaction(
+      'rw',
+      this.db.transactions,
+      this.db.postings,
+      async tx => {
         const x = await db.transactions
           .where('id')
           .equals(id)
@@ -60,7 +63,8 @@ class AppService {
         console.log('postings -', result)
 
         return 'Transaction complete'
-      })
+      }
+    )
     console.log('Delete transaction completed.', id)
     //.catch(error => console.error('Error on Delete Transaction:', error))
   }
@@ -85,31 +89,50 @@ class AppService {
 
     for (let i = 0; i < txs.length; i++) {
       let tx = txs[i]
-      // transaction
-      output += tx.date
-      output += ' ' + tx.payee
-      output += '\n'
-      // note
-      if (tx.note) {
-        output += '    ; ' + tx.note + '\n'
-      }
-      // postings
-      for (let j = 0; j < tx.postings.length; j++) {
-        let p = tx.postings[j]
-        if (!p.account) continue
 
-        output += '    '
-        output += p.account == null ? '' : p.account
-        if (p.amount) {
-          output += '  '
-          output += p.amount == null ? '' : p.amount
-          output += ' '
-          output += p.currency == null ? '' : p.currency
-        }
-        output += '\n'
+      if (i > 0) {
+        output += '\n' // space between transactions
+      }
+
+      output += this.translateToLedger(tx)
+    }
+    return output
+  }
+
+  /**
+   * Translates Transaction into a ledger entry.
+   * @param {Transaction} tx
+   * @returns {String} A ledger entry
+   */
+  translateToLedger(tx) {
+    let output = ''
+
+    // transaction
+    output += tx.date
+    output += ' ' + tx.payee
+    output += '\n'
+
+    // note
+    if (tx.note) {
+      output += '    ; ' + tx.note + '\n'
+    }
+
+    // postings
+    for (let i = 0; i < tx.postings.length; i++) {
+      let p = tx.postings[i]
+      if (!p.account) continue
+
+      output += '    '
+      output += p.account == null ? '' : p.account
+      if (p.amount) {
+        output += '  '
+        output += p.amount == null ? '' : p.amount
+        output += ' '
+        output += p.currency == null ? '' : p.currency
       }
       output += '\n'
     }
+
     return output
   }
 
@@ -181,7 +204,7 @@ class AppService {
       account.name = line
       accounts.push(account)
     }
-    
+
     return db.accounts.bulkPut(accounts)
   }
 

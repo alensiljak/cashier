@@ -8,8 +8,8 @@
     <q-separator dark />
 
     <!-- main (tx) Actions -->
-    <div class="row q-my-xl justify-end">
-      <div class="col text-center">
+    <div class="row q-my-xl justify-end text-center">
+      <div class="col">
         <q-btn
           color="secondary"
           text-color="accent"
@@ -24,7 +24,7 @@
           Clear
         </q-btn>
       </div>
-      <div class="col text-center">
+      <div class="col">
         <q-btn
           class="q-px-lg"
           color="accent"
@@ -41,8 +41,8 @@
         </q-btn>
       </div>
     </div>
-    <div class="row q-mb-xl justify-end">
-      <div class="col text-center">
+    <div class="row q-mb-xl justify-end text-center">
+      <div class="col">
         <q-btn
           v-if="tx.id"
           color="secondary"
@@ -58,7 +58,7 @@
           Delete
         </q-btn>
       </div>
-      <div class="col text-center">
+      <div class="col">
         <q-btn
           color="accent"
           text-color="secondary"
@@ -74,13 +74,36 @@
         </q-btn>
       </div>
     </div>
-    <div v-if="$store.getters.liveModeOn" class="text-center">
-      <q-btn
-        label="xact"
-        color="secondary"
-        text-color="accent"
-        @click="onXactClicked"
-      />
+    <div class="row text-center">
+      <div class="col">
+        <q-btn
+          v-if="$store.getters.liveModeOn"
+          color="secondary"
+          text-color="accent"
+          @click="onXactClicked"
+        >
+          <font-awesome-icon
+            icon="scroll"
+            transform="grow-9"
+            class="q-icon-small on-left"
+          />
+          xact
+        </q-btn>
+      </div>
+      <div class="col">
+        <q-btn
+          color="accent"
+          text-color="secondary"
+          @click="onCopyClicked"
+        >
+          <font-awesome-icon
+            icon="copy"
+            transform="grow-9"
+            class="q-icon-small on-left"
+          />
+          copy ledger entry
+        </q-btn>
+      </div>
     </div>
 
     <!-- confirm tx deletion dialog -->
@@ -119,7 +142,7 @@ import { CurrentTransactionService } from '../lib/currentTransactionService'
 export default {
   components: {
     Toolbar,
-    TxEditor
+    TxEditor,
   },
   data() {
     return {
@@ -131,7 +154,7 @@ export default {
     isNew: {
       get() {
         return this.tx.id === null
-      }
+      },
     },
     tx: {
       get() {
@@ -189,6 +212,14 @@ export default {
     onClear() {
       // Resets all Transaction fields to defaults.
       this.resetTransaction()
+    },
+    async onCopyClicked() {
+      // get a journal version
+      const text = await appService.translateToLedger(this.tx)
+
+      // copy to clipboard
+      await navigator.clipboard.writeText(text)
+      this.$q.notify({ message: 'transaction copied to clipboard', color: 'positive' })
     },
     onDeleteClick() {
       // show the confirmation dialog.
