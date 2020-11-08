@@ -2,6 +2,13 @@
   <q-card dark bordered class="my-card">
     <q-card-section class="bg-primary q-pa-sm">
       <strong>CashierSync</strong>
+      <span class="float-right">
+        <font-awesome-icon
+          icon="question-circle"
+          transform="grow-9 "
+          @click="onHelpClick"
+        />
+      </span>
     </q-card-section>
     <q-card-section>
       <div class="row">
@@ -23,13 +30,6 @@
           />
         </div>
 
-        <div class="col">
-          <font-awesome-icon
-            icon="question-circle"
-            transform="grow-9 "
-            @click="onHelpClick"
-          />
-        </div>
         <div class="col text-right">
           <label class="q-mr-sm">Live Mode:</label>
           <q-toggle v-model="liveModeOn" @input="liveModeToggle" />
@@ -41,11 +41,11 @@
           persistent
           content-class="bg-blue-grey-10"
         >
-          <q-card dark class="bg-secondary text-amber-2">
+          <q-card dark class="bg-primary text-amber-2">
             <q-card-section class="row items-center">
               <!-- <q-avatar icon="signal_wifi_off" color="primary" text-color="amber-2"/>-->
-              Live Mode uses CashierSync for all the data. CashierSync must be
-              running.
+              Live Mode uses CashierSync as the data source for additional 'live' features.
+              CashierSync must be running for this to work.
             </q-card-section>
 
             <q-card-actions align="right">
@@ -124,12 +124,10 @@ export default {
 
   created() {
     // Load the CashierSync server url.
-    settings
-      .get(SettingKeys.syncServerUrl)
-      .then((value) => {
-        this.serverUrl = value
-        // console.debug('server url loaded')
-      })
+    settings.get(SettingKeys.syncServerUrl).then((value) => {
+      this.serverUrl = value
+      // console.debug('server url loaded')
+    })
   },
   async mounted() {
     // turn on Live Mode if the server is up.
