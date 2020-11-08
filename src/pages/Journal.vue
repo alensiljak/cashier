@@ -254,7 +254,7 @@ export default {
       this.transactionIdToDelete = data.id
     },
     openNewTransaction() {
-      this.$router.push({ name: 'newtx' })
+      this.$router.push({ name: 'tx' })
     },
   },
 }

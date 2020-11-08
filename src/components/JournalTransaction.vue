@@ -26,7 +26,7 @@ export default {
 
   methods: {
     itemClicked(id) {
-      this.$router.push({ name: "edittx", params: { id: id } });
+      this.$router.push({ name: 'tx', params: { id: id } });
     },
   }
 };

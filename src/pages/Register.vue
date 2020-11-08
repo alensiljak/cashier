@@ -99,7 +99,7 @@ export default {
       this.sendAccountToTransaction(this.account)
     },
     onItemClick(txId) {
-      this.$router.push({ name: 'edittx', params: { id: txId } })
+      this.$router.push({ name: 'tx', params: { id: txId } })
     },
     sendAccountToTransaction(account) {
       const selectMode = new SelectionModeMetadata()
@@ -111,7 +111,7 @@ export default {
       // set the selection mode
       this.$store.commit(SET_SELECT_MODE, selectMode)
       // show account picker
-      this.$router.push({ name: 'edittx' })
+      this.$router.push({ name: 'tx' })
     },
   },
 }

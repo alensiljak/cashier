@@ -167,7 +167,7 @@ export default {
       txSvc.setTx(tx)
 
       // open for editing?
-      this.$router.push({ name: 'newtx' })
+      this.$router.push({ name: 'tx' })
     },
   },
 }

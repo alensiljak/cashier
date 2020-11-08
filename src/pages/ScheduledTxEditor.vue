@@ -262,7 +262,7 @@ export default {
       this.$q.notify({ message: 'Transaction created', color: 'positive' })
 
       // open the transaction?
-      //this.$router.push({ name: 'edittx', params: { id: id }})
+      //this.$router.push({ name: 'tx', params: { id: id }})
       this.$router.push({ name: 'journal' })
     },
     async loadData() {

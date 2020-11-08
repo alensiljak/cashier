@@ -70,7 +70,7 @@ export default {
 
   methods: {
     openNewTransaction() {
-      this.$router.push({ name: 'newtx' });
+      this.$router.push({ name: 'tx' });
     }
   }
 };
