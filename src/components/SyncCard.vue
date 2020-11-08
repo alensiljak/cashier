@@ -13,12 +13,14 @@
           <span v-if="serverStatus === false">
             <font-awesome-icon icon="skull" class="off" /> Not running
           </span>
-          <!-- <q-img
+          <!-- image used for CashierSync server detection -->
+          <q-img
+            v-if="serverUrl"
             v-show="false"
-            src="http://localhost:5000/hello"
+            :src="testUrl"
             @error="onStatusError"
             @load="onStatusSuccess"
-          /> -->
+          />
         </div>
 
         <div class="col">
@@ -98,6 +100,7 @@ export default {
     return {
       liveModeHelpVisible: false,
       serverStatus: false,
+      serverUrl: null,
     }
   },
 
@@ -110,14 +113,26 @@ export default {
         this.$store.commit(SET_LEDGER_USE, value)
       },
     },
+    testUrl: {
+      get() {
+        const url = this.serverUrl + '/hello?' + Date.now()
+        // console.debug('fettching test url', url)
+        return url
+      },
+    },
   },
 
   created() {
-    //this.liveModeOn = this.$store.state.useLedger
+    // Load the CashierSync server url.
+    settings
+      .get(SettingKeys.syncServerUrl)
+      .then((value) => {
+        this.serverUrl = value
+        // console.debug('server url loaded')
+      })
   },
   async mounted() {
     // turn on Live Mode if the server is up.
-    this.serverStatus = await this.liveModeTest(false)
     this.liveModeOn = this.serverStatus
   },
 
@@ -134,22 +149,17 @@ export default {
     },
     async liveModeTest(showMessages = true) {
       // check if cashier sync is running
-      const serverUrl = await settings.get(SettingKeys.syncServerUrl)
       let sync = new CashierSync(serverUrl)
 
-      const currentState = this.$store.getters.liveModeOn
+      const currentState = this.liveModeOn
 
       let value = null
       try {
         value = await sync.healthCheck()
       } catch (reason) {
-        // this.$q.notify({
-        //   message: 'Error: ' + reason,
-        //   color: 'secondary',
-        // })
-        // reset the setting
+        // reset the live mode
         if (currentState === true) {
-          this.$store.commit(SET_LEDGER_USE, false)
+          this.liveModeOn = false
         }
       }
 
@@ -178,17 +188,17 @@ export default {
     onShutdownClick() {
       this.$q.notify({ message: 'not implemented', color: 'secondary' })
     },
-    // onStatusError(e) {
-    //   // could not reach the server hello image
-    //   console.debug('CashierSync offline', e)
+    onStatusError(e) {
+      // could not reach the server hello image
+      // console.debug('CashierSync offline', e)
 
-    //   this.serverStatus = false
-    // },
-    // onStatusSuccess() {
-    //   console.debug('CashierSync online')
+      this.serverStatus = false
+    },
+    onStatusSuccess() {
+      // console.debug('CashierSync online')
 
-    //   this.serverStatus = true
-    // },
+      this.serverStatus = true
+    },
     onSyncClick() {
       this.$q.notify({ message: 'not implemented', color: 'secondary' })
     },
