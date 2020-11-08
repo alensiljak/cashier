@@ -231,7 +231,7 @@ class AppService {
 
   async importBalanceSheet(text) {
     if (!text) {
-      throw 'No balance sheet selected.'
+      throw 'No balance sheet sent for import'
     }
 
     const accounts = []

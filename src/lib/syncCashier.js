@@ -59,7 +59,7 @@ export class CashierSync {
     if (!response.ok) {
       throw new Error('Error reading accounts!')
     }
-    //let content = await response.text()
+
     const content = await response.json()
 
     return content
