@@ -76,8 +76,20 @@ export default {
         return this.transactions.filter(stx => {
           //const tx = JSON.parse(stx.transaction)
           //const result = (tx.payee.toUpperCase().indexOf(this.filter.toUpperCase()) > -1)
-          const result = stx.transaction.toUpperCase()
-            .indexOf(this.filter.toUpperCase()) > -1
+
+          // const result = stx.transaction.toUpperCase()
+          //   .indexOf(this.filter.toUpperCase()) > -1
+
+          // const result = stx.transaction.toLowerCase()
+          //   .indexOf(this.filter.toLowerCase()) > -1
+
+          // const result = stx.transaction
+          //   .localeCompare(this.filter, undefined, { sensitivity: 'base' }) === 0
+
+          // Use regex for performance.
+          var searchTerm = new RegExp(this.filter, "i")
+          const result = stx.transaction.match(searchTerm)
+
           return result
         })
       }
