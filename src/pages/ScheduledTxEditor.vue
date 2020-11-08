@@ -12,7 +12,7 @@
       <div class="row q-py-xl">
         <div class="col">
           <q-btn
-            v-if="scheduledTx.id"
+            v-if="scheduledTx && scheduledTx.id"
             color="secondary"
             text-color="accent"
             size="medium"
@@ -167,7 +167,7 @@ export default {
 
   data() {
     return {
-      transaction: {},
+      // transaction: {},
       confirmDeleteVisible: false,
       skipConfirmationVisible: false,
       enterConfirmationVisible: false,
@@ -189,12 +189,18 @@ export default {
     },
   },
 
-  created() {
-    if (this.scheduledTx === null) {
+  async created() {
+    if (!this.scheduledTx) {
+      // initialize for data binding.
+      // console.debug('initializing the sctx')
       this.scheduledTx = new ScheduledTransaction()
     }
 
-    this.loadData()
+    try {
+      await this.loadData()
+    } catch(error) {
+        this.$q.notify({message: error.message, color: 'negative'})
+    }
   },
 
   methods: {
@@ -205,7 +211,9 @@ export default {
       // calculate next iteration from the given date.
 
       if (!startDate || !count || !period) {
-        throw new Error(`missing input parameter(s), received: ${startDate} ${count} ${period}`)
+        throw new Error(
+          `missing input parameter(s), received: ${startDate} ${count} ${period}`
+        )
       }
 
       const isoDateFormat = 'YYYY-MM-DD'
@@ -267,22 +275,39 @@ export default {
     },
     async loadData() {
       const id = this.$route.params.id
+      //console.debug('id', id, 'type', typeof(id))
+      // temporary workaround: if the id type is not numeric, just use the values 
+      // from the store.
+      if (typeof(id) === 'string') return
+
+      // Special case. ID of 0 should be used to reset the Sch.Tx in the state.
+      // This is necessary for the case when using a transction from the journal editor.
+      if (id === 0) {
+        // Reset the Scheduled transaction.
+        this.scheduledTx = new ScheduledTransaction()
+        // But use the journal transaction from the state
+      }
+
       if (!id) {
         // todo: enable this after testing.
         // this.resetTransaction()
-        console.log('blank transaction, using clipboard values')
+        //console.log('blank transaction, using clipboard values')
       } else {
-        console.log('loading sch.tx. ', id)
+        console.log('loading sch.tx', id)
 
         // load existing record
-        const schTx = await appService.db.scheduled.get(id)
+        let schTx = await appService.db.scheduled.get(id)
+        if(!schTx) {
+          throw new Error('Scheduled transaction not loaded', id)
+        }
+        // console.debug('loaded', schTx)
         this.use(schTx)
       }
     },
     async onEnterConfirmed() {
       try {
         await this.enterTransaction()
-      } catch(err) {
+      } catch (err) {
         this.$q.notify({ color: 'negative', message: err.message })
       }
     },
@@ -307,7 +332,12 @@ export default {
       // todo: handle the one-off occurrence (no count and no period)
 
       // calculate the next iteration.
-      let newDate = this.calculateNextIteration(startDate, count, period, endDate)
+      let newDate = this.calculateNextIteration(
+        startDate,
+        count,
+        period,
+        endDate
+      )
       if (!newDate) {
         // throw new Error(`invalid date calculated: ${newDate}`)
         // Passed the End Date.
@@ -329,36 +359,41 @@ export default {
      * Sets the given Scheduled Transaction as the active object, being edited.
      */
     use(scheduledTransaction) {
-      if (this.scheduledTx === null) {
-        this.scheduledTx = new ScheduledTransaction()
-      }
+      // console.debug('using', scheduledTransaction)
 
-      // transfer the properties to reactive model
-      for (var prop in scheduledTransaction) {
-        if (Object.prototype.hasOwnProperty.call(scheduledTransaction, prop)) {
-          this.$set(this.scheduledTx, prop, scheduledTransaction[prop])
-        }
-      }
+      // if (this.scheduledTx === null) {
+      //   this.scheduledTx = new ScheduledTransaction()
+      // }
+      // transfer the properties to the reactive model.
+      // todo: check if this is needed.
+      // for (var prop in scheduledTransaction) {
+      //   if (Object.prototype.hasOwnProperty.call(scheduledTransaction, prop)) {
+      //     this.$set(this.scheduledTx, prop, scheduledTransaction[prop])
+      //   }
+      // }
       // save to store
       this.scheduledTx = scheduledTransaction
 
-      this.transaction = JSON.parse(scheduledTransaction.transaction)
+      // put into the store the attached journal transaction.
+      const transaction = JSON.parse(scheduledTransaction.transaction)
 
       // make tx available for editing
       const txSvc = new CurrentTransactionService(this.$store)
-      txSvc.setTx(this.transaction)
+      txSvc.setTx(transaction)
     },
     resetTransaction() {
       // create blank record
-      this.scheduledTx = new ScheduledTransaction()
+      // this.scheduledTx = new ScheduledTransaction()
 
-      const svc = new CurrentTransactionService(this.$store)
-      const tx = svc.createTransaction()
-      svc.setTx(tx)
-      this.transaction = tx
+      // const svc = new CurrentTransactionService(this.$store)
+      // const tx = svc.createTransaction()
+      // svc.setTx(tx)
+      //this.transaction = tx
 
       // Reset the schedule
-      this.scheduledTx = null
+      // this.scheduledTx = null
+
+      this.use(new ScheduledTransaction())
     },
     async saveData() {
       // Saves the Stx record

@@ -238,8 +238,9 @@ export default {
       }
     },
     onScheduleClick() {
-      // the transaction stays in the store and is available in the sch.tx editor.
-      this.$router.push({ name: 'scheduledtxeditor' })
+      // the journal transaction stays in the store and is available in the sch.tx editor.
+      // id 0 will cause it to reset the scheduled transaction.
+      this.$router.push({ name: 'scheduledtxeditor', params: { id: 0 } })
     },
     onXactClicked() {
       this.$router.push({ name: 'xact', params: { payee: this.tx.payee } })
