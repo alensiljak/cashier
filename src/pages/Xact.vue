@@ -49,7 +49,7 @@ view<template>
     />
 
     <!-- action button -->
-    <div class="text-center q-my-lg">
+    <div class="text-center q-my-xl">
       <q-btn color="secondary" text-color="accent" @click="run">
         <font-awesome-icon
           icon="search"
@@ -60,12 +60,10 @@ view<template>
       </q-btn>
     </div>
 
-    <div>
-      <pre>{{ results }}</pre>
-    </div>
+    <q-input v-model="results" dark type="textarea" />
 
     <!-- "Use" button -->
-    <div v-if="results" class="text-center">
+    <div v-if="results" class="text-center q-my-xl">
       <q-btn
         color="secondary"
         text-color="accent"
@@ -81,7 +79,7 @@ import Toolbar from '../components/Toolbar'
 import { settings, SettingKeys } from 'src/lib/Configuration'
 import { CashierSync } from '../lib/syncCashier'
 import { XactParser } from '../lib/XactParser'
-import appService from '../appService'
+import { CurrentTransactionService } from '../lib/currentTransactionService'
 
 export default {
   components: {
@@ -163,11 +161,12 @@ export default {
       const parser = new XactParser()
       const tx = parser.parse(this.results)
 
-      // save transaction
-      const tx_id = await appService.saveTransaction(tx)
+      // save transaction to state only
+      const txSvc = new CurrentTransactionService(this.$store)
+      txSvc.setTx(tx)
 
       // open for editing?
-      this.$router.push({ name: 'edittx', params: { id: tx_id } })
+      this.$router.push({ name: 'newtx' })
     },
   },
 }
