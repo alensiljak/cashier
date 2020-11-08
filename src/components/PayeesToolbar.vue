@@ -40,7 +40,6 @@
     </q-toolbar>
   </q-header>
 </template>
-
 <script>
 export default {
 
