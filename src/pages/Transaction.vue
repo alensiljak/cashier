@@ -153,6 +153,8 @@ export default {
      */
     async confirmDelete() {
       await this.deleteTransaction()
+
+      this.$router.push({ name: 'journal' })
     },
     async deleteTransaction() {
       let id = this.tx.id
