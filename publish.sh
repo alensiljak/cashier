@@ -1,0 +1,5 @@
+#
+
+yarn build
+
+netlify deploy
