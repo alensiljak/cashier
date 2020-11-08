@@ -99,6 +99,27 @@ class AppService {
     return output
   }
 
+    /**
+     * Load data from a file.
+     * @param {FileInfo} fileInfo The file info from the input control.
+     * @param {Function} callback A function to run when complete, passing the file content.
+     */
+    readFile(fileInfo, callback) {
+      if (!fileInfo) return
+      //   console.log(fileInfo);
+
+      var reader = new FileReader();
+
+      reader.onload = (event) => {
+        // File was successfully read.
+        var content = event.target.result;
+
+        callback(content)
+      };
+
+      reader.readAsText(fileInfo);
+    }
+
   /**
    * Translates Transaction into a ledger entry.
    * @param {Transaction} tx
@@ -291,6 +312,23 @@ class AppService {
     // todo: save
 
     return commodities
+  }
+
+  /**
+   * Imports Scheduled Transactions from a JSON String backup (from the export file).
+   * @param {String} jsonList 
+   */
+  async importScheduledTransactions(jsonList) {
+    if (!jsonList) {
+      throw new Error('The transactions list is required!')
+    }
+
+    const parsed = JSON.parse(jsonList)
+    // console.debug(parsed)
+    // first delete all existing records?
+    await db.scheduled.clear()
+
+    await db.scheduled.bulkPut(parsed)
   }
 
   async loadAccount(id) {

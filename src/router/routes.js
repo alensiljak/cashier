@@ -27,6 +27,7 @@ const routes = [
       { path: '/payees', name: 'payees', component: () => import('../pages/Payees.vue') },
       { path: '/prices', name: 'prices', component: () => import(/* webpackChunkName: 'prices' */ '../pages/Prices') },
       { path: '/reg/:name', name: 'register', component: () => import(/* webpackChunkName: 'register' */ '../pages/Register.vue') },
+      { path: '/restore/:type', name: 'restore', component: () => import(/* webpackChunkName: 'restore' */ '../pages/Restore.vue') },
       { path: '/settings', name: 'settings', component: () => import('../pages/Settings.vue') },
       { path: '/scheduledtransactions', name: 'scheduledtransactions', component: () => import(/* webpackChunkName: 'scheduledtransactions' */'../pages/ScheduledTransactions.vue') },
       { path: '/scheduledtxeditor', name: 'scheduledtxeditor', component: () => import(/* webpackChunkName: 'scheduledtxeditor' */'../pages/ScheduledTxEditor.vue') },

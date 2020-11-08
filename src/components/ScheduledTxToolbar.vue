@@ -17,9 +17,20 @@
       <q-btn flat round dense icon="more_vert">
         <q-menu>
           <q-list dark style="min-width: 175px" class="bg-colour1">
-            <q-item>
-              <q-item-section @click="$emit('export-clicked')">
-                Export
+            <q-item clickable>
+              <q-item-section @click="$emit('restore-clicked')">
+                Restore
+              </q-item-section>
+              <q-item-section side>
+                <font-awesome-icon
+                  icon="sign-in-alt"
+                  transform="grow-9 left-5"
+                />
+              </q-item-section>
+            </q-item>
+            <q-item clickable>
+              <q-item-section @click="$emit('backup-clicked')">
+                Backup
               </q-item-section>
               <q-item-section side>
                 <font-awesome-icon

@@ -1,16 +1,16 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
-    <!-- <toolbar :title="'Scheduled Transactions'" /> -->
     <stx-toolbar
       title="Scheduled Transactions"
-      @export-clicked="onExportClicked"
+      @backup-clicked="onBackupClicked"
+      @restore-clicked="onRestoreClicked"
     />
 
     <div v-if="transactions.length === 0">
       There are no scheduled transactions
     </div>
 
-    <q-list dark>
+    <q-list dark class="text-colour2">
       <q-item
         v-for="stx in transactions"
         :key="stx.id"
@@ -73,13 +73,16 @@ export default {
         .orderBy('nextDate')
         .toArray()
     },
-    onExportClicked() {
+    onBackupClicked() {
       this.$router.push({ name: 'export', params: { type: 'scheduled' }})
     },
     onFabClicked() {
       // reset any cached values
       this.$store.commit('saveToClipboard', null)
       this.$router.push({ name: 'scheduledtxeditor' })
+    },
+    onRestoreClicked() {
+      this.$router.push({ name: 'restore', params: { type: 'scheduled' }})
     },
     showTx(id) {
       this.$router.push({ name: 'scheduledtxeditor', params: { id: id } })

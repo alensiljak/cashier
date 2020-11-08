@@ -86,52 +86,54 @@
 </template>
 
 <script>
-import { SettingKeys, settings } from "../lib/Configuration";
-import { engine } from "../lib/AssetAllocation";
+import { SettingKeys, settings } from '../lib/Configuration'
+import { engine } from '../lib/AssetAllocation'
 import Toolbar from '../components/Toolbar'
+import appService from '../appService'
 
 export default {
   components: {
-    Toolbar
+    Toolbar,
   },
   data: function () {
     return {
       currency: null,
       rootInvestmentAccount: null,
-    };
+      fileContent: null,
+    }
   },
 
   created() {
-    this.loadSettings();
+    this.loadSettings()
   },
 
   methods: {
     async loadSettings() {
-      this.currency = await settings.get(SettingKeys.currency);
+      this.currency = await settings.get(SettingKeys.currency)
       this.rootInvestmentAccount = await settings.get(
         SettingKeys.rootInvestmentAccount
-      );
+      )
     },
     /**
      * The Asset Allocation definition selected.
      */
     onAaFileSelected(files) {
-      this.readInputFile(files[0], "fileContent");
+      appService.readFile(files[0], this.onFileRead)
     },
     onAaHelpClick() {
       // navigate to help page
-      this.$router.push({ name: "assetallocationsetuphelp" });
+      this.$router.push({ name: 'assetallocationsetuphelp' })
     },
     async onDefinitionImportClick() {
       // Clean-up any existing data first.
-      await engine.emptyData();
+      await engine.emptyData()
       // import AA definition file
-      await engine.importDefinition(this.fileContent);
+      await engine.importDefinition(this.fileContent)
       this.$q.notify({
-        message: "Definition imported",
+        message: 'Definition imported',
         color: 'positive',
         textColor: 'accent',
-      });
+      })
 
       // .catch((msg) =>
       //   this.$q.notify({
@@ -141,40 +143,24 @@ export default {
       //   })
       // );
     },
+    onFileRead(content) {
+      this.fileContent = content
+    },
     async onSaveClick() {
       // currency
-      await settings.set(SettingKeys.currency, this.currency);
-      this.$q.notify({ message: "currency saved" });
+      await settings.set(SettingKeys.currency, this.currency)
+      this.$q.notify({ message: 'currency saved' })
 
       // root investment account
       await settings.set(
         SettingKeys.rootInvestmentAccount,
         this.rootInvestmentAccount
-      );
-      this.$q.notify({ message: "root investment account saved" });
-    },
-    /**
-     * Load Asset Allocation from the file.
-     */
-    readInputFile(fileInfo, dataField) {
-      //   console.log(fileInfo);
-      var reader = new FileReader();
-
-      reader.onload = (event) => {
-        // File was successfully read.
-        var content = event.target.result;
-
-        if (dataField) {
-          this[dataField] = content;
-          //   console.log("read", content);
-        }
-      };
-
-      reader.readAsText(fileInfo);
+      )
+      this.$q.notify({ message: 'root investment account saved' })
     },
     reloadApp() {
-      window.location.reload(true);
+      window.location.reload(true)
     },
   },
-};
+}
 </script>
