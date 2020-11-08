@@ -51,17 +51,6 @@
       </q-toolbar>
     </q-header>
 
-    <!-- <div>Transactions go here. Show all if not filtered by a specific account.</div> -->
-
-    <!-- <q-list dark>
-      <journal-transaction
-        v-for="tx in transactions"
-        :key="tx.id"
-        :tx="tx"
-        @tx-delete-clicked="onTransactionDeleteClicked"
-      />
-    </q-list> -->
-
     <q-slide-item
       v-for="tx in transactions"
       :key="tx.id"

@@ -1,5 +1,5 @@
 <template>
-  <q-item clickable class="text-amber-2">
+  <q-item clickable class="text-amber-2 q-px-none">
     <q-item-section @click="itemClicked(tx.id)">
       <q-item-label>{{ tx.date }} {{ tx.payee }}</q-item-label>
       <q-item-label v-if="tx.note" caption class="q-ml-xl text-amber-2">{{ tx.note }}</q-item-label>
