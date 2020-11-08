@@ -2,13 +2,17 @@
   <q-page padding class="bg-colour1 text-colour2">
     <toolbar :title="'Register'" />
 
-    <!-- <p>Register for {{account.name}}</p> -->
+    <div class="text-center q-mp-none bg-primary">
+      <span>{{ account.name }}</span>
+      <span class="q-ml-lg">{{ account.balance }} {{ account.currency }}</span>
+    </div>
 
     <q-list>
       <q-item
         v-for="posting in postings"
         :key="posting.id"
         clickable
+        class="q-px-none"
         @click="onItemClick(posting.transactionId)"
       >
         <q-item-section side>{{ posting.date }}</q-item-section>
@@ -39,7 +43,7 @@ const ACCOUNT = 'account'
 
 export default {
   components: {
-    Toolbar
+    Toolbar,
   },
   data() {
     return {
