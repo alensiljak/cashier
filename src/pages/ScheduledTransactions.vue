@@ -74,7 +74,7 @@ export default {
 
         // apply the filter
         return this.transactions.filter(stx => {
-          //const tx = JSON.parse(stx.transaction)
+          const tx = JSON.parse(stx.transaction)
           //const result = (tx.payee.toUpperCase().indexOf(this.filter.toUpperCase()) > -1)
 
           // const result = stx.transaction.toUpperCase()
@@ -88,7 +88,8 @@ export default {
 
           // Use regex for performance.
           var searchTerm = new RegExp(this.filter, "i")
-          const result = stx.transaction.match(searchTerm)
+          //const result = stx.transaction.match(searchTerm)
+          const result = tx.payee.match(searchTerm)
 
           return result
         })
