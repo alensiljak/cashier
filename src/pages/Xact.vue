@@ -40,7 +40,7 @@ view<template>
       </template>
     </q-input>
 
-    <q-input v-model="payee" label="Payee" dark />
+    <q-input v-model="payee" label="Payee" dark @keypress="handleEnter" />
 
     <q-input
       v-model="freeText"
