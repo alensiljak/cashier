@@ -271,8 +271,8 @@ export default {
 
       this.$q.notify({ message: 'Transaction created', color: 'positive' })
 
-      // open the transaction?
-      this.$router.push({ name: 'tx', params: { id: id }})
+      // open the transaction. Maintain page navigation history.
+      this.$router.replace({ name: 'tx', params: { id: id }})
       //this.$router.push({ name: 'journal' })
     },
     async loadData() {
