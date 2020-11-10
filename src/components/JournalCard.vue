@@ -18,15 +18,24 @@
       </q-list>
     </q-card-section>
 
-    <q-separator dark />
+    <!-- <q-separator dark /> -->
 
-    <q-card-actions align="right">
+    <q-card-actions align="between">
       <q-btn
-        flat
+        outline
         dark
         color="primary"
         text-color="accent"
-        class="cardActionButton"
+        @click.stop="onExportTxClick"
+      >
+        <font-awesome-icon icon="sign-out-alt" class="q-icon-small on-left" />
+        Export
+      </q-btn>
+      <q-btn
+        outline
+        dark
+        color="primary"
+        text-color="accent"
         @click.stop="onNewTxClick"
       >
         <font-awesome-icon icon="plus" class="q-icon-small on-left" />
@@ -65,13 +74,12 @@ export default {
       // for some reason, need to explicitly forward the event
       this.$emit('click')
     },
+    onExportTxClick() {
+      this.$router.push({ name: 'export', params: { type: 'journal' } })
+    },
     onNewTxClick() {
       this.$router.push({ name: 'tx' })
     },
   },
 }
 </script>
-<style lang="sass" scoped>
-// .cardActionButton
-//   border: 1px solid $accent
-</style>

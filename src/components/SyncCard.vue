@@ -62,14 +62,14 @@
       </div>
     </q-card-section>
 
-    <q-separator dark />
+    <!-- <q-separator dark /> -->
 
     <q-card-actions align="right">
       <!-- <q-btn flat dark color="primary" text-color="accent" @click="onSyncClick">
         Sync
       </q-btn> -->
       <q-btn
-        flat
+        outline
         dark
         color="primary"
         text-color="accent"
