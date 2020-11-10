@@ -22,7 +22,7 @@
 
     <!-- <q-separator dark /> -->
 
-    <div class="row q-mt-lg">
+    <div class="row q-my-lg">
       <div class="col text-center">
         <q-btn
           label="Copy to clipboard"
