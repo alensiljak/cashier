@@ -152,9 +152,12 @@ export default {
       // when navigating back, the id becomes string instead of original numeric
       if(typeof(this.id) === 'string') {
         return Number(this.id)
-      } else {
+      }
+      if(typeof(this.id) === 'number') {
         return this.id
       }
+
+      throw new Error('Invalid Id value')
     },
     async load() {
       const id = this.getNumericId()
