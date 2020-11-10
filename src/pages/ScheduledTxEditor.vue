@@ -255,23 +255,25 @@ export default {
 
       this.$router.push({ name: 'scheduledtransactions' })
     },
+    /**
+     * enter the transaction into journal and update the next date on schedule.
+     */
     async enterTransaction() {
-      // enter the transaction into journal and update the next date on schedule
-      // save journal transaction
+      // save current journal transaction
       const txSvc = new CurrentTransactionService(this.$store)
       const tx = txSvc.getTx()
-      // delete the id field, if any
+      // delete the id field, if any, to get a new one on save.
       tx.id = null
       const id = await appService.saveTransaction(tx)
 
-      // update iteration date
+      // update the iteration date
       await this.skip()
 
       this.$q.notify({ message: 'Transaction created', color: 'positive' })
 
       // open the transaction?
-      //this.$router.push({ name: 'tx', params: { id: id }})
-      this.$router.push({ name: 'journal' })
+      this.$router.push({ name: 'tx', params: { id: id }})
+      //this.$router.push({ name: 'journal' })
     },
     async loadData() {
       const id = this.$route.params.id
