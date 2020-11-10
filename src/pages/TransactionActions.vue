@@ -152,6 +152,8 @@ export default {
       // when navigating back, the id becomes string instead of original numeric
       if(typeof(this.id) === 'string') {
         return Number(this.id)
+      } else {
+        return this.id
       }
     },
     async load() {
