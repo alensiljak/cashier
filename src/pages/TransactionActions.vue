@@ -137,7 +137,7 @@ export default {
       this.$router.push({ name: 'journal' })
     },
     async deleteTransaction() {
-      let id = this.tx.id
+      const id = this.getNumericId()
 
       try {
         await appService.deleteTransaction(id)
@@ -148,8 +148,15 @@ export default {
         this.$q.notify({ message: reason.message, color: 'negative' })
       }
     },
+    getNumericId() {
+      // when navigating back, the id becomes string instead of original numeric
+      if(typeof(this.id) === 'string') {
+        return Number(this.id)
+      }
+    },
     async load() {
-      const tx = await appService.loadTransaction(this.id)
+      const id = this.getNumericId()
+      const tx = await appService.loadTransaction(id)
       this.tx = tx
     },
     async onCopyClicked() {
@@ -168,7 +175,8 @@ export default {
       this.confirmDeleteVisible = true
     },
     onEditClicked() {
-      this.$router.push({ name: 'tx', params: { id: this.id } })
+      const id = this.getNumericId()
+      this.$router.push({ name: 'tx', params: { id: id } })
     },
     onScheduleClick() {
       // the journal transaction stays in the store and is available in the sch.tx editor.
