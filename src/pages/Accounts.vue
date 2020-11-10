@@ -44,6 +44,7 @@
           </q-menu>
         </q-btn>
       </q-toolbar>
+
       <!-- search -->
       <q-toolbar class="text-white flex flex-center">
         <!-- <q-toolbar-title> -->

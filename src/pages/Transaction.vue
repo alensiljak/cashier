@@ -1,6 +1,22 @@
 <template>
   <q-page padding class="bg-colour1 text-amber-2">
-    <toolbar title="Journal Transaction" />
+    <q-header elevated class="glossy">
+      <q-toolbar class="text-colour2">
+        <q-btn
+          flat
+          dense
+          round
+          aria-label="Menu"
+          icon="menu"
+          @click="toggleDrawer"
+        />
+
+        <q-toolbar-title>Journal Transaction</q-toolbar-title>
+        <q-space />
+
+        <q-btn flat round dense icon="check" @click="onSaveClicked" />
+      </q-toolbar>
+    </q-header>
 
     <div v-if="!tx.id" class="bg-primary text-center q-pa-sm q-ma-none">
       Creating a new transaction
@@ -27,7 +43,7 @@
           Clear
         </q-btn>
       </div>
-      <div class="col">
+      <!-- <div class="col">
         <q-btn
           class="q-px-lg"
           color="accent"
@@ -42,7 +58,7 @@
           />
           Save
         </q-btn>
-      </div>
+      </div> -->
     </div>
   </q-page>
 </template>
@@ -50,13 +66,12 @@
 <script>
 import { SET_TRANSACTION, SET_SELECT_MODE } from '../mutations'
 import appService from '../appService'
-import Toolbar from '../components/Toolbar'
 import TxEditor from '../components/TransactionEditor'
 import { CurrentTransactionService } from '../lib/currentTransactionService'
+import { TOGGLE_DRAWER } from '../mutations'
 
 export default {
   components: {
-    Toolbar,
     TxEditor,
   },
 
@@ -97,7 +112,7 @@ export default {
       // Transaction
       const id = this.$route.params.id
       // Ignore string ids. This is coming from the route when 'back' clicked.
-      if (typeof(id) === 'string') return;
+      if (typeof id === 'string') return
 
       if (id) {
         await this.loadTransaction(id)
@@ -127,6 +142,10 @@ export default {
       const svc = new CurrentTransactionService(this.$store)
       const tx = svc.createTransaction()
       this.tx = tx
+    },
+    toggleDrawer() {
+      const isOpen = this.$store.getters.drawerOpen
+      this.$store.commit(TOGGLE_DRAWER, !isOpen)
     },
   },
 }
