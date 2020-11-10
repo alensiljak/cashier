@@ -70,7 +70,7 @@
       </template>
 
       <q-list dark separator class="text-colour2">
-        <q-item v-ripple clickable @click="onListItemClick(account.name)">
+        <q-item v-ripple clickable class="q-px-none" @click="onListItemClick(account.name)">
           <q-item-section>{{ account.name }}</q-item-section>
           <q-item-section side>
             {{ account.balance }} {{ account.currency }}
