@@ -1,7 +1,10 @@
 <template>
   <q-page padding class="bg-colour1 text-amber-2">
-    <toolbar :title="'New Transaction'" />
+    <toolbar title="Journal Transaction" />
 
+    <div v-if="!tx.id" class="bg-primary text-center q-pa-sm q-ma-none">
+      Creating a new transaction
+    </div>
     <!-- Transaction -->
     <tx-editor />
 
