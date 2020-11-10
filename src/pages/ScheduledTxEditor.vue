@@ -276,7 +276,7 @@ export default {
     async loadData() {
       const id = this.$route.params.id
       //console.debug('id', id, 'type', typeof(id))
-      // temporary workaround: if the id type is not numeric, just use the values 
+      // temporary workaround: if the id type is not numeric, just use the values
       // from the store.
       if (typeof(id) === 'string') return
 
@@ -426,7 +426,8 @@ export default {
 
       if (result) {
         this.resetTransaction()
-        this.$router.push({ name: 'scheduledtransactions' })
+        //this.$router.push({ name: 'scheduledtransactions' })
+        this.$router.back()
       }
     },
   },

@@ -133,7 +133,8 @@ export default {
         // clear Transaction entry
         this.onClear()
         // go to journal?
-        this.$router.push({ name: 'journal' })
+        //this.$router.push({ name: 'journal' })
+        this.$router.back()
       } catch (err) {
         console.error(err)
       }
