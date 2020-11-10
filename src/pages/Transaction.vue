@@ -33,7 +33,7 @@
           color="accent"
           text-color="secondary"
           size="medium"
-          @click.once="onSave"
+          @click.once="onSaveClicked"
         >
           <font-awesome-icon
             icon="save"
@@ -44,90 +44,6 @@
         </q-btn>
       </div>
     </div>
-    <div class="row q-mb-xl justify-end text-center">
-      <div class="col">
-        <q-btn
-          v-if="tx.id"
-          color="secondary"
-          text-color="accent"
-          size="medium"
-          @click.once="onDeleteClick"
-        >
-          <font-awesome-icon
-            icon="trash-alt"
-            transform="grow-9"
-            class="q-icon-small on-left"
-          />
-          Delete
-        </q-btn>
-      </div>
-      <div class="col">
-        <q-btn
-          color="accent"
-          text-color="secondary"
-          size="medium"
-          @click="onScheduleClick"
-        >
-          <font-awesome-icon
-            icon="calendar-alt"
-            transform="grow-9"
-            class="q-icon-small on-left"
-          />
-          Schedule
-        </q-btn>
-      </div>
-    </div>
-    <div class="row text-center">
-      <div class="col">
-        <q-btn
-          v-if="$store.getters.liveModeOn"
-          color="secondary"
-          text-color="accent"
-          @click="onXactClicked"
-        >
-          <font-awesome-icon
-            icon="scroll"
-            transform="grow-9"
-            class="q-icon-small on-left"
-          />
-          xact
-        </q-btn>
-      </div>
-      <div class="col">
-        <q-btn color="accent" text-color="secondary" @click="onCopyClicked">
-          <font-awesome-icon
-            icon="copy"
-            transform="grow-9"
-            class="q-icon-small on-left"
-          />
-          copy ledger entry
-        </q-btn>
-      </div>
-    </div>
-
-    <!-- confirm tx deletion dialog -->
-    <q-dialog
-      v-model="confirmDeleteVisible"
-      persistent
-      content-class="bg-blue-grey-10"
-    >
-      <q-card dark class="bg-secondary text-amber-2">
-        <q-card-section class="row items-center">
-          <span>Do you want to delete the transaction?</span>
-        </q-card-section>
-
-        <q-card-actions align="right">
-          <q-btn v-close-popup flat label="Cancel" color="accent" />
-          <q-btn
-            v-close-popup
-            flat
-            label="Delete"
-            color="accent"
-            @click="confirmDelete"
-          />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
   </q-page>
 </template>
 
@@ -142,11 +58,6 @@ export default {
   components: {
     Toolbar,
     TxEditor,
-  },
-  data() {
-    return {
-      confirmDeleteVisible: false,
-    }
   },
 
   computed: {
@@ -180,26 +91,6 @@ export default {
 
   methods: {
     /**
-     * The user confirmed the deletion.
-     */
-    async confirmDelete() {
-      await this.deleteTransaction()
-
-      this.$router.push({ name: 'journal' })
-    },
-    async deleteTransaction() {
-      let id = this.tx.id
-
-      try {
-        await appService.deleteTransaction(id)
-        this.$q.notify({ message: 'Transaction deleted', color: 'positive' })
-
-        this.resetTransaction()
-      } catch (reason) {
-        this.$q.notify({ message: reason.message, color: 'negative' })
-      }
-    },
-    /**
      * Load all data for the view.
      */
     async loadData() {
@@ -220,22 +111,7 @@ export default {
       // Resets all Transaction fields to defaults.
       this.resetTransaction()
     },
-    async onCopyClicked() {
-      // get a journal version
-      const text = await appService.translateToLedger(this.tx)
-
-      // copy to clipboard
-      await navigator.clipboard.writeText(text)
-      this.$q.notify({
-        message: 'transaction copied to clipboard',
-        color: 'positive',
-      })
-    },
-    onDeleteClick() {
-      // show the confirmation dialog.
-      this.confirmDeleteVisible = true
-    },
-    async onSave() {
+    async onSaveClicked() {
       try {
         await appService.saveTransaction(this.tx)
         // transaction committed
@@ -246,14 +122,6 @@ export default {
       } catch (err) {
         console.error(err)
       }
-    },
-    onScheduleClick() {
-      // the journal transaction stays in the store and is available in the sch.tx editor.
-      // id 0 will cause it to reset the scheduled transaction.
-      this.$router.push({ name: 'scheduledtxeditor', params: { id: 0 } })
-    },
-    onXactClicked() {
-      this.$router.push({ name: 'xact', params: { payee: this.tx.payee } })
     },
     resetTransaction() {
       const svc = new CurrentTransactionService(this.$store)

@@ -16,7 +16,9 @@
 <script>
 export default {
   props: {
-    tx: { type: Object, default: () => {} }
+    tx: { type: Object, default: () => {
+      date: null
+    } }
   },
   data() {
     return {
@@ -26,7 +28,7 @@ export default {
 
   methods: {
     itemClicked(id) {
-      this.$router.push({ name: 'tx', params: { id: id } });
+      this.$router.push({ name: 'tx-actions', params: { id: id } });
     },
   }
 };
