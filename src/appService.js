@@ -369,33 +369,6 @@ class AppService {
   }
 
   /**
-   * Save the transaction to the database.
-   * @param {Transaction} tx The transaction object
-   */
-  async saveTransaction(tx) {
-    if (tx.id === null) {
-      // create a new id for the transaction
-      tx.id = new Date().getTime()
-    }
-
-    this.savePostings(tx)
-
-    // save all items in a transaction
-    var id = await db.transaction(
-      'rw',
-      db.transactions,
-      db.postings,
-      async () => {
-        db.postings.bulkPut(tx.postings)
-
-        var id = await db.transactions.put(tx) // returns the transaction id
-        return id
-      }
-    )
-    return id
-  }
-
-  /**
    * Not to be used directly. Only called when saving a transaction.
    */
   async savePostings(tx) {
@@ -423,6 +396,43 @@ class AppService {
         db.postings.delete(oldPostingIds[i])
       }
     }
+  }
+
+  async saveScheduledTransaction(stx) {
+    if (!stx.id) {
+      stx.id = new Date().getTime()
+      // console.log('new id generated:', this.scheduledTx.id)
+    }
+
+    const result = await this.db.scheduled.put(stx)
+    return result
+  }
+
+  /**
+   * Save the transaction to the database.
+   * @param {Transaction} tx The transaction object
+   */
+  async saveTransaction(tx) {
+    if (tx.id === null) {
+      // create a new id for the transaction
+      tx.id = new Date().getTime()
+    }
+
+    this.savePostings(tx)
+
+    // save all items in a transaction
+    var id = await db.transaction(
+      'rw',
+      db.transactions,
+      db.postings,
+      async () => {
+        db.postings.bulkPut(tx.postings)
+
+        var id = await db.transactions.put(tx) // returns the transaction id
+        return id
+      }
+    )
+    return id
   }
 }
 

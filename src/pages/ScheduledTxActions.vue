@@ -163,10 +163,22 @@ export default {
   data() {
     return {
       scheduledTx: {},
-      tx: {},
       confirmDeleteVisible: false,
       skipConfirmationVisible: false,
       enterConfirmationVisible: false,
+    }
+  },
+  computed: {
+    tx: {
+      get() {
+        if (!this.scheduledTx || !this.scheduledTx.transaction) {
+          return {}
+        }
+        return JSON.parse(this.scheduledTx.transaction)
+      },
+      set(value) {
+        this.scheduledTx.transaction = JSON.stringify(value)
+      }
     }
   },
   async created() {
@@ -280,11 +292,28 @@ export default {
       try {
         await this.skip()
 
-        //this.$router.push({ name: 'scheduledtransactions' })
         this.$router.back()
       } catch (err) {
         this.$q.notify({ color: 'negative', message: err.message })
       }
+    },
+    async saveData() {
+      // Saves the Stx record
+
+      // serialize transaction
+      const tx = this.tx
+      // do not store any transaction ids!
+      tx.id = null
+      this.tx = tx
+
+      const stx = this.scheduledTx
+
+      // reuse transaction date. For indexing only.
+      stx.nextDate = tx.date
+
+      const result = await appService.saveScheduledTransaction(stx)
+      // console.log('saved', result)
+      return result
     },
     async skip() {
       // Skips the next iteration.
@@ -311,15 +340,14 @@ export default {
       }
 
       // update the date on the transaction
-      const txSvc = new CurrentTransactionService(this.$store)
-      const tx = txSvc.getTx()
+      let tx = this.tx
       tx.date = newDate
-      txSvc.setTx(tx)
+      this.tx = tx
 
-      await this.saveData()
-
-      // refresh the view
-      this.use(stx)
+      const result = await this.saveData()
+      if (!result) {
+        this.$q.notify({ message: 'transaction not saved!', color: 'negative'})
+      }
     },
   },
 }

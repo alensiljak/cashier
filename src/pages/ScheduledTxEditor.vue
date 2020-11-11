@@ -60,8 +60,8 @@ export default {
 
     try {
       await this.loadData()
-    } catch(error) {
-        this.$q.notify({message: error.message, color: 'negative'})
+    } catch (error) {
+      this.$q.notify({ message: error.message, color: 'negative' })
     }
   },
 
@@ -71,7 +71,7 @@ export default {
       //console.debug('id', id, 'type', typeof(id))
       // temporary workaround: if the id type is not numeric, just use the values
       // from the store.
-      if (typeof(id) === 'string') return
+      if (typeof id === 'string') return
 
       // Special case. ID of 0 should be used to reset the Sch.Tx in the state.
       // This is necessary for the case when using a transction from the journal editor.
@@ -90,7 +90,7 @@ export default {
 
         // load existing record
         let schTx = await appService.db.scheduled.get(id)
-        if(!schTx) {
+        if (!schTx) {
           throw new Error('Scheduled transaction not loaded', id)
         }
         // console.debug('loaded', schTx)
@@ -112,17 +112,6 @@ export default {
       txSvc.setTx(transaction)
     },
     resetTransaction() {
-      // create blank record
-      // this.scheduledTx = new ScheduledTransaction()
-
-      // const svc = new CurrentTransactionService(this.$store)
-      // const tx = svc.createTransaction()
-      // svc.setTx(tx)
-      //this.transaction = tx
-
-      // Reset the schedule
-      // this.scheduledTx = null
-
       this.use(new ScheduledTransaction())
     },
     async saveData() {
@@ -130,10 +119,6 @@ export default {
 
       const stx = this.scheduledTx
 
-      if (!stx.id) {
-        stx.id = new Date().getTime()
-        // console.log('new id generated:', this.scheduledTx.id)
-      }
       // serialize transaction
       const txSvc = new CurrentTransactionService(this.$store)
       const tx = txSvc.getTx()
@@ -145,7 +130,7 @@ export default {
       // reuse transaction date. For indexing only.
       stx.nextDate = tx.date
 
-      const result = await appService.db.scheduled.put(stx)
+      const result = await appService.saveScheduledTransaction(stx)
       // console.log('saved', result)
       return result
     },
