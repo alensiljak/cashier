@@ -68,7 +68,7 @@
         </div>
       </template>
 
-      <journal-transaction :tx="tx" />
+      <journal-transaction :tx="tx" @click="onTxClick" />
     </q-slide-item>
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
@@ -105,7 +105,6 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
-
     <!-- delete all dialog -->
     <q-dialog
       v-model="confirmDeleteAllVisible"
@@ -241,6 +240,9 @@ export default {
       // confirm
       this.confirmDeleteVisible = true
       this.transactionIdToDelete = data.id
+    },
+    onTxClick(id) {
+      this.$router.push({ name: 'tx-actions', params: { id: id } });
     },
     openNewTransaction() {
       this.$router.push({ name: 'tx' })

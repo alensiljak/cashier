@@ -28,7 +28,7 @@ export default {
 
   methods: {
     itemClicked(id) {
-      this.$router.push({ name: 'tx-actions', params: { id: id } });
+      this.$emit('click', id)
     },
   }
 };
