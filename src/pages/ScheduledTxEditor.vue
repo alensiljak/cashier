@@ -1,47 +1,41 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
-    <toolbar :title="'Scheduled Transaction'" />
+    <q-header elevated class="glossy">
+      <q-toolbar class="text-colour2">
+        <q-btn
+          flat
+          dense
+          round
+          aria-label="Menu"
+          icon="menu"
+          @click="toggleDrawer"
+        />
+
+        <q-toolbar-title>Journal Transaction</q-toolbar-title>
+        <q-space />
+
+        <q-btn flat round dense icon="check" @click="onSaveClicked" />
+      </q-toolbar>
+    </q-header>
 
     <tx-editor />
 
     <q-separator dark class="q-my-lg" />
 
     <schedule-editor v-model="scheduledTx" />
-
-    <div id="actions" class="text-center">
-      <div class="row q-py-xl">
-        <div class="col">
-          <q-btn
-            class="q-px-lg"
-            color="accent"
-            text-color="secondary"
-            size="medium"
-            @click.once="onSaveClicked"
-          >
-            <font-awesome-icon
-              icon="save"
-              transform="grow-9"
-              class="q-icon-small on-left"
-            />
-            Save
-          </q-btn>
-        </div>
-      </div>
-    </div>
   </q-page>
 </template>
 
 <script>
-import Toolbar from '../components/Toolbar'
 import TxEditor from '../components/TransactionEditor'
 import ScheduleEditor from '../components/ScheduleEditor'
 import appService from '../appService'
 import { CurrentTransactionService } from '../lib/currentTransactionService'
 import { ScheduledTransaction, Transaction } from '../model'
+import { TOGGLE_DRAWER } from '../mutations'
 
 export default {
   components: {
-    Toolbar,
     ScheduleEditor,
     TxEditor,
   },
@@ -165,6 +159,10 @@ export default {
         //this.$router.push({ name: 'scheduledtransactions' })
         this.$router.back()
       }
+    },
+    toggleDrawer() {
+      const isOpen = this.$store.getters.drawerOpen
+      this.$store.commit(TOGGLE_DRAWER, !isOpen)
     },
   },
 }

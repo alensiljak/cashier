@@ -43,22 +43,6 @@
           Clear
         </q-btn>
       </div>
-      <!-- <div class="col">
-        <q-btn
-          class="q-px-lg"
-          color="accent"
-          text-color="secondary"
-          size="medium"
-          @click.once="onSaveClicked"
-        >
-          <font-awesome-icon
-            icon="save"
-            transform="grow-9"
-            class="q-icon-small on-left"
-          />
-          Save
-        </q-btn>
-      </div> -->
     </div>
   </q-page>
 </template>
