@@ -2,6 +2,7 @@
   <q-card dark bordered class="my-card" @click="onCardClick">
     <!-- <q-card-section class="text-subtitle2">Device Journal</q-card-section> -->
     <q-card-section class="bg-primary q-pa-sm">
+      <font-awesome-icon icon="scroll" class="q-mr-sm" />
       <strong>Device Journal</strong>
     </q-card-section>
 

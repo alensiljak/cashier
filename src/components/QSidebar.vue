@@ -31,7 +31,7 @@
           active-class="active-link"
         >
           <q-item-section avatar>
-            <font-awesome-icon icon="list-ul" transform="grow-6 right-6" />
+            <font-awesome-icon icon="scroll" transform="grow-6 right-6" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Device Journal</q-item-label>
@@ -81,7 +81,7 @@
           active-class="active-link"
         >
           <q-item-section avatar>
-            <font-awesome-icon icon="scroll" transform="grow-6 right-6" />
+            <font-awesome-icon icon="list-ul" transform="grow-6 right-6" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Xact</q-item-label>

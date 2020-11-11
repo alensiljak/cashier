@@ -1,6 +1,8 @@
 <template>
   <q-card dark bordered class="my-card">
+    <!-- header -->
     <q-card-section class="bg-primary q-pa-sm">
+      <font-awesome-icon icon="sync-alt" class="q-mr-sm" />
       <strong>CashierSync</strong>
       <span class="float-right">
         <font-awesome-icon

@@ -1,6 +1,7 @@
 <template>
   <q-card dark bordered @click="onCardClick">
     <q-card-section class="bg-primary q-pa-sm">
+      <font-awesome-icon icon="calendar-alt" class="q-mr-sm" />
       <strong>Upcoming Transactions</strong>
     </q-card-section>
 
