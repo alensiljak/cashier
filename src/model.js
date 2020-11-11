@@ -50,6 +50,7 @@ export class ScheduledTransaction {
     this.period = null
     this.count = null
     this.endDate = null
+    this.remarks = null
   }
 }
 
