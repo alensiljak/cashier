@@ -136,7 +136,16 @@ const routes = [
         name: 'scheduledtransactions',
         component: () =>
           import(
-            /* webpackChunkName: 'scheduledtransactions' */ '../pages/ScheduledTransactions.vue'
+            /* webpackChunkName: 'scheduledtransactions' */ '../pages/ScheduledTxList.vue'
+          )
+      },
+      {
+        path: '/scheduledtxactions/:id',
+        name: 'scheduledtxactions',
+        props: true,
+        component: () =>
+          import(
+            /* webpackChunkName: 'scheduledtxactions' */ '../pages/ScheduledTxActions.vue'
           )
       },
       {
@@ -160,8 +169,8 @@ const routes = [
       {
         path: '/tx-actions/:id',
         name: 'tx-actions',
+        props: true,
         component: () => import('../pages/TransactionActions.vue'),
-        props: true
       },
       {
         path: '/tx-search',

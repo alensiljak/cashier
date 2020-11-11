@@ -124,7 +124,7 @@ export default {
       this.$router.push({ name: 'restore', params: { type: 'scheduled' } })
     },
     showTx(id) {
-      this.$router.push({ name: 'scheduledtxeditor', params: { id: id } })
+      this.$router.push({ name: 'scheduledtxactions', params: { id: id }})
     },
   },
 }

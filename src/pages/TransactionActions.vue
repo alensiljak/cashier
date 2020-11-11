@@ -5,6 +5,7 @@
     <journal-transaction :tx="tx" />
 
     <div id="actions" class="q-mt-lg column text-center">
+      <!-- Edit -->
       <q-btn
         color="accent"
         text-color="secondary"
