@@ -241,9 +241,8 @@ export default {
      * enter the transaction into journal and update the next date on schedule.
      */
     async enterTransaction() {
-      // save current journal transaction
-      const txSvc = new CurrentTransactionService(this.$store)
-      const tx = txSvc.getTx()
+      // Create the journal transaction.
+      const tx = this.tx
       // delete the id field, if any, to get a new one on save.
       tx.id = null
       const id = await appService.saveTransaction(tx)
@@ -255,7 +254,6 @@ export default {
 
       // open the transaction. Maintain page navigation history.
       this.$router.replace({ name: 'tx', params: { id: id }})
-      //this.$router.push({ name: 'journal' })
     },
     getNumericId() {
       // when navigating back, the id becomes string instead of original numeric

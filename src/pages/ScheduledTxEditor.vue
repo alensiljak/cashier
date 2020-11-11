@@ -11,7 +11,7 @@
           @click="toggleDrawer"
         />
 
-        <q-toolbar-title>Journal Transaction</q-toolbar-title>
+        <q-toolbar-title>Scheduled Transaction Edit</q-toolbar-title>
         <q-space />
 
         <q-btn flat round dense icon="check" @click="onSaveClicked" />
