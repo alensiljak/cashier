@@ -3,4 +3,4 @@
 */
 import Vue from 'vue'
 
-Vue.prototype.$version = "v2020.11.11";
+Vue.prototype.$version = "v2020.11.18";
