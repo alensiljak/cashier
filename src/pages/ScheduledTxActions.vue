@@ -11,6 +11,11 @@
       <span v-if="scheduledTx.endDate">until {{ scheduledTx.endDate }}</span>
     </div>
 
+    <!-- Remarks -->
+    <div class="q-pt-sm">
+      {{ scheduledTx.remarks }}
+    </div>
+
     <div id="actions" class="q-mt-lg column text-center">
       <!-- Enter -->
       <q-btn
