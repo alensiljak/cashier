@@ -129,11 +129,7 @@ export default {
       await engine.emptyData()
       // import AA definition file
       await engine.importDefinition(this.fileContent)
-      this.$q.notify({
-        message: 'Definition imported',
-        color: 'positive',
-        textColor: 'accent',
-      })
+      this.$q.notify({ message: 'Definition imported', color: 'positive', })
 
       // .catch((msg) =>
       //   this.$q.notify({
@@ -149,14 +145,14 @@ export default {
     async onSaveClick() {
       // currency
       await settings.set(SettingKeys.currency, this.currency)
-      this.$q.notify({ message: 'currency saved' })
+      this.$q.notify({ message: 'currency saved', color: 'positive' })
 
       // root investment account
       await settings.set(
         SettingKeys.rootInvestmentAccount,
         this.rootInvestmentAccount
       )
-      this.$q.notify({ message: 'root investment account saved' })
+      this.$q.notify({ message: 'root investment account saved', color: 'positive' })
     },
     reloadApp() {
       window.location.reload(true)
