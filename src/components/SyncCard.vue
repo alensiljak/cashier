@@ -133,7 +133,7 @@ export default {
   },
   async mounted() {
     // turn on Live Mode if the server is up.
-    this.liveModeOn = this.serverStatus
+    //this.liveModeOn = this.serverStatus
   },
 
   methods: {
@@ -149,7 +149,7 @@ export default {
     },
     async liveModeTest(showMessages = true) {
       // check if cashier sync is running
-      let sync = new CashierSync(serverUrl)
+      let sync = new CashierSync(this.serverUrl)
 
       const currentState = this.liveModeOn
 
