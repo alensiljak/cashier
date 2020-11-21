@@ -61,11 +61,19 @@
       <div class="q-mt-sm" />
 
       <q-btn
-        label="Sync"
-        color="secondary"
-        text-color="accent"
+        color="accent"
+        text-color="secondary"
+        size="1.3rem"
+        class="q-my-lg q-mx-md"
         @click="onSyncClicked"
-      />
+      >
+        <font-awesome-icon
+          icon="sync-alt"
+          transform="grow-9"
+          class="q-icon-small on-left"
+        />
+        Sync
+      </q-btn>
     </div>
 
     <h4 class="q-my-md">Maintenance</h4>
