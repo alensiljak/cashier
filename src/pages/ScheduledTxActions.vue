@@ -156,6 +156,7 @@ import Toolbar from '../components/Toolbar'
 import JournalTransaction from '../components/JournalTransaction'
 import appService from '../appService'
 import moment from 'moment'
+import { Iterator } from '../lib/scheduledTransactions'
 
 export default {
   components: {
@@ -190,40 +191,6 @@ export default {
     await this.load()
   },
   methods: {
-    /**
-     * Calculate the schedule based on the given parameters.
-     */
-    calculateNextIteration(startDate, count, period, endDate) {
-      // calculate next iteration from the given date.
-
-      if (!startDate || !count || !period) {
-        throw new Error(
-          `missing input parameter(s), received: ${startDate} ${count} ${period}`
-        )
-      }
-
-      const isoDateFormat = 'YYYY-MM-DD'
-
-      // Get the start point.
-      const start = moment(startDate)
-      console.debug('now:', start.format(isoDateFormat))
-
-      // add the given period
-      const next = start.add(count, period)
-      let output = next.format(isoDateFormat)
-
-      // handle end date.
-      if (endDate) {
-        if (output > endDate) {
-          // no more iterations, end date passed
-          return null
-        }
-      }
-
-      console.debug('next:', output)
-
-      return output
-    },
     async confirmDelete() {
       const id = this.scheduledTx.id
       if (!id) {
@@ -330,7 +297,8 @@ export default {
       // todo: handle the one-off occurrence (no count and no period)
 
       // calculate the next iteration.
-      let newDate = this.calculateNextIteration(
+      const iterator = new Iterator()
+      let newDate = iterator.calculateNextIteration(
         startDate,
         count,
         period,

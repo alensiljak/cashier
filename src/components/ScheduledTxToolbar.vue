@@ -47,6 +47,18 @@
                 />
               </q-item-section>
             </q-item>
+            <!-- Calendar -->
+            <q-item clickable>
+              <q-item-section @click="$emit('calendar-clicked')">
+                Calendar
+              </q-item-section>
+              <q-item-section side>
+                <font-awesome-icon
+                  icon="calendar-alt"
+                  transform="grow-9 left-5"
+                />
+              </q-item-section>
+            </q-item>
           </q-list>
         </q-menu>
       </q-btn>

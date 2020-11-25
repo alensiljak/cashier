@@ -5,6 +5,7 @@
       @backup-clicked="onBackupClicked"
       @restore-clicked="onRestoreClicked"
       @filter-changed="onFilterChanged"
+      @calendar-clicked="onCalendarClicked"
     />
 
     <div v-if="transactions.length === 0">
@@ -46,7 +47,6 @@
 </template>
 
 <script>
-// import Toolbar from '../components/Toolbar'
 import appService from '../appService'
 import moment from 'moment'
 import StxToolbar from '../components/ScheduledTxToolbar'
@@ -54,7 +54,6 @@ import StxToolbar from '../components/ScheduledTxToolbar'
 export default {
   components: {
     StxToolbar,
-    // Toolbar,
   },
 
   data() {
@@ -111,6 +110,9 @@ export default {
     },
     onBackupClicked() {
       this.$router.push({ name: 'export', params: { type: 'scheduled' } })
+    },
+    onCalendarClicked() {
+      this.$router.push({ name: 'calendar' })
     },
     onFabClicked() {
       // reset any cached values

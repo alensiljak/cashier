@@ -1,7 +1,7 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
-    <toolbar :title="'Asset Class Detail'" />
-    
+    <toolbar title="Asset Class Detail" />
+
     <div>{{ assetClass.fullname }}</div>
     <p>{{ assetClass.name }}</p>
     <div>Allocation: {{ assetClass.allocation }}</div>

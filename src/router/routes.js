@@ -62,6 +62,11 @@ const routes = [
           import(/* webpackChunkName: 'cache' */ '../pages/Cache.vue')
       },
       {
+        path: '/calendar',
+        name: 'calendar',
+        component: () => import(/* webpackChunkName: 'calendar' */ '../pages/Calendar.vue')
+      },
+      {
         path: '/commodities',
         name: 'commodities',
         component: () =>
