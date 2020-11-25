@@ -46,7 +46,7 @@ export class Projector {
         date: tx.date,
         payee: tx.payee
       }
-      console.debug('adding', event)
+      // console.debug('adding', event)
       projections.push(event)
     }
 

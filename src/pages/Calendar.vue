@@ -11,6 +11,7 @@
         :events="events"
         class="col q-mx-lg"
         @input="onDateChanged"
+        @navigation="onMonthChanged"
       />
     </div>
 
@@ -32,6 +33,8 @@ import { Projector } from '../lib/scheduledTransactions'
 import moment from 'moment'
 import appService from '../appService'
 
+const dateFormat = 'YYYY-MM-DD'
+
 export default {
   components: {
     Toolbar,
@@ -39,7 +42,7 @@ export default {
 
   data() {
     return {
-      date: '2020-11-01',
+      date: null,
       projections: [],
     }
   },
@@ -48,40 +51,45 @@ export default {
     events: {
       get() {
         // get only the date values from the projections
-        return this.projections.map(item => item.date.replaceAll('-', '/'))
-      }
+        return this.projections.map((item) => item.date.replaceAll('-', '/'))
+      },
     },
     todaysEvents: {
       get() {
-        return this.projections.filter(item => item.date === this.date)
-          .map(item => item.payee)
-      }
-    }
+        return this.projections
+          .filter((item) => item.date === this.date)
+          .map((item) => item.payee)
+      },
+    },
   },
 
   mounted() {
-    this.generateData().then(() => {
-      console.log('done')
+    const today = moment()
+    this.date = today.format(dateFormat)
+    this.generateData(today.year(), today.month()).then(() => {
+      console.log('loaded')
     })
   },
 
   methods: {
-    async generateData() {
+    async generateData(year, month) {
+      // console.debug('generating for', year, month)
+
       // generate projections for the given month
-      const dateFormat = 'YYYY-MM-DD'
-      let startDate = moment(this.date).startOf('month').format(dateFormat)
-      let endDate = moment(this.date).endOf('month').format(dateFormat)
+      const reference = moment().year(year).month(month)
+      let startDate = reference.startOf('month').format(dateFormat)
+      let endDate = reference.endOf('month').format(dateFormat)
 
       let schedules = await appService.db.scheduled
         .orderBy('nextDate')
         .toArray()
 
-      // console.info(
-      //   'calculating projections for the period',
-      //   startDate.format(dateFormat),
-      //   endDate.format(dateFormat),
-      //   schedules
-      // )
+      console.info(
+        'calculating projections for the period',
+        startDate,
+        endDate,
+        schedules
+      )
 
       var projector = new Projector(schedules)
       this.projections = projector.project(startDate, endDate)
@@ -89,9 +97,14 @@ export default {
     onDateChanged() {
       // todo Show events on the given date
       // just filter the event list
-
       // handle the case when the month has changed
-
+    },
+    /**
+     * Handle change of month/year
+     */
+    onMonthChanged(view) {
+      //console.debug(view)
+      this.generateData(view.year, view.month - 1)
     },
   },
 }
