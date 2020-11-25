@@ -15,15 +15,27 @@
             :class="{
               red: stx.nextDate < today,
               yellow: stx.nextDate === today,
-              green: stx.nextDate > today
+              green: stx.nextDate > today,
             }"
           >
-            {{ stx.nextDate }}</span>
+            {{ stx.nextDate }}
+          </span>
           {{ JSON.parse(stx.transaction).payee }}
-          <!-- <span side>{{ stx.endDate }}</span> -->
         </q-item>
       </q-list>
     </q-card-section>
+    <q-card-actions align="left">
+      <q-btn
+        outline
+        dark
+        color="primary"
+        text-color="accent"
+        @click.capture="onCalendarClick"
+      >
+        <font-awesome-icon icon="calendar-alt" class="q-icon-small on-left" />
+        Calendar
+      </q-btn>
+    </q-card-actions>
   </q-card>
 </template>
 <script>
@@ -34,7 +46,7 @@ export default {
   data() {
     return {
       list: [],
-      today: null
+      today: null,
     }
   },
   created() {
@@ -52,6 +64,10 @@ export default {
       } catch (error) {
         this.$q.notify({ color: 'secondary', message: error.message })
       }
+    },
+    onCalendarClick() {
+      //this.$emit('calendar-click')
+      this.$router.push({ name: 'calendar' })
     },
     onCardClick() {
       this.$emit('click')
