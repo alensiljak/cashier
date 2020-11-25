@@ -41,7 +41,7 @@ export class Projector {
     // if the tx date falls into the range, use it.
     const tx = JSON.parse(stx.transaction)
     // date, payee
-    if ((startDate < tx.date) && (tx.date < endDate)) {
+    if ((startDate <= tx.date) && (tx.date <= endDate)) {
       const event = {
         date: tx.date,
         payee: tx.payee
