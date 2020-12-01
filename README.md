@@ -17,7 +17,7 @@ See the [TODO](TODO) file for the list of features, technical issues, brainstorm
   - import/export
   - synchronization with hledger-web
 
-## Development 
+## Development
 
 Run the dev server `yarn serve` or `yarn dev` and open the browser on http://localhost:8080.
 
@@ -35,7 +35,7 @@ Using Netlify to serve HTTPS site, as required by PWA specs. The [base url](http
 
 The automatic deployment is triggered when the Release branch is updated.
 
-The manual deployment is done using `netlify-cli` (an NPM package installed globally). Run `netlify deploy` from the root project directory. This requires netlify.toml. Otherwise, run from dist/pwa directory.  
+The manual deployment is done using `netlify-cli` (an NPM package installed globally). Run `netlify deploy` from the root project directory. This requires netlify.toml. Otherwise, run from dist/pwa directory.
 To deploy the Prod version, run `netlify deploy --prod`.
 
 ## Cashier Ecosystem
@@ -48,8 +48,13 @@ Set up synchronization with [cashiersync](https://gitlab.com/alensiljak/cashier-
 
 - Install Termux
   - install python and ledger packages
-  - install cashiersync with pip
-- clone or create folders for the ledger book and prices
+  - `pip install cashiersync`
+- git clone or manually create folders for the ledger book and prices
 - set up .ledgerrc in the home directory, to point to the book and prices files
 - add the Termux shortcuts for updating the data (pull)
 - add the Termux shortcut to run cashiersync
+
+To transfer the transactions from the mobile device to desktop:
+
+- add lazygit and a shortcut for opening it in the book directory. This can be used to commit the transactions directly on the mobile device.
+- use snapdrop.net to transfer the export file from CashierSync
