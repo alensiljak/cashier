@@ -143,8 +143,6 @@ export default {
       try {
         await appService.deleteTransaction(id)
         this.$q.notify({ message: 'Transaction deleted', color: 'positive' })
-
-        this.resetTransaction()
       } catch (reason) {
         this.$q.notify({ message: reason.message, color: 'negative' })
       }
