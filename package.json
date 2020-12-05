@@ -24,7 +24,7 @@
     "moment": "2.29.1",
     "numeral": "2.0.6",
     "pcloud-sdk-js": "2.0.0",
-    "quasar": "1.14.5",
+    "quasar": "1.14.6",
     "register-service-worker": "1.7.1",
     "vue": "2.6.12",
     "vue-hot-reload-api": "2.3.4",
@@ -36,19 +36,19 @@
     "vuex": "3.6.0"
   },
   "devDependencies": {
-    "@quasar/app": "2.1.8",
+    "@quasar/app": "2.1.9",
     "@quasar/extras": "1.9.10",
     "babel-eslint": "10.1.0",
-    "eslint": "7.14.0",
+    "eslint": "7.15.0",
     "eslint-config-standard": "16.0.2",
     "eslint-loader": "4.0.2",
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "4.2.1",
     "eslint-plugin-standard": "5.0.0",
-    "eslint-plugin-vue": "7.1.0",
+    "eslint-plugin-vue": "7.2.0",
     "ky": "0.25.0",
-    "workbox-webpack-plugin": "5.1.4"
+    "workbox-webpack-plugin": "6.0.2"
   },
   "bugs": {
     "url": "https://gitlab.com/alensiljak/cashier/issues"
