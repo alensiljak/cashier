@@ -155,14 +155,12 @@ export default {
     async onSaveClick() {
       // currency
       await settings.set(SettingKeys.currency, this.currency)
-      // this.$q.notify({ message: 'currency saved', color: 'positive' })
 
       // root investment account
       await settings.set(
         SettingKeys.rootInvestmentAccount,
         this.rootInvestmentAccount
       )
-      // this.$q.notify({ message: 'root investment account saved', color: 'positive' })
 
       await settings.set(SettingKeys.rememberLastTransaction, this.rememberLastTransaction)
 
