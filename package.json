@@ -24,7 +24,7 @@
     "moment": "2.29.1",
     "numeral": "2.0.6",
     "pcloud-sdk-js": "2.0.0",
-    "quasar": "1.14.6",
+    "quasar": "1.14.7",
     "register-service-worker": "1.7.1",
     "vue": "2.6.12",
     "vue-hot-reload-api": "2.3.4",
@@ -36,7 +36,7 @@
     "vuex": "3.6.0"
   },
   "devDependencies": {
-    "@quasar/app": "2.1.9",
+    "@quasar/app": "2.1.10",
     "@quasar/extras": "1.9.10",
     "babel-eslint": "10.1.0",
     "eslint": "7.15.0",

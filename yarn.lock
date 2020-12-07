@@ -2359,10 +2359,10 @@
   resolved "https://registry.yarnpkg.com/@positron/stack-trace/-/stack-trace-1.0.0.tgz#14fcc712a530038ef9be1ce6952315a839f466a8"
   integrity sha1-FPzHEqUwA475vhzmlSMVqDn0Zqg=
 
-"@quasar/app@2.1.9":
-  version "2.1.9"
-  resolved "https://registry.yarnpkg.com/@quasar/app/-/app-2.1.9.tgz#b93f70b559f95608c9bff5e1ca6f787edaf7a1bd"
-  integrity sha512-KhO78w0BBRVGkH5OQhr6IuP9pg26c8DeI/E26TMekjD9DVHgWV8jtxIC6kBseo0NiC6noYHf632aNjXklruwnQ==
+"@quasar/app@2.1.10":
+  version "2.1.10"
+  resolved "https://registry.yarnpkg.com/@quasar/app/-/app-2.1.10.tgz#cce375eae4bf9c73da9216dad5d4fe956fc7ebf7"
+  integrity sha512-GfHR05/BGhfarG+Q4qgZp7c1eaGLU9FiuZ2F/rw7Je6Fo+edI/dPd+bvknW9jokQ2Pk3NLBnA9foPPLPRh7wxg==
   dependencies:
     "@quasar/babel-preset-app" "2.0.1"
     "@quasar/fastclick" "1.1.4"
@@ -2390,7 +2390,6 @@
     express "4.17.1"
     fast-glob "3.2.4"
     file-loader "6.2.0"
-    flat "^5.0.2"
     fork-ts-checker-webpack-plugin "4.1.6"
     friendly-errors-webpack-plugin "1.7.0"
     fs-extra "9.0.1"
@@ -5749,11 +5748,6 @@ flat-cache@^3.0.4:
     flatted "^3.1.0"
     rimraf "^3.0.2"
 
-flat@^5.0.2:
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/flat/-/flat-5.0.2.tgz#8ca6fe332069ffa9d324c327198c598259ceb241"
-  integrity sha512-b6suED+5/3rTpUBdG1gupIl8MPFCAMA0QXwmljLhvCUKcUvdE4gWky9zpuGCcXHOsz4J9wPGNWq6OKpmIzz3hQ==
-
 flatted@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/flatted/-/flatted-3.1.0.tgz#a5d06b4a8b01e3a63771daa5cb7a1903e2e57067"
@@ -8825,10 +8819,10 @@ qs@^6.9.1:
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.9.4.tgz#9090b290d1f91728d3c22e54843ca44aea5ab687"
   integrity sha512-A1kFqHekCTM7cz0udomYUoYNWjBebHm/5wzU/XqrBRBNWectVH0QIiN+NEcZ0Dte5hvzHwbr8+XQmguPhJ6WdQ==
 
-quasar@1.14.6:
-  version "1.14.6"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.14.6.tgz#e49045def78f359ce4cd7c89baaba3a2d8ddfeae"
-  integrity sha512-EuVld48G2UiIOU3t2xRfLqYEj0choawWFd4cWs5Ea2TaDF+BR+JTTXovUI1kar8QBKMhU6i6ChTt8fyNATdbfQ==
+quasar@1.14.7:
+  version "1.14.7"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.14.7.tgz#63475a6550bf70a99298ac531bb36e7ac1116d15"
+  integrity sha512-AP++F9xNEmzdK4zEjYBgEF0lifg3LBIrE24weUyQqS/jNQ22YT1cGyqDzWrfScaGLmRdm27R6eWLsbT4Qnh3Pg==
 
 query-string@^4.1.0:
   version "4.3.4"
