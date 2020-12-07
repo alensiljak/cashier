@@ -1,5 +1,6 @@
 <template>
   <q-page padding class="bg-colour1 text-amber-2">
+    <!-- toolbar -->
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
         <q-btn
@@ -53,17 +54,19 @@ import appService from '../appService'
 import TxEditor from '../components/TransactionEditor'
 import { CurrentTransactionService } from '../lib/currentTransactionService'
 import { TOGGLE_DRAWER } from '../mutations'
+import { SettingKeys, settings } from 'src/lib/Configuration'
+import { Setting } from 'src/model'
 
 export default {
   components: {
-    TxEditor,
+    TxEditor
   },
 
   computed: {
     isNew: {
       get() {
         return this.tx.id === null
-      },
+      }
     },
     tx: {
       get() {
@@ -72,8 +75,8 @@ export default {
       set(value) {
         // save in the state store
         new CurrentTransactionService(this.$store).setTx(value)
-      },
-    },
+      }
+    }
   },
 
   async created() {
@@ -113,14 +116,19 @@ export default {
     async onSaveClicked() {
       try {
         await appService.saveTransaction(this.tx)
-        // transaction committed
+
+        const remember = await settings.get(SettingKeys.rememberLastTransaction)
+        if (remember) {
+          // todo: save as the last transaction for the payee
+        }
+
         // clear Transaction entry
         this.onClear()
-        // go to journal?
-        //this.$router.push({ name: 'journal' })
+
         this.$router.back()
       } catch (err) {
         console.error(err)
+        this.$q.notify({ message: 'error: ' + err.message, color: 'negative' })
       }
     },
     resetTransaction() {
@@ -131,8 +139,8 @@ export default {
     toggleDrawer() {
       const isOpen = this.$store.getters.drawerOpen
       this.$store.commit(TOGGLE_DRAWER, !isOpen)
-    },
-  },
+    }
+  }
 }
 </script>
 
