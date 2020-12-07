@@ -35,6 +35,7 @@ export const SettingKeys = {
   // path to the book repository for CashierSync.
   repositoryPath: "repositoryPath",
   rootInvestmentAccount: "aa.rootAccount",
+  rememberLastTransaction: "rememberLastTransaction",
   writeableJournalFilePath: "writeableJournalFilePath"
 };
 

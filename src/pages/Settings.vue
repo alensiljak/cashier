@@ -47,6 +47,14 @@
       <!-- </div> -->
     </div>
 
+    <div class="row">
+      <div class="col">
+        <q-checkbox v-model="rememberLastTransaction" dark
+                    label="Remember last transaction for payees"
+        />
+      </div>
+    </div>
+
     <div class="row q-mt-lg">
       <div class="col text-center q-my-lg">
         <q-btn
@@ -100,6 +108,7 @@ export default {
       currency: null,
       rootInvestmentAccount: null,
       fileContent: null,
+      rememberLastTransaction: null
     }
   },
 
@@ -113,6 +122,7 @@ export default {
       this.rootInvestmentAccount = await settings.get(
         SettingKeys.rootInvestmentAccount
       )
+      this.rememberLastTransaction = await settings.get(SettingKeys.rememberLastTransaction)
     },
     /**
      * The Asset Allocation definition selected.
@@ -145,14 +155,18 @@ export default {
     async onSaveClick() {
       // currency
       await settings.set(SettingKeys.currency, this.currency)
-      this.$q.notify({ message: 'currency saved', color: 'positive' })
+      // this.$q.notify({ message: 'currency saved', color: 'positive' })
 
       // root investment account
       await settings.set(
         SettingKeys.rootInvestmentAccount,
         this.rootInvestmentAccount
       )
-      this.$q.notify({ message: 'root investment account saved', color: 'positive' })
+      // this.$q.notify({ message: 'root investment account saved', color: 'positive' })
+
+      await settings.set(SettingKeys.rememberLastTransaction, this.rememberLastTransaction)
+
+      this.$q.notify({ message: 'Settings saved', color: 'positive' })
     },
     reloadApp() {
       window.location.reload(true)
