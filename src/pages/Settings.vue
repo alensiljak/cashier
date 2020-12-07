@@ -62,7 +62,7 @@
 
     <div class="row q-my-lg">
       <div class="col">
-        <router-link to="cache">Cache API</router-link>
+        <q-btn label="Cache API" color="accent" text-color="secondary" to="cache" />
       </div>
     </div>
 
