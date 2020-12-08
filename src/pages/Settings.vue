@@ -50,7 +50,7 @@
     <div class="row">
       <div class="col">
         <q-checkbox v-model="rememberLastTransaction" dark
-                    label="Remember last transaction for payees"
+                    label="Remember last transaction for payees. Fills the new transactions."
         />
       </div>
     </div>
