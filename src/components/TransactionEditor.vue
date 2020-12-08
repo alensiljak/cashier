@@ -112,7 +112,7 @@
 import appService from '../appService'
 import { SET_TRANSACTION, SET_SELECT_MODE } from '../mutations'
 import { CurrentTransactionService } from '../lib/currentTransactionService'
-import { SelectionModeMetadata } from '../lib/Configuration'
+import { SelectionModeMetadata, SettingKeys, settings } from '../lib/Configuration'
 import QPosting from '../components/Posting.vue'
 import { Posting } from '../model'
 
@@ -213,6 +213,7 @@ export default {
       switch (select.selectionType) {
         case 'payee':
           this.tx.payee = id
+          await this.loadLastTransaction(id)
           break
         case 'account':
           // get the posting
@@ -233,6 +234,20 @@ export default {
 
       // clean-up, reset the selection values
       this.$store.commit(SET_SELECT_MODE, null)
+    },
+    /**
+     * Load the last transaction for the payee
+     */
+    async loadLastTransaction(payee) {
+      // do this only if enabled
+      const enabled = await settings.get(SettingKeys.rememberLastTransaction)
+      if (!enabled) return
+      // and we are not on an existing transaction
+      if (this.tx.id) return
+
+      const lastTx = await appService.db.lastTransaction.get(payee)
+      if (!lastTx) return;
+      this.tx = lastTx.transaction
     },
     onAccountClicked(index) {
       const selectMode = new SelectionModeMetadata()

@@ -19,6 +19,13 @@ export class Commodity {
   }
 }
 
+export class LastTransaction {
+  constructor() {
+    this.payee = '';
+    this.transaction = '';
+  }
+}
+
 export class Posting {
   constructor() {
     // Id is inserted automatically.

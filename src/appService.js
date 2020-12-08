@@ -369,6 +369,29 @@ class AppService {
   }
 
   /**
+   * Saves the given transaction as the Last Transaction for the Payee.
+   * This is retrieved when the Payee is selected on a new transaction, or when editing.
+   * @param {Transaction} tx
+   */
+  async saveLastTransaction(tx) {
+    // save as the last transaction for the payee
+    let lastTx = new LastTransaction()
+    lastTx.payee = tx.payee
+
+    //lastTx.transaction = JSON.stringify
+    lastTx.transaction = tx
+
+    // neutralize the ids
+    lastTx.transaction.id = null
+    lastTx.transaction.postings.forEach(posting => {
+      posting.id = null
+      posting.transactionId = null
+    })
+
+    await appService.db.lastTransaction.put(lastTx)
+  }
+
+  /**
    * Not to be used directly. Only called when saving a transaction.
    */
   async savePostings(tx) {

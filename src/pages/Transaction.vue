@@ -55,7 +55,7 @@ import TxEditor from '../components/TransactionEditor'
 import { CurrentTransactionService } from '../lib/currentTransactionService'
 import { TOGGLE_DRAWER } from '../mutations'
 import { SettingKeys, settings } from 'src/lib/Configuration'
-import { Setting } from 'src/model'
+import { LastTransaction, Setting } from 'src/model'
 
 export default {
   components: {
@@ -118,8 +118,9 @@ export default {
         await appService.saveTransaction(this.tx)
 
         const remember = await settings.get(SettingKeys.rememberLastTransaction)
-        if (remember) {
-          // todo: save as the last transaction for the payee
+        // Remember Last Transaction only on New Transactions.
+        if (remember && this.isNew) {
+          appService.saveLastTransaction(this.tx)
         }
 
         // clear Transaction entry
