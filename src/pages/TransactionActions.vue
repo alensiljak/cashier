@@ -135,7 +135,7 @@ export default {
     async confirmDelete() {
       await this.deleteTransaction()
 
-      this.$router.push({ name: 'journal' })
+      this.$router.back()
     },
     async deleteTransaction() {
       const id = this.getNumericId()
