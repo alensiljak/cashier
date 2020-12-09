@@ -115,13 +115,16 @@ export default {
     },
     async onSaveClicked() {
       try {
+        // check this before saving transaction.
+        const isNewTx = this.isNew
+
         await appService.saveTransaction(this.tx)
 
-        const remember = await settings.get(SettingKeys.rememberLastTransaction)
         // Remember Last Transaction only on New Transactions.
-        if (remember && this.isNew) {
-          console.debug('saving last transaction')
-          appService.saveLastTransaction(this.tx)
+        const remember = await settings.get(SettingKeys.rememberLastTransaction)
+        if (remember && isNewTx) {
+          //console.debug('saving last transaction')
+          await appService.saveLastTransaction(this.tx)
         }
 
         // clear Transaction entry

@@ -4,7 +4,7 @@
     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export
 */
 import db from './dataStore'
-import { Account, Transaction } from './model'
+import { Account, LastTransaction, Transaction } from './model'
 import { Notify } from 'quasar'
 import { settings, SettingKeys } from './lib/Configuration'
 
@@ -388,7 +388,9 @@ class AppService {
       posting.transactionId = null
     })
 
-    await appService.db.lastTransaction.put(lastTx)
+    await this.db.lastTransaction.put(lastTx)
+
+    return true
   }
 
   /**
