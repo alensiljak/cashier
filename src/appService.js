@@ -438,7 +438,7 @@ class AppService {
    * @param {Transaction} tx The transaction object
    */
   async saveTransaction(tx) {
-    if (tx.id === null) {
+    if (!tx.id) {
       // create a new id for the transaction
       tx.id = new Date().getTime()
     }
