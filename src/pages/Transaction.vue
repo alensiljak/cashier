@@ -106,6 +106,8 @@ export default {
       }
     },
     async loadTransaction(id) {
+      console.debug('loading tx', id)
+      
       const tx = await appService.loadTransaction(id)
       this.tx = tx
     },

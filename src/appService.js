@@ -374,21 +374,20 @@ class AppService {
    * @param {Transaction} tx
    */
   async saveLastTransaction(tx) {
-    // save as the last transaction for the payee
     let lastTx = new LastTransaction()
     lastTx.payee = tx.payee
 
     lastTx.transaction = tx
 
-    // neutralize the ids
-    lastTx.transaction.id = null
+    // Delete unneeded properties - the ids, date, etc.
+    delete lastTx.transaction.id
     lastTx.transaction.postings.forEach(posting => {
-      posting.id = null
-      posting.transactionId = null
+      delete posting.id
+      delete posting.transactionId
     })
 
     // no need to remember the date
-    lastTx.transaction.date = null
+    delete lastTx.transaction.date
 
     await this.db.lastTransaction.put(lastTx)
 
@@ -406,7 +405,6 @@ class AppService {
       tx.postings[i].transactionId = tx.id
       newPostingIds.push(tx.postings[i].id)
     }
-    // tx.postings.forEach(p => p.transactionId == tx.id)
 
     // Delete any removed postings.
     // Get the posting ids from the database.
