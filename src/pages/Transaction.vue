@@ -120,6 +120,7 @@ export default {
         const remember = await settings.get(SettingKeys.rememberLastTransaction)
         // Remember Last Transaction only on New Transactions.
         if (remember && this.isNew) {
+          console.debug('saving last transaction')
           appService.saveLastTransaction(this.tx)
         }
 
