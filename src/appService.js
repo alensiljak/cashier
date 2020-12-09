@@ -378,7 +378,6 @@ class AppService {
     let lastTx = new LastTransaction()
     lastTx.payee = tx.payee
 
-    //lastTx.transaction = JSON.stringify
     lastTx.transaction = tx
 
     // neutralize the ids
@@ -387,6 +386,9 @@ class AppService {
       posting.id = null
       posting.transactionId = null
     })
+
+    // no need to remember the date
+    lastTx.transaction.date = null
 
     await this.db.lastTransaction.put(lastTx)
 

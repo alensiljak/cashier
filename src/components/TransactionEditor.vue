@@ -247,6 +247,9 @@ export default {
 
       const lastTx = await appService.db.lastTransaction.get(payee)
       if (!lastTx) return;
+      // use the current date
+      lastTx.transaction.date = this.tx.date
+      // Replace the current transaction.
       this.tx = lastTx.transaction
     },
     onAccountClicked(index) {
