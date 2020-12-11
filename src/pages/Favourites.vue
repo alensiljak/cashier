@@ -194,6 +194,9 @@ export default {
         for (let j = 0; j < postingsArray.length; j++) {
           let amount = postingsArray[j].amount
           if (!amount) continue
+          if (typeof amount === 'string') {
+            amount = parseFloat(amount)
+          }
 
           sum += amount
         }

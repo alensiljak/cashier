@@ -400,9 +400,17 @@ class AppService {
   async savePostings(tx) {
     var newPostingIds = []
 
-    // set transaction id on postings
+    // modifications
     for (let i = 0; i < tx.postings.length; i++) {
+      // set transaction id on postings
       tx.postings[i].transactionId = tx.id
+
+      // Make sure all the values are numbers!
+      if (typeof tx.postings[i].amount === 'string') {
+        const numericValue = parseFloat(tx.postings[i].amount)
+        tx.postings[i].amount = numericValue
+      }
+
       newPostingIds.push(tx.postings[i].id)
     }
 
