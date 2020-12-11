@@ -190,7 +190,6 @@ export default {
         let postings = await appService.db.postings.where({
           account: account.name,
         })
-        // .each(posting => {
         let postingsArray = await postings.toArray()
         for (let j = 0; j < postingsArray.length; j++) {
           let amount = postingsArray[j].amount
@@ -198,7 +197,11 @@ export default {
 
           sum += amount
         }
-        // })
+        
+        if (!isNaN(sum)) {
+          console.warn('The sum for ' + account.name + ' is not a number: ', sum)
+        }
+
         let newBalance = sum.toFixed(2)
 
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
@@ -250,6 +253,7 @@ export default {
         accounts = await this.adjustBalances(accounts)
         this.accounts = accounts
       } catch (reason) {
+        console.error(reason)
         this.$q.notify({ color: 'secondary', message: reason.message })
       }
     },
