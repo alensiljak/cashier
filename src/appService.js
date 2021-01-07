@@ -414,9 +414,10 @@ class AppService {
   }
 
   /**
-   * Not to be used directly. Only called when saving a transaction.
+   * Ensures correct data/types for new postings during saving.
+   * Removes the missing postings.
    */
-  async savePostings(tx) {
+  async adjustPostings(tx) {
     var newPostingIds = []
 
     // modifications
@@ -471,7 +472,7 @@ class AppService {
       tx.id = new Date().getTime()
     }
 
-    this.savePostings(tx)
+    this.adjustPostings(tx)
 
     // save all items in a transaction
     var id = await db.transaction(
@@ -480,6 +481,7 @@ class AppService {
       db.postings,
       async () => {
         db.postings.bulkPut(tx.postings)
+        delete tx.postings
 
         var id = await db.transactions.put(tx) // returns the transaction id
         return id
