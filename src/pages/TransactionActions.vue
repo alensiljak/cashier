@@ -21,6 +21,20 @@
         Edit
       </q-btn>
       <q-btn
+        color="primary"
+        text-color="accent"
+        size="1.3rem"
+        class="q-my-lg q-mx-md"
+        @click="onDuplicateClicked"
+      >
+        <font-awesome-icon
+          icon="copy"
+          transform="grow-9"
+          class="q-icon-small on-left"
+        />
+        Duplicate
+      </q-btn>
+      <q-btn
         color="accent"
         text-color="secondary"
         size="1.3rem"
@@ -177,6 +191,19 @@ export default {
     onDeleteClick() {
       // show the confirmation dialog.
       this.confirmDeleteVisible = true
+    },
+    async onDuplicateClicked() {
+      // create the transaction
+      const newTx = await appService.duplicateTransaction(this.tx)
+      // save
+      const id = await appService.saveTransaction(newTx)
+
+      // display a notification after or ask before the action.
+      this.$q.notify({ color: 'positive', message: 'Transaction duplicated' })
+
+      // navigate to the editor for the new transaction,
+      // resetting the navigation?
+      this.$router.push({ name: 'tx', params: { id: id } })
     },
     onEditClicked() {
       const id = this.getNumericId()

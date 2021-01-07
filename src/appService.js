@@ -9,6 +9,19 @@ import { Notify } from 'quasar'
 import { settings, SettingKeys } from './lib/Configuration'
 
 class AppService {
+  /**
+   * Clears Ids and reference Ids in Transaction and Postings.
+   * @param {Transaction} tx
+   */
+  clearIds(tx) {
+    delete tx.id
+    tx.postings.forEach(posting => {
+      delete posting.id
+      delete posting.transactionId
+    })
+    return tx
+  }
+
   createAccount(name) {
     let acc = new Account()
     acc.name = name
@@ -76,6 +89,16 @@ class AppService {
     // also clear any remaining postings
     this.db.postings.clear()
     await this.db.transactions.clear()
+  }
+
+  async duplicateTransaction(tx) {
+    // copy a new transaction
+    const newTx = JSON.parse(JSON.stringify(tx));
+
+    this.clearIds(newTx)
+
+    // return the transaction
+    return newTx
   }
 
   /**
@@ -380,11 +403,7 @@ class AppService {
     lastTx.transaction = tx
 
     // Delete unneeded properties - the ids, date, etc.
-    delete lastTx.transaction.id
-    lastTx.transaction.postings.forEach(posting => {
-      delete posting.id
-      delete posting.transactionId
-    })
+    this.clearIds(lastTx.transaction)
 
     // no need to remember the date
     delete lastTx.transaction.date
@@ -444,6 +463,7 @@ class AppService {
   /**
    * Save the transaction to the database.
    * @param {Transaction} tx The transaction object
+   * @returns the numeric id of the new transaction
    */
   async saveTransaction(tx) {
     if (!tx.id) {
