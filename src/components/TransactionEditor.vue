@@ -299,7 +299,11 @@ export default {
 
       for (let i = 0; i < this.tx.postings.length; i++) {
         const posting = this.tx.postings[i]
-        this.postingSum += posting.amount
+        if (!isNaN(posting.amount)) {
+          this.postingSum += posting.amount
+        } else {
+          console.warn('The amount is not a number:', posting.amount)
+        }
       }
     },
     resetTransaction() {
