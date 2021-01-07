@@ -34,6 +34,7 @@
         </q-item-section>
         <q-item-section>
           {{ JSON.parse(stx.transaction).payee }}
+          <small class="remarks">{{ getFirstLine(stx.remarks) }}</small>
         </q-item-section>
       </q-item>
     </q-list>
@@ -102,6 +103,14 @@ export default {
   },
 
   methods: {
+    /**
+    Gets only the first line of the text (until the first line break).
+     */
+    getFirstLine(text) {
+      if (!text) return
+
+      return text.split('\n')[0]
+    },
     async loadData() {
       this.transactions = await appService.db.scheduled
         // .where({ transaction: tx.id })
@@ -132,6 +141,8 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
+@import "../css/palette.scss"
+
 .red
   color: $negative
 
@@ -140,4 +151,7 @@ export default {
 
 .green
   color: $positive
+
+.remarks
+  color: $colour2
 </style>
