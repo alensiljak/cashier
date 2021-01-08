@@ -105,8 +105,8 @@ class AppService {
    * Returns all the register transactions as text,
    * ready to be exported as a file or copied as a string.
    */
-  async exportTransactions() {
-    let txs = await db.transactions.orderBy('date').toArray()
+  async getExportTransactions() {
+    const txs = await db.transactions.orderBy('date').toArray()
 
     var output = ''
 
@@ -481,9 +481,11 @@ class AppService {
       db.postings,
       async () => {
         db.postings.bulkPut(tx.postings)
-        delete tx.postings
 
-        var id = await db.transactions.put(tx) // returns the transaction id
+        //delete tx.postings
+
+        // returns the transaction id
+        var id = await db.transactions.put(tx)
         return id
       }
     )

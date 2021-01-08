@@ -215,9 +215,8 @@ export default {
     },
     async loadData() {
       // load all transactions
-      let transactions = null
       try {
-        transactions = await appService.db.transactions
+        this.transactions = await appService.db.transactions
           .orderBy('date')
           .reverse()
           .toArray()
@@ -225,24 +224,6 @@ export default {
         errorMessage.message = error.message
         this.$q.notify(errorMessage)
       }
-
-      // load postings
-      try {
-        const postings = await appService.db.postings.toArray()
-        for(var i = 0; i < postings.length; i++) {
-          const posting = postings[i]
-          const txId = posting.transactionId
-          const tx = transactions.filter(tx => tx.id == txId)[0]
-
-          if (!tx.postings) tx.postings = []
-          tx.postings.push(posting)
-        }
-      } catch(error) {
-        errorMessage.message = error.message
-        this.$q.notify(errorMessage)
-      }
-
-      this.transactions = transactions
     },
     menuClicked() {
       let visible = this.$store.getters.drawerOpen

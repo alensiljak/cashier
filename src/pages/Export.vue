@@ -161,7 +161,7 @@ export default {
       switch (dataType) {
         case 'journal':
           // The default, old behaviour: use transactions
-          output = await appService.exportTransactions()
+          output = await appService.getExportTransactions()
           break
         case 'scheduled':
           output = await this.loadScheduledTransactions()
