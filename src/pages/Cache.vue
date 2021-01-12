@@ -93,8 +93,9 @@
 <script>
 import { SettingKeys, settings, Constants } from '../lib/Configuration';
 import { CashierSync } from '../lib/syncCashier';
-import ky from 'ky';
+import CachierCache from '../lib/CashierCache'
 import Toolbar from '../components/Toolbar'
+import CashierCache from '../lib/CashierCache';
 
 const NoneStatus = 'None';
 const ExistsStatus = 'Exists';
@@ -130,6 +131,7 @@ export default {
       const cashierSync = new CashierSync(this.serverUrl);
 
       // get the statuses of all cache items.
+      //const cache = new CashierCache(Constants.CacheName)
       const cache = await caches.open(Constants.CacheName);
       // Accounts
       const accounts = await cache.match(cashierSync.accountsUrl);
@@ -168,11 +170,10 @@ export default {
     },
 
     async cacheUrl(url) {
-      // get accounts from CashierSync
-      let response = null;
+      const cache = new CashierCache(Constants.CacheName)
+
       try {
-        response = await ky(url);
-        //const result = await response.text()
+        await cache.cache(url)
       } catch (reason) {
         console.error(reason);
         // show message
@@ -185,18 +186,12 @@ export default {
         return;
       }
 
-      // don't cache invalid responses
-      if (!response.ok) return;
-
-      // cache them
-      const cache = await caches.open(Constants.CacheName);
-      await cache.put(url, response.clone());
       await this.loadStatuses();
     },
 
     async clearCache(url) {
-      const cache = await caches.open(Constants.CacheName);
-      await cache.delete(url);
+      const cache = new CashierCache(Constants.CacheName)
+      await cache.clearCache(url)
       await this.loadStatuses();
     },
 
