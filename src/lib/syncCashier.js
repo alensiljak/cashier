@@ -91,9 +91,10 @@ export class CashierSync {
     )
 
     const response = await ky.get(url)
-    const result = await response.text()
+    //const result = await response.text()
+    const result = await response.json()
 
-    await engine.importCurrentValues(result)
+    await engine.importCurrentValuesJson(result)
     return 'OK'
   }
 

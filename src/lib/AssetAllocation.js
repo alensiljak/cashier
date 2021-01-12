@@ -198,15 +198,39 @@ class AssetAllocationEngine {
     });
   }
 
+  async importCurrentValuesJson(json) {
+    const accounts = Object.keys(json)
+    for(let i = 0; i < accounts.length; i++) {
+      const key = accounts[i]
+
+      // fix the balance
+      let balance = json[key]
+      balance = balance.replace(",", "");
+
+      // extract the currency
+      let parts = balance.split(' ')
+      const amount = parts[0]
+      const currency = parts[1]
+
+      // Update existing account.
+      let account = await appService.db.accounts.get(key);
+      if (!account) {
+        // eslint-disable-next-line no-throw-literal
+        throw "Invalid account " + accountName;
+      }
+      account.currentValue = amount;
+      account.currentCurrency = currency;
+
+      await appService.db.accounts.put(account);
+    }
+  }
+
   /**
    * Parse and store the current balances ("l b ^Assets:Inv --flat -X EUR")
    * in the allocation object.
    * @param {str} text
    */
   async importCurrentValues(text) {
-    // load current allocation
-    // let aa = await this.loadDefinition()
-    // let accounts = await this.getInvestmentAccounts()
     let currentArray = this.parseCurrentValuesFile(text);
 
     // assign values

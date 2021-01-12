@@ -209,7 +209,8 @@ class AppService {
       throw new Error('Root investment account not set!')
     }
 
-    return this.db.accounts.where('name').startsWithIgnoreCase(rootAccount)
+    return this.db.accounts.where('name')
+      .startsWithIgnoreCase(rootAccount)
   }
 
   /**
