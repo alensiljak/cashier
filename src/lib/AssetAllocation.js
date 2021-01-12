@@ -198,6 +198,10 @@ class AssetAllocationEngine {
     });
   }
 
+  /**
+   * Update the current balances in the asset allocation.
+   * @param {string} json 
+   */
   async importCurrentValuesJson(json) {
     const accounts = Object.keys(json)
     for(let i = 0; i < accounts.length; i++) {
@@ -219,37 +223,6 @@ class AssetAllocationEngine {
         throw "Invalid account " + accountName;
       }
       account.currentValue = amount;
-      account.currentCurrency = currency;
-
-      await appService.db.accounts.put(account);
-    }
-  }
-
-  /**
-   * Parse and store the current balances ("l b ^Assets:Inv --flat -X EUR")
-   * in the allocation object.
-   * @param {str} text
-   */
-  async importCurrentValues(text) {
-    let currentArray = this.parseCurrentValuesFile(text);
-
-    // assign values
-    for (let i = 0; i < currentArray.length; i++) {
-      let row = currentArray[i];
-      // account name
-      let accountName = row[0];
-      // balance
-      let balance = row[1];
-      balance = balance.replace(",", "");
-      let currency = row[2];
-
-      // Save to existing accounts
-      let account = await appService.db.accounts.get(accountName);
-      if (!account) {
-        // eslint-disable-next-line no-throw-literal
-        throw "Invalid account " + accountName;
-      }
-      account.currentValue = balance;
       account.currentCurrency = currency;
 
       await appService.db.accounts.put(account);
@@ -324,29 +297,6 @@ class AssetAllocationEngine {
    */
   async loadDefinition() {
     return appService.db.assetAllocation.toArray();
-  }
-
-  parseCurrentValuesFile(text) {
-    let result = [];
-
-    let lines = text.split("\n");
-    for (let i = 0; i < lines.length; i++) {
-      let line = lines[i];
-      let parts = line.split("  ");
-      parts = this.cleanBlankArrayItems(parts);
-      if (parts.length < 2) continue;
-
-      let amountParts = parts[0].split(" ");
-      amountParts = this.cleanBlankArrayItems(amountParts);
-
-      let amountString = amountParts[0];
-      let currency = amountParts[1];
-      let accountName = parts[1];
-
-      result.push([accountName, amountString, currency]);
-    }
-
-    return result;
   }
 
   /**
