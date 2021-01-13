@@ -327,6 +327,9 @@ export default {
   created() {
     // initial state of the drawer
     this.$store.commit(TOGGLE_DRAWER, this.$q.platform.is.desktop)
+
+    // Listen for events from other pages
+    this.$root.$on('toggle_drawer', this.toggleDrawer)
   },
 
   methods: {

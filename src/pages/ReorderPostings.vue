@@ -1,6 +1,23 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
-    <toolbar title="Reorder Postings" />
+    <!-- toolbar -->
+    <q-header elevated class="glossy">
+      <q-toolbar class="text-colour2">
+        <q-btn
+          flat
+          dense
+          round
+          aria-label="Menu"
+          icon="menu"
+          @click="toggleDrawer"
+        />
+
+        <q-toolbar-title>Reorder Postings</q-toolbar-title>
+        <q-space />
+
+        <q-btn flat round dense icon="check" @click="onSaveClicked" />
+      </q-toolbar>
+    </q-header>
 
     <accounts-list v-model="postings" lock-axis="y">
       <posting-item
@@ -10,21 +27,9 @@
         :posting="posting"
       />
     </accounts-list>
-
-    <div class="text-center q-mt-xl">
-      <q-btn color="accent" text-color="secondary" class="col" @click="save">
-        <font-awesome-icon
-          icon="save"
-          transform="grow-9"
-          class="q-icon-small on-left"
-        />
-        <div>Save</div>
-      </q-btn>
-    </div>
   </q-page>
 </template>
 <script>
-import Toolbar from '../components/Toolbar'
 import AccountsList from '../components/SortableAccountsList'
 import PostingItem from '../components/SortablePostingItem'
 import { CurrentTransactionService } from '../lib/currentTransactionService'
@@ -33,7 +38,6 @@ export default {
   components: {
     AccountsList,
     PostingItem,
-    Toolbar
   },
 
   data() {
@@ -56,6 +60,10 @@ export default {
       }
       this.postings = tx.postings
     },
+    onSaveClicked() {
+        this.save()
+        this.$router.back()
+    },
     save() {
       // save the postings into the local store
       const svc = new CurrentTransactionService(this.$store)
@@ -66,6 +74,9 @@ export default {
       tx.postings = this.postings
 
       this.$q.notify({ message: 'data saved', color: 'positive'})
+    },
+    toggleDrawer() {
+        this.$root.$emit('toggle_drawer')
     }
   }
 }
