@@ -24,18 +24,7 @@
     <p>
       The source code is available in a
       <a href="https://gitlab.com/alensiljak/cashier">source code repository</a>
-      on GitLab.
-    </p>
-
-    <h4 class="q-my-sm text-center">Process</h4>
-    <p>
-      The application data is provided by
-      <a href="https://gitlab.com/alensiljak/cashier-sync">CashierSync</a>
-      Python application, which needs to be set-up to read your Ledger book.
-    </p>
-    <p>
-      To perform write operations to a Ledger book, you can use a terminal with
-      git, nano or micro editor, and lazygit GUI.
+      on GitLab. This is also the preferred way to submit feature and bugs.
     </p>
 
     <h4 class="q-my-sm text-center">Credits</h4>

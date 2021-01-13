@@ -1,6 +1,6 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
-    <toolbar :title="'Register'" />
+    <toolbar title="Register" />
 
     <div class="text-center q-mp-none bg-primary">
       <span>{{ account.name }}</span>

@@ -260,6 +260,15 @@
           </q-item-section>
         </q-item>
 
+        <q-item v-ripple to="/help" exact clickable active-class="active-link">
+          <q-item-section avatar>
+            <font-awesome-icon icon="question-circle" transform="grow-6 right-9" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Help</q-item-label>
+          </q-item-section>
+        </q-item>
+
         <q-item v-ripple to="/about" exact clickable active-class="active-link">
           <q-item-section avatar>
             <font-awesome-icon icon="info" transform="grow-6 right-9" />
@@ -306,13 +315,13 @@ export default {
       },
       set(value) {
         this.$store.commit(TOGGLE_DRAWER, value)
-      },
+      }
     },
     liveModeOn: {
       get() {
         return this.$store.state.useLedger
-      },
-    },
+      }
+    }
   },
 
   created() {
@@ -329,8 +338,8 @@ export default {
     },
     toggleDrawer() {
       this.drawerOpen = !this.drawerOpen
-    },
-  },
+    }
+  }
 }
 </script>
 

@@ -12,7 +12,7 @@ const routes = [
         path: '/about',
         name: 'about',
         component: () =>
-          import(/* webpackChunkName: 'about' */ '../pages/About.vue')
+          import('../pages/About.vue')
       },
       {
         path: '/account/:id',
@@ -24,7 +24,7 @@ const routes = [
         path: '/accounts',
         name: 'accounts',
         component: () =>
-          import(/* webpackChunkName: 'accounts' */ '../pages/Accounts.vue')
+          import('../pages/Accounts.vue')
       },
       {
         path: '/assetallocation',
@@ -64,7 +64,8 @@ const routes = [
       {
         path: '/calendar',
         name: 'calendar',
-        component: () => import(/* webpackChunkName: 'calendar' */ '../pages/Calendar.vue')
+        component: () =>
+          import(/* webpackChunkName: 'calendar' */ '../pages/Calendar.vue')
       },
       {
         path: '/commodities',
@@ -87,10 +88,13 @@ const routes = [
       {
         path: '/favouritesreorder',
         name: 'favreorder',
+        component: () => import('../pages/FavouritesReorder')
+      },
+      {
+        path: '/help',
+        name: 'help',
         component: () =>
-          import(
-            /* webpackChunkName: 'favreorder' */ '../pages/FavouritesReorder'
-          )
+          import(/* webpackChunkName: 'help' */ '../pages/Help.vue')
       },
       {
         path: '/home',
@@ -122,8 +126,7 @@ const routes = [
       {
         path: '/reg/:name',
         name: 'register',
-        component: () =>
-          import(/* webpackChunkName: 'register' */ '../pages/Register.vue')
+        component: () => import('../pages/Register.vue')
       },
       {
         path: '/restore/:type?',
@@ -141,7 +144,7 @@ const routes = [
         name: 'scheduledtransactions',
         component: () =>
           import(
-            /* webpackChunkName: 'scheduledtransactions' */ '../pages/ScheduledTxList.vue'
+            /* webpackChunkName: 'scheduledtx' */ '../pages/ScheduledTxList.vue'
           )
       },
       {
@@ -150,7 +153,7 @@ const routes = [
         props: true,
         component: () =>
           import(
-            /* webpackChunkName: 'scheduledtxactions' */ '../pages/ScheduledTxActions.vue'
+            /* webpackChunkName: 'scheduledtx' */ '../pages/ScheduledTxActions.vue'
           )
       },
       {
@@ -158,7 +161,7 @@ const routes = [
         name: 'scheduledtxeditor',
         component: () =>
           import(
-            /* webpackChunkName: 'scheduledtxeditor' */ '../pages/ScheduledTxEditor.vue'
+            /* webpackChunkName: 'scheduledtx' */ '../pages/ScheduledTxEditor.vue'
           )
       },
       {
@@ -175,7 +178,7 @@ const routes = [
         path: '/tx-actions/:id',
         name: 'tx-actions',
         props: true,
-        component: () => import('../pages/TransactionActions.vue'),
+        component: () => import('../pages/TransactionActions.vue')
       },
       {
         path: '/tx-search',

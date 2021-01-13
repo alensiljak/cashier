@@ -1,6 +1,6 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
-    <toolbar :title="'Cache'" />
+    <toolbar title="Cache" />
 
     <p>Control the cached data from Cashier-Sync.</p>
     <div>
@@ -91,10 +91,10 @@
 </template>
 
 <script>
+import Toolbar from '../components/Toolbar'
 import { SettingKeys, settings, Constants } from '../lib/Configuration';
 import { CashierSync } from '../lib/syncCashier';
 import CachierCache from '../lib/CashierCache'
-import Toolbar from '../components/Toolbar'
 import CashierCache from '../lib/CashierCache';
 
 const NoneStatus = 'None';
