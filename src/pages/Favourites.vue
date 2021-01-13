@@ -201,7 +201,7 @@ export default {
           sum += amount
         }
         
-        if (!isNaN(sum)) {
+        if (isNaN(sum)) {
           console.warn('The sum for ' + account.name + ' is not a number: ', sum)
         }
 

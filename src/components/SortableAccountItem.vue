@@ -12,8 +12,11 @@ import { ElementMixin } from "vue-slicksort";
 
 export default {
   mixins: [ElementMixin],
+  // props: {
+  //   account: { type: String, default: "" }
+  // }
   props: {
-    account: { type: String, default: "" }
+    account: Object
   }
 };
 </script>
