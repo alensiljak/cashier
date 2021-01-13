@@ -32,7 +32,6 @@ import ScheduleEditor from '../components/ScheduleEditor'
 import appService from '../appService'
 import { CurrentTransactionService } from '../lib/currentTransactionService'
 import { ScheduledTransaction, Transaction } from '../model'
-import { TOGGLE_DRAWER } from '../mutations'
 
 export default {
   components: {
@@ -146,8 +145,7 @@ export default {
       }
     },
     toggleDrawer() {
-      const isOpen = this.$store.getters.drawerOpen
-      this.$store.commit(TOGGLE_DRAWER, !isOpen)
+        this.$root.$emit('toggle_drawer')
     },
   },
 }

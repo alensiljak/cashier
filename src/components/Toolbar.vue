@@ -15,15 +15,12 @@
   </q-header>
 </template>
 <script>
-import { TOGGLE_DRAWER } from '../mutations'
-
 export default {
   props: { title: { type: String, default: 'Cashier' } },
 
   methods: {
     toggleDrawer() {
-      const isOpen = this.$store.getters.drawerOpen
-      this.$store.commit(TOGGLE_DRAWER, !isOpen)
+        this.$root.$emit('toggle_drawer')
     },
   },
 }

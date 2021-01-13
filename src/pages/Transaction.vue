@@ -53,7 +53,6 @@ import { SET_TRANSACTION, SET_SELECT_MODE } from '../mutations'
 import appService from '../appService'
 import TxEditor from '../components/TransactionEditor'
 import { CurrentTransactionService } from '../lib/currentTransactionService'
-import { TOGGLE_DRAWER } from '../mutations'
 import { SettingKeys, settings } from 'src/lib/Configuration'
 import { LastTransaction, Setting } from 'src/model'
 
@@ -144,8 +143,7 @@ export default {
       this.tx = tx
     },
     toggleDrawer() {
-      const isOpen = this.$store.getters.drawerOpen
-      this.$store.commit(TOGGLE_DRAWER, !isOpen)
+        this.$root.$emit('toggle_drawer')
     }
   }
 }
