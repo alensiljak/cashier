@@ -88,22 +88,35 @@
       </q-item>
 
       <!-- posting actions -->
-      <div class="row q-mt-sm q-mb-xl">
-        <div class="col text-center">
-          <q-btn
-            color="primary"
-            text-color="accent"
-            size="small"
-            @click="addPosting"
-          >
-            <font-awesome-icon
-              icon="plus-circle"
-              transform="grow-9"
-              class="q-icon-small on-left"
-            />
-            <div>Add Posting</div>
-          </q-btn>
-        </div>
+      <div class="column q-mt-md q-mb-xl">
+        <q-btn
+          color="primary"
+          text-color="accent"
+          size="medium"
+          class="col q-mb-md"
+          @click="addPosting"
+        >
+          <font-awesome-icon
+            icon="plus-circle"
+            transform="grow-9"
+            class="q-icon-small on-left"
+          />
+          <div>Add Posting</div>
+        </q-btn>
+        <q-btn
+          color="primary"
+          text-color="accent"
+          size="medium"
+          class="col"
+          @click="reorderPostings"
+        >
+          <font-awesome-icon
+            icon="sort"
+            transform="grow-9"
+            class="q-icon-small on-left"
+          />
+          <div>Reorder Postings</div>
+        </q-btn>
       </div>
     </div>
   </div>
@@ -112,20 +125,24 @@
 import appService from '../appService'
 import { SET_TRANSACTION, SET_SELECT_MODE } from '../mutations'
 import { CurrentTransactionService } from '../lib/currentTransactionService'
-import { SelectionModeMetadata, SettingKeys, settings } from '../lib/Configuration'
+import {
+  SelectionModeMetadata,
+  SettingKeys,
+  settings
+} from '../lib/Configuration'
 import QPosting from '../components/Posting.vue'
 import { Posting } from '../model'
 
 export default {
   components: {
-    QPosting,
+    QPosting
   },
 
   data() {
     return {
       datePickerVisible: false,
       resetSlide: null,
-      postingSum: 0,
+      postingSum: 0
     }
   },
 
@@ -141,8 +158,8 @@ export default {
       set(value) {
         // save in the state store
         new CurrentTransactionService(this.$store).setTx(value)
-      },
-    },
+      }
+    }
   },
 
   created() {
@@ -151,7 +168,7 @@ export default {
       this.handleSelection()
     }
   },
-  mounted: function () {
+  mounted: function() {
     // Set the focus on Payee field.
     // document.getElementById("payee").focus() => this.$refs.payee
     // this.$refs.date
@@ -246,7 +263,7 @@ export default {
       if (this.tx.id) return
 
       const lastTx = await appService.db.lastTransaction.get(payee)
-      if (!lastTx) return;
+      if (!lastTx) return
       // use the current date
       lastTx.transaction.date = this.tx.date
       // Replace the current transaction.
@@ -306,11 +323,14 @@ export default {
         }
       }
     },
+    reorderPostings() {
+      this.$router.push({ name: 'reorder postings'})
+    },
     resetTransaction() {
       const tx = new CurrentTransactionService(this.$store).createTransaction()
       this.tx = tx
       return tx
-    },
-  },
+    }
+  }
 }
 </script>
