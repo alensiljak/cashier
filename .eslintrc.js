@@ -64,9 +64,10 @@ module.exports = {
     'space-before-function-paren': 'off',
 
     // vue overrides
-    'vue/max-attributes-per-line': 'off',
-    'vue/singleline-html-element-content-newline': 'off',
     'vue/no-mutating-props': 'off',
+    'vue/max-attributes-per-line': 'off',
+    'vue/require-default-prop': 'off',
+    'vue/singleline-html-element-content-newline': 'off',
 
     // allow debugger during development only
     //'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
