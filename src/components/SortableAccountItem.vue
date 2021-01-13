@@ -16,7 +16,7 @@ export default {
   //   account: { type: String, default: "" }
   // }
   props: {
-    account: Object
+    account: { type: Object, default: null }
   }
 };
 </script>

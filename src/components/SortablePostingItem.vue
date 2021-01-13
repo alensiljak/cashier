@@ -16,7 +16,7 @@ export default {
   mixins: [ElementMixin],
 
   props: {
-    posting: Object
+    posting: { type: Object, default: null }
   }
 }
 </script>
