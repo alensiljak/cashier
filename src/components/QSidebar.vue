@@ -113,7 +113,7 @@
           active-class="active-link"
         >
           <q-item-section avatar>
-            <font-awesome-icon icon="wallet" transform="grow-6 right-6" />
+            <font-awesome-icon icon="university" transform="grow-6 right-6" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Accounts</q-item-label>
