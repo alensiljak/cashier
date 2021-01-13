@@ -36,18 +36,22 @@
       </li>
       <li>Run "cashiersync"</li>
     </ol>
-    <p>
-      In Cashier, go to Sync Settings, enter the Server URL. This is the address
-      CashierSync is using. The default is on the local machine but it is
-      possible to use a remote machine. You can use a service like
-      <a href="https://ngrok.com/">ngrok</a> or localtunnel to create a
-      temporary public URL, for example.
-    </p>
-    <p>
-      Click Sync to synchronize the data with CashierSync. Note that this will
-      only read your Ledger data and populate Cashier so that it is operational
-      with your Accounts, Payees, and so on.
-    </p>
+    <p>In Cashier,</p>
+    <ol>
+      <li>
+        go to Sync Settings, enter the Server URL. This is the address
+        CashierSync is using. The default is on the local machine but it is
+        possible to use a remote machine. You can use a service like
+        <a href="https://ngrok.com/">ngrok</a> or localtunnel to create a
+        temporary public URL, for example.
+      </li>
+      <li>
+        Click Sync to synchronize the account data with CashierSync. 
+        Note that this will only read your Ledger data and populate Cashier 
+        so that it is operational with your Accounts.
+      </li>
+      <li>In Settings / Cache API, click Fetch the Payees.</li>
+    </ol>
     <p>
       CashierSync source code is available at
       <a href="https://gitlab.com/alensiljak/cashier-sync">GitLab</a>
@@ -63,8 +67,8 @@
     <ul>
       <li>
         On Android, you can use Termux with git, a text editor, and lazygit GUI.
-        On the Export screen, the transactions in Ledger format can be copied to clipboard
-        and then pasted into any text editor.
+        On the Export screen, the transactions in Ledger format can be copied to
+        clipboard and then pasted into any text editor.
       </li>
       <li>
         You can export your transactions into a file and transfer it to the
