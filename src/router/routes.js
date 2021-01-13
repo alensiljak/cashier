@@ -129,6 +129,11 @@ const routes = [
         component: () => import('../pages/Register.vue')
       },
       {
+        path: '/reorder-postings',
+        name: 'reorder postings',
+        component: () => import(/* webpackChunkName: 'reorder-postings' */ '../pages/ReorderPostings.vue')
+      },
+      {
         path: '/restore/:type?',
         name: 'restore',
         component: () =>
