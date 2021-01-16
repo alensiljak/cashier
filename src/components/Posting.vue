@@ -32,7 +32,13 @@
 
       <div class="q-pl-sm col-3 col-xs-4">
         <!-- currency -->
-        <q-input v-model="currency" dark label="Currency" />
+        <q-input v-model="currency" dark label="Currency">
+          <template #append>
+            <font-awesome-icon v-if="currency == '' && amount != ''" 
+                               icon="exclamation-circle" style="color: #92140c;"
+            />
+          </template>
+        </q-input>
       </div>
     </div>
   </div>
@@ -45,12 +51,12 @@ import { SET_POSTING } from '../mutations'
 export default {
   props: {
     // posting: { type: Object, default: null },
-    index: { type: Number, default: null },
+    index: { type: Number, default: null }
   },
 
-  data: function () {
+  data: function() {
     return {
-      accountOptions: null,
+      accountOptions: null
     }
   },
 
@@ -63,7 +69,7 @@ export default {
         let posting = this.$store.state.transaction.postings[this.index]
         posting.account = value
         this.$store.commit(SET_POSTING, { index: this.index, posting: posting })
-      },
+      }
     },
     amount: {
       get() {
@@ -73,7 +79,7 @@ export default {
         let posting = this.$store.state.transaction.postings[this.index]
         posting.amount = value
         this.$store.commit(SET_POSTING, { index: this.index, posting: posting })
-      },
+      }
     },
     currency: {
       get() {
@@ -83,8 +89,8 @@ export default {
         let posting = this.$store.state.transaction.postings[this.index]
         posting.currency = value
         this.$store.commit(SET_POSTING, { index: this.index, posting: posting })
-      },
-    },
+      }
+    }
   },
 
   methods: {
