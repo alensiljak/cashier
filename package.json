@@ -37,9 +37,9 @@
   },
   "devDependencies": {
     "@quasar/app": "2.1.14",
-    "@quasar/extras": "1.9.13",
+    "@quasar/extras": "1.9.14",
     "babel-eslint": "10.1.0",
-    "eslint": "7.17.0",
+    "eslint": "7.18.0",
     "eslint-config-standard": "16.0.2",
     "eslint-loader": "4.0.2",
     "eslint-plugin-import": "2.22.1",
