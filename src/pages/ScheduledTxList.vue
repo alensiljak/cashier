@@ -13,6 +13,7 @@
     </div>
 
     <q-list dark class="text-colour2">
+      <!-- dense -->
       <q-item
         v-for="stx in filteredList"
         :key="stx.id"

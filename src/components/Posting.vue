@@ -34,7 +34,8 @@
         <!-- currency -->
         <q-input v-model="currency" dark label="Currency">
           <template #append>
-            <font-awesome-icon v-if="currency == '' && amount != ''" 
+            <!-- warn if there's no currency but we have an amount -->
+            <font-awesome-icon v-if="isMissingCurrency"
                                icon="exclamation-circle" style="color: #92140c;"
             />
           </template>
@@ -89,6 +90,17 @@ export default {
         let posting = this.$store.state.transaction.postings[this.index]
         posting.currency = value
         this.$store.commit(SET_POSTING, { index: this.index, posting: posting })
+      }
+    },
+    isMissingCurrency: {
+      get() {
+        const hasValidAmount = !isNaN(this.amount)
+        const amountMissing = this.amount === ''
+        const hasNoCurrency = this.currency === ''
+
+        if (amountMissing) return false
+
+        return hasNoCurrency && hasValidAmount
       }
     }
   },
