@@ -4,7 +4,7 @@
 
     <p>Control the cached data from Cashier-Sync.</p>
     <div>
-      <div class="row">
+      <div v-show="false" class="row">
         <div class="col">Accounts</div>
         <div class="col">{{ accountsStatus }}</div>
         <div class="col">
@@ -24,7 +24,7 @@
           />
         </div>
       </div>
-      <div class="row">
+      <div v-show="false" class="row">
         <div class="col">Account Balances</div>
         <div class="col">{{ balancesStatus }}</div>
         <div class="col">
@@ -44,7 +44,7 @@
           />
         </div>
       </div>
-      <div class="row">
+      <div v-show="false" class="row">
         <div class="col">Asset Allocation</div>
         <div class="col">{{ assetAllocationStatus }}</div>
         <div class="col">

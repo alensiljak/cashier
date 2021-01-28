@@ -76,6 +76,15 @@
       </q-btn>
     </div>
 
+
+    <div class="row q-my-lg">
+      <div class="col">
+        <q-btn label="Cache API" color="accent" text-color="secondary" to="cache" />
+      </div>
+    </div>
+
+    <hr>
+
     <h4 class="q-my-md">Maintenance</h4>
     <div class="text-center">
       <q-btn

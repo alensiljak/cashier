@@ -68,14 +68,6 @@
 
     <hr>
 
-    <div class="row q-my-lg">
-      <div class="col">
-        <q-btn label="Cache API" color="accent" text-color="secondary" to="cache" />
-      </div>
-    </div>
-
-    <hr>
-
     <div class="row q-mt-lg">
       <div class="col text-center q-my-lg">
         <p>
