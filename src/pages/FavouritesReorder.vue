@@ -47,15 +47,14 @@ export default {
 
   methods: {
     async loadData() {
-      const favArray = await settings.get(SettingKeys.favouriteAccounts)
+      const accounts = await appService.loadFavouriteAccounts()
       // load account details
-      if (!favArray) {
+      if (!accounts) {
         console.log('no favourite accounts selected yet')
         return
       }
 
       try {
-        const accounts = await appService.db.accounts.bulkGet(favArray)
         this.accounts = accounts
       } catch (error) {
         this.$q.notify({ color: 'secondary', message: error.message })

@@ -93,7 +93,7 @@ class AppService {
 
   async duplicateTransaction(tx) {
     // copy a new transaction
-    const newTx = JSON.parse(JSON.stringify(tx));
+    const newTx = JSON.parse(JSON.stringify(tx))
 
     this.clearIds(newTx)
 
@@ -209,8 +209,7 @@ class AppService {
       throw new Error('Root investment account not set!')
     }
 
-    return this.db.accounts.where('name')
-      .startsWithIgnoreCase(rootAccount)
+    return this.db.accounts.where('name').startsWithIgnoreCase(rootAccount)
   }
 
   /**
@@ -368,6 +367,28 @@ class AppService {
 
   loadAssetClass(fullname) {
     return db.assetAllocation.get(fullname)
+  }
+
+  async loadFavouriteAccounts() {
+    let favArray = await settings.get(SettingKeys.favouriteAccounts)
+    if (!favArray) {
+      return null
+    }
+
+    // load account details
+    let accounts = await db.accounts.bulkGet(favArray)
+
+    // Handle any accounts that have not been found
+    for (var i = 0; i < accounts.length; i++) {
+      let account = accounts[i]
+      if (account === undefined) {
+        // the account has been removed but the Favourites record exists.
+        accounts.splice(i, 1)
+        i--
+      }
+    }
+
+    return accounts
   }
 
   /**

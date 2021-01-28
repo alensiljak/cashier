@@ -200,7 +200,7 @@ export default {
 
           sum += amount
         }
-        
+
         if (isNaN(sum)) {
           console.warn('The sum for ' + account.name + ' is not a number: ', sum)
         }
@@ -244,17 +244,16 @@ export default {
     },
     async loadData() {
       try {
-        const favArray = await settings.get(SettingKeys.favouriteAccounts)
+        let favArray = await appService.loadFavouriteAccounts()
         // load account details
         if (!favArray) {
           console.log('no favourite accounts selected yet')
           return
         }
 
-        let accounts = await appService.db.accounts.bulkGet(favArray)
         // adjust the balance
-        accounts = await this.adjustBalances(accounts)
-        this.accounts = accounts
+        favArray = await this.adjustBalances(favArray)
+        this.accounts = favArray
       } catch (reason) {
         console.error(reason)
         this.$q.notify({ color: 'secondary', message: reason.message })

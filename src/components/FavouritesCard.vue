@@ -47,7 +47,7 @@ export default {
   methods: {
     async loadData() {
       try {
-        let favArray = await settings.get(SettingKeys.favouriteAccounts)
+        let favArray = await appService.loadFavouriteAccounts()
         if (!favArray) {
           console.log('no favourite accounts selected yet')
           return
@@ -56,11 +56,9 @@ export default {
         // Use only the top 5 records.
         favArray = favArray.slice(0, 5)
 
-        // load account details
-        let accounts = await appService.db.accounts.bulkGet(favArray)
         // adjust the balance
         //accounts = await this.adjustBalances(accounts)
-        this.accounts = accounts
+        this.accounts = favArray
       } catch (reason) {
         this.$q.notify({ color: 'secondary', message: reason.message })
       }
