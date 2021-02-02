@@ -85,7 +85,7 @@
 
     <hr>
 
-    <h4 class="q-my-md">Maintenance</h4>
+    <!-- <h4 class="q-my-md">Maintenance</h4>
     <div class="text-center">
       <q-btn
         label="Shutdown Server"
@@ -93,7 +93,7 @@
         text-color="accent"
         @click="shutdown"
       />
-    </div>
+    </div> -->
   </q-page>
 </template>
 

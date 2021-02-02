@@ -242,7 +242,7 @@ export default {
       this.results = searchResults
     },
     parseResults(searchResults) {
-      if (!searchResults) return null
+      if (!searchResults || searchResults.length === 0) return null
 
       // Massage the data
       let rows = []

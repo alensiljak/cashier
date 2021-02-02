@@ -3,7 +3,7 @@ view<template>
     <toolbar :title="'Xact'" />
 
     <p>
-      This will execute Ledger Xact command, creating a matching transaction. 
+      This will execute Ledger Xact command, creating a matching transaction.
       Note that this may be case-sensitive depending on your OS and ledger.
     </p>
 
@@ -140,8 +140,10 @@ export default {
         if (!serverUrl) throw 'Sync Server URL is not set!'
 
         const sync = new CashierSync(serverUrl)
-        // todo: new method
-        const result = await sync.xact(searchParams)
+
+        let result = await sync.xact(searchParams)
+
+        result = JSON.parse(result)
         this.results = result
       } catch (error) {
         this.$q.notify({ message: error, color: 'secondary' })
