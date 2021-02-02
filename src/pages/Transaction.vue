@@ -62,11 +62,6 @@ export default {
   },
 
   computed: {
-    isNew: {
-      get() {
-        return this.tx.id === null
-      }
-    },
     tx: {
       get() {
         return new CurrentTransactionService(this.$store).getTx()
@@ -106,7 +101,7 @@ export default {
     },
     async loadTransaction(id) {
       console.debug('loading tx', id)
-      
+
       const tx = await appService.loadTransaction(id)
       this.tx = tx
     },
@@ -116,15 +111,12 @@ export default {
     },
     async onSaveClicked() {
       try {
-        // check this before saving transaction.
-        const isNewTx = this.isNew
-
         await appService.saveTransaction(this.tx)
 
-        // Remember Last Transaction only on New Transactions.
+        // Remember Last Transaction?
         const remember = await settings.get(SettingKeys.rememberLastTransaction)
-        if (remember && isNewTx) {
-          //console.debug('saving last transaction')
+        if (remember) {
+          debugger
           await appService.saveLastTransaction(this.tx)
         }
 
