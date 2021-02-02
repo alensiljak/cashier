@@ -116,7 +116,6 @@ export default {
         // Remember Last Transaction?
         const remember = await settings.get(SettingKeys.rememberLastTransaction)
         if (remember) {
-          debugger
           await appService.saveLastTransaction(this.tx)
         }
 
