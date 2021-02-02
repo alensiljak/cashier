@@ -77,7 +77,7 @@ export default {
       const cashierSync = new CashierSync(serverUrl)
       const payeesCache = await cache.match(cashierSync.payeesUrl)
 
-      let payees = await payeesCache.text()
+      let payees = await payeesCache.json()
       payees = payees.split('\n')
 
       // Apply filter
