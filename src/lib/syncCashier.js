@@ -72,7 +72,7 @@ export class CashierSync {
   async readBalances() {
     const url = new URL(this.balancesUrl)
     const response = await ky(url)
-    const content = await response.text()
+    const content = await response.json()
 
     return content
   }

@@ -37,7 +37,7 @@ class AppService {
     return db.accounts.delete(name)
   }
 
-  deleteAccounts() {
+  async deleteAccounts() {
     return db.accounts.clear()
   }
 
