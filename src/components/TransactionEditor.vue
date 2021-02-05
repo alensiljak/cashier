@@ -185,8 +185,8 @@ export default {
   methods: {
     addPosting() {
       // fix postings
-      if (!tx.postings) {
-        tx.postings = []
+      if (!this.tx.postings) {
+        this.tx.postings = []
       }
 
       this.tx.postings.push(new Posting())
