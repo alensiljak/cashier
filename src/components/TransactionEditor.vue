@@ -150,6 +150,10 @@ export default {
     tx: {
       get() {
         let tx = new CurrentTransactionService(this.$store).getTx()
+        // fix postings
+        if(!tx.postings) {
+          tx.postings = []
+        }
         if (tx === null) {
           tx = this.resetTransaction()
         }
