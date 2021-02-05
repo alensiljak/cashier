@@ -314,6 +314,8 @@ export default {
     recalculateSum() {
       this.postingSum = 0
 
+      if(!this.postings) return;
+
       for (let i = 0; i < this.tx.postings.length; i++) {
         const posting = this.tx.postings[i]
         if (!isNaN(posting.amount)) {
