@@ -128,21 +128,21 @@ import { CurrentTransactionService } from '../lib/currentTransactionService'
 import {
   SelectionModeMetadata,
   SettingKeys,
-  settings
+  settings,
 } from '../lib/Configuration'
 import QPosting from '../components/Posting.vue'
 import { Posting } from '../model'
 
 export default {
   components: {
-    QPosting
+    QPosting,
   },
 
   data() {
     return {
       datePickerVisible: false,
       resetSlide: null,
-      postingSum: 0
+      postingSum: 0,
     }
   },
 
@@ -150,20 +150,21 @@ export default {
     tx: {
       get() {
         let tx = new CurrentTransactionService(this.$store).getTx()
-        // fix postings
-        if(!tx.postings) {
-          tx.postings = []
-        }
         if (tx === null) {
           tx = this.resetTransaction()
+        } else {
+          // fix postings
+          if (!tx.postings) {
+            tx.postings = []
+          }
         }
         return tx
       },
       set(value) {
         // save in the state store
         new CurrentTransactionService(this.$store).setTx(value)
-      }
-    }
+      },
+    },
   },
 
   created() {
@@ -172,7 +173,7 @@ export default {
       this.handleSelection()
     }
   },
-  mounted: function() {
+  mounted: function () {
     // Set the focus on Payee field.
     // document.getElementById("payee").focus() => this.$refs.payee
     // this.$refs.date
@@ -318,7 +319,7 @@ export default {
     recalculateSum() {
       this.postingSum = 0
 
-      if(!this.postings) return;
+      if (!this.postings) return
 
       for (let i = 0; i < this.tx.postings.length; i++) {
         const posting = this.tx.postings[i]
@@ -330,13 +331,13 @@ export default {
       }
     },
     reorderPostings() {
-      this.$router.push({ name: 'reorder postings'})
+      this.$router.push({ name: 'reorder postings' })
     },
     resetTransaction() {
       const tx = new CurrentTransactionService(this.$store).createTransaction()
       this.tx = tx
       return tx
-    }
-  }
+    },
+  },
 }
 </script>
