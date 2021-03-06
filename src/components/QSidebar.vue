@@ -290,7 +290,7 @@
         <div style="font-size: 2rem" class="q-pb-none">
           Cashier
           <span style="font-size: 0.75rem">
-            {{ this.$version }}
+            {{ $version }}
           </span>
         </div>
       </div>
