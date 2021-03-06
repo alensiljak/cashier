@@ -126,15 +126,11 @@ export default {
         const tx1 = JSON.parse(a.transaction)
         const tx2 = JSON.parse(b.transaction)
 
-        console.debug(tx1, tx2)
-
-        var sorting = a.nextDate - b.nextDate
+        var sorting = a.nextDate.localeCompare(b.nextDate)
         return sorting == 0 
-          ? tx.payee.localeCompare(tx2.payee, 'en', { sensitivity: 'base' })
+          ? tx1.payee.localeCompare(tx2.payee, 'en', { sensitivity: 'base' })
           : sorting
       })
-
-      console.debug(sorted)
 
       this.transactions = sorted
     },
