@@ -55,14 +55,14 @@ import StxToolbar from '../components/ScheduledTxToolbar'
 
 export default {
   components: {
-    StxToolbar,
+    StxToolbar
   },
 
   data() {
     return {
       filter: null,
       transactions: [],
-      today: null,
+      today: null
     }
   },
 
@@ -72,6 +72,8 @@ export default {
         if (!this.filter) {
           return this.transactions
         }
+
+        if (!this.transactions) return
 
         // apply the filter
         return this.transactions.filter(stx => {
@@ -88,7 +90,7 @@ export default {
           //   .localeCompare(this.filter, undefined, { sensitivity: 'base' }) === 0
 
           // Use regex for performance.
-          var searchTerm = new RegExp(this.filter, "i")
+          var searchTerm = new RegExp(this.filter, 'i')
           //const result = stx.transaction.match(searchTerm)
           const result = tx.payee.match(searchTerm)
 
@@ -112,12 +114,31 @@ export default {
 
       return text.split('\n')[0]
     },
+
     async loadData() {
-      this.transactions = await appService.db.scheduled
-        // .where({ transaction: tx.id })
+      let sorted = await appService.db.scheduled
         .orderBy('nextDate')
+        //.sortBy('symbol')
         .toArray()
+
+      // sort also by payee, case insensitive
+      sorted.sort((a, b) => {
+        const tx1 = JSON.parse(a.transaction)
+        const tx2 = JSON.parse(b.transaction)
+
+        console.debug(tx1, tx2)
+
+        var sorting = a.nextDate - b.nextDate
+        return sorting == 0 
+          ? tx.payee.localeCompare(tx2.payee, 'en', { sensitivity: 'base' })
+          : sorting
+      })
+
+      console.debug(sorted)
+
+      this.transactions = sorted
     },
+
     onBackupClicked() {
       this.$router.push({ name: 'export', params: { type: 'scheduled' } })
     },
@@ -136,9 +157,9 @@ export default {
       this.$router.push({ name: 'restore', params: { type: 'scheduled' } })
     },
     showTx(id) {
-      this.$router.push({ name: 'scheduledtxactions', params: { id: id }})
-    },
-  },
+      this.$router.push({ name: 'scheduledtxactions', params: { id: id } })
+    }
+  }
 }
 </script>
 <style lang="sass" scoped>
