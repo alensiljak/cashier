@@ -20,12 +20,9 @@
       color="primary"
     /> -->
     <!-- autogrow -->
-    <textarea v-model="output" dark class="bg-colour1 text-colour2 col-grow">
-    </textarea>
+    <textarea v-model="output" dark class="bg-colour1 text-amber-2 col-grow" />
 
-    <!-- <q-separator dark /> -->
-
-    <div class="row q-my-lg footer">
+    <footer class="row q-my-md">
       <div class="col text-center">
         <q-btn
           label="Copy to clipboard"
@@ -51,7 +48,7 @@
           @click="downloadAsFile"
         />
       </div>
-    </div>
+    </footer>
   </q-page>
 </template>
 
