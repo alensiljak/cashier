@@ -10,28 +10,17 @@
       </p>
     </div>
 
-    <!-- <q-input
-      v-model="output"
-      type="textarea"
-      class="col-grow"
-      outlined
-      dark
-      input-class="text-amber-2"
-      color="primary"
-    /> -->
-    <!-- autogrow -->
     <textarea v-model="output" dark class="bg-colour1 text-amber-2 col-grow" />
 
-    <footer class="row q-my-md">
-      <div class="col text-center">
-        <q-btn
-          label="Copy to clipboard"
-          color="secondary"
-          text-color="accent"
-          @click="copyToClipboard"
-        />
-      </div>
-      <div class="col text-center">
+    <footer class="row q-my-md justify-evenly">
+      <q-btn
+        label="Copy to clipboard"
+        color="secondary"
+        text-color="accent"
+        @click="copyToClipboard"
+      />
+      <pcloud-save :filename="fileName" :content="output" />
+      <div>
         <q-btn
           round
           :icon="mdiShareVariant"
@@ -40,29 +29,29 @@
           @click="webshare"
         />
       </div>
-      <div ref="buttonContainer" class="col text-center">
-        <q-btn
-          label="Download"
-          color="secondary"
-          text-color="accent"
-          @click="downloadAsFile"
-        />
-      </div>
+      <q-btn
+        ref="buttonContainer"
+        label="Download"
+        color="secondary"
+        text-color="accent"
+        @click="downloadAsFile"
+      />
     </footer>
   </q-page>
 </template>
 
 <script>
-import { SettingKeys, settings } from '../lib/Configuration'
 import appService from '../appService'
 import { mdiShareVariant } from '@quasar/extras/mdi-v4'
 import Toolbar from '../components/Toolbar'
 import moment from 'moment'
 import FileSaver from 'file-saver'
+import PcloudSave from 'src/components/pcloud-save.vue'
 
 export default {
   components: {
     Toolbar,
+    PcloudSave,
   },
 
   data() {
@@ -71,6 +60,7 @@ export default {
       mdiShareVariant: null,
       dataType: 'journal', // journal, scheduled
       title: 'Export',
+      fileName: null,
     }
   },
 
@@ -79,6 +69,10 @@ export default {
 
     // icons
     this.mdiShareVariant = mdiShareVariant
+  },
+
+  mounted() {
+    this.fileName = this.getFilename()
   },
 
   methods: {
@@ -94,7 +88,8 @@ export default {
     downloadAsFile() {
       // use FileSaver
 
-      const filename = this.getFilename()
+      //const filename = this.getFilename()
+      const filename = this.fileName
       const content = this.output
 
       var blob = new Blob([content], {
