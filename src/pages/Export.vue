@@ -1,28 +1,31 @@
 <template>
-  <q-page padding class="bg-colour1 text-colour2">
+  <q-page padding class="bg-colour1 text-colour2 column">
     <toolbar :title="title" />
 
-    <p>Export your data - {{ dataType }}:</p>
-    <p>
-      Note: Journal is exported in ledger format, Scheduled Transactions in
-      JSON.
-    </p>
+    <div>
+      <p>Export your data - {{ dataType }}:</p>
+      <p>
+        Note: Journal is exported in ledger format, Scheduled Transactions in
+        JSON.
+      </p>
+    </div>
 
-    <q-input
+    <!-- <q-input
       v-model="output"
       type="textarea"
+      class="col-grow"
       outlined
       dark
-      style="max-height: 25rem"
       input-class="text-amber-2"
       color="primary"
-      rows="50"
-    />
+    /> -->
     <!-- autogrow -->
+    <textarea v-model="output" dark class="bg-colour1 text-colour2 col-grow">
+    </textarea>
 
     <!-- <q-separator dark /> -->
 
-    <div class="row q-my-lg">
+    <div class="row q-my-lg footer">
       <div class="col text-center">
         <q-btn
           label="Copy to clipboard"
@@ -56,7 +59,6 @@
 import { SettingKeys, settings } from '../lib/Configuration'
 import appService from '../appService'
 import { mdiShareVariant } from '@quasar/extras/mdi-v4'
-import { CashierSync } from '../lib/syncCashier'
 import Toolbar from '../components/Toolbar'
 import moment from 'moment'
 import FileSaver from 'file-saver'
@@ -65,6 +67,7 @@ export default {
   components: {
     Toolbar,
   },
+
   data() {
     return {
       output: '',
@@ -85,10 +88,12 @@ export default {
     confirmDeleteAll() {
       this.deleteAllTransactions()
     },
+
     async copyToClipboard() {
       await navigator.clipboard.writeText(this.output)
       this.$q.notify({ message: 'data copied', color: 'positive' })
     },
+
     downloadAsFile() {
       // use FileSaver
 
@@ -100,6 +105,7 @@ export default {
       })
       FileSaver.saveAs(blob, filename)
     },
+
     /**
      * This was the original implementation but it stopped working in Firefox on Android.
      */
@@ -122,6 +128,7 @@ export default {
       // cleanup?
       this.$refs.buttonContainer.removeChild(a)
     },
+
     getFilename() {
       // create the file name for the downloaded export file.
       let extension = this.getFileExtension()
@@ -130,6 +137,7 @@ export default {
       let filename = `cashier_${this.dataType}_${now}.${extension}`
       return filename
     },
+
     getFileExtension() {
       // extension
       let extension = 'txt'
@@ -144,6 +152,7 @@ export default {
       }
       return extension
     },
+
     async loadData() {
       // uses a route parameter for the type of data to load.
       let dataType = this.$route.params.type
@@ -171,6 +180,7 @@ export default {
       if (!output) output = ''
       this.output = output
     },
+
     async loadScheduledTransactions() {
       const collection = await appService.db.scheduled
         .orderBy('nextDate')
@@ -179,6 +189,7 @@ export default {
       const output = JSON.stringify(collection)
       return output
     },
+
     webshare() {
       if (navigator.share) {
         navigator
@@ -203,7 +214,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.output-box {
+  height: 100%;
+}
+
 a:visited {
   color: goldenrod;
 }
