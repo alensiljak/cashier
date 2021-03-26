@@ -20,7 +20,7 @@ export class CashierSync {
       throw new Error('CashierSync URL not set.')
     }
     if (serverUrl.endsWith('/')) {
-      serverUrl = serverUrl.splice(0, serverUrl.length - 1)
+      serverUrl = serverUrl.substring(0, serverUrl.length - 1)
     }
     this.serverUrl = serverUrl
     this.accountsUrl = this.serverUrl + CashierSync.accountsUrl

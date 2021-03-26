@@ -8,7 +8,7 @@ import { Account } from '../model';
 export class SyncService {
     constructor(serverUrl) {
         if (serverUrl.endsWith('/')) {
-            serverUrl = serverUrl.splice(0, serverUrl.length - 1)
+            serverUrl = serverUrl.substring(0, serverUrl.length - 1)
         }
         this.serverUrl = serverUrl
     }
