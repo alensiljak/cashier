@@ -15,10 +15,10 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "1.2.35",
-    "@fortawesome/free-solid-svg-icons": "5.15.3",
-    "@fortawesome/vue-fontawesome": "2.0.2",
-    "core-js": "3.7.0",
+    "@fortawesome/fontawesome-svg-core": "1.2.36",
+    "@fortawesome/free-solid-svg-icons": "5.15.4",
+    "@fortawesome/vue-fontawesome": "2.0.6",
+    "core-js": "3.19.1",
     "dexie": "3.0.3",
     "file-saver": "2.0.5",
     "moment": "2.29.1",
@@ -26,10 +26,10 @@
     "pcloud-sdk-js": "2.0.0",
     "quasar": "1.15.9",
     "register-service-worker": "1.7.2",
-    "vue": "2.6.12",
+    "vue": "2.6.14",
     "vue-hot-reload-api": "2.3.4",
     "vue-inputmask": "0.2.1",
-    "vue-router": "3.5.1",
+    "vue-router": "3.5.3",
     "vue-slicksort": "1.2.0",
     "vue-slideout": "1.8.0",
     "vue-virtual-scroller": "1.0.10",
@@ -37,19 +37,19 @@
   },
   "devDependencies": {
     "@quasar/app": "2.2.3",
-    "@quasar/extras": "1.10.0",
+    "@quasar/extras": "1.11.4",
     "babel-eslint": "10.1.0",
     "eslint": "7.22.0",
-    "eslint-config-standard": "16.0.2",
+    "eslint-config-standard": "16.0.3",
     "eslint-loader": "4.0.2",
-    "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-import": "2.25.2",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "4.3.1",
     "eslint-plugin-standard": "5.0.0",
     "eslint-plugin-vue": "7.8.0",
-    "ky": "0.27.0",
+    "ky": "0.28.6",
     "pcloud-sdk-js": "2.0.0",
-    "workbox-webpack-plugin": "6.1.2"
+    "workbox-webpack-plugin": "6.3.0"
   },
   "bugs": {
     "url": "https://gitlab.com/alensiljak/cashier/issues"
