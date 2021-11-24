@@ -24,7 +24,7 @@
         </q-item>
       </q-list>
     </q-card-section>
-    <q-card-actions align="left">
+    <q-card-actions align="center">
       <q-btn
         outline
         dark

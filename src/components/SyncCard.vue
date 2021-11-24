@@ -66,7 +66,7 @@
 
     <!-- <q-separator dark /> -->
 
-    <q-card-actions align="right">
+    <q-card-actions align="center">
       <!-- <q-btn flat dark color="primary" text-color="accent" @click="onSyncClick">
         Sync
       </q-btn> -->

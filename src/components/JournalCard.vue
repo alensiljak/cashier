@@ -21,7 +21,7 @@
 
     <!-- <q-separator dark /> -->
 
-    <q-card-actions align="between">
+    <q-card-actions align="center">
       <q-btn
         outline
         dark
