@@ -44,7 +44,7 @@ register(process.env.SERVICE_WORKER_FILE, {
 
       Notify.create({
         //message: i18n.t('messages.update_available'),
-        message: 'App update available, click below to update now.',
+        message: 'App update available, click the button to update now.',
         color: 'positive',
         icon: 'cloud_download',
         //closeBtn: i18n.t('labels.update'),
