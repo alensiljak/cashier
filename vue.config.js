@@ -7,13 +7,14 @@ module.exports = {
   transpileDependencies: [
     /[\\\/]node_modules[\\\/]quasar[\\\/]/
   ],
-  // pwa: {
+  pwa: {
   //   // configure the workbox plugin
   //   workboxPluginMode: 'InjectManifest',
-  //   workboxOptions: {
+    workboxOptions: {
   //       // swSrc is required in InjectManifest mode.
   //       swSrc: 'public/service-worker.js',
   //       // ...other Workbox options...
-  //   }
-  // }
+      skipWaiting: true
+    }
+  }
 }
