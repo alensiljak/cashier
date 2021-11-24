@@ -39,7 +39,19 @@ register(process.env.SERVICE_WORKER_FILE, {
     //if (process.env.DEV) {
       console.log('New content is available; please refresh.')
 
-      window.location.reload(true)
+      //window.location.reload(true)
+
+      Notify.create({
+        //message: i18n.t('messages.update_available'),
+        message: 'App update available, click below to update now.',
+        icon: 'cloud_download',
+        //closeBtn: i18n.t('labels.update'),
+        closeBtn: 'Update',
+        timeout: 10000,
+        onDismiss () {
+          window.location.reload(true)
+        }
+      })
     //}
   },
 
