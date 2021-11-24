@@ -1,4 +1,5 @@
 import { register } from 'register-service-worker'
+import { Notify } from 'quasar'
 
 // The ready(), registered(), cached(), updatefound() and updated()
 // events passes a ServiceWorkerRegistration instance in their arguments.
@@ -44,6 +45,7 @@ register(process.env.SERVICE_WORKER_FILE, {
       Notify.create({
         //message: i18n.t('messages.update_available'),
         message: 'App update available, click below to update now.',
+        color: 'positive',
         icon: 'cloud_download',
         //closeBtn: i18n.t('labels.update'),
         closeBtn: 'Update',
