@@ -42,11 +42,17 @@
 
     <!-- CashierSync -->
     <sync-card />
+
+    <!-- floating action button -->
+    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+      <q-btn fab color="accent" text-color="secondary" @click="onFab">
+        <font-awesome-icon icon="plus" transform="grow-6" />
+      </q-btn>
+    </q-page-sticky>
   </q-page>
 </template>
 
 <script>
-import Toolbar from '../components/Toolbar'
 import { TOGGLE_DRAWER } from '../mutations'
 import SyncCard from '../components/SyncCard.vue'
 import FavouritesCard from '../components/FavouritesCard'
@@ -72,6 +78,10 @@ export default {
     menuClicked() {
       let visible = this.$store.getters.drawerOpen
       this.$store.commit(TOGGLE_DRAWER, !visible)
+    },
+    onFab() {
+      // fab clicked. Use for the new transaction
+      this.$router.push({ name: 'tx' })
     },
     onFavClick() {
       this.$router.push({ name: 'favourites' })

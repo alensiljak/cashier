@@ -32,7 +32,7 @@
         <font-awesome-icon icon="sign-out-alt" class="q-icon-small on-left" />
         Export
       </q-btn>
-      <q-btn
+      <!-- <q-btn
         outline
         dark
         color="primary"
@@ -41,7 +41,7 @@
       >
         <font-awesome-icon icon="plus" class="q-icon-small on-left" />
         New
-      </q-btn>
+      </q-btn> -->
     </q-card-actions>
   </q-card>
 </template>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img src="../assets/icons8-pcloud.svg" @click="onImgClick" />
+    <img src="../assets/icons8-pcloud.svg" @click="onImgClick">
   </div>
 </template>
 <script>
