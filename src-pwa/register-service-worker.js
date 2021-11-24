@@ -39,7 +39,7 @@ register(process.env.SERVICE_WORKER_FILE, {
     //if (process.env.DEV) {
       console.log('New content is available; please refresh.')
 
-      window.location.reload()
+      window.location.reload(true)
     //}
   },
 
