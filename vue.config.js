@@ -14,7 +14,7 @@ module.exports = {
   //       // swSrc is required in InjectManifest mode.
   //       swSrc: 'public/service-worker.js',
   //       // ...other Workbox options...
-      skipWaiting: true
+      // skipWaiting: true
     }
   }
 }
