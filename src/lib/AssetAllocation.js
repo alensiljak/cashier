@@ -343,6 +343,11 @@ class AssetAllocationEngine {
 
   sumGroupBalances(acIndex) {
     let root = acIndex["Allocation"];
+
+    if(root == null) {
+      throw new Error('Asset Allocation not defined. Please import the definition file.')
+    }
+
     let sum = this.sumChildren(acIndex, root);
 
     root.currentValue = sum;

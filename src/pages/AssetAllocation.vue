@@ -240,8 +240,9 @@ export default {
       try {
         let result = await engine.loadFullAssetAllocation();
         this.assetClasses = result;
-      } catch (reason) {
-        this.$q.notify({ message: reason });
+      } catch (error) {
+        console.error(error)
+        this.$q.notify({ message: error.message, color: "secondary" })
       }
     },
     menuClicked() {
