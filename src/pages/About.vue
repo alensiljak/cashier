@@ -8,7 +8,7 @@
         <span style="font-size: 0.8rem">{{ $version }}</span>
       </h3>
       <!-- <img src="/icons/icon96.png"> -->
-      <img src="../../public/icons/icon96.png">
+      <img src="../../public/icons/icon96.png" />
     </div>
     <div class="text-center q-my-sm">by Alen Šiljak</div>
     <div>
@@ -31,7 +31,8 @@
     <ul>
       <li>
         <a href="https://www.freepik.com/free-photos-vectors/gold">
-          Gold vector created by freepik - www.freepik.com</a>
+          Gold vector created by freepik - www.freepik.com</a
+        >
       </li>
     </ul>
 
@@ -62,6 +63,9 @@
       <li>
         <a href="https://github.com/Jexordexan/vue-slicksort">Vue Slicksort</a>
       </li>
+      <li>
+        <a href="https://github.com/sergirams/neu-calculator">Neu Calculator</a>
+      </li>
     </ul>
 
     <h4 class="q-my-sm text-center">Resources</h4>
@@ -79,10 +83,9 @@ import Toolbar from '../components/Toolbar'
 
 export default {
   components: {
-    Toolbar
+    Toolbar,
   },
-  created() {
-  },
+  created() {},
 }
 </script>
 
