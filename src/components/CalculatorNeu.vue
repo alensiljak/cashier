@@ -10,30 +10,30 @@
           <button class="keyboard-key keyboard-key--gray" @click="clearDisplay()">AC</button>
           <button class="keyboard-key keyboard-key--gray" @click="changeSign()"><span>+/-</span></button>
           <button class="keyboard-key keyboard-key--gray" @click="convertPercent()">%</button>
-          <button class="operator keyboard-key keyboard-key--orange" @click="handleOperator('÷')">÷</button>
+          <button class="operator keyboard-key keyboard-key--orange" @click="keyPressed('/')">÷</button>
         </div>
         <div class="keyboard-row">
-          <button class="number keyboard-key keyboard-key--white" @click="appendSymbol('7')">7</button>
-          <button class="number keyboard-key keyboard-key--white" @click="appendSymbol('8')">8</button>
-          <button class="number keyboard-key keyboard-key--white" @click="appendSymbol('9')">9</button>
-          <button class="operator keyboard-key keyboard-key--orange" @click="handleOperator('*')">×</button>
+          <button class="number keyboard-key keyboard-key--white" @click="keyPressed('7')">7</button>
+          <button class="number keyboard-key keyboard-key--white" @click="keyPressed('8')">8</button>
+          <button class="number keyboard-key keyboard-key--white" @click="keyPressed('9')">9</button>
+          <button class="operator keyboard-key keyboard-key--orange" @click="keyPressed('*')">×</button>
         </div>
         <div class="keyboard-row">
-          <button class="number keyboard-key keyboard-key--white" @click="appendSymbol('4')">4</button>
-          <button class="number keyboard-key keyboard-key--white" @click="appendSymbol('5')">5</button>
-          <button class="number keyboard-key keyboard-key--white" @click="appendSymbol('6')">6</button>
-          <button class="operator keyboard-key keyboard-key--orange" @click="handleOperator('-')">−</button>
+          <button class="number keyboard-key keyboard-key--white" @click="keyPressed('4')">4</button>
+          <button class="number keyboard-key keyboard-key--white" @click="keyPressed('5')">5</button>
+          <button class="number keyboard-key keyboard-key--white" @click="keyPressed('6')">6</button>
+          <button class="operator keyboard-key keyboard-key--orange" @click="keyPressed('-')">−</button>
         </div>
         <div class="keyboard-row">
-          <button class="number keyboard-key keyboard-key--white" @click="appendSymbol('1')">1</button>
-          <button class="number keyboard-key keyboard-key--white" @click="appendSymbol('2')">2</button>
-          <button class="number keyboard-key keyboard-key--white" @click="appendSymbol('3')">3</button>
-          <button class="operator keyboard-key keyboard-key--orange" @click="handleOperator('+')">+</button>
+          <button class="number keyboard-key keyboard-key--white" @click="keyPressed('1')">1</button>
+          <button class="number keyboard-key keyboard-key--white" @click="keyPressed('2')">2</button>
+          <button class="number keyboard-key keyboard-key--white" @click="keyPressed('3')">3</button>
+          <button class="operator keyboard-key keyboard-key--orange" @click="keyPressed('+')">+</button>
         </div>
         <div class="keyboard-row">
-          <button class="keyboard-key keyboard-key--white keyboard-key--double" @click="appendSymbol('0')">0</button>
-          <button class="keyboard-key keyboard-key--white" @click="convertDecimal()">.</button>
-          <button class="keyboard-key keyboard-key--orange" @click="handleOperator('=')">=</button>
+          <button class="keyboard-key keyboard-key--white keyboard-key--double" @click="keyPressed('0')">0</button>
+          <button class="keyboard-key keyboard-key--white" @click="keyPressed('.')">.</button>
+          <button class="keyboard-key keyboard-key--orange" @click="keyPressed('=')">=</button>
         </div>
       </div>
     </div>
@@ -55,7 +55,7 @@ export default {
   methods: {
     clearDisplay() {
       this.current = ''
-      this.expression = null
+      this.expression = ''
       this.previous = null
       this.operator = null
       this.clickedOperator = false
@@ -68,8 +68,6 @@ export default {
         this.current =
           this.current === '0' ? number : `${this.current}${number}`
       }
-
-      this.keyPressed(number)
     },
     convertDecimal() {
       if (this.clickedOperator) {
@@ -90,21 +88,19 @@ export default {
       this.current = `${parseFloat(this.current) / 100}`
     },
     handleOperator(newOperator) {
-      // const numberValue = parseFloat(this.current)
-      // if (this.operator && this.clickedOperator) {
-      //   this.operator = newOperator
-      // }
-      // if (this.previous == null) {
-      //   this.previous = numberValue
-      // } else if (this.operator) {
-      //   const result = this.calculate(this.previous, numberValue, this.operator)
-      //   this.current = String(result)
-      //   this.previous = result
-      // }
-      // this.clickedOperator = true
-      // this.operator = newOperator
-
-      this.keyPressed(newOperator)
+      const numberValue = parseFloat(this.current)
+      if (this.operator && this.clickedOperator) {
+        this.operator = newOperator
+      }
+      if (this.previous == null) {
+        this.previous = numberValue
+      } else if (this.operator) {
+        const result = this.calculate(this.previous, numberValue, this.operator)
+        this.current = String(result)
+        this.previous = result
+      }
+      this.clickedOperator = true
+      this.operator = newOperator
     },
     calculate(first, second, operator) {
       switch (operator) {
@@ -199,8 +195,8 @@ $breakpoints: (
 }
 // base
 *,
-body,
-html,
+//body,
+//html,
 div,
 p {
   padding: 0;
@@ -222,7 +218,7 @@ p {
   margin: 2rem 0;
   &__container {
     width: 100%;
-    padding: 1rem;
+    //padding: 1rem;
     border-radius: 36px;
     //background: var($--background-calculator);
     background: $--background-calculator;
@@ -244,7 +240,7 @@ p {
       }
     }
     .small-display {
-      padding: 1rem 1rem;
+      padding: 0.1rem 0.1rem;
       text-align: right;
     }
     .keyboard {
@@ -293,7 +289,7 @@ p {
           color: $--key;
         }
         @include down-screen(mobile-small) {
-          width: 50px;
+          //width: 50px;
           min-width: 50px;
           font-size: 1.2rem;
         }
