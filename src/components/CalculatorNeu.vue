@@ -123,12 +123,26 @@ export default {
       try {
         var result = mathEvaluate(this.expression)
         console.log(result)
+        return result
       } catch {
         // ignore the expression.
-        console.log('can\'t evaluate:' + this.expression)
+        console.log("can't evaluate:" + this.expression)
       }
     },
     keyPressed(keyValue) {
+      if (keyValue == '=') {
+        // var value = this.evaluate()
+        // if (value) {
+        //   this.expression = value
+        // }
+        this.expression = null
+        return
+      }
+
+      if(this.expression == null) {
+        this.expression = ''
+      }
+
       this.expression += keyValue
       this.evaluate()
     },
@@ -140,19 +154,19 @@ export default {
 // theme colors
 //[theme="dark"]{
 // :root {
-  // --app-background-color: #f1f3f6;
-  $--background-calculator: #273344;
-  $--key: #fff;
-  $--key-orange: #ff9234;
-  $--key-gray: #a9adb3;
-  .box-shadow {
-    box-shadow: inset 10px 10px 6px 0 rgba(60, 66, 78, 0.45),
-      10px 10px 6px 0 rgba(28, 36, 55, 0.8);
-  }
-  .pressed {
-    box-shadow: 10px 10px 6px 0 rgba(60, 66, 78, 0.45),
-      inset 10px 10px 6px 0 rgba(28, 36, 55, 0.8);
-  }
+// --app-background-color: #f1f3f6;
+$--background-calculator: #273344;
+$--key: #fff;
+$--key-orange: #ff9234;
+$--key-gray: #a9adb3;
+.box-shadow {
+  box-shadow: inset 10px 10px 6px 0 rgba(60, 66, 78, 0.45),
+    10px 10px 6px 0 rgba(28, 36, 55, 0.8);
+}
+.pressed {
+  box-shadow: 10px 10px 6px 0 rgba(60, 66, 78, 0.45),
+    inset 10px 10px 6px 0 rgba(28, 36, 55, 0.8);
+}
 // }
 // mixins
 $breakpoints: (
