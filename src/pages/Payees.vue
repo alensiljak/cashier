@@ -29,7 +29,7 @@
 import { TOGGLE_DRAWER, SET_SELECT_MODE } from '../mutations'
 import PayeesToolbar from '../components/PayeesToolbar'
 import appService from '../appService'
-import { ListSearch } from '../ListSearch.js'
+//import { ListSearch } from '../ListSearch.js'
 import Vue from 'vue'
 import { RecycleScroller } from 'vue-virtual-scroller'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'

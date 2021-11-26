@@ -90,19 +90,19 @@ export default {
       this.current = `${parseFloat(this.current) / 100}`
     },
     handleOperator(newOperator) {
-      const numberValue = parseFloat(this.current)
-      if (this.operator && this.clickedOperator) {
-        this.operator = newOperator
-      }
-      if (this.previous == null) {
-        this.previous = numberValue
-      } else if (this.operator) {
-        const result = this.calculate(this.previous, numberValue, this.operator)
-        this.current = String(result)
-        this.previous = result
-      }
-      this.clickedOperator = true
-      this.operator = newOperator
+      // const numberValue = parseFloat(this.current)
+      // if (this.operator && this.clickedOperator) {
+      //   this.operator = newOperator
+      // }
+      // if (this.previous == null) {
+      //   this.previous = numberValue
+      // } else if (this.operator) {
+      //   const result = this.calculate(this.previous, numberValue, this.operator)
+      //   this.current = String(result)
+      //   this.previous = result
+      // }
+      // this.clickedOperator = true
+      // this.operator = newOperator
 
       this.keyPressed(newOperator)
     },
@@ -131,21 +131,19 @@ export default {
       }
     },
     keyPressed(keyValue) {
+      // append the operator
+      if (keyValue != '=') {
+        this.expression += keyValue
+      }
+
+      // calculate
+      var result = this.evaluate()
+      this.current = result
+
+      // set the expression to the current value.
       if (keyValue == '=') {
-        // var value = this.evaluate()
-        // if (value) {
-        //   this.expression = value
-        // }
-        this.expression = null
-        return
+        this.expression = result
       }
-
-      if(this.expression == null) {
-        this.expression = ''
-      }
-
-      this.expression += keyValue
-      this.evaluate()
     },
   },
 }
