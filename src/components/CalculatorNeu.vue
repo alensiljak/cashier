@@ -55,6 +55,7 @@ export default {
   methods: {
     clearDisplay() {
       this.current = ''
+      this.expression = null
       this.previous = null
       this.operator = null
       this.clickedOperator = false

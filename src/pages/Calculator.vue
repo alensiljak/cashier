@@ -1,6 +1,6 @@
 <template lang="html">
   <q-page padding class="bg-colour1 text-colour2">
-    <toolbar title="Cache" />
+    <toolbar title="Number Entry" />
   
     <calculator-neu />
   </q-page>
