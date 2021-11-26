@@ -2,6 +2,9 @@
   Routes
 */
 
+// components
+const CalculatorNeu = () => import('../pages/Calculator.vue')
+
 const routes = [
   {
     path: '/',
@@ -37,17 +40,17 @@ const routes = [
       {
         path: '/assetallocationhelp',
         name: 'assetallocationhelp',
-        component: () => import('../pages/AssetAllocationHelp')
+        component: () => import(/* webpackChunkName: 'assetallocation' */ '../pages/AssetAllocationHelp')
       },
       {
         path: '/assetallocationsetuphelp',
         name: 'assetallocationsetuphelp',
-        component: () => import('../pages/AASetupHelp.vue')
+        component: () => import(/* webpackChunkName: 'assetallocation' */ '../pages/AASetupHelp.vue')
       },
       {
         path: '/assetclassdetail/:fullname?',
         name: 'assetclassdetail',
-        component: () => import('../pages/AssetClassDetail.vue')
+        component: () => import(/* webpackChunkName: 'assetallocation' */ '../pages/AssetClassDetail.vue')
       },
       {
         path: '/bal',
@@ -60,6 +63,12 @@ const routes = [
         name: 'cache',
         component: () =>
           import(/* webpackChunkName: 'cache' */ '../pages/Cache.vue')
+      },
+      {
+        path: '/calculator',
+        components: {
+          default: CalculatorNeu
+        }
       },
       {
         path: '/calendar',
