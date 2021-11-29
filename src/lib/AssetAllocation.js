@@ -235,9 +235,11 @@ class AssetAllocationEngine {
    * @param {string} content The content of the YAML definition file.
    */
   async importYamlDefinition(content) {
-    debugger
-    var x = jsyaml.load(content)
-    console.log(x)
+    var parsed = jsyaml.load(content)
+
+    // AA
+    var aa = parsed.Allocation
+    console.log(aa)
   }
 
   /**
@@ -257,17 +259,7 @@ class AssetAllocationEngine {
       let assetClass = this.parseLine(line);
       if (!assetClass) continue;
 
-      // add to index
-      //   index[assetClass.fullname] = assetClass;
       assetClasses.push(assetClass);
-
-      // index stocks
-      //   if (assetClass.symbols) {
-      //     for (let s = 0; s < assetClass.symbols.length; s++) {
-      //       let symbol = assetClass.symbols[s];
-      //       stockIndex[symbol] = assetClass.fullname;
-      //     }
-      //   }
     }
 
     // Validate
@@ -275,10 +267,7 @@ class AssetAllocationEngine {
     let errors = this.validate(assetClassIndex)
     if (errors.length) throw "Validation failed: " + errors
 
-    // persist?
-    // stockIndex
-    // return index
-    // return settings.set(SettingKeys.assetAllocationDefinition, index);
+    // persist
     return appService.db.assetAllocation.bulkPut(assetClasses);
   }
 
