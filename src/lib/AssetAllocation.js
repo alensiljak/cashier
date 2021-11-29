@@ -239,7 +239,17 @@ class AssetAllocationEngine {
 
     // AA
     var aa = parsed.Allocation
-    console.log(aa)
+    //console.log("Allocation", aa)
+
+    // Convert to backward-compatible structure (tree -> list).
+    // todo: use the tree structure later.
+    for (const propertyName in aa) {
+      var property = aa[propertyName]
+
+      if(typeof property == "object") {
+        console.log(`object: ${propertyName}`, property)
+      }
+    }
   }
 
   /**
