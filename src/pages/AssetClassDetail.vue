@@ -3,24 +3,24 @@
     <toolbar title="Asset Class Detail" />
 
     <div>{{ assetClass.fullname }}</div>
-    <p>{{ assetClass.name }}</p>
+    <!-- <p>{{ assetClass.name }}</p> -->
     <div>Allocation: {{ assetClass.allocation }}</div>
     <!-- <div>{{ assetClass }}</div> -->
 
     <ul>
-      <li v-for="stock in stocks" :key="stock.name">
-        {{ stock.name }}
+      <li v-for="symbol in symbols" :key="symbol.name">
+        {{ symbol.name }}
         <ul>
-          <li v-if="stock.analysis">
-            {{ stock.analysis }} -
+          <li v-if="symbol.analysis">
+            {{ symbol.analysis }} -
             <router-link
-              :to="{ name: 'lots', params: { symbol: stock.name } }"
+              :to="{ name: 'lots', params: { symbol: symbol.name } }"
               class="text-colour2"
             >
               lots
             </router-link>
           </li>
-          <li v-for="account in stock.accounts" :key="account.fullname">
+          <li v-for="account in symbol.accounts" :key="account.fullname">
             {{ account.name }}, {{ account.balance }} {{ account.currency }},
             {{ account.currentValue }} {{ account.currentCurrency }},
             <!-- {{ account }} -->
