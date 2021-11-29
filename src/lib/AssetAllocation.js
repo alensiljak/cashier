@@ -237,22 +237,65 @@ class AssetAllocationEngine {
   async importYamlDefinition(content) {
     var parsed = jsyaml.load(content)
 
-    // AA
-    var aa = parsed.Allocation
-    //console.log("Allocation", aa)
-
+    //var aa = parsed.Allocation
     // Convert to backward-compatible structure (tree -> list).
-    // todo: use the tree structure later.
-    for (const propertyName in aa) {
-      var property = aa[propertyName]
+    var assetClasses = this.linearizeObject(parsed)
 
-      if(typeof property == "object") {
-        console.log(`object: ${propertyName}`, property)
-      }
-    }
+    // todo: use the tree structure directly, at some later point.
+
+    var result = await this.validateAndSave(assetClasses)
+    return result
   }
 
   /**
+   * Convert a YAML tree AA structure into a list of Asset Classes.
+   * This converts the new structure into the old.
+   * @param {object} rootObject 
+   */
+  linearizeObject(rootObject, namespace = '') {
+    var result = []
+
+    // only use the children.
+
+    for (const propertyName in rootObject) {
+      var child = rootObject[propertyName]
+
+      // symbols is an array, which is also an object. Skip.
+      if(typeof child == "object" && child.constructor !== Array) {
+        // convert to Asset Class
+        var item = new AssetClass()
+        item.allocation = child.allocation
+        item.symbols = child.symbols
+        // todo: get the name
+        if(namespace) {
+          item.fullname = namespace + ':' + propertyName
+        } else {
+          item.fullname = propertyName
+        }
+
+        result.push(item)
+
+        //console.log(`object: ${propertyName}`, child)
+
+        // iterate
+        var childNamespace = namespace
+        if (namespace) {
+          childNamespace += ':'
+        }
+        childNamespace += propertyName
+
+        var children = this.linearizeObject(child, childNamespace)
+        if(children.length) {
+          result = result.concat(children)
+        }
+      }
+    }
+
+    return result
+  }
+
+  /**
+   * Deprecated!
    * Import Asset Allocation definition.
    * @param {str} text Contents of the definition file.
    * @returns Dictionary of asset classes with allocations and stocks
@@ -272,13 +315,22 @@ class AssetAllocationEngine {
       assetClasses.push(assetClass);
     }
 
+    var result = await this.validateAndSave(assetClasses)
+    return result
+  }
+
+  /**
+   * Used on import only!
+   * @param {Array} assetClassArray 
+   */
+  async validateAndSave(assetClassArray) {
     // Validate
-    let assetClassIndex = this.buildAssetClassIndex(assetClasses);
+    let assetClassIndex = this.buildAssetClassIndex(assetClassArray);
     let errors = this.validate(assetClassIndex)
     if (errors.length) throw "Validation failed: " + errors
 
     // persist
-    return appService.db.assetAllocation.bulkPut(assetClasses);
+    return appService.db.assetAllocation.bulkPut(assetClassArray);
   }
 
   async loadCurrentValues() {

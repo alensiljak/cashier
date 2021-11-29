@@ -49,8 +49,10 @@
 
     <div class="row">
       <div class="col">
-        <q-checkbox v-model="rememberLastTransaction" dark
-                    label="Remember last transaction for payees. Fills the new transactions."
+        <q-checkbox
+          v-model="rememberLastTransaction"
+          dark
+          label="Remember last transaction for payees. Fills the new transactions."
         />
       </div>
     </div>
@@ -66,7 +68,7 @@
       </div>
     </div>
 
-    <hr>
+    <hr />
 
     <div class="row q-mt-lg">
       <div class="col text-center q-my-lg">
@@ -100,7 +102,7 @@ export default {
       currency: null,
       rootInvestmentAccount: null,
       fileContent: null,
-      rememberLastTransaction: null
+      rememberLastTransaction: null,
     }
   },
 
@@ -114,7 +116,9 @@ export default {
       this.rootInvestmentAccount = await settings.get(
         SettingKeys.rootInvestmentAccount
       )
-      this.rememberLastTransaction = await settings.get(SettingKeys.rememberLastTransaction)
+      this.rememberLastTransaction = await settings.get(
+        SettingKeys.rememberLastTransaction
+      )
     },
     /**
      * The Asset Allocation definition selected.
@@ -127,20 +131,21 @@ export default {
       this.$router.push({ name: 'assetallocationsetuphelp' })
     },
     async onDefinitionImportClick() {
-      // Clean-up any existing data first.
-      await engine.emptyData()
-      // import AA definition file
-      await engine.importDefinition(this.fileContent)
-      //await engine.importYamlDefinition(this.fileContent)
-      this.$q.notify({ message: 'Definition imported', color: 'positive', })
+      try {
+        // Clean-up any existing data first.
+        await engine.emptyData()
+        // import AA definition file
+        //await engine.importDefinition(this.fileContent)
+        await engine.importYamlDefinition(this.fileContent)
 
-      // .catch((msg) =>
-      //   this.$q.notify({
-      //     message: "Error during import: " + msg,
-      //     color: "secondary",
-      //     textColor: "amber-2",
-      //   })
-      // );
+        this.$q.notify({ message: 'Definition imported', color: 'positive' })
+      } catch (msg) {
+        this.$q.notify({
+          message: 'Error during import: ' + msg,
+          color: 'secondary',
+          textColor: 'amber-2',
+        })
+      }
     },
     onFileRead(content) {
       this.fileContent = content
@@ -155,7 +160,10 @@ export default {
         this.rootInvestmentAccount
       )
 
-      await settings.set(SettingKeys.rememberLastTransaction, this.rememberLastTransaction)
+      await settings.set(
+        SettingKeys.rememberLastTransaction,
+        this.rememberLastTransaction
+      )
 
       this.$q.notify({ message: 'Settings saved', color: 'positive' })
     },
