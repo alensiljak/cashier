@@ -68,7 +68,7 @@
       </div>
     </div>
 
-    <hr />
+    <hr>
 
     <div class="row q-mt-lg">
       <div class="col text-center q-my-lg">
