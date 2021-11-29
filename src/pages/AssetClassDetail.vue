@@ -78,7 +78,7 @@ export default {
      * Load all constituents - stocks, currencies.
      */
     loadConstituents() {
-      let childNames = this.assetClass.stocks
+      let childNames = this.assetClass.symbols
       let stocks = []
 
       // load account balances
@@ -101,7 +101,7 @@ export default {
         stocks.push(stock)
       }
 
-      this.stocks = stocks
+      this.symbols = stocks
     },
     /**
      * Retrieve the security analysis from CashierSync
@@ -116,11 +116,11 @@ export default {
       // todo: check if the CashierSync is running!
 
       // load analysis for all symbols
-      for (let i = 0; i < this.stocks.length; i++) {
-        let symbol = this.stocks[i].name
+      for (let i = 0; i < this.symbols.length; i++) {
+        let symbol = this.symbols[i].name
         // console.log(symbol)
         let analysis = await this.fetchAnalysis(symbol)
-        let stock = this.stocks.find((obj) => obj.name == symbol)
+        let stock = this.symbols.find((obj) => obj.name == symbol)
         // Use Vue.set to add a property to a reactive object.
         Vue.set(stock, 'analysis', analysis)
       }

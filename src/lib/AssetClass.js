@@ -5,7 +5,7 @@ export default class AssetClass {
     // this.parentname = null;
     // this.name = null;
     this.allocation = null;
-    this.stocks = null;
+    this.symbols = null;
     // this.level = null; // the depth level, with root Allocation = 0
     this.currentValue = null;
     this.currency = null;

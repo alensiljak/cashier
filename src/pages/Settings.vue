@@ -131,6 +131,7 @@ export default {
       await engine.emptyData()
       // import AA definition file
       await engine.importDefinition(this.fileContent)
+      //await engine.importYamlDefinition(this.fileContent)
       this.$q.notify({ message: 'Definition imported', color: 'positive', })
 
       // .catch((msg) =>

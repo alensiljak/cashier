@@ -3,8 +3,9 @@
 */
 import appService from "../appService";
 import AssetClass from "./AssetClass";
+import jsyaml from 'js-yaml'
 // import numeral from 'numeral'
-var numeral = require("numeral");
+var numeral = require("numeral")
 
 /**
  * loadDefinition = loads the pre-set definition
@@ -65,9 +66,9 @@ class AssetAllocationEngine {
 
     for (let i = 0; i < asetClasses.length; i++) {
       let assetClass = asetClasses[i];
-      if (!assetClass.stocks) continue;
+      if (!assetClass.symbols) continue;
 
-      let stocks = assetClass.stocks;
+      let stocks = assetClass.symbols;
       for (let j = 0; j < stocks.length; j++) {
         let stock = stocks[j];
 
@@ -230,6 +231,16 @@ class AssetAllocationEngine {
   }
 
   /**
+   * Imports Asset Allocation definition as YAML
+   * @param {string} content The content of the YAML definition file.
+   */
+  async importYamlDefinition(content) {
+    debugger
+    var x = jsyaml.load(content)
+    console.log(x)
+  }
+
+  /**
    * Import Asset Allocation definition.
    * @param {str} text Contents of the definition file.
    * @returns Dictionary of asset classes with allocations and stocks
@@ -251,9 +262,9 @@ class AssetAllocationEngine {
       assetClasses.push(assetClass);
 
       // index stocks
-      //   if (assetClass.stocks) {
-      //     for (let s = 0; s < assetClass.stocks.length; s++) {
-      //       let symbol = assetClass.stocks[s];
+      //   if (assetClass.symbols) {
+      //     for (let s = 0; s < assetClass.symbols.length; s++) {
+      //       let symbol = assetClass.symbols[s];
       //       stockIndex[symbol] = assetClass.fullname;
       //     }
       //   }
@@ -317,7 +328,7 @@ class AssetAllocationEngine {
     let stocksLine = null;
     if (parts.length > 2) {
       stocksLine = parts[2];
-      ac.stocks = stocksLine.split(" ");
+      ac.symbols = stocksLine.split(" ");
     }
 
     return ac;
