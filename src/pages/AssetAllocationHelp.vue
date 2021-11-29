@@ -3,6 +3,7 @@
     <toolbar :title="'Asset Allocation Help'" />
    
     <h4>Asset Allocation</h4>
+    
     <p>Asset Allocation displays the allocation of your investments in the given Asset Classes.</p>
     <p>For this to work, you need the following:</p>
     <ul>

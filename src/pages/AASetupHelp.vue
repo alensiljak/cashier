@@ -13,15 +13,28 @@
     </ul>
 
     <h5>Asset Allocation Definition</h5>
-    <p>The definition file uses the following structure</p>
+    
+    <p>The definition is stored in a Yaml file and uses the following structure</p>
     <pre>
-        Allocation                        100.00
-        Allocation:Equity                  55.00
-        Allocation:Equity:Domestic         24.00    VEUR
-        Allocation:Equity:International    31.00    VTI
-        Allocation:Fixed                   30.00    VGB
-        Allocation:Real                    12.00    VAP
-        Allocation:Cash                     3.00    EUR USD AUD
+        Allocation:
+          allocation: 100.00
+          Equity:
+            allocation: 55.00
+            Domestic:
+              allocation: 24.00
+              symbols: [VEUR]
+            International:
+              allocation: 31.00
+              symbols: [VTI]
+          Fixed:
+            allocation: 30.00
+            symbols: [VGB, VACF]
+          Real:
+            allocation: 12.00
+            symbols: [VAP]
+          Cash:
+            allocation: 3.00
+            symbols: [EUR, USD, AUD]
       </pre>
 
     <h5>Current Balances Calculation</h5>

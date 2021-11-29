@@ -294,30 +294,30 @@ class AssetAllocationEngine {
     return result
   }
 
-  /**
-   * Deprecated!
-   * Import Asset Allocation definition.
-   * @param {str} text Contents of the definition file.
-   * @returns Dictionary of asset classes with allocations and stocks
-   */
-  async importDefinition(text) {
-    if (!text) return;
+  // /**
+  //  * Deprecated!
+  //  * Import Asset Allocation definition.
+  //  * @param {str} text Contents of the definition file.
+  //  * @returns Dictionary of asset classes with allocations and stocks
+  //  */
+  // async importDefinition(text) {
+  //   if (!text) return;
 
-    // parse and save into the storage.
-    const assetClasses = [];
+  //   // parse and save into the storage.
+  //   const assetClasses = [];
 
-    let lines = text.split("\n");
-    for (let i = 0; i < lines.length; i++) {
-      let line = lines[i];
-      let assetClass = this.parseLine(line);
-      if (!assetClass) continue;
+  //   let lines = text.split("\n");
+  //   for (let i = 0; i < lines.length; i++) {
+  //     let line = lines[i];
+  //     let assetClass = this.parseLine(line);
+  //     if (!assetClass) continue;
 
-      assetClasses.push(assetClass);
-    }
+  //     assetClasses.push(assetClass);
+  //   }
 
-    var result = await this.validateAndSave(assetClasses)
-    return result
-  }
+  //   var result = await this.validateAndSave(assetClasses)
+  //   return result
+  // }
 
   /**
    * Used on import only!
@@ -361,47 +361,47 @@ class AssetAllocationEngine {
     return appService.db.assetAllocation.toArray();
   }
 
-  /**
-   * Parse one raw line from the definition file.
-   * @param {string} line
-   * @returns AssetClass instance
-   */
-  parseLine(line) {
-    let parts = this.splitLine(line);
-    if (!parts || !parts.length) return;
+  // /**
+  //  * Parse one raw line from the definition file.
+  //  * @param {string} line
+  //  * @returns AssetClass instance
+  //  */
+  // parseLine(line) {
+  //   let parts = this.splitLine(line);
+  //   if (!parts || !parts.length) return;
 
-    let ac = new AssetClass();
+  //   let ac = new AssetClass();
 
-    ac.fullname = parts[0];
+  //   ac.fullname = parts[0];
 
-    ac.allocation = parts[1];
+  //   ac.allocation = parts[1];
 
-    let stocksLine = null;
-    if (parts.length > 2) {
-      stocksLine = parts[2];
-      ac.symbols = stocksLine.split(" ");
-    }
+  //   let stocksLine = null;
+  //   if (parts.length > 2) {
+  //     stocksLine = parts[2];
+  //     ac.symbols = stocksLine.split(" ");
+  //   }
 
-    return ac;
-  }
+  //   return ac;
+  // }
 
-  /**
-   * Splits the definition line into sections
-   * @param {str} line
-   */
-  splitLine(line) {
-    if (line.startsWith(";")) return;
+  // /**
+  //  * Splits the definition line into sections
+  //  * @param {str} line
+  //  */
+  // splitLine(line) {
+  //   if (line.startsWith(";")) return;
 
-    // parse line
-    line = line.trim();
-    // asset class, percentage, symbols
-    let parts = line.split("  ");
+  //   // parse line
+  //   line = line.trim();
+  //   // asset class, percentage, symbols
+  //   let parts = line.split("  ");
 
-    // Clean up blank sections
-    parts = this.cleanBlankArrayItems(parts);
+  //   // Clean up blank sections
+  //   parts = this.cleanBlankArrayItems(parts);
 
-    return parts;
-  }
+  //   return parts;
+  // }
 
   sumGroupBalances(acIndex) {
     let root = acIndex["Allocation"];
