@@ -46,7 +46,7 @@ export default {
   data() {
     return {
       assetClass: {},
-      stocks: [],
+      symbols: [],
       investmentAccounts: [],
       currency: null,
       serverUrl: null,
