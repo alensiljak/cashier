@@ -164,7 +164,7 @@ class AssetAllocationEngine {
       }
       // let name = row.name.padStart(22, ' ')
       let firstCol = (space + row.name).padEnd(20, " ");
-      let alloc = row.allocation.padStart(6, " ");
+      let alloc = row.allocation.toString().padStart(6, " ");
       let curAl = row.currentAllocation.padStart(6, " ");
       let diff = row.diff.padStart(5, " ");
       let diffPerc = row.diffPerc.padStart(6, " ");
