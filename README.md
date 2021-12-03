@@ -46,15 +46,24 @@ Open https://cashier.alensiljak.eu.org in the browser. Use "Add to Home screen" 
 
 Set up synchronization with [cashiersync](https://gitlab.com/alensiljak/cashier-sync):
 
+## Android
+
 - Install Termux
-  - install python and ledger packages
-  - install cashier sync, `pip install cashiersync`
-- git clone or manually create folders for the ledger book and prices
-- set up .ledgerrc in the home directory, to point to the book and prices files
+- install ledger package (this seems to fail lately, you can use a linux distro in Termux, like Alpine or Arch)
 - add the Termux shortcuts for updating the data (git pull)
 - add the Termux shortcut to run cashiersync
+
+## Set up
+
+- install python
+- install cashier sync with `pip install cashiersync`
+- git clone or manually create folders for the ledger book and prices
+- set up .ledgerrc in the home directory, to point to the book and prices files
+
+## Data Transfer
 
 To transfer the transactions from the mobile device to desktop:
 
 - add lazygit and a shortcut for opening it in the book directory. This can be used to commit the transactions directly on the mobile device.
+- export the transactions file (in ledger format)
 - transfer files via pCloud export
