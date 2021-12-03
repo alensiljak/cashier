@@ -28,6 +28,8 @@
     <q-separator dark />
 
     <!-- main (tx) Actions -->
+
+    <!-- clear -->
     <div class="row q-my-xl justify-end text-center">
       <div class="col">
         <q-btn
@@ -44,21 +46,65 @@
           Clear
         </q-btn>
       </div>
+      <!-- save -->
+      <div class="col">
+        <q-btn
+          color="accent"
+          text-color="secondary"
+          size="medium"
+          @click="onSaveClicked"
+        >
+          <font-awesome-icon
+            icon="save"
+            transform="grow-9"
+            class="q-icon-small on-left"
+          />
+          Save
+        </q-btn>
+      </div>
     </div>
+
+    <!-- confirm deletion dialog -->
+    <q-dialog
+      v-model="isConfirmDeleteVisible"
+      persistent
+      content-class="bg-blue-grey-10"
+    >
+      <q-card dark class="bg-secondary">
+        <q-card-section class="row items-center">
+          <span>Do you want to clear all the fields?</span>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn v-close-popup flat label="Cancel" color="accent" />
+          <q-btn
+            v-close-popup
+            flat
+            label="Confirm"
+            color="accent"
+            @click="confirmDelete"
+          />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
 <script>
-import { SET_TRANSACTION, SET_SELECT_MODE } from '../mutations'
 import appService from '../appService'
 import TxEditor from '../components/TransactionEditor'
 import { CurrentTransactionService } from '../lib/currentTransactionService'
 import { SettingKeys, settings } from 'src/lib/Configuration'
-import { LastTransaction, Setting } from 'src/model'
 
 export default {
   components: {
     TxEditor
+  },
+
+  data() {
+    return {
+      isConfirmDeleteVisible: false
+    }
   },
 
   computed: {
@@ -86,6 +132,10 @@ export default {
   },
 
   methods: {
+    confirmDelete() {
+      // Resets all Transaction fields to defaults.
+      this.resetTransaction()
+    },
     /**
      * Load all data for the view.
      */
@@ -106,8 +156,7 @@ export default {
       this.tx = tx
     },
     onClear() {
-      // Resets all Transaction fields to defaults.
-      this.resetTransaction()
+      this.isConfirmDeleteVisible = true
     },
     async onSaveClicked() {
       try {
