@@ -4,7 +4,7 @@ https://cashier.alensiljak.eu.org/
 
 is a PWA GUI application for [Ledger-cli](https://ledger-cli.org). It is intended to be used for entering transactions and previewing balances. The accounts and balances can be imported from Ledger to establish baselines and the entered transactions can be exported to be merged into the main ledger file.
 
-See the [TODO](TODO) file for the list of features, technical issues, brainstorming ideas, and priorities.
+See the [TODO](TODO) file for the historical list of features, technical issues, brainstorming ideas, and priorities. This was used as the base for the development.
 
 # Features
 
