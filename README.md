@@ -4,6 +4,9 @@ https://cashier.alensiljak.eu.org/
 
 is a PWA GUI application for [Ledger-cli](https://ledger-cli.org). It is intended to be used for entering transactions and previewing balances. The accounts and balances can be imported from Ledger to establish baselines and the entered transactions can be exported to be merged into the main ledger file.
 
+The app works completely offline, meaning **all** the data required for the functioning of the app is stored in a local database. In addition, it is *possible* to get the data from your Ledger book by using a separate component [cashier-sync](https://gitlab.com/alensiljak/cashiersync). The data flow is **one-way** only, from Ledger to Cashier. Cashier or Cashier Sync will never write to your Ledger book.
+It is also possible to export the transactions from Cashier as Ledger files, which can be manually added to the main book.
+
 See the [TODO](TODO) file for the historical list of features, technical issues, brainstorming ideas, and priorities. This was used as the base for the development.
 
 # Features
