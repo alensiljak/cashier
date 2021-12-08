@@ -55,11 +55,11 @@
         v-for="(posting, index) in tx.postings"
         :key="index"
         dark
-        right-color="secondary"
+        left-color="secondary"
         class="q-px-none"
-        @right="onSlide"
+        @left="onSlide"
       >
-        <template #right>
+        <template #left>
           <div
             class="row items-center text-accent"
             @click="deletePosting(index)"
@@ -124,7 +124,7 @@
 </template>
 <script>
 import appService from '../appService'
-import { SET_TRANSACTION, SET_SELECT_MODE } from '../mutations'
+import { SET_SELECT_MODE } from '../mutations'
 import { CurrentTransactionService } from '../lib/currentTransactionService'
 import {
   SelectionModeMetadata,
