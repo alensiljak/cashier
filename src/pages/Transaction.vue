@@ -20,8 +20,9 @@
     </q-header>
 
     <div v-if="!tx.id" class="bg-primary text-center q-pa-sm q-ma-none">
-      Creating a new transaction
+      New transaction
     </div>
+
     <!-- Transaction -->
     <tx-editor />
 
@@ -29,7 +30,7 @@
 
     <!-- main (tx) Actions -->
 
-    <!-- clear -->
+    <!-- Reset -->
     <div class="row q-my-xl justify-end text-center">
       <div class="col">
         <q-btn
@@ -43,7 +44,7 @@
             transform="grow-9"
             class="q-icon-small on-left"
           />
-          Clear
+          Reset
         </q-btn>
       </div>
       <!-- save -->

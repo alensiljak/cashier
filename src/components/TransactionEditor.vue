@@ -46,8 +46,38 @@
     </q-input>
 
     <!-- Postings -->
-    <div class="form-row q-mt-sm">
-      <div class="col">Postings</div>
+    <div class="row q-mt-sm">
+      <div class="col-auto q-mr-sm">Postings</div>
+      <!-- posting actions -->
+      <div class="col text-center">
+        <q-btn
+          color="primary"
+          text-color="accent"
+          size="medium"
+          class="q-mr-md"
+          @click="addPosting"
+        >
+          <font-awesome-icon
+            icon="plus-circle"
+            transform="grow-9"
+            class="q-icon-small on-left"
+          />
+          <div>Add</div>
+        </q-btn>
+        <q-btn
+          color="primary"
+          text-color="accent"
+          size="medium"
+          @click="reorderPostings"
+        >
+          <font-awesome-icon
+            icon="sort"
+            transform="grow-9"
+            class="q-icon-small on-left"
+          />
+          <div>Reorder</div>
+        </q-btn>
+      </div>
     </div>
 
     <div>
@@ -86,38 +116,6 @@
         </q-item-section>
         <q-item-section avatar>{{ formatNumber(postingSum) }}</q-item-section>
       </q-item>
-
-      <!-- posting actions -->
-      <div class="column q-mt-md q-mb-xl">
-        <q-btn
-          color="primary"
-          text-color="accent"
-          size="medium"
-          class="col q-mb-md"
-          @click="addPosting"
-        >
-          <font-awesome-icon
-            icon="plus-circle"
-            transform="grow-9"
-            class="q-icon-small on-left"
-          />
-          <div>Add Posting</div>
-        </q-btn>
-        <q-btn
-          color="primary"
-          text-color="accent"
-          size="medium"
-          class="col"
-          @click="reorderPostings"
-        >
-          <font-awesome-icon
-            icon="sort"
-            transform="grow-9"
-            class="q-icon-small on-left"
-          />
-          <div>Reorder Postings</div>
-        </q-btn>
-      </div>
     </div>
   </div>
 </template>
