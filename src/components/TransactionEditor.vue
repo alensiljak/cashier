@@ -46,8 +46,8 @@
     </q-input>
 
     <!-- Postings -->
-    <div class="row q-mt-sm">
-      <div class="col-auto q-mr-sm">Postings</div>
+    <div class="row q-mt-sm bg-primary">
+      <div class="col-auto q-px-xs">Postings</div>
     </div>
 
     <div>
@@ -56,6 +56,7 @@
         :key="index"
         dark
         right-color="secondary"
+        class="q-px-none"
         @right="onSlide"
       >
         <template #right>
@@ -67,7 +68,7 @@
             <font-awesome-icon icon="trash-alt" size="2x" class="q-ml-md" />
           </div>
         </template>
-        <q-item dark class="bg-colour1">
+        <q-item dark class="bg-colour1 q-px-none">
           <q-item-section>
             <QPosting
               :index="index"

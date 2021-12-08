@@ -1,9 +1,6 @@
 <template>
   <div>
     <div class="row">
-      <!-- spacer -->
-      <div class="col-1" />
-
       <div class="col">
         <!-- Account -->
         <q-input
@@ -16,7 +13,6 @@
     </div>
 
     <div class="row justify-end">
-      <div class="col-2" />
       <div class="col-3 col-xs-5">
         <!-- Amount -->
         <q-input
@@ -35,8 +31,10 @@
         <q-input v-model="currency" dark label="Currency">
           <template #append>
             <!-- warn if there's no currency but we have an amount -->
-            <font-awesome-icon v-if="isMissingCurrency"
-                               icon="exclamation-circle" style="color: #92140c;"
+            <font-awesome-icon
+              v-if="isMissingCurrency"
+              icon="exclamation-circle"
+              style="color: #92140c"
             />
           </template>
         </q-input>
@@ -52,12 +50,12 @@ import { SET_POSTING } from '../mutations'
 export default {
   props: {
     // posting: { type: Object, default: null },
-    index: { type: Number, default: null }
+    index: { type: Number, default: null },
   },
 
-  data: function() {
+  data: function () {
     return {
-      accountOptions: null
+      accountOptions: null,
     }
   },
 
@@ -70,7 +68,7 @@ export default {
         let posting = this.$store.state.transaction.postings[this.index]
         posting.account = value
         this.$store.commit(SET_POSTING, { index: this.index, posting: posting })
-      }
+      },
     },
     amount: {
       get() {
@@ -80,7 +78,7 @@ export default {
         let posting = this.$store.state.transaction.postings[this.index]
         posting.amount = value
         this.$store.commit(SET_POSTING, { index: this.index, posting: posting })
-      }
+      },
     },
     currency: {
       get() {
@@ -90,7 +88,7 @@ export default {
         let posting = this.$store.state.transaction.postings[this.index]
         posting.currency = value
         this.$store.commit(SET_POSTING, { index: this.index, posting: posting })
-      }
+      },
     },
     isMissingCurrency: {
       get() {
@@ -101,14 +99,14 @@ export default {
         if (amountMissing) return false
 
         return hasNoCurrency && hasValidAmount
-      }
-    }
+      },
+    },
   },
 
   methods: {
     onAmountFocus(e) {
       e.target.select()
-    }
-  }
+    },
+  },
 }
 </script>
