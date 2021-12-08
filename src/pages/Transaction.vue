@@ -30,8 +30,8 @@
 
     <!-- main (tx) Actions -->
 
-    <!-- Reset -->
-    <div class="row q-my-xl justify-end text-center">
+    <footer class="row q-my-xl justify-end text-center">
+      <!-- Reset -->
       <div class="col">
         <q-btn
           color="secondary"
@@ -63,7 +63,7 @@
           Save
         </q-btn>
       </div>
-    </div>
+    </footer>
 
     <!-- confirm deletion dialog -->
     <q-dialog
@@ -99,12 +99,12 @@ import { SettingKeys, settings } from 'src/lib/Configuration'
 
 export default {
   components: {
-    TxEditor
+    TxEditor,
   },
 
   data() {
     return {
-      isConfirmDeleteVisible: false
+      isConfirmDeleteVisible: false,
     }
   },
 
@@ -116,8 +116,8 @@ export default {
       set(value) {
         // save in the state store
         new CurrentTransactionService(this.$store).setTx(value)
-      }
-    }
+      },
+    },
   },
 
   async created() {
@@ -184,9 +184,9 @@ export default {
       this.tx = tx
     },
     toggleDrawer() {
-        this.$root.$emit('toggle_drawer')
-    }
-  }
+      this.$root.$emit('toggle_drawer')
+    },
+  },
 }
 </script>
 
