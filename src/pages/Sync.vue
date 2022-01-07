@@ -38,12 +38,20 @@
     <div class="text-center">
       <q-list>
         <q-item>
-          <!-- <q-item-label></q-item-label> -->
+          <q-item-section>
+            <q-checkbox
+              v-model="syncAccounts"
+              dark
+              label="Sync accounts (ledger accounts). Deletes existing accounts and replaces with the list from Ledger."
+            />
+          </q-item-section>
+        </q-item>
+        <q-item>
           <q-item-section>
             <q-checkbox
               v-model="syncBalances"
               dark
-              label="Sync balances (ledger balance --flat --no-total). Deletes existing accounts and retrieves the list from Ledger."
+              label="Sync balances (ledger balance --flat --no-total)."
             />
           </q-item-section>
         </q-item>
@@ -109,6 +117,7 @@ export default {
   },
   data() {
     return {
+      syncAccounts: true,
       syncBalances: true,
       syncAaValues: true,
       serverUrl: 'http://localhost:5000', // the default value
@@ -159,7 +168,7 @@ export default {
         this.$q.notify({ message: error.message, color: 'secondary' })
       }
     },
-    async syncAccounts() {
+    async synchronizeAccounts() {
       const sync = new CashierSync(this.serverUrl)
 
       /// Accounts
@@ -191,10 +200,11 @@ export default {
     },
     async onSyncClicked() {
       try {
-        await this.syncAccounts()
-        
+        if (this.syncAccounts) {
+          await this.synchronizeAccounts()
+        }
+
         if (this.syncBalances) {
-          // Accounts + balances
           await this.synchronizeBalances()
         }
         // Investment account balances in base currency, for Asset Allocation.
