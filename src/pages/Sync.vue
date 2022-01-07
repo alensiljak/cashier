@@ -159,10 +159,7 @@ export default {
         this.$q.notify({ message: error.message, color: 'secondary' })
       }
     },
-    /**
-     * Loads all accounts (ledger accounts) + balances (ledger balance)
-     */
-    async synchronizeBalances() {
+    async syncAccounts() {
       const sync = new CashierSync(this.serverUrl)
 
       /// Accounts
@@ -177,6 +174,12 @@ export default {
       //console.debug('importing accounts...')
       await appService.importAccounts(ledgerAccounts)
       this.$q.notify({ message: 'accounts loaded', color: 'primary' })
+    },
+    /**
+     * Loads all accounts (ledger accounts) + balances (ledger balance)
+     */
+    async synchronizeBalances() {
+      const sync = new CashierSync(this.serverUrl)
 
       /// Balances
 
@@ -188,6 +191,8 @@ export default {
     },
     async onSyncClicked() {
       try {
+        await this.syncAccounts()
+        
         if (this.syncBalances) {
           // Accounts + balances
           await this.synchronizeBalances()
