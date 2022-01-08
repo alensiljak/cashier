@@ -120,7 +120,7 @@ export default {
       syncAccounts: true,
       syncBalances: true,
       syncAaValues: true,
-      serverUrl: 'http://localhost:5000', // the default value
+      serverUrl: 'http://localhost:8080', // the default value
     }
   },
 
