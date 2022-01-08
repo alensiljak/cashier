@@ -23,7 +23,7 @@ See the [TODO](TODO) file for the historical list of features, technical issues,
 # Development
 
 Using pnpm package manage. Install globally `npm install -g pnpm`.
-Run the dev server `pnpm serve` or `pnpm dev` and open the browser on http://localhost:8080.
+Run the dev server `pnpm serve` or `pnpm dev` and open the browser on http://localhost:8081.
 
 ## Maintenance
 
@@ -49,7 +49,7 @@ Here is the description on how to set up Cashier on Android. It demonstrates the
 
 Open https://cashier.alensiljak.eu.org in the browser. Use "Add to Home screen" or "Install" options to add the app.
 
-Set up synchronization with [cashiersync](https://gitlab.com/alensiljak/cashier-sync):
+Set up synchronization with [cashiersync-go](https://gitlab.com/alensiljak/cashiersync-go):
 
 ## Android
 
@@ -60,8 +60,7 @@ Set up synchronization with [cashiersync](https://gitlab.com/alensiljak/cashier-
 
 ## Set up
 
-- install python
-- install cashier sync with `pip install cashiersync`
+- download CashierSync from https://gitlab.com/alensiljak/cashiersync-go/-/releases.
 - git clone or manually create folders for the ledger book and prices
 - set up .ledgerrc in the home directory, to point to the book and prices files
 

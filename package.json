@@ -10,7 +10,7 @@
     "url": "https://gitlab.com/alensiljak/cashier"
   },
   "scripts": {
-    "dev": "quasar dev --mode pwa",
+    "dev": "quasar dev --mode pwa --port 8081",
     "build": "quasar build --mode pwa",
     "lint": "eslint --ext .js,.vue src"
   },

@@ -79,7 +79,7 @@
       >
         Sync Settings
       </q-btn>
-      <!-- <q-btn
+      <q-btn
         flat
         dark
         color="primary"
@@ -87,7 +87,7 @@
         @click="onShutdownClick"
       >
         Shutdown Server
-      </q-btn> -->
+      </q-btn>
     </q-card-actions>
   </q-card>
 </template>
@@ -187,7 +187,13 @@ export default {
       this.$router.push({ name: 'sync' })
     },
     onShutdownClick() {
-      this.$q.notify({ message: 'not implemented', color: 'secondary' })
+      this.$q.notify({ message: 'sending shutdown request', color: 'secondary' })
+
+      let sync = new CashierSync(this.serverUrl)
+      sync.shutdown()
+
+      // refresh the page to update the server status?
+      //window.location.reload(true)
     },
     onStatusError(e) {
       // could not reach the server hello image
