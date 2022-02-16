@@ -4,7 +4,7 @@
 
     <p>Control the cached data from Cashier-Sync.</p>
     <div>
-      <div v-show="false" class="row">
+      <div class="row">
         <div class="col">Accounts</div>
         <div class="col">{{ accountsStatus }}</div>
         <div class="col">
@@ -127,23 +127,22 @@ export default {
       return value;
     },
     async loadStatuses() {
-      const cashierSync = new CashierSync(this.serverUrl);
+      const sync = new CashierSync(this.serverUrl);
 
       // get the statuses of all cache items.
-      //const cache = new CashierCache(Constants.CacheName)
       const cache = await caches.open(Constants.CacheName);
       // Accounts
-      const accounts = await cache.match(cashierSync.accountsUrl);
+      const accounts = await cache.match(sync.accountsUrl);
       this.accountsStatus = accounts ? ExistsStatus : NoneStatus;
 
       // Balances
-      const balances = await cache.match(cashierSync.balancesUrl);
+      const balances = await cache.match(sync.balancesUrl);
       this.balancesStatus = balances ? ExistsStatus : NoneStatus;
 
-      const currentValues = await cache.match(cashierSync.currentValuesUrl);
+      const currentValues = await cache.match(sync.currentValuesUrl);
       this.assetAllocationStatus = currentValues ? ExistsStatus : NoneStatus;
 
-      const payees = await cache.match(cashierSync.payeesUrl)
+      const payees = await cache.match(sync.payeesUrl)
       this.payeesStatus = payees ? ExistsStatus : NoneStatus
     },
 
@@ -169,10 +168,10 @@ export default {
     },
 
     async cacheUrl(url) {
-      const cache = new CashierCache(Constants.CacheName)
+      const cacher = new CashierCache(Constants.CacheName)
 
       try {
-        await cache.cache(url)
+        await cacher.cache(url)
       } catch (reason) {
         console.error(reason);
         // show message
@@ -198,6 +197,8 @@ export default {
       let cashierSync = new CashierSync(this.serverUrl);
       const url = cashierSync.accountsUrl;
       await this.cacheUrl(url);
+
+      this.$q.notify({ message: 'accounts cached', color: 'primary' })
     },
     async fetchAssetAllocation() {
       let cashierSync = new CashierSync(this.serverUrl);
@@ -213,6 +214,8 @@ export default {
       let cashierSync = new CashierSync(this.serverUrl);
       const url = cashierSync.payeesUrl;
       await this.cacheUrl(url);
+
+      this.$q.notify({ message: 'Payees cached', color: 'primary' })
     }
   },
 };

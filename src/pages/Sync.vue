@@ -107,9 +107,10 @@
 
 <script>
 import Toolbar from '../components/Toolbar'
-import { SettingKeys, settings } from '../lib/Configuration'
+import { SettingKeys, settings, Constants } from '../lib/Configuration'
 import { CashierSync } from '../lib/syncCashier'
 import appService from '../appService'
+import CashierCache from '../lib/CashierCache';
 
 export default {
   components: {
@@ -168,21 +169,35 @@ export default {
         this.$q.notify({ message: error.message, color: 'secondary' })
       }
     },
+    /**
+     * Accounts
+     */
     async synchronizeAccounts() {
       const sync = new CashierSync(this.serverUrl)
 
-      /// Accounts
+      // Check if the accounts list is already cached. If not, cache it.
+      const cache = await caches.open(Constants.CacheName);
+      const accounts = await cache.match(sync.accountsUrl);
+      if (!accounts) {
+        const cacher = new CashierCache(Constants.CacheName)
+        await cacher.cache(sync.accountsUrl)
+      }
 
-      console.debug('reading accounts from the server...')
-      const ledgerAccounts = await sync.readAccounts()
+      //const ledgerAccounts = await sync.readAccounts()
+      const ledgerAccounts = await accounts.json()
 
       // delete all accounts only after we have retrieved the new ones.
-      //console.debug('deleting local account records...')
       await appService.deleteAccounts()
 
       //console.debug('importing accounts...')
       await appService.importAccounts(ledgerAccounts)
-      this.$q.notify({ message: 'accounts loaded', color: 'primary' })
+      let message = 'accounts '
+      if (accounts) {
+        message += ' reused from cache'
+      } else {
+        message += ' fetched from the server'
+      }
+      this.$q.notify({ message: message, color: 'primary' })
     },
     /**
      * Loads all accounts (ledger accounts) + balances (ledger balance)
@@ -193,7 +208,6 @@ export default {
       /// Balances
 
       // Import the account balances.
-      console.debug('importing balances...')
       const balances = await sync.readBalances()
       await appService.importBalanceSheet(balances)
       this.$q.notify({ message: 'balances loaded', color: 'primary' })

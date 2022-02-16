@@ -10,7 +10,9 @@ class CashierCache {
 
   async cache(url) {
     // get the response from CashierSync
-    const response = await ky(url)
+    const response = await ky(url, {
+      timeout: 20000
+    })
 
     // don't cache invalid responses
     if (!response.ok) return
