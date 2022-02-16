@@ -94,7 +94,6 @@
 import Toolbar from '../components/Toolbar'
 import { SettingKeys, settings, Constants } from '../lib/Configuration';
 import { CashierSync } from '../lib/syncCashier';
-import CachierCache from '../lib/CashierCache'
 import CashierCache from '../lib/CashierCache';
 
 const NoneStatus = 'None';
