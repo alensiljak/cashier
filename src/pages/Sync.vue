@@ -118,7 +118,7 @@ export default {
   },
   data() {
     return {
-      syncAccounts: true,
+      syncAccounts: false,
       syncBalances: true,
       syncAaValues: true,
       serverUrl: 'http://localhost:8080', // the default value
@@ -170,7 +170,7 @@ export default {
       }
     },
     /**
-     * Accounts
+     * List of Accounts
      */
     async synchronizeAccounts() {
       const sync = new CashierSync(this.serverUrl)
@@ -188,14 +188,13 @@ export default {
 
       // delete all accounts only after we have retrieved the new ones.
       await appService.deleteAccounts()
-
-      //console.debug('importing accounts...')
       await appService.importAccounts(ledgerAccounts)
+      
       let message = 'accounts '
       if (accounts) {
         message += ' reused from cache'
       } else {
-        message += ' fetched from the server'
+        message += ' loaded from the server'
       }
       this.$q.notify({ message: message, color: 'primary' })
     },
