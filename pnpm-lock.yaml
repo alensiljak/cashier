@@ -8,7 +8,7 @@ specifiers:
   '@quasar/extras': 1.12.5
   babel-eslint: 10.1.0
   core-js: 3.19.1
-  dexie: 3.2.0
+  dexie: 3.2.1
   eslint: 7.22.0
   eslint-config-standard: 16.0.3
   eslint-loader: 4.0.2
@@ -41,7 +41,7 @@ dependencies:
   '@fortawesome/free-solid-svg-icons': 5.15.4
   '@fortawesome/vue-fontawesome': 2.0.6_024c1dc6e8f43838d9377099d91b4c63
   core-js: 3.19.1
-  dexie: 3.2.0
+  dexie: 3.2.1
   file-saver: 2.0.5
   js-yaml: 4.1.0
   mathjs: 10.0.0
@@ -3619,8 +3619,8 @@ packages:
     resolution: {integrity: sha512-T0NIuQpnTvFDATNuHN5roPwSBG83rFsuO+MXXH9/3N1eFbn4wcPjttvjMLEPWJ0RGUYgQE7cGgS3tNxbqCGM7g==}
     dev: true
 
-  /dexie/3.2.0:
-    resolution: {integrity: sha512-OpS8ss1CLHYAhxRu6hT+/Gt1uLhKCf0O18xHBdRGlemOWXXRiiOZ0ty1/bACIJzGt1DGmvarzrPwYYt9EkRZfw==}
+  /dexie/3.2.1:
+    resolution: {integrity: sha512-Y8oz3t2XC9hvjkP35B5I8rUkKKwM36GGRjWQCMjzIYScg7W+GHKDXobSYswkisW7CxL1/tKQtggMDsiWqDUc1g==}
     engines: {node: '>=6.0'}
     dev: false
 
