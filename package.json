@@ -24,6 +24,7 @@
     "js-yaml": "4.1.0",
     "mathjs": "10.0.0",
     "moment": "2.29.1",
+    "netlify-cli": "^9.13.6",
     "numeral": "2.0.6",
     "pcloud-sdk-js": "2.0.0",
     "quasar": "1.15.9",
