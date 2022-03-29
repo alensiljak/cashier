@@ -86,6 +86,10 @@ export class Iterator {
     let output = null;
 
     switch(period) {
+      case 'start of month':
+        next = start.add(count, 'month')
+        next.startOf('month')
+        break;
       case 'end of month':
         next = start.add(count, 'month')
         // move to the end of the month

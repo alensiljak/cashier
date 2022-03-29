@@ -142,7 +142,7 @@ export default {
 
   methods: {
     createPeriods() {
-      this.periods = ['days', 'weeks', 'months', 'end of month', 'years']
+      this.periods = ['days', 'weeks', 'months', 'start of month', 'end of month', 'years']
     },
     onDateSelected(value, reason) {
       if (reason !== 'day' && reason !== 'today') return
