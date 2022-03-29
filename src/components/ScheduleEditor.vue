@@ -72,8 +72,6 @@
 </template>
 
 <script>
-import { ScheduledTransaction } from '../model'
-
 export default {
   data() {
     return {
@@ -144,7 +142,7 @@ export default {
 
   methods: {
     createPeriods() {
-      this.periods = ['days', 'weeks', 'months', 'years']
+      this.periods = ['days', 'weeks', 'months', 'end of month', 'years']
     },
     onDateSelected(value, reason) {
       if (reason !== 'day' && reason !== 'today') return

@@ -79,13 +79,24 @@ export class Iterator {
 
     // Get the start point.
     const start = moment(startDate)
-    console.debug('now:', start.format(isoDateFormat))
+    //console.debug('now:', start.format(isoDateFormat))
 
     // add the given period
-    const next = start.add(count, period)
-    let output = next.format(isoDateFormat)
+    let next = null;
+    let output = null;
 
-    // handle end date.
+    switch(period) {
+      case 'end of month':
+        next = start.add(count, 'month')
+        // move to the end of the month
+        next.endOf('month')
+        break;
+      default:
+        next = start.add(count, period)
+    }
+    output = next.format(isoDateFormat)
+
+    // handle end date, if any.
     if (endDate) {
       if (output > endDate) {
         // no more iterations, end date passed
