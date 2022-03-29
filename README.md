@@ -22,16 +22,17 @@ See the [TODO](TODO) file for the historical list of features, technical issues,
 
 # Development
 
-Using pnpm package manage. Install globally `npm install -g pnpm`.
-Run the dev server `pnpm serve` or `pnpm dev` and open the browser on http://localhost:8081.
+Must use yarn package manager. With the newer versions of node, `corepack enable`.
+
+Run the dev server `yarn serve` or `yarn dev` and open the browser on http://localhost:8081
 
 ## Maintenance
 
-Updating libraries: list outdated with `pnpm outdated`.
+Updating libraries: list outdated with `yarn outdated`.
 
 ## Building
 
-Build the release version with `pnpm build` (this is the equivalent of `pnpm run build`).
+Build the release version with `yarn build` (this is the equivalent of `yarn run build`).
 
 ## Deployment
 
@@ -39,7 +40,7 @@ Using Netlify to serve HTTPS site, as required by PWA specs. The [base url](http
 
 Automatic deployment is triggered when the Release branch is updated.
 
-Manual deployment is done using `netlify-cli` (an NPM package installed globally - `pnpm i -g netlify-cli`).
+Manual deployment is done using `netlify-cli` (an NPM package installed globally - `yarn i -g netlify-cli`).
 Run `netlify deploy` from the root project directory. This requires netlify.toml. Otherwise, run from dist/pwa directory.
 To deploy the Prod version, run `netlify deploy --prod`.
 
