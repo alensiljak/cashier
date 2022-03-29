@@ -72,7 +72,7 @@
       </q-toolbar>
     </q-header>
 
-    <RecycleScroller
+    <!-- <RecycleScroller
       v-slot="{ item }"
       class="scroller"
       :items="accounts"
@@ -83,7 +83,21 @@
         {{ item.name }}
         <div class="fixed-right">{{ item.balance }} {{ item.currency }}</div>
       </div>
-    </RecycleScroller>
+    </RecycleScroller> -->
+
+    <q-list>
+      <q-item
+          v-for="account in accounts"
+          :key="account.name"
+      >
+        <q-item-section no-wrap=false>
+          {{ account.name }}
+        </q-item-section>
+        <q-item-section side>
+          {{ account.balance }} {{ account.currency }}
+        </q-item-section>
+      </q-item>
+    </q-list>
 
     <!-- new account (name) dialog -->
     <q-dialog v-model="dialogVisible" dark>
