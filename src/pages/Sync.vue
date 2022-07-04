@@ -89,19 +89,12 @@
       <div class="col">
         <q-btn label="Cache API" color="accent" text-color="secondary" to="cache" />
       </div>
+      <div class="col">
+        <q-btn color="accent" text-color="secondary" @click="onShutdownClick">
+          Shutdown Server
+        </q-btn>
+      </div>
     </div>
-
-    <hr>
-
-    <!-- <h4 class="q-my-md">Maintenance</h4>
-    <div class="text-center">
-      <q-btn
-        label="Shutdown Server"
-        color="secondary"
-        text-color="accent"
-        @click="shutdown"
-      />
-    </div> -->
   </q-page>
 </template>
 
@@ -150,6 +143,15 @@ export default {
         })
       }
     },
+    onShutdownClick() {
+      this.$q.notify({ message: 'sending shutdown request', color: 'secondary' })
+
+      let sync = new CashierSync(this.serverUrl)
+      sync.shutdown()
+
+      // refresh the page to update the server status?
+      //window.location.reload(true)
+    },
     async saveSyncServerUrl() {
       // sync server.
       await settings.set(SettingKeys.syncServerUrl, this.serverUrl)
@@ -170,7 +172,7 @@ export default {
       }
     },
     /**
-     * List of Accounts
+     * Download the List of Accounts.
      */
     async synchronizeAccounts() {
       const sync = new CashierSync(this.serverUrl)
