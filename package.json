@@ -12,7 +12,8 @@
   "scripts": {
     "dev": "quasar dev --mode pwa --port 8081",
     "build": "quasar build --mode pwa",
-    "lint": "eslint --ext .js,.vue src"
+    "lint": "eslint --ext .js,.vue src",
+    "deploy": "netlify deploy --prod"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "1.2.36",
