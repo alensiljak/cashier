@@ -38,11 +38,8 @@ Build the release version with `yarn build` (this is the equivalent of `yarn run
 
 Using Netlify to serve HTTPS site, as required by PWA specs. The [base url](https://cashier-pwa.netlify.com/) is on Netlify.
 
-Automatic deployment is triggered when the Release branch is updated.
-
-Manual deployment is done using `netlify-cli` (an NPM package installed globally - `yarn i -g netlify-cli`).
-Run `netlify deploy` from the root project directory. This requires netlify.toml. Otherwise, run from dist/pwa directory.
-To deploy the Prod version, run `netlify deploy --prod`.
+Manual deployment is done using `netlify-cli` package installed in the project.
+Run `yarn run deploy` from the root project directory. This requires netlify.toml. Otherwise, run from dist/pwa directory. To deploy the Prod version, run `netlify deploy --prod`.
 
 # Cashier Ecosystem
 
