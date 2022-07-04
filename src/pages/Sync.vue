@@ -250,7 +250,7 @@ export default {
 
         if (this.syncBalances) {
           this.showBalanceProgress = true
-          this.synchronizeBalances()
+          await this.synchronizeBalances()
           this.showBalanceProgress = false
         }
         // Investment account balances in base currency, for Asset Allocation.
