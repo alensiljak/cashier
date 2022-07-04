@@ -45,6 +45,13 @@
               label="Sync accounts (ledger accounts). Deletes existing accounts and replaces with the list from Ledger."
             />
           </q-item-section>
+          <q-item-label>
+            <font-awesome-icon
+              v-if="showAccountProgress"
+              icon="sync-alt"
+              spin
+            />
+          </q-item-label>
         </q-item>
         <q-item>
           <q-item-section>
@@ -54,6 +61,13 @@
               label="Sync balances (ledger balance --flat --no-total)."
             />
           </q-item-section>
+          <q-item-label>
+            <font-awesome-icon
+              v-if="showBalanceProgress"
+              icon="sync-alt"
+              spin
+            />
+          </q-item-label>
         </q-item>
       </q-list>
       <q-item>
@@ -64,6 +78,9 @@
             label="Sync asset allocation current values (ledger b ^<root> -X <CUR> --flat --no-total)"
           />
         </q-item-section>
+        <q-item-label>
+          <font-awesome-icon v-if="showAssetProgress" icon="sync-alt" spin />
+        </q-item-label>
       </q-item>
 
       <div class="q-mt-sm" />
@@ -84,10 +101,14 @@
       </q-btn>
     </div>
 
-
     <div class="row q-my-lg">
       <div class="col">
-        <q-btn label="Cache API" color="accent" text-color="secondary" to="cache" />
+        <q-btn
+          label="Cache API"
+          color="accent"
+          text-color="secondary"
+          to="cache"
+        />
       </div>
       <div class="col">
         <q-btn color="accent" text-color="secondary" @click="onShutdownClick">
@@ -103,7 +124,7 @@ import Toolbar from '../components/Toolbar'
 import { SettingKeys, settings, Constants } from '../lib/Configuration'
 import { CashierSync } from '../lib/syncCashier'
 import appService from '../appService'
-import CashierCache from '../lib/CashierCache';
+import CashierCache from '../lib/CashierCache'
 
 export default {
   components: {
@@ -115,6 +136,9 @@ export default {
       syncBalances: true,
       syncAaValues: true,
       serverUrl: 'http://localhost:8080', // the default value
+      showAccountProgress: false,
+      showBalanceProgress: false,
+      showAssetProgress: false,
     }
   },
 
@@ -144,7 +168,10 @@ export default {
       }
     },
     onShutdownClick() {
-      this.$q.notify({ message: 'sending shutdown request', color: 'secondary' })
+      this.$q.notify({
+        message: 'sending shutdown request',
+        color: 'secondary',
+      })
 
       let sync = new CashierSync(this.serverUrl)
       sync.shutdown()
@@ -178,8 +205,8 @@ export default {
       const sync = new CashierSync(this.serverUrl)
 
       // Check if the accounts list is already cached. If not, cache it.
-      const cache = await caches.open(Constants.CacheName);
-      const accounts = await cache.match(sync.accountsUrl);
+      const cache = await caches.open(Constants.CacheName)
+      const accounts = await cache.match(sync.accountsUrl)
       if (!accounts) {
         const cacher = new CashierCache(Constants.CacheName)
         await cacher.cache(sync.accountsUrl)
@@ -191,7 +218,7 @@ export default {
       // delete all accounts only after we have retrieved the new ones.
       await appService.deleteAccounts()
       await appService.importAccounts(ledgerAccounts)
-      
+
       let message = 'accounts '
       if (accounts) {
         message += ' reused from cache'
@@ -216,15 +243,21 @@ export default {
     async onSyncClicked() {
       try {
         if (this.syncAccounts) {
+          this.showAccountProgress = true
           await this.synchronizeAccounts()
+          this.showAccountProgress = false
         }
 
         if (this.syncBalances) {
-          await this.synchronizeBalances()
+          this.showBalanceProgress = true
+          this.synchronizeBalances()
+          this.showBalanceProgress = false
         }
         // Investment account balances in base currency, for Asset Allocation.
         if (this.syncAaValues) {
+          this.showAssetProgress = true
           await this.synchronizeAaValues()
+          this.showAssetProgress = false
         }
       } catch (error) {
         this.$q.notify({ message: error.message, color: 'negative' })
