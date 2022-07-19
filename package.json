@@ -24,7 +24,7 @@
     "file-saver": "2.0.5",
     "js-yaml": "4.1.0",
     "mathjs": "10.6.4",
-    "moment": "2.29.3",
+    "moment": "2.29.4",
     "netlify-cli": "10.10.0",
     "numeral": "2.0.6",
     "pcloud-sdk-js": "2.0.0",
@@ -35,6 +35,7 @@
     "vue-inputmask": "0.2.1",
     "vue-slicksort": "1.2.0",
     "vue-slideout": "1.8.0",
+    "vue-template-compiler": "2.6.14",
     "vue-virtual-scroller": "1.0.10",
     "vuex": "3.6.2"
   },
@@ -50,7 +51,7 @@
     "eslint-plugin-promise": "4.3.1",
     "eslint-plugin-standard": "5.0.0",
     "eslint-plugin-vue": "7.8.0",
-    "ky": "0.31.0",
+    "ky": "0.30.0",
     "pcloud-sdk-js": "2.0.0",
     "workbox-webpack-plugin": "6.5.3"
   },
