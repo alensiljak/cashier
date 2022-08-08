@@ -1,4 +1,6 @@
 /*
+  Probably deprecated now!
+  
     Vue.js initialization file.
     Used from vue-cli.
 */
@@ -8,13 +10,15 @@ import router from './router'
 import store from './stateStore'
 import './registerServiceWorker'
 import './persistentStorage'
+//import FontAwesomeIcon from "@/boot/fontAwesome";
 
 // Font Awesome configuration and import.
 // import './faConfig.js';
 
 // Quasar
 import './quasarConfig'
-import './fontAwesome'
+//import './fontAwesome'
+import FontAwesomeIcon from './boot/fontAwesome'
 
 Vue.config.productionTip = false
 
@@ -23,10 +27,14 @@ Vue.config.productionTip = false
 //   render: h => h(App)
 // });
 
-//Vue.prototype.$version = "v2019.12.27.1"
+//new Vue({
+//   router,
+//   store,
+//   render: h => h(App)
+// }).$mount('#app')
 
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#app')
+createApp(App)
+  .component("FontAwesomeIcon", FontAwesomeIcon)
+  .use(store)
+  .use(router)
+  .mount("#app");

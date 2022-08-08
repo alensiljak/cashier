@@ -290,7 +290,7 @@
         <div style="font-size: 2rem" class="q-pb-none">
           Cashier
           <span style="font-size: 0.75rem">
-            {{ $version }}
+            {{ version }}
           </span>
         </div>
       </div>
@@ -304,6 +304,8 @@ import { TOGGLE_DRAWER } from '../mutations'
 import eventBus from '../lib/eventBus'
 
 export default {
+  inject: ['version'],
+
   data() {
     return {
       // drawerOpen: this.$q.platform.is.desktop

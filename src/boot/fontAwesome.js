@@ -108,3 +108,8 @@ library.add(
 
 // const camera = icon({ prefix: 'fas', iconName: 'camera' })
 // export { camera }
+
+/* import font awesome icon component */
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+export default FontAwesomeIcon;

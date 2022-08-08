@@ -16,7 +16,7 @@
 
         <q-toolbar-title>
           Cashier
-          <span style="font-size: small">({{ $version }})</span>
+          <span style="font-size: small">({{ version }})</span>
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
@@ -58,8 +58,6 @@ import SyncCard from '../components/SyncCard.vue'
 import FavouritesCard from '../components/FavouritesCard'
 import JournalCard from '../components/JournalCard'
 import ScheduledCard from '../components/ScheduledTxCard'
-import { createApp } from 'vue'
-import App from '../App.vue'
 
 export default {
   name: 'PageHome',
@@ -71,19 +69,12 @@ export default {
     JournalCard,
   },
 
+  inject: ['version'],
+
   data() {
     return {
       lorem: 'some text',
     }
-  },
-
-  computed: {
-    version: {
-      get() {
-        const app = createApp(App)
-        return app.config.globalProperties.$version
-      },
-    },
   },
 
   methods: {

@@ -8,8 +8,8 @@
 export default {
   name: 'App',
 
-  // setup() {
-  //   provide('appName', 'vue3')
-  // }
+  provide: {
+    version: 'v2022.08.08'
+  },
 }
 </script>
