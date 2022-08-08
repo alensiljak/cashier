@@ -112,4 +112,7 @@ library.add(
 /* import font awesome icon component */
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-export default FontAwesomeIcon;
+//export default FontAwesomeIcon;
+export default ({ app, router, store }) => {
+  app.component("FontAwesomeIcon", FontAwesomeIcon);
+}

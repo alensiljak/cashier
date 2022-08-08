@@ -1,5 +1,6 @@
 /*
-  Probably deprecated now!
+  deprecated now!
+  See https://quasar.dev/quasar-cli/boot-files#Introduction
   
     Vue.js initialization file.
     Used from vue-cli.
