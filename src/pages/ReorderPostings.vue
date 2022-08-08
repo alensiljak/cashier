@@ -33,6 +33,7 @@
 import AccountsList from '../components/SortableAccountsList'
 import PostingItem from '../components/SortablePostingItem'
 import { CurrentTransactionService } from '../lib/currentTransactionService'
+import eventBus from '../lib/eventBus'
 
 export default {
   components: {
@@ -76,7 +77,7 @@ export default {
       this.$q.notify({ message: 'data saved', color: 'positive'})
     },
     toggleDrawer() {
-        this.$root.$emit('toggle_drawer')
+        eventBus.$emit('toggle-drawer')
     }
   }
 }

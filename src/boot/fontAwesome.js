@@ -102,9 +102,9 @@ library.add(
   faWallet
 )
 
-import Vue from "vue";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-Vue.component("FontAwesomeIcon", FontAwesomeIcon);
+//import * as Vue from "vue";
+//import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+//Vue.component("FontAwesomeIcon", FontAwesomeIcon);
 
 // const camera = icon({ prefix: 'fas', iconName: 'camera' })
 // export { camera }

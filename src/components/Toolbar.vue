@@ -15,12 +15,14 @@
   </q-header>
 </template>
 <script>
+import eventBus from '../lib/eventBus'
+
 export default {
   props: { title: { type: String, default: 'Cashier' } },
 
   methods: {
     toggleDrawer() {
-        this.$root.$emit('toggle_drawer')
+        eventBus.$emit('toggle-drawer')
     },
   },
 }

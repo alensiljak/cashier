@@ -22,17 +22,17 @@ See the [TODO](TODO) file for the historical list of features, technical issues,
 
 # Development
 
-Must use yarn package manager. With the newer versions of node, `corepack enable`.
+With the newer versions of node, use `corepack enable`.
 
-Run the dev server `yarn serve` or `yarn dev` and open the browser on http://localhost:8081
+Run the dev server `npm run serve` or `npm run dev` and open the browser on http://localhost:8081
 
 ## Maintenance
 
-Updating libraries: list outdated with `yarn outdated`.
+Updating libraries: list outdated with `npm outdated`.
 
 ## Building
 
-Build the release version with `yarn build` (this is the equivalent of `yarn run build`).
+Build the release version with `npm run build` (this is the equivalent of `npm run build`).
 
 ## Deployment
 

@@ -152,15 +152,19 @@
 import { TOGGLE_DRAWER, SET_SELECT_MODE } from '../mutations'
 import appService from '../appService.js'
 import { ListSearch } from '../ListSearch.js'
-import Vue from 'vue'
+//import * as Vue from 'vue'
+//import { getCurrentInstance } from 'vue'
 import { RecycleScroller } from 'vue-virtual-scroller'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 
-Vue.component('RecycleScroller', RecycleScroller)
+//Vue.component('RecycleScroller', RecycleScroller)
 
 export default {
+  components: {
+    RecycleScroller
+  },
 
-  data() {
+data() {
     return {
       confirmDeleteAllVisible: false,
       dialogVisible: false,

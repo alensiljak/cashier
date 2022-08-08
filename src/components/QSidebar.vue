@@ -1,7 +1,7 @@
 <template>
   <q-drawer
     v-model="drawerOpen"
-    bordered
+    bordered dark
     content-class="bg-colour1 text-amber-2"
   >
     <q-scroll-area
@@ -300,6 +300,8 @@
 
 <script>
 import { TOGGLE_DRAWER } from '../mutations'
+//import { getCurrentInstance } from 'vue'
+import eventBus from '../lib/eventBus'
 
 export default {
   data() {
@@ -329,7 +331,7 @@ export default {
     this.$store.commit(TOGGLE_DRAWER, this.$q.platform.is.desktop)
 
     // Listen for events from other pages
-    this.$root.$on('toggle_drawer', this.toggleDrawer)
+    eventBus.$on('toggle_drawer', this.toggleDrawer)
   },
 
   methods: {

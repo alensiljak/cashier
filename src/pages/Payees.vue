@@ -30,17 +30,18 @@ import { TOGGLE_DRAWER, SET_SELECT_MODE } from '../mutations'
 import PayeesToolbar from '../components/PayeesToolbar'
 import appService from '../appService'
 //import { ListSearch } from '../ListSearch.js'
-import Vue from 'vue'
+//import * as Vue from 'vue'
 import { RecycleScroller } from 'vue-virtual-scroller'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 import { Constants, settings, SettingKeys } from '../lib/Configuration'
 import { CashierSync } from '../lib/syncCashier'
 
-Vue.component('RecycleScroller', RecycleScroller)
+//Vue.component('RecycleScroller', RecycleScroller)
 
 export default {
   components: {
     PayeesToolbar,
+    RecycleScroller
   },
   data: function () {
     return {

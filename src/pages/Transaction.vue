@@ -96,6 +96,7 @@ import appService from '../appService'
 import TxEditor from '../components/TransactionEditor'
 import { CurrentTransactionService } from '../lib/currentTransactionService'
 import { SettingKeys, settings } from 'src/lib/Configuration'
+import eventBus from '../lib/eventBus'
 
 export default {
   components: {
@@ -184,7 +185,7 @@ export default {
       this.tx = tx
     },
     toggleDrawer() {
-      this.$root.$emit('toggle_drawer')
+        eventBus.$emit('toggle-drawer')
     },
   },
 }

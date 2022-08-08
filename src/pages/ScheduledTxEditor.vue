@@ -32,12 +32,15 @@ import ScheduleEditor from '../components/ScheduleEditor'
 import appService from '../appService'
 import { CurrentTransactionService } from '../lib/currentTransactionService'
 import { ScheduledTransaction, Transaction } from '../model'
+import eventBus from '../lib/eventBus'
 
 export default {
   components: {
     ScheduleEditor,
     TxEditor,
   },
+
+  emits: ['toggleDrawer'],
 
   computed: {
     scheduledTx: {
@@ -145,7 +148,7 @@ export default {
       }
     },
     toggleDrawer() {
-        this.$root.$emit('toggle_drawer')
+        eventBus.$emit('toggle-drawer')
     },
   },
 }

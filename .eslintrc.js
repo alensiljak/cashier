@@ -2,7 +2,8 @@ module.exports = {
   root: true,
 
   parserOptions: {
-    parser: 'babel-eslint',
+    //parser: 'babel-eslint',
+    parser: '@babel/eslint-parser',
     ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
     sourceType: 'module' // Allows for the use of imports
   },
@@ -16,7 +17,7 @@ module.exports = {
     "plugin:vue/base",
     // https://eslint.vuejs.org/rules/#priority-a-essential-error-prevention
     // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules.
-    'plugin:vue/essential',
+    'plugin:vue/vue3-essential',
     //'eslint:recommended',
     //'@vue/standard'
     'plugin:vue/strongly-recommended',

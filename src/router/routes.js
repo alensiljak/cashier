@@ -214,17 +214,21 @@ const routes = [
       }
     ]
   },
+  // {
+  //   // path: '/index.html',
+  //   path: '*',
+  //   redirect: '/'
+  // },
   {
-    // path: '/index.html',
-    path: '*',
-    redirect: '/'
+    path: '/:catchAll(.*)*',
+    component: () => import('pages/Error404.vue')
   }
 ]
 
 // Always leave this as last one
-routes.push({
-  path: '*',
-  component: () => import('pages/Error404.vue')
-})
+// routes.push({
+//   path: '*',
+//   component: () => import('pages/Error404.vue')
+// })
 
 export default routes

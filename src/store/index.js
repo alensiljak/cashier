@@ -4,18 +4,19 @@
     store.dispatch() => invokes action
     store.commit() => invokes mutation
 */
-import Vue from "vue";
-import Vuex from "vuex";
+//import * as Vue from "vue";
+//import Vuex from "vuex";
+import { createStore } from 'vuex'
 
-Vue.use(Vuex);
+//Vue.use(Vuex);
 
 import {
   SET_SELECT_MODE,
   SET_POSTING,
   SET_TRANSACTION,
   TOGGLE_DRAWER,
-  SET_LEDGER_USE
-} from "../mutations";
+  SET_LEDGER_USE,
+} from '../mutations'
 
 /*
  * If not building with SSR mode, you can
@@ -40,55 +41,60 @@ import {
 //   return Store;
 // }
 
-export default new Vuex.Store({
-  // strict: true,
-  state: {
-    // for storing the transactions being edited or anything else, temporarily.
-    clipboard: null,
-    drawerOpen: null,
-    transaction: null, // The transaction being edited.
-    // Select mode: set select mode, open list, select item, save id, return to the caller.
-    selectModeMeta: null,
-    // Use Cashier Sync for providing Ledger data?
-    useLedger: false
-  },
-  // Data transformations
-  mutations: {
-    /**
-     * Set the metadata for the select mode.
-     * @param {*} state
-     * @param {SelectionModeMetadata} metadata
-     */
-    [SET_SELECT_MODE](state, metadata) {
-      state.selectModeMeta = metadata;
+//export default new Vuex.Store({
+export default function (/* { ssrContext } */) {
+  const Store = createStore({
+    // strict: true,
+    strict: process.env.DEBUGGING,
+    state: {
+      // for storing the transactions being edited or anything else, temporarily.
+      clipboard: null,
+      drawerOpen: null,
+      transaction: null, // The transaction being edited.
+      // Select mode: set select mode, open list, select item, save id, return to the caller.
+      selectModeMeta: null,
+      // Use Cashier Sync for providing Ledger data?
+      useLedger: false,
     },
-    [SET_TRANSACTION](state, transaction) {
-      state.transaction = transaction;
+    // Data transformations
+    mutations: {
+      /**
+       * Set the metadata for the select mode.
+       * @param {*} state
+       * @param {SelectionModeMetadata} metadata
+       */
+      [SET_SELECT_MODE](state, metadata) {
+        state.selectModeMeta = metadata
+      },
+      [SET_TRANSACTION](state, transaction) {
+        state.transaction = transaction
+      },
+      [SET_POSTING](state, payload) {
+        let index = payload.index
+        let posting = payload.posting
+        state.transaction.postings[index] = posting
+      },
+      [TOGGLE_DRAWER](state, drawerVisible) {
+        state.drawerOpen = drawerVisible
+      },
+      [SET_LEDGER_USE](state, useLedger) {
+        state.useLedger = useLedger
+      },
+      saveToClipboard(state, payload) {
+        state.clipboard = payload
+      },
     },
-    [SET_POSTING](state, payload) {
-      let index = payload.index
-      let posting = payload.posting
-      state.transaction.postings[index] = posting
-    },
-    [TOGGLE_DRAWER](state, drawerVisible) {
-      state.drawerOpen = drawerVisible;
-    },
-    [SET_LEDGER_USE](state, useLedger) {
-      state.useLedger = useLedger
-    },
-    saveToClipboard(state, payload) {
-      state.clipboard = payload
-    }
-  },
 
-  // Business logic.
-  actions: {
-  },
-  getters: {
-    clipboard: state => state.clipboard,
-    drawerOpen: state => state.drawerOpen,
-    transaction: state => state.transaction,
-    liveModeOn: state => state.useLedger,
-    selectionModeMeta: state => state.selectModeMeta
-  }
-});
+    // Business logic.
+    actions: {},
+    getters: {
+      clipboard: (state) => state.clipboard,
+      drawerOpen: (state) => state.drawerOpen,
+      transaction: (state) => state.transaction,
+      liveModeOn: (state) => state.useLedger,
+      selectionModeMeta: (state) => state.selectModeMeta,
+    },
+  })
+
+  return Store
+}

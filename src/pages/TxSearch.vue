@@ -144,16 +144,18 @@ import { settings, SettingKeys } from 'src/lib/Configuration'
 import { CashierSync } from '../lib/syncCashier'
 import { date } from 'quasar'
 const { subtractFromDate, addToDate } = date
-import { RecycleScroller } from 'vue-virtual-scroller'
+//import { RecycleScroller } from 'vue-virtual-scroller'
 import Toolbar from '../components/Toolbar'
 
-import Vue from 'vue'
-Vue.component('RecycleScroller', RecycleScroller)
+//import * as Vue from 'vue'
+//Vue.component('RecycleScroller', RecycleScroller)
 
 export default {
   components: {
-    Toolbar
+    Toolbar, 
+    //RecycleScroller
   },
+
   data() {
     return {
       freeText: null,
@@ -233,7 +235,7 @@ export default {
       try {
         searchResults = await sync.search(searchParams)
       } catch (error) {
-        console.log(error)
+        //console.log(error)
         this.$q.notify({ message: error.message, color: 'secondary' })
       }
 

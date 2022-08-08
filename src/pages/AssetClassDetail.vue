@@ -36,7 +36,7 @@
 import appService from '../appService'
 import { CashierSync } from '../lib/syncCashier'
 import { SettingKeys, settings } from '../lib/Configuration'
-import Vue from 'vue'
+import * as Vue from 'vue'
 import Toolbar from '../components/Toolbar'
 
 export default {

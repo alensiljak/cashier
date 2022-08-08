@@ -58,6 +58,8 @@ import SyncCard from '../components/SyncCard.vue'
 import FavouritesCard from '../components/FavouritesCard'
 import JournalCard from '../components/JournalCard'
 import ScheduledCard from '../components/ScheduledTxCard'
+import { createApp } from 'vue'
+import App from '../App.vue'
 
 export default {
   name: 'PageHome',
@@ -68,10 +70,20 @@ export default {
     FavouritesCard,
     JournalCard,
   },
+
   data() {
     return {
       lorem: 'some text',
     }
+  },
+
+  computed: {
+    version: {
+      get() {
+        const app = createApp(App)
+        return app.config.globalProperties.$version
+      },
+    },
   },
 
   methods: {
