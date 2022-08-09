@@ -175,6 +175,9 @@ export default {
         // clear Transaction entry
         this.onClear()
 
+        // reset tx in state
+        this.resetTransaction()
+
         this.$router.back()
       } catch (err) {
         console.error(err)
