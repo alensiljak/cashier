@@ -23,12 +23,8 @@
     <p class="q-my-md">Asset Allocation settings</p>
     <div class="row">
       <div class="col">
-        <q-input
-          type="file"
-          class="text-red"
-          dark
-          clearable
-          @input="onAaFileSelected"
+        <q-file v-model="aasettingsfile" label="AA settings file" dark clearable
+                @update:model-value="onAaFileSelected"
         />
       </div>
       <div class="col text-center">
@@ -99,6 +95,7 @@ export default {
   },
   data: function () {
     return {
+      aasettingsfile: null,
       currency: null,
       rootInvestmentAccount: null,
       fileContent: null,
@@ -124,7 +121,8 @@ export default {
      * The Asset Allocation definition selected.
      */
     onAaFileSelected(files) {
-      appService.readFile(files[0], this.onFileRead)
+      if (!files) return;
+      appService.readFile(files, this.onFileRead)
     },
     onAaHelpClick() {
       // navigate to help page
