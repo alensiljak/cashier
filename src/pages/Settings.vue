@@ -23,8 +23,12 @@
     <p class="q-my-md">Asset Allocation settings</p>
     <div class="row">
       <div class="col">
-        <q-file v-model="aasettingsfile" label="AA settings file" dark clearable
-                @update:model-value="onAaFileSelected"
+        <q-file
+          v-model="aasettingsfile"
+          label="AA settings file"
+          dark
+          clearable
+          @update:model-value="onAaFileSelected"
         />
       </div>
       <div class="col text-center">
@@ -53,6 +57,15 @@
       </div>
     </div>
 
+    <!-- <div class="row">
+      <div class="col">
+        <q-input v-model="backupLocation" label="Backup Location" dark />
+      </div>
+      <div class="col">
+        <q-btn label="Select" @click="onSelectBackupLocationClick" />
+      </div>
+    </div> -->
+
     <div class="row q-mt-lg">
       <div class="col text-center q-my-lg">
         <q-btn
@@ -64,7 +77,7 @@
       </div>
     </div>
 
-    <hr>
+    <hr />
 
     <div class="row q-mt-lg">
       <div class="col text-center q-my-lg">
@@ -96,6 +109,7 @@ export default {
   data: function () {
     return {
       aasettingsfile: null,
+      backupLocation: null,
       currency: null,
       rootInvestmentAccount: null,
       fileContent: null,
@@ -121,7 +135,7 @@ export default {
      * The Asset Allocation definition selected.
      */
     onAaFileSelected(files) {
-      if (!files) return;
+      if (!files) return
       appService.readFile(files, this.onFileRead)
     },
     onAaHelpClick() {
@@ -164,6 +178,14 @@ export default {
       )
 
       this.$q.notify({ message: 'Settings saved', color: 'positive' })
+    },
+    async onSelectBackupLocationClick() {
+      let dirHandle = await window.showDirectoryPicker();
+
+      // assuming we have a directory handle: 'currentDirHandle'
+      const subDir = dirHandle.getDirectoryHandle(dirName, {
+        create: true,
+      })
     },
     reloadApp() {
       window.location.reload(true)
