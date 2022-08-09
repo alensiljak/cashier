@@ -28,6 +28,14 @@ With the newer versions of node, you can use `corepack enable`.
 
 Run the dev server `npm run serve` or `npm run dev` and open the browser on http://localhost:8080
 
+## Debugging
+
+To debug with Firefox and VS Code, see 
+
+- install Firefox debugger [extension](https://github.com/firefox-devtools/vscode-firefox-debug) in VS Code
+- create a launch configuration in vscode
+- run `"C:\Program Files\Firefox Developer Edition\firefox.exe" -start-debugger-server`
+
 ## Maintenance
 
 Updating libraries: list outdated with `npm outdated`.

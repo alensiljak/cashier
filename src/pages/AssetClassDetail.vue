@@ -122,7 +122,8 @@ export default {
         let analysis = await this.fetchAnalysis(symbol)
         let stock = this.symbols.find((obj) => obj.name == symbol)
         // Use Vue.set to add a property to a reactive object.
-        Vue.set(stock, 'analysis', analysis)
+        //Vue.set(stock, 'analysis', analysis)
+        stock.analysis = analysis
       }
     },
   },
