@@ -162,12 +162,14 @@ export default {
     },
     async onSaveClicked() {
       try {
-        await appService.saveTransaction(this.tx)
+        let tx = structuredClone(this.tx)
+
+        await appService.saveTransaction(tx)
 
         // Remember Last Transaction?
         const remember = await settings.get(SettingKeys.rememberLastTransaction)
         if (remember) {
-          await appService.saveLastTransaction(this.tx)
+          await appService.saveLastTransaction(tx)
         }
 
         // clear Transaction entry

@@ -221,7 +221,6 @@ class AppService {
 
     const accounts = await this.getInvestmentAccounts()
     await accounts.each(account => {
-      // console.log("each");
       commodities.push(account.currency)
     })
 
@@ -229,7 +228,6 @@ class AppService {
     commodities = [...new Set(commodities)]
     commodities.sort()
 
-    // console.log("exiting");
     return commodities
   }
 
