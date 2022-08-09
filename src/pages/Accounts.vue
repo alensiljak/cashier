@@ -200,7 +200,7 @@ export default {
     itemClicked(id) {
       if (this.pickerMode) {
         // select the item and return to the caller.
-        this.$store.commit(SET_SELECTED_ID, id)
+        this.$store.dispatch('setSelectedId', id)
 
         this.$router.go(-1)
       } else {

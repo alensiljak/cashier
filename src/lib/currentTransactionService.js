@@ -15,12 +15,6 @@ export class CurrentTransactionService {
   }
 
   /**
-   * Retrieve the full transaction.
-   */
-  getTx() {
-    return this.store.getters.transaction
-  }
-  /**
    * Save the transaction into the state store.
    * @param {Transaction} tx
    */

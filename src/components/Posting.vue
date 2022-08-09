@@ -44,12 +44,10 @@
 </template>
 
 <script>
-import appService from '../appService'
 import { SET_POSTING } from '../mutations'
 
 export default {
   props: {
-    // posting: { type: Object, default: null },
     index: { type: Number, default: null },
   },
 
@@ -62,32 +60,38 @@ export default {
   computed: {
     account: {
       get() {
-        return this.$store.state.transaction.postings[this.index].account
+        return this.$store.getters.transaction.postings[this.index].account
       },
       set(value) {
-        let posting = this.$store.state.transaction.postings[this.index]
-        posting.account = value
-        this.$store.commit(SET_POSTING, { index: this.index, posting: posting })
+        let posting = this.$store.getters.transaction.postings[this.index]
+
+        let clone = structuredClone(posting);
+        clone.account = value
+        this.$store.commit(SET_POSTING, { index: this.index, posting: clone })
       },
     },
     amount: {
       get() {
-        return this.$store.state.transaction.postings[this.index].amount
+        return this.$store.getters.transaction.postings[this.index].amount
       },
       set(value) {
-        let posting = this.$store.state.transaction.postings[this.index]
-        posting.amount = value
-        this.$store.commit(SET_POSTING, { index: this.index, posting: posting })
+        let posting = this.$store.getters.transaction.postings[this.index]
+
+        let clone = structuredClone(posting);
+        clone.amount = value
+        this.$store.commit(SET_POSTING, { index: this.index, posting: clone })
       },
     },
     currency: {
       get() {
-        return this.$store.state.transaction.postings[this.index].currency
+        return this.$store.getters.transaction.postings[this.index].currency
       },
       set(value) {
-        let posting = this.$store.state.transaction.postings[this.index]
-        posting.currency = value
-        this.$store.commit(SET_POSTING, { index: this.index, posting: posting })
+        let posting = this.$store.getters.transaction.postings[this.index]
+
+        let clone = structuredClone(posting);
+        clone.currency = value
+        this.$store.commit(SET_POSTING, { index: this.index, posting: clone })
       },
     },
     isMissingCurrency: {

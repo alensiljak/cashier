@@ -124,7 +124,7 @@
 </template>
 <script>
 import appService from '../appService'
-import { SET_SELECT_MODE } from '../mutations'
+import { SET_SELECT_MODE, SET_POSTING } from '../mutations'
 import { CurrentTransactionService } from '../lib/currentTransactionService'
 import {
   SelectionModeMetadata,
@@ -150,13 +150,14 @@ export default {
   computed: {
     tx: {
       get() {
-        let tx = new CurrentTransactionService(this.$store).getTx()
+        let tx = this.$store.getters.transaction
+
         if (tx === null) {
           tx = this.resetTransaction()
         } else {
           // fix postings
           if (!tx.postings) {
-            tx.postings = []
+            this.$store.dispatch('resetPostings')
           }
         }
         return tx
@@ -252,11 +253,16 @@ export default {
             // redirected from account register, find an appropriate posting
             index = this.getEmptyPostingIndex()
           }
-          var posting = this.tx.postings[index]
+          let posting = this.tx.postings[index]
+          let clone = structuredClone(posting)
+
+          //let posting = this.$store.getters.posting(index)
 
           const account = await appService.db.accounts.get(id)
-          posting.account = account.name
-          posting.currency = account.currency
+          clone.account = account.name
+          clone.currency = account.currency
+
+          this.$store.commit(SET_POSTING, { index: index, posting: clone })
           break
       }
 

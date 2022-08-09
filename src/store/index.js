@@ -69,7 +69,9 @@ export default function (/* { ssrContext } */) {
         state.selectModeMeta = metadata
       },
       [SET_SELECTED_ID](state, payload) {
-        state.selectModeMeta.selectedId = payload
+        let clone = structuredClone(state.selectModeMeta)
+        clone.selectedId = payload
+        state.selectModeMeta = clone
       },
       [SET_TRANSACTION](state, transaction) {
         state.transaction = transaction
@@ -77,7 +79,11 @@ export default function (/* { ssrContext } */) {
       [SET_POSTING](state, payload) {
         let index = payload.index
         let posting = payload.posting
-        state.transaction.postings[index] = posting
+
+        let tx = structuredClone(state.transaction)
+        tx.postings[index] = posting
+
+        state.transaction = tx
       },
       [TOGGLE_DRAWER](state, drawerVisible) {
         state.drawerOpen = drawerVisible
@@ -91,11 +97,21 @@ export default function (/* { ssrContext } */) {
     },
 
     // Business logic.
-    actions: {},
+    actions: {
+      resetPostings(commit, state) {
+        let tx = state.getters.transaction
+        tx.postings = []
+        commit(SET_TRANSACTION, tx)
+      },
+      setSelectedId(context, id) {
+        context.commit(SET_SELECTED_ID, id)
+      }
+    },
     getters: {
       clipboard: (state) => state.clipboard,
       drawerOpen: (state) => state.drawerOpen,
       transaction: (state) => state.transaction,
+      //posting: (state, getters) => (index) => state.transaction.postings[index],
       liveModeOn: (state) => state.useLedger,
       selectionModeMeta: (state) => state.selectModeMeta,
     },
