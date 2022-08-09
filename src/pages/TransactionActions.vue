@@ -163,10 +163,10 @@ export default {
     },
     getNumericId() {
       // when navigating back, the id becomes string instead of original numeric
-      if(typeof(this.id) === 'string') {
+      if(typeof this.id === 'string') {
         return Number(this.id)
       }
-      if(typeof(this.id) === 'number') {
+      if(typeof this.id === 'number') {
         return this.id
       }
 

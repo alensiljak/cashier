@@ -68,7 +68,7 @@
         </div>
       </template>
 
-      <journal-transaction :tx="tx" @click="onTxClick" />
+      <journal-transaction :tx="tx" @click="onTxClick(tx.id)" />
     </q-slide-item>
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
@@ -242,6 +242,11 @@ export default {
       this.transactionIdToDelete = data.id
     },
     onTxClick(id) {
+      //console.log('id:', id, 'type:', typeof id)
+      if(typeof id !== 'number') {
+        this.$q.notify({ message: 'The id (' + id + ') is not numeric! Try again.', color: 'negative' })
+      }
+
       this.$router.push({ name: 'tx-actions', params: { id: id } });
     },
     openNewTransaction() {
