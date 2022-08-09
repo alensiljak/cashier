@@ -7,6 +7,28 @@
       @menu-clicked="onMenuClicked"
     />
 
+    <!-- <DynamicScroller 
+      class="scroller"
+      :items="payees"
+      :item-size="42"
+      key-field="id"
+    >
+      <template v-slot="{ item, index, active }">
+        <DynamicScrollerItem
+          :item="item"
+          :active="active"
+          :size-dependencies="[
+            item.message,
+          ]"
+          :data-index="index"
+        >
+          <div class="scroller-item" @click="itemClicked(item)">
+            {{ item }}
+          </div>
+        </DynamicScrollerItem>
+      </template>
+    </DynamicScroller> -->
+
     <RecycleScroller
       v-slot="{ item }"
       class="scroller"
@@ -15,7 +37,9 @@
       key-field="id"
     >
       <div class="scroller-item" @click="itemClicked(item)">
-        {{ item }}
+        <div class="scroller-item-content">
+          {{ item }}
+        </div>
       </div>
     </RecycleScroller>
 
@@ -30,18 +54,15 @@ import { TOGGLE_DRAWER, SET_SELECT_MODE } from '../mutations'
 import PayeesToolbar from '../components/PayeesToolbar'
 import appService from '../appService'
 //import { ListSearch } from '../ListSearch.js'
-//import * as Vue from 'vue'
-import { RecycleScroller } from 'vue-virtual-scroller'
+import { DynamicScroller, DynamicScrollerItem, RecycleScroller } from 'vue-virtual-scroller'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 import { Constants, settings, SettingKeys } from '../lib/Configuration'
 import { CashierSync } from '../lib/syncCashier'
 
-//Vue.component('RecycleScroller', RecycleScroller)
-
 export default {
   components: {
+    RecycleScroller,
     PayeesToolbar,
-    RecycleScroller
   },
   data: function () {
     return {
@@ -118,3 +139,24 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.scroller {
+  height: 100%;
+}
+
+.scroller-item {
+  height: 32%;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+}
+
+.scroller-item-content {
+  flex-grow: 1;
+}
+.scroller-item-action {
+  text-align: right;
+}
+
+</style>

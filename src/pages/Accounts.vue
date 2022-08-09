@@ -158,10 +158,10 @@ import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 
 export default {
   components: {
-    RecycleScroller
+    RecycleScroller,
   },
 
-data() {
+  data() {
     return {
       confirmDeleteAllVisible: false,
       dialogVisible: false,
