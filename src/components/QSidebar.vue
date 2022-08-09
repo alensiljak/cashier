@@ -332,7 +332,7 @@ export default {
     this.$store.commit(TOGGLE_DRAWER, this.$q.platform.is.desktop)
 
     // Listen for events from other pages
-    eventBus.$on('toggle_drawer', this.toggleDrawer)
+    eventBus.$on('toggle-drawer', this.toggleDrawer)
   },
 
   methods: {

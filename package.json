@@ -2,7 +2,7 @@
   "name": "cashier",
   "description": "A mobile companion for Ledger-cli",
   "productName": "Cashier",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "license": "GPL-3.0",
   "author": "Alen Siljak",
   "repository": {
