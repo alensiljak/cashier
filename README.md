@@ -46,10 +46,16 @@ Build the release version with `npm run build`.
 
 ## Deployment
 
+### Test
+
+`npx netlify deploy` deploys to a temporary url for testing.
+
+### Production
+
 Using Netlify to serve HTTPS site, as required by PWA specs. The [base url](https://cashier-pwa.netlify.com/) is on Netlify.
 
 Manual deployment is done using `netlify-cli` package installed in the project.
-Run `yarn run deploy` from the root project directory. This requires netlify.toml. Otherwise, run from dist/pwa directory. To deploy the Prod version, run `netlify deploy --prod`.
+Run `npm run deploy` from the root project directory. This requires netlify.toml. Otherwise, run from dist/pwa directory. To deploy the Prod version, run `npx netlify deploy --prod`.
 
 # Cashier Ecosystem
 

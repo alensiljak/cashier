@@ -124,7 +124,7 @@
 </template>
 <script>
 import appService from '../appService'
-import { SET_SELECT_MODE, SET_POSTING } from '../mutations'
+import { SET_SELECT_MODE, SET_PAYEE, SET_POSTING } from '../mutations'
 import { CurrentTransactionService } from '../lib/currentTransactionService'
 import {
   SelectionModeMetadata,
@@ -241,7 +241,7 @@ export default {
 
       switch (select.selectionType) {
         case 'payee':
-          this.tx.payee = id
+          this.$store.commit(SET_PAYEE, id)
           await this.loadLastTransaction(id)
           break
         case 'account':

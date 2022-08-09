@@ -65,10 +65,12 @@ module.exports = {
     'space-before-function-paren': 'off',
 
     // vue overrides
+    'vue/first-attribute-linebreak': 'off',
     'vue/no-mutating-props': 'off',
     'vue/max-attributes-per-line': 'off',
+    'vue/multi-word-component-names': 'off',
     'vue/singleline-html-element-content-newline': 'off',
-
+    
     // allow debugger during development only
     //'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',

@@ -13,6 +13,7 @@ import { createStore } from 'vuex'
 import {
   SET_SELECT_MODE,
   SET_SELECTED_ID,
+  SET_PAYEE,
   SET_POSTING,
   SET_TRANSACTION,
   TOGGLE_DRAWER,
@@ -75,6 +76,11 @@ export default function (/* { ssrContext } */) {
       },
       [SET_TRANSACTION](state, transaction) {
         state.transaction = transaction
+      },
+      [SET_PAYEE](state, payload) {
+        let tx = structuredClone(state.transaction)
+        tx.payee = payload
+        state.transaction = tx
       },
       [SET_POSTING](state, payload) {
         let index = payload.index
