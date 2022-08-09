@@ -152,12 +152,9 @@
 import { TOGGLE_DRAWER, SET_SELECT_MODE } from '../mutations'
 import appService from '../appService.js'
 import { ListSearch } from '../ListSearch.js'
-//import * as Vue from 'vue'
 //import { getCurrentInstance } from 'vue'
 import { RecycleScroller } from 'vue-virtual-scroller'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
-
-//Vue.component('RecycleScroller', RecycleScroller)
 
 export default {
   components: {
@@ -191,7 +188,8 @@ data() {
     this.loadData()
 
     // picker mode
-    this.pickerMode = !!this.$store.state.selectModeMeta
+    let meta = this.$store.getters.selectionModeMeta
+    this.pickerMode = !!meta
   },
 
   methods: {
@@ -202,8 +200,7 @@ data() {
     itemClicked(id) {
       if (this.pickerMode) {
         // select the item and return to the caller.
-        let meta = this.$store.state.selectModeMeta
-
+        let meta = this.$store.getters.selectionModeMeta
         meta.selectedId = id
         this.$store.commit(SET_SELECT_MODE, meta)
 

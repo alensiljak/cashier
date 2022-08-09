@@ -235,7 +235,7 @@ export default {
      */
     async handleSelection() {
       // todo handle blank id if the user presses 'back'.
-      const select = this.$store.state.selectModeMeta
+      const select = this.$store.getters.selectionModeMeta
       const id = select.selectedId
 
       switch (select.selectionType) {

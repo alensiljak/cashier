@@ -59,7 +59,8 @@ export default {
   methods: {
     itemClicked(id) {
       // select the item and return to the caller.
-      let meta = this.$store.state.selectModeMeta
+      let meta = this.$store.getters.selectionModeMeta
+
       if (!meta || meta.selectionType !== 'payee') {
         throw('Invalid selection mode!')
       }

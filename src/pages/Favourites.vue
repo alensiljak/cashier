@@ -134,7 +134,8 @@ export default {
   },
 
   created() {
-    if (this.$store.state.selectModeMeta) this.handleSelection()
+    let meta = this.$store.getters.selectionModeMeta
+    if (meta) this.handleSelection()
 
     // load favourite accounts
     this.loadData()
@@ -230,7 +231,7 @@ export default {
      * Handle selecting accounts
      */
     handleSelection() {
-      let select = this.$store.state.selectModeMeta
+      let select = this.$store.getters.selectionModeMeta
       let id = select.selectedId
 
       // for now we only have accounts
