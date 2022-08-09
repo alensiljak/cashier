@@ -23,8 +23,8 @@
     </ul>
     <p>
       The source code is available in a
-      <a href="https://gitlab.com/alensiljak/cashier">source code repository</a>
-      on GitLab. This is also the preferred way to submit feature and bugs.
+      <a href="https://github.com/MisterY/cashier">source code repository</a>
+      on GitHub. This is also the preferred way to submit feature and bugs.
     </p>
 
     <h4 class="q-my-sm text-center">Credits</h4>

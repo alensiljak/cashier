@@ -251,7 +251,6 @@
             - Export in ledger format
         - PWA
             - on Netlify
-            - on GitLab
             - manifest
             - https
             - service worker

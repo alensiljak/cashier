@@ -7,7 +7,7 @@
   "author": "Alen Siljak",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/alensiljak/cashier"
+    "url": "https://github.com/MisterY/cashier"
   },
   "scripts": {
     "dev": "quasar dev --mode pwa",
@@ -43,7 +43,7 @@
   "devDependencies": {
     "@babel/eslint-parser": "7.18.9",
     "@quasar/app": "3.3.3",
-    "@quasar/extras": "1.14.3",
+    "@quasar/extras": "1.15.1",
     "eslint": "7.14.0",
     "eslint-config-standard": "16.0.0",
     "eslint-loader": "4.0.2",
@@ -54,15 +54,15 @@
     "eslint-plugin-standard": "5.0.0",
     "eslint-plugin-vue": "7.0.0",
     "eslint-webpack-plugin": "2.4.0",
-    "ky": "0.30.0",
+    "ky": "0.31.1",
     "pcloud-sdk-js": "2.0.0",
     "url": "0.11.0",
-    "workbox-webpack-plugin": "6.5.3"
+    "workbox-webpack-plugin": "6.5.4"
   },
   "bugs": {
-    "url": "https://gitlab.com/alensiljak/cashier/issues"
+    "url": "https://github.com/MisterY/cashier/issues"
   },
-  "homepage": "https://alensiljak.gitlab.io/cashier/",
+  "homepage": "https://github.com/MisterY/cashier",
   "engines": {
     "node": ">= 10.18.1",
     "npm": ">= 6.13.4",
