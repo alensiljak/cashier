@@ -74,15 +74,29 @@ export default {
   },
 
   created() {
+    //this.loadData()
+  },
+
+  mounted() {
     this.loadData()
   },
 
+  loaded() {
+
+  },
+
   methods: {
+    /**
+     * Currently we only use click for selecting a Payee in a Transaction.
+     * In standalone page, ignore the event.
+     */
     itemClicked(id) {
       // select the item and return to the caller.
       let meta = this.$store.getters.selectionModeMeta
 
-      if (!meta || meta.selectionType !== 'payee') {
+      if (!meta) return
+
+      if (meta.selectionType !== 'payee') {
         throw('Invalid selection mode!')
       }
 

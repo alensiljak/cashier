@@ -192,6 +192,10 @@ export default {
     this.pickerMode = !!meta
   },
 
+  mounted() {
+
+  },
+
   methods: {
     async confirmDeleteAll() {
       await appService.deleteAccounts()
