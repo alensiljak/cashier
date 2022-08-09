@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { TOGGLE_DRAWER, SET_SELECT_MODE } from '../mutations'
+import { TOGGLE_DRAWER, SET_SELECT_MODE, SET_SELECTED_ID } from '../mutations'
 import PayeesToolbar from '../components/PayeesToolbar'
 import appService from '../appService'
 //import { ListSearch } from '../ListSearch.js'
@@ -86,8 +86,7 @@ export default {
         throw('Invalid selection mode!')
       }
 
-      meta.selectedId = id
-      this.$store.commit(SET_SELECT_MODE, meta)
+      this.$store.commit(SET_SELECTED_ID, id)
 
       // Simply go back, assuming that the previous page is requesting the data.
       this.$router.go(-1)

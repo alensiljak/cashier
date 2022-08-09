@@ -22,7 +22,6 @@ export class SelectionModeMetadata {
 
 export const Constants = {
   CacheName: 'cashier'
-
 }
 
 export const SettingKeys = {

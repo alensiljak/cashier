@@ -149,7 +149,7 @@
 </template>
 
 <script>
-import { TOGGLE_DRAWER, SET_SELECT_MODE } from '../mutations'
+import { TOGGLE_DRAWER, SET_SELECT_MODE, SET_SELECTED_ID } from '../mutations'
 import appService from '../appService.js'
 import { ListSearch } from '../ListSearch.js'
 //import { getCurrentInstance } from 'vue'
@@ -200,9 +200,7 @@ export default {
     itemClicked(id) {
       if (this.pickerMode) {
         // select the item and return to the caller.
-        let meta = this.$store.getters.selectionModeMeta
-        meta.selectedId = id
-        this.$store.commit(SET_SELECT_MODE, meta)
+        this.$store.commit(SET_SELECTED_ID, id)
 
         this.$router.go(-1)
       } else {

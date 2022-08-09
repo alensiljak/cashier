@@ -12,6 +12,7 @@ import { createStore } from 'vuex'
 
 import {
   SET_SELECT_MODE,
+  SET_SELECTED_ID,
   SET_POSTING,
   SET_TRANSACTION,
   TOGGLE_DRAWER,
@@ -52,6 +53,7 @@ export default function (/* { ssrContext } */) {
       drawerOpen: null,
       transaction: null, // The transaction being edited.
       // Select mode: set select mode, open list, select item, save id, return to the caller.
+      // SelectionModeMetadata class.
       selectModeMeta: null,
       // Use Cashier Sync for providing Ledger data?
       useLedger: false,
@@ -65,6 +67,9 @@ export default function (/* { ssrContext } */) {
        */
       [SET_SELECT_MODE](state, metadata) {
         state.selectModeMeta = metadata
+      },
+      [SET_SELECTED_ID](state, payload) {
+        state.selectModeMeta.selectedId = payload
       },
       [SET_TRANSACTION](state, transaction) {
         state.transaction = transaction
