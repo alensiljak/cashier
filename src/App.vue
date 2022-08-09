@@ -3,8 +3,6 @@
 </template>
 
 <script>
-//import { provide } from 'vue';
-
 export default {
   name: 'App',
 

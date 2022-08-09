@@ -11,7 +11,7 @@
         border-right: 1px solid #ddd;
       "
     >
-      <q-list padding>
+      <q-list padding class="text-colour2">
         <!-- <q-item-label header>Navigation</q-item-label> -->
 
         <q-item v-ripple to="/home" exact clickable active-class="active-link">
@@ -300,7 +300,6 @@
 
 <script>
 import { TOGGLE_DRAWER } from '../mutations'
-//import { getCurrentInstance } from 'vue'
 import eventBus from '../lib/eventBus'
 
 export default {
