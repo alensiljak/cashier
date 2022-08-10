@@ -26,7 +26,7 @@
               </q-item-section>
             </q-item>
             <q-item clickable>
-              <q-item-section @click="$emit('restore-clicked')">
+              <q-item-section @click="$emit('restoreClicked')">
                 Restore
               </q-item-section>
               <q-item-section side>
@@ -37,7 +37,7 @@
               </q-item-section>
             </q-item>
             <q-item clickable>
-              <q-item-section @click="$emit('backup-clicked')">
+              <q-item-section @click="$emit('backupClicked')">
                 Backup
               </q-item-section>
               <q-item-section side>
@@ -49,7 +49,7 @@
             </q-item>
             <!-- Calendar -->
             <q-item clickable>
-              <q-item-section @click="$emit('calendar-clicked')">
+              <q-item-section @click="$emit('calendarClicked')">
                 Calendar
               </q-item-section>
               <q-item-section side>
@@ -76,7 +76,7 @@
         color="accent"
         style="width: 23rem"
         debounce="400"
-        @input="$emit('filter-changed', filter)"
+        @update:model-value="$emit('filterChanged', filter)"
       >
         <template #append>
           <font-awesome-icon v-if="filter === ''" icon="search" />
@@ -98,6 +98,9 @@ export default {
   props: {
     title: { type: String, default: '' },
   },
+
+  emits: ['filterChanged'],
+
   data() {
     return {
       searchVisible: false,
@@ -111,7 +114,7 @@ export default {
     },
     onResetFilterClicked() {
       this.filter = null
-      this.$emit('filter-changed', this.filter)
+      this.$emit('filterChanged', this.filter)
     }
   },
 }
