@@ -176,11 +176,6 @@ export default {
     }
   },
   mounted: function () {
-    // Set the focus on Payee field.
-    // document.getElementById("payee").focus() => this.$refs.payee
-    // this.$refs.date
-    // this.date = new Date().toISOString().substring(0, 10);
-
     this.recalculateSum()
   },
 

@@ -73,6 +73,8 @@
 
 <script>
 export default {
+  inject: ['scheduledTx'],
+
   data() {
     return {
       periods: [],
@@ -81,36 +83,27 @@ export default {
         { label: 'Never', value: false },
         { label: 'Every ...', value: true },
       ],
-      //repetition: false,
       endOptions: [
         { label: 'Never', value: false },
         { label: 'On', value: true },
       ],
-      // endOn: false,
     }
   },
 
   computed: {
-    scheduledTx: {
-      get() {
-        let result = this.$store.getters.clipboard
-        // if (!result) {
-        //   result = new ScheduledTransaction()
-        // }
-        return result
-      },
-      set(value) {
-        this.$store.commit('saveToClipboard', value)
-      },
-    },
+    // scheduledTx: {
+    //   get() {
+    //     return this.$store.getters.clipboard
+    //   },
+    //   set(value) {
+    //     this.$store.commit('saveToClipboard', value)
+    //   },
+    // },
     repetition: {
       get() {
-        // return this.scheduledTx.repetition
         return this.scheduledTx.count != null || this.scheduledTx.period != null
       },
       set(value) {
-        //this.$set(this.scheduledTx, 'repetition', value)
-        //this.scheduledTx.repetition = value
         if (value) {
           this.scheduledTx.period = 'days'
         } else {
@@ -121,12 +114,9 @@ export default {
     },
     endOn: {
       get() {
-        // return this.scheduledTx.endOn
         return this.scheduledTx.endDate != null
       },
       set(value) {
-        //this.$set(this.scheduledTx, 'endOn', value)
-        //this.scheduledTx.endOn = value
         if (value) {
           this.scheduledTx.endDate = ''
         } else {

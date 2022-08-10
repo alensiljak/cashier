@@ -54,8 +54,9 @@ export default {
   methods: {
     load() {
       // load the postings
-      const svc = new CurrentTransactionService(this.$store)
-      let tx = svc.getTx()
+      //const svc = new CurrentTransactionService(this.$store)
+      //let tx = svc.getTx()
+      let tx = this.$store.getters.transaction
       if (!tx) {
         tx = svc.createTransaction()
       }
@@ -67,8 +68,9 @@ export default {
     },
     save() {
       // save the postings into the local store
-      const svc = new CurrentTransactionService(this.$store)
-      let tx = svc.getTx()
+      //const svc = new CurrentTransactionService(this.$store)
+      //let tx = svc.getTx()
+      let tx = this.$store.getters.transaction
       if (!tx) {
           tx = svc.createTransaction()
       }
