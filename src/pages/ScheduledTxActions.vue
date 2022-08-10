@@ -151,11 +151,13 @@
     </div>
   </q-page>
 </template>
+<script setup>
+
+</script>
 <script>
 import Toolbar from '../components/Toolbar'
 import JournalTransaction from '../components/JournalTransaction'
 import appService from '../appService'
-import moment from 'moment'
 import { Iterator } from '../lib/scheduledTransactions'
 
 export default {
@@ -214,8 +216,8 @@ export default {
      */
     async enterTransaction() {
       // Create the journal transaction.
-      const tx = this.tx
-      // delete the id field, if any, to get a new one on save.
+      let tx = this.tx
+      // clear the id field, if any, to get a new one on save.
       tx.id = null
       const id = await appService.saveTransaction(tx)
 
@@ -271,17 +273,18 @@ export default {
       // Saves the Stx record
 
       // serialize transaction
-      const tx = this.tx
+      let tx = this.tx
       // do not store any transaction ids!
       tx.id = null
       this.tx = tx
 
-      const stx = this.scheduledTx
+      let stx = this.scheduledTx
 
       // reuse transaction date. For indexing only.
       stx.nextDate = tx.date
 
-      const result = await appService.saveScheduledTransaction(stx)
+      let clone = structuredClone(stx)
+      const result = await appService.saveScheduledTransaction(clone)
       // console.log('saved', result)
       return result
     },

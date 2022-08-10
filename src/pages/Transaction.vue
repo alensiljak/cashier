@@ -143,9 +143,11 @@ export default {
      */
     async loadData() {
       // Transaction
-      const id = this.$route.params.id
+      let id = this.$route.params.id
       // Ignore string ids. This is coming from the route when 'back' clicked.
-      if (typeof id === 'string') return
+      if (typeof id === 'string') {
+        id = parseInt(id)
+      }
 
       if (id) {
         await this.loadTransaction(id)

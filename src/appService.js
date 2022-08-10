@@ -477,7 +477,9 @@ class AppService {
       // console.log('new id generated:', this.scheduledTx.id)
     }
 
-    const result = await this.db.scheduled.put(stx)
+    let result = await this.db.scheduled.put(stx)
+    //console.debug('saving schtx:', result)
+
     return result
   }
 
