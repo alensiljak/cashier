@@ -15,7 +15,7 @@
       <q-space />
 
       <q-btn flat round dense icon="more_vert">
-        <q-menu>
+        <q-menu auto-close>
           <q-list dark style="min-width: 175px" class="bg-colour1">
             <q-item clickable>
               <q-item-section @click="searchVisible = true">
