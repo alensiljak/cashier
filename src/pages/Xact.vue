@@ -76,15 +76,15 @@ view<template>
 </template>
 
 <script>
-import Toolbar from '../components/Toolbar'
-import { settings, SettingKeys } from 'src/lib/Configuration'
-import { CashierSync } from '../lib/syncCashier'
-import { XactParser } from '../lib/XactParser'
-import { CurrentTransactionService } from '../lib/currentTransactionService'
+import Toolbar from "../components/CashierToolbar.vue";
+import { settings, SettingKeys } from "src/lib/Configuration";
+import { CashierSync } from "../lib/syncCashier";
+import { XactParser } from "../lib/XactParser";
+import { CurrentTransactionService } from "../lib/currentTransactionService";
 
 export default {
   components: {
-    Toolbar
+    Toolbar,
   },
   data() {
     return {
@@ -93,67 +93,67 @@ export default {
       datePickerVisible: false,
       freeText: null,
       results: null,
-    }
+    };
   },
 
   mounted() {
     // load any parameters
-    this.readParameters()
+    this.readParameters();
   },
 
   methods: {
     getSearchParameters() {
-      let searchParams = {}
+      let searchParams = {};
       if (this.date) {
-        searchParams.date = this.date
+        searchParams.date = this.date;
       }
       if (this.payee) {
-        searchParams.payee = this.payee
+        searchParams.payee = this.payee;
       }
       if (this.freeText) {
-        searchParams.freeText = this.freeText
+        searchParams.freeText = this.freeText;
       }
-      return searchParams
+      return searchParams;
     },
     async handleEnter(e) {
       //
       //console.log(e)
       if (e.keyCode === 13) {
         // handle Enter
-        await this.run()
+        await this.run();
       }
     },
     onDateSelected(value, reason) {
       // console.log(value, reason)
-      if (reason !== 'day' && reason !== 'today') return
+      if (reason !== "day" && reason !== "today") return;
       // close the picker if the date was selected
-      this.$refs.qDateProxy.hide()
+      this.$refs.qDateProxy.hide();
       // the date is saved on close.
     },
     async run() {
       // run xact
 
-      const searchParams = this.getSearchParameters()
+      const searchParams = this.getSearchParameters();
 
       try {
-        const serverUrl = await settings.get(SettingKeys.syncServerUrl)
-        if (!serverUrl) throw 'Sync Server URL is not set!'
+        const serverUrl = await settings.get(SettingKeys.syncServerUrl);
+        if (!serverUrl) throw "Sync Server URL is not set!";
 
-        const sync = new CashierSync(serverUrl)
+        const sync = new CashierSync(serverUrl);
 
-        let result = await sync.xact(searchParams)
+        let result = await sync.xact(searchParams);
 
-        result = JSON.parse(result)
-        this.results = result
+        result = JSON.parse(result);
+        this.results = result;
       } catch (error) {
-        this.$q.notify({ message: error, color: 'secondary' })
+        this.$q.notify({ message: error, color: "secondary" });
       }
     },
     async readParameters() {
-      const payee = this.$route.params.payee
+      const payee = this.$route.params.payee;
       if (payee) {
-        this.payee = payee
-        await this.run()
+        this.payee = payee;
+        await this.run();
       }
     },
     /**
@@ -161,16 +161,16 @@ export default {
      */
     async useResult() {
       // parse the Xact results
-      const parser = new XactParser()
-      const tx = parser.parse(this.results)
+      const parser = new XactParser();
+      const tx = parser.parse(this.results);
 
       // save transaction to state only
-      const txSvc = new CurrentTransactionService(this.$store)
-      txSvc.setTx(tx)
+      const txSvc = new CurrentTransactionService(this.$store);
+      txSvc.setTx(tx);
 
       // open for editing?
-      this.$router.push({ name: 'tx' })
+      this.$router.push({ name: "tx" });
     },
   },
-}
+};
 </script>

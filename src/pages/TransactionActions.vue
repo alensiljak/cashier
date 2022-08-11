@@ -120,10 +120,10 @@
   </q-page>
 </template>
 <script>
-import Toolbar from '../components/Toolbar'
-import JournalTransaction from '../components/JournalTransaction'
-import appService from '../appService'
-import { CurrentTransactionService } from '../lib/currentTransactionService'
+import Toolbar from "../components/CashierToolbar.vue";
+import JournalTransaction from "../components/JournalTransaction.vue";
+import appService from "../appService";
+import { CurrentTransactionService } from "../lib/currentTransactionService";
 
 export default {
   components: {
@@ -137,91 +137,91 @@ export default {
     return {
       tx: {},
       confirmDeleteVisible: false,
-    }
+    };
   },
   async created() {
-    await this.load()
+    await this.load();
   },
   methods: {
     /**
      * The user confirmed the deletion.
      */
     async confirmDelete() {
-      await this.deleteTransaction()
+      await this.deleteTransaction();
 
-      this.$router.back()
+      this.$router.back();
     },
     async deleteTransaction() {
-      const id = this.getNumericId()
+      const id = this.getNumericId();
 
       try {
-        await appService.deleteTransaction(id)
-        this.$q.notify({ message: 'Transaction deleted', color: 'positive' })
+        await appService.deleteTransaction(id);
+        this.$q.notify({ message: "Transaction deleted", color: "positive" });
       } catch (reason) {
-        this.$q.notify({ message: reason.message, color: 'negative' })
+        this.$q.notify({ message: reason.message, color: "negative" });
       }
     },
     getNumericId() {
       // when navigating back, the id becomes string instead of original numeric
-      if(typeof this.id === 'string') {
-        return Number(this.id)
+      if (typeof this.id === "string") {
+        return Number(this.id);
       }
-      if(typeof this.id === 'number') {
-        return this.id
+      if (typeof this.id === "number") {
+        return this.id;
       }
 
-      throw new Error('Invalid Id value')
+      throw new Error("Invalid Id value");
     },
     async load() {
-      const id = this.getNumericId()
-      const tx = await appService.loadTransaction(id)
-      this.tx = tx
+      const id = this.getNumericId();
+      const tx = await appService.loadTransaction(id);
+      this.tx = tx;
     },
     async onCopyClicked() {
       // get a journal version
-      const text = await appService.translateToLedger(this.tx)
+      const text = await appService.translateToLedger(this.tx);
 
       // copy to clipboard
-      await navigator.clipboard.writeText(text)
+      await navigator.clipboard.writeText(text);
       this.$q.notify({
-        message: 'transaction copied to clipboard',
-        color: 'positive',
-      })
+        message: "transaction copied to clipboard",
+        color: "positive",
+      });
     },
     onDeleteClick() {
       // show the confirmation dialog.
-      this.confirmDeleteVisible = true
+      this.confirmDeleteVisible = true;
     },
     async onDuplicateClicked() {
       // create the transaction
-      const newTx = await appService.duplicateTransaction(this.tx)
+      const newTx = await appService.duplicateTransaction(this.tx);
       // save
-      const id = await appService.saveTransaction(newTx)
+      const id = await appService.saveTransaction(newTx);
 
       // display a notification after or ask before the action.
-      this.$q.notify({ color: 'positive', message: 'Transaction duplicated' })
+      this.$q.notify({ color: "positive", message: "Transaction duplicated" });
 
       // navigate to the editor for the new transaction,
       // resetting the navigation?
-      this.$router.push({ name: 'tx', params: { id: id } })
+      this.$router.push({ name: "tx", params: { id: id } });
     },
     onEditClicked() {
-      const id = this.getNumericId()
-      this.$router.push({ name: 'tx', params: { id: id } })
+      const id = this.getNumericId();
+      this.$router.push({ name: "tx", params: { id: id } });
     },
     onScheduleClick() {
       // the journal transaction stays in the store and is available in the sch.tx editor.
       // id 0 will cause it to reset the scheduled transaction.
       // Save the tx to the store first.
-      new CurrentTransactionService(this.$store).setTx(this.tx)
+      new CurrentTransactionService(this.$store).setTx(this.tx);
 
-      this.$router.push({ name: 'scheduledtxeditor', params: { id: 0 } })
+      this.$router.push({ name: "scheduledtxeditor", params: { id: 0 } });
     },
     onXactClicked() {
-      this.$router.push({ name: 'xact', params: { payee: this.tx.payee } })
+      this.$router.push({ name: "xact", params: { payee: this.tx.payee } });
     },
   },
-}
+};
 </script>
 <style lang="sass" scoped>
 .large-button

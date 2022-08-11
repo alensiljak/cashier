@@ -30,10 +30,10 @@
   </q-page>
 </template>
 <script>
-import AccountsList from '../components/SortableAccountsList'
-import PostingItem from '../components/SortablePostingItem'
-import { CurrentTransactionService } from '../lib/currentTransactionService'
-import eventBus from '../lib/eventBus'
+import AccountsList from "../components/SortableAccountsList.vue";
+import PostingItem from "../components/SortablePostingItem.vue";
+//import { CurrentTransactionService } from '../lib/currentTransactionService'
+import eventBus from "../lib/eventBus";
 
 export default {
   components: {
@@ -43,12 +43,12 @@ export default {
 
   data() {
     return {
-      postings: []
-    }
+      postings: [],
+    };
   },
 
   created() {
-    this.load()
+    this.load();
   },
 
   methods: {
@@ -56,31 +56,31 @@ export default {
       // load the postings
       //const svc = new CurrentTransactionService(this.$store)
       //let tx = svc.getTx()
-      let tx = this.$store.getters.transaction
+      let tx = this.$store.getters.transaction;
       if (!tx) {
-        tx = svc.createTransaction()
+        tx = svc.createTransaction();
       }
-      this.postings = tx.postings
+      this.postings = tx.postings;
     },
     onSaveClicked() {
-        this.save()
-        this.$router.back()
+      this.save();
+      this.$router.back();
     },
     save() {
       // save the postings into the local store
       //const svc = new CurrentTransactionService(this.$store)
       //let tx = svc.getTx()
-      let tx = this.$store.getters.transaction
+      let tx = this.$store.getters.transaction;
       if (!tx) {
-          tx = svc.createTransaction()
+        tx = svc.createTransaction();
       }
-      tx.postings = this.postings
+      tx.postings = this.postings;
 
-      this.$q.notify({ message: 'data saved', color: 'positive'})
+      this.$q.notify({ message: "data saved", color: "positive" });
     },
     toggleDrawer() {
-        eventBus.$emit('toggle-drawer')
-    }
-  }
-}
+      eventBus.$emit("toggle-drawer");
+    },
+  },
+};
 </script>

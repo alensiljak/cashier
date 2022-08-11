@@ -4,13 +4,19 @@
 
     <ul>
       <li>
-        For account balances, export the balance sheet with
-        "ledger balance --flat --no-total".
+        For account balances, export the balance sheet with "ledger balance
+        --flat --no-total".
       </li>
       <li>Export commodities with "ledger commodities"</li>
     </ul>
     <p>Import the text file</p>
-    <q-input class="text-red" dark clearable type="file" @input="onFileSelected" />
+    <q-input
+      class="text-red"
+      dark
+      clearable
+      type="file"
+      @input="onFileSelected"
+    />
     <!-- v-on:dragover="onFileHover"
     v-on:change="onFileSelected"-->
     <p class="q-mt-sm">or paste into the box below</p>
@@ -21,8 +27,11 @@
 
     <div class="row text-center q-mt-sm">
       <div class="col text-center">
-        <q-btn :disable="clicked" color="secondary" text-color="accent"
-               @click="onImportBalanceClick"
+        <q-btn
+          :disable="clicked"
+          color="secondary"
+          text-color="accent"
+          @click="onImportBalanceClick"
         >
           <font-awesome-icon icon="wallet" class="q-icon on-left" />
           <div>Accounts</div>
@@ -41,8 +50,11 @@
 
     <div class="row q-mt-md">
       <div class="col text-center">
-        <q-btn color="secondary" text-color="accent" :disable="clicked"
-               @click="importCommoditiesClick"
+        <q-btn
+          color="secondary"
+          text-color="accent"
+          :disable="clicked"
+          @click="importCommoditiesClick"
         >
           <font-awesome-icon icon="boxes" class="q-icon on-left" />
           <div>Commodities</div>
@@ -53,37 +65,36 @@
 </template>
 
 <script>
-import Toolbar from '../components/Toolbar'
+import Toolbar from "../components/CashierToolbar.vue";
 import appService from "../appService";
 
 export default {
   components: {
-    Toolbar
+    Toolbar,
   },
   data() {
     return {
       content: null,
-      clicked: false // indicates if a button was pressed
+      clicked: false, // indicates if a button was pressed
     };
   },
 
-  created() {
-  },
+  created() {},
 
   methods: {
     importCommoditiesClick() {
-      this.clicked = true
+      this.clicked = true;
 
       appService.importCommodities(this.content).then(() => {
-        this.$router.push({ name: 'commodities' })
-      })
+        this.$router.push({ name: "commodities" });
+      });
     },
     onImportBalanceClick() {
-      this.clicked = true
+      this.clicked = true;
 
       appService.importBalanceSheet(this.content).then(() => {
         // this.$q.notify({ color: "teal-9", message: "Accounts imported" });
-        this.$router.push({ name: 'accounts' })
+        this.$router.push({ name: "accounts" });
       });
     },
     onFileSelected(files) {
@@ -98,7 +109,7 @@ export default {
       //   console.log(fileInfo);
       var reader = new FileReader();
 
-      reader.onload = event => {
+      reader.onload = (event) => {
         // File was successfully read.
         var content = event.target.result;
 
@@ -109,7 +120,7 @@ export default {
       };
 
       reader.readAsText(fileInfo);
-    }
-  }
+    },
+  },
 };
 </script>

@@ -125,13 +125,19 @@
             {{ tx.header.date }} {{ tx.header.payee }}
           </q-item-label> -->
           <q-item-label>
-            <span class="q-mr-sm">{{ tx.header.date }}</span> {{ tx.header.payee }}
+            <span class="q-mr-sm">{{ tx.header.date }}</span>
+            {{ tx.header.payee }}
           </q-item-label>
-          <q-item-label v-for="(posting, index) in tx.postings" :key="index" caption
-                        class="q-ml-md"
+          <q-item-label
+            v-for="(posting, index) in tx.postings"
+            :key="index"
+            caption
+            class="q-ml-md"
           >
             {{ posting.account }}
-            <span style="float: right;">{{ posting.amount }} {{ posting.currency }}</span>
+            <span style="float: right"
+              >{{ posting.amount }} {{ posting.currency }}</span
+            >
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -140,19 +146,19 @@
 </template>
 
 <script>
-import { settings, SettingKeys } from 'src/lib/Configuration'
-import { CashierSync } from '../lib/syncCashier'
-import { date } from 'quasar'
-const { subtractFromDate, addToDate } = date
+import { settings, SettingKeys } from "src/lib/Configuration";
+import { CashierSync } from "../lib/syncCashier";
+import { date } from "quasar";
+const { subtractFromDate, addToDate } = date;
 //import { RecycleScroller } from 'vue-virtual-scroller'
-import Toolbar from '../components/Toolbar'
+import Toolbar from "../components/CashierToolbar.vue";
 
 //import * as Vue from 'vue'
 //Vue.component('RecycleScroller', RecycleScroller)
 
 export default {
   components: {
-    Toolbar, 
+    Toolbar,
     //RecycleScroller
   },
 
@@ -160,15 +166,15 @@ export default {
     return {
       freeText: null,
       datePeriods: [
-        'Today',
-        'Last Week',
-        'Last Month',
-        'Last Quarter',
-        'Last 6 Months',
-        'Last Year',
-        'All',
+        "Today",
+        "Last Week",
+        "Last Month",
+        "Last Quarter",
+        "Last 6 Months",
+        "Last Year",
+        "All",
       ],
-      datePeriod: 'Last Week',
+      datePeriod: "Last Week",
       datePickerVisible: false,
       dateToPickerVisible: false,
       dateFrom: null,
@@ -176,36 +182,35 @@ export default {
       sameDate: true,
       payee: null,
       results: [],
-    }
+    };
   },
 
-  created() {
-  },
+  created() {},
   mounted() {
     // the defaults
-    this.selectDatePeriod('Last Week')
+    this.selectDatePeriod("Last Week");
   },
 
   methods: {
     handleEnter(e) {
       if (e.keyCode === 13) {
         // handle Enter
-        this.search()
+        this.search();
       }
     },
     onDatePeriodChanged(period) {
-      this.selectDatePeriod(period)
+      this.selectDatePeriod(period);
     },
     onDateSelected(value, reason) {
       // console.log(value, reason)
-      if (reason !== 'day' && reason !== 'today') return
+      if (reason !== "day" && reason !== "today") return;
       // close the picker if the date was selected
-      this.$refs.qDateProxy.hide()
+      this.$refs.qDateProxy.hide();
       // the date is saved on close.
     },
     onDateToSelected(value, reason) {
-      if (reason !== 'day' && reason !== 'today') return
-      this.$refs.qDateToProxy.hide()
+      if (reason !== "day" && reason !== "today") return;
+      this.$refs.qDateToProxy.hide();
     },
     async search() {
       // run the search
@@ -214,10 +219,10 @@ export default {
 
       if (!this.freeText && !this.dateFrom && !this.dateTo && !this.payee) {
         this.$q.notify({
-          message: 'No search parameters entered/selected!',
-          color: 'secondary',
-        })
-        return
+          message: "No search parameters entered/selected!",
+          color: "secondary",
+        });
+        return;
       }
 
       let searchParams = {
@@ -225,122 +230,122 @@ export default {
         dateTo: this.dateTo,
         payee: this.payee,
         freeText: this.freeText,
-      }
+      };
 
-      const serverUrl = await settings.get(SettingKeys.syncServerUrl)
-      if (!serverUrl) throw 'Sync Server URL is not set!'
+      const serverUrl = await settings.get(SettingKeys.syncServerUrl);
+      if (!serverUrl) throw "Sync Server URL is not set!";
 
-      const sync = new CashierSync(serverUrl)
-      let searchResults = null
+      const sync = new CashierSync(serverUrl);
+      let searchResults = null;
       try {
-        searchResults = await sync.search(searchParams)
+        searchResults = await sync.search(searchParams);
       } catch (error) {
         //console.log(error)
-        this.$q.notify({ message: error.message, color: 'secondary' })
+        this.$q.notify({ message: error.message, color: "secondary" });
       }
 
-      searchResults = this.parseResults(searchResults)
+      searchResults = this.parseResults(searchResults);
 
-      this.results = searchResults
+      this.results = searchResults;
     },
     parseResults(searchResults) {
-      if (!searchResults || searchResults.length === 0) return null
+      if (!searchResults || searchResults.length === 0) return null;
 
       // Massage the data
-      let rows = []
+      let rows = [];
 
       // Create tx records.
-      let tx = null
+      let tx = null;
       for (var i = 0; i < searchResults.length; i++) {
-        const result_row = searchResults[i]
+        const result_row = searchResults[i];
 
         // is this the main tx record?
         if (result_row.date) {
           if (tx) {
             // Complete the existing transaction.
-            rows.push(tx)
+            rows.push(tx);
           }
           // start a new transaction.
-          tx = {}
-          tx.postings = []
+          tx = {};
+          tx.postings = [];
 
-          let header = {}
+          let header = {};
           // yes, create a header record
-          header.date = result_row.date
-          header.payee = result_row.payee
+          header.date = result_row.date;
+          header.payee = result_row.payee;
 
-          tx.header = header
+          tx.header = header;
         }
 
         // add the account row
-        let posting = {}
-        posting.account = result_row.account
-        posting.amount = result_row.amount
-        posting.currency = result_row.currency
-        tx.postings.push(posting)
+        let posting = {};
+        posting.account = result_row.account;
+        posting.amount = result_row.amount;
+        posting.currency = result_row.currency;
+        tx.postings.push(posting);
       }
       // Append the last transaction
       if (tx.header) {
-        rows.push(tx)
+        rows.push(tx);
       }
 
       // append artificial ids
-      let index = 0
-      rows.forEach((item) => (item.id = index++))
+      let index = 0;
+      rows.forEach((item) => (item.id = index++));
 
-      return rows
+      return rows;
     },
     selectDatePeriod(period) {
-      let today = new Date()
-      let tomorrow = addToDate(today, { days: 1 })
+      let today = new Date();
+      let tomorrow = addToDate(today, { days: 1 });
 
       // the default values are from today to tomorrow.
-      let startDate = today
+      let startDate = today;
       // The end value is not inclusive.
-      let endDate = tomorrow
+      let endDate = tomorrow;
 
       switch (period) {
-        case 'Today':
+        case "Today":
           //startDate = today
           //endDate = today
-          break
+          break;
 
-        case 'Last Week':
-          startDate = subtractFromDate(today, { days: 7 })
+        case "Last Week":
+          startDate = subtractFromDate(today, { days: 7 });
           //endDate = today
-          break
+          break;
 
-        case 'Last Month':
-          startDate = subtractFromDate(today, { month: 1 })
+        case "Last Month":
+          startDate = subtractFromDate(today, { month: 1 });
           //endDate = today
-          break
+          break;
 
-        case 'Last Quarter':
-          startDate = subtractFromDate(today, { month: 3 })
+        case "Last Quarter":
+          startDate = subtractFromDate(today, { month: 3 });
           //endDate = today
-          break
+          break;
 
-        case 'Last 6 Months':
-          startDate = subtractFromDate(today, { month: 6 })
-          break
+        case "Last 6 Months":
+          startDate = subtractFromDate(today, { month: 6 });
+          break;
 
-        case 'Last Year':
-          startDate = subtractFromDate(today, { year: 1 })
+        case "Last Year":
+          startDate = subtractFromDate(today, { year: 1 });
           //endDate = today
-          break
+          break;
 
-        case 'All':
-          startDate = null
-          this.dateFrom = null
+        case "All":
+          startDate = null;
+          this.dateFrom = null;
           //endDate = today
-          break
+          break;
       }
 
-      if (startDate) this.dateFrom = startDate.toJSON().slice(0, 10)
-      if (endDate) this.dateTo = endDate.toJSON().slice(0, 10)
+      if (startDate) this.dateFrom = startDate.toJSON().slice(0, 10);
+      if (endDate) this.dateTo = endDate.toJSON().slice(0, 10);
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>

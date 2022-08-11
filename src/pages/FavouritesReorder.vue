@@ -23,54 +23,54 @@
 </template>
 
 <script>
-import Toolbar from '../components/Toolbar'
-import AccountsList from '../components/SortableAccountsList'
-import AccountItem from '../components/SortableAccountItem'
-import { settings, SettingKeys } from '../lib/Configuration'
-import appService from '../appService'
+import Toolbar from "../components/CashierToolbar.vue";
+import AccountsList from "../components/SortableAccountsList.vue";
+import AccountItem from "../components/SortableAccountItem.vue";
+import { settings, SettingKeys } from "../lib/Configuration";
+import appService from "../appService";
 
 export default {
   components: {
     AccountsList,
     AccountItem,
-    Toolbar
+    Toolbar,
   },
   data() {
     return {
-      accounts: []
-    }
+      accounts: [],
+    };
   },
 
   created() {
-    this.loadData()
+    this.loadData();
   },
 
   methods: {
     async loadData() {
-      const accounts = await appService.loadFavouriteAccounts()
+      const accounts = await appService.loadFavouriteAccounts();
       // load account details
       if (!accounts) {
-        console.log('no favourite accounts selected yet')
-        return
+        console.log("no favourite accounts selected yet");
+        return;
       }
 
       try {
-        this.accounts = accounts
+        this.accounts = accounts;
       } catch (error) {
-        this.$q.notify({ color: 'secondary', message: error.message })
+        this.$q.notify({ color: "secondary", message: error.message });
       }
     },
     async onSaveClick() {
       // get the list of account names
-      let names = []
+      let names = [];
       for (let i = 0; i < this.accounts.length; i++) {
-        names.push(this.accounts[i].name)
+        names.push(this.accounts[i].name);
       }
 
-      await settings.set(SettingKeys.favouriteAccounts, names)
-      await this.loadData()
-      this.$q.notify('data saved')
-    }
-  }
-}
+      await settings.set(SettingKeys.favouriteAccounts, names);
+      await this.loadData();
+      this.$q.notify("data saved");
+    },
+  },
+};
 </script>

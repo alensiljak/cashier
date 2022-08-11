@@ -44,20 +44,30 @@
     </RecycleScroller>
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn fab icon="check" color="accent" text-color="secondary" @click="onAcceptClick" />
+      <q-btn
+        fab
+        icon="check"
+        color="accent"
+        text-color="secondary"
+        @click="onAcceptClick"
+      />
     </q-page-sticky>
   </q-page>
 </template>
 
 <script>
-import { TOGGLE_DRAWER, SET_SELECT_MODE, SET_SELECTED_ID } from '../mutations'
-import PayeesToolbar from '../components/PayeesToolbar'
-import appService from '../appService'
+import { TOGGLE_DRAWER, SET_SELECT_MODE, SET_SELECTED_ID } from "../mutations";
+import PayeesToolbar from "../components/PayeesToolbar.vue";
+import appService from "../appService";
 //import { ListSearch } from '../ListSearch.js'
-import { DynamicScroller, DynamicScrollerItem, RecycleScroller } from 'vue-virtual-scroller'
-import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
-import { Constants, settings, SettingKeys } from '../lib/Configuration'
-import { CashierSync } from '../lib/syncCashier'
+import {
+  DynamicScroller,
+  DynamicScrollerItem,
+  RecycleScroller,
+} from "vue-virtual-scroller";
+import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
+import { Constants, settings, SettingKeys } from "../lib/Configuration";
+import { CashierSync } from "../lib/syncCashier";
 
 export default {
   components: {
@@ -70,7 +80,7 @@ export default {
       addDialogVisible: false,
       newPayee: null,
       filter: null,
-    }
+    };
   },
 
   created() {
@@ -78,12 +88,10 @@ export default {
   },
 
   mounted() {
-    this.loadData()
+    this.loadData();
   },
 
-  loaded() {
-
-  },
+  loaded() {},
 
   methods: {
     /**
@@ -92,29 +100,29 @@ export default {
      */
     itemClicked(id) {
       // select the item and return to the caller.
-      let meta = this.$store.getters.selectionModeMeta
+      let meta = this.$store.getters.selectionModeMeta;
 
-      if (!meta) return
+      if (!meta) return;
 
-      if (meta.selectionType !== 'payee') {
-        throw('Invalid selection mode!')
+      if (meta.selectionType !== "payee") {
+        throw "Invalid selection mode!";
       }
 
-      this.$store.commit(SET_SELECTED_ID, id)
+      this.$store.commit(SET_SELECTED_ID, id);
 
       // Simply go back, assuming that the previous page is requesting the data.
-      this.$router.go(-1)
+      this.$router.go(-1);
     },
     async loadData() {
       // get the payees from the cache
-      const cache = await caches.open(Constants.CacheName)
+      const cache = await caches.open(Constants.CacheName);
 
-      const serverUrl = await settings.get(SettingKeys.syncServerUrl)
-      const cashierSync = new CashierSync(serverUrl)
-      const payeesCache = await cache.match(cashierSync.payeesUrl)
+      const serverUrl = await settings.get(SettingKeys.syncServerUrl);
+      const cashierSync = new CashierSync(serverUrl);
+      const payeesCache = await cache.match(cashierSync.payeesUrl);
 
-      let payees = await payeesCache.json()
-      payees = payees.split('\n')
+      let payees = await payeesCache.json();
+      payees = payees.split("\n");
 
       // Apply filter
       if (this.filter) {
@@ -122,35 +130,35 @@ export default {
         this.payees = payees.filter(
           (payee) =>
             payee.toLowerCase().indexOf(this.filter.toLowerCase()) != -1
-        )
+        );
       } else {
-        this.payees = payees
+        this.payees = payees;
       }
     },
     onAddPayee() {
-      if (!this.newPayee) return
+      if (!this.newPayee) return;
 
-      this.addDialogVisible = false
+      this.addDialogVisible = false;
 
       appService.addPayee(this.newPayee).then(() => {
         // clear the "new payee" name for a new entry
-        this.newPayee = null
-        this.loadData()
-      })
+        this.newPayee = null;
+        this.loadData();
+      });
     },
     onAcceptClick() {
-      this.itemClicked(this.filter)
+      this.itemClicked(this.filter);
     },
     async onFilter(text) {
-      this.filter = text
-      await this.loadData()
+      this.filter = text;
+      await this.loadData();
     },
     onMenuClicked() {
-      const visible = this.$store.getters.drawerOpen
-      this.$store.commit(TOGGLE_DRAWER, !visible)
+      const visible = this.$store.getters.drawerOpen;
+      this.$store.commit(TOGGLE_DRAWER, !visible);
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -171,5 +179,4 @@ export default {
 .scroller-item-action {
   text-align: right;
 }
-
 </style>

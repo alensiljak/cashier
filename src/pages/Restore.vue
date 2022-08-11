@@ -25,8 +25,8 @@
   </q-page>
 </template>
 <script>
-import Toolbar from '../components/Toolbar'
-import appService from '../appService'
+import Toolbar from "../components/CashierToolbar.vue";
+import appService from "../appService";
 
 export default {
   components: {
@@ -35,40 +35,40 @@ export default {
   props: {
     type: {
       type: String,
-      default: 'scheduled',
+      default: "scheduled",
     },
   },
   data() {
     return {
       file: null,
       fileContent: null,
-    }
+    };
   },
   methods: {
     onFileSelected() {
       // read file
-      appService.readFile(this.file, this.onFileRead)
+      appService.readFile(this.file, this.onFileRead);
     },
     onFileRead(content) {
-      this.fileContent = content
+      this.fileContent = content;
     },
     async onRestoreClicked() {
       // restore data from the file
       if (!this.fileContent) {
         this.$q.notify({
-          message: 'You need to select a file',
-          color: 'negative',
-        })
-        return
+          message: "You need to select a file",
+          color: "negative",
+        });
+        return;
       }
 
       //console.log(this.fileContent)
-      await appService.importScheduledTransactions(this.fileContent)
+      await appService.importScheduledTransactions(this.fileContent);
       this.$q.notify({
-        message: 'Restore complete',
-        color: 'positive',
-      })
+        message: "Restore complete",
+        color: "positive",
+      });
     },
   },
-}
+};
 </script>

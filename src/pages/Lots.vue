@@ -10,26 +10,26 @@
 </template>
 
 <script>
-import Toolbar from '../components/Toolbar'
+import Toolbar from "../components/CashierToolbar.vue";
 import { CashierSync } from "../lib/syncCashier";
 import { SettingKeys, settings } from "../lib/Configuration";
 
 export default {
   components: {
-    Toolbar
+    Toolbar,
   },
   data() {
     return {
       symbol: null,
       lots: [],
-      serverUrl: null
+      serverUrl: null,
     };
   },
   created() {
     this.symbol = this.$route.params.symbol;
     settings
       .get(SettingKeys.syncServerUrl)
-      .then(value => (this.serverUrl = value))
+      .then((value) => (this.serverUrl = value))
       .then(() => this.loadData());
   },
 
@@ -39,9 +39,9 @@ export default {
      */
     async loadData() {
       const sync = new CashierSync(this.serverUrl);
-      const lots = await sync.readLots(this.symbol)
-      this.lots = lots
-    }
-  }
+      const lots = await sync.readLots(this.symbol);
+      this.lots = lots;
+    },
+  },
 };
 </script>

@@ -135,7 +135,7 @@
 
 <script>
 import appService from '../appService'
-import JournalTransaction from '../components/JournalTransaction'
+import JournalTransaction from '../components/JournalTransaction.vue'
 import { TOGGLE_DRAWER } from '../mutations'
 
 const errorMessage = { color: 'secondary', message: '' }

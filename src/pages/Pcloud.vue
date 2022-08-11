@@ -5,9 +5,19 @@
     <div>
       <!-- <q-input label="Remote location" dark v-model="url" /> -->
 
-      <q-btn label="Fetch" color="secondary" text-color="accent" @click="login" />
+      <q-btn
+        label="Fetch"
+        color="secondary"
+        text-color="accent"
+        @click="login"
+      />
 
-      <q-btn label="Backup" color="secondary" text-color="accent" @click="backup" />
+      <q-btn
+        label="Backup"
+        color="secondary"
+        text-color="accent"
+        @click="backup"
+      />
 
       <p>{{ output }}</p>
     </div>
@@ -16,21 +26,20 @@
 
 <script>
 import RemoteStorage from "../lib/remoteStorage";
-import Toolbar from '../components/Toolbar'
+import Toolbar from "../components/CashierToolbar.vue";
 
 export default {
   components: {
-    Toolbar
+    Toolbar,
   },
   data() {
     return {
       // url: null,
-      output: null
+      output: null,
     };
   },
 
-  created() {
-  },
+  created() {},
 
   methods: {
     backup() {
@@ -45,7 +54,7 @@ export default {
       // this.loginWithoutRedirect();
       const client = new RemoteStorage();
       this.output = client.fetch();
-    }
-  }
+    },
+  },
 };
 </script>

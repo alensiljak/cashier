@@ -1,7 +1,8 @@
 <template>
   <q-drawer
     v-model="drawerOpen"
-    bordered dark
+    bordered
+    dark
     content-class="bg-colour1 text-amber-2"
   >
     <q-scroll-area
@@ -262,7 +263,10 @@
 
         <q-item v-ripple to="/help" exact clickable active-class="active-link">
           <q-item-section avatar>
-            <font-awesome-icon icon="question-circle" transform="grow-6 right-9" />
+            <font-awesome-icon
+              icon="question-circle"
+              transform="grow-6 right-9"
+            />
           </q-item-section>
           <q-item-section>
             <q-item-label>Help</q-item-label>
@@ -283,7 +287,7 @@
     <q-img class="absolute-top bg-colour5" style="height: 150px">
       <div class="absolute-bottom bg-transparent text-colour2 text-center">
         <q-avatar size="56px" class="q-mb-sm" @click="onHeaderClick">
-          <img src="../../public/icons/icon64.png">
+          <img src="../../public/icons/icon64.png" />
         </q-avatar>
         <!-- <div class="text-weight-bold">Cashier</div> -->
         <!-- <div>@cashier</div> -->
@@ -299,59 +303,59 @@
 </template>
 
 <script>
-import { TOGGLE_DRAWER } from '../mutations'
-import eventBus from '../lib/eventBus'
+import { TOGGLE_DRAWER } from "../mutations";
+import eventBus from "../lib/eventBus";
 
 export default {
-  inject: ['version'],
+  inject: ["version"],
 
   data() {
     return {
       // drawerOpen: this.$q.platform.is.desktop
-    }
+    };
   },
 
   computed: {
     drawerOpen: {
       get() {
-        return this.$store.getters.drawerOpen
+        return this.$store.getters.drawerOpen;
       },
       set(value) {
-        this.$store.commit(TOGGLE_DRAWER, value)
-      }
+        this.$store.commit(TOGGLE_DRAWER, value);
+      },
     },
     liveModeOn: {
       get() {
-        return this.$store.state.useLedger
-      }
-    }
+        return this.$store.state.useLedger;
+      },
+    },
   },
 
   created() {
     // initial state of the drawer
-    this.$store.commit(TOGGLE_DRAWER, this.$q.platform.is.desktop)
+    this.$store.commit(TOGGLE_DRAWER, this.$q.platform.is.desktop);
 
     // Listen for events from other pages
-    eventBus.$on('toggle-drawer', this.toggleDrawer)
+    eventBus.$on("toggle-drawer", this.toggleDrawer);
   },
 
   methods: {
     onHeaderClick() {
       // "reset browser history" by going back to the beginning.
-      let back = (window.history.length - 1) * -1
+      let back = (window.history.length - 1) * -1;
       // console.log('history:', window.history.length)
-      window.history.go(back)
+      window.history.go(back);
     },
     toggleDrawer() {
-      this.drawerOpen = !this.drawerOpen
-    }
-  }
-}
+      this.drawerOpen = !this.drawerOpen;
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-@import '../css/styles.scss';
-@import '../css/palette.scss';
+@import "../css/styles.scss";
+@import "../css/palette.scss";
 
 .active-link {
   color: $colour3;

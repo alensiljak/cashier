@@ -6,7 +6,7 @@
 */
 //import * as Vue from "vue";
 //import Vuex from "vuex";
-import { createStore } from 'vuex'
+import { createStore } from "vuex";
 
 //Vue.use(Vuex);
 
@@ -18,7 +18,7 @@ import {
   SET_TRANSACTION,
   TOGGLE_DRAWER,
   SET_LEDGER_USE,
-} from '../mutations'
+} from "../mutations";
 
 /*
  * If not building with SSR mode, you can
@@ -67,51 +67,51 @@ export default function (/* { ssrContext } */) {
        * @param {SelectionModeMetadata} metadata
        */
       [SET_SELECT_MODE](state, metadata) {
-        state.selectModeMeta = metadata
+        state.selectModeMeta = metadata;
       },
       [SET_SELECTED_ID](state, payload) {
-        let clone = structuredClone(state.selectModeMeta)
-        clone.selectedId = payload
-        state.selectModeMeta = clone
+        let meta = state.selectModeMeta;
+        meta.selectedId = payload;
+        state.selectModeMeta = meta;
       },
       [SET_TRANSACTION](state, transaction) {
-        state.transaction = transaction
+        state.transaction = transaction;
       },
       [SET_PAYEE](state, payload) {
-        let tx = structuredClone(state.transaction)
-        tx.payee = payload
-        state.transaction = tx
+        let tx = structuredClone(state.transaction);
+        tx.payee = payload;
+        state.transaction = tx;
       },
       [SET_POSTING](state, payload) {
-        let index = payload.index
-        let posting = payload.posting
+        let index = payload.index;
+        let posting = payload.posting;
 
-        let tx = structuredClone(state.transaction)
-        tx.postings[index] = posting
+        let tx = structuredClone(state.transaction);
+        tx.postings[index] = posting;
 
-        state.transaction = tx
+        state.transaction = tx;
       },
       [TOGGLE_DRAWER](state, drawerVisible) {
-        state.drawerOpen = drawerVisible
+        state.drawerOpen = drawerVisible;
       },
       [SET_LEDGER_USE](state, useLedger) {
-        state.useLedger = useLedger
+        state.useLedger = useLedger;
       },
       saveToClipboard(state, payload) {
-        state.clipboard = payload
+        state.clipboard = payload;
       },
     },
 
     // Business logic.
     actions: {
       resetPostings(commit, state) {
-        let tx = state.getters.transaction
-        tx.postings = []
-        commit(SET_TRANSACTION, tx)
+        let tx = state.getters.transaction;
+        tx.postings = [];
+        commit(SET_TRANSACTION, tx);
       },
       setSelectedId(context, id) {
-        context.commit(SET_SELECTED_ID, id)
-      }
+        context.commit(SET_SELECTED_ID, id);
+      },
     },
     getters: {
       clipboard: (state) => state.clipboard,
@@ -121,7 +121,7 @@ export default function (/* { ssrContext } */) {
       liveModeOn: (state) => state.useLedger,
       selectionModeMeta: (state) => state.selectModeMeta,
     },
-  })
+  });
 
-  return Store
+  return Store;
 }

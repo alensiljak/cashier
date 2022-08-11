@@ -1,38 +1,38 @@
 /*
   Synchronization with CashierSync.
 */
-import ky from 'ky'
-import { settings, SettingKeys } from './Configuration'
-import { engine } from './AssetAllocation'
+import ky from "ky";
+import { settings, SettingKeys } from "./Configuration";
+import { engine } from "./AssetAllocation";
 
 /**
  * Cashier Sync class talks to CashierSync on the server. The methods here represent the methods
  * implemented by the server. This is a proxy class for fething Ledger data.
  */
 export class CashierSync {
-  static accountsUrl = '/accounts'
-  static balancesUrl = '/balance'
-  static currentValuesUrl = '/currentValues'
-  static payeesUrl = '/payees'
+  static accountsUrl = "/accounts";
+  static balancesUrl = "/balance";
+  static currentValuesUrl = "/currentValues";
+  static payeesUrl = "/payees";
 
   constructor(serverUrl) {
     if (!serverUrl) {
-      throw new Error('CashierSync URL not set.')
+      throw new Error("CashierSync URL not set.");
     }
-    if (serverUrl.endsWith('/')) {
-      serverUrl = serverUrl.substring(0, serverUrl.length - 1)
+    if (serverUrl.endsWith("/")) {
+      serverUrl = serverUrl.substring(0, serverUrl.length - 1);
     }
-    this.serverUrl = serverUrl
-    this.accountsUrl = this.serverUrl + CashierSync.accountsUrl
-    this.balancesUrl = this.serverUrl + CashierSync.balancesUrl
-    this.currentValuesUrl = this.serverUrl + CashierSync.currentValuesUrl
-    this.payeesUrl = this.serverUrl + CashierSync.payeesUrl
+    this.serverUrl = serverUrl;
+    this.accountsUrl = this.serverUrl + CashierSync.accountsUrl;
+    this.balancesUrl = this.serverUrl + CashierSync.balancesUrl;
+    this.currentValuesUrl = this.serverUrl + CashierSync.currentValuesUrl;
+    this.payeesUrl = this.serverUrl + CashierSync.payeesUrl;
   }
 
   async get(path, options) {
-    const url = new URL(`${this.serverUrl}${path}`)
-    const response = await ky(url, options)
-    return response
+    const url = new URL(`${this.serverUrl}${path}`);
+    const response = await ky(url, options);
+    return response;
   }
 
   /**
@@ -40,13 +40,13 @@ export class CashierSync {
    */
   async healthCheck() {
     // HEAD is enough to check if the server is online.
-    const result = await this.get('/')
+    const result = await this.get("/");
     if (!result.ok) {
-      throw new Error('Error contacting CashierSync server!')
+      throw new Error("Error contacting CashierSync server!");
     }
 
-    const text = await result.text()
-    return text
+    const text = await result.text();
+    return text;
   }
 
   /**
@@ -54,15 +54,15 @@ export class CashierSync {
    * @returns array of Account objects
    */
   async readAccounts() {
-    const url = new URL(this.accountsUrl)
-    const response = await ky(url)
+    const url = new URL(this.accountsUrl);
+    const response = await ky(url);
     if (!response.ok) {
-      throw new Error('Error reading accounts!')
+      throw new Error("Error reading accounts!");
     }
 
-    const content = await response.json()
+    const content = await response.json();
 
-    return content
+    return content;
   }
 
   /**
@@ -70,32 +70,32 @@ export class CashierSync {
    * @returns array of Account objects
    */
   async readBalances() {
-    const url = new URL(this.balancesUrl)
-    const response = await ky(url)
-    const content = await response.json()
+    const url = new URL(this.balancesUrl);
+    const response = await ky(url);
+    const content = await response.json();
 
-    return content
+    return content;
   }
 
   async readCurrentValues() {
-    const rootAcct = await settings.get(SettingKeys.rootInvestmentAccount)
-    const currency = await settings.get(SettingKeys.currency)
+    const rootAcct = await settings.get(SettingKeys.rootInvestmentAccount);
+    const currency = await settings.get(SettingKeys.currency);
 
-    const url = new URL(this.currentValuesUrl)
+    const url = new URL(this.currentValuesUrl);
     const params = {
       root: rootAcct,
-      currency: currency
-    }
-    Object.keys(params).forEach(key =>
+      currency: currency,
+    };
+    Object.keys(params).forEach((key) =>
       url.searchParams.append(key, params[key])
-    )
+    );
 
-    const response = await ky.get(url)
+    const response = await ky.get(url);
     //const result = await response.text()
-    const result = await response.json()
+    const result = await response.json();
 
-    await engine.importCurrentValuesJson(result)
-    return 'OK'
+    await engine.importCurrentValuesJson(result);
+    return "OK";
   }
 
   /**
@@ -103,34 +103,35 @@ export class CashierSync {
    * @param {string} symbol
    */
   async readSecurityAnalysis(symbol) {
-    const currency = await settings.get(SettingKeys.currency)
-    const url = new URL(`${this.serverUrl}/securitydetails`)
+    const currency = await settings.get(SettingKeys.currency);
+    const url = new URL(`${this.serverUrl}/securitydetails`);
 
     const params = {
       symbol: symbol,
-      currency: currency
-    }
-    Object.keys(params).forEach(key =>
+      currency: currency,
+    };
+    Object.keys(params).forEach((key) =>
       url.searchParams.append(key, params[key])
-    )
+    );
 
-    const response = await ky(url)
-    const result = await response.text()
-    return result
+    const response = await ky(url);
+    const result = await response.text();
+    return result;
   }
 
   async readLots(symbol) {
-    const url = new URL(this.serverUrl + '/lots')
-    const params = { symbol: symbol }
-    Object.keys(params).forEach(key =>
+    const url = new URL(this.serverUrl + "/lots");
+    const params = { symbol: symbol };
+    Object.keys(params).forEach((key) =>
       url.searchParams.append(key, params[key])
-    )
+    );
 
-    const response = await ky.get(url)
-    if (!response.ok) throw new Error('error fetching lots: ' + response.text())
+    const response = await ky.get(url);
+    if (!response.ok)
+      throw new Error("error fetching lots: " + response.text());
 
-    const result = await response.json()
-    return result
+    const result = await response.json();
+    return result;
   }
 
   /**
@@ -139,15 +140,15 @@ export class CashierSync {
    * @param {string} content
    */
   async append(filePath, content) {
-    const url = new URL(`${this.serverUrl}/append`)
+    const url = new URL(`${this.serverUrl}/append`);
     const params = {
       filePath: filePath,
-      content: content
-    }
+      content: content,
+    };
 
-    const response = await ky.post(url, { json: params })
-    let result = await response.text()
-    return result
+    const response = await ky.post(url, { json: params });
+    let result = await response.text();
+    return result;
   }
 
   /**
@@ -155,53 +156,53 @@ export class CashierSync {
    * @param {string} repoPath The path to the repository.
    */
   async repoPull(repoPath) {
-    const url = new URL(`${this.serverUrl}/repo/pull`)
+    const url = new URL(`${this.serverUrl}/repo/pull`);
     const params = {
-      repoPath: repoPath
-    }
+      repoPath: repoPath,
+    };
 
-    const response = await ky.post(url, { json: params })
-    let content = await response.text()
-    return content
+    const response = await ky.post(url, { json: params });
+    let content = await response.text();
+    return content;
   }
 
   async repoCommit(repoPath, commitMessage) {
-    let url = `${this.serverUrl}/repo/commit`
+    let url = `${this.serverUrl}/repo/commit`;
     const params = {
       repoPath: repoPath,
-      commitMessage: commitMessage
-    }
+      commitMessage: commitMessage,
+    };
 
-    const response = await ky.post(url, { json: params })
-    const content = await response.text()
-    return content
+    const response = await ky.post(url, { json: params });
+    const content = await response.text();
+    return content;
   }
 
   async repoPush(repoPath) {
-    const url = new URL(`${this.serverUrl}/repo/push`)
+    const url = new URL(`${this.serverUrl}/repo/push`);
     const params = {
-      repoPath: repoPath
-    }
+      repoPath: repoPath,
+    };
 
-    const response = await ky.post(url, { json: params })
-    const content = await response.text()
-    return content
+    const response = await ky.post(url, { json: params });
+    const content = await response.text();
+    return content;
   }
 
   async repoStatus(repoPath) {
-    const url = new URL(`${this.serverUrl}/repo/status`)
-    const params = { repoPath: repoPath }
-    Object.keys(params).forEach(key =>
+    const url = new URL(`${this.serverUrl}/repo/status`);
+    const params = { repoPath: repoPath };
+    Object.keys(params).forEach((key) =>
       url.searchParams.append(key, params[key])
-    )
+    );
 
-    let response = await ky.get(url)
-    const result = await response.text()
-    return result
+    let response = await ky.get(url);
+    const result = await response.text();
+    return result;
   }
 
   async search(searchParams) {
-    const url = new URL(`${this.serverUrl}/search`)
+    const url = new URL(`${this.serverUrl}/search`);
 
     // For GET, use URL Search Params, for POST, use Form Data:
     //const params = new URLSearchParams() // use params.set()
@@ -209,23 +210,23 @@ export class CashierSync {
     //const params = new FormData(); // use params.append()
     //Object.keys(searchParams).forEach(key => params.append(key, searchParams[key]))
 
-    const response = await ky.post(url, { json: searchParams })
-    const result = await response.json()
-    return result
+    const response = await ky.post(url, { json: searchParams });
+    const result = await response.json();
+    return result;
   }
 
   async xact(parameters) {
-    const url = new URL(`${this.serverUrl}/xact`)
-    const response = await ky.post(url, { json: parameters })
+    const url = new URL(`${this.serverUrl}/xact`);
+    const response = await ky.post(url, { json: parameters });
     //const result = await response.json()
-    const result = await response.text()
-    return result
+    const result = await response.text();
+    return result;
   }
 
   /**
    * Shutdown CashierSync server from the client app.
    */
   shutdown() {
-    return this.get('/shutdown')
+    return this.get("/shutdown");
   }
 }

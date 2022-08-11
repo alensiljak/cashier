@@ -36,13 +36,13 @@
 import { SettingKeys } from "../lib/Configuration";
 import appService from "../appService";
 import { Setting } from "../model";
-import Toolbar from '../components/Toolbar'
+import Toolbar from "../components/CashierToolbar.vue";
 
 // const errorMessage = { color: "secondary", textColor: "amber-2" };
 
 export default {
   components: {
-    Toolbar
+    Toolbar,
   },
   data() {
     return {
@@ -83,6 +83,5 @@ export default {
       });
     },
   },
-
 };
 </script>

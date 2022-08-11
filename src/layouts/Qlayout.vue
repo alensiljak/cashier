@@ -10,15 +10,15 @@
 </template>
 
 <script>
-import QSidebar from "../components/QSidebar";
-import Toolbar from '../components/Toolbar'
+import QSidebar from "../components/QSidebar.vue";
+import Toolbar from "../components/CashierToolbar.vue";
 
 export default {
   name: "LayoutDefault",
 
   components: {
     QSidebar,
-    Toolbar
+    Toolbar,
   },
 };
 </script>

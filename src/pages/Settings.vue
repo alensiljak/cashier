@@ -97,10 +97,10 @@
 </template>
 
 <script>
-import { SettingKeys, settings } from '../lib/Configuration'
-import { engine } from '../lib/AssetAllocation'
-import Toolbar from '../components/Toolbar'
-import appService from '../appService'
+import { SettingKeys, settings } from "../lib/Configuration";
+import { engine } from "../lib/AssetAllocation";
+import Toolbar from "../components/CashierToolbar.vue";
+import appService from "../appService";
 
 export default {
   components: {
@@ -114,70 +114,70 @@ export default {
       rootInvestmentAccount: null,
       fileContent: null,
       rememberLastTransaction: null,
-    }
+    };
   },
 
   created() {
-    this.loadSettings()
+    this.loadSettings();
   },
 
   methods: {
     async loadSettings() {
-      this.currency = await settings.get(SettingKeys.currency)
+      this.currency = await settings.get(SettingKeys.currency);
       this.rootInvestmentAccount = await settings.get(
         SettingKeys.rootInvestmentAccount
-      )
+      );
       this.rememberLastTransaction = await settings.get(
         SettingKeys.rememberLastTransaction
-      )
+      );
     },
     /**
      * The Asset Allocation definition selected.
      */
     onAaFileSelected(files) {
-      if (!files) return
-      appService.readFile(files, this.onFileRead)
+      if (!files) return;
+      appService.readFile(files, this.onFileRead);
     },
     onAaHelpClick() {
       // navigate to help page
-      this.$router.push({ name: 'assetallocationsetuphelp' })
+      this.$router.push({ name: "assetallocationsetuphelp" });
     },
     async onDefinitionImportClick() {
       try {
         // Clean-up any existing data first.
-        await engine.emptyData()
+        await engine.emptyData();
         // import AA definition file
         //await engine.importDefinition(this.fileContent)
-        await engine.importYamlDefinition(this.fileContent)
+        await engine.importYamlDefinition(this.fileContent);
 
-        this.$q.notify({ message: 'Definition imported', color: 'positive' })
+        this.$q.notify({ message: "Definition imported", color: "positive" });
       } catch (msg) {
         this.$q.notify({
-          message: 'Error during import: ' + msg,
-          color: 'secondary',
-          textColor: 'amber-2',
-        })
+          message: "Error during import: " + msg,
+          color: "secondary",
+          textColor: "amber-2",
+        });
       }
     },
     onFileRead(content) {
-      this.fileContent = content
+      this.fileContent = content;
     },
     async onSaveClick() {
       // currency
-      await settings.set(SettingKeys.currency, this.currency)
+      await settings.set(SettingKeys.currency, this.currency);
 
       // root investment account
       await settings.set(
         SettingKeys.rootInvestmentAccount,
         this.rootInvestmentAccount
-      )
+      );
 
       await settings.set(
         SettingKeys.rememberLastTransaction,
         this.rememberLastTransaction
-      )
+      );
 
-      this.$q.notify({ message: 'Settings saved', color: 'positive' })
+      this.$q.notify({ message: "Settings saved", color: "positive" });
     },
     async onSelectBackupLocationClick() {
       let dirHandle = await window.showDirectoryPicker();
@@ -185,11 +185,11 @@ export default {
       // assuming we have a directory handle: 'currentDirHandle'
       const subDir = dirHandle.getDirectoryHandle(dirName, {
         create: true,
-      })
+      });
     },
     reloadApp() {
-      window.location.reload(true)
+      window.location.reload(true);
     },
   },
-}
+};
 </script>

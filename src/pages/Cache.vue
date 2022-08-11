@@ -91,25 +91,25 @@
 </template>
 
 <script>
-import Toolbar from '../components/Toolbar'
-import { SettingKeys, settings, Constants } from '../lib/Configuration';
-import { CashierSync } from '../lib/syncCashier';
-import CashierCache from '../lib/CashierCache';
+import Toolbar from "../components/CashierToolbar.vue";
+import { SettingKeys, settings, Constants } from "../lib/Configuration";
+import { CashierSync } from "../lib/syncCashier";
+import CashierCache from "../lib/CashierCache";
 
-const NoneStatus = 'None';
-const ExistsStatus = 'Exists';
+const NoneStatus = "None";
+const ExistsStatus = "Exists";
 
 export default {
   components: {
-    Toolbar
+    Toolbar,
   },
   data() {
     return {
       serverUrl: null,
-      accountsStatus: 'unknown',
-      assetAllocationStatus: 'unknown',
-      balancesStatus: 'unknown',
-      payeesStatus: 'unknown',
+      accountsStatus: "unknown",
+      assetAllocationStatus: "unknown",
+      balancesStatus: "unknown",
+      payeesStatus: "unknown",
     };
   },
 
@@ -142,8 +142,8 @@ export default {
       const currentValues = await cache.match(sync.currentValuesUrl);
       this.assetAllocationStatus = currentValues ? ExistsStatus : NoneStatus;
 
-      const payees = await cache.match(sync.payeesUrl)
-      this.payeesStatus = payees ? ExistsStatus : NoneStatus
+      const payees = await cache.match(sync.payeesUrl);
+      this.payeesStatus = payees ? ExistsStatus : NoneStatus;
     },
 
     async clearAccounts() {
@@ -168,17 +168,17 @@ export default {
     },
 
     async cacheUrl(url) {
-      const cacher = new CashierCache(Constants.CacheName)
+      const cacher = new CashierCache(Constants.CacheName);
 
       try {
-        await cacher.cache(url)
+        await cacher.cache(url);
       } catch (reason) {
         console.error(reason);
         // show message
         this.$q.notify({
-          message: 'Error: ' + reason,
-          color: 'secondary', // "teal-9", // green-9
-          textColor: 'amber-2',
+          message: "Error: " + reason,
+          color: "secondary", // "teal-9", // green-9
+          textColor: "amber-2",
         });
 
         return;
@@ -188,8 +188,8 @@ export default {
     },
 
     async clearCache(url) {
-      const cache = new CashierCache(Constants.CacheName)
-      await cache.clearCache(url)
+      const cache = new CashierCache(Constants.CacheName);
+      await cache.clearCache(url);
       await this.loadStatuses();
     },
 
@@ -198,7 +198,7 @@ export default {
       const url = cashierSync.accountsUrl;
       await this.cacheUrl(url);
 
-      this.$q.notify({ message: 'accounts cached', color: 'primary' })
+      this.$q.notify({ message: "accounts cached", color: "primary" });
     },
     async fetchAssetAllocation() {
       let cashierSync = new CashierSync(this.serverUrl);
@@ -215,8 +215,8 @@ export default {
       const url = cashierSync.payeesUrl;
       await this.cacheUrl(url);
 
-      this.$q.notify({ message: 'Payees cached', color: 'primary' })
-    }
+      this.$q.notify({ message: "Payees cached", color: "primary" });
+    },
   },
 };
 </script>

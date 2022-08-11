@@ -8,7 +8,7 @@
         <span style="font-size: 0.8rem">{{ $version }}</span>
       </h3>
       <!-- <img src="/icons/icon96.png"> -->
-      <img src="../../public/icons/icon96.png">
+      <img src="../../public/icons/icon96.png" />
     </div>
     <div class="text-center q-my-sm">by Alen Šiljak</div>
     <div>
@@ -31,7 +31,8 @@
     <ul>
       <li>
         <a href="https://www.freepik.com/free-photos-vectors/gold">
-          Gold vector created by freepik - www.freepik.com</a>
+          Gold vector created by freepik - www.freepik.com</a
+        >
       </li>
     </ul>
 
@@ -54,7 +55,8 @@
       </li>
       <li>
         <a href="https://github.com/Akryum/vue-virtual-scroller">
-          Vue Virtual Scroller</a>
+          Vue Virtual Scroller</a
+        >
       </li>
       <li>
         <a href="https://numeraljs.com/">Numeral JS</a>
@@ -78,14 +80,14 @@
 </template>
 
 <script>
-import Toolbar from '../components/Toolbar'
+import Toolbar from "../components/CashierToolbar.vue";
 
 export default {
   components: {
     Toolbar,
   },
   created() {},
-}
+};
 </script>
 
 <style lang="scss" scoped>

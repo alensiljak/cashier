@@ -27,20 +27,19 @@
 import appService from "../appService";
 import { Price } from "../model";
 // import { morningstar } from '../lib/PriceDownloaderMorningstar'
-import Toolbar from '../components/Toolbar'
+import Toolbar from "../components/CashierToolbar.vue";
 
 export default {
   components: {
-    Toolbar
+    Toolbar,
   },
   data() {
     return {
-      commodities: []
+      commodities: [],
     };
   },
 
-  created() {
-  },
+  created() {},
 
   methods: {
     // downloadPrice(symbol) {
@@ -49,14 +48,14 @@ export default {
     // console.log(m)
     // },
     getCommodities() {
-      appService.getInvestmentCommodities().then(commodities => {
+      appService.getInvestmentCommodities().then((commodities) => {
         for (let i = 0; i < commodities.length; i++) {
           const price = new Price();
           price.symbol = commodities[i];
           this.commodities.push(price);
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>

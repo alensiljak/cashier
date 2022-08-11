@@ -18,20 +18,19 @@
 
 // const { createClient } = require("webdav");
 // import { createClient } from "webdav";
-import Toolbar from '../components/Toolbar'
+import Toolbar from "../components/CashierToolbar.vue";
 
 export default {
   components: {
-    Toolbar
+    Toolbar,
   },
   data() {
     return {
-      url: null
+      url: null,
     };
   },
 
-  created() {
-  },
+  created() {},
 
   methods: {
     testWebDav() {
@@ -48,7 +47,7 @@ export default {
     async listDir() {
       // const directoryItems = await client.getDirectoryContents("/");
       // console.log(directoryItems)
-    }
-  }
+    },
+  },
 };
 </script>

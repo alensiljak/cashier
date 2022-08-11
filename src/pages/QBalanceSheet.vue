@@ -2,13 +2,30 @@
   <q-page padding class="bg-colour1 text-colour2">
     <toolbar :title="'Balance Sheet'" />
 
-    <p>Display the chart of accounts with balances and currencies. Selecting one opens the register.</p>
-    <p>The list should be customizable by selecting which accounts to show (favourite).</p>
+    <p>
+      Display the chart of accounts with balances and currencies. Selecting one
+      opens the register.
+    </p>
+    <p>
+      The list should be customizable by selecting which accounts to show
+      (favourite).
+    </p>
 
-    <q-tree color="colour2" text-color="amber-2" dark :nodes="simple" node-key="label" />
+    <q-tree
+      color="colour2"
+      text-color="amber-2"
+      dark
+      :nodes="simple"
+      node-key="label"
+    />
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn fab color="accent" text-color="secondary" @click="openNewTransaction">
+      <q-btn
+        fab
+        color="accent"
+        text-color="secondary"
+        @click="openNewTransaction"
+      >
         <font-awesome-icon icon="plus" transform="grow-6" />
       </q-btn>
     </q-page-sticky>
@@ -16,11 +33,11 @@
 </template>
 
 <script>
-import Toolbar from '../components/Toolbar'
+import Toolbar from "../components/CashierToolbar.vue";
 
 export default {
   components: {
-    Toolbar
+    Toolbar,
   },
   data() {
     return {
@@ -34,8 +51,8 @@ export default {
               icon: "restaurant_menu",
               children: [
                 { label: "Quality ingredients" },
-                { label: "Good recipe" }
-              ]
+                { label: "Good recipe" },
+              ],
             },
             {
               label: "Lodging",
@@ -43,8 +60,8 @@ export default {
               disabled: true,
               children: [
                 { label: "Prompt attention" },
-                { label: "Professional waiter" }
-              ]
+                { label: "Professional waiter" },
+              ],
             },
             {
               label: "Bank Accounts",
@@ -52,26 +69,24 @@ export default {
               children: [
                 {
                   label: "Checking",
-                  img:
-                    "https://cdn.quasar-framework.org/img/logo_calendar_128px.png"
+                  img: "https://cdn.quasar-framework.org/img/logo_calendar_128px.png",
                 },
                 { label: "Good table presentation" },
-                { label: "Investment", icon: "assessment" }
-              ]
-            }
-          ]
-        }
-      ]
+                { label: "Investment", icon: "assessment" },
+              ],
+            },
+          ],
+        },
+      ],
     };
   },
 
-  created() {
-  },
+  created() {},
 
   methods: {
     openNewTransaction() {
-      this.$router.push({ name: 'tx' });
-    }
-  }
+      this.$router.push({ name: "tx" });
+    },
+  },
 };
 </script>

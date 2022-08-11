@@ -46,9 +46,9 @@
         temporary public URL, for example.
       </li>
       <li>
-        Click Sync to synchronize the account data with CashierSync. 
-        Note that this will only read your Ledger data and populate Cashier 
-        so that it is operational with your Accounts.
+        Click Sync to synchronize the account data with CashierSync. Note that
+        this will only read your Ledger data and populate Cashier so that it is
+        operational with your Accounts.
       </li>
       <li>In Settings / Cache API, click Fetch the Payees.</li>
     </ol>
@@ -79,11 +79,11 @@
   </q-page>
 </template>
 <script>
-import Toolbar from '../components/Toolbar'
+import Toolbar from "../components/CashierToolbar.vue";
 
 export default {
   components: {
-    Toolbar
-  }
-}
+    Toolbar,
+  },
+};
 </script>

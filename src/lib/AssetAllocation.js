@@ -3,9 +3,9 @@
 */
 import appService from "../appService";
 import AssetClass from "./AssetClass";
-import jsyaml from 'js-yaml'
-// import numeral from 'numeral'
-var numeral = require("numeral")
+import jsyaml from "js-yaml";
+import numeral from "numeral";
+//var numeral = require("numeral")
 
 /**
  * loadDefinition = loads the pre-set definition
@@ -84,7 +84,7 @@ class AssetAllocationEngine {
 
     // toFixed returns a string.
 
-    Object.values(dictionary).forEach(ac => {
+    Object.values(dictionary).forEach((ac) => {
       // calculate current allocation
       ac.currentAllocation = (ac.currentValue * 100) / total;
 
@@ -113,7 +113,7 @@ class AssetAllocationEngine {
     return array;
   }
 
-    /**
+  /**
    * Deletes all data in Asset Allocation storage (table).
    */
   async emptyData() {
@@ -123,7 +123,7 @@ class AssetAllocationEngine {
   findChildren(dictionary, parent) {
     let children = [];
 
-    Object.values(dictionary).forEach(val => {
+    Object.values(dictionary).forEach((val) => {
       // console.log(key); // the name of the current key.
       // console.log(val); // the value of the current key.
       if (parent.fullname === val.parentName) {
@@ -184,7 +184,7 @@ class AssetAllocationEngine {
   formatNumbers(dictionary) {
     let format = "0,0.00";
 
-    Object.values(dictionary).forEach(ac => {
+    Object.values(dictionary).forEach((ac) => {
       ac.currentAllocation = numeral(ac.currentAllocation).format(format);
 
       ac.currentValue = numeral(ac.currentValue).format(format);
@@ -201,21 +201,21 @@ class AssetAllocationEngine {
 
   /**
    * Update the current balances in the asset allocation.
-   * @param {string} json 
+   * @param {string} json
    */
   async importCurrentValuesJson(json) {
-    const accounts = Object.keys(json)
-    for(let i = 0; i < accounts.length; i++) {
-      const key = accounts[i]
+    const accounts = Object.keys(json);
+    for (let i = 0; i < accounts.length; i++) {
+      const key = accounts[i];
 
       // fix the balance
-      let balance = json[key]
+      let balance = json[key];
       balance = balance.replace(",", "");
 
       // extract the currency
-      let parts = balance.split(' ')
-      const amount = parts[0]
-      const currency = parts[1]
+      let parts = balance.split(" ");
+      const amount = parts[0];
+      const currency = parts[1];
 
       // Update existing account.
       let account = await appService.db.accounts.get(key);
@@ -235,63 +235,63 @@ class AssetAllocationEngine {
    * @param {string} content The content of the YAML definition file.
    */
   async importYamlDefinition(content) {
-    var parsed = jsyaml.load(content)
+    var parsed = jsyaml.load(content);
 
     //var aa = parsed.Allocation
     // Convert to backward-compatible structure (tree -> list).
-    var assetClasses = this.linearizeObject(parsed)
+    var assetClasses = this.linearizeObject(parsed);
 
     // todo: use the tree structure directly, at some later point.
 
-    var result = await this.validateAndSave(assetClasses)
-    return result
+    var result = await this.validateAndSave(assetClasses);
+    return result;
   }
 
   /**
    * Convert a YAML tree AA structure into a list of Asset Classes.
    * This converts the new structure into the old.
-   * @param {object} rootObject 
+   * @param {object} rootObject
    */
-  linearizeObject(rootObject, namespace = '') {
-    var result = []
+  linearizeObject(rootObject, namespace = "") {
+    var result = [];
 
     // only use the children.
 
     for (const propertyName in rootObject) {
-      var child = rootObject[propertyName]
+      var child = rootObject[propertyName];
 
       // symbols is an array, which is also an object. Skip.
-      if(typeof child == "object" && child.constructor !== Array) {
+      if (typeof child == "object" && child.constructor !== Array) {
         // convert to Asset Class
-        var item = new AssetClass()
-        item.allocation = child.allocation
-        item.symbols = child.symbols
+        var item = new AssetClass();
+        item.allocation = child.allocation;
+        item.symbols = child.symbols;
         // todo: get the name
-        if(namespace) {
-          item.fullname = namespace + ':' + propertyName
+        if (namespace) {
+          item.fullname = namespace + ":" + propertyName;
         } else {
-          item.fullname = propertyName
+          item.fullname = propertyName;
         }
 
-        result.push(item)
+        result.push(item);
 
         //console.log(`object: ${propertyName}`, child)
 
         // iterate
-        var childNamespace = namespace
+        var childNamespace = namespace;
         if (namespace) {
-          childNamespace += ':'
+          childNamespace += ":";
         }
-        childNamespace += propertyName
+        childNamespace += propertyName;
 
-        var children = this.linearizeObject(child, childNamespace)
-        if(children.length) {
-          result = result.concat(children)
+        var children = this.linearizeObject(child, childNamespace);
+        if (children.length) {
+          result = result.concat(children);
         }
       }
     }
 
-    return result
+    return result;
   }
 
   // /**
@@ -321,13 +321,13 @@ class AssetAllocationEngine {
 
   /**
    * Used on import only!
-   * @param {Array} assetClassArray 
+   * @param {Array} assetClassArray
    */
   async validateAndSave(assetClassArray) {
     // Validate
     let assetClassIndex = this.buildAssetClassIndex(assetClassArray);
-    let errors = this.validate(assetClassIndex)
-    if (errors.length) throw "Validation failed: " + errors
+    let errors = this.validate(assetClassIndex);
+    if (errors.length) throw "Validation failed: " + errors;
 
     // persist
     return appService.db.assetAllocation.bulkPut(assetClassArray);
@@ -337,7 +337,7 @@ class AssetAllocationEngine {
     // load current balances from accounts
     // add the account balances to asset classes
     let invAccounts = await appService.getInvestmentAccounts();
-    await invAccounts.each(account => {
+    await invAccounts.each((account) => {
       let amount = parseFloat(account.currentValue);
       // amount = amount.toFixed(2)
 
@@ -406,8 +406,10 @@ class AssetAllocationEngine {
   sumGroupBalances(acIndex) {
     let root = acIndex["Allocation"];
 
-    if(root == null) {
-      throw new Error('Asset Allocation not defined. Please import the definition file.')
+    if (root == null) {
+      throw new Error(
+        "Asset Allocation not defined. Please import the definition file."
+      );
     }
 
     let sum = this.sumChildren(acIndex, root);
@@ -443,7 +445,7 @@ class AssetAllocationEngine {
     let errors = [];
     let keys = Object.keys(assetClassList);
 
-    keys.forEach(acName => {
+    keys.forEach((acName) => {
       let ac = assetClassList[acName];
       let result = this.validateGroupAllocation(ac, assetClassList);
       if (result) {
@@ -451,8 +453,8 @@ class AssetAllocationEngine {
       }
     });
 
-    console.log("AA validation results: ", errors)
-    
+    console.log("AA validation results: ", errors);
+
     return errors;
   }
 

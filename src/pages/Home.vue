@@ -53,14 +53,14 @@
 </template>
 
 <script>
-import { TOGGLE_DRAWER } from '../mutations'
-import SyncCard from '../components/SyncCard.vue'
-import FavouritesCard from '../components/FavouritesCard'
-import JournalCard from '../components/JournalCard'
-import ScheduledCard from '../components/ScheduledTxCard'
+import { TOGGLE_DRAWER } from "../mutations";
+import SyncCard from "../components/SyncCard.vue";
+import FavouritesCard from "../components/FavouritesCard.vue";
+import JournalCard from "../components/JournalCard.vue";
+import ScheduledCard from "../components/ScheduledTxCard.vue";
 
 export default {
-  name: 'PageHome',
+  name: "PageHome",
 
   components: {
     ScheduledCard,
@@ -69,34 +69,34 @@ export default {
     JournalCard,
   },
 
-  inject: ['version'],
+  inject: ["version"],
 
   data() {
     return {
-      lorem: 'some text',
-    }
+      lorem: "some text",
+    };
   },
 
   methods: {
     menuClicked() {
-      let visible = this.$store.getters.drawerOpen
-      this.$store.commit(TOGGLE_DRAWER, !visible)
+      let visible = this.$store.getters.drawerOpen;
+      this.$store.commit(TOGGLE_DRAWER, !visible);
     },
     onFab() {
       // fab clicked. Use for the new transaction
-      this.$router.push({ name: 'tx' })
+      this.$router.push({ name: "tx" });
     },
     onFavClick() {
-      this.$router.push({ name: 'favourites' })
+      this.$router.push({ name: "favourites" });
     },
     onJournalClick() {
-      this.$router.push({ name: 'journal' })
+      this.$router.push({ name: "journal" });
     },
     onScheduledClick() {
-      this.$router.push({ name: 'scheduledtransactions' })
+      this.$router.push({ name: "scheduledtransactions" });
     },
   },
-}
+};
 </script>
 
 <style lang="sass" scoped>
