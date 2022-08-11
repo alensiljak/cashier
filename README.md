@@ -32,8 +32,8 @@ With the newer versions of node, you can use `corepack enable`.
 
 Start the app in development mode (hot-code reloading, error reporting, etc.)
 
-```bash
-quasar dev
+``` bash
+quasar dev --mode pwa
 ```
 
 Old:
@@ -53,7 +53,7 @@ Updating libraries: list outdated with `npm outdated`.
 
 ## Building
 
-`quasar build`
+`quasar build --mode pwa`
 
 Old:
 Build the release version with `npm run build`.
