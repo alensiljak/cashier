@@ -159,6 +159,7 @@ import Toolbar from '../components/Toolbar'
 import JournalTransaction from '../components/JournalTransaction'
 import appService from '../appService'
 import { Iterator } from '../lib/scheduledTransactions'
+import { string } from 'mathjs'
 
 export default {
   components: {
@@ -166,7 +167,7 @@ export default {
     JournalTransaction,
   },
   props: {
-    id: { type: Number, default: null },
+    id: { type: String, default: null },
   },
   data() {
     return {

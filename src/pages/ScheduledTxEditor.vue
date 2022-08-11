@@ -26,14 +26,13 @@
   </q-page>
 </template>
 <script setup>
-import { ref, onMounted, provide, reactive } from 'vue'
+import { onMounted, provide, reactive } from 'vue'
 import { useStore } from 'vuex'
 import { useQuasar } from 'quasar'
 import { useRoute } from 'vue-router'
 
 const store = useStore()
 const $q = useQuasar()
-const route = useRoute()
 
 let scheduledTx = store.getters.clipboard
 
@@ -46,8 +45,61 @@ if (!scheduledTx) {
 provide('scheduledTx', scheduledTx)
 
 onMounted(async () => {
-  // console.log('mounted sch.tx. editor')
+  try {
+    const id = getId()
+    let stx = await loadData(id)
+    use(stx)
+  } catch (error) {
+    $q.notify({ message: error.message, color: 'negative' })
+  }
 })
+
+async function loadData(id) {
+  if (typeof id === 'string') {
+    // convert to a numeric value
+    id = parseInt(id)
+  }
+
+  let result = null
+
+  // Special case. ID of 0 should be used to reset the Sch.Tx in the state.
+  // This is necessary for the case when using a 'schedule' action from the tx actions.
+  if (id === 0) {
+    // Reset the Scheduled transaction.
+    result = new ScheduledTransaction()
+    // But use the journal transaction from the state
+
+    return result
+  }
+
+  // load existing record
+  let schTx = await appService.db.scheduled.get(id)
+  if (!schTx) {
+    throw new Error('Scheduled transaction not loaded', id)
+  }
+  return schTx
+}
+
+function getId() {
+  const route = useRoute()
+  const id = route.params.id
+  return id
+}
+
+/**
+ * Sets the given Scheduled Transaction as the active object, being edited.
+ */
+function use(scheduledTransaction) {
+  //this.scheduledTx = reactive(scheduledTransaction)
+  Object.assign(scheduledTx, scheduledTransaction)
+
+  // put into the store the attached journal transaction.
+  const transaction = JSON.parse(scheduledTransaction.transaction)
+
+  // make tx available for editing
+  const txSvc = new CurrentTransactionService(store)
+  txSvc.setTx(transaction)
+}
 </script>
 <script>
 import TxEditor from '../components/TransactionEditor'
@@ -63,82 +115,9 @@ export default {
     TxEditor,
   },
 
-  // provide() {
-  //   return {
-  //     scheduledTx: computed(() => this.scheduledTx),
-  //   }
-  // },
-
   emits: ['toggleDrawer'],
 
-  // computed: {
-  //   scheduledTx: {
-  //     get() {
-  //       return this.$store.getters.clipboard
-  //     },
-  //     set(value) {
-  //       this.$store.commit('saveToClipboard', value)
-  //     },
-  //   },
-  // },
-
-  async created() {
-    try {
-      await this.loadData()
-    } catch (error) {
-      $q.notify({ message: error.message, color: 'negative' })
-    }
-  },
-
   methods: {
-    async loadData() {
-      let id = this.$route.params.id
-      //console.debug('loading sch.tx', id, ', id type is', typeof(id))
-      // temporary workaround: if the id type is not numeric, just use the values
-      // from the store.
-      if (typeof id === 'string') {
-        // convert to a numeric value
-        id = parseInt(id)
-      }
-
-      // Special case. ID of 0 should be used to reset the Sch.Tx in the state.
-      // This is necessary for the case when using a transction from the journal editor.
-      if (id === 0) {
-        // Reset the Scheduled transaction.
-        this.scheduledTx = new ScheduledTransaction()
-        // But use the journal transaction from the state
-      }
-
-      if (!id) {
-        // todo: enable this after testing.
-        // this.resetTransaction()
-        //console.log('blank transaction, using clipboard values')
-      } else {
-        // console.log('loading sch.tx', id)
-
-        // load existing record
-        let schTx = await appService.db.scheduled.get(id)
-        if (!schTx) {
-          throw new Error('Scheduled transaction not loaded', id)
-        }
-        // console.debug('loaded', schTx)
-        this.use(schTx)
-      }
-    },
-    /**
-     * Sets the given Scheduled Transaction as the active object, being edited.
-     */
-    use(scheduledTransaction) {
-      // save to store
-      this.scheduledTx = reactive(scheduledTransaction)
-
-      // put into the store the attached journal transaction.
-      const transaction = JSON.parse(scheduledTransaction.transaction)
-
-      // make tx available for editing
-      const txSvc = new CurrentTransactionService(this.$store)
-      txSvc.setTx(transaction)
-    },
     resetTransaction() {
       this.use(new ScheduledTransaction())
     },
@@ -147,7 +126,7 @@ export default {
      */
     async saveData() {
       //const stx = this.scheduledTx
-      let stx = structuredClone(this.scheduledTx);
+      let stx = structuredClone(this.scheduledTx)
 
       // serialize transaction
       let tx = structuredClone(this.$store.getters.transaction)

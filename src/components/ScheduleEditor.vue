@@ -91,14 +91,6 @@ export default {
   },
 
   computed: {
-    // scheduledTx: {
-    //   get() {
-    //     return this.$store.getters.clipboard
-    //   },
-    //   set(value) {
-    //     this.$store.commit('saveToClipboard', value)
-    //   },
-    // },
     repetition: {
       get() {
         return this.scheduledTx.count != null || this.scheduledTx.period != null
