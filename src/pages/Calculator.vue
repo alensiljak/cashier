@@ -1,11 +1,17 @@
-<template lang="html">
+<template>
   <q-page padding class="bg-colour1 text-colour2">
     <toolbar title="Number Entry" />
-  
+
     <calculator-neu />
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn fab icon="check" color="accent" text-color="secondary" @click="onAcceptClick" />
+      <q-btn
+        fab
+        icon="check"
+        color="accent"
+        text-color="secondary"
+        @click="onAcceptClick"
+      />
     </q-page-sticky>
   </q-page>
 </template>

@@ -1,148 +1,254 @@
-<template lang="html">
+<template>
   <div class="calculator">
     <div class="calculator__container">
       <div class="display">
-        <input id="smallDisplay" class="small-display" :value="expression" disabled="disabled">
-        <input id="display" class="display-numbers" :value="current||'0'" disabled="disabled">
+        <input
+          id="smallDisplay"
+          class="small-display"
+          :value="expression"
+          disabled="disabled"
+        />
+        <input
+          id="display"
+          class="display-numbers"
+          :value="current || '0'"
+          disabled="disabled"
+        />
       </div>
       <div class="keyboard">
         <div class="keyboard-row">
-          <button class="keyboard-key keyboard-key--gray" @click="clearDisplay()">AC</button>
-          <button class="keyboard-key keyboard-key--gray" @click="changeSign()"><span>+/-</span></button>
-          <button class="keyboard-key keyboard-key--gray" @click="convertPercent()">%</button>
-          <button class="operator keyboard-key keyboard-key--orange" @click="keyPressed('/')">÷</button>
+          <button
+            class="keyboard-key keyboard-key--gray"
+            @click="clearDisplay()"
+          >
+            AC
+          </button>
+          <button class="keyboard-key keyboard-key--gray" @click="changeSign()">
+            <span>+/-</span>
+          </button>
+          <button
+            class="keyboard-key keyboard-key--gray"
+            @click="convertPercent()"
+          >
+            %
+          </button>
+          <button
+            class="operator keyboard-key keyboard-key--orange"
+            @click="keyPressed('/')"
+          >
+            ÷
+          </button>
         </div>
         <div class="keyboard-row">
-          <button class="number keyboard-key keyboard-key--white" @click="keyPressed('7')">7</button>
-          <button class="number keyboard-key keyboard-key--white" @click="keyPressed('8')">8</button>
-          <button class="number keyboard-key keyboard-key--white" @click="keyPressed('9')">9</button>
-          <button class="operator keyboard-key keyboard-key--orange" @click="keyPressed('*')">×</button>
+          <button
+            class="number keyboard-key keyboard-key--white"
+            @click="keyPressed('7')"
+          >
+            7
+          </button>
+          <button
+            class="number keyboard-key keyboard-key--white"
+            @click="keyPressed('8')"
+          >
+            8
+          </button>
+          <button
+            class="number keyboard-key keyboard-key--white"
+            @click="keyPressed('9')"
+          >
+            9
+          </button>
+          <button
+            class="operator keyboard-key keyboard-key--orange"
+            @click="keyPressed('*')"
+          >
+            ×
+          </button>
         </div>
         <div class="keyboard-row">
-          <button class="number keyboard-key keyboard-key--white" @click="keyPressed('4')">4</button>
-          <button class="number keyboard-key keyboard-key--white" @click="keyPressed('5')">5</button>
-          <button class="number keyboard-key keyboard-key--white" @click="keyPressed('6')">6</button>
-          <button class="operator keyboard-key keyboard-key--orange" @click="keyPressed('-')">−</button>
+          <button
+            class="number keyboard-key keyboard-key--white"
+            @click="keyPressed('4')"
+          >
+            4
+          </button>
+          <button
+            class="number keyboard-key keyboard-key--white"
+            @click="keyPressed('5')"
+          >
+            5
+          </button>
+          <button
+            class="number keyboard-key keyboard-key--white"
+            @click="keyPressed('6')"
+          >
+            6
+          </button>
+          <button
+            class="operator keyboard-key keyboard-key--orange"
+            @click="keyPressed('-')"
+          >
+            −
+          </button>
         </div>
         <div class="keyboard-row">
-          <button class="number keyboard-key keyboard-key--white" @click="keyPressed('1')">1</button>
-          <button class="number keyboard-key keyboard-key--white" @click="keyPressed('2')">2</button>
-          <button class="number keyboard-key keyboard-key--white" @click="keyPressed('3')">3</button>
-          <button class="operator keyboard-key keyboard-key--orange" @click="keyPressed('+')">+</button>
+          <button
+            class="number keyboard-key keyboard-key--white"
+            @click="keyPressed('1')"
+          >
+            1
+          </button>
+          <button
+            class="number keyboard-key keyboard-key--white"
+            @click="keyPressed('2')"
+          >
+            2
+          </button>
+          <button
+            class="number keyboard-key keyboard-key--white"
+            @click="keyPressed('3')"
+          >
+            3
+          </button>
+          <button
+            class="operator keyboard-key keyboard-key--orange"
+            @click="keyPressed('+')"
+          >
+            +
+          </button>
         </div>
         <div class="keyboard-row">
-          <button class="keyboard-key keyboard-key--white keyboard-key--double" @click="keyPressed('0')">0</button>
-          <button class="keyboard-key keyboard-key--white" @click="keyPressed('.')">.</button>
-          <button class="keyboard-key keyboard-key--orange" @click="keyPressed('=')">=</button>
+          <button
+            class="keyboard-key keyboard-key--white keyboard-key--double"
+            @click="keyPressed('0')"
+          >
+            0
+          </button>
+          <button
+            class="keyboard-key keyboard-key--white"
+            @click="keyPressed('.')"
+          >
+            .
+          </button>
+          <button
+            class="keyboard-key keyboard-key--orange"
+            @click="keyPressed('=')"
+          >
+            =
+          </button>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { evaluate as mathEvaluate } from 'mathjs'
+import { evaluate as mathEvaluate } from "mathjs";
 
 export default {
   data() {
     return {
-      current: '',
-      expression: '',
+      current: "",
+      expression: "",
       previous: null,
       operator: null,
       clickedOperator: false,
-    }
+    };
   },
   methods: {
     clearDisplay() {
-      this.current = ''
-      this.expression = ''
-      this.previous = null
-      this.operator = null
-      this.clickedOperator = false
+      this.current = "";
+      this.expression = "";
+      this.previous = null;
+      this.operator = null;
+      this.clickedOperator = false;
     },
     appendSymbol(number) {
       if (this.clickedOperator) {
-        this.clickedOperator = false
-        this.current = number
+        this.clickedOperator = false;
+        this.current = number;
       } else {
         this.current =
-          this.current === '0' ? number : `${this.current}${number}`
+          this.current === "0" ? number : `${this.current}${number}`;
       }
     },
     convertDecimal() {
       if (this.clickedOperator) {
-        this.current = '0.'
-        this.clickedOperator = false
+        this.current = "0.";
+        this.clickedOperator = false;
       }
-      if (this.current.indexOf('.') === -1) {
-        this.current += '0.'
+      if (this.current.indexOf(".") === -1) {
+        this.current += "0.";
       }
     },
     changeSign() {
       this.current =
-        this.current.charAt(0) === '-'
+        this.current.charAt(0) === "-"
           ? this.current.slice(1)
-          : `-${this.current}`
+          : `-${this.current}`;
     },
     convertPercent() {
-      this.current = `${parseFloat(this.current) / 100}`
+      this.current = `${parseFloat(this.current) / 100}`;
     },
     handleOperator(newOperator) {
-      const numberValue = parseFloat(this.current)
+      const numberValue = parseFloat(this.current);
       if (this.operator && this.clickedOperator) {
-        this.operator = newOperator
+        this.operator = newOperator;
       }
       if (this.previous == null) {
-        this.previous = numberValue
+        this.previous = numberValue;
       } else if (this.operator) {
-        const result = this.calculate(this.previous, numberValue, this.operator)
-        this.current = String(result)
-        this.previous = result
+        const result = this.calculate(
+          this.previous,
+          numberValue,
+          this.operator
+        );
+        this.current = String(result);
+        this.previous = result;
       }
-      this.clickedOperator = true
-      this.operator = newOperator
+      this.clickedOperator = true;
+      this.operator = newOperator;
     },
     calculate(first, second, operator) {
       switch (operator) {
-        case '+':
-          return first + second
-        case '-':
-          return first - second
-        case '*':
-          return first * second
-        case '÷':
-          return first / second
+        case "+":
+          return first + second;
+        case "-":
+          return first - second;
+        case "*":
+          return first * second;
+        case "÷":
+          return first / second;
         default:
-          return second
+          return second;
       }
     },
     evaluate() {
       try {
-        var result = mathEvaluate(this.expression)
-        console.log(result)
-        return result
+        var result = mathEvaluate(this.expression);
+        console.log(result);
+        return result;
       } catch {
         // ignore the expression.
-        console.log("can't evaluate:" + this.expression)
+        console.log("can't evaluate:" + this.expression);
       }
     },
     keyPressed(keyValue) {
       // append the operator
-      if (keyValue != '=') {
-        this.expression += keyValue
+      if (keyValue != "=") {
+        this.expression += keyValue;
       }
 
       // calculate
-      var result = this.evaluate()
-      this.current = result
+      var result = this.evaluate();
+      this.current = result;
 
       // set the expression to the current value.
-      if (keyValue == '=') {
-        this.expression = result
+      if (keyValue == "=") {
+        this.expression = result;
       }
     },
   },
-}
+};
 </script>
 <style lang="scss" scoped>
 //@import '@/sass/app.scss';
