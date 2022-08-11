@@ -1,8 +1,10 @@
 # cashier
 
+A mobile companion for Ledger-cli
+
 https://cashier.alensiljak.eu.org/
 
-is a PWA GUI assistant application for [Ledger-cli](https://ledger-cli.org). It is intended to be used for entering transactions and previewing balances, mostly on a mobile device. 
+Cashier is a PWA GUI assistant application for [Ledger-cli](https://ledger-cli.org). It is intended to be used for entering transactions and previewing balances, mostly on a mobile device. 
 The accounts and balances can be imported from Ledger to establish baselines and the entered transactions can be exported to be merged into the main ledger file.
 
 The app works completely offline, meaning **all** the data required for the functioning of the app is stored in a local database in a browser. 
@@ -26,6 +28,15 @@ See the [TODO](TODO) file for the historical list of features, technical issues,
 
 With the newer versions of node, you can use `corepack enable`.
 
+`npm install`
+
+Start the app in development mode (hot-code reloading, error reporting, etc.)
+
+```bash
+quasar dev
+```
+
+Old:
 Run the dev server `npm run serve` or `npm run dev` and open the browser on http://localhost:8080
 
 ## Debugging
@@ -42,6 +53,9 @@ Updating libraries: list outdated with `npm outdated`.
 
 ## Building
 
+`quasar build`
+
+Old:
 Build the release version with `npm run build`.
 
 ## Deployment
