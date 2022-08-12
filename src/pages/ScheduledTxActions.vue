@@ -154,11 +154,11 @@
 <script setup>
 </script>
 <script>
-import Toolbar from "../components/CashierToolbar.vue";
-import JournalTransaction from "../components/JournalTransaction.vue";
-import appService from "../appService";
-import { Iterator } from "../lib/scheduledTransactions";
-import { string } from "mathjs";
+import Toolbar from "../components/CashierToolbar.vue"
+import JournalTransaction from "../components/JournalTransaction.vue"
+import appService from "../appService"
+import { Iterator } from "../lib/scheduledTransactions"
+import { string } from "mathjs"
 
 export default {
   components: {
@@ -174,158 +174,161 @@ export default {
       confirmDeleteVisible: false,
       skipConfirmationVisible: false,
       enterConfirmationVisible: false,
-    };
+    }
   },
   computed: {
     tx: {
       get() {
         if (!this.scheduledTx || !this.scheduledTx.transaction) {
-          return {};
+          return {}
         }
-        return JSON.parse(this.scheduledTx.transaction);
+        return JSON.parse(this.scheduledTx.transaction)
       },
       set(value) {
-        this.scheduledTx.transaction = JSON.stringify(value);
+        this.scheduledTx.transaction = JSON.stringify(value)
       },
     },
   },
   async created() {
-    await this.load();
+    await this.load()
   },
   methods: {
     async confirmDelete() {
-      const id = this.scheduledTx.id;
+      const id = this.scheduledTx.id
       if (!id) {
-        console.error("the current scheduled transaction does not have an id");
-        return;
+        console.error("the current scheduled transaction does not have an id")
+        return
       }
 
       const result = await appService.db.scheduled
         .where("id")
         .equals(id)
-        .delete();
-      console.log("deletion result:", result);
+        .delete()
+      console.log("deletion result:", result)
 
       //this.resetTransaction()
 
       //this.$router.push({ name: 'scheduledtransactions' })
-      this.$router.back();
+      this.$router.back()
     },
     /**
      * enter the transaction into journal and update the next date on schedule.
      */
     async enterTransaction() {
       // Create the journal transaction.
-      let tx = this.tx;
+      let tx = this.tx
       // clear the id field, if any, to get a new one on save.
-      tx.id = null;
-      const id = await appService.saveTransaction(tx);
+      tx.id = null
+      const id = await appService.saveTransaction(tx)
 
       // update the iteration date
-      await this.skip();
+      await this.skip()
 
-      this.$q.notify({ message: "Transaction created", color: "positive" });
+      this.$q.notify({ message: "Transaction created", color: "positive" })
 
       // open the transaction. Maintain page navigation history.
-      this.$router.replace({ name: "tx", params: { id: id } });
+      this.$router.replace({ name: "tx", params: { id: id } })
     },
     getNumericId() {
       // when navigating back, the id becomes string instead of original numeric
       if (typeof this.id === "string") {
-        return Number(this.id);
+        return Number(this.id)
       }
       if (typeof this.id === "number") {
-        return this.id;
+        return this.id
       }
 
-      throw new Error("Invalid Id value", this.id);
+      throw new Error("Invalid Id value", this.id)
     },
     async load() {
-      const id = this.getNumericId();
-      const schTx = await appService.db.scheduled.get(id);
-      this.scheduledTx = schTx;
+      const id = this.getNumericId()
+      const schTx = await appService.db.scheduled.get(id)
+      this.scheduledTx = schTx
 
-      const tx = JSON.parse(schTx.transaction);
-      this.tx = tx;
+      const tx = JSON.parse(schTx.transaction)
+      this.tx = tx
     },
     onEditClicked() {
       // open the editor
-      const id = this.getNumericId();
-      this.$router.push({ name: "scheduledtxeditor", params: { id: id } });
+      const id = this.getNumericId()
+      this.$router.push({ name: "scheduledtxeditor", params: { id: id } })
     },
     async onEnterConfirmed() {
       try {
-        await this.enterTransaction();
+        await this.enterTransaction()
       } catch (err) {
-        this.$q.notify({ color: "negative", message: err.message });
+        this.$q.notify({ color: "negative", message: err.message })
       }
     },
     async onSkipConfirmed() {
       try {
-        await this.skip();
+        await this.skip()
 
-        this.$router.back();
+        this.$router.back()
       } catch (err) {
-        this.$q.notify({ color: "negative", message: err.message });
+        this.$q.notify({ color: "negative", message: err.message })
       }
     },
+    /**
+     * Saves the Scheduled Transaction record.
+     */
     async saveData() {
-      // Saves the Stx record
-
       // serialize transaction
-      let tx = this.tx;
+      let tx = this.tx
       // do not store any transaction ids!
-      tx.id = null;
-      this.tx = tx;
+      tx.id = null
+      this.tx = tx
 
-      let stx = this.scheduledTx;
+      let stx = this.scheduledTx
 
       // reuse transaction date. For indexing only.
-      stx.nextDate = tx.date;
+      stx.nextDate = tx.date
 
-      let clone = structuredClone(stx);
-      const result = await appService.saveScheduledTransaction(clone);
+      //let clone = structuredClone(stx);
+      let clone = JSON.parse(JSON.stringify(stx))
+
+      const result = await appService.saveScheduledTransaction(clone)
       // console.log('saved', result)
-      return result;
+      return result
     },
     async skip() {
       // Skips the next iteration.
 
-      let stx = this.scheduledTx;
-      const startDate = stx.nextDate;
-      const count = stx.count;
-      const period = stx.period;
-      const endDate = stx.endDate;
+      let stx = this.scheduledTx
+      const startDate = stx.nextDate
+      const count = stx.count
+      const period = stx.period
+      const endDate = stx.endDate
 
       // todo: handle the one-off occurrence (no count and no period)
 
       // calculate the next iteration.
-      const iterator = new Iterator();
+      const iterator = new Iterator()
       let newDate = iterator.calculateNextIteration(
         startDate,
         count,
         period,
         endDate
-      );
+      )
       if (!newDate) {
         // throw new Error(`invalid date calculated: ${newDate}`)
         // Passed the End Date.
-        newDate = "0000-00-00";
+        newDate = "0000-00-00"
       }
 
       // update the date on the transaction
-      let tx = this.tx;
-      tx.date = newDate;
-      this.tx = tx;
+      let tx = this.tx
+      tx.date = newDate
+      this.tx = tx
 
-      const result = await this.saveData();
+      const result = await this.saveData()
       if (!result) {
         this.$q.notify({
           message: "transaction not saved!",
           color: "negative",
-        });
+        })
       }
     },
   },
-};
+}
 </script>
