@@ -97,6 +97,7 @@ import TxEditor from "../components/TransactionEditor.vue";
 import { CurrentTransactionService } from "../lib/currentTransactionService";
 import { SettingKeys, settings } from "src/lib/Configuration";
 import eventBus from "../lib/eventBus";
+import { toRaw } from "vue";
 
 export default {
   components: {
@@ -164,7 +165,8 @@ export default {
     },
     async onSaveClicked() {
       try {
-        let tx = structuredClone(this.tx);
+        //let tx = structuredClone(this.tx);
+        let tx = toRaw(this.tx);
 
         await appService.saveTransaction(tx);
 
@@ -175,9 +177,6 @@ export default {
         if (remember) {
           await appService.saveLastTransaction(tx);
         }
-
-        // clear Transaction entry
-        this.onClear();
 
         // reset tx in state
         this.resetTransaction();

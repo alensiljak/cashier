@@ -4,11 +4,8 @@
     store.dispatch() => invokes action
     store.commit() => invokes mutation
 */
-//import * as Vue from "vue";
-//import Vuex from "vuex";
 import { createStore } from "vuex";
-
-//Vue.use(Vuex);
+import { isProxy, toRaw } from "vue";
 
 import {
   SET_SELECT_MODE,
@@ -78,7 +75,9 @@ export default function (/* { ssrContext } */) {
         state.transaction = transaction;
       },
       [SET_PAYEE](state, payload) {
-        let tx = structuredClone(state.transaction);
+        // let tx = structuredClone(state.transaction);
+        let tx = toRaw(state.transaction);
+
         tx.payee = payload;
         state.transaction = tx;
       },
@@ -86,7 +85,9 @@ export default function (/* { ssrContext } */) {
         let index = payload.index;
         let posting = payload.posting;
 
-        let tx = structuredClone(state.transaction);
+        //let tx = structuredClone(state.transaction);
+        let tx = toRaw(state.transaction);
+
         tx.postings[index] = posting;
 
         state.transaction = tx;
