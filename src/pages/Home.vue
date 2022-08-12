@@ -20,7 +20,7 @@
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
-    <!-- <img alt="Quasar logo" src="/icons/icon96.png"> -->
+    <!-- <img alt="Quasar logo" src="/icons/favicon-96x96.png"> -->
 
     <!-- Cards -->
 

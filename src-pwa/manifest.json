@@ -1,7 +1,7 @@
 {
-    "name": "Cashier",
-    "short_name": "cashier",
-    "start_url": "/index.html",
+  "name": "Cashier",
+  "short_name": "cashier",
+  "start_url": "/index.html",
 
   "orientation": "portrait",
   "background_color": "#000000",
@@ -18,12 +18,12 @@
       "type": "image/png"
     },
     {
-      "src": "icons/icon96.png",
+      "src": "icons/favicon-96x96.png",
       "sizes": "96x96",
       "type": "image/png"
     },
     {
-      "src": "icons/icon-128x128.png",
+      "src": "icons/favicon-128x128.png",
       "sizes": "128x128",
       "type": "image/png"
     },

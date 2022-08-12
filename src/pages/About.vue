@@ -7,8 +7,8 @@
         Cashier
         <span style="font-size: 0.8rem">{{ $version }}</span>
       </h3>
-      <!-- <img src="/icons/icon96.png"> -->
-      <img src="../../public/icons/icon96.png" />
+      <!-- <img src="/icons/favicon-96x96.png"> -->
+      <img src="../../public/icons/favicon-96x96.png" />
     </div>
     <div class="text-center q-my-sm">by Alen Šiljak</div>
     <div>
