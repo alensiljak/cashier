@@ -5,8 +5,6 @@
       {{ posting.amount }} {{ posting.currency }}
     </q-item-section>
   </q-item>
-
-  <!-- <li class="list-item">{{item}}</li> -->
 </template>
 
 <script>
@@ -16,7 +14,11 @@ export default {
   mixins: [ElementMixin],
 
   props: {
-    posting: { type: Object, default: null }
-  }
+    posting: { type: Object, default: null },
+  },
+
+  created() {
+    // console.debug('posting is', this.posting)
+  },
 }
 </script>

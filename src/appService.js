@@ -7,6 +7,7 @@ import db from './dataStore'
 import { Account, LastTransaction, Transaction } from './model'
 import { Notify } from 'quasar'
 import { settings, SettingKeys } from './lib/Configuration'
+import { toRaw } from 'vue'
 
 class AppService {
   /**
@@ -15,7 +16,7 @@ class AppService {
    */
   clearIds(tx) {
     delete tx.id
-    tx.postings.forEach(posting => {
+    tx.postings.forEach((posting) => {
       delete posting.id
       delete posting.transactionId
     })
@@ -54,25 +55,16 @@ class AppService {
       'rw',
       this.db.transactions,
       this.db.postings,
-      async tx => {
-        const x = await db.transactions
-          .where('id')
-          .equals(id)
-          .count()
+      async (tx) => {
+        const x = await db.transactions.where('id').equals(id).count()
         console.log('count:', x)
 
         // delete transaction record
-        let result = await db.transactions
-          .where('id')
-          .equals(id)
-          .delete()
+        let result = await db.transactions.where('id').equals(id).delete()
         console.log('transactions -', result)
 
         // delete postings
-        result = await db.postings
-          .where('transactionId')
-          .equals(id)
-          .delete()
+        result = await db.postings.where('transactionId').equals(id).delete()
         console.log('postings -', result)
 
         return 'Transaction complete'
@@ -133,7 +125,7 @@ class AppService {
 
     var reader = new FileReader()
 
-    reader.onload = event => {
+    reader.onload = (event) => {
       // File was successfully read.
       var content = event.target.result
 
@@ -220,7 +212,7 @@ class AppService {
     let commodities = []
 
     const accounts = await this.getInvestmentAccounts()
-    await accounts.each(account => {
+    await accounts.each((account) => {
       commodities.push(account.currency)
     })
 
@@ -493,6 +485,10 @@ class AppService {
       // create a new id for the transaction
       tx.id = new Date().getTime()
     }
+
+    // convert to pocos
+    let postings = tx.postings.map((txposting) => toRaw(txposting))
+    tx.postings = postings
 
     this.adjustPostings(tx)
 

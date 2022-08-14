@@ -98,6 +98,12 @@ export default function (/* { ssrContext } */) {
 
         state.transaction = tx
       },
+      setPostings(state, postingsArray) {
+        let tx = state.transaction
+        tx.postings = postingsArray
+
+        state.transaction = tx
+      },
       [TOGGLE_DRAWER](state, drawerVisible) {
         state.drawerOpen = drawerVisible
       },

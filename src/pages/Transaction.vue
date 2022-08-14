@@ -92,12 +92,12 @@
 </template>
 
 <script>
-import appService from "../appService";
-import TxEditor from "../components/TransactionEditor.vue";
-import { CurrentTransactionService } from "../lib/currentTransactionService";
-import { SettingKeys, settings } from "src/lib/Configuration";
-import eventBus from "../lib/eventBus";
-import { toRaw } from "vue";
+import appService from '../appService'
+import TxEditor from '../components/TransactionEditor.vue'
+import { CurrentTransactionService } from '../lib/currentTransactionService'
+import { SettingKeys, settings } from 'src/lib/Configuration'
+import eventBus from '../lib/eventBus'
+import { toRaw } from 'vue'
 
 export default {
   components: {
@@ -107,98 +107,103 @@ export default {
   data() {
     return {
       isConfirmDeleteVisible: false,
-    };
+    }
   },
 
   computed: {
     tx: {
       get() {
-        return this.$store.getters.transaction;
+        return this.$store.getters.transaction
       },
       set(value) {
         // save in the state store
-        new CurrentTransactionService(this.$store).setTx(value);
+        new CurrentTransactionService(this.$store).setTx(value)
       },
     },
   },
 
   async created() {
     // for New Tx, clear the transaction store
-    if (!this.tx) this.resetTransaction();
+    if (!this.tx) this.resetTransaction()
 
     // For Edit Tx, load the tx from database.
     try {
-      await this.loadData();
+      await this.loadData()
     } catch (error) {
-      this.$q.notify({ message: error.message, color: "negative" });
+      this.$q.notify({ message: error.message, color: 'negative' })
     }
   },
 
   methods: {
     confirmDelete() {
       // Resets all Transaction fields to defaults.
-      this.resetTransaction();
+      this.resetTransaction()
     },
     /**
      * Load all data for the view.
      */
     async loadData() {
       // Transaction
-      let id = this.$route.params.id;
+      let id = this.$route.params.id
       // Ignore string ids. This is coming from the route when 'back' clicked.
-      if (typeof id === "string") {
-        id = parseInt(id);
+      if (typeof id === 'string') {
+        id = parseInt(id)
       }
 
+      // after reordering Postings, there is a modified local transaction.
+      let tx = this.$store.state.transaction
+      if (tx && tx.id === id) {
+        //console.debug('use existing')
+        this.tx = tx
+        return
+      }
+
+      // otherwise load from the data store.
       if (id) {
-        await this.loadTransaction(id);
+        await this.loadTransaction(id)
       }
     },
     async loadTransaction(id) {
-      console.debug("loading tx", id);
-
-      const tx = await appService.loadTransaction(id);
-      this.tx = tx;
+      const tx = await appService.loadTransaction(id)
+      this.tx = tx
     },
     onClear() {
-      this.isConfirmDeleteVisible = true;
+      this.isConfirmDeleteVisible = true
     },
     async onSaveClicked() {
       try {
         //let tx = structuredClone(this.tx);
-        let tx = toRaw(this.tx);
+        let tx = toRaw(this.tx)
 
-        await appService.saveTransaction(tx);
+        await appService.saveTransaction(tx)
 
         // Remember Last Transaction?
-        const remember = await settings.get(
-          SettingKeys.rememberLastTransaction
-        );
+        const remember = await settings.get(SettingKeys.rememberLastTransaction)
         if (remember) {
-          await appService.saveLastTransaction(tx);
+          await appService.saveLastTransaction(tx)
         }
 
         // reset tx in state
-        this.resetTransaction();
+        this.resetTransaction()
 
-        this.$router.back();
+        this.$router.back()
       } catch (err) {
-        console.error(err);
-        this.$q.notify({ message: "error: " + err.message, color: "negative" });
+        console.error(err)
+        this.$q.notify({ message: 'error: ' + err.message, color: 'negative' })
       }
     },
     resetTransaction() {
-      const svc = new CurrentTransactionService(this.$store);
-      const tx = svc.createTransaction();
-      this.tx = tx;
+      const svc = new CurrentTransactionService(this.$store)
+      const tx = svc.createTransaction()
+      this.tx = tx
     },
     toggleDrawer() {
-      eventBus.$emit("toggle-drawer");
+      eventBus.$emit('toggle-drawer')
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
-@import "../css/styles.scss";
+@import '../css/styles.scss';
 </style>

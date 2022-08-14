@@ -10,8 +10,19 @@ import { ContainerMixin } from 'vue-slicksort'
 export default {
   mixins: [ContainerMixin],
 
+  props: {
+    value: { type: Array, required: true },
+    modelValue: { type: Object },
+  },
+
   data() {
     return {}
+  },
+
+  methods: {
+    updateValue(event) {
+      this.$emit('update:modelValue', event.target.value)
+    },
   },
 }
 </script>

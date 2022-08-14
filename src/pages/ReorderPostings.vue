@@ -19,12 +19,20 @@
       </q-toolbar>
     </q-header>
 
-    <accounts-list v-model="postings" lock-axis="y">
+    <accounts-list
+      v-model:list="postings"
+      lock-axis="y"
+      axis="y"
+      :value="postings"
+      :modelValue="postings"
+      @input="onListChange"
+    >
       <posting-item
         v-for="(posting, index) in postings"
-        :key="index"
+        :key="posting"
         :index="index"
         :posting="posting"
+        :value="posting"
       />
     </accounts-list>
   </q-page>
@@ -33,6 +41,9 @@
 import AccountsList from '../components/SortableAccountsList.vue'
 import PostingItem from '../components/SortablePostingItem.vue'
 import eventBus from '../lib/eventBus'
+import { toRaw } from 'vue'
+import { CurrentTransactionService } from '../lib/currentTransactionService'
+import { Posting } from '../model'
 
 export default {
   components: {
@@ -46,18 +57,46 @@ export default {
     }
   },
 
+  computed: {
+    tx: {
+      get() {
+        let tx = this.$store.getters.transaction
+
+        if (!tx) {
+          const svc = new CurrentTransactionService(this.$store)
+          tx = svc.createTransaction()
+        }
+
+        return tx
+      },
+    },
+  },
+
   created() {
     this.load()
   },
 
   methods: {
     load() {
-      // load the postings
+      // retrieve the postings
       let tx = this.$store.getters.transaction
-      if (!tx) {
-        tx = svc.createTransaction()
+      if (!tx) return
+
+      const postings = []
+      for (var i in tx.postings) {
+        const txposting = tx.postings[i]
+        let posting = new Posting()
+        posting.account = txposting.account
+        posting.amount = txposting.amount
+        posting.currency = txposting.currency
+
+        postings.push(posting)
       }
-      this.postings = tx.postings
+      this.postings = postings
+    },
+    onListChange(list) {
+      //console.log('input', list)
+      this.postings = list
     },
     onSaveClicked() {
       this.save()
@@ -65,13 +104,10 @@ export default {
     },
     save() {
       // save the postings into the local store
-      let tx = this.$store.getters.transaction
-      if (!tx) {
-        tx = svc.createTransaction()
-      }
-      tx.postings = this.postings
+      //this.tx.postings = this.postings
+      this.$store.commit('setPostings', toRaw(this.postings))
 
-      this.$q.notify({ message: 'data saved', color: 'positive' })
+      this.$q.notify({ message: 'Postings reordered', color: 'positive' })
     },
     toggleDrawer() {
       eventBus.$emit('toggle-drawer')
