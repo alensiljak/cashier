@@ -5,7 +5,7 @@
         <input
           id="smallDisplay"
           class="small-display"
-          :value="expression"
+          v-model="expression"
           disabled="disabled"
         />
         <input
@@ -142,113 +142,109 @@
   </div>
 </template>
 <script>
-import { evaluate as mathEvaluate } from "mathjs";
+import { evaluate as mathEvaluate } from 'mathjs'
 
 export default {
   data() {
     return {
-      current: "",
-      expression: "",
+      current: '',
+      expression: '',
       previous: null,
       operator: null,
       clickedOperator: false,
-    };
+    }
   },
   methods: {
     clearDisplay() {
-      this.current = "";
-      this.expression = "";
-      this.previous = null;
-      this.operator = null;
-      this.clickedOperator = false;
+      this.current = ''
+      this.expression = ''
+      this.previous = null
+      this.operator = null
+      this.clickedOperator = false
     },
     appendSymbol(number) {
       if (this.clickedOperator) {
-        this.clickedOperator = false;
-        this.current = number;
+        this.clickedOperator = false
+        this.current = number
       } else {
         this.current =
-          this.current === "0" ? number : `${this.current}${number}`;
+          this.current === '0' ? number : `${this.current}${number}`
       }
     },
     convertDecimal() {
       if (this.clickedOperator) {
-        this.current = "0.";
-        this.clickedOperator = false;
+        this.current = '0.'
+        this.clickedOperator = false
       }
-      if (this.current.indexOf(".") === -1) {
-        this.current += "0.";
+      if (this.current.indexOf('.') === -1) {
+        this.current += '0.'
       }
     },
     changeSign() {
       this.current =
-        this.current.charAt(0) === "-"
+        this.current.charAt(0) === '-'
           ? this.current.slice(1)
-          : `-${this.current}`;
+          : `-${this.current}`
     },
     convertPercent() {
-      this.current = `${parseFloat(this.current) / 100}`;
+      this.current = `${parseFloat(this.current) / 100}`
     },
     handleOperator(newOperator) {
-      const numberValue = parseFloat(this.current);
+      const numberValue = parseFloat(this.current)
       if (this.operator && this.clickedOperator) {
-        this.operator = newOperator;
+        this.operator = newOperator
       }
       if (this.previous == null) {
-        this.previous = numberValue;
+        this.previous = numberValue
       } else if (this.operator) {
-        const result = this.calculate(
-          this.previous,
-          numberValue,
-          this.operator
-        );
-        this.current = String(result);
-        this.previous = result;
+        const result = this.calculate(this.previous, numberValue, this.operator)
+        this.current = String(result)
+        this.previous = result
       }
-      this.clickedOperator = true;
-      this.operator = newOperator;
+      this.clickedOperator = true
+      this.operator = newOperator
     },
     calculate(first, second, operator) {
       switch (operator) {
-        case "+":
-          return first + second;
-        case "-":
-          return first - second;
-        case "*":
-          return first * second;
-        case "÷":
-          return first / second;
+        case '+':
+          return first + second
+        case '-':
+          return first - second
+        case '*':
+          return first * second
+        case '÷':
+          return first / second
         default:
-          return second;
+          return second
       }
     },
     evaluate() {
       try {
-        var result = mathEvaluate(this.expression);
-        console.log(result);
-        return result;
+        var result = mathEvaluate(this.expression)
+        console.log(result)
+        return result
       } catch {
         // ignore the expression.
-        console.log("can't evaluate:" + this.expression);
+        console.log("can't evaluate:" + this.expression)
       }
     },
     keyPressed(keyValue) {
       // append the operator
-      if (keyValue != "=") {
-        this.expression += keyValue;
+      if (keyValue != '=') {
+        this.expression += keyValue
       }
 
       // calculate
-      var result = this.evaluate();
-      this.current = result;
+      var result = this.evaluate()
+      this.current = result
 
       // set the expression to the current value.
-      if (keyValue == "=") {
-        this.expression = result;
+      if (keyValue == '=') {
+        this.expression = result
       }
     },
   },
-};
+}
 </script>
 <style lang="scss" scoped>
 //@import '@/sass/app.scss';

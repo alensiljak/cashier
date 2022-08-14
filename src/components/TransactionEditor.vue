@@ -182,13 +182,6 @@ export default {
   methods: {
     addPosting() {
       this.$store.dispatch('addPosting')
-      //this.$state.store.addPosting()
-      // // fix empty postings
-      // if (!this.tx.postings) {
-      //   this.tx.postings = Object.assign(this.tx.postings, [])
-      // }
-
-      // this.tx.postings.push(new Posting())
     },
     deletePosting(index) {
       if (this.resetSlide) {
