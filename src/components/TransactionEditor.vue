@@ -123,17 +123,16 @@
   </div>
 </template>
 <script>
-import appService from "../appService"
-import { SET_SELECT_MODE, SET_PAYEE, SET_POSTING } from "../mutations"
-import { CurrentTransactionService } from "../lib/currentTransactionService"
+import appService from '../appService'
+import { SET_SELECT_MODE, SET_PAYEE, SET_POSTING } from '../mutations'
+import { CurrentTransactionService } from '../lib/currentTransactionService'
 import {
   SelectionModeMetadata,
   SettingKeys,
   settings,
-} from "../lib/Configuration"
-import QPosting from "../components/Posting.vue"
-import { Posting } from "../model"
-import { toRaw } from "vue"
+} from '../lib/Configuration'
+import QPosting from '../components/Posting.vue'
+import { Posting } from '../model'
 
 export default {
   components: {
@@ -158,7 +157,7 @@ export default {
         } else {
           // fix postings
           if (!tx.postings) {
-            this.$store.dispatch("resetPostings")
+            this.$store.dispatch('resetPostings')
           }
         }
         return tx
@@ -182,12 +181,14 @@ export default {
 
   methods: {
     addPosting() {
-      // fix postings
-      if (!this.tx.postings) {
-        this.tx.postings = []
-      }
+      this.$store.dispatch('addPosting')
+      //this.$state.store.addPosting()
+      // // fix empty postings
+      // if (!this.tx.postings) {
+      //   this.tx.postings = Object.assign(this.tx.postings, [])
+      // }
 
-      this.tx.postings.push(new Posting())
+      // this.tx.postings.push(new Posting())
     },
     deletePosting(index) {
       if (this.resetSlide) {
@@ -236,14 +237,14 @@ export default {
       const id = select.selectedId
 
       switch (select.selectionType) {
-        case "payee":
+        case 'payee':
           this.$store.commit(SET_PAYEE, id)
           await this.loadLastTransaction(id)
           break
-        case "account":
+        case 'account':
           // get the posting
           var index = null
-          if (typeof select.postingIndex === "number") {
+          if (typeof select.postingIndex === 'number') {
             index = select.postingIndex
           } else {
             // redirected from account register, find an appropriate posting
@@ -289,12 +290,12 @@ export default {
       // save the index of the posting being edited
       selectMode.postingIndex = index
       // set the type
-      selectMode.selectionType = "account"
+      selectMode.selectionType = 'account'
 
       // set the selection mode
       this.$store.commit(SET_SELECT_MODE, selectMode)
       // show account picker
-      this.$router.push({ name: "accounts" })
+      this.$router.push({ name: 'accounts' })
     },
     onAmountChanged() {
       // recalculate the sum
@@ -304,7 +305,7 @@ export default {
      * (value, reason, details)
      */
     onDateSelected(value, reason) {
-      if (reason !== "day" && reason !== "today") return
+      if (reason !== 'day' && reason !== 'today') return
 
       // close the picker if the date was selected
       this.$refs.qDateProxy.hide()
@@ -314,12 +315,12 @@ export default {
       const selectMode = new SelectionModeMetadata()
 
       // set the type
-      selectMode.selectionType = "payee"
+      selectMode.selectionType = 'payee'
 
       // set the selection mode
       this.$store.commit(SET_SELECT_MODE, selectMode)
       // show account picker
-      this.$router.push({ name: "payees" })
+      this.$router.push({ name: 'payees' })
     },
     onSlide({ reset }) {
       this.resetSlide = reset
@@ -335,16 +336,16 @@ export default {
         if (!isNaN(posting.amount)) {
           this.postingSum += posting.amount
         } else {
-          console.warn("The amount is not a number:", posting.amount)
+          console.warn('The amount is not a number:', posting.amount)
         }
       }
     },
     reorderPostings() {
-      this.$router.push({ name: "reorder postings" })
+      this.$router.push({ name: 'reorder postings' })
     },
     resetTransaction() {
       const tx = new CurrentTransactionService(this.$store).createTransaction()
-      this.tx = tx
+      this.tx = Object.assign(this.tx, tx)
       return tx
     },
   },

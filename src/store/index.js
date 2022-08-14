@@ -4,8 +4,8 @@
     store.dispatch() => invokes action
     store.commit() => invokes mutation
 */
-import { createStore } from "vuex"
-import { isProxy, toRaw } from "vue"
+import { createStore } from 'vuex'
+import { isProxy, toRaw } from 'vue'
 
 import {
   SET_SELECT_MODE,
@@ -15,7 +15,8 @@ import {
   SET_TRANSACTION,
   TOGGLE_DRAWER,
   SET_LEDGER_USE,
-} from "../mutations"
+} from '../mutations'
+import { Posting } from 'src/model'
 
 /*
  * If not building with SSR mode, you can
@@ -58,6 +59,10 @@ export default function (/* { ssrContext } */) {
     },
     // Data transformations
     mutations: {
+      addPosting(state) {
+        let tx = state.transaction
+        tx.postings.push(new Posting())
+      },
       /**
        * Set the metadata for the select mode.
        * @param {*} state
@@ -106,6 +111,9 @@ export default function (/* { ssrContext } */) {
 
     // Business logic.
     actions: {
+      addPosting(context) {
+        context.commit('addPosting')
+      },
       resetPostings(commit, state) {
         let tx = state.getters.transaction
         tx.postings = []

@@ -72,6 +72,6 @@
   },
   "prettier": {
     "semi": false,
-    "singleQuote": false
+    "singleQuote": true
   }
 }

@@ -44,8 +44,8 @@
 </template>
 
 <script>
-import { SET_POSTING } from "../mutations";
-import { toRaw } from "vue";
+import { SET_POSTING } from "../mutations"
+import { toRaw } from "vue"
 
 export default {
   props: {
@@ -55,69 +55,66 @@ export default {
   data: function () {
     return {
       accountOptions: null,
-    };
+    }
   },
 
   computed: {
     account: {
       get() {
-        return this.$store.getters.transaction.postings[this.index].account;
+        return this.$store.getters.transaction.postings[this.index].account
       },
       set(value) {
-        let posting = this.$store.getters.transaction.postings[this.index];
-
-        //let clone = structuredClone(posting);
-        let clone = toRaw(posting);
-
-        clone.account = value;
-        this.$store.commit(SET_POSTING, { index: this.index, posting: clone });
+        let posting = this.getEditablePosting()
+        posting.account = value
+        this.$store.commit(SET_POSTING, { index: this.index, posting: posting })
       },
     },
     amount: {
       get() {
-        return this.$store.getters.transaction.postings[this.index].amount;
+        return this.$store.getters.transaction.postings[this.index].amount
       },
       set(value) {
-        let posting = this.$store.getters.transaction.postings[this.index];
-
-        //let clone = structuredClone(posting);
-        let clone = toRaw(posting);
-
-        clone.amount = value;
-        this.$store.commit(SET_POSTING, { index: this.index, posting: clone });
+        let posting = this.getEditablePosting()
+        posting.amount = value
+        this.$store.commit(SET_POSTING, { index: this.index, posting: posting })
       },
     },
     currency: {
       get() {
-        return this.$store.getters.transaction.postings[this.index].currency;
+        return this.$store.getters.transaction.postings[this.index].currency
       },
       set(value) {
-        let posting = this.$store.getters.transaction.postings[this.index];
-
-        //let clone = structuredClone(posting);
-        let clone = toRaw(posting);
-
-        clone.currency = value;
-        this.$store.commit(SET_POSTING, { index: this.index, posting: clone });
+        let posting = this.getEditablePosting()
+        posting.currency = value
+        this.$store.commit(SET_POSTING, { index: this.index, posting: posting })
       },
     },
     isMissingCurrency: {
       get() {
-        const hasValidAmount = !isNaN(this.amount);
-        const amountMissing = this.amount === "";
-        const hasNoCurrency = this.currency === "";
+        const hasValidAmount = !isNaN(this.amount)
+        const amountMissing = this.amount === ""
+        const hasNoCurrency = this.currency === ""
 
-        if (amountMissing) return false;
+        if (amountMissing) return false
 
-        return hasNoCurrency && hasValidAmount;
+        return hasNoCurrency && hasValidAmount
       },
     },
   },
 
   methods: {
+    getEditablePosting() {
+      let posting = this.$store.getters.transaction.postings[this.index]
+
+      //let clone = structuredClone(posting);
+      //let clone = toRaw(posting);
+      let clone = JSON.parse(JSON.stringify(posting))
+
+      return clone
+    },
     onAmountFocus(e) {
-      e.target.select();
+      e.target.select()
     },
   },
-};
+}
 </script>
