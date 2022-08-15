@@ -253,7 +253,6 @@ class AppService {
     let multicurrencyAccount = false
 
     // read and parse the balance sheet string
-    //const lines = text.split('\n')
     for (let i = 0; i < lines.length; i++) {
       // console.log(lines[i]);
       const line = lines[i]

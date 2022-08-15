@@ -136,11 +136,11 @@ export default {
       this.accountsStatus = accounts ? ExistsStatus : NoneStatus
 
       // Balances
-      const balances = await cache.match(sync.balancesUrl)
-      this.balancesStatus = balances ? ExistsStatus : NoneStatus
+      //const balances = await cache.match(sync.balancesUrl)
+      //this.balancesStatus = balances ? ExistsStatus : NoneStatus
 
-      const currentValues = await cache.match(sync.currentValuesUrl)
-      this.assetAllocationStatus = currentValues ? ExistsStatus : NoneStatus
+      //const currentValues = await cache.match(sync.currentValuesUrl)
+      //this.assetAllocationStatus = currentValues ? ExistsStatus : NoneStatus
 
       const payees = await cache.match(sync.getPayeesUrl())
       this.payeesStatus = payees ? ExistsStatus : NoneStatus
@@ -151,16 +151,16 @@ export default {
       const url = cashierSync.getAccountsUrl()
       await this.clearCache(url)
     },
-    async clearBalances() {
-      let cashierSync = new CashierSync(this.serverUrl)
-      const url = cashierSync.balancesUrl
-      await this.clearCache(url)
-    },
-    async clearAssetAllocation() {
-      let cashierSync = new CashierSync(this.serverUrl)
-      const url = cashierSync.currentValuesUrl
-      await this.clearCache(url)
-    },
+    // async clearBalances() {
+    //   let cashierSync = new CashierSync(this.serverUrl)
+    //   const url = cashierSync.balancesUrl
+    //   await this.clearCache(url)
+    // },
+    // async clearAssetAllocation() {
+    //   let cashierSync = new CashierSync(this.serverUrl)
+    //   const url = cashierSync.currentValuesUrl
+    //   await this.clearCache(url)
+    // },
     async clearPayees() {
       let cashierSync = new CashierSync(this.serverUrl)
       const url = cashierSync.getPayeesUrl()
@@ -200,16 +200,16 @@ export default {
 
       this.$q.notify({ message: 'accounts cached', color: 'primary' })
     },
-    async fetchAssetAllocation() {
-      let cashierSync = new CashierSync(this.serverUrl)
-      const url = cashierSync.currentValuesUrl
-      await this.cacheUrl(url)
-    },
-    async fetchBalances() {
-      let cashierSync = new CashierSync(this.serverUrl)
-      const url = cashierSync.balancesUrl
-      await this.cacheUrl(url)
-    },
+    // async fetchAssetAllocation() {
+    //   let cashierSync = new CashierSync(this.serverUrl)
+    //   const url = cashierSync.currentValuesUrl
+    //   await this.cacheUrl(url)
+    // },
+    // async fetchBalances() {
+    //   let cashierSync = new CashierSync(this.serverUrl)
+    //   const url = cashierSync.balancesUrl
+    //   await this.cacheUrl(url)
+    // },
     async fetchPayees() {
       let cashierSync = new CashierSync(this.serverUrl)
       const url = cashierSync.getPayeesUrl()

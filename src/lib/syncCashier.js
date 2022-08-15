@@ -11,8 +11,8 @@ import { engine } from './AssetAllocation'
  */
 export class CashierSync {
   static accountsCommand = 'accounts'
-  static balancesUrl = '/balance'
-  static currentValuesUrl = '/currentValues'
+  //static balancesUrl = '/balance'
+  //static currentValuesUrl = '/currentValues'
   static payeesCommand = 'payees'
 
   constructor(serverUrl) {
@@ -23,8 +23,8 @@ export class CashierSync {
       serverUrl = serverUrl.substring(0, serverUrl.length - 1)
     }
     this.serverUrl = serverUrl
-    this.balancesUrl = this.serverUrl + CashierSync.balancesUrl
-    this.currentValuesUrl = this.serverUrl + CashierSync.currentValuesUrl
+    //this.balancesUrl = this.serverUrl + CashierSync.balancesUrl
+    //this.currentValuesUrl = this.serverUrl + CashierSync.currentValuesUrl
   }
 
   async get(path, options) {
@@ -107,25 +107,58 @@ export class CashierSync {
     return content
   }
 
+  /**
+   *
+   * @returns Current account values
+   */
   async readCurrentValues() {
     const rootAcct = await settings.get(SettingKeys.rootInvestmentAccount)
     const currency = await settings.get(SettingKeys.currency)
 
-    const url = new URL(this.currentValuesUrl)
-    const params = {
-      root: rootAcct,
-      currency: currency,
-    }
-    Object.keys(params).forEach((key) =>
-      url.searchParams.append(key, params[key])
-    )
+    // const url = new URL(this.currentValuesUrl)
+    // const params = {
+    //   root: rootAcct,
+    //   currency: currency,
+    // }
+    // Object.keys(params).forEach((key) =>
+    //   url.searchParams.append(key, params[key])
+    // )
 
-    const response = await ky.get(url)
+    const command = `b ^${rootAcct} -X ${currency} --flat --no-total`
+
+    //const response = await ky.get(url)
+    const response = await this.ledger(command)
     //const result = await response.text()
     const result = await response.json()
 
-    await engine.importCurrentValuesJson(result)
+    // parse
+    const currentValues = this.parseCurrentValues(result, rootAcct)
+
+    await engine.importCurrentValuesJson(currentValues)
     return 'OK'
+  }
+
+  parseCurrentValues(lines, rootAccount) {
+    let result = {}
+
+    for (const line of lines) {
+      if (line === '') continue
+
+      let row = line.trim()
+
+      // split at the root account name
+      let rootIndex = row.indexOf(rootAccount)
+
+      let amount = row.substring(0, rootIndex)
+      amount = amount.trim()
+
+      let account = row.substring(rootIndex)
+
+      // add to the dictionary
+      result[account] = amount
+    }
+
+    return result
   }
 
   /**

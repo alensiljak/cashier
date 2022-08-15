@@ -233,8 +233,6 @@ export default {
     async synchronizeBalances() {
       const sync = new CashierSync(this.serverUrl)
 
-      /// Balances
-
       // Import the account balances.
       const lines = await sync.readBalances()
       await appService.importBalanceSheet(lines)
