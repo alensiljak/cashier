@@ -57,7 +57,7 @@ export class CashierSync {
    * Sends a ledger command to the Ledger server and returns the response.
    * @param {String} command
    */
-  async ledger(command) {
+  async ledger(command, options) {
     const url = this.getUrl(command)
 
     const response = await ky(url, options)
@@ -84,7 +84,7 @@ export class CashierSync {
    */
   async readAccounts() {
     const command = CashierSync.accountsCommand
-    const response = await ledger(command)
+    const response = await this.ledger(command)
     if (!response.ok) {
       throw new Error('Error reading accounts!')
     }
@@ -99,8 +99,9 @@ export class CashierSync {
    * @returns array of Account objects
    */
   async readBalances() {
-    const url = new URL(this.balancesUrl)
-    const response = await ky(url)
+    const command = 'b --flat --no-total'
+    // const url = new URL(this.balancesUrl)
+    const response = await this.ledger(command)
     const content = await response.json()
 
     return content

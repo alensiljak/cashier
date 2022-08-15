@@ -236,8 +236,8 @@ export default {
       /// Balances
 
       // Import the account balances.
-      const balances = await sync.readBalances()
-      await appService.importBalanceSheet(balances)
+      const lines = await sync.readBalances()
+      await appService.importBalanceSheet(lines)
       this.$q.notify({ message: 'balances loaded', color: 'primary' })
     },
     async onSyncClicked() {
