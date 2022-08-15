@@ -8,10 +8,10 @@ Cashier is a PWA GUI assistant application for [Ledger-cli](https://ledger-cli.o
 The accounts and balances can be imported from Ledger to establish baselines and the entered transactions can be exported to be merged into the main ledger file.
 
 The app works completely offline, meaning **all** the data required for the functioning of the app is stored in a local database in a browser. 
-In addition, it is *possible* to get the data from your Ledger book by using a separate component [cashier-sync](https://gitlab.com/alensiljak/cashiersync). The data flow is **one-way** only, from Ledger to Cashier. Cashier or Cashier Sync will never write to your Ledger book.
-It is also possible to export the transactions from Cashier as Ledger files, which can be manually added to the main book.
 
-See the [TODO](TODO) file for the historical list of features, technical issues, brainstorming ideas, and priorities. This was used as the base for the development.
+The existing data from your Ledger book can be populated by using a [Ledger Server](https://github.com/MisterY/ledger-server-go). This will provide your ledger reports to Cashier. Since Ledger-cli is **readonly**, your data only is only read. Cashier or Ledger Server cannot write to your Ledger book.
+
+The transactions entered in Cashier can be exported as Ledger files and manually added to the main book.
 
 # Features
 
@@ -33,11 +33,12 @@ With the newer versions of node, you can use `corepack enable`.
 Start the app in development mode (hot-code reloading, error reporting, etc.)
 
 ``` bash
-quasar dev --mode pwa
+npm run dev
 ```
 
-Old:
-Run the dev server `npm run serve` or `npm run dev` and open the browser on http://localhost:8080
+which is equivalent to `quasar dev --mode pwa`.
+
+Then open the browser at http://localhost:8080
 
 ## Debugging
 
@@ -53,10 +54,8 @@ Updating libraries: list outdated with `npm outdated`.
 
 ## Building
 
-`quasar build --mode pwa`
-
-Old:
 Build the release version with `npm run build`.
+This is the equivalent of `quasar build --mode pwa`.
 
 ## Deployment
 
@@ -77,7 +76,7 @@ Here is the description on how to set up Cashier on Android. It demonstrates the
 
 Open https://cashier.alensiljak.eu.org in the browser. Use "Add to Home screen" or "Install" options to add the app.
 
-Set up synchronization with [cashiersync-go](https://gitlab.com/alensiljak/cashiersync-go):
+Set up synchronization with [Ledger Server](https://github.com/MisterY/ledger-server-go):
 
 ## Android
 
@@ -88,7 +87,7 @@ Set up synchronization with [cashiersync-go](https://gitlab.com/alensiljak/cashi
 
 ## Set up
 
-- download CashierSync from https://gitlab.com/alensiljak/cashiersync-go/-/releases.
+- download Ledger Server from https://github.com/MisterY/ledger-server-go
 - git clone or manually create folders for the ledger book and prices
 - set up .ledgerrc in the home directory, to point to the book and prices files
 

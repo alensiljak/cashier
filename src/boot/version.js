@@ -1,5 +1,6 @@
-//version: 'v2022.08.08'
-
+/**
+ * Set the application version here.
+ */
 export default ({ app, router, store }) => {
-  app.provide('version', 'v2022.08.14')
+  app.provide('version', 'v2022.08.15')
 }
