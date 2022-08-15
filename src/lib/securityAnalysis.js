@@ -1,3 +1,4 @@
+import { re } from 'mathjs'
 import moment from 'moment'
 import { settings, SettingKeys } from './Configuration'
 import { LedgerApi } from './ledgerApi'
@@ -26,10 +27,11 @@ export class SecurityAnalysis {
    */
   async getSecurityAnalysisFor(symbol) {
     this.currency = await settings.get(SettingKeys.currency)
+    await this.ledgerApi.init()
 
     var result = {
-      yield: await this.#getYield(symbol),
-      gainloss: await this.#getGainLoss(),
+      yield: await this.#getYield(symbol, this.currency),
+      gainloss: await this.#getGainLoss(symbol, this.currency),
     }
 
     return result
@@ -39,7 +41,7 @@ export class SecurityAnalysis {
    * Calculate the yield in the last 12 months.
    * This value is affected by the recent purchases, which result in seemingly lower yield!
    */
-  async #getYield(symbol) {
+  async #getYield(symbol, currency) {
     // Retrieve income amount.
     let incomeStr = await this.#getIncomeBalance(symbol)
     let income = Number(incomeStr)
@@ -47,7 +49,7 @@ export class SecurityAnalysis {
     income = income * -1
 
     // Retrieve the current value of the holding.
-    let valueStr = await this.#getValueBalance(symbol, this.currency)
+    let valueStr = await this.#getValueBalance(symbol, currency)
     let value = Number(valueStr)
 
     // Calculate
@@ -65,7 +67,15 @@ export class SecurityAnalysis {
     return result
   }
 
-  async #getGainLoss() {}
+  async #getGainLoss(symbol, currency) {
+    const command = `b ^Assets and :${symbol}$ -G -n -X ${currency}`
+    const report = await this.ledgerApi.query(command)
+    const line = report[0]
+
+    let number = this.#getNumberFromCollapseResult(line)
+    const result = number + ' ' + this.currency
+    return result
+  }
 
   /**
    * Get the income in the last year.
@@ -75,9 +85,7 @@ export class SecurityAnalysis {
     const yieldFrom = moment().subtract(1, 'year').format(DATE_FORMAT)
 
     const command = `b ^Income and :${symbol}$ -b ${yieldFrom} --flat -X ${currency}`
-    const api = this.ledgerApi
-    await api.init()
-    let report = await api.query(command)
+    let report = await this.ledgerApi.query(command)
 
     const total = this.#extractTotal(report)
     return total
@@ -102,7 +110,7 @@ export class SecurityAnalysis {
     const parts = totalLine.split(' ')
     let totalNumeric = parts[0]
     // remove thousand-separators
-    totalNumeric = totalNumeric.replace(',', '')
+    totalNumeric = totalNumeric.replaceAll(',', '')
 
     return totalNumeric
   }
@@ -115,5 +123,23 @@ export class SecurityAnalysis {
     const report = await api.query(command)
     const total = this.#extractTotal(report)
     return total
+  }
+
+  /**
+   * Parses a 1-line ledger result, when --collapse is used
+   * @param {String} line
+   */
+  #getNumberFromCollapseResult(line) {
+    line = line.trim()
+
+    // -1,139 EUR  Assets
+    const parts = line.split(' ')
+    if (parts.length != 4) {
+      throw new Error('wrong number of parts!')
+    }
+
+    let totalNumeric = parts[0]
+    totalNumeric = totalNumeric.replaceAll(',', '')
+    return totalNumeric
   }
 }
