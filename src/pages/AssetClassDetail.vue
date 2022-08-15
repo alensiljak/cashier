@@ -33,11 +33,12 @@
 </template>
 
 <script>
-import appService from "../appService";
-import { CashierSync } from "../lib/syncCashier";
-import { SettingKeys, settings } from "../lib/Configuration";
-import * as Vue from "vue";
-import Toolbar from "../components/CashierToolbar.vue";
+import appService from '../appService'
+import { CashierSync } from '../lib/syncCashier'
+import { SettingKeys, settings } from '../lib/Configuration'
+import * as Vue from 'vue'
+import Toolbar from '../components/CashierToolbar.vue'
+import { SecurityAnalysis } from 'src/lib/securityAnalysis'
 
 export default {
   components: {
@@ -50,82 +51,79 @@ export default {
       investmentAccounts: [],
       currency: null,
       serverUrl: null,
-    };
+    }
   },
 
   created() {
-    this.loadData();
+    this.loadData()
   },
 
   methods: {
     async loadData() {
-      let that = this;
-      let col = await appService.getInvestmentAccounts();
-      let array = await col.toArray();
-      that.investmentAccounts = array;
-      this.loadAssetClass();
+      let that = this
+      let col = await appService.getInvestmentAccounts()
+      let array = await col.toArray()
+      that.investmentAccounts = array
+      this.loadAssetClass()
 
-      this.currency = await settings.get(SettingKeys.currency);
-      this.serverUrl = await settings.get(SettingKeys.syncServerUrl);
-      this.securityAnalysis();
+      this.currency = await settings.get(SettingKeys.currency)
+      this.serverUrl = await settings.get(SettingKeys.syncServerUrl)
+      this.securityAnalysis()
     },
     async loadAssetClass() {
-      const ac = await appService.loadAssetClass(this.$route.params.fullname);
-      this.assetClass = ac;
-      await this.loadConstituents();
+      const ac = await appService.loadAssetClass(this.$route.params.fullname)
+      this.assetClass = ac
+      await this.loadConstituents()
     },
     /**
      * Load all constituents - stocks, currencies.
      */
     loadConstituents() {
-      let childNames = this.assetClass.symbols;
-      let stocks = [];
+      let childNames = this.assetClass.symbols
+      let stocks = []
 
       // load account balances
       for (let i = 0; i < childNames.length; i++) {
-        let childName = childNames[i];
+        let childName = childNames[i]
         let stock = {
           name: childName,
           accounts: [],
-        };
+        }
 
-        let account = null;
+        let account = null
         // find all accounts with this commodity
         for (let j = 0; j < this.investmentAccounts.length; j++) {
-          account = this.investmentAccounts[j];
+          account = this.investmentAccounts[j]
           if (account.currency === childName) {
-            stock.accounts.push(account);
+            stock.accounts.push(account)
           }
         }
 
-        stocks.push(stock);
+        stocks.push(stock)
       }
 
-      this.symbols = stocks;
+      this.symbols = stocks
     },
     /**
      * Retrieve the security analysis from CashierSync
      */
-    async fetchAnalysis(symbol) {
-      // console.log('fetching analysis for', symbol)
-      let sync = new CashierSync(this.serverUrl);
-      let result = sync.readSecurityAnalysis(symbol);
-      return result;
+    async fetchAnalysisFor(symbol) {
+      //let sync = new CashierSync(this.serverUrl);
+      let sec = new SecurityAnalysis()
+
+      //let result = sync.readSecurityAnalysis(symbol)
+      const result = await sec.getSecurityAnalysisFor(symbol)
+      return result
     },
     async securityAnalysis() {
-      // todo: check if the CashierSync is running!
-
       // load analysis for all symbols
       for (let i = 0; i < this.symbols.length; i++) {
-        let symbol = this.symbols[i].name;
-        // console.log(symbol)
-        let analysis = await this.fetchAnalysis(symbol);
-        let stock = this.symbols.find((obj) => obj.name == symbol);
-        // Use Vue.set to add a property to a reactive object.
-        //Vue.set(stock, 'analysis', analysis)
-        stock.analysis = analysis;
+        let symbol = this.symbols[i].name
+        let analysis = await this.fetchAnalysisFor(symbol)
+        let stock = this.symbols.find((obj) => obj.name == symbol)
+        stock.analysis = analysis
       }
     },
   },
-};
+}
 </script>

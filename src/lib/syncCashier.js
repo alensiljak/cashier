@@ -1,5 +1,5 @@
 /*
-  Synchronization with CashierSync.
+  Synchronization with Ledger server.
 */
 import ky from 'ky'
 import { settings, SettingKeys } from './Configuration'
@@ -108,7 +108,7 @@ export class CashierSync {
   }
 
   /**
-   *
+   * Get current account values in the base currency.
    * @returns Current account values
    */
   async readCurrentValues() {
@@ -158,27 +158,6 @@ export class CashierSync {
       result[account] = amount
     }
 
-    return result
-  }
-
-  /**
-   * Retrieves the Security Analysis from Cashier Sync.
-   * @param {string} symbol
-   */
-  async readSecurityAnalysis(symbol) {
-    const currency = await settings.get(SettingKeys.currency)
-    const url = new URL(`${this.serverUrl}/securitydetails`)
-
-    const params = {
-      symbol: symbol,
-      currency: currency,
-    }
-    Object.keys(params).forEach((key) =>
-      url.searchParams.append(key, params[key])
-    )
-
-    const response = await ky(url)
-    const result = await response.text()
     return result
   }
 
