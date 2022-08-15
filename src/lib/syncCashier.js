@@ -162,16 +162,23 @@ export class CashierSync {
   }
 
   async readLots(symbol) {
-    const url = new URL(this.serverUrl + '/lots')
-    const params = { symbol: symbol }
-    Object.keys(params).forEach((key) =>
-      url.searchParams.append(key, params[key])
-    )
+    const command = `b ^Assets and invest and :${symbol}$ --lots --no-total --collapse`
 
-    const response = await ky.get(url)
+    //const response = await ky.get(url)
+    const response = await this.ledger(command)
     if (!response.ok) throw new Error('error fetching lots: ' + response.text())
 
     const result = await response.json()
+
+    // remove "Assets" account title
+    const lastIndex = result.length - 1
+    let lastLine = result[lastIndex]
+    if (lastLine.includes('Assets')) {
+      let parts = lastLine.split('Assets')
+      let value = parts[0]
+      result[lastIndex] = value
+    }
+
     return result
   }
 
