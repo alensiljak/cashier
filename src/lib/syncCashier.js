@@ -11,8 +11,6 @@ import { engine } from './AssetAllocation'
  */
 export class CashierSync {
   static accountsCommand = 'accounts'
-  //static balancesUrl = '/balance'
-  //static currentValuesUrl = '/currentValues'
   static payeesCommand = 'payees'
 
   constructor(serverUrl) {
@@ -179,73 +177,6 @@ export class CashierSync {
       result[lastIndex] = value
     }
 
-    return result
-  }
-
-  /**
-   * Appends the given content to a file. Used to write the transactions to journal.
-   * @param {string} filePath
-   * @param {string} content
-   */
-  async append(filePath, content) {
-    const url = new URL(`${this.serverUrl}/append`)
-    const params = {
-      filePath: filePath,
-      content: content,
-    }
-
-    const response = await ky.post(url, { json: params })
-    let result = await response.text()
-    return result
-  }
-
-  /**
-   * Pull from the remote repository.
-   * @param {string} repoPath The path to the repository.
-   */
-  async repoPull(repoPath) {
-    const url = new URL(`${this.serverUrl}/repo/pull`)
-    const params = {
-      repoPath: repoPath,
-    }
-
-    const response = await ky.post(url, { json: params })
-    let content = await response.text()
-    return content
-  }
-
-  async repoCommit(repoPath, commitMessage) {
-    let url = `${this.serverUrl}/repo/commit`
-    const params = {
-      repoPath: repoPath,
-      commitMessage: commitMessage,
-    }
-
-    const response = await ky.post(url, { json: params })
-    const content = await response.text()
-    return content
-  }
-
-  async repoPush(repoPath) {
-    const url = new URL(`${this.serverUrl}/repo/push`)
-    const params = {
-      repoPath: repoPath,
-    }
-
-    const response = await ky.post(url, { json: params })
-    const content = await response.text()
-    return content
-  }
-
-  async repoStatus(repoPath) {
-    const url = new URL(`${this.serverUrl}/repo/status`)
-    const params = { repoPath: repoPath }
-    Object.keys(params).forEach((key) =>
-      url.searchParams.append(key, params[key])
-    )
-
-    let response = await ky.get(url)
-    const result = await response.text()
     return result
   }
 
