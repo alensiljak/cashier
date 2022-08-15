@@ -97,7 +97,7 @@ export default {
 
       const serverUrl = await settings.get(SettingKeys.syncServerUrl)
       const cashierSync = new CashierSync(serverUrl)
-      const payeesCache = await cache.match(cashierSync.payeesUrl)
+      const payeesCache = await cache.match(cashierSync.getPayeesUrl())
 
       let payees = await payeesCache.json()
       payees = payees.split('\n')
