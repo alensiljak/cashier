@@ -172,7 +172,7 @@ export default {
 
   created() {
     // are we back from the select mode?
-    if (this.$store.getters.selectionModeMeta) {
+    if (this.$store.state.selectModeMeta) {
       this.handleSelection()
     }
   },
@@ -228,7 +228,7 @@ export default {
      */
     async handleSelection() {
       // todo handle blank id if the user presses 'back'.
-      const select = this.$store.getters.selectionModeMeta
+      const select = this.$store.state.selectModeMeta
       const id = select.selectedId
 
       switch (select.selectionType) {

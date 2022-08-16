@@ -60,17 +60,19 @@
       @right="onRightSlide"
     >
       <template #right>
-        <div
-          class="row items-center text-accent"
-          @click="removeAccount(index)"
-        >
+        <div class="row items-center text-accent" @click="removeAccount(index)">
           Click to confirm or wait 2s to cancel
           <font-awesome-icon icon="trash-alt" size="2x" class="q-ml-md" />
         </div>
       </template>
 
       <q-list dark separator class="text-colour2">
-        <q-item v-ripple clickable class="q-px-none" @click="onListItemClick(account.name)">
+        <q-item
+          v-ripple
+          clickable
+          class="q-px-none"
+          @click="onListItemClick(account.name)"
+        >
           <q-item-section>{{ account.name }}</q-item-section>
           <q-item-section side>
             {{ account.balance }} {{ account.currency }}
@@ -134,7 +136,7 @@ export default {
   },
 
   created() {
-    let meta = this.$store.getters.selectionModeMeta
+    let meta = this.$store.state.selectModeMeta
     if (meta) this.handleSelection()
 
     // load favourite accounts
@@ -203,7 +205,10 @@ export default {
         }
 
         if (isNaN(sum)) {
-          console.warn('The sum for ' + account.name + ' is not a number: ', sum)
+          console.warn(
+            'The sum for ' + account.name + ' is not a number: ',
+            sum
+          )
         }
 
         let newBalance = sum.toFixed(2)
@@ -231,7 +236,7 @@ export default {
      * Handle selecting accounts
      */
     handleSelection() {
-      let select = this.$store.getters.selectionModeMeta
+      let select = this.$store.state.selectModeMeta
       let id = select.selectedId
 
       // for now we only have accounts

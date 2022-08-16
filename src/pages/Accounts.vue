@@ -188,13 +188,11 @@ export default {
     this.loadData()
 
     // picker mode
-    let meta = this.$store.getters.selectionModeMeta
+    let meta = this.$store.state.selectModeMeta
     this.pickerMode = !!meta
   },
 
-  mounted() {
-
-  },
+  mounted() {},
 
   methods: {
     async confirmDeleteAll() {

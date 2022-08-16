@@ -131,9 +131,7 @@ export default function (/* { ssrContext } */) {
     },
     getters: {
       clipboard: (state) => state.clipboard,
-      //posting: (state, getters) => (index) => state.transaction.postings[index],
       liveModeOn: (state) => state.useLedger,
-      selectionModeMeta: (state) => state.selectModeMeta,
     },
   })
 

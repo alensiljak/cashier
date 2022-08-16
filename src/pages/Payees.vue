@@ -78,7 +78,7 @@ export default {
      */
     itemClicked(id) {
       // select the item and return to the caller.
-      let meta = this.$store.getters.selectionModeMeta
+      let meta = this.$store.state.selectModeMeta
 
       if (!meta) return
 
@@ -100,7 +100,6 @@ export default {
       const payeesCache = await cache.match(cashierSync.getPayeesUrl())
 
       let payees = await payeesCache.json()
-      payees = payees.split('\n')
 
       // Apply filter
       if (this.filter) {
