@@ -26,64 +26,64 @@
   </q-page>
 </template>
 <script setup>
-import { onMounted, provide, reactive } from "vue";
-import { useStore } from "vuex";
-import { useQuasar } from "quasar";
-import { useRoute } from "vue-router";
+import { onMounted, provide, reactive } from 'vue'
+import { useStore } from 'vuex'
+import { useQuasar } from 'quasar'
+import { useRoute } from 'vue-router'
 
-const store = useStore();
-const $q = useQuasar();
+const store = useStore()
+const $q = useQuasar()
 
-let scheduledTx = store.getters.clipboard;
+let scheduledTx = store.getters.clipboard
 
 // onCreated
 if (!scheduledTx) {
   // initialize for data binding.
-  scheduledTx = reactive(new ScheduledTransaction());
+  scheduledTx = reactive(new ScheduledTransaction())
 }
 
-provide("scheduledTx", scheduledTx);
+provide('scheduledTx', scheduledTx)
 
 onMounted(async () => {
   try {
-    const id = getId();
-    let stx = await loadData(id);
-    use(stx);
+    const id = getId()
+    let stx = await loadData(id)
+    use(stx)
   } catch (error) {
-    $q.notify({ message: error.message, color: "negative" });
+    $q.notify({ message: error.message, color: 'negative' })
   }
-});
+})
 
 async function loadData(id) {
-  if (typeof id === "string") {
+  if (typeof id === 'string') {
     // convert to a numeric value
-    id = parseInt(id);
+    id = parseInt(id)
   }
 
-  let result = null;
+  let result = null
 
   // Special case. ID of 0 should be used to reset the Sch.Tx in the state.
   // This is necessary for the case when using a 'schedule' action from the tx actions.
   if (id === 0) {
     // Reset the Scheduled transaction.
-    result = new ScheduledTransaction();
+    result = new ScheduledTransaction()
     // But use the journal transaction from the state
 
-    return result;
+    return result
   }
 
   // load existing record
-  let schTx = await appService.db.scheduled.get(id);
+  let schTx = await appService.db.scheduled.get(id)
   if (!schTx) {
-    throw new Error("Scheduled transaction not loaded", id);
+    throw new Error('Scheduled transaction not loaded', id)
   }
-  return schTx;
+  return schTx
 }
 
 function getId() {
-  const route = useRoute();
-  const id = route.params.id;
-  return id;
+  const route = useRoute()
+  const id = route.params.id
+  return id
 }
 
 /**
@@ -91,23 +91,24 @@ function getId() {
  */
 function use(scheduledTransaction) {
   //this.scheduledTx = reactive(scheduledTransaction)
-  Object.assign(scheduledTx, scheduledTransaction);
+  Object.assign(scheduledTx, scheduledTransaction)
 
   // put into the store the attached journal transaction.
-  const transaction = JSON.parse(scheduledTransaction.transaction);
+  const transaction = JSON.parse(scheduledTransaction.transaction)
 
   // make tx available for editing
-  const txSvc = new CurrentTransactionService(store);
-  txSvc.setTx(transaction);
+  const txSvc = new CurrentTransactionService(store)
+  txSvc.setTx(transaction)
 }
 </script>
 <script>
-import TxEditor from "../components/TransactionEditor.vue";
-import ScheduleEditor from "../components/ScheduleEditor.vue";
-import appService from "../appService";
-import { CurrentTransactionService } from "../lib/currentTransactionService";
-import { ScheduledTransaction } from "../model";
-import eventBus from "../lib/eventBus";
+import TxEditor from '../components/TransactionEditor.vue'
+import ScheduleEditor from '../components/ScheduleEditor.vue'
+import appService from '../appService'
+import { CurrentTransactionService } from '../lib/currentTransactionService'
+import { ScheduledTransaction } from '../model'
+import eventBus from '../lib/eventBus'
+import { toRaw } from 'vue'
 
 export default {
   components: {
@@ -115,49 +116,49 @@ export default {
     TxEditor,
   },
 
-  emits: ["toggleDrawer"],
+  emits: ['toggleDrawer'],
 
   methods: {
     resetTransaction() {
-      this.use(new ScheduledTransaction());
+      this.use(new ScheduledTransaction())
     },
     /**
      * Saves the scheduled transaction to the data store.
      */
     async saveData() {
       //const stx = this.scheduledTx
-      let stx = structuredClone(this.scheduledTx);
+      //let stx = structuredClone(this.scheduledTx);
+      let stx = toRaw(this.scheduledTx)
 
       // serialize transaction
-      let tx = structuredClone(this.$store.getters.transaction);
+      //let tx = structuredClone(this.$store.getters.transaction);
+      let tx = JSON.parse(JSON.stringify(this.$store.getters.transaction))
 
       // do not store any transaction ids!
-      tx.id = null;
-      const txStr = JSON.stringify(tx);
-      stx.transaction = txStr;
-      //stx.transaction = tx
+      tx.id = null
+      const txStr = JSON.stringify(tx)
+      stx.transaction = txStr
 
       // reuse transaction date. For indexing only.
-      stx.nextDate = tx.date;
+      stx.nextDate = tx.date
 
-      const result = await appService.saveScheduledTransaction(stx);
-      // console.log('saved', result)
-      return result;
+      const result = await appService.saveScheduledTransaction(stx)
+      return result
     },
     async onSaveClicked() {
       /// Triggered on Save button click
 
-      const result = await this.saveData();
+      const result = await this.saveData()
 
       if (result) {
-        this.resetTransaction();
+        this.resetTransaction()
         //this.$router.push({ name: 'scheduledtransactions' })
-        this.$router.back();
+        this.$router.back()
       }
     },
     toggleDrawer() {
-      eventBus.$emit("toggle-drawer");
+      eventBus.$emit('toggle-drawer')
     },
   },
-};
+}
 </script>
