@@ -37,13 +37,19 @@
     </accounts-list>
   </q-page>
 </template>
+
+<script setup>
+import { useMainStore } from '../store/mainStore'
+
+const mainStore = useMainStore()
+const { tx } = mainStore
+
+//this.postings = tx.postings
+</script>
 <script>
 import AccountsList from '../components/SortableAccountsList.vue'
 import PostingItem from '../components/SortablePostingItem.vue'
 import eventBus from '../lib/eventBus'
-import { toRaw } from 'vue'
-import { CurrentTransactionService } from '../lib/currentTransactionService'
-import { Posting } from '../model'
 
 export default {
   components: {
@@ -57,45 +63,13 @@ export default {
     }
   },
 
-  computed: {
-    tx: {
-      get() {
-        let tx = this.$store.state.transaction
-
-        if (!tx) {
-          const svc = new CurrentTransactionService(this.$store)
-          tx = svc.createTransaction()
-        }
-
-        return tx
-      },
-    },
-  },
-
   created() {
-    this.load()
+    // this.load()
+    this.postings = this.tx.postings
   },
 
   methods: {
-    load() {
-      // retrieve the postings
-      let tx = this.$store.state.transaction
-      if (!tx) return
-
-      const postings = []
-      for (var i in tx.postings) {
-        const txposting = tx.postings[i]
-        let posting = new Posting()
-        posting.account = txposting.account
-        posting.amount = txposting.amount
-        posting.currency = txposting.currency
-
-        postings.push(posting)
-      }
-      this.postings = postings
-    },
     onListChange(list) {
-      //console.log('input', list)
       this.postings = list
     },
     onSaveClicked() {
@@ -104,8 +78,7 @@ export default {
     },
     save() {
       // save the postings into the local store
-      //this.tx.postings = this.postings
-      this.$store.commit('setPostings', toRaw(this.postings))
+      this.tx.postings = this.postings
 
       this.$q.notify({ message: 'Postings reordered', color: 'positive' })
     },
