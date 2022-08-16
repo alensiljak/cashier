@@ -52,6 +52,21 @@
   </q-page>
 </template>
 
+<script setup>
+import { useRouter } from 'vue-router'
+import { useMainStore } from '../store/mainStore'
+
+const router = useRouter()
+const mainStore = useMainStore()
+
+function onFab() {
+  // fab clicked. Use for the new transaction
+  // create new transaction
+  mainStore.newTx()
+
+  router.push({ name: 'tx' })
+}
+</script>
 <script>
 import { TOGGLE_DRAWER } from '../mutations'
 import SyncCard from '../components/SyncCard.vue'
@@ -81,10 +96,6 @@ export default {
     menuClicked() {
       let visible = this.$store.state.drawerOpen
       this.$store.commit(TOGGLE_DRAWER, !visible)
-    },
-    onFab() {
-      // fab clicked. Use for the new transaction
-      this.$router.push({ name: 'tx' })
     },
     onFavClick() {
       this.$router.push({ name: 'favourites' })

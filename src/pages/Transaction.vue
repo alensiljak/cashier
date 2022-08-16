@@ -101,53 +101,15 @@ const mainStore = useMainStore()
 const { tx } = mainStore
 
 // for New Tx, clear the transaction store
-if (!tx) resetTransaction()
+//if (!tx) resetTransaction()
 
 onMounted(async () => {
   //
-  loadData()
 })
-
-/**
- * Load all data for the view.
- */
-async function loadData() {
-  // Transaction
-  let id = router.params.id
-  // Ignore string ids. This is coming from the route when 'back' clicked.
-  if (typeof id === 'string') {
-    id = parseInt(id)
-  }
-
-  // after reordering Postings, there is a modified local transaction.
-  let existingTx = mainStore.tx
-  if (existingTx && existingTx.id === id) {
-    mainStore.setTx(existingTx)
-    return
-  }
-
-  // otherwise load from the data store.
-  if (id) {
-    await loadTransaction(id)
-  }
-}
-
-async function loadTransaction(id) {
-  const record = await appService.loadTransaction(id)
-  //this.tx = tx
-  mainStore.setTx(record)
-}
-
-function resetTransaction() {
-  const newTx = new CurrentTransactionService().createTransaction()
-  mainStore.setTx(newTx)
-  return tx
-}
 </script>
 <script>
 import appService from '../appService'
 import TxEditor from '../components/TransactionEditor.vue'
-import { CurrentTransactionService } from '../lib/currentTransactionService'
 import { SettingKeys, settings } from 'src/lib/Configuration'
 import eventBus from '../lib/eventBus'
 import { toRaw } from 'vue'
@@ -163,27 +125,6 @@ export default {
     }
   },
 
-  // computed: {
-  //   tx: {
-  //     get() {
-  //       return this.$store.state.transaction
-  //     },
-  //     set(value) {
-  //       // save in the state store
-  //       new CurrentTransactionService(this.$store).setTx(value)
-  //     },
-  //   },
-  // },
-
-  async created() {
-    // For Edit Tx, load the tx from database.
-    try {
-      // await this.loadData()
-    } catch (error) {
-      this.$q.notify({ message: error.message, color: 'negative' })
-    }
-  },
-
   methods: {
     confirmDelete() {
       // Resets all Transaction fields to defaults.
@@ -195,7 +136,6 @@ export default {
     },
     async onSaveClicked() {
       try {
-        //let tx = structuredClone(this.tx);
         let tx = toRaw(this.tx)
 
         await appService.saveTransaction(tx)
@@ -206,14 +146,14 @@ export default {
           await appService.saveLastTransaction(tx)
         }
 
-        // reset tx in state
-        this.resetTransaction()
-
-        this.$router.back()
+        await this.$router.back()
       } catch (err) {
         console.error(err)
         this.$q.notify({ message: 'error: ' + err.message, color: 'negative' })
       }
+    },
+    resetTransaction() {
+      this.mainStore.newTx()
     },
     toggleDrawer() {
       eventBus.$emit('toggle-drawer')

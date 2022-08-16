@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import appService from '../appService'
 import { ScheduledTransaction } from 'src/model'
+import { CurrentTransactionService } from 'src/lib/currentTransactionService'
 
 export const useMainStore = defineStore('mainStore', {
   /**
@@ -41,11 +42,15 @@ export const useMainStore = defineStore('mainStore', {
     },
     async loadTx(id) {
       const tx = await appService.loadTransaction(id)
-      this.tx = tx
+      this.setTransaction(tx)
     },
     newScheduledTx() {
       let newSchTx = new ScheduledTransaction()
       this.scheduledTx = newSchTx
+    },
+    newTx() {
+      const tx = new CurrentTransactionService().createTransaction()
+      this.setTransaction(tx)
     },
     setTransaction(tx) {
       this.tx = tx

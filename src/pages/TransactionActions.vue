@@ -2,7 +2,7 @@
   <q-page padding class="bg-colour1 text-amber-2">
     <toolbar title="Transaction Actions" />
 
-    <journal-transaction :tx="tx" v-if="txLoaded" />
+    <journal-transaction :tx="tx" />
 
     <div id="actions" class="q-mt-lg column text-center">
       <!-- Edit -->
@@ -132,25 +132,8 @@ const { tx } = mainStore
 
 const props = defineProps({ id: String })
 
-let txLoaded = ref(false)
-
-if (!tx) {
-  console.debug('creating a new tx')
-  const newTx = new CurrentTransactionService().createTransaction()
-  //tx = reactive(newTx)
-  mainStore.setTx(newTx)
-}
-
-async function loadData() {
-  const id = getNumericId()
-  const record = await appService.loadTransaction(id)
-  mainStore.setTx(record)
-
-  txLoaded.value = true
-}
-
 onMounted(async () => {
-  await loadData()
+  //await loadData()
 })
 
 function getNumericId() {

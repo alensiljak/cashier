@@ -4,7 +4,6 @@ The transaction editors keep the currently-edited transaction in the store.
 To avoid chaos with store operations, these are encapsulated here.
 */
 import { Transaction, Posting } from '../model'
-import { SET_TRANSACTION } from '../mutations'
 
 export class CurrentTransactionService {
   // constructor(store) {
@@ -12,14 +11,6 @@ export class CurrentTransactionService {
   //     throw 'store is mandatory'
   //   }
   //   this.store = store
-  // }
-
-  // /**
-  //  * Save the transaction into the state store.
-  //  * @param {Transaction} tx
-  //  */
-  // setTx(tx) {
-  //   this.store.commit(SET_TRANSACTION, tx)
   // }
 
   createTransaction() {

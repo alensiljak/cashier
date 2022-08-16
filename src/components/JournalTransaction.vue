@@ -18,8 +18,6 @@
 </template>
 
 <script setup>
-import { CurrentTransactionService } from '../lib/currentTransactionService'
-
 const props = defineProps({
   tx: Object,
   //default: new CurrentTransactionService().createTransaction(),
@@ -28,14 +26,6 @@ const props = defineProps({
 </script>
 <script>
 export default {
-  // props: {
-  //   tx: {
-  //     type: Object,
-  //     default: () => {
-  //       date: null
-  //     },
-  //   },
-  // },
   data() {
     return {
       confirmDelete: false,
