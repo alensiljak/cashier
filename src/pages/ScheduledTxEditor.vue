@@ -34,7 +34,7 @@ import { useRoute } from 'vue-router'
 const store = useStore()
 const $q = useQuasar()
 
-let scheduledTx = store.getters.clipboard
+let scheduledTx = store.state.clipboard
 
 // onCreated
 if (!scheduledTx) {

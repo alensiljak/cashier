@@ -130,7 +130,6 @@ export default function (/* { ssrContext } */) {
       },
     },
     getters: {
-      clipboard: (state) => state.clipboard,
       liveModeOn: (state) => state.useLedger,
     },
   })
