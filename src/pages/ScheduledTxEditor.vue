@@ -129,8 +129,8 @@ export default {
       let stx = toRaw(this.scheduledTx)
 
       // serialize transaction
-      //let tx = structuredClone(this.$store.getters.transaction);
-      let tx = JSON.parse(JSON.stringify(this.$store.getters.transaction))
+      //let tx = structuredClone(this.$store.state.transaction);
+      let tx = JSON.parse(JSON.stringify(this.$store.state.transaction))
 
       // do not store any transaction ids!
       tx.id = null

@@ -60,7 +60,7 @@ export default {
   computed: {
     tx: {
       get() {
-        let tx = this.$store.getters.transaction
+        let tx = this.$store.state.transaction
 
         if (!tx) {
           const svc = new CurrentTransactionService(this.$store)
@@ -79,7 +79,7 @@ export default {
   methods: {
     load() {
       // retrieve the postings
-      let tx = this.$store.getters.transaction
+      let tx = this.$store.state.transaction
       if (!tx) return
 
       const postings = []

@@ -121,7 +121,7 @@ export default function (/* { ssrContext } */) {
         context.commit('addPosting')
       },
       resetPostings(commit, state) {
-        let tx = state.getters.transaction
+        let tx = state.transaction
         tx.postings = []
         commit(SET_TRANSACTION, tx)
       },
@@ -131,7 +131,6 @@ export default function (/* { ssrContext } */) {
     },
     getters: {
       clipboard: (state) => state.clipboard,
-      transaction: (state) => state.transaction,
       //posting: (state, getters) => (index) => state.transaction.postings[index],
       liveModeOn: (state) => state.useLedger,
       selectionModeMeta: (state) => state.selectModeMeta,

@@ -44,8 +44,8 @@
 </template>
 
 <script>
-import { SET_POSTING } from "../mutations"
-import { toRaw } from "vue"
+import { SET_POSTING } from '../mutations'
+import { toRaw } from 'vue'
 
 export default {
   props: {
@@ -61,7 +61,7 @@ export default {
   computed: {
     account: {
       get() {
-        return this.$store.getters.transaction.postings[this.index].account
+        return this.$store.state.transaction.postings[this.index].account
       },
       set(value) {
         let posting = this.getEditablePosting()
@@ -71,7 +71,7 @@ export default {
     },
     amount: {
       get() {
-        return this.$store.getters.transaction.postings[this.index].amount
+        return this.$store.state.transaction.postings[this.index].amount
       },
       set(value) {
         let posting = this.getEditablePosting()
@@ -81,7 +81,7 @@ export default {
     },
     currency: {
       get() {
-        return this.$store.getters.transaction.postings[this.index].currency
+        return this.$store.state.transaction.postings[this.index].currency
       },
       set(value) {
         let posting = this.getEditablePosting()
@@ -92,8 +92,8 @@ export default {
     isMissingCurrency: {
       get() {
         const hasValidAmount = !isNaN(this.amount)
-        const amountMissing = this.amount === ""
-        const hasNoCurrency = this.currency === ""
+        const amountMissing = this.amount === ''
+        const hasNoCurrency = this.currency === ''
 
         if (amountMissing) return false
 
@@ -104,7 +104,7 @@ export default {
 
   methods: {
     getEditablePosting() {
-      let posting = this.$store.getters.transaction.postings[this.index]
+      let posting = this.$store.state.transaction.postings[this.index]
 
       //let clone = structuredClone(posting);
       //let clone = toRaw(posting);

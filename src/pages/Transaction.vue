@@ -113,7 +113,7 @@ export default {
   computed: {
     tx: {
       get() {
-        return this.$store.getters.transaction
+        return this.$store.state.transaction
       },
       set(value) {
         // save in the state store

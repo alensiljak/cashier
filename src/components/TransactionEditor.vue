@@ -144,31 +144,31 @@ export default {
       datePickerVisible: false,
       resetSlide: null,
       postingSum: 0,
-      tx: {},
+      // tx: {},
     }
   },
 
-  // computed: {
-  //   tx: {
-  //     get() {
-  //       let tx = this.$store.getters.transaction
+  computed: {
+    tx: {
+      get() {
+        let tx = this.$store.state.transaction
 
-  //       if (tx === null) {
-  //         tx = this.resetTransaction()
-  //       } else {
-  //         // fix postings
-  //         if (!tx.postings) {
-  //           this.$store.dispatch('resetPostings')
-  //         }
-  //       }
-  //       return tx
-  //     },
-  //     set(value) {
-  //       // save in the state store
-  //       new CurrentTransactionService(this.$store).setTx(value)
-  //     },
-  //   },
-  // },
+        if (tx === null) {
+          tx = this.resetTransaction()
+        } else {
+          // fix postings
+          if (!tx.postings) {
+            this.$store.dispatch('resetPostings')
+          }
+        }
+        return tx
+      },
+      set(value) {
+        // save in the state store
+        new CurrentTransactionService(this.$store).setTx(value)
+      },
+    },
+  },
 
   created() {
     // are we back from the select mode?
@@ -263,7 +263,7 @@ export default {
       this.$store.commit(SET_SELECT_MODE, null)
     },
     async init() {
-      const tx = JSON.parse(JSON.stringify(this.$store.getters.transaction))
+      const tx = JSON.parse(JSON.stringify(this.$store.state.transaction))
       this.tx = tx
     },
     /**
