@@ -106,6 +106,15 @@ const { tx } = mainStore
 onMounted(async () => {
   //
 })
+
+function confirmDelete() {
+  // Resets all Transaction fields to defaults.
+  resetTransaction()
+}
+
+function resetTransaction() {
+  mainStore.newTx()
+}
 </script>
 <script>
 import appService from '../appService'
@@ -126,11 +135,6 @@ export default {
   },
 
   methods: {
-    confirmDelete() {
-      // Resets all Transaction fields to defaults.
-      this.resetTransaction()
-    },
-
     onClear() {
       this.isConfirmDeleteVisible = true
     },
@@ -151,9 +155,6 @@ export default {
         console.error(err)
         this.$q.notify({ message: 'error: ' + err.message, color: 'negative' })
       }
-    },
-    resetTransaction() {
-      this.mainStore.newTx()
     },
     toggleDrawer() {
       eventBus.$emit('toggle-drawer')
