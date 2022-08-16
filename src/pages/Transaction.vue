@@ -19,7 +19,7 @@
       </q-toolbar>
     </q-header>
 
-    <div v-if="!tx.id" class="bg-primary text-center q-pa-sm q-ma-none">
+    <div v-if="!tx || !tx.id" class="bg-primary text-center q-pa-sm q-ma-none">
       New transaction
     </div>
 
@@ -91,6 +91,62 @@
   </q-page>
 </template>
 
+<script setup>
+import { onMounted } from 'vue'
+import { useTxStore } from '../store/txStore'
+import { useRoute } from 'vue-router'
+
+const router = useRoute()
+const txStore = useTxStore()
+const { tx } = txStore
+
+// for New Tx, clear the transaction store
+if (!tx) resetTransaction()
+
+onMounted(async () => {
+  //
+  loadData()
+})
+
+/**
+ * Load all data for the view.
+ */
+async function loadData() {
+  // Transaction
+  let id = router.params.id
+  // Ignore string ids. This is coming from the route when 'back' clicked.
+  if (typeof id === 'string') {
+    id = parseInt(id)
+  }
+
+  // after reordering Postings, there is a modified local transaction.
+  //let tx = this.$store.state.transaction
+  let existingTx = txStore.tx
+  if (existingTx && existingTx.id === id) {
+    //console.debug('use existing')
+    //this.tx = tx
+    txStore.setTx(existingTx)
+    return
+  }
+
+  // otherwise load from the data store.
+  if (id) {
+    await loadTransaction(id)
+  }
+}
+
+async function loadTransaction(id) {
+  const record = await appService.loadTransaction(id)
+  //this.tx = tx
+  txStore.setTx(record)
+}
+
+function resetTransaction() {
+  const newTx = new CurrentTransactionService().createTransaction()
+  txStore.setTx(newTx)
+  return tx
+}
+</script>
 <script>
 import appService from '../appService'
 import TxEditor from '../components/TransactionEditor.vue'
@@ -110,25 +166,25 @@ export default {
     }
   },
 
-  computed: {
-    tx: {
-      get() {
-        return this.$store.state.transaction
-      },
-      set(value) {
-        // save in the state store
-        new CurrentTransactionService(this.$store).setTx(value)
-      },
-    },
-  },
+  // computed: {
+  //   tx: {
+  //     get() {
+  //       return this.$store.state.transaction
+  //     },
+  //     set(value) {
+  //       // save in the state store
+  //       new CurrentTransactionService(this.$store).setTx(value)
+  //     },
+  //   },
+  // },
 
   async created() {
     // for New Tx, clear the transaction store
-    if (!this.tx) this.resetTransaction()
+    // if (!this.tx) this.resetTransaction()
 
     // For Edit Tx, load the tx from database.
     try {
-      await this.loadData()
+      // await this.loadData()
     } catch (error) {
       this.$q.notify({ message: error.message, color: 'negative' })
     }
@@ -139,34 +195,32 @@ export default {
       // Resets all Transaction fields to defaults.
       this.resetTransaction()
     },
-    /**
-     * Load all data for the view.
-     */
-    async loadData() {
-      // Transaction
-      let id = this.$route.params.id
-      // Ignore string ids. This is coming from the route when 'back' clicked.
-      if (typeof id === 'string') {
-        id = parseInt(id)
-      }
+    // /**
+    //  * Load all data for the view.
+    //  */
+    // async loadData() {
+    //   // Transaction
+    //   let id = this.$route.params.id
+    //   // Ignore string ids. This is coming from the route when 'back' clicked.
+    //   if (typeof id === 'string') {
+    //     id = parseInt(id)
+    //   }
 
-      // after reordering Postings, there is a modified local transaction.
-      let tx = this.$store.state.transaction
-      if (tx && tx.id === id) {
-        //console.debug('use existing')
-        this.tx = tx
-        return
-      }
+    //   // after reordering Postings, there is a modified local transaction.
+    //   //let tx = this.$store.state.transaction
+    //   let existingTx = txStore.tx
+    //   if (existingTx && existingTx.id === id) {
+    //     //console.debug('use existing')
+    //     this.tx = tx
+    //     return
+    //   }
 
-      // otherwise load from the data store.
-      if (id) {
-        await this.loadTransaction(id)
-      }
-    },
-    async loadTransaction(id) {
-      const tx = await appService.loadTransaction(id)
-      this.tx = tx
-    },
+    //   // otherwise load from the data store.
+    //   if (id) {
+    //     await this.loadTransaction(id)
+    //   }
+    // },
+
     onClear() {
       this.isConfirmDeleteVisible = true
     },
@@ -192,11 +246,11 @@ export default {
         this.$q.notify({ message: 'error: ' + err.message, color: 'negative' })
       }
     },
-    resetTransaction() {
-      const svc = new CurrentTransactionService(this.$store)
-      const tx = svc.createTransaction()
-      this.tx = tx
-    },
+    // resetTransaction() {
+    //   const svc = new CurrentTransactionService(this.$store)
+    //   const tx = svc.createTransaction()
+    //   this.tx = tx
+    // },
     toggleDrawer() {
       eventBus.$emit('toggle-drawer')
     },

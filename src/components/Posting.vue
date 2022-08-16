@@ -43,9 +43,14 @@
   </div>
 </template>
 
+<script setup>
+import { useTxStore } from '../store/txStore'
+
+const txStore = useTxStore()
+const { tx } = txStore
+</script>
 <script>
 import { SET_POSTING } from '../mutations'
-import { toRaw } from 'vue'
 
 export default {
   props: {
@@ -61,32 +66,29 @@ export default {
   computed: {
     account: {
       get() {
-        return this.$store.state.transaction.postings[this.index].account
+        return this.tx.postings[this.index].account
       },
       set(value) {
-        let posting = this.getEditablePosting()
+        let posting = this.tx.postings[this.index]
         posting.account = value
-        this.$store.commit(SET_POSTING, { index: this.index, posting: posting })
       },
     },
     amount: {
       get() {
-        return this.$store.state.transaction.postings[this.index].amount
+        return this.tx.postings[this.index].amount
       },
       set(value) {
-        let posting = this.getEditablePosting()
+        let posting = this.tx.postings[this.index]
         posting.amount = value
-        this.$store.commit(SET_POSTING, { index: this.index, posting: posting })
       },
     },
     currency: {
       get() {
-        return this.$store.state.transaction.postings[this.index].currency
+        return this.tx.postings[this.index].currency
       },
       set(value) {
-        let posting = this.getEditablePosting()
+        let posting = this.tx.postings[this.index]
         posting.currency = value
-        this.$store.commit(SET_POSTING, { index: this.index, posting: posting })
       },
     },
     isMissingCurrency: {
@@ -103,15 +105,6 @@ export default {
   },
 
   methods: {
-    getEditablePosting() {
-      let posting = this.$store.state.transaction.postings[this.index]
-
-      //let clone = structuredClone(posting);
-      //let clone = toRaw(posting);
-      let clone = JSON.parse(JSON.stringify(posting))
-
-      return clone
-    },
     onAmountFocus(e) {
       e.target.select()
     },

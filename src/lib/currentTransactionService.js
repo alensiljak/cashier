@@ -7,20 +7,20 @@ import { Transaction, Posting } from '../model'
 import { SET_TRANSACTION } from '../mutations'
 
 export class CurrentTransactionService {
-  constructor(store) {
-    if (!store) {
-      throw 'store is mandatory'
-    }
-    this.store = store
-  }
+  // constructor(store) {
+  //   if (!store) {
+  //     throw 'store is mandatory'
+  //   }
+  //   this.store = store
+  // }
 
-  /**
-   * Save the transaction into the state store.
-   * @param {Transaction} tx
-   */
-  setTx(tx) {
-    this.store.commit(SET_TRANSACTION, tx)
-  }
+  // /**
+  //  * Save the transaction into the state store.
+  //  * @param {Transaction} tx
+  //  */
+  // setTx(tx) {
+  //   this.store.commit(SET_TRANSACTION, tx)
+  // }
 
   createTransaction() {
     var tx = new Transaction()

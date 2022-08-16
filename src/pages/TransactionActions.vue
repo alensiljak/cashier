@@ -2,7 +2,7 @@
   <q-page padding class="bg-colour1 text-amber-2">
     <toolbar title="Transaction Actions" />
 
-    <journal-transaction :tx="tx" />
+    <journal-transaction :tx="tx" v-if="txLoaded" />
 
     <div id="actions" class="q-mt-lg column text-center">
       <!-- Edit -->
@@ -78,7 +78,7 @@
         copy ledger entry
       </q-btn>
       <q-btn
-        v-if="tx.id"
+        v-if="tx && tx.id"
         color="secondary"
         text-color="accent"
         size="1.3rem"
@@ -119,28 +119,70 @@
     </q-dialog>
   </q-page>
 </template>
+
+<script setup>
+import { ref, reactive } from 'vue'
+// import { storeToRefs } from 'pinia'
+// import { usePiniaStore } from '../store/piniaStore'
+import { useTxStore } from '../store/txStore'
+import { onMounted } from 'vue'
+import { CurrentTransactionService } from '../lib/currentTransactionService'
+
+// const { item } = storeToRefs(usePiniaStore())
+// const { modify } = usePiniaStore()
+const txStore = useTxStore()
+const { tx } = txStore
+
+const props = defineProps({ id: String })
+
+let txLoaded = ref(false)
+
+if (!tx) {
+  console.debug('creating a new tx')
+  const newTx = new CurrentTransactionService().createTransaction()
+  //tx = reactive(newTx)
+  txStore.setTx(newTx)
+}
+
+async function loadData() {
+  const id = getNumericId()
+  const record = await appService.loadTransaction(id)
+  txStore.setTx(record)
+
+  txLoaded.value = true
+}
+
+onMounted(async () => {
+  await loadData()
+})
+
+function getNumericId() {
+  // when navigating back, the id becomes string instead of original numeric
+  if (typeof props.id === 'string') {
+    return Number(props.id)
+  }
+  if (typeof props.id === 'number') {
+    return props.id
+  }
+
+  throw new Error('Invalid Id value')
+}
+</script>
 <script>
 import Toolbar from '../components/CashierToolbar.vue'
 import JournalTransaction from '../components/JournalTransaction.vue'
 import appService from '../appService'
-import { CurrentTransactionService } from '../lib/currentTransactionService'
 
 export default {
   components: {
     Toolbar,
     JournalTransaction,
   },
-  props: {
-    id: { type: String, default: null },
-  },
   data() {
     return {
-      tx: {},
+      //tx: {},
       confirmDeleteVisible: false,
     }
-  },
-  async created() {
-    await this.load()
   },
   methods: {
     /**
@@ -160,22 +202,6 @@ export default {
       } catch (reason) {
         this.$q.notify({ message: reason.message, color: 'negative' })
       }
-    },
-    getNumericId() {
-      // when navigating back, the id becomes string instead of original numeric
-      if (typeof this.id === 'string') {
-        return Number(this.id)
-      }
-      if (typeof this.id === 'number') {
-        return this.id
-      }
-
-      throw new Error('Invalid Id value')
-    },
-    async load() {
-      const id = this.getNumericId()
-      const tx = await appService.loadTransaction(id)
-      this.tx = tx
     },
     async onCopyClicked() {
       // get a journal version

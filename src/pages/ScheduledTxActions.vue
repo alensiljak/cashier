@@ -154,11 +154,10 @@
 <script setup>
 </script>
 <script>
-import Toolbar from "../components/CashierToolbar.vue"
-import JournalTransaction from "../components/JournalTransaction.vue"
-import appService from "../appService"
-import { Iterator } from "../lib/scheduledTransactions"
-import { string } from "mathjs"
+import Toolbar from '../components/CashierToolbar.vue'
+import JournalTransaction from '../components/JournalTransaction.vue'
+import appService from '../appService'
+import { Iterator } from '../lib/scheduledTransactions'
 
 export default {
   components: {
@@ -196,15 +195,15 @@ export default {
     async confirmDelete() {
       const id = this.scheduledTx.id
       if (!id) {
-        console.error("the current scheduled transaction does not have an id")
+        console.error('the current scheduled transaction does not have an id')
         return
       }
 
       const result = await appService.db.scheduled
-        .where("id")
+        .where('id')
         .equals(id)
         .delete()
-      console.log("deletion result:", result)
+      console.log('deletion result:', result)
 
       //this.resetTransaction()
 
@@ -224,21 +223,21 @@ export default {
       // update the iteration date
       await this.skip()
 
-      this.$q.notify({ message: "Transaction created", color: "positive" })
+      this.$q.notify({ message: 'Transaction created', color: 'positive' })
 
       // open the transaction. Maintain page navigation history.
-      this.$router.replace({ name: "tx", params: { id: id } })
+      this.$router.replace({ name: 'tx', params: { id: id } })
     },
     getNumericId() {
       // when navigating back, the id becomes string instead of original numeric
-      if (typeof this.id === "string") {
+      if (typeof this.id === 'string') {
         return Number(this.id)
       }
-      if (typeof this.id === "number") {
+      if (typeof this.id === 'number') {
         return this.id
       }
 
-      throw new Error("Invalid Id value", this.id)
+      throw new Error('Invalid Id value', this.id)
     },
     async load() {
       const id = this.getNumericId()
@@ -251,13 +250,13 @@ export default {
     onEditClicked() {
       // open the editor
       const id = this.getNumericId()
-      this.$router.push({ name: "scheduledtxeditor", params: { id: id } })
+      this.$router.push({ name: 'scheduledtxeditor', params: { id: id } })
     },
     async onEnterConfirmed() {
       try {
         await this.enterTransaction()
       } catch (err) {
-        this.$q.notify({ color: "negative", message: err.message })
+        this.$q.notify({ color: 'negative', message: err.message })
       }
     },
     async onSkipConfirmed() {
@@ -266,7 +265,7 @@ export default {
 
         this.$router.back()
       } catch (err) {
-        this.$q.notify({ color: "negative", message: err.message })
+        this.$q.notify({ color: 'negative', message: err.message })
       }
     },
     /**
@@ -313,7 +312,7 @@ export default {
       if (!newDate) {
         // throw new Error(`invalid date calculated: ${newDate}`)
         // Passed the End Date.
-        newDate = "0000-00-00"
+        newDate = '0000-00-00'
       }
 
       // update the date on the transaction
@@ -324,8 +323,8 @@ export default {
       const result = await this.saveData()
       if (!result) {
         this.$q.notify({
-          message: "transaction not saved!",
-          color: "negative",
+          message: 'transaction not saved!',
+          color: 'negative',
         })
       }
     },

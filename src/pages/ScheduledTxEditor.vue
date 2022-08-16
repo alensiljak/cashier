@@ -30,9 +30,11 @@ import { onMounted, provide, reactive } from 'vue'
 import { useStore } from 'vuex'
 import { useQuasar } from 'quasar'
 import { useRoute } from 'vue-router'
+import { useTxStore } from '../store/txStore'
 
 const store = useStore()
 const $q = useQuasar()
+const txStore = useTxStore()
 
 let scheduledTx = store.state.clipboard
 
@@ -97,15 +99,13 @@ function use(scheduledTransaction) {
   const transaction = JSON.parse(scheduledTransaction.transaction)
 
   // make tx available for editing
-  const txSvc = new CurrentTransactionService(store)
-  txSvc.setTx(transaction)
+  txStore.setTx(transaction)
 }
 </script>
 <script>
 import TxEditor from '../components/TransactionEditor.vue'
 import ScheduleEditor from '../components/ScheduleEditor.vue'
 import appService from '../appService'
-import { CurrentTransactionService } from '../lib/currentTransactionService'
 import { ScheduledTransaction } from '../model'
 import eventBus from '../lib/eventBus'
 import { toRaw } from 'vue'
@@ -125,11 +125,9 @@ export default {
      */
     async saveData() {
       //const stx = this.scheduledTx
-      //let stx = structuredClone(this.scheduledTx);
       let stx = toRaw(this.scheduledTx)
 
       // serialize transaction
-      //let tx = structuredClone(this.$store.state.transaction);
       let tx = JSON.parse(JSON.stringify(this.$store.state.transaction))
 
       // do not store any transaction ids!

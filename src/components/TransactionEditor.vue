@@ -122,15 +122,107 @@
     </div>
   </div>
 </template>
-<script>
-import appService from '../appService'
-import { SET_SELECT_MODE, SET_PAYEE, SET_POSTING } from '../mutations'
-import { CurrentTransactionService } from '../lib/currentTransactionService'
+
+<script setup>
+// import { storeToRefs } from 'pinia'
+import { useTxStore } from '../store/txStore'
+import { useStore } from 'vuex'
 import {
   SelectionModeMetadata,
   SettingKeys,
   settings,
 } from '../lib/Configuration'
+
+const store = useStore()
+const txStore = useTxStore()
+const { tx } = txStore
+
+// are we back from the select mode?
+if (store.state.selectModeMeta) {
+  handleSelection()
+}
+
+function addPosting() {
+  // this.$store.dispatch('addPosting')
+  tx.postings.push(new Posting())
+}
+
+/**
+ * Find an empty posting, or create one.
+ */
+function getEmptyPostingIndex() {
+  for (let i = 0; i < tx.postings.length; i++) {
+    const posting = tx.postings[i]
+    if (!posting.account && !posting.amount && !posting.commodity) {
+      return i
+    }
+  }
+
+  // not found. Create a new one.
+  const posting = new Posting()
+  tx.postings.push(posting)
+  return this.tx.postings.length - 1
+}
+
+/**
+ * Handle selection after a picker returned.
+ */
+async function handleSelection() {
+  // todo handle blank id if the user presses 'back'.
+  const select = store.state.selectModeMeta
+  const id = select.selectedId
+
+  switch (select.selectionType) {
+    case 'payee':
+      //store.commit(SET_PAYEE, id)
+      tx.payee = id
+      await loadLastTransaction(id)
+      break
+
+    case 'account':
+      // get the posting
+      var index = null
+      if (typeof select.postingIndex === 'number') {
+        index = select.postingIndex
+      } else {
+        // redirected from account register, find an appropriate posting
+        index = getEmptyPostingIndex()
+      }
+      let posting = tx.postings[index]
+
+      const account = await appService.db.accounts.get(id)
+      posting.account = account.name
+      posting.currency = account.currency
+
+      // store.commit(SET_POSTING, { index: index, posting: clone })
+      break
+  }
+
+  // clean-up, reset the selection values
+  store.commit(SET_SELECT_MODE, null)
+}
+
+/**
+ * Load the last transaction for the payee
+ */
+async function loadLastTransaction(payee) {
+  // do this only if enabled
+  const enabled = await settings.get(SettingKeys.rememberLastTransaction)
+  if (!enabled) return
+  // and we are not on an existing transaction
+  if (tx.id) return
+
+  const lastTx = await appService.db.lastTransaction.get(payee)
+  if (!lastTx) return
+  // use the current date
+  lastTx.transaction.date = this.tx.date
+  // Replace the current transaction.
+  this.tx = lastTx.transaction
+}
+</script>
+<script>
+import appService from '../appService'
+import { SET_SELECT_MODE } from '../mutations'
 import QPosting from '../components/Posting.vue'
 import { Posting } from '../model'
 
@@ -144,47 +236,14 @@ export default {
       datePickerVisible: false,
       resetSlide: null,
       postingSum: 0,
-      // tx: {},
     }
   },
 
-  computed: {
-    tx: {
-      get() {
-        let tx = this.$store.state.transaction
-
-        if (tx === null) {
-          tx = this.resetTransaction()
-        } else {
-          // fix postings
-          if (!tx.postings) {
-            this.$store.dispatch('resetPostings')
-          }
-        }
-        return tx
-      },
-      set(value) {
-        // save in the state store
-        new CurrentTransactionService(this.$store).setTx(value)
-      },
-    },
-  },
-
-  created() {
-    // are we back from the select mode?
-    if (this.$store.state.selectModeMeta) {
-      this.handleSelection()
-    }
-  },
   async mounted() {
     this.recalculateSum()
-    await this.init()
   },
 
   methods: {
-    addPosting() {
-      this.$store.dispatch('addPosting')
-    },
     deletePosting(index) {
       if (this.resetSlide) {
         // remove the slide section.
@@ -207,82 +266,7 @@ export default {
     formatNumber(value) {
       return appService.formatNumber(value)
     },
-    /**
-     * Find an empty posting, or create one.
-     */
-    getEmptyPostingIndex() {
-      for (let i = 0; i < this.tx.postings.length; i++) {
-        const posting = this.tx.postings[i]
-        if (!posting.account && !posting.amount && !posting.commodity) {
-          return i
-        }
-      }
 
-      // not found. Create a new one.
-      const posting = new Posting()
-      this.tx.postings.push(posting)
-      return this.tx.postings.length - 1
-    },
-    /**
-     * Handle selection after a picker returned.
-     */
-    async handleSelection() {
-      // todo handle blank id if the user presses 'back'.
-      const select = this.$store.state.selectModeMeta
-      const id = select.selectedId
-
-      switch (select.selectionType) {
-        case 'payee':
-          this.$store.commit(SET_PAYEE, id)
-          await this.loadLastTransaction(id)
-          break
-        case 'account':
-          // get the posting
-          var index = null
-          if (typeof select.postingIndex === 'number') {
-            index = select.postingIndex
-          } else {
-            // redirected from account register, find an appropriate posting
-            index = this.getEmptyPostingIndex()
-          }
-          let posting = this.tx.postings[index]
-          //let clone = structuredClone(posting)
-          //let clone = toRaw(posting);
-          let clone = JSON.parse(JSON.stringify(posting))
-          //let posting = this.$store.getters.posting(index)
-
-          const account = await appService.db.accounts.get(id)
-          clone.account = account.name
-          clone.currency = account.currency
-
-          this.$store.commit(SET_POSTING, { index: index, posting: clone })
-          break
-      }
-
-      // clean-up, reset the selection values
-      this.$store.commit(SET_SELECT_MODE, null)
-    },
-    async init() {
-      const tx = JSON.parse(JSON.stringify(this.$store.state.transaction))
-      this.tx = tx
-    },
-    /**
-     * Load the last transaction for the payee
-     */
-    async loadLastTransaction(payee) {
-      // do this only if enabled
-      const enabled = await settings.get(SettingKeys.rememberLastTransaction)
-      if (!enabled) return
-      // and we are not on an existing transaction
-      if (this.tx.id) return
-
-      const lastTx = await appService.db.lastTransaction.get(payee)
-      if (!lastTx) return
-      // use the current date
-      lastTx.transaction.date = this.tx.date
-      // Replace the current transaction.
-      this.tx = lastTx.transaction
-    },
     onAccountClicked(index) {
       const selectMode = new SelectionModeMetadata()
 
@@ -341,11 +325,6 @@ export default {
     },
     reorderPostings() {
       this.$router.push({ name: 'reorder postings' })
-    },
-    resetTransaction() {
-      const tx = new CurrentTransactionService(this.$store).createTransaction()
-      this.tx = tx
-      return tx
     },
   },
 }

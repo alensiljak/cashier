@@ -59,10 +59,10 @@ export default function (/* { ssrContext } */) {
     },
     // Data transformations
     mutations: {
-      addPosting(state) {
-        let tx = state.transaction
-        tx.postings.push(new Posting())
-      },
+      // addPosting(state) {
+      //   let tx = state.transaction
+      //   tx.postings.push(new Posting())
+      // },
       /**
        * Set the metadata for the select mode.
        * @param {*} state
@@ -117,9 +117,9 @@ export default function (/* { ssrContext } */) {
 
     // Business logic.
     actions: {
-      addPosting(context) {
-        context.commit('addPosting')
-      },
+      // addPosting(context) {
+      //   context.commit('addPosting')
+      // },
       resetPostings(commit, state) {
         let tx = state.transaction
         tx.postings = []
