@@ -93,12 +93,12 @@
 
 <script setup>
 import { onMounted } from 'vue'
-import { useTxStore } from '../store/txStore'
+import { useMainStore } from '../store/mainStore'
 import { useRoute } from 'vue-router'
 
 const router = useRoute()
-const txStore = useTxStore()
-const { tx } = txStore
+const mainStore = useMainStore()
+const { tx } = mainStore
 
 // for New Tx, clear the transaction store
 if (!tx) resetTransaction()
@@ -120,12 +120,9 @@ async function loadData() {
   }
 
   // after reordering Postings, there is a modified local transaction.
-  //let tx = this.$store.state.transaction
-  let existingTx = txStore.tx
+  let existingTx = mainStore.tx
   if (existingTx && existingTx.id === id) {
-    //console.debug('use existing')
-    //this.tx = tx
-    txStore.setTx(existingTx)
+    mainStore.setTx(existingTx)
     return
   }
 
@@ -138,12 +135,12 @@ async function loadData() {
 async function loadTransaction(id) {
   const record = await appService.loadTransaction(id)
   //this.tx = tx
-  txStore.setTx(record)
+  mainStore.setTx(record)
 }
 
 function resetTransaction() {
   const newTx = new CurrentTransactionService().createTransaction()
-  txStore.setTx(newTx)
+  mainStore.setTx(newTx)
   return tx
 }
 </script>
@@ -179,9 +176,6 @@ export default {
   // },
 
   async created() {
-    // for New Tx, clear the transaction store
-    // if (!this.tx) this.resetTransaction()
-
     // For Edit Tx, load the tx from database.
     try {
       // await this.loadData()
@@ -195,31 +189,6 @@ export default {
       // Resets all Transaction fields to defaults.
       this.resetTransaction()
     },
-    // /**
-    //  * Load all data for the view.
-    //  */
-    // async loadData() {
-    //   // Transaction
-    //   let id = this.$route.params.id
-    //   // Ignore string ids. This is coming from the route when 'back' clicked.
-    //   if (typeof id === 'string') {
-    //     id = parseInt(id)
-    //   }
-
-    //   // after reordering Postings, there is a modified local transaction.
-    //   //let tx = this.$store.state.transaction
-    //   let existingTx = txStore.tx
-    //   if (existingTx && existingTx.id === id) {
-    //     //console.debug('use existing')
-    //     this.tx = tx
-    //     return
-    //   }
-
-    //   // otherwise load from the data store.
-    //   if (id) {
-    //     await this.loadTransaction(id)
-    //   }
-    // },
 
     onClear() {
       this.isConfirmDeleteVisible = true
@@ -246,11 +215,6 @@ export default {
         this.$q.notify({ message: 'error: ' + err.message, color: 'negative' })
       }
     },
-    // resetTransaction() {
-    //   const svc = new CurrentTransactionService(this.$store)
-    //   const tx = svc.createTransaction()
-    //   this.tx = tx
-    // },
     toggleDrawer() {
       eventBus.$emit('toggle-drawer')
     },

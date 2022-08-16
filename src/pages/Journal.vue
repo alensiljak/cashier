@@ -133,6 +133,29 @@
   </q-page>
 </template>
 
+<script setup>
+import { useQuasar } from 'quasar'
+import { useRouter } from 'vue-router'
+import { useMainStore } from '../store/mainStore'
+
+const $q = useQuasar()
+const router = useRouter()
+const mainStore = useMainStore()
+
+async function onTxClick(id) {
+  if (typeof id !== 'number') {
+    $q.notify({
+      message: 'The id (' + id + ') is not numeric! Try again.',
+      color: 'negative',
+    })
+  }
+
+  // load tx
+  await mainStore.loadTx(id)
+
+  await router.push({ name: 'tx-actions', params: { id: id } })
+}
+</script>
 <script>
 import appService from '../appService'
 import JournalTransaction from '../components/JournalTransaction.vue'
@@ -240,14 +263,6 @@ export default {
       // confirm
       this.confirmDeleteVisible = true
       this.transactionIdToDelete = data.id
-    },
-    onTxClick(id) {
-      //console.log('id:', id, 'type:', typeof id)
-      if(typeof id !== 'number') {
-        this.$q.notify({ message: 'The id (' + id + ') is not numeric! Try again.', color: 'negative' })
-      }
-
-      this.$router.push({ name: 'tx-actions', params: { id: id } });
     },
     openNewTransaction() {
       this.$router.push({ name: 'tx' })

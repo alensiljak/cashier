@@ -125,17 +125,18 @@
 
 <script setup>
 // import { storeToRefs } from 'pinia'
-import { useTxStore } from '../store/txStore'
+import { useMainStore } from '../store/mainStore'
 import { useStore } from 'vuex'
 import {
   SelectionModeMetadata,
   SettingKeys,
   settings,
 } from '../lib/Configuration'
+import appService from '../appService'
 
+const mainStore = useMainStore()
 const store = useStore()
-const txStore = useTxStore()
-const { tx } = txStore
+const { tx } = mainStore
 
 // are we back from the select mode?
 if (store.state.selectModeMeta) {
@@ -143,7 +144,6 @@ if (store.state.selectModeMeta) {
 }
 
 function addPosting() {
-  // this.$store.dispatch('addPosting')
   tx.postings.push(new Posting())
 }
 
@@ -174,7 +174,6 @@ async function handleSelection() {
 
   switch (select.selectionType) {
     case 'payee':
-      //store.commit(SET_PAYEE, id)
       tx.payee = id
       await loadLastTransaction(id)
       break
@@ -221,7 +220,6 @@ async function loadLastTransaction(payee) {
 }
 </script>
 <script>
-import appService from '../appService'
 import { SET_SELECT_MODE } from '../mutations'
 import QPosting from '../components/Posting.vue'
 import { Posting } from '../model'

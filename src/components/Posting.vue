@@ -44,14 +44,12 @@
 </template>
 
 <script setup>
-import { useTxStore } from '../store/txStore'
+import { useMainStore } from '../store/mainStore'
 
-const txStore = useTxStore()
-const { tx } = txStore
+const mainStore = useMainStore()
+const { tx } = mainStore
 </script>
 <script>
-import { SET_POSTING } from '../mutations'
-
 export default {
   props: {
     index: { type: Number, default: null },

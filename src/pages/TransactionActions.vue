@@ -123,15 +123,12 @@
 <script setup>
 import { ref, reactive } from 'vue'
 // import { storeToRefs } from 'pinia'
-// import { usePiniaStore } from '../store/piniaStore'
-import { useTxStore } from '../store/txStore'
+import { useMainStore } from '../store/mainStore'
 import { onMounted } from 'vue'
 import { CurrentTransactionService } from '../lib/currentTransactionService'
 
-// const { item } = storeToRefs(usePiniaStore())
-// const { modify } = usePiniaStore()
-const txStore = useTxStore()
-const { tx } = txStore
+const mainStore = useMainStore()
+const { tx } = mainStore
 
 const props = defineProps({ id: String })
 
@@ -141,13 +138,13 @@ if (!tx) {
   console.debug('creating a new tx')
   const newTx = new CurrentTransactionService().createTransaction()
   //tx = reactive(newTx)
-  txStore.setTx(newTx)
+  mainStore.setTx(newTx)
 }
 
 async function loadData() {
   const id = getNumericId()
   const record = await appService.loadTransaction(id)
-  txStore.setTx(record)
+  mainStore.setTx(record)
 
   txLoaded.value = true
 }

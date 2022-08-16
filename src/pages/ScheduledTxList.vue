@@ -48,10 +48,31 @@
   </q-page>
 </template>
 
+<script setup>
+import { useMainStore } from '../store/mainStore'
+import { useRoute, useRouter } from 'vue-router'
+
+const mainStore = useMainStore()
+//const route = useRoute()
+const router = useRouter()
+
+function onFabClicked() {
+  // reset any cached values
+  //this.$store.commit('saveToClipboard', null)
+  mainStore.newScheduledTx()
+  router.push({ name: 'scheduledtxeditor' })
+}
+
+async function showTx(id) {
+  // load tx
+  await mainStore.loadScheduledTx(id)
+  await router.push({ name: 'scheduledtxactions', params: { id: id } })
+}
+</script>
 <script>
-import appService from "../appService";
-import moment from "moment";
-import StxToolbar from "../components/ScheduledTxToolbar.vue";
+import appService from '../appService'
+import moment from 'moment'
+import StxToolbar from '../components/ScheduledTxToolbar.vue'
 
 export default {
   components: {
@@ -63,21 +84,21 @@ export default {
       filter: null,
       transactions: [],
       today: null,
-    };
+    }
   },
 
   computed: {
     filteredList: {
       get() {
         if (!this.filter) {
-          return this.transactions;
+          return this.transactions
         }
 
-        if (!this.transactions) return;
+        if (!this.transactions) return
 
         // apply the filter
         return this.transactions.filter((stx) => {
-          const tx = JSON.parse(stx.transaction);
+          const tx = JSON.parse(stx.transaction)
           //const result = (tx.payee.toUpperCase().indexOf(this.filter.toUpperCase()) > -1)
 
           // const result = stx.transaction.toUpperCase()
@@ -90,19 +111,19 @@ export default {
           //   .localeCompare(this.filter, undefined, { sensitivity: 'base' }) === 0
 
           // Use regex for performance.
-          var searchTerm = new RegExp(this.filter, "i");
+          var searchTerm = new RegExp(this.filter, 'i')
           //const result = stx.transaction.match(searchTerm)
-          const result = tx.payee.match(searchTerm);
+          const result = tx.payee.match(searchTerm)
 
-          return result;
-        });
+          return result
+        })
       },
     },
   },
 
   created() {
-    this.today = moment().format("YYYY-MM-DD");
-    this.loadData();
+    this.today = moment().format('YYYY-MM-DD')
+    this.loadData()
   },
 
   methods: {
@@ -110,53 +131,45 @@ export default {
     Gets only the first line of the text (until the first line break).
      */
     getFirstLine(text) {
-      if (!text) return;
+      if (!text) return
 
-      return text.split("\n")[0];
+      return text.split('\n')[0]
     },
 
     async loadData() {
       let sorted = await appService.db.scheduled
-        .orderBy("nextDate")
+        .orderBy('nextDate')
         //.sortBy('symbol')
-        .toArray();
+        .toArray()
 
       // sort also by payee, case insensitive
       sorted.sort((a, b) => {
-        const tx1 = JSON.parse(a.transaction);
-        const tx2 = JSON.parse(b.transaction);
+        const tx1 = JSON.parse(a.transaction)
+        const tx2 = JSON.parse(b.transaction)
 
-        var sorting = a.nextDate.localeCompare(b.nextDate);
+        var sorting = a.nextDate.localeCompare(b.nextDate)
         return sorting == 0
-          ? tx1.payee.localeCompare(tx2.payee, "en", { sensitivity: "base" })
-          : sorting;
-      });
+          ? tx1.payee.localeCompare(tx2.payee, 'en', { sensitivity: 'base' })
+          : sorting
+      })
 
-      this.transactions = sorted;
+      this.transactions = sorted
     },
 
     onBackupClicked() {
-      this.$router.push({ name: "export", params: { type: "scheduled" } });
+      this.$router.push({ name: 'export', params: { type: 'scheduled' } })
     },
     onCalendarClicked() {
-      this.$router.push({ name: "calendar" });
-    },
-    onFabClicked() {
-      // reset any cached values
-      this.$store.commit("saveToClipboard", null);
-      this.$router.push({ name: "scheduledtxeditor" });
+      this.$router.push({ name: 'calendar' })
     },
     onFilterChanged(filter) {
-      this.filter = filter;
+      this.filter = filter
     },
     onRestoreClicked() {
-      this.$router.push({ name: "restore", params: { type: "scheduled" } });
-    },
-    showTx(id) {
-      this.$router.push({ name: "scheduledtxactions", params: { id: id } });
+      this.$router.push({ name: 'restore', params: { type: 'scheduled' } })
     },
   },
-};
+}
 </script>
 <style lang="sass" scoped>
 @import "../css/palette.scss"

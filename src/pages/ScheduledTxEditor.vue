@@ -29,92 +29,29 @@
 import { onMounted, provide, reactive } from 'vue'
 import { useStore } from 'vuex'
 import { useQuasar } from 'quasar'
-import { useRoute } from 'vue-router'
-import { useTxStore } from '../store/txStore'
+// import { useRoute } from 'vue-router'
+import appService from '../appService'
+import { useMainStore } from '../store/mainStore'
 
 const store = useStore()
 const $q = useQuasar()
-const txStore = useTxStore()
+const mainStore = useMainStore()
 
-let scheduledTx = store.state.clipboard
+const { scheduledTx, tx } = mainStore
 
 // are we back from the select mode?
 if (store.state.selectModeMeta) {
   //handleSelection()
-  console.debug('back from selection')
+  //console.debug('back from selection')
 }
 
 // onCreated
-if (!scheduledTx) {
-  // initialize for data binding.
-  scheduledTx = reactive(new ScheduledTransaction())
-}
 
 provide('scheduledTx', scheduledTx)
-
-onMounted(async () => {
-  // don't load data if we're back from selection.
-  if (store.state.selectModeMeta) return
-
-  try {
-    const id = getId()
-    let stx = await loadData(id)
-    use(stx)
-  } catch (error) {
-    $q.notify({ message: error.message, color: 'negative' })
-  }
-})
-
-async function loadData(id) {
-  if (typeof id === 'string') {
-    // convert to a numeric value
-    id = parseInt(id)
-  }
-
-  let result = null
-
-  // Special case. ID of 0 should be used to reset the Sch.Tx in the state.
-  // This is necessary for the case when using a 'schedule' action from the tx actions.
-  if (id === 0) {
-    // Reset the Scheduled transaction.
-    result = new ScheduledTransaction()
-    // But use the journal transaction from the state
-
-    return result
-  }
-
-  // load existing record
-  let schTx = await appService.db.scheduled.get(id)
-  if (!schTx) {
-    throw new Error('Scheduled transaction not loaded', id)
-  }
-  return schTx
-}
-
-function getId() {
-  const route = useRoute()
-  const id = route.params.id
-  return id
-}
-
-/**
- * Sets the given Scheduled Transaction as the active object, being edited.
- */
-function use(scheduledTransaction) {
-  //this.scheduledTx = reactive(scheduledTransaction)
-  Object.assign(scheduledTx, scheduledTransaction)
-
-  // put into the store the attached journal transaction.
-  const transaction = JSON.parse(scheduledTransaction.transaction)
-
-  // make tx available for editing
-  txStore.setTx(transaction)
-}
 </script>
 <script>
 import TxEditor from '../components/TransactionEditor.vue'
 import ScheduleEditor from '../components/ScheduleEditor.vue'
-import appService from '../appService'
 import { ScheduledTransaction } from '../model'
 import eventBus from '../lib/eventBus'
 import { toRaw } from 'vue'
@@ -127,19 +64,18 @@ export default {
 
   methods: {
     resetTransaction() {
-      this.use(new ScheduledTransaction())
+      this.mainStore.newScheduledTx()
     },
     /**
      * Saves the scheduled transaction to the data store.
      */
     async saveData() {
-      //const stx = this.scheduledTx
       let stx = toRaw(this.scheduledTx)
 
       // serialize transaction
-      let tx = JSON.parse(JSON.stringify(this.$store.state.transaction))
-
-      // do not store any transaction ids!
+      //let tx = JSON.parse(JSON.stringify(this.tx))
+      let tx = toRaw(this.tx)
+      // clear any transaction ids!
       tx.id = null
       const txStr = JSON.stringify(tx)
       stx.transaction = txStr
@@ -151,12 +87,10 @@ export default {
       return result
     },
     async onSaveClicked() {
-      /// Triggered on Save button click
-
       const result = await this.saveData()
 
       if (result) {
-        this.resetTransaction()
+        //this.resetTransaction()
         //this.$router.push({ name: 'scheduledtransactions' })
         this.$router.back()
       }

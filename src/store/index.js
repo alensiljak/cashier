@@ -48,7 +48,6 @@ export default function (/* { ssrContext } */) {
     strict: process.env.DEBUGGING,
     state: {
       // for storing the transactions being edited or anything else, temporarily.
-      clipboard: null,
       drawerOpen: null,
       transaction: null, // The transaction being edited.
       // Select mode: set select mode, open list, select item, save id, return to the caller.
@@ -109,9 +108,6 @@ export default function (/* { ssrContext } */) {
       },
       [SET_LEDGER_USE](state, useLedger) {
         state.useLedger = useLedger
-      },
-      saveToClipboard(state, payload) {
-        state.clipboard = payload
       },
     },
 
