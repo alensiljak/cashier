@@ -38,6 +38,12 @@ const txStore = useTxStore()
 
 let scheduledTx = store.state.clipboard
 
+// are we back from the select mode?
+if (store.state.selectModeMeta) {
+  //handleSelection()
+  console.debug('back from selection')
+}
+
 // onCreated
 if (!scheduledTx) {
   // initialize for data binding.
@@ -47,6 +53,9 @@ if (!scheduledTx) {
 provide('scheduledTx', scheduledTx)
 
 onMounted(async () => {
+  // don't load data if we're back from selection.
+  if (store.state.selectModeMeta) return
+
   try {
     const id = getId()
     let stx = await loadData(id)
