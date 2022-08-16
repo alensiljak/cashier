@@ -4,7 +4,7 @@
       <div class="col">
         <!-- Account -->
         <q-input
-          v-model="account"
+          v-model="posting.account"
           dark
           label="Account"
           @click="$emit('account-clicked')"
@@ -16,7 +16,7 @@
       <div class="col-3 col-xs-5">
         <!-- Amount -->
         <q-input
-          v-model.number="amount"
+          v-model.number="posting.amount"
           dark
           label="Amount"
           type="number"
@@ -28,7 +28,7 @@
 
       <div class="q-pl-sm col-3 col-xs-4">
         <!-- currency -->
-        <q-input v-model="currency" dark label="Currency">
+        <q-input v-model="posting.currency" dark label="Currency">
           <template #append>
             <!-- warn if there's no currency but we have an amount -->
             <font-awesome-icon
@@ -62,31 +62,11 @@ export default {
   },
 
   computed: {
-    account: {
+    posting: {
       get() {
-        return this.tx.postings[this.index].account
-      },
-      set(value) {
-        let posting = this.tx.postings[this.index]
-        posting.account = value
-      },
-    },
-    amount: {
-      get() {
-        return this.tx.postings[this.index].amount
-      },
-      set(value) {
-        let posting = this.tx.postings[this.index]
-        posting.amount = value
-      },
-    },
-    currency: {
-      get() {
-        return this.tx.postings[this.index].currency
-      },
-      set(value) {
-        let posting = this.tx.postings[this.index]
-        posting.currency = value
+        if (!this.tx) return
+
+        return this.tx.postings[this.index]
       },
     },
     isMissingCurrency: {
