@@ -4,7 +4,7 @@
       <div class="col">
         <!-- Account -->
         <q-input
-          v-model="posting.account"
+          v-model="account"
           dark
           label="Account"
           @click="$emit('account-clicked')"
@@ -16,7 +16,7 @@
       <div class="col-3 col-xs-5">
         <!-- Amount -->
         <q-input
-          v-model.number="posting.amount"
+          v-model.number="amount"
           dark
           label="Amount"
           type="number"
@@ -28,7 +28,7 @@
 
       <div class="q-pl-sm col-3 col-xs-4">
         <!-- currency -->
-        <q-input v-model="posting.currency" dark label="Currency">
+        <q-input v-model="currency" dark label="Currency">
           <template #append>
             <!-- warn if there's no currency but we have an amount -->
             <font-awesome-icon
@@ -44,22 +44,50 @@
 </template>
 
 <script setup>
-// import { toRaw } from 'vue'
+import { computed, defineProps, toRaw, toRefs } from 'vue'
 import { useMainStore } from '../store/mainStore'
 
 const mainStore = useMainStore()
 const { tx } = mainStore
-const postings = tx.postings
+//const postings = tx.postings
 
-if (!postings) {
-  console.warn('postings not found', postings)
-}
+const props = defineProps({
+  index: { type: Number, default: null },
+})
+const { index } = toRefs(props)
+
+let i = index.value
+
+const account = computed({
+  get() {
+    return tx.postings[i].account
+  },
+  set(val) {
+    tx.postings[i].account = val
+  },
+})
+const amount = computed({
+  get() {
+    return tx.postings[i].amount
+  },
+  set(val) {
+    tx.postings[i].amount = val
+  },
+})
+const currency = computed({
+  get() {
+    return tx.postings[i].currency
+  },
+  set(val) {
+    tx.postings[i].currency = val
+  },
+})
 </script>
 <script>
 export default {
-  props: {
-    index: { type: Number, default: null },
-  },
+  // props: {
+  //   index: { type: Number, default: null },
+  // },
 
   data: function () {
     return {
@@ -68,11 +96,11 @@ export default {
   },
 
   computed: {
-    posting: {
-      get() {
-        return this.postings[this.index]
-      },
-    },
+    // posting: {
+    //   get() {
+    //     return this.postings[this.index]
+    //   },
+    // },
     isMissingCurrency: {
       get() {
         const hasValidAmount = !isNaN(this.amount)
