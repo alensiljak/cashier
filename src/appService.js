@@ -480,6 +480,9 @@ class AppService {
    * @returns the numeric id of the new transaction
    */
   async saveTransaction(tx) {
+    if(!tx) {
+      throw new Error('transaction object is invalid!', tx)
+    }
     if (!tx.id) {
       // create a new id for the transaction
       tx.id = new Date().getTime()

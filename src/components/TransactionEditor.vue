@@ -193,7 +193,6 @@ async function handleSelection() {
       posting.account = account.name
       posting.currency = account.currency
 
-      // store.commit(SET_POSTING, { index: index, posting: clone })
       break
   }
 
@@ -214,9 +213,9 @@ async function loadLastTransaction(payee) {
   const lastTx = await appService.db.lastTransaction.get(payee)
   if (!lastTx) return
   // use the current date
-  lastTx.transaction.date = this.tx.date
+  lastTx.transaction.date = tx.date
   // Replace the current transaction.
-  this.tx = lastTx.transaction
+  mainStore.setTransaction(lastTx.transaction)
 }
 </script>
 <script>
