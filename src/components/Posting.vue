@@ -44,10 +44,16 @@
 </template>
 
 <script setup>
+// import { toRaw } from 'vue'
 import { useMainStore } from '../store/mainStore'
 
 const mainStore = useMainStore()
 const { tx } = mainStore
+const postings = tx.postings
+
+if (!postings) {
+  console.warn('postings not found', postings)
+}
 </script>
 <script>
 export default {
@@ -64,9 +70,7 @@ export default {
   computed: {
     posting: {
       get() {
-        if (!this.tx) return
-
-        return this.tx.postings[this.index]
+        return this.postings[this.index]
       },
     },
     isMissingCurrency: {
