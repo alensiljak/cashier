@@ -75,11 +75,7 @@
 
     <!-- The button is required for file export, to attach the event! -->
     <div ref="buttonContainer" hidden="hidden">
-      <q-btn
-        color="secondary"
-        text-color="accent"
-        label="Export"
-      />
+      <q-btn color="secondary" text-color="accent" label="Export" />
     </div>
 
     <div style="height: 100%; width: 100%; overflow: scroll">
@@ -156,7 +152,7 @@
 </template>
 
 <script>
-import { engine } from "../lib/AssetAllocation";
+import { engine } from '../lib/AssetAllocation'
 
 export default {
   data() {
@@ -164,142 +160,141 @@ export default {
       assetClasses: [],
       columns: [
         {
-          name: "name",
-          label: "Asset Class",
-          align: "left",
-          field: "name",
+          name: 'name',
+          label: 'Asset Class',
+          align: 'left',
+          field: 'name',
           format: (val) => `${val}`,
-          classes: "bg-teal-9 ellipsis",
+          classes: 'bg-teal-9 ellipsis',
         },
-        { name: "allocation", label: "Allocation", field: "allocation" },
+        { name: 'allocation', label: 'Allocation', field: 'allocation' },
         {
-          name: "current-allocation",
-          label: "Current",
-          field: "currentAllocation",
+          name: 'current-allocation',
+          label: 'Current',
+          field: 'currentAllocation',
         },
-        { name: "diff", label: "Diff", field: "diff" },
-        { name: "diff-perc", label: "Diff %", field: "diffPerc" },
+        { name: 'diff', label: 'Diff', field: 'diff' },
+        { name: 'diff-perc', label: 'Diff %', field: 'diffPerc' },
         {
-          name: "allocatedAmount",
-          label: "Alloc.Value",
-          field: "allocatedAmount",
+          name: 'allocatedAmount',
+          label: 'Alloc.Value',
+          field: 'allocatedAmount',
         },
-        { name: "currentValue", label: "Current", field: "currentValue" },
-        { name: "diffAmount", label: "Difference", field: "diffAmount" },
+        { name: 'currentValue', label: 'Current', field: 'currentValue' },
+        { name: 'diffAmount', label: 'Difference', field: 'diffAmount' },
       ],
-    };
+    }
   },
 
   computed: {
     canShare() {
-      return navigator && "share" in navigator;
+      return navigator && 'share' in navigator
     },
   },
 
-  created() {
-  },
+  created() {},
 
   mounted() {
-    this.loadData();
+    this.loadData()
   },
 
   methods: {
     downloadAsFile(content) {
-      var a = document.createElement("a");
+      var a = document.createElement('a')
 
       // filename
-      let now = new Date();
-      let filename = "asset_allocation-";
-      filename += now.toISOString().substring(0, 10);
-      filename += "_";
-      filename += ("" + now.getHours()).padStart(2, "0");
-      filename += "-";
-      filename += ("" + now.getMinutes()).padStart(2, "0");
+      let now = new Date()
+      let filename = 'asset_allocation-'
+      filename += now.toISOString().substring(0, 10)
+      filename += '_'
+      filename += ('' + now.getHours()).padStart(2, '0')
+      filename += '-'
+      filename += ('' + now.getMinutes()).padStart(2, '0')
       // filename += now.getTimezoneOffset()
-      filename += ".txt";
-      a.download = filename;
+      filename += '.txt'
+      a.download = filename
 
-      let encoded = btoa(content);
+      let encoded = btoa(content)
       // a.href = "data:application/octet-stream;base64," + Base64.encode(this.output);
-      a.href = "data:text/plain;base64," + encoded;
+      a.href = 'data:text/plain;base64,' + encoded
       // charset=UTF-8;
 
-      this.$refs.buttonContainer.appendChild(a);
-      a.click();
+      this.$refs.buttonContainer.appendChild(a)
+      a.click()
 
       // cleanup?
-      this.$refs.buttonContainer.removeChild(a);
+      this.$refs.buttonContainer.removeChild(a)
     },
     getAaForExport() {
       // let output = JSON.stringify(this.assetClasses);
-      let output = engine.formatAllocationRowsForTxtExport(this.assetClasses);
+      let output = engine.formatAllocationRowsForTxtExport(this.assetClasses)
 
-      return output;
+      return output
     },
     async loadData() {
       try {
-        let result = await engine.loadFullAssetAllocation();
-        this.assetClasses = result;
+        let result = await engine.loadFullAssetAllocation()
+        this.assetClasses = result
       } catch (error) {
         console.error(error)
-        this.$q.notify({ message: error.message, color: "secondary" })
+        this.$q.notify({ message: error.message, color: 'secondary' })
       }
     },
     menuClicked() {
-      let visible = this.$store.getters.drawerOpen;
-      this.$store.commit(TOGGLE_DRAWER, !visible);
+      let visible = this.$store.state.drawerOpen
+      this.$store.commit(TOGGLE_DRAWER, !visible)
     },
     onExportClick() {
-      let output = this.getAaForExport();
-      this.downloadAsFile(output);
+      let output = this.getAaForExport()
+      this.downloadAsFile(output)
     },
     onHelpClick() {
       // navigate to help page
-      this.$router.push({ name: "assetallocationhelp" });
+      this.$router.push({ name: 'assetallocationhelp' })
     },
     onSetupClick() {
-      this.$router.push({ name: "settings" });
+      this.$router.push({ name: 'settings' })
     },
     onShareClick() {
       // prepare for export?
-      let output = this.getAaForExport();
+      let output = this.getAaForExport()
 
-      let dateFormatted = "today";
+      let dateFormatted = 'today'
       navigator.share({
-        title: "Asset Allocation " + dateFormatted,
+        title: 'Asset Allocation ' + dateFormatted,
         text: output,
-        url: "https://cashier.alensiljak.eu.org/",
-      });
+        url: 'https://cashier.alensiljak.eu.org/',
+      })
     },
     /**
      * validate the allocation (definition)
      */
     onValidateClick() {
       if (this.assetClasses.length === 0) {
-        this.$q.notify({ message: "Please recalculate the allocation first." });
+        this.$q.notify({ message: 'Please recalculate the allocation first.' })
       }
 
       // confirm that the group allocations match the sum of the children's allocation.
-      let errors = engine.validate(engine.assetClassIndex);
+      let errors = engine.validate(engine.assetClassIndex)
       if (errors.length > 0) {
-        let message = "Errors: ";
+        let message = 'Errors: '
         for (let i = 0; i < errors.length; i++) {
-          message += errors[i];
+          message += errors[i]
         }
-        this.$q.notify({ message: message, color: "secondary" });
+        this.$q.notify({ message: message, color: 'secondary' })
       } else {
         this.$q.notify({
-          message: "The allocation is valid.",
-          color: "teal-9",
-        }); // teal
+          message: 'The allocation is valid.',
+          color: 'teal-9',
+        }) // teal
       }
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
-@import "../css/palette.scss";
+@import '../css/palette.scss';
 a {
   color: $colour2;
   //color: $amber-2;

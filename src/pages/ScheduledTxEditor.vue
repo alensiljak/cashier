@@ -116,8 +116,6 @@ export default {
     TxEditor,
   },
 
-  emits: ['toggleDrawer'],
-
   methods: {
     resetTransaction() {
       this.use(new ScheduledTransaction())

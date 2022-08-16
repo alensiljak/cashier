@@ -303,59 +303,59 @@
 </template>
 
 <script>
-import { TOGGLE_DRAWER } from "../mutations";
-import eventBus from "../lib/eventBus";
+import { TOGGLE_DRAWER } from '../mutations'
+import eventBus from '../lib/eventBus'
 
 export default {
-  inject: ["version"],
+  inject: ['version'],
 
   data() {
     return {
       // drawerOpen: this.$q.platform.is.desktop
-    };
+    }
   },
 
   computed: {
     drawerOpen: {
       get() {
-        return this.$store.getters.drawerOpen;
+        return this.$store.state.drawerOpen
       },
       set(value) {
-        this.$store.commit(TOGGLE_DRAWER, value);
+        this.$store.commit(TOGGLE_DRAWER, value)
       },
     },
     liveModeOn: {
       get() {
-        return this.$store.state.useLedger;
+        return this.$store.state.useLedger
       },
     },
   },
 
   created() {
     // initial state of the drawer
-    this.$store.commit(TOGGLE_DRAWER, this.$q.platform.is.desktop);
+    this.$store.commit(TOGGLE_DRAWER, this.$q.platform.is.desktop)
 
     // Listen for events from other pages
-    eventBus.$on("toggle-drawer", this.toggleDrawer);
+    eventBus.$on('toggle-drawer', this.toggleDrawer)
   },
 
   methods: {
     onHeaderClick() {
       // "reset browser history" by going back to the beginning.
-      let back = (window.history.length - 1) * -1;
+      let back = (window.history.length - 1) * -1
       // console.log('history:', window.history.length)
-      window.history.go(back);
+      window.history.go(back)
     },
     toggleDrawer() {
-      this.drawerOpen = !this.drawerOpen;
+      this.drawerOpen = !this.drawerOpen
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
-@import "../css/styles.scss";
-@import "../css/palette.scss";
+@import '../css/styles.scss';
+@import '../css/palette.scss';
 
 .active-link {
   color: $colour3;

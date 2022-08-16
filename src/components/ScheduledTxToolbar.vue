@@ -109,7 +109,7 @@ export default {
   },
   methods: {
     onMenuClicked() {
-      let visible = this.$store.getters.drawerOpen
+      let visible = this.$store.state.drawerOpen
       this.$store.commit(TOGGLE_DRAWER, !visible)
     },
     onResetFilterClicked() {

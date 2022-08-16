@@ -144,30 +144,31 @@ export default {
       datePickerVisible: false,
       resetSlide: null,
       postingSum: 0,
+      tx: {},
     }
   },
 
-  computed: {
-    tx: {
-      get() {
-        let tx = this.$store.getters.transaction
+  // computed: {
+  //   tx: {
+  //     get() {
+  //       let tx = this.$store.getters.transaction
 
-        if (tx === null) {
-          tx = this.resetTransaction()
-        } else {
-          // fix postings
-          if (!tx.postings) {
-            this.$store.dispatch('resetPostings')
-          }
-        }
-        return tx
-      },
-      set(value) {
-        // save in the state store
-        new CurrentTransactionService(this.$store).setTx(value)
-      },
-    },
-  },
+  //       if (tx === null) {
+  //         tx = this.resetTransaction()
+  //       } else {
+  //         // fix postings
+  //         if (!tx.postings) {
+  //           this.$store.dispatch('resetPostings')
+  //         }
+  //       }
+  //       return tx
+  //     },
+  //     set(value) {
+  //       // save in the state store
+  //       new CurrentTransactionService(this.$store).setTx(value)
+  //     },
+  //   },
+  // },
 
   created() {
     // are we back from the select mode?
@@ -175,8 +176,9 @@ export default {
       this.handleSelection()
     }
   },
-  mounted: function () {
+  async mounted() {
     this.recalculateSum()
+    await this.init()
   },
 
   methods: {
@@ -260,6 +262,10 @@ export default {
       // clean-up, reset the selection values
       this.$store.commit(SET_SELECT_MODE, null)
     },
+    async init() {
+      const tx = JSON.parse(JSON.stringify(this.$store.getters.transaction))
+      this.tx = tx
+    },
     /**
      * Load the last transaction for the payee
      */
@@ -338,7 +344,7 @@ export default {
     },
     resetTransaction() {
       const tx = new CurrentTransactionService(this.$store).createTransaction()
-      this.tx = Object.assign(this.tx, tx)
+      this.tx = tx
       return tx
     },
   },

@@ -131,7 +131,6 @@ export default function (/* { ssrContext } */) {
     },
     getters: {
       clipboard: (state) => state.clipboard,
-      drawerOpen: (state) => state.drawerOpen,
       transaction: (state) => state.transaction,
       //posting: (state, getters) => (index) => state.transaction.postings[index],
       liveModeOn: (state) => state.useLedger,
