@@ -30,13 +30,14 @@
 import { computed, onMounted, provide, reactive } from 'vue'
 import { useStore } from 'vuex'
 import { useQuasar } from 'quasar'
-// import { useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import appService from '../appService'
 import { useMainStore } from '../store/mainStore'
 
 const store = useStore()
 const $q = useQuasar()
 const mainStore = useMainStore()
+const router = useRouter()
 
 const { scheduledTx, tx } = mainStore
 
@@ -59,8 +60,38 @@ provide('scheduledTx', scheduledTx)
 // onCreated
 
 // are we back from the select mode?
-if (store.state.selectModeMeta) {
-  //handleSelection()
+// if (store.state.selectModeMeta) {
+//handleSelection()
+// }
+
+// methods
+
+async function onSaveClicked() {
+  const result = await saveData()
+
+  if (result) {
+    await router.back()
+  }
+}
+
+/**
+ * Saves the scheduled transaction to the data store.
+ */
+async function saveData() {
+  // serialize transaction
+  let tempTx = toRaw(tx)
+  // clear any transaction ids!
+  tempTx.id = null
+  const txStr = JSON.stringify(tempTx)
+
+  let stx = toRaw(scheduledTx)
+  stx.transaction = txStr
+
+  // use transaction date.
+  stx.nextDate = tx.date
+
+  const result = await appService.saveScheduledTransaction(stx)
+  return result
 }
 </script>
 <script>
@@ -78,32 +109,6 @@ export default {
   methods: {
     resetTransaction() {
       this.mainStore.newScheduledTx()
-    },
-    /**
-     * Saves the scheduled transaction to the data store.
-     */
-    async saveData() {
-      // serialize transaction
-      let tempTx = toRaw(this.tx)
-      // clear any transaction ids!
-      tempTx.id = null
-      const txStr = JSON.stringify(tempTx)
-
-      let stx = toRaw(this.scheduledTx)
-      stx.transaction = txStr
-
-      // use transaction date.
-      stx.nextDate = this.tx.date
-
-      const result = await appService.saveScheduledTransaction(stx)
-      return result
-    },
-    async onSaveClicked() {
-      const result = await this.saveData()
-
-      if (result) {
-        this.$router.back()
-      }
     },
     toggleDrawer() {
       eventBus.$emit('toggle-drawer')

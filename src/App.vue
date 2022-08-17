@@ -2,6 +2,18 @@
   <router-view />
 </template>
 
+<script setup>
+import { onErrorCaptured } from 'vue'
+import { useQuasar } from 'quasar'
+
+const $q = useQuasar()
+
+onErrorCaptured(function (err, instance, info) {
+  console.error('[errorCaptured]', err, instance, info)
+
+  $q.notify({ color: 'secondary', message: err + instance + info })
+})
+</script>
 <script>
 export default {
   name: 'App',
