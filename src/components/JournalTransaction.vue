@@ -18,23 +18,17 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
 //import { inject } from 'vue'
 //import { emits } from 'vue'
 
 //inject('tx')
+
+const confirmDelete = ref(false)
 
 const props = defineProps({
   tx: Object,
 })
 
 //emits()
-</script>
-<script>
-export default {
-  data() {
-    return {
-      confirmDelete: false,
-    }
-  },
-}
 </script>
