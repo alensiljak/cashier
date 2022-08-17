@@ -97,6 +97,10 @@ export class CashierSync {
    * @returns array of Account objects
    */
   async readBalances() {
+    const currency = await settings.get(SettingKeys.currency)
+
+    // Get values in the default currency? In case of multi-currency accounts (i.e. expenses).
+
     const command = 'b --flat --no-total'
     // const url = new URL(this.balancesUrl)
     const response = await this.ledger(command)

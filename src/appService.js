@@ -244,15 +244,13 @@ class AppService {
 
   async importBalanceSheet(lines) {
     if (!lines) {
-      throw 'No balance sheet sent for import'
+      throw new Error('No balance sheet sent for import')
     }
 
     const accounts = []
     const mainCurrency = await settings.get(SettingKeys.currency)
-    let mainCurrencyAmount = null
-    let multicurrencyAccount = false
 
-    // read and parse the balance sheet string
+    // read and parse the balance sheet entries
     for (let i = 0; i < lines.length; i++) {
       // console.log(lines[i]);
       const line = lines[i]
@@ -277,6 +275,10 @@ class AppService {
 
       // name
       account.name = namePart
+
+      // Handle multi-currency accounts.
+      let multicurrencyAccount = false
+      let mainCurrencyAmount = null
 
       // If we have a currency but no account, it's a multicurrency account.
       if (!namePart) {
@@ -480,7 +482,7 @@ class AppService {
    * @returns the numeric id of the new transaction
    */
   async saveTransaction(tx) {
-    if(!tx) {
+    if (!tx) {
       throw new Error('transaction object is invalid!', tx)
     }
     if (!tx.id) {

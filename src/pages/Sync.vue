@@ -119,6 +119,7 @@
   </q-page>
 </template>
 
+
 <script>
 import Toolbar from '../components/CashierToolbar.vue'
 import { SettingKeys, settings, Constants } from '../lib/Configuration'
