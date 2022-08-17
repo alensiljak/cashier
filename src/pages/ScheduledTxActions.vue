@@ -152,11 +152,127 @@
   </q-page>
 </template>
 <script setup>
+import { computed, toRaw } from 'vue'
 import { useMainStore } from '../store/mainStore'
+import { useQuasar } from 'quasar'
+import { useRoute, useRouter } from 'vue-router'
 
 const mainStore = useMainStore()
+const $q = useQuasar()
+// const route = useRoute()
+const router = useRouter()
+
+const props = defineProps({
+  id: { type: String, default: null },
+})
 
 const { scheduledTx } = mainStore
+const tx = computed({
+  get() {
+    return JSON.parse(scheduledTx.transaction)
+  },
+  set(value) {
+    scheduledTx.transaction = JSON.stringify(value)
+  },
+})
+
+// onCreate
+// if (!scheduledTx && route.params.id) {
+//   mainStore.loadScheduledTx(route.params.id)
+// }
+
+// Methods
+
+/**
+ * enter the transaction into journal and update the next date on schedule.
+ */
+async function enterTransaction() {
+  // Create the journal transaction.
+  let newTx = tx.value
+  // clear the id field, if any, to get a new one on save.
+  newTx.id = null
+  const id = await appService.saveTransaction(newTx)
+
+  await mainStore.loadTx(id)
+
+  // update the iteration date
+  await skip()
+
+  $q.notify({ message: 'Transaction created', color: 'positive' })
+
+  // open the transaction. Maintain page navigation history.
+  router.replace({ name: 'tx', params: { id: id } })
+}
+
+async function onEnterConfirmed() {
+  try {
+    await enterTransaction()
+  } catch (err) {
+    $q.notify({ color: 'negative', message: err.message })
+  }
+}
+
+/**
+ * Saves the Scheduled Transaction record.
+ */
+async function saveData() {
+  // serialize transaction
+  // let tx = this.tx
+  // do not store any transaction ids!
+  tx.value.id = null
+  // this.tx = tx
+
+  let stx = scheduledTx
+
+  // reuse transaction date. For indexing only.
+  stx.nextDate = tx.value.date
+
+  //let clone = structuredClone(stx);
+  //let clone = JSON.parse(JSON.stringify(stx))
+  let raw = toRaw(stx)
+
+  const result = await appService.saveScheduledTransaction(raw)
+  return result
+}
+
+async function skip() {
+  // Skips the next iteration.
+
+  let stx = scheduledTx
+  const startDate = stx.nextDate
+  const count = stx.count
+  const period = stx.period
+  const endDate = stx.endDate
+
+  // todo: handle the one-off occurrence (no count and no period)
+
+  // calculate the next iteration.
+  const iterator = new Iterator()
+  let newDate = iterator.calculateNextIteration(
+    startDate,
+    count,
+    period,
+    endDate
+  )
+  if (!newDate) {
+    // throw new Error(`invalid date calculated: ${newDate}`)
+    // Passed the End Date.
+    newDate = '0000-00-00'
+  }
+
+  // update the date on the transaction
+  // let tx = this.tx
+  tx.value.date = newDate
+  // this.tx = tx
+
+  const result = await saveData()
+  if (!result) {
+    $q.notify({
+      message: 'transaction not saved!',
+      color: 'negative',
+    })
+  }
+}
 </script>
 <script>
 import Toolbar from '../components/CashierToolbar.vue'
@@ -169,9 +285,6 @@ export default {
     Toolbar,
     JournalTransaction,
   },
-  props: {
-    id: { type: String, default: null },
-  },
   data() {
     return {
       // scheduledTx: {},
@@ -179,16 +292,6 @@ export default {
       skipConfirmationVisible: false,
       enterConfirmationVisible: false,
     }
-  },
-  computed: {
-    tx: {
-      get() {
-        return JSON.parse(this.scheduledTx.transaction)
-      },
-      set(value) {
-        this.scheduledTx.transaction = JSON.stringify(value)
-      },
-    },
   },
 
   methods: {
@@ -209,24 +312,6 @@ export default {
 
       this.$router.back()
     },
-    /**
-     * enter the transaction into journal and update the next date on schedule.
-     */
-    async enterTransaction() {
-      // Create the journal transaction.
-      let tx = this.tx
-      // clear the id field, if any, to get a new one on save.
-      tx.id = null
-      const id = await appService.saveTransaction(tx)
-
-      // update the iteration date
-      await this.skip()
-
-      this.$q.notify({ message: 'Transaction created', color: 'positive' })
-
-      // open the transaction. Maintain page navigation history.
-      this.$router.replace({ name: 'tx', params: { id: id } })
-    },
     getNumericId() {
       // when navigating back, the id becomes string instead of original numeric
       if (typeof this.id === 'string') {
@@ -243,13 +328,6 @@ export default {
       const id = this.getNumericId()
       this.$router.push({ name: 'scheduledtxeditor', params: { id: id } })
     },
-    async onEnterConfirmed() {
-      try {
-        await this.enterTransaction()
-      } catch (err) {
-        this.$q.notify({ color: 'negative', message: err.message })
-      }
-    },
     async onSkipConfirmed() {
       try {
         await this.skip()
@@ -257,66 +335,6 @@ export default {
         this.$router.back()
       } catch (err) {
         this.$q.notify({ color: 'negative', message: err.message })
-      }
-    },
-    /**
-     * Saves the Scheduled Transaction record.
-     */
-    async saveData() {
-      // serialize transaction
-      let tx = this.tx
-      // do not store any transaction ids!
-      tx.id = null
-      this.tx = tx
-
-      let stx = this.scheduledTx
-
-      // reuse transaction date. For indexing only.
-      stx.nextDate = tx.date
-
-      //let clone = structuredClone(stx);
-      let clone = JSON.parse(JSON.stringify(stx))
-
-      const result = await appService.saveScheduledTransaction(clone)
-      // console.log('saved', result)
-      return result
-    },
-    async skip() {
-      // Skips the next iteration.
-
-      let stx = this.scheduledTx
-      const startDate = stx.nextDate
-      const count = stx.count
-      const period = stx.period
-      const endDate = stx.endDate
-
-      // todo: handle the one-off occurrence (no count and no period)
-
-      // calculate the next iteration.
-      const iterator = new Iterator()
-      let newDate = iterator.calculateNextIteration(
-        startDate,
-        count,
-        period,
-        endDate
-      )
-      if (!newDate) {
-        // throw new Error(`invalid date calculated: ${newDate}`)
-        // Passed the End Date.
-        newDate = '0000-00-00'
-      }
-
-      // update the date on the transaction
-      let tx = this.tx
-      tx.date = newDate
-      this.tx = tx
-
-      const result = await this.saveData()
-      if (!result) {
-        this.$q.notify({
-          message: 'transaction not saved!',
-          color: 'negative',
-        })
       }
     },
   },

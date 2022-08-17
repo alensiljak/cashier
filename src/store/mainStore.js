@@ -27,6 +27,11 @@ export const useMainStore = defineStore('mainStore', {
    */
   actions: {
     async loadScheduledTx(id) {
+      //console.debug('id type', typeof id)
+      if (typeof id === 'string') {
+        id = Number(id)
+      }
+
       let schTx = await appService.db.scheduled.get(id)
       if (!schTx) {
         throw new Error('Scheduled transaction not found!', id)
