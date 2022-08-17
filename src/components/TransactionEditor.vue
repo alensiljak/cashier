@@ -124,7 +124,7 @@
 </template>
 
 <script setup>
-import { inject, ref } from 'vue'
+import { inject, onMounted, ref } from 'vue'
 // import { storeToRefs } from 'pinia'
 import { useMainStore } from '../store/mainStore'
 import { useStore } from 'vuex'
@@ -148,6 +148,13 @@ const postingSum = ref(0)
 if (store.state.selectModeMeta) {
   handleSelection()
 }
+
+// mounted
+onMounted(() => {
+  recalculateSum()
+})
+
+// methods
 
 function addPosting() {
   tx.postings.push(new Posting())
@@ -273,10 +280,6 @@ import { Posting } from '../model'
 export default {
   components: {
     QPosting,
-  },
-
-  async mounted() {
-    this.recalculateSum()
   },
 
   methods: {
