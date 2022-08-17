@@ -252,6 +252,11 @@ async function loadLastTransaction(payee) {
   mainStore.setTransaction(lastTx.transaction)
 }
 
+function onAmountChanged() {
+  // recalculate the sum
+  recalculateSum()
+}
+
 function onSlide({ reset }) {
   resetSlide = reset
   finalizeSlide(reset)
@@ -299,10 +304,6 @@ export default {
       this.$store.commit(SET_SELECT_MODE, selectMode)
       // show account picker
       this.$router.push({ name: 'accounts' })
-    },
-    onAmountChanged() {
-      // recalculate the sum
-      this.recalculateSum()
     },
     /**
      * (value, reason, details)
