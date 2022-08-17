@@ -23,7 +23,7 @@
         v-model="tx.date"
         label="Date"
         dark
-        @click="datePickerVisible = true"
+        @click="datePickerVisible.value = true"
       >
         <template #prepend>
           <font-awesome-icon icon="calendar-day" />
@@ -138,6 +138,9 @@ const mainStore = useMainStore()
 const store = useStore()
 const { tx } = mainStore
 
+// data
+const datePickerVisible = ref(false)
+
 // are we back from the select mode?
 if (store.state.selectModeMeta) {
   handleSelection()
@@ -230,7 +233,6 @@ export default {
 
   data() {
     return {
-      datePickerVisible: false,
       resetSlide: null,
       postingSum: 0,
     }

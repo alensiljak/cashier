@@ -92,16 +92,21 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, provide, ref, toRaw } from 'vue'
 import { useMainStore } from '../store/mainStore'
 import { useRoute } from 'vue-router'
+import { SettingKeys, settings } from 'src/lib/Configuration'
+import { useQuasar } from 'quasar'
+import appService from '../appService'
 
 const router = useRoute()
 const mainStore = useMainStore()
 const { tx } = mainStore
+const $q = useQuasar()
 
-// for New Tx, clear the transaction store
-//if (!tx) resetTransaction()
+const isConfirmDeleteVisible = ref(false)
+
+provide('tx', tx)
 
 onMounted(async () => {
   //
@@ -112,50 +117,49 @@ function confirmDelete() {
   resetTransaction()
 }
 
+function onClear() {
+  isConfirmDeleteVisible.value = true
+}
+
+async function onSaveClicked() {
+  try {
+    console.debug('saving tx', tx)
+
+    let txObj = toRaw(tx)
+
+    await appService.saveTransaction(txObj)
+
+    // Remember Last Transaction?
+    const remember = await settings.get(SettingKeys.rememberLastTransaction)
+    if (remember) {
+      await appService.saveLastTransaction(txObj)
+    }
+
+    await router.back()
+  } catch (err) {
+    console.error(err)
+    $q.notify({ message: 'error: ' + err.message, color: 'negative' })
+  }
+}
+
 function resetTransaction() {
   mainStore.newTx()
 }
 </script>
 <script>
-import appService from '../appService'
 import TxEditor from '../components/TransactionEditor.vue'
-import { SettingKeys, settings } from 'src/lib/Configuration'
 import eventBus from '../lib/eventBus'
-import { toRaw } from 'vue'
 
 export default {
   components: {
     TxEditor,
   },
 
-  data() {
-    return {
-      isConfirmDeleteVisible: false,
-    }
-  },
+  // data() {
+  //   return {}
+  // },
 
   methods: {
-    onClear() {
-      this.isConfirmDeleteVisible = true
-    },
-    async onSaveClicked() {
-      try {
-        let tx = toRaw(this.tx)
-
-        await appService.saveTransaction(tx)
-
-        // Remember Last Transaction?
-        const remember = await settings.get(SettingKeys.rememberLastTransaction)
-        if (remember) {
-          await appService.saveLastTransaction(tx)
-        }
-
-        await this.$router.back()
-      } catch (err) {
-        console.error(err)
-        this.$q.notify({ message: 'error: ' + err.message, color: 'negative' })
-      }
-    },
     toggleDrawer() {
       eventBus.$emit('toggle-drawer')
     },

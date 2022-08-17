@@ -53,7 +53,11 @@ export const useMainStore = defineStore('mainStore', {
       this.setTransaction(tx)
     },
     setTransaction(tx) {
-      this.tx = tx
+      if (this.tx) {
+        Object.assign(this.tx, tx)
+      } else {
+        this.tx = tx
+      }
     },
   },
 })

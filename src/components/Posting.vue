@@ -44,7 +44,7 @@
 </template>
 
 <script setup>
-import { computed, defineProps, toRaw, toRefs } from 'vue'
+import { computed, toRaw, toRefs } from 'vue'
 import { useMainStore } from '../store/mainStore'
 
 const mainStore = useMainStore()
