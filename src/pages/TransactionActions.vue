@@ -126,7 +126,12 @@ import { ref, reactive } from 'vue'
 import { useMainStore } from '../store/mainStore'
 import { onMounted } from 'vue'
 import { CurrentTransactionService } from '../lib/currentTransactionService'
+import { useRouter } from 'vue-router'
+import appService from '../appService'
+import { useQuasar } from 'quasar'
 
+const router = useRouter()
+const $q = useQuasar()
 const mainStore = useMainStore()
 const { tx } = mainStore
 
@@ -135,6 +140,26 @@ const props = defineProps({ id: String })
 onMounted(async () => {
   //await loadData()
 })
+
+/**
+ * The user confirmed the deletion.
+ */
+async function confirmDelete() {
+  await deleteTransaction()
+
+  await router.back()
+}
+
+async function deleteTransaction() {
+  const id = getNumericId()
+
+  try {
+    await appService.deleteTransaction(id)
+    $q.notify({ message: 'Transaction deleted', color: 'positive' })
+  } catch (reason) {
+    $q.notify({ message: reason.message, color: 'negative' })
+  }
+}
 
 function getNumericId() {
   // when navigating back, the id becomes string instead of original numeric
@@ -147,11 +172,25 @@ function getNumericId() {
 
   throw new Error('Invalid Id value')
 }
+
+function onEditClicked() {
+  const id = getNumericId()
+  router.push({ name: 'tx', params: { id: id } })
+}
+
+function onScheduleClick() {
+  // the journal transaction stays in the store and is available in the sch.tx editor.
+  // id 0 will cause it to reset the scheduled transaction.
+  // Save the tx to the store first.
+  //new CurrentTransactionService(this.$store).setTx(this.tx)
+  mainStore.newTx()
+
+  router.push({ name: 'scheduledtxeditor', params: { id: 0 } })
+}
 </script>
 <script>
 import Toolbar from '../components/CashierToolbar.vue'
 import JournalTransaction from '../components/JournalTransaction.vue'
-import appService from '../appService'
 
 export default {
   components: {
@@ -165,24 +204,6 @@ export default {
     }
   },
   methods: {
-    /**
-     * The user confirmed the deletion.
-     */
-    async confirmDelete() {
-      await this.deleteTransaction()
-
-      this.$router.back()
-    },
-    async deleteTransaction() {
-      const id = this.getNumericId()
-
-      try {
-        await appService.deleteTransaction(id)
-        this.$q.notify({ message: 'Transaction deleted', color: 'positive' })
-      } catch (reason) {
-        this.$q.notify({ message: reason.message, color: 'negative' })
-      }
-    },
     async onCopyClicked() {
       // get a journal version
       const text = await appService.translateToLedger(this.tx)
@@ -210,18 +231,6 @@ export default {
       // navigate to the editor for the new transaction,
       // resetting the navigation?
       this.$router.push({ name: 'tx', params: { id: id } })
-    },
-    onEditClicked() {
-      const id = this.getNumericId()
-      this.$router.push({ name: 'tx', params: { id: id } })
-    },
-    onScheduleClick() {
-      // the journal transaction stays in the store and is available in the sch.tx editor.
-      // id 0 will cause it to reset the scheduled transaction.
-      // Save the tx to the store first.
-      new CurrentTransactionService(this.$store).setTx(this.tx)
-
-      this.$router.push({ name: 'scheduledtxeditor', params: { id: 0 } })
     },
     onXactClicked() {
       this.$router.push({ name: 'xact', params: { payee: this.tx.payee } })

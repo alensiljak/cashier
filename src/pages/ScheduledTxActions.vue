@@ -153,12 +153,10 @@
 </template>
 <script setup>
 import { useMainStore } from '../store/mainStore'
-// import { toRaw } from 'vue'
 
 const mainStore = useMainStore()
 
 const { scheduledTx } = mainStore
-//console.debug('have something?', toRaw(scheduledTx))
 </script>
 <script>
 import Toolbar from '../components/CashierToolbar.vue'
@@ -185,9 +183,6 @@ export default {
   computed: {
     tx: {
       get() {
-        // if (!this.scheduledTx || !this.scheduledTx.transaction) {
-        //   return {}
-        // }
         return JSON.parse(this.scheduledTx.transaction)
       },
       set(value) {
@@ -195,9 +190,7 @@ export default {
       },
     },
   },
-  // async created() {
-  //   await this.load()
-  // },
+
   methods: {
     async confirmDelete() {
       const id = this.scheduledTx.id
@@ -214,7 +207,6 @@ export default {
 
       //this.resetTransaction()
 
-      //this.$router.push({ name: 'scheduledtransactions' })
       this.$router.back()
     },
     /**
@@ -246,14 +238,6 @@ export default {
 
       throw new Error('Invalid Id value', this.id)
     },
-    // async load() {
-    //   const id = this.getNumericId()
-    //   const schTx = await appService.db.scheduled.get(id)
-    //   this.scheduledTx = schTx
-
-    //   const tx = JSON.parse(schTx.transaction)
-    //   this.tx = tx
-    // },
     onEditClicked() {
       // open the editor
       const id = this.getNumericId()

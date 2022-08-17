@@ -42,7 +42,6 @@ const { scheduledTx, tx } = mainStore
 // are we back from the select mode?
 if (store.state.selectModeMeta) {
   //handleSelection()
-  //console.debug('back from selection')
 }
 
 // onCreated
@@ -52,7 +51,6 @@ provide('scheduledTx', scheduledTx)
 <script>
 import TxEditor from '../components/TransactionEditor.vue'
 import ScheduleEditor from '../components/ScheduleEditor.vue'
-import { ScheduledTransaction } from '../model'
 import eventBus from '../lib/eventBus'
 import { toRaw } from 'vue'
 
@@ -73,7 +71,6 @@ export default {
       let stx = toRaw(this.scheduledTx)
 
       // serialize transaction
-      //let tx = JSON.parse(JSON.stringify(this.tx))
       let tx = toRaw(this.tx)
       // clear any transaction ids!
       tx.id = null
@@ -90,8 +87,6 @@ export default {
       const result = await this.saveData()
 
       if (result) {
-        //this.resetTransaction()
-        //this.$router.push({ name: 'scheduledtransactions' })
         this.$router.back()
       }
     },
