@@ -74,6 +74,10 @@ async function onSaveClicked() {
   }
 }
 
+function resetTransaction() {
+  mainStore.newScheduledTx()
+}
+
 /**
  * Saves the scheduled transaction to the data store.
  */
@@ -107,9 +111,6 @@ export default {
   },
 
   methods: {
-    resetTransaction() {
-      this.mainStore.newScheduledTx()
-    },
     toggleDrawer() {
       eventBus.$emit('toggle-drawer')
     },

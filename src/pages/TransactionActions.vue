@@ -182,10 +182,10 @@ function onEditClicked() {
 
 function onScheduleClick() {
   // the journal transaction stays in the store and is available in the sch.tx editor.
-  // id 0 will cause it to reset the scheduled transaction.
-  // Save the tx to the store first.
-  //new CurrentTransactionService(this.$store).setTx(this.tx)
-  mainStore.newTx()
+  mainStore.newScheduledTx()
+
+  // clear the tx id
+  tx.id = null
 
   router.push({ name: 'scheduledtxeditor', params: { id: 0 } })
 }
