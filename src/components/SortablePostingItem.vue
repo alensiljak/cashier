@@ -16,9 +16,5 @@ export default {
   props: {
     posting: { type: Object, default: null },
   },
-
-  created() {
-    // console.debug('posting is', this.posting)
-  },
 }
 </script>

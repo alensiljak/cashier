@@ -134,6 +134,7 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import { useQuasar } from 'quasar'
 import { useRouter } from 'vue-router'
 import { useMainStore } from '../store/mainStore'
@@ -141,6 +142,8 @@ import { useMainStore } from '../store/mainStore'
 const $q = useQuasar()
 const router = useRouter()
 const mainStore = useMainStore()
+
+const confirmDeleteAllVisible = ref(false)
 
 async function onTxClick(id) {
   if (typeof id !== 'number') {
@@ -170,7 +173,6 @@ export default {
   data() {
     return {
       confirmDeleteVisible: false,
-      confirmDeleteAllVisible: false,
       transactions: [],
       resetSlide: null,
     }

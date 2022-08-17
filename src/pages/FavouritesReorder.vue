@@ -2,12 +2,15 @@
   <q-page padding class="bg-colour1 text-colour2">
     <toolbar :title="'Reorder Favourites'" />
 
-    <accounts-list v-model="accounts" lock-axis="y">
+    <accounts-list v-model:list="accounts" lock-axis="y">
       <account-item
         v-for="(account, index) in accounts"
-        :key="index"
+        :key="account"
         :index="index"
         :account="account"
+        :value="accounts"
+        :modelValue="accounts"
+        @input="onListChange"
       />
     </accounts-list>
 
@@ -22,6 +25,13 @@
   </q-page>
 </template>
 
+<script setup>
+// import { onMounted } from 'vue'
+
+// onMounted(async () => {
+//   //
+// })
+</script>
 <script>
 import Toolbar from '../components/CashierToolbar.vue'
 import AccountsList from '../components/SortableAccountsList.vue'
@@ -41,8 +51,8 @@ export default {
     }
   },
 
-  created() {
-    this.loadData()
+  async mounted() {
+    await this.loadData()
   },
 
   methods: {
@@ -60,6 +70,11 @@ export default {
         this.$q.notify({ color: 'secondary', message: error.message })
       }
     },
+
+    onListChange(list) {
+      this.accounts = list
+    },
+
     async onSaveClick() {
       // get the list of account names
       let names = []
