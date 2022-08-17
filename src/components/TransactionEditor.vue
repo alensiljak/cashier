@@ -139,15 +139,10 @@ const mainStore = useMainStore()
 const store = useStore()
 const { tx } = mainStore
 
-// inject('tx')
-
-// props
-// const props = defineProps({
-//   tx: { type: Object, default: null },
-// })
-
 // data
 const datePickerVisible = ref(false)
+let resetSlide = null
+const postingSum = ref(0)
 
 // are we back from the select mode?
 if (store.state.selectModeMeta) {
@@ -156,6 +151,27 @@ if (store.state.selectModeMeta) {
 
 function addPosting() {
   tx.postings.push(new Posting())
+}
+
+function deletePosting(index) {
+  if (resetSlide) {
+    // remove the slide section.
+    resetSlide()
+    resetSlide = null
+  }
+
+  tx.postings.splice(index, 1)
+
+  recalculateSum()
+}
+
+function finalizeSlide(reset) {
+  let timer = setTimeout(() => {
+    // has it been already deleted?
+    if (!reset) return
+
+    reset()
+  }, 2000)
 }
 
 /**
@@ -228,6 +244,26 @@ async function loadLastTransaction(payee) {
   // Replace the current transaction.
   mainStore.setTransaction(lastTx.transaction)
 }
+
+function onSlide({ reset }) {
+  resetSlide = reset
+  finalizeSlide(reset)
+}
+
+function recalculateSum() {
+  postingSum.value = 0
+
+  //if (!this.postings) return
+
+  for (let i = 0; i < tx.postings.length; i++) {
+    const posting = tx.postings[i]
+    if (!isNaN(posting.amount)) {
+      postingSum.value += posting.amount
+    } else {
+      console.warn('The amount is not a number:', posting.amount)
+    }
+  }
+}
 </script>
 <script>
 import { SET_SELECT_MODE } from '../mutations'
@@ -239,37 +275,11 @@ export default {
     QPosting,
   },
 
-  data() {
-    return {
-      resetSlide: null,
-      postingSum: 0,
-    }
-  },
-
   async mounted() {
     this.recalculateSum()
   },
 
   methods: {
-    deletePosting(index) {
-      if (this.resetSlide) {
-        // remove the slide section.
-        this.resetSlide()
-        this.resetSlide = null
-      }
-
-      this.tx.postings.splice(index, 1)
-
-      this.recalculateSum()
-    },
-    finalizeSlide(reset) {
-      this.timer = setTimeout(() => {
-        // has it been already deleted?
-        if (!reset) return
-
-        reset()
-      }, 2000)
-    },
     formatNumber(value) {
       return appService.formatNumber(value)
     },
@@ -311,24 +321,6 @@ export default {
       this.$store.commit(SET_SELECT_MODE, selectMode)
       // show account picker
       this.$router.push({ name: 'payees' })
-    },
-    onSlide({ reset }) {
-      this.resetSlide = reset
-      this.finalizeSlide(reset)
-    },
-    recalculateSum() {
-      this.postingSum = 0
-
-      if (!this.postings) return
-
-      for (let i = 0; i < this.tx.postings.length; i++) {
-        const posting = this.tx.postings[i]
-        if (!isNaN(posting.amount)) {
-          this.postingSum += posting.amount
-        } else {
-          console.warn('The amount is not a number:', posting.amount)
-        }
-      }
     },
     reorderPostings() {
       this.$router.push({ name: 'reorder postings' })
