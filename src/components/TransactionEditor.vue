@@ -260,7 +260,7 @@ function onSlide({ reset }) {
 function recalculateSum() {
   postingSum.value = 0
 
-  //if (!this.postings) return
+  if (!tx.postings) return
 
   for (let i = 0; i < tx.postings.length; i++) {
     const posting = tx.postings[i]
