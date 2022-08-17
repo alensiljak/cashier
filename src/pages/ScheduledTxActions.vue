@@ -161,21 +161,21 @@ const mainStore = useMainStore()
 const $q = useQuasar()
 // const route = useRoute()
 const router = useRouter()
-//const { tx } = mainStore
+const { tx } = mainStore
+const { scheduledTx } = mainStore
 
 const props = defineProps({
   id: { type: String, default: null },
 })
 
-const { scheduledTx } = mainStore
-const tx = computed({
-  get() {
-    return JSON.parse(scheduledTx.transaction)
-  },
-  set(value) {
-    scheduledTx.transaction = JSON.stringify(value)
-  },
-})
+// const tx = computed({
+//   get() {
+//     return JSON.parse(scheduledTx.transaction)
+//   },
+//   set(value) {
+//     scheduledTx.transaction = JSON.stringify(value)
+//   },
+// })
 
 // data
 let enterConfirmationVisible = ref(false)
@@ -192,17 +192,18 @@ let enterConfirmationVisible = ref(false)
  */
 async function enterTransaction() {
   // Create the journal transaction.
-  let newTx = tx.value
+  let newTx = toRaw(tx)
   // clear the id field, if any, to get a new one on save.
   newTx.id = null
   const id = await appService.saveTransaction(newTx)
-
-  await mainStore.loadTx(id)
 
   // update the iteration date
   await skip()
 
   $q.notify({ message: 'Transaction created', color: 'positive' })
+
+  // load transaction into store
+  await mainStore.loadTx(id)
 
   // open the transaction. Maintain page navigation history.
   router.replace({ name: 'tx', params: { id: id } })
@@ -225,9 +226,10 @@ async function saveData() {
   return result
 }
 
+/**
+ * Skips the next iteration.
+ */
 async function skip() {
-  // Skips the next iteration.
-
   let stx = scheduledTx
   const startDate = stx.nextDate
   const count = stx.count
@@ -251,12 +253,12 @@ async function skip() {
   }
 
   // update the date on the transaction
-  let templateTx = tx.value
+  let templateTx = toRaw(tx)
   templateTx.date = newDate
-  //stx.transaction = JSON.stringify(templateTx)
-  tx.value = templateTx
+  stx.transaction = JSON.stringify(templateTx)
+  //tx.value = templateTx
 
-  stx.nextDate = newDate
+  stx.nextDate = tx.date
 
   const result = await saveData()
   if (!result) {

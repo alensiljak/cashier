@@ -27,7 +27,8 @@ export const useMainStore = defineStore('mainStore', {
    */
   actions: {
     async loadScheduledTx(id) {
-      //console.debug('id type', typeof id)
+      console.debug('loading schtx', id, 'id type', typeof id)
+
       if (typeof id === 'string') {
         id = Number(id)
       }
@@ -40,12 +41,14 @@ export const useMainStore = defineStore('mainStore', {
       this.scheduledTx = schTx
 
       // transaction
-      // let tx = JSON.parse(schTx.transaction)
-      // this.setTransaction(tx)
+      let tx = JSON.parse(schTx.transaction)
+      this.setTransaction(tx)
 
       return schTx
     },
     async loadTx(id) {
+      console.debug('loading tx', id, 'id type', typeof id)
+
       const tx = await appService.loadTransaction(id)
       this.setTransaction(tx)
     },

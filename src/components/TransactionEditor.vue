@@ -124,7 +124,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 // import { storeToRefs } from 'pinia'
 import { useMainStore } from '../store/mainStore'
 import { useStore } from 'vuex'
@@ -138,6 +138,13 @@ import appService from '../appService'
 const mainStore = useMainStore()
 const store = useStore()
 const { tx } = mainStore
+
+// inject('tx')
+
+// props
+// const props = defineProps({
+//   tx: { type: Object, default: null },
+// })
 
 // data
 const datePickerVisible = ref(false)

@@ -22,11 +22,12 @@
 
     <q-separator dark class="q-my-lg" />
 
-    <schedule-editor v-model="scheduledTx" />
+    <schedule-editor />
   </q-page>
 </template>
+
 <script setup>
-import { onMounted, provide, reactive } from 'vue'
+import { computed, onMounted, provide, reactive } from 'vue'
 import { useStore } from 'vuex'
 import { useQuasar } from 'quasar'
 // import { useRoute } from 'vue-router'
@@ -39,14 +40,28 @@ const mainStore = useMainStore()
 
 const { scheduledTx, tx } = mainStore
 
+// computed
+
+// const tx = computed({
+//   get() {
+//     return JSON.parse(scheduledTx.transaction)
+//   },
+//   set(value) {
+//     scheduledTx.transaction = JSON.stringify(value)
+//   },
+// })
+
+// provide
+
+provide('scheduledTx', scheduledTx)
+// provide('tx', tx)
+
+// onCreated
+
 // are we back from the select mode?
 if (store.state.selectModeMeta) {
   //handleSelection()
 }
-
-// onCreated
-
-provide('scheduledTx', scheduledTx)
 </script>
 <script>
 import TxEditor from '../components/TransactionEditor.vue'
@@ -68,17 +83,17 @@ export default {
      * Saves the scheduled transaction to the data store.
      */
     async saveData() {
-      let stx = toRaw(this.scheduledTx)
-
       // serialize transaction
-      let tx = toRaw(this.tx)
+      let tempTx = toRaw(this.tx)
       // clear any transaction ids!
-      tx.id = null
-      const txStr = JSON.stringify(tx)
+      tempTx.id = null
+      const txStr = JSON.stringify(tempTx)
+
+      let stx = toRaw(this.scheduledTx)
       stx.transaction = txStr
 
-      // reuse transaction date. For indexing only.
-      stx.nextDate = tx.date
+      // use transaction date.
+      stx.nextDate = this.tx.date
 
       const result = await appService.saveScheduledTransaction(stx)
       return result

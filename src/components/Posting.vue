@@ -44,17 +44,18 @@
 </template>
 
 <script setup>
-import { computed, toRaw, toRefs } from 'vue'
+import { computed, inject, toRaw, toRefs } from 'vue'
 import { useMainStore } from '../store/mainStore'
 
 const mainStore = useMainStore()
 const { tx } = mainStore
-//const postings = tx.postings
 
 const props = defineProps({
   index: { type: Number, default: null },
 })
 const { index } = toRefs(props)
+
+// inject('tx')
 
 let i = index.value
 
@@ -85,10 +86,6 @@ const currency = computed({
 </script>
 <script>
 export default {
-  // props: {
-  //   index: { type: Number, default: null },
-  // },
-
   data: function () {
     return {
       accountOptions: null,
@@ -96,11 +93,6 @@ export default {
   },
 
   computed: {
-    // posting: {
-    //   get() {
-    //     return this.postings[this.index]
-    //   },
-    // },
     isMissingCurrency: {
       get() {
         const hasValidAmount = !isNaN(this.amount)

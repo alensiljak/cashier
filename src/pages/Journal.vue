@@ -68,7 +68,7 @@
         </div>
       </template>
 
-      <journal-transaction :tx="tx" @click="onTxClick(tx.id)" />
+      <journal-transaction :tx="tx" @click.once="onTxClick(tx.id)" />
     </q-slide-item>
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">

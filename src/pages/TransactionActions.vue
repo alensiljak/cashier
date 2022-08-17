@@ -121,11 +121,9 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
-// import { storeToRefs } from 'pinia'
-import { useMainStore } from '../store/mainStore'
+// import { provide, ref, reactive } from 'vue'
 import { onMounted } from 'vue'
-// import { CurrentTransactionService } from '../lib/currentTransactionService'
+import { useMainStore } from '../store/mainStore'
 import { useRouter } from 'vue-router'
 import appService from '../appService'
 import { useQuasar } from 'quasar'
@@ -134,6 +132,10 @@ const router = useRouter()
 const $q = useQuasar()
 const mainStore = useMainStore()
 const { tx } = mainStore
+
+//provide('tx', tx)
+
+// props
 
 const props = defineProps({ id: String })
 
