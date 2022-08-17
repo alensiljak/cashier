@@ -121,7 +121,7 @@
 </template>
 
 <script setup>
-// import { provide, ref, reactive } from 'vue'
+import { provide, ref, reactive } from 'vue'
 import { onMounted } from 'vue'
 import { useMainStore } from '../store/mainStore'
 import { useRouter } from 'vue-router'
@@ -134,6 +134,10 @@ const mainStore = useMainStore()
 const { tx } = mainStore
 
 //provide('tx', tx)
+
+// data
+
+const confirmDeleteVisible = ref(false)
 
 // props
 
@@ -175,6 +179,11 @@ function getNumericId() {
   throw new Error('Invalid Id value')
 }
 
+function onDeleteClick() {
+  // show the confirmation dialog.
+  confirmDeleteVisible.value = true
+}
+
 function onEditClicked() {
   const id = getNumericId()
   router.push({ name: 'tx', params: { id: id } })
@@ -199,12 +208,7 @@ export default {
     Toolbar,
     JournalTransaction,
   },
-  data() {
-    return {
-      //tx: {},
-      confirmDeleteVisible: false,
-    }
-  },
+
   methods: {
     async onCopyClicked() {
       // get a journal version
@@ -216,10 +220,6 @@ export default {
         message: 'transaction copied to clipboard',
         color: 'positive',
       })
-    },
-    onDeleteClick() {
-      // show the confirmation dialog.
-      this.confirmDeleteVisible = true
     },
     async onDuplicateClicked() {
       // create the transaction
