@@ -94,12 +94,12 @@
 <script setup>
 import { onMounted, provide, ref, toRaw } from 'vue'
 import { useMainStore } from '../store/mainStore'
-import { useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { SettingKeys, settings } from 'src/lib/Configuration'
 import { useQuasar } from 'quasar'
 import appService from '../appService'
 
-const router = useRoute()
+const router = useRouter()
 const mainStore = useMainStore()
 const { tx } = mainStore
 const $q = useQuasar()

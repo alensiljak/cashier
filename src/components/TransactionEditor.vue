@@ -23,7 +23,7 @@
         v-model="tx.date"
         label="Date"
         dark
-        @click="datePickerVisible.value = true"
+        @click="datePickerVisible = true"
       >
         <template #prepend>
           <font-awesome-icon icon="calendar-day" />
@@ -124,6 +124,7 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
 // import { storeToRefs } from 'pinia'
 import { useMainStore } from '../store/mainStore'
 import { useStore } from 'vuex'
