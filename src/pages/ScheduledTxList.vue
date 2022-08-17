@@ -58,7 +58,6 @@ const router = useRouter()
 
 function onFabClicked() {
   // reset any cached values
-  //this.$store.commit('saveToClipboard', null)
   mainStore.newScheduledTx()
   router.push({ name: 'scheduledtxeditor' })
 }

@@ -20,8 +20,6 @@
 <script setup>
 const props = defineProps({
   tx: Object,
-  //default: new CurrentTransactionService().createTransaction(),
-  modelValue: Object,
 })
 </script>
 <script>

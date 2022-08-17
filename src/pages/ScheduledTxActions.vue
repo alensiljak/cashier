@@ -152,7 +152,7 @@
   </q-page>
 </template>
 <script setup>
-import { computed, toRaw } from 'vue'
+import { computed, ref, toRaw } from 'vue'
 import { useMainStore } from '../store/mainStore'
 import { useQuasar } from 'quasar'
 import { useRoute, useRouter } from 'vue-router'
@@ -161,6 +161,7 @@ const mainStore = useMainStore()
 const $q = useQuasar()
 // const route = useRoute()
 const router = useRouter()
+//const { tx } = mainStore
 
 const props = defineProps({
   id: { type: String, default: null },
@@ -175,6 +176,9 @@ const tx = computed({
     scheduledTx.transaction = JSON.stringify(value)
   },
 })
+
+// data
+let enterConfirmationVisible = ref(false)
 
 // onCreate
 // if (!scheduledTx && route.params.id) {
@@ -216,21 +220,7 @@ async function onEnterConfirmed() {
  * Saves the Scheduled Transaction record.
  */
 async function saveData() {
-  // serialize transaction
-  // let tx = this.tx
-  // do not store any transaction ids!
-  tx.value.id = null
-  // this.tx = tx
-
-  let stx = scheduledTx
-
-  // reuse transaction date. For indexing only.
-  stx.nextDate = tx.value.date
-
-  //let clone = structuredClone(stx);
-  //let clone = JSON.parse(JSON.stringify(stx))
-  let raw = toRaw(stx)
-
+  let raw = toRaw(scheduledTx)
   const result = await appService.saveScheduledTransaction(raw)
   return result
 }
@@ -261,9 +251,12 @@ async function skip() {
   }
 
   // update the date on the transaction
-  // let tx = this.tx
-  tx.value.date = newDate
-  // this.tx = tx
+  let templateTx = tx.value
+  templateTx.date = newDate
+  //stx.transaction = JSON.stringify(templateTx)
+  tx.value = templateTx
+
+  stx.nextDate = newDate
 
   const result = await saveData()
   if (!result) {
@@ -290,7 +283,6 @@ export default {
       // scheduledTx: {},
       confirmDeleteVisible: false,
       skipConfirmationVisible: false,
-      enterConfirmationVisible: false,
     }
   },
 
