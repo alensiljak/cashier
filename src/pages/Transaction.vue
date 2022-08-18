@@ -124,7 +124,7 @@ function onClear() {
 async function onSaveClicked() {
   try {
     let txObj = toRaw(tx)
-    console.debug('saving tx', tx)
+    // console.debug('saving tx', txObj)
 
     await appService.saveTransaction(txObj)
 

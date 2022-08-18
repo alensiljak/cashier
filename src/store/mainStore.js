@@ -63,6 +63,7 @@ export const useMainStore = defineStore('mainStore', {
     setTransaction(tx) {
       if (this.tx) {
         Object.assign(this.tx, tx)
+        //this.tx.$patch(tx)
       } else {
         this.tx = tx
       }

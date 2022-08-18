@@ -4,7 +4,7 @@
 
     <div class="text-center q-mp-none bg-primary">
       <span>{{ account.name }}</span>
-      <span class="q-ml-lg">{{ account.balance }} {{ account.currency }}</span>
+      <span class="q-ml-lg">Balance: {{ balance }} {{ account.currency }}</span>
     </div>
 
     <q-list>
@@ -24,6 +24,8 @@
       </q-item>
     </q-list>
 
+    <!-- <footer>Footer</footer> -->
+
     <!-- fab -->
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab color="accent" text-color="secondary" @click="onFabClick">
@@ -33,11 +35,120 @@
   </q-page>
 </template>
 
+<script setup>
+import { onMounted, provide, ref, toRaw } from 'vue'
+import { useRoute } from 'vue-router'
+import appService from '../appService'
+import { useQuasar } from 'quasar'
+
+const route = useRoute()
+const $q = useQuasar()
+
+// data
+
+const account = ref({
+  name: '',
+})
+const postings = ref([])
+const balance = ref(0)
+
+// mounted
+
+onMounted(async () => {
+  //
+  await loadData()
+})
+
+// methods
+
+/**
+ * Calculate the current balance by adding all the values.
+ */
+function calculateBalance() {
+  let runningBalance = 0
+  postings.value.forEach((posting) => {
+    if (posting.currency !== account.value.currency) {
+      $q.notify({
+        color: 'secondary',
+        message: 'The postings contain multiple currencies',
+      })
+    }
+
+    runningBalance += posting.amount
+  })
+
+  balance.value = runningBalance
+}
+
+function createStartingBalancePosting(accountBalance, currency) {
+  let record = new Posting()
+  record.date = 'n/a'
+  record.title = 'Opening Balance'
+
+  record.amount = accountBalance
+  record.currency = currency
+
+  return record
+}
+
+async function loadData() {
+  const accountName = route.params.name
+  const accountRecord = await appService.db.accounts.get(accountName)
+  account.value = accountRecord
+
+  let postingRecords = await loadPostings(accountName)
+  postings.value = postingRecords
+
+  // console.debug(account)
+
+  // create the record for the opening balance?
+  const startingBalanceRecord = createStartingBalancePosting(
+    account.value.balance,
+    account.value.currency
+  )
+  postings.value.splice(0, 0, startingBalanceRecord)
+
+  // calculate the current balance
+  calculateBalance()
+}
+
+async function loadPostings(accountName) {
+  const postingRecords = await appService.db.postings.where({
+    account: accountName,
+  })
+  const postingArray = await postingRecords.toArray()
+
+  let result = await loadTransactionsFor(postingArray)
+  return result
+}
+
+/**
+ * Add the transaction date and the payee to the posting record.
+ * @param {Array} postings
+ */
+async function loadTransactionsFor(postingRecords) {
+  const txIds = postingRecords.map((posting) => posting.transactionId)
+  const txs = await appService.db.transactions.bulkGet(txIds)
+
+  // Append display fields to the postings directly.
+  txs.forEach((tx, index) => {
+    postingRecords[index].date = txs[index].date
+    postingRecords[index].title = txs[index].payee
+  })
+
+  // sort by date desc
+  postingRecords.sort((a, b) => {
+    return a.date > b.date ? -1 : 1
+  })
+
+  return postingRecords
+}
+</script>
 <script>
 import Toolbar from '../components/CashierToolbar.vue'
-import appService from '../appService'
 import { SET_SELECT_MODE } from '../mutations'
 import { SelectionModeMetadata } from '../lib/Configuration'
+import { Posting } from 'src/model'
 
 const ACCOUNT = 'account'
 
@@ -45,52 +156,12 @@ export default {
   components: {
     Toolbar,
   },
-  data() {
-    return {
-      account: {},
-      postings: [],
-    }
-  },
-
-  created() {
-    this.loadData()
-  },
 
   methods: {
     formatNumber(value) {
       return appService.formatNumber(value)
     },
-    async loadData() {
-      const accountName = this.$route.params.name
-      const account = await appService.db.accounts.get(accountName)
-      this.account = account
-      this.loadPostings(accountName)
-    },
-    async loadPostings(accountName) {
-      const postings = await appService.db.postings.where({
-        account: accountName,
-      })
-      const postingArray = await postings.toArray()
 
-      return this.loadTransactions(postingArray)
-    },
-    async loadTransactions(postings) {
-      const txIds = postings.map((posting) => posting.transactionId)
-      const txs = await appService.db.transactions.bulkGet(txIds)
-
-      // Append display fields to the postings directly.
-      txs.forEach((tx, index) => {
-        postings[index].date = txs[index].date
-        postings[index].title = txs[index].payee
-      })
-
-      // sort by date desc
-      postings.sort((a, b) => {
-        return a.date > b.date ? -1 : 1
-      })
-
-      this.postings = postings
-    },
     onFabClick() {
       // add posting with this account
       this.sendAccountToTransaction(this.account)
