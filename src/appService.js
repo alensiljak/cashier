@@ -430,7 +430,7 @@ class AppService {
    * Ensures correct data/types for new postings during saving.
    * Removes the missing postings.
    */
-  async adjustPostings(tx) {
+  async processPostings(tx) {
     var newPostingIds = []
 
     // modifications
@@ -440,12 +440,15 @@ class AppService {
 
       // Make sure all the values are numbers!
       if (typeof tx.postings[i].amount === 'string') {
-        const numericValue = parseFloat(tx.postings[i].amount)
+        //const numericValue = parseFloat(tx.postings[i].amount)
+        const numericValue = Number(tx.postings[i].amount)
         tx.postings[i].amount = numericValue
       }
 
       newPostingIds.push(tx.postings[i].id)
     }
+
+    // Ensure only one posting with no amount (ledger requirement)?
 
     // Delete any removed postings.
     // Get the posting ids from the database.
@@ -494,7 +497,7 @@ class AppService {
     let postings = tx.postings.map((txposting) => toRaw(txposting))
     tx.postings = postings
 
-    this.adjustPostings(tx)
+    this.processPostings(tx)
 
     // save all items in a transaction
     var id = await db.transaction(
