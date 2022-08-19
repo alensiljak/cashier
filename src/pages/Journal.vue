@@ -134,16 +134,64 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useQuasar } from 'quasar'
 import { useRouter } from 'vue-router'
 import { useMainStore } from '../store/mainStore'
+import appService from '../appService'
 
 const $q = useQuasar()
 const router = useRouter()
 const mainStore = useMainStore()
 
+// data
+
 const confirmDeleteAllVisible = ref(false)
+const transactions = ref([])
+
+// mounted
+
+onMounted(async () => {
+  //
+  await loadData()
+})
+
+// methods
+
+function confirmDeleteAll() {
+  deleteAllTransactions()
+}
+
+/**
+ * delete all transactions
+ */
+async function deleteAllTransactions() {
+  try {
+    await appService.deleteTransactions()
+    $q.notify({ message: 'transactions deleted' })
+
+    await loadData()
+  } catch (reason) {
+    $q.notify({ message: reason, color: 'danger' })
+  }
+}
+
+async function loadData() {
+  // load all transactions
+  try {
+    transactions.value = await appService.db.transactions
+      .orderBy('date')
+      .reverse()
+      .toArray()
+  } catch (error) {
+    errorMessage.message = error.message
+    $q.notify(errorMessage)
+  }
+}
+
+function onDeleteAllClicked() {
+  confirmDeleteAllVisible.value = true
+}
 
 async function onTxClick(id) {
   if (typeof id !== 'number') {
@@ -160,7 +208,6 @@ async function onTxClick(id) {
 }
 </script>
 <script>
-import appService from '../appService'
 import JournalTransaction from '../components/JournalTransaction.vue'
 import { TOGGLE_DRAWER } from '../mutations'
 
@@ -173,34 +220,13 @@ export default {
   data() {
     return {
       confirmDeleteVisible: false,
-      transactions: [],
       resetSlide: null,
     }
-  },
-
-  created() {
-    this.loadData()
   },
 
   methods: {
     async confirmDelete() {
       await this.deleteTransaction()
-    },
-    confirmDeleteAll() {
-      this.deleteAllTransactions()
-    },
-    /**
-     * delete all transactions
-     */
-    async deleteAllTransactions() {
-      try {
-        await appService.deleteTransactions()
-        this.$q.notify({ message: 'transactions deleted' })
-
-        await this.loadData()
-      } catch (reason) {
-        this.$q.notify({ message: reason, color: 'danger' })
-      }
     },
     async deleteTransaction(id) {
       if (!id) {
@@ -238,24 +264,9 @@ export default {
         reset()
       }, 2000)
     },
-    async loadData() {
-      // load all transactions
-      try {
-        this.transactions = await appService.db.transactions
-          .orderBy('date')
-          .reverse()
-          .toArray()
-      } catch (error) {
-        errorMessage.message = error.message
-        this.$q.notify(errorMessage)
-      }
-    },
     menuClicked() {
       let visible = this.$store.state.drawerOpen
       this.$store.commit(TOGGLE_DRAWER, !visible)
-    },
-    onDeleteAllClicked() {
-      this.confirmDeleteAllVisible = true
     },
     onSlide({ reset }) {
       this.resetSlide = reset
