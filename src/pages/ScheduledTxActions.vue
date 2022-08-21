@@ -180,11 +180,6 @@ const props = defineProps({
 // data
 let enterConfirmationVisible = ref(false)
 
-// onCreate
-// if (!scheduledTx && route.params.id) {
-//   mainStore.loadScheduledTx(route.params.id)
-// }
-
 // Methods
 
 /**

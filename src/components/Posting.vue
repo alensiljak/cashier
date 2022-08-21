@@ -44,7 +44,7 @@
 </template>
 
 <script setup>
-import { computed, inject, toRaw, toRefs } from 'vue'
+import { computed } from 'vue'
 import { useMainStore } from '../store/mainStore'
 
 const mainStore = useMainStore()
