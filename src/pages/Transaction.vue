@@ -98,6 +98,8 @@ import { useRouter } from 'vue-router'
 import { SettingKeys, settings } from 'src/lib/Configuration'
 import { useQuasar } from 'quasar'
 import appService from '../appService'
+import eventBus from '../lib/eventBus'
+import TxEditor from '../components/TransactionEditor.vue'
 
 const router = useRouter()
 const mainStore = useMainStore()
@@ -107,6 +109,8 @@ const $q = useQuasar()
 const isConfirmDeleteVisible = ref(false)
 
 provide('tx', tx)
+
+//console.debug('tx:', tx)
 
 onMounted(async () => {
   //
@@ -144,25 +148,9 @@ async function onSaveClicked() {
 function resetTransaction() {
   mainStore.newTx()
 }
-</script>
-<script>
-import TxEditor from '../components/TransactionEditor.vue'
-import eventBus from '../lib/eventBus'
 
-export default {
-  components: {
-    TxEditor,
-  },
-
-  // data() {
-  //   return {}
-  // },
-
-  methods: {
-    toggleDrawer() {
-      eventBus.$emit('toggle-drawer')
-    },
-  },
+function toggleDrawer() {
+  eventBus.$emit('toggle-drawer')
 }
 </script>
 

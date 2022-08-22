@@ -56,7 +56,7 @@ export const useMainStore = defineStore('mainStore', {
       this.scheduledTx = newSchTx
     },
     newTx() {
-      const tx = Transaction.createTransaction()
+      const tx = Transaction.create()
       this.setTransaction(tx)
     },
     setTransaction(tx) {
