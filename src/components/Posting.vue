@@ -83,6 +83,16 @@ const currency = computed({
     tx.postings[i].currency = val
   },
 })
+
+// methods
+
+/**
+ * Select the amount when tapped in the field, for easier overwriting the value.
+ * @param {Event} e
+ */
+function onAmountFocus(e) {
+  e.target.select()
+}
 </script>
 <script>
 export default {
@@ -106,10 +116,6 @@ export default {
     },
   },
 
-  methods: {
-    onAmountFocus(e) {
-      e.target.select()
-    },
-  },
+  methods: {},
 }
 </script>

@@ -438,12 +438,13 @@ class AppService {
       // set transaction id on postings
       tx.postings[i].transactionId = tx.id
 
-      // Make sure all the values are numbers!
-      if (typeof tx.postings[i].amount === 'string') {
-        //const numericValue = parseFloat(tx.postings[i].amount)
-        const numericValue = Number(tx.postings[i].amount)
-        tx.postings[i].amount = numericValue
-      }
+      // Make sure all the values are numbers! <= this sets the NaN values to 0,
+      // which is also wrong!
+      // if (typeof tx.postings[i].amount === 'string') {
+      //   //const numericValue = parseFloat(tx.postings[i].amount)
+      //   const numericValue = Number(tx.postings[i].amount)
+      //   tx.postings[i].amount = numericValue
+      // }
 
       newPostingIds.push(tx.postings[i].id)
     }
