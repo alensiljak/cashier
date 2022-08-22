@@ -206,6 +206,12 @@ async function onTxClick(id) {
 
   await router.push({ name: 'tx-actions', params: { id: id } })
 }
+
+function openNewTransaction() {
+  mainStore.newTx()
+
+  router.push({ name: 'tx' })
+}
 </script>
 <script>
 import JournalTransaction from '../components/JournalTransaction.vue'
@@ -276,11 +282,6 @@ export default {
       // confirm
       this.confirmDeleteVisible = true
       this.transactionIdToDelete = data.id
-    },
-    openNewTransaction() {
-      this.mainStore.newTx()
-
-      this.$router.push({ name: 'tx' })
     },
   },
 }

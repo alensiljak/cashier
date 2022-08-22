@@ -5,24 +5,24 @@
 
 export class Account {
   constructor() {
-    this.name = null;
-    this.balance = null;
-    this.currency = null;
-    this.currentValue = null;
-    this.currentCurrency = null;
+    this.name = null
+    this.balance = null
+    this.currency = null
+    this.currentValue = null
+    this.currentCurrency = null
   }
 }
 
 export class Commodity {
   constructor() {
-    this.name = null;
+    this.name = null
   }
 }
 
 export class LastTransaction {
   constructor() {
-    this.payee = '';
-    this.transaction = '';
+    this.payee = ''
+    this.transaction = ''
   }
 }
 
@@ -30,10 +30,10 @@ export class Posting {
   constructor() {
     // Id is inserted automatically.
     // this.id = null
-    this.transactionId = "";
-    this.account = "";
-    this.amount = "";
-    this.currency = "";
+    this.transactionId = ''
+    this.account = ''
+    this.amount = ''
+    this.currency = ''
   }
 }
 
@@ -42,10 +42,10 @@ export class Posting {
  */
 export class Price {
   constructor() {
-    this.symbol = null; // symbol used in the book
-    this.ticker = null; // symbol on the exchange
-    this.price = null; // downloaded price
-    this.currency = null; // currency of the price
+    this.symbol = null // symbol used in the book
+    this.ticker = null // symbol on the exchange
+    this.price = null // downloaded price
+    this.currency = null // currency of the price
   }
 }
 
@@ -64,17 +64,27 @@ export class ScheduledTransaction {
 export class Transaction {
   constructor() {
     // this.id = newId()
-    this.id = null;
-    this.date = null;
-    this.payee = "";
-    this.note = "";
-    this.postings = [];
+    this.id = null
+    this.date = null
+    this.payee = ''
+    this.note = ''
+    this.postings = []
+  }
+
+  static create() {
+    var tx = new Transaction()
+    tx.date = new Date().toISOString().substring(0, 10)
+
+    tx.postings.push(new Posting())
+    tx.postings.push(new Posting())
+
+    return tx
   }
 }
 
 export class Setting {
   constructor(key, value) {
-    this.key = key;
-    this.value = value;
+    this.key = key
+    this.value = value
   }
 }

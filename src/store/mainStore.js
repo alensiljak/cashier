@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import appService from '../appService'
-import { ScheduledTransaction } from 'src/model'
-import { CurrentTransactionService } from 'src/lib/currentTransactionService'
+import { ScheduledTransaction, Transaction } from 'src/model'
 
 export const useMainStore = defineStore('mainStore', {
   /**
@@ -57,7 +56,7 @@ export const useMainStore = defineStore('mainStore', {
       this.scheduledTx = newSchTx
     },
     newTx() {
-      const tx = new CurrentTransactionService().createTransaction()
+      const tx = Transaction.createTransaction()
       this.setTransaction(tx)
     },
     setTransaction(tx) {

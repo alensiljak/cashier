@@ -59,8 +59,10 @@ import { useMainStore } from '../store/mainStore'
 const router = useRouter()
 const mainStore = useMainStore()
 
+/**
+ * fab clicked. Use for the new transaction.
+ */
 function onFab() {
-  // fab clicked. Use for the new transaction
   // create new transaction
   mainStore.newTx()
 
