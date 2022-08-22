@@ -96,6 +96,8 @@ async function loadData() {
   const accountRecord = await appService.db.accounts.get(accountName)
   account.value = accountRecord
 
+  //let txs = await appService.loadAccountTransactionsFor(accountName)
+
   let postingRecords = await loadPostings(accountName)
   postings.value = postingRecords
 

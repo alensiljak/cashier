@@ -8,6 +8,7 @@ import { Account, LastTransaction, Transaction } from './model'
 import { Notify } from 'quasar'
 import { settings, SettingKeys } from './lib/Configuration'
 import { toRaw } from 'vue'
+import { TransactionParser } from './lib/transactionParser'
 
 class AppService {
   /**
@@ -354,6 +355,25 @@ class AppService {
    */
   loadAccounts() {
     return db.accounts.orderBy('name')
+  }
+
+  /**
+   * Loads all transactions for the given account name.
+   * Used to calculate the balance.
+   * @param {String} accountName
+   */
+  async loadAccountTransactionsFor(accountName) {
+    // get all the transactions which have postings that have this account.
+    let txIds = []
+    await db.postings
+      .where({ account: accountName })
+      .each((posting) => txIds.push(posting.transactionId))
+
+    let txs = await db.transactions.bulkGet(txIds)
+
+    txs = TransactionParser.calculateEmptyPostingAmounts(txs)
+
+    return txs
   }
 
   loadAssetClass(fullname) {
