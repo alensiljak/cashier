@@ -14,16 +14,18 @@
     </q-toolbar>
   </q-header>
 </template>
-<script>
-import eventBus from '../lib/eventBus'
 
+<script setup>
+import { useMainStore } from '../store/mainStore'
+
+const mainStore = useMainStore()
+
+function toggleDrawer() {
+  mainStore.toggleDrawer()
+}
+</script>
+<script>
 export default {
   props: { title: { type: String, default: 'Cashier' } },
-
-  methods: {
-    toggleDrawer() {
-        eventBus.$emit('toggle-drawer')
-    },
-  },
 }
 </script>

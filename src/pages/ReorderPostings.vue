@@ -45,11 +45,14 @@ const mainStore = useMainStore()
 const { tx } = mainStore
 
 //this.postings = tx.postings
+
+function toggleDrawer() {
+  mainStore.toggleDrawer()
+}
 </script>
 <script>
 import AccountsList from '../components/SortableAccountsList.vue'
 import PostingItem from '../components/SortablePostingItem.vue'
-import eventBus from '../lib/eventBus'
 
 export default {
   components: {
@@ -81,9 +84,6 @@ export default {
       this.tx.postings = this.postings
 
       this.$q.notify({ message: 'Postings reordered', color: 'positive' })
-    },
-    toggleDrawer() {
-      eventBus.$emit('toggle-drawer')
     },
   },
 }

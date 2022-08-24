@@ -189,6 +189,10 @@ async function loadData() {
   }
 }
 
+function menuClicked() {
+  mainStore.toggleDrawer()
+}
+
 function onDeleteAllClicked() {
   confirmDeleteAllVisible.value = true
 }
@@ -269,10 +273,6 @@ export default {
 
         reset()
       }, 2000)
-    },
-    menuClicked() {
-      let visible = this.$store.state.drawerOpen
-      this.$store.commit(TOGGLE_DRAWER, !visible)
     },
     onSlide({ reset }) {
       this.resetSlide = reset

@@ -302,41 +302,34 @@
   </q-drawer>
 </template>
 
-<script>
-import { TOGGLE_DRAWER } from '../mutations'
-import eventBus from '../lib/eventBus'
+<script setup>
+import { useMainStore } from '../store/mainStore'
+import { useQuasar } from 'quasar'
+import { storeToRefs } from 'pinia'
 
+const $q = useQuasar()
+const mainStore = useMainStore()
+const { drawerOpen } = storeToRefs(mainStore)
+
+// onCreated
+
+// initial state of the drawer
+mainStore.setDrawerOpen($q.platform.is.desktop)
+
+function toggleDrawer() {
+  mainStore.toggleDrawer()
+}
+</script>
+<script>
 export default {
   inject: ['version'],
 
-  data() {
-    return {
-      // drawerOpen: this.$q.platform.is.desktop
-    }
-  },
-
   computed: {
-    drawerOpen: {
-      get() {
-        return this.$store.state.drawerOpen
-      },
-      set(value) {
-        this.$store.commit(TOGGLE_DRAWER, value)
-      },
-    },
     liveModeOn: {
       get() {
         return this.$store.state.useLedger
       },
     },
-  },
-
-  created() {
-    // initial state of the drawer
-    this.$store.commit(TOGGLE_DRAWER, this.$q.platform.is.desktop)
-
-    // Listen for events from other pages
-    eventBus.$on('toggle-drawer', this.toggleDrawer)
   },
 
   methods: {
@@ -345,9 +338,6 @@ export default {
       let back = (window.history.length - 1) * -1
       // console.log('history:', window.history.length)
       window.history.go(back)
-    },
-    toggleDrawer() {
-      this.drawerOpen = !this.drawerOpen
     },
   },
 }

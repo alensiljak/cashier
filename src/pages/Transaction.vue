@@ -98,7 +98,6 @@ import { useRouter } from 'vue-router'
 import { SettingKeys, settings } from 'src/lib/Configuration'
 import { useQuasar } from 'quasar'
 import appService from '../appService'
-import eventBus from '../lib/eventBus'
 import TxEditor from '../components/TransactionEditor.vue'
 
 const router = useRouter()
@@ -150,7 +149,7 @@ function resetTransaction() {
 }
 
 function toggleDrawer() {
-  eventBus.$emit('toggle-drawer')
+  mainStore.toggleDrawer()
 }
 </script>
 

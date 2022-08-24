@@ -9,7 +9,17 @@ export const useMainStore = defineStore('mainStore', {
    * @returns state
    */
   state: () => ({
+    /**
+     * Indicates whether the sidebar is open or not.
+     */
+    drawerOpen: false,
+    /**
+     * Scheduled transaction being edited.
+     */
     scheduledTx: null,
+    /**
+     * Transaction being edited.
+     */
     tx: null,
   }),
 
@@ -59,6 +69,9 @@ export const useMainStore = defineStore('mainStore', {
       const tx = Transaction.create()
       this.setTransaction(tx)
     },
+    setDrawerOpen(isOpen) {
+      this.drawerOpen = isOpen
+    },
     setTransaction(tx) {
       if (this.tx) {
         Object.assign(this.tx, tx)
@@ -66,6 +79,9 @@ export const useMainStore = defineStore('mainStore', {
       } else {
         this.tx = tx
       }
+    },
+    toggleDrawer() {
+      this.drawerOpen = !this.drawerOpen
     },
   },
 })

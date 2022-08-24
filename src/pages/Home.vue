@@ -59,6 +59,12 @@ import { useMainStore } from '../store/mainStore'
 const router = useRouter()
 const mainStore = useMainStore()
 
+function menuClicked() {
+  //let visible = this.$store.state.drawerOpen
+  //this.$store.commit(TOGGLE_DRAWER, !visible)
+  mainStore.toggleDrawer()
+}
+
 /**
  * fab clicked. Use for the new transaction.
  */
@@ -95,10 +101,6 @@ export default {
   },
 
   methods: {
-    menuClicked() {
-      let visible = this.$store.state.drawerOpen
-      this.$store.commit(TOGGLE_DRAWER, !visible)
-    },
     onFavClick() {
       this.$router.push({ name: 'favourites' })
     },

@@ -28,6 +28,7 @@
 
 <script setup>
 import { computed, onMounted, provide, reactive } from 'vue'
+import { toRaw } from 'vue'
 import { useStore } from 'vuex'
 import { useQuasar } from 'quasar'
 import { useRouter } from 'vue-router'
@@ -97,23 +98,19 @@ async function saveData() {
   const result = await appService.saveScheduledTransaction(stx)
   return result
 }
+
+function toggleDrawer() {
+  mainStore.toggleDrawer()
+}
 </script>
 <script>
 import TxEditor from '../components/TransactionEditor.vue'
 import ScheduleEditor from '../components/ScheduleEditor.vue'
-import eventBus from '../lib/eventBus'
-import { toRaw } from 'vue'
 
 export default {
   components: {
     ScheduleEditor,
     TxEditor,
-  },
-
-  methods: {
-    toggleDrawer() {
-      eventBus.$emit('toggle-drawer')
-    },
   },
 }
 </script>
