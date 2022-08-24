@@ -151,6 +151,15 @@
   </q-page>
 </template>
 
+<script setup>
+import { useMainStore } from '../store/mainStore'
+
+const mainStore = useMainStore()
+
+function menuClicked() {
+  mainStore.toggleDrawer()
+}
+</script>
 <script>
 import { engine } from '../lib/AssetAllocation'
 
@@ -239,10 +248,6 @@ export default {
         console.error(error)
         this.$q.notify({ message: error.message, color: 'secondary' })
       }
-    },
-    menuClicked() {
-      let visible = this.$store.state.drawerOpen
-      this.$store.commit(TOGGLE_DRAWER, !visible)
     },
     onExportClick() {
       let output = this.getAaForExport()

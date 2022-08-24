@@ -118,9 +118,17 @@
   </q-page>
 </template>
 
+<script setup>
+import { useMainStore } from '../store/mainStore'
+
+const mainStore = useMainStore()
+
+function menuClicked() {
+  mainStore.toggleDrawer()
+}
+</script>
 <script>
 import appService from '../appService'
-import { TOGGLE_DRAWER } from '../mutations'
 
 export default {
   data() {
@@ -145,10 +153,6 @@ export default {
 
       let account = await appService.loadAccount(name)
       this.account = account
-    },
-    menuClicked() {
-      let visible = this.$store.state.drawerOpen
-      this.$store.commit(TOGGLE_DRAWER, !visible)
     },
     onCancel() {
       this.$router.push({ name: 'accounts' })

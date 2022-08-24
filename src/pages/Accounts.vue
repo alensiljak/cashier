@@ -148,11 +148,18 @@
   </q-page>
 </template>
 
+<script setup>
+import { useMainStore } from '../store/mainStore'
+
+const mainStore = useMainStore()
+
+function menuClicked() {
+  mainStore.toggleDrawer()
+}
+</script>
 <script>
-import { TOGGLE_DRAWER, SET_SELECT_MODE, SET_SELECTED_ID } from '../mutations'
 import appService from '../appService.js'
 import { ListSearch } from '../ListSearch.js'
-//import { getCurrentInstance } from 'vue'
 import { RecycleScroller } from 'vue-virtual-scroller'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 
@@ -221,10 +228,6 @@ export default {
       }
       let accounts_array = await accounts.toArray()
       this.accounts = accounts_array
-    },
-    menuClicked() {
-      let visible = this.$store.state.drawerOpen
-      this.$store.commit(TOGGLE_DRAWER, !visible)
     },
     async onAddAccount() {
       // create new account

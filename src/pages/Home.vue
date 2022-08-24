@@ -60,8 +60,6 @@ const router = useRouter()
 const mainStore = useMainStore()
 
 function menuClicked() {
-  //let visible = this.$store.state.drawerOpen
-  //this.$store.commit(TOGGLE_DRAWER, !visible)
   mainStore.toggleDrawer()
 }
 

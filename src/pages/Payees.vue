@@ -40,8 +40,17 @@
   </q-page>
 </template>
 
+<script setup>
+import { useMainStore } from '../store/mainStore'
+
+const mainStore = useMainStore()
+
+function onMenuClicked() {
+  mainStore.toggleDrawer()
+}
+</script>
 <script>
-import { TOGGLE_DRAWER, SET_SELECT_MODE, SET_SELECTED_ID } from '../mutations'
+import { SET_SELECTED_ID } from '../mutations'
 import PayeesToolbar from '../components/PayeesToolbar.vue'
 import appService from '../appService'
 import { RecycleScroller } from 'vue-virtual-scroller'
@@ -61,10 +70,6 @@ export default {
       newPayee: null,
       filter: null,
     }
-  },
-
-  created() {
-    //this.loadData()
   },
 
   async mounted() {
@@ -129,10 +134,6 @@ export default {
     async onFilter(text) {
       this.filter = text
       await this.loadData()
-    },
-    onMenuClicked() {
-      const visible = this.$store.state.drawerOpen
-      this.$store.commit(TOGGLE_DRAWER, !visible)
     },
   },
 }

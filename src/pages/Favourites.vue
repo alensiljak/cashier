@@ -8,7 +8,7 @@
           round
           aria-label="Menu"
           icon="menu"
-          @click="menuClicked"
+          @click="onMenuClicked"
         />
 
         <q-toolbar-title>Favourites</q-toolbar-title>
@@ -115,8 +115,17 @@
   </q-page>
 </template>
 
+<script setup>
+import { useMainStore } from '../store/mainStore'
+
+const mainStore = useMainStore()
+
+function onMenuClicked() {
+  mainStore.toggleDrawer()
+}
+</script>
 <script>
-import { SET_SELECT_MODE, TOGGLE_DRAWER } from '../mutations'
+import { SET_SELECT_MODE } from '../mutations'
 import {
   SelectionModeMetadata,
   settings,
@@ -264,10 +273,6 @@ export default {
         console.error(reason)
         this.$q.notify({ color: 'secondary', message: reason.message })
       }
-    },
-    menuClicked() {
-      let visible = this.$store.state.drawerOpen
-      this.$store.commit(TOGGLE_DRAWER, !visible)
     },
     onDeleteAllClick() {
       // confirm

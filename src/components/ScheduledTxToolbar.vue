@@ -91,6 +91,16 @@
     </q-toolbar>
   </q-header>
 </template>
+
+<script setup>
+import { useMainStore } from '../store/mainStore'
+
+const mainStore = useMainStore()
+
+function onMenuClicked() {
+  mainStore.toggleDrawer()
+}
+</script>
 <script>
 import { TOGGLE_DRAWER } from '../mutations'
 
@@ -104,18 +114,14 @@ export default {
   data() {
     return {
       searchVisible: false,
-      filter: null
+      filter: null,
     }
   },
   methods: {
-    onMenuClicked() {
-      let visible = this.$store.state.drawerOpen
-      this.$store.commit(TOGGLE_DRAWER, !visible)
-    },
     onResetFilterClicked() {
       this.filter = null
       this.$emit('filterChanged', this.filter)
-    }
+    },
   },
 }
 </script>

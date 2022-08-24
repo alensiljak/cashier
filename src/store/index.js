@@ -13,10 +13,8 @@ import {
   SET_PAYEE,
   SET_POSTING,
   SET_TRANSACTION,
-  TOGGLE_DRAWER,
   SET_LEDGER_USE,
 } from '../mutations'
-import { Posting } from 'src/model'
 
 /*
  * If not building with SSR mode, you can
@@ -102,9 +100,6 @@ export default function (/* { ssrContext } */) {
         tx.postings = postingsArray
 
         state.transaction = tx
-      },
-      [TOGGLE_DRAWER](state, drawerVisible) {
-        state.drawerOpen = drawerVisible
       },
       [SET_LEDGER_USE](state, useLedger) {
         state.useLedger = useLedger
