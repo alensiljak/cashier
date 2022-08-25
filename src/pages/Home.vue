@@ -74,7 +74,6 @@ function onFab() {
 }
 </script>
 <script>
-import { TOGGLE_DRAWER } from '../mutations'
 import SyncCard from '../components/SyncCard.vue'
 import FavouritesCard from '../components/FavouritesCard.vue'
 import JournalCard from '../components/JournalCard.vue'

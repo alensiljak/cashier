@@ -219,7 +219,6 @@ function openNewTransaction() {
 </script>
 <script>
 import JournalTransaction from '../components/JournalTransaction.vue'
-import { TOGGLE_DRAWER } from '../mutations'
 
 const errorMessage = { color: 'secondary', message: '' }
 

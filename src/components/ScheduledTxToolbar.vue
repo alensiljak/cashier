@@ -102,8 +102,6 @@ function onMenuClicked() {
 }
 </script>
 <script>
-import { TOGGLE_DRAWER } from '../mutations'
-
 export default {
   props: {
     title: { type: String, default: '' },
