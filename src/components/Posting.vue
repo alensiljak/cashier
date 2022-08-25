@@ -59,6 +59,12 @@ const { index } = toRefs(props)
 
 let i = index.value
 
+// emits
+
+const emit = defineEmits(['account-clicked', 'amount-changed'])
+
+// computed
+
 const account = computed({
   get() {
     return tx.postings[i].account
@@ -115,7 +121,5 @@ export default {
       },
     },
   },
-
-  methods: {},
 }
 </script>

@@ -1,7 +1,14 @@
 <template>
   <q-header elevated class="glossy">
     <q-toolbar class="text-colour2">
-      <q-btn flat dense round aria-label="Menu" icon="menu" @click="$emit('menu-clicked')" />
+      <q-btn
+        flat
+        dense
+        round
+        aria-label="Menu"
+        icon="menu"
+        @click="$emit('menu-clicked')"
+      />
 
       <q-toolbar-title>{{ title }}</q-toolbar-title>
 
@@ -29,45 +36,48 @@
         dense
         dark
         color="accent"
-        style="width: 23rem;"
+        style="width: 23rem"
         debounce="400"
       >
         <template #append>
           <font-awesome-icon v-if="myFilter === ''" icon="search" />
-          <q-icon v-else name="clear" class="cursor-pointer" @click="myFilter = ''" />
+          <q-icon
+            v-else
+            name="clear"
+            class="cursor-pointer"
+            @click="myFilter = ''"
+          />
         </template>
       </q-input>
     </q-toolbar>
   </q-header>
 </template>
+
+<script setup>
+import { computed } from 'vue'
+
+const emit = defineEmits(['filter', 'menu-clicked'])
+
+const myFilter = computed({
+  get() {
+    return this.filter
+  },
+  set(value) {
+    emit('filter', value)
+  },
+})
+</script>
 <script>
 export default {
-
   props: {
-    title: { type: String, default: "" },
-    filter: { type: String, default: "" }
-  },
-  data() {
-    return {
-      //   filter: ""
-    };
-  },
-
-  computed: {
-    myFilter: {
-      get() {
-        return this.filter;
-      },
-      set(value) {
-        this.$emit("filter", value);
-      }
-    }
+    title: { type: String, default: '' },
+    filter: { type: String, default: '' },
   },
 
   methods: {
     goToCache() {
-      this.$router.push({ name: "cache" });
-    }
-  }
-};
+      this.$router.push({ name: 'cache' })
+    },
+  },
+}
 </script>

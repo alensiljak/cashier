@@ -92,7 +92,7 @@
 </template>
 
 <script setup>
-import { defineEmits, ref } from 'vue'
+import { ref } from 'vue'
 import { useMainStore } from '../store/mainStore'
 // import { useQuasar } from 'quasar'
 
