@@ -20,9 +20,11 @@
 <script setup>
 import { ref } from 'vue'
 //import { inject } from 'vue'
-//import { emits } from 'vue'
+import { emits } from 'vue'
 
 //inject('tx')
+
+const emit = emits(['click'])
 
 const confirmDelete = ref(false)
 
