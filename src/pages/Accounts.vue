@@ -149,16 +149,94 @@
 </template>
 
 <script setup>
+import { computed, onMounted, ref } from 'vue'
 import { useMainStore } from '../store/mainStore'
+import appService from '../appService.js'
 
 const mainStore = useMainStore()
+
+// data
+
+const accounts = ref([])
+const filterText = ref(null)
+const dialogVisible = ref(false)
+const newAccount = ref(null)
+const confirmDeleteAllVisible = ref(false)
+
+// computed
+
+const filter = computed({
+  get() {
+    return filterText.value
+  },
+  set(value) {
+    filterText.value = value
+    loadData()
+  },
+})
+
+onMounted(async () => {
+  await loadData()
+})
+
+// methods
+
+async function confirmDeleteAll() {
+  await appService.deleteAccounts()
+  await loadData()
+}
+
+async function loadData() {
+  let records = appService.db.accounts.orderBy('name')
+
+  if (filter.value) {
+    let search = new ListSearch()
+    let regex = search.getRegex(filter.value)
+
+    records = records.filter((account) => regex.test(account.name))
+  }
+  let accounts_array = await records.toArray()
+
+  accounts.value = accounts_array
+}
 
 function menuClicked() {
   mainStore.toggleDrawer()
 }
+
+async function onAddAccount() {
+  // create new account
+  if (!newAccount.value) return
+  dialogVisible.value = false
+
+  await appService.createAccount(newAccount.value)
+  // reset the new account name.
+  newAccount.value = null
+
+  await loadData()
+}
+
+function onCancelAdd() {
+  dialogVisible.value = false
+  newAccount.value = null
+}
+
+function onDeleteAllClick() {
+  confirmDeleteAllVisible.value = true
+}
+
+function onFab() {
+  // New Account
+  dialogVisible.value = true
+}
+
+async function onDeleteAccount(accountName) {
+  // console.log(event);
+  await appService.deleteAccount(accountName)
+  await loadData()
+}
 </script>
 <script>
-import appService from '../appService.js'
 import { ListSearch } from '../ListSearch.js'
 import { RecycleScroller } from 'vue-virtual-scroller'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
@@ -170,42 +248,17 @@ export default {
 
   data() {
     return {
-      confirmDeleteAllVisible: false,
-      dialogVisible: false,
-      newAccount: null,
-      accounts: [],
-      filterText: null, // filter for the account name
       pickerMode: false,
     }
   },
 
-  computed: {
-    filter: {
-      get() {
-        return this.filterText
-      },
-      set(value) {
-        this.filterText = value
-        this.loadData()
-      },
-    },
-  },
-
   created() {
-    this.loadData()
-
     // picker mode
     let meta = this.$store.state.selectModeMeta
     this.pickerMode = !!meta
   },
 
-  mounted() {},
-
   methods: {
-    async confirmDeleteAll() {
-      await appService.deleteAccounts()
-      await this.loadData()
-    },
     itemClicked(id) {
       if (this.pickerMode) {
         // select the item and return to the caller.
@@ -216,45 +269,6 @@ export default {
         // edit account
         this.$router.push({ name: 'account', params: { id: id } })
       }
-    },
-    async loadData() {
-      let accounts = appService.db.accounts.orderBy('name')
-
-      if (this.filter) {
-        let search = new ListSearch()
-        let regex = search.getRegex(this.filter)
-
-        accounts = accounts.filter((account) => regex.test(account.name))
-      }
-      let accounts_array = await accounts.toArray()
-      this.accounts = accounts_array
-    },
-    async onAddAccount() {
-      // create new account
-      if (!this.newAccount) return
-      this.dialogVisible = false
-
-      await appService.createAccount(this.newAccount)
-      // reset the new account name.
-      this.newAccount = null
-
-      await this.loadData()
-    },
-    onCancelAdd() {
-      this.dialogVisible = false
-      this.newAccount = null
-    },
-    async onDeleteAccount(accountName) {
-      // console.log(event);
-      await appService.deleteAccount(accountName)
-      this.loadData()
-    },
-    onDeleteAllClick() {
-      this.confirmDeleteAllVisible = true
-    },
-    onFab() {
-      // New Account
-      this.dialogVisible = true
     },
   },
 }
