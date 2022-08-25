@@ -110,7 +110,7 @@ async function loadData() {
 
   //let txs = await appService.loadAccountTransactionsFor(accountName)
 
-  let postingRecords = await loadPostings(accountName)
+  let postingRecords = await loadPostingsFor(accountName)
   postings.value = postingRecords
 
   // console.debug(account)
@@ -126,7 +126,7 @@ async function loadData() {
   calculateBalance()
 }
 
-async function loadPostings(accountName) {
+async function loadPostingsFor(accountName) {
   const postingRecords = await appService.db.postings.where({
     account: accountName,
   })
