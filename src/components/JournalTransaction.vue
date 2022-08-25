@@ -20,17 +20,14 @@
 <script setup>
 import { ref } from 'vue'
 //import { inject } from 'vue'
-import { emits } from 'vue'
 
 //inject('tx')
 
-const emit = emits(['click'])
+const emit = defineEmits(['click'])
 
 const confirmDelete = ref(false)
 
 const props = defineProps({
   tx: Object,
 })
-
-//emits()
 </script>

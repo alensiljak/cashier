@@ -139,6 +139,7 @@ import { useQuasar } from 'quasar'
 import { useRouter } from 'vue-router'
 import { useMainStore } from '../store/mainStore'
 import appService from '../appService'
+import JournalTransaction from '../components/JournalTransaction.vue'
 
 const $q = useQuasar()
 const router = useRouter()
@@ -148,6 +149,12 @@ const mainStore = useMainStore()
 
 const confirmDeleteAllVisible = ref(false)
 const transactions = ref([])
+const confirmDeleteVisible = ref(false)
+
+let resetSlide = null
+let timer = null
+
+const errorMessage = { color: 'secondary', message: '' }
 
 // mounted
 
@@ -157,6 +164,10 @@ onMounted(async () => {
 })
 
 // methods
+
+async function confirmDelete() {
+  await deleteTransaction()
+}
 
 function confirmDeleteAll() {
   deleteAllTransactions()
@@ -174,6 +185,50 @@ async function deleteAllTransactions() {
   } catch (reason) {
     $q.notify({ message: reason, color: 'danger' })
   }
+}
+
+async function deleteTransaction(id) {
+  if (!id) {
+    $q.notify({
+      color: 'negative',
+      message: 'No transaction id sent for deletion.',
+    })
+  }
+
+  // remove the reset reference.
+  if (resetSlide) {
+    // remove the slide section.
+    resetSlide()
+    resetSlide = null
+  }
+
+  try {
+    const result = await appService.deleteTransaction(id)
+    // console.debug('delete result:', result)
+    $q.notify({ message: 'Transaction deleted', color: 'positive' })
+
+    await loadData()
+  } catch (error) {
+    $q.notify({ color: 'negative', message: error.message })
+  }
+}
+
+function exportJournal() {
+  router.push({ name: 'export' })
+}
+
+function finalize(reset) {
+  timer = setTimeout(() => {
+    // has it been already deleted?
+    if (!resetSlide) return
+
+    reset()
+  }, 2000)
+}
+
+function onSlide({ reset }) {
+  resetSlide = reset
+  finalize(reset)
 }
 
 async function loadData() {
@@ -197,6 +252,12 @@ function onDeleteAllClicked() {
   confirmDeleteAllVisible.value = true
 }
 
+function onTransactionDeleteClicked(data) {
+  // confirm
+  confirmDeleteVisible.value = true
+  // transactionIdToDelete.value = data.id
+}
+
 async function onTxClick(id) {
   if (typeof id !== 'number') {
     $q.notify({
@@ -217,71 +278,10 @@ function openNewTransaction() {
   router.push({ name: 'tx' })
 }
 </script>
-<script>
-import JournalTransaction from '../components/JournalTransaction.vue'
-
-const errorMessage = { color: 'secondary', message: '' }
-
+<!-- <script>
 export default {
   components: {
     JournalTransaction,
   },
-  data() {
-    return {
-      confirmDeleteVisible: false,
-      resetSlide: null,
-    }
-  },
-
-  methods: {
-    async confirmDelete() {
-      await this.deleteTransaction()
-    },
-    async deleteTransaction(id) {
-      if (!id) {
-        this.$q.notify({
-          color: 'negative',
-          message: 'No transaction id sent for deletion.',
-        })
-      }
-
-      // remove the reset reference.
-      if (this.resetSlide) {
-        // remove the slide section.
-        this.resetSlide()
-        this.resetSlide = null
-      }
-
-      try {
-        const result = await appService.deleteTransaction(id)
-        // console.debug('delete result:', result)
-        this.$q.notify({ message: 'Transaction deleted', color: 'positive' })
-
-        await this.loadData()
-      } catch (error) {
-        this.$q.notify({ color: 'negative', message: error.message })
-      }
-    },
-    exportJournal() {
-      this.$router.push({ name: 'export' })
-    },
-    finalize(reset) {
-      this.timer = setTimeout(() => {
-        // has it been already deleted?
-        if (!this.resetSlide) return
-
-        reset()
-      }, 2000)
-    },
-    onSlide({ reset }) {
-      this.resetSlide = reset
-      this.finalize(reset)
-    },
-    onTransactionDeleteClicked(data) {
-      // confirm
-      this.confirmDeleteVisible = true
-      this.transactionIdToDelete = data.id
-    },
-  },
 }
-</script>
+</script> -->
