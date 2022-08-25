@@ -1,4 +1,3 @@
-import { re } from 'mathjs'
 import moment from 'moment'
 import { settings, SettingKeys } from './Configuration'
 import { LedgerApi } from './ledgerApi'

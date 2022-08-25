@@ -18,9 +18,7 @@
         <q-menu auto-close>
           <q-list dark style="min-width: 175px" class="bg-colour1">
             <q-item clickable>
-              <q-item-section @click="searchVisible = true">
-                Find
-              </q-item-section>
+              <q-item-section @click="toggleSearch"> Find </q-item-section>
               <q-item-section side>
                 <font-awesome-icon icon="search" transform="grow-9 left-5" />
               </q-item-section>
@@ -67,6 +65,7 @@
     <!-- search -->
     <q-toolbar v-if="searchVisible" class="text-white flex flex-center">
       <q-input
+        ref="searchInput"
         v-model="filter"
         autofocus
         rounded
@@ -93,33 +92,64 @@
 </template>
 
 <script setup>
+import { defineEmits, ref } from 'vue'
 import { useMainStore } from '../store/mainStore'
+// import { useQuasar } from 'quasar'
 
 const mainStore = useMainStore()
+// const $q = useQuasar()
+
+const emit = defineEmits([
+  'backupClicked',
+  'calendarClicked',
+  'filterChanged',
+  'restoreClicked',
+])
+
+// props
+
+const props = defineProps({
+  title: { type: String, default: '' },
+})
+
+// data
+
+const filter = ref('')
+const searchVisible = ref(true)
+const searchInput = ref(null)
+
+// methods
 
 function onMenuClicked() {
   mainStore.toggleDrawer()
 }
-</script>
-<script>
-export default {
-  props: {
-    title: { type: String, default: '' },
-  },
 
-  emits: ['filterChanged'],
+function onResetFilterClicked() {
+  filter.value = null
+  //this.$emit('filterChanged', this.filter)
+  emit('filterChanged', filter.value)
+}
 
-  data() {
-    return {
-      searchVisible: false,
-      filter: null,
-    }
-  },
-  methods: {
-    onResetFilterClicked() {
-      this.filter = null
-      this.$emit('filterChanged', this.filter)
-    },
-  },
+function toggleSearch() {
+  searchVisible.value = !searchVisible.value
+
+  if (searchVisible.value) {
+    // focus on the search input
+    console.debug(searchInput.value)
+    searchInput.value?.focus()
+    //$q.refs
+  }
 }
 </script>
+<!-- <script>
+// import { QMenu } from 'quasar'
+
+//const searchInput = (ref < QMenu) | (null > null) // the search text input control
+
+export default {
+  setup() {
+    //const numEmployees = 10
+    return { searchInput }
+  },
+}
+</script> -->
