@@ -37,12 +37,20 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import appService from '../appService'
 import { useQuasar } from 'quasar'
+import { useStore } from 'vuex'
+import { SET_SELECT_MODE } from '../mutations'
+import { SelectionModeMetadata } from '../lib/Configuration'
+import { Posting } from 'src/model'
 
 const route = useRoute()
+const router = useRouter()
 const $q = useQuasar()
+const store = useStore()
+
+const ACCOUNT = 'account'
 
 // data
 
@@ -91,6 +99,10 @@ function createStartingBalancePosting(accountBalance, currency) {
   return record
 }
 
+function formatNumber(value) {
+  return appService.formatNumber(value)
+}
+
 async function loadData() {
   const accountName = route.params.name
   const accountRecord = await appService.db.accounts.get(accountName)
@@ -124,6 +136,28 @@ async function loadPostings(accountName) {
   return result
 }
 
+function onFabClick() {
+  // add posting with this account
+  sendAccountToTransaction(account)
+}
+
+function onItemClick(txId) {
+  router.push({ name: 'tx', params: { id: txId } })
+}
+
+function sendAccountToTransaction(accountToSend) {
+  const selectMode = new SelectionModeMetadata()
+
+  // set the type
+  selectMode.selectionType = ACCOUNT
+  // simulate account selection
+  selectMode.selectedId = accountToSend.name
+  // set the selection mode
+  store.commit(SET_SELECT_MODE, selectMode)
+  // show account picker
+  router.push({ name: 'tx' })
+}
+
 /**
  * Add the transaction date and the payee to the posting record.
  * @param {Array} postings
@@ -148,41 +182,10 @@ async function loadTransactionsFor(postingRecords) {
 </script>
 <script>
 import Toolbar from '../components/CashierToolbar.vue'
-import { SET_SELECT_MODE } from '../mutations'
-import { SelectionModeMetadata } from '../lib/Configuration'
-import { Posting } from 'src/model'
-
-const ACCOUNT = 'account'
 
 export default {
   components: {
     Toolbar,
-  },
-
-  methods: {
-    formatNumber(value) {
-      return appService.formatNumber(value)
-    },
-
-    onFabClick() {
-      // add posting with this account
-      this.sendAccountToTransaction(this.account)
-    },
-    onItemClick(txId) {
-      this.$router.push({ name: 'tx', params: { id: txId } })
-    },
-    sendAccountToTransaction(account) {
-      const selectMode = new SelectionModeMetadata()
-
-      // set the type
-      selectMode.selectionType = ACCOUNT
-      // simulate account selection
-      selectMode.selectedId = account.name
-      // set the selection mode
-      this.$store.commit(SET_SELECT_MODE, selectMode)
-      // show account picker
-      this.$router.push({ name: 'tx' })
-    },
   },
 }
 </script>
