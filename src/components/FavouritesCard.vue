@@ -29,6 +29,13 @@
   </q-card>
 </template>
 
+<script setup>
+const emit = defineEmits(['click'])
+
+function onCardClick() {
+  emit('click')
+}
+</script>
 <script>
 import { settings, SettingKeys } from '../lib/Configuration'
 import appService from '../appService'
@@ -62,9 +69,6 @@ export default {
       } catch (reason) {
         this.$q.notify({ color: 'secondary', message: reason.message })
       }
-    },
-    onCardClick() {
-      this.$emit('click')
     },
   },
 }
