@@ -18,14 +18,19 @@
       />
     </accounts-list> -->
 
+    <!--  @update:list="onListUpdated" -->
     <SlickList
       axis="y"
       v-model:list="accounts"
       :value="accounts"
       :list="accounts"
-      @update:list="onListUpdated"
     >
-      <SlickItem v-for="(account, i) in accounts" :key="account" :index="i">
+      <SlickItem
+        v-for="(account, i) in accounts"
+        :key="account"
+        :index="i"
+        class="long-list"
+      >
         <q-item v-ripple clickable class="list-item">
           <q-item-section>{{ account.name }}</q-item-section>
           <q-item-section side>
@@ -99,3 +104,10 @@ async function onSaveClick() {
   router.push({ name: 'favourites' })
 }
 </script>
+
+<style scoped>
+.long-list {
+  max-height: 300px;
+  overflow: auto;
+}
+</style>
