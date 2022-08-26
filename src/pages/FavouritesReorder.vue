@@ -101,7 +101,8 @@ async function onSaveClick() {
   await loadData()
   $q.notify('Favourites reordered')
 
-  router.push({ name: 'favourites' })
+  //router.push({ name: 'favourites' })
+  router.back()
 }
 </script>
 
