@@ -12,7 +12,6 @@ export default {
 
   props: {
     value: { type: Array, required: true },
-    modelValue: { type: Object },
   },
 
   data() {
