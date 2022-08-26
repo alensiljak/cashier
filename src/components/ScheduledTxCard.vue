@@ -38,9 +38,12 @@
     </q-card-actions>
   </q-card>
 </template>
+
 <script>
 import appService from '../appService'
 import moment from 'moment'
+
+//emits:
 
 export default {
   data() {

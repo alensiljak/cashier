@@ -27,7 +27,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, provide, reactive } from 'vue'
+import { computed, onMounted, provide } from 'vue'
 import { toRaw } from 'vue'
 import { useStore } from 'vuex'
 import { useQuasar } from 'quasar'

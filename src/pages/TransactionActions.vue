@@ -121,7 +121,7 @@
 </template>
 
 <script setup>
-import { provide, ref, reactive } from 'vue'
+import { provide, ref } from 'vue'
 import { onMounted } from 'vue'
 import { useMainStore } from '../store/mainStore'
 import { useRouter } from 'vue-router'

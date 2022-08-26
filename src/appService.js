@@ -516,6 +516,19 @@ class AppService {
 
     // convert to pocos
     let postings = tx.postings.map((txposting) => toRaw(txposting))
+    // check whether the accounts exists!
+    if (postings.length) {
+      const accounts = await this.loadAccounts().toArray()
+      const accountNames = accounts.map((account) => account.name)
+      postings.forEach((posting) => {
+        const account = posting.account
+        if (!accountNames.includes(account)) {
+          throw new Error(
+            `The account ${account} does not exist! Please create first.`
+          )
+        }
+      })
+    }
     tx.postings = postings
 
     this.processPostings(tx)
