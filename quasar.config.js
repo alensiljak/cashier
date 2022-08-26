@@ -53,8 +53,8 @@ module.exports = configure(function (/* ctx */) {
         node: 'node16',
       },
 
-      //vueRouterMode: 'hash', // available values: 'hash', 'history'
-      vueRouterMode: 'history',
+      vueRouterMode: 'hash', // available values: 'hash', 'history'
+      // vueRouterMode: 'history',
       // vueRouterBase,
       // vueDevtools,
       // vueOptionsAPI: false,
