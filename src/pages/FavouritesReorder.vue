@@ -2,17 +2,38 @@
   <q-page padding class="bg-colour1 text-colour2">
     <toolbar :title="'Reorder Favourites'" />
 
-    <accounts-list v-model:list="accounts" lock-axis="y">
+    <!-- <accounts-list
+      axis="y"
+      v-model:list="accounts"
+      lock-axis="y"
+      :value="accounts"
+      :list="accounts"
+    >
       <account-item
         v-for="(account, index) in accounts"
         :key="account"
         :index="index"
         :account="account"
-        :value="accounts"
-        :model-value="accounts"
         @input="onListChange"
       />
-    </accounts-list>
+    </accounts-list> -->
+
+    <SlickList
+      axis="y"
+      v-model:list="accounts"
+      :value="accounts"
+      :list="accounts"
+      @update:list="onListUpdated"
+    >
+      <SlickItem v-for="(account, i) in accounts" :key="account" :index="i">
+        <q-item v-ripple clickable class="list-item">
+          <q-item-section>{{ account.name }}</q-item-section>
+          <q-item-section side>
+            {{ account.balance }} {{ account.currency }}
+          </q-item-section>
+        </q-item>
+      </SlickItem>
+    </SlickList>
 
     <div class="row q-my-xl justify-end">
       <q-btn
@@ -26,10 +47,18 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useQuasar } from 'quasar'
+import Toolbar from '../components/CashierToolbar.vue'
+// import AccountsList from '../components/SortableAccountsList.vue'
+// import AccountItem from '../components/SortableAccountItem.vue'
+import { settings, SettingKeys } from '../lib/Configuration'
+import appService from '../appService'
+import { SlickList, SlickItem } from 'vue-slicksort'
+import { useRouter } from 'vue-router'
 
 const $q = useQuasar()
+const router = useRouter()
 
 // data
 const accounts = ref([])
@@ -66,20 +95,7 @@ async function onSaveClick() {
 
   await loadData()
   $q.notify('Favourites reordered')
-}
-</script>
-<script>
-import Toolbar from '../components/CashierToolbar.vue'
-import AccountsList from '../components/SortableAccountsList.vue'
-import AccountItem from '../components/SortableAccountItem.vue'
-import { settings, SettingKeys } from '../lib/Configuration'
-import appService from '../appService'
 
-export default {
-  components: {
-    AccountsList,
-    AccountItem,
-    Toolbar,
-  },
+  router.push({ name: 'favourites' })
 }
 </script>
