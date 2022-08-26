@@ -1,6 +1,8 @@
 <template>
   <q-page padding class="bg-colour1 text-colour2">
-    <toolbar :title="'Reorder Favourites'" />
+    <toolbar :title="'Reorder Favourites'">
+      <q-btn flat round dense icon="check" @click="onSaveClicked" />
+    </toolbar>
 
     <!-- <accounts-list
       axis="y"
@@ -40,14 +42,14 @@
       </SlickItem>
     </SlickList>
 
-    <div class="row q-my-xl justify-end">
+    <!-- <div class="row q-my-xl justify-end">
       <q-btn
         color="secondary"
         text-color="accent"
         label="Save"
-        @click="onSaveClick"
+        @click="onSaveClicked"
       />
-    </div>
+    </div> -->
   </q-page>
 </template>
 
@@ -92,7 +94,7 @@ function onListChange(list) {
   accounts.value = list
 }
 
-async function onSaveClick() {
+async function onSaveClicked() {
   // get the list of account names
   const names = accounts.value.map((account) => account.name)
 

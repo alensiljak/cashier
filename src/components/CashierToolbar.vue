@@ -11,6 +11,10 @@
       />
 
       <q-toolbar-title>{{ title }}</q-toolbar-title>
+
+      <q-space />
+
+      <slot></slot>
     </q-toolbar>
   </q-header>
 </template>
