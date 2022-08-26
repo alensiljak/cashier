@@ -9,7 +9,7 @@
         :index="index"
         :account="account"
         :value="accounts"
-        :modelValue="accounts"
+        :model-value="accounts"
         @input="onListChange"
       />
     </accounts-list>
@@ -26,11 +26,47 @@
 </template>
 
 <script setup>
-// import { onMounted } from 'vue'
+import { onMounted } from 'vue'
+import { useQuasar } from 'quasar'
 
-// onMounted(async () => {
-//   //
-// })
+const $q = useQuasar()
+
+// data
+const accounts = ref([])
+
+onMounted(async () => {
+  //
+  await loadData()
+})
+
+async function loadData() {
+  const records = await appService.loadFavouriteAccounts()
+  // load account details
+  if (!records) {
+    console.log('no favourite accounts selected yet')
+    return
+  }
+
+  try {
+    accounts.value = records
+  } catch (error) {
+    $q.notify({ color: 'secondary', message: error.message })
+  }
+}
+
+function onListChange(list) {
+  accounts.value = list
+}
+
+async function onSaveClick() {
+  // get the list of account names
+  const names = accounts.value.map((account) => account.name)
+
+  await settings.set(SettingKeys.favouriteAccounts, names)
+
+  await loadData()
+  $q.notify('Favourites reordered')
+}
 </script>
 <script>
 import Toolbar from '../components/CashierToolbar.vue'
@@ -44,48 +80,6 @@ export default {
     AccountsList,
     AccountItem,
     Toolbar,
-  },
-  data() {
-    return {
-      accounts: [],
-    }
-  },
-
-  async mounted() {
-    await this.loadData()
-  },
-
-  methods: {
-    async loadData() {
-      const accounts = await appService.loadFavouriteAccounts()
-      // load account details
-      if (!accounts) {
-        console.log('no favourite accounts selected yet')
-        return
-      }
-
-      try {
-        this.accounts = accounts
-      } catch (error) {
-        this.$q.notify({ color: 'secondary', message: error.message })
-      }
-    },
-
-    onListChange(list) {
-      this.accounts = list
-    },
-
-    async onSaveClick() {
-      // get the list of account names
-      let names = []
-      for (let i = 0; i < this.accounts.length; i++) {
-        names.push(this.accounts[i].name)
-      }
-
-      await settings.set(SettingKeys.favouriteAccounts, names)
-      await this.loadData()
-      this.$q.notify('Favourites reordered')
-    },
   },
 }
 </script>

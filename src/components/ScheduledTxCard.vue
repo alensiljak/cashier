@@ -39,6 +39,9 @@
   </q-card>
 </template>
 
+<script setup>
+const emit = defineEmits(['click'])
+</script>
 <script>
 import appService from '../appService'
 import moment from 'moment'
