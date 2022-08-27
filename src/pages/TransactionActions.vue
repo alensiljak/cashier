@@ -121,17 +121,19 @@
 </template>
 
 <script setup>
-import { provide, ref } from 'vue'
-import { onMounted } from 'vue'
+import { onMounted, provide, ref, toRefs } from 'vue'
 import { useMainStore } from '../store/mainStore'
 import { useRouter } from 'vue-router'
 import appService from '../appService'
 import { useQuasar } from 'quasar'
+import Toolbar from '../components/CashierToolbar.vue'
+import JournalTransaction from '../components/JournalTransaction.vue'
+import { storeToRefs } from 'pinia'
 
 const router = useRouter()
 const $q = useQuasar()
 const mainStore = useMainStore()
-const { tx } = mainStore
+const { tx } = storeToRefs(mainStore)
 
 //provide('tx', tx)
 
@@ -141,10 +143,14 @@ const confirmDeleteVisible = ref(false)
 
 // props
 
-const props = defineProps({ id: String })
+const props = defineProps({ id: { type: String, default: null } })
+const { id: txId } = toRefs(props)
+// console.debug('txid', txId.value, 'tx:', tx)
 
 onMounted(async () => {
-  //await loadData()
+  if (!tx.value) {
+    await mainStore.loadTx(txId.value)
+  }
 })
 
 /**
@@ -179,9 +185,39 @@ function getNumericId() {
   throw new Error('Invalid Id value')
 }
 
+async function onCopyClicked() {
+  // get a journal version
+  const text = await appService.translateToLedger(tx)
+
+  // copy to clipboard
+  await navigator.clipboard.writeText(text)
+  $q.notify({
+    message: 'transaction copied to clipboard',
+    color: 'positive',
+  })
+}
+
 function onDeleteClick() {
   // show the confirmation dialog.
   confirmDeleteVisible.value = true
+}
+
+async function onDuplicateClicked() {
+  try {
+    // create the transaction
+    const newTx = await appService.duplicateTransaction(tx)
+    // save
+    const id = await appService.saveTransaction(newTx)
+  } catch (err) {
+    $q.notify({ color: 'negative', message: err.message })
+  }
+
+  // display a notification after or ask before the action.
+  $q.notify({ color: 'positive', message: 'Transaction duplicated' })
+
+  // navigate to the editor for the new transaction,
+  // resetting the navigation?
+  router.push({ name: 'tx', params: { id: id } })
 }
 
 function onEditClicked() {
@@ -198,48 +234,12 @@ function onScheduleClick() {
 
   router.push({ name: 'scheduledtxeditor', params: { id: 0 } })
 }
-</script>
-<script>
-import Toolbar from '../components/CashierToolbar.vue'
-import JournalTransaction from '../components/JournalTransaction.vue'
 
-export default {
-  components: {
-    Toolbar,
-    JournalTransaction,
-  },
-
-  methods: {
-    async onCopyClicked() {
-      // get a journal version
-      const text = await appService.translateToLedger(this.tx)
-
-      // copy to clipboard
-      await navigator.clipboard.writeText(text)
-      this.$q.notify({
-        message: 'transaction copied to clipboard',
-        color: 'positive',
-      })
-    },
-    async onDuplicateClicked() {
-      // create the transaction
-      const newTx = await appService.duplicateTransaction(this.tx)
-      // save
-      const id = await appService.saveTransaction(newTx)
-
-      // display a notification after or ask before the action.
-      this.$q.notify({ color: 'positive', message: 'Transaction duplicated' })
-
-      // navigate to the editor for the new transaction,
-      // resetting the navigation?
-      this.$router.push({ name: 'tx', params: { id: id } })
-    },
-    onXactClicked() {
-      this.$router.push({ name: 'xact', params: { payee: this.tx.payee } })
-    },
-  },
+function onXactClicked() {
+  router.push({ name: 'xact', params: { payee: tx.payee } })
 }
 </script>
+
 <style lang="sass" scoped>
 .large-button
   width: 90%

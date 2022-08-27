@@ -1,12 +1,12 @@
 <template>
   <q-item clickable class="text-amber-2 q-px-none">
     <q-item-section @click.once="$emit('click', tx.id)">
-      <q-item-label>{{ tx.date }} {{ tx.payee }}</q-item-label>
+      <q-item-label>{{ tx?.date }} {{ tx?.payee }}</q-item-label>
       <q-item-label v-if="tx && tx.note" caption class="q-ml-lg text-colour2">{{
         tx.note
       }}</q-item-label>
       <q-item-label caption class="q-ml-lg text-amber-2">
-        <div v-for="posting in tx.postings" :key="posting.id" class="row">
+        <div v-for="posting in tx?.postings" :key="posting.id" class="row">
           <div class="col">{{ posting.account }}</div>
           <div v-if="posting.amount">
             {{ posting.amount }} {{ posting.currency }}

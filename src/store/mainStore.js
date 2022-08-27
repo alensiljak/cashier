@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import appService from '../appService'
 import { ScheduledTransaction, Transaction } from 'src/model'
+import { isNumber } from 'mathjs'
 
 export const useMainStore = defineStore('mainStore', {
   /**
@@ -56,7 +57,11 @@ export const useMainStore = defineStore('mainStore', {
       return schTx
     },
     async loadTx(id) {
-      console.debug('loading tx', id, 'id type', typeof id)
+      console.debug('mainStore: loading tx', id, '; id type', typeof id)
+
+      if (!isNumber(id)) {
+        id = Number(id)
+      }
 
       const tx = await appService.loadTransaction(id)
       this.setTransaction(tx)
