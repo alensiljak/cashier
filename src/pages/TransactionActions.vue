@@ -205,11 +205,13 @@ function onDeleteClick() {
 async function onDuplicateClicked() {
   try {
     // create the transaction
-    const newTx = await appService.duplicateTransaction(tx)
+    const newTx = await appService.duplicateTransaction(tx.value)
     // save
     const id = await appService.saveTransaction(newTx)
   } catch (err) {
+    console.error(err)
     $q.notify({ color: 'negative', message: err.message })
+    return
   }
 
   // display a notification after or ask before the action.
@@ -217,7 +219,7 @@ async function onDuplicateClicked() {
 
   // navigate to the editor for the new transaction,
   // resetting the navigation?
-  router.push({ name: 'tx', params: { id: id } })
+  router.push({ name: 'tx', params: { id: txId } })
 }
 
 function onEditClicked() {
