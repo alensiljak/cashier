@@ -86,7 +86,8 @@ class AppService {
 
   async duplicateTransaction(tx) {
     // copy a new transaction
-    const newTx = JSON.parse(JSON.stringify(tx))
+    //const newTx = JSON.parse(JSON.stringify(tx))
+    const newTx = toRaw(tx)
 
     this.clearIds(newTx)
 
@@ -515,11 +516,13 @@ class AppService {
     }
 
     // convert to pocos
-    let postings = tx.postings.map((txposting) => toRaw(txposting))
-    // check whether the accounts exists!
+    //let postings = tx.postings.map((txposting) => toRaw(txposting))
+    let postings = tx.postings
+    // check whether the accounts exist!
     if (postings.length) {
       const accounts = await this.loadAccounts().toArray()
       const accountNames = accounts.map((account) => account.name)
+
       postings.forEach((posting) => {
         const account = posting.account
         if (!accountNames.includes(account)) {
@@ -529,7 +532,7 @@ class AppService {
         }
       })
     }
-    tx.postings = postings
+    //tx.postings = postings
 
     this.processPostings(tx)
 

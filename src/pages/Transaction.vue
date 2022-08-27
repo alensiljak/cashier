@@ -92,18 +92,26 @@
 </template>
 
 <script setup>
-import { onMounted, provide, ref, toRaw } from 'vue'
+import { onMounted, provide, ref, toRaw, toRefs } from 'vue'
 import { useMainStore } from '../store/mainStore'
 import { useRouter } from 'vue-router'
 import { SettingKeys, settings } from 'src/lib/Configuration'
 import { useQuasar } from 'quasar'
 import appService from '../appService'
 import TxEditor from '../components/TransactionEditor.vue'
+import { storeToRefs } from 'pinia'
 
 const router = useRouter()
 const mainStore = useMainStore()
-const { tx } = mainStore
+const { tx } = storeToRefs(mainStore)
 const $q = useQuasar()
+
+// props
+
+// const props = defineProps({ id: { type: String, default: null } })
+// const { id } = toRefs(props)
+
+// data
 
 const isConfirmDeleteVisible = ref(false)
 
@@ -112,7 +120,10 @@ provide('tx', tx)
 //console.debug('tx:', tx)
 
 onMounted(async () => {
-  //
+  // const numId = Number(id.value)
+  // if (!tx.value || tx.value.id !== numId) {
+  //   await mainStore.loadTx(id.value)
+  // }
 })
 
 function confirmDelete() {
@@ -126,7 +137,7 @@ function onClear() {
 
 async function onSaveClicked() {
   try {
-    let txObj = toRaw(tx)
+    let txObj = toRaw(tx.value)
     // console.debug('saving tx', txObj)
 
     await appService.saveTransaction(txObj)

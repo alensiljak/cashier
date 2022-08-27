@@ -78,12 +78,14 @@ export const useMainStore = defineStore('mainStore', {
       this.drawerOpen = isOpen
     },
     setTransaction(tx) {
-      if (this.tx) {
-        Object.assign(this.tx, tx)
-        //this.tx.$patch(tx)
-      } else {
-        this.tx = tx
-      }
+      // if (this.tx) {
+      //   //Object.assign(this.tx, tx)
+      //   //this.tx.$patch(tx)
+      //   this.$patch({ tx: tx })
+      // } else {
+      //   this.tx = tx
+      // }
+      this.tx = tx
     },
     toggleDrawer() {
       this.drawerOpen = !this.drawerOpen

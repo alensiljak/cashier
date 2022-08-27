@@ -144,12 +144,14 @@ const confirmDeleteVisible = ref(false)
 // props
 
 const props = defineProps({ id: { type: String, default: null } })
-const { id: txId } = toRefs(props)
-// console.debug('txid', txId.value, 'tx:', tx)
+const { id } = toRefs(props)
+// console.debug('id', id.value, 'tx:', tx)
 
 onMounted(async () => {
-  if (!tx.value) {
-    await mainStore.loadTx(txId.value)
+  const numId = Number(id.value)
+
+  if (!tx.value || tx.value.id !== numId) {
+    await mainStore.loadTx(id.value)
   }
 })
 
@@ -167,6 +169,9 @@ async function deleteTransaction() {
 
   try {
     await appService.deleteTransaction(id)
+
+    mainStore.setTransaction(null)
+
     $q.notify({ message: 'Transaction deleted', color: 'positive' })
   } catch (reason) {
     $q.notify({ message: reason.message, color: 'negative' })
@@ -208,18 +213,21 @@ async function onDuplicateClicked() {
     const newTx = await appService.duplicateTransaction(tx.value)
     // save
     const id = await appService.saveTransaction(newTx)
+
+    // display a notification after or ask before the action.
+    $q.notify({ color: 'positive', message: 'Transaction duplicated' })
+
+    // load the new tx for editing
+    await mainStore.loadTx(id)
+
+    // navigate to the editor for the new transaction,
+    // resetting the navigation?
+    await router.replace({ name: 'tx', params: { id: id } })
   } catch (err) {
     console.error(err)
     $q.notify({ color: 'negative', message: err.message })
     return
   }
-
-  // display a notification after or ask before the action.
-  $q.notify({ color: 'positive', message: 'Transaction duplicated' })
-
-  // navigate to the editor for the new transaction,
-  // resetting the navigation?
-  router.push({ name: 'tx', params: { id: txId } })
 }
 
 function onEditClicked() {
