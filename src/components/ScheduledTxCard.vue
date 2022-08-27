@@ -40,15 +40,15 @@
 </template>
 
 <script setup>
-const emit = defineEmits(['click'])
+// const emit = defineEmits(['click'])
 </script>
 <script>
 import appService from '../appService'
 import moment from 'moment'
 
-//emits:
-
 export default {
+  emits: ['click'],
+
   data() {
     return {
       list: [],

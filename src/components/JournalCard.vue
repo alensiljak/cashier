@@ -49,11 +49,14 @@
 import appService from '../appService'
 
 export default {
+  emits: ['click'],
+
   data() {
     return {
       transactions: [],
     }
   },
+
   created() {
     this.loadData()
   },
