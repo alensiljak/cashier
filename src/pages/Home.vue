@@ -16,7 +16,7 @@
 
         <q-toolbar-title>
           Cashier
-          <span style="font-size: small">({{ version }})</span>
+          <span style="font-size: x-small">{{ version }}</span>
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
