@@ -192,10 +192,11 @@ function getNumericId() {
 
 async function onCopyClicked() {
   // get a journal version
-  const text = await appService.translateToLedger(tx)
+  const text = await appService.translateToLedger(tx.value)
 
   // copy to clipboard
   await navigator.clipboard.writeText(text)
+
   $q.notify({
     message: 'transaction copied to clipboard',
     color: 'positive',
