@@ -246,7 +246,7 @@ class AppService {
 
   async importBalanceSheet(lines) {
     if (!lines) {
-      throw new Error('No balance sheet sent for import')
+      throw new Error('No balance records received for import!')
     }
 
     const accounts = []
