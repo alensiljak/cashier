@@ -177,8 +177,11 @@ const props = defineProps({
 //   },
 // })
 
-// data
+/*
+  data
+*/
 let enterConfirmationVisible = ref(false)
+const skipConfirmationVisible = ref(false)
 
 // Methods
 
@@ -207,6 +210,16 @@ async function enterTransaction() {
 async function onEnterConfirmed() {
   try {
     await enterTransaction()
+  } catch (err) {
+    $q.notify({ color: 'negative', message: err.message })
+  }
+}
+
+async function onSkipConfirmed() {
+  try {
+    await skip()
+
+    router.back()
   } catch (err) {
     $q.notify({ color: 'negative', message: err.message })
   }
@@ -279,7 +292,6 @@ export default {
     return {
       // scheduledTx: {},
       confirmDeleteVisible: false,
-      skipConfirmationVisible: false,
     }
   },
 
@@ -316,15 +328,6 @@ export default {
       // open the editor
       const id = this.getNumericId()
       this.$router.push({ name: 'scheduledtxeditor', params: { id: id } })
-    },
-    async onSkipConfirmed() {
-      try {
-        await this.skip()
-
-        this.$router.back()
-      } catch (err) {
-        this.$q.notify({ color: 'negative', message: err.message })
-      }
     },
   },
 }

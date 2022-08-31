@@ -28,6 +28,6 @@ const emit = defineEmits(['click'])
 const confirmDelete = ref(false)
 
 const props = defineProps({
-  tx: Object,
+  tx: { type: Object, default: null },
 })
 </script>
