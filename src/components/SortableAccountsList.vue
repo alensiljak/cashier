@@ -14,6 +14,8 @@ export default {
     value: { type: Array, required: true },
   },
 
+  emits: ['update:modelValue'],
+
   data() {
     return {}
   },
