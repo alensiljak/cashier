@@ -8,7 +8,7 @@
       <span v-if="scheduledTx.count">
         Repeats every {{ scheduledTx.count }} {{ scheduledTx.period }}
       </span>
-      <span v-if="scheduledTx.endDate">until {{ scheduledTx.endDate }}</span>
+      <span v-if="scheduledTx.endDate"> until {{ scheduledTx.endDate }}</span>
     </div>
 
     <!-- Remarks -->
