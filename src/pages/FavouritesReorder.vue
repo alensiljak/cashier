@@ -17,9 +17,9 @@
             <q-icon left name="menu" />
           </q-item-section>
           <q-item-section>{{ element.name }}</q-item-section>
-          <q-item-section side>
+          <!-- <q-item-section side>
             {{ element.balance }} {{ element.currency }}
-          </q-item-section>
+          </q-item-section> -->
         </q-item>
       </template>
     </draggable>
