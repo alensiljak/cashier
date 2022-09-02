@@ -46,9 +46,10 @@
 <script setup>
 import { computed, toRefs } from 'vue'
 import { useMainStore } from '../store/mainStore'
+import { storeToRefs } from 'pinia'
 
 const mainStore = useMainStore()
-const { tx } = mainStore
+const { tx } = storeToRefs(mainStore)
 
 const props = defineProps({
   index: { type: Number, default: null },
@@ -67,26 +68,26 @@ const emit = defineEmits(['account-clicked', 'amount-changed'])
 
 const account = computed({
   get() {
-    return tx.postings[i].account
+    return tx.value.postings[i].account
   },
   set(val) {
-    tx.postings[i].account = val
+    tx.value.postings[i].account = val
   },
 })
 const amount = computed({
   get() {
-    return tx.postings[i].amount
+    return tx.value.postings[i].amount
   },
   set(val) {
-    tx.postings[i].amount = val
+    tx.value.postings[i].amount = val
   },
 })
 const currency = computed({
   get() {
-    return tx.postings[i].currency
+    return tx.value.postings[i].currency
   },
   set(val) {
-    tx.postings[i].currency = val
+    tx.value.postings[i].currency = val
   },
 })
 

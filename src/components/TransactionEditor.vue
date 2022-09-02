@@ -125,8 +125,9 @@
 
 <script setup>
 import { inject, onMounted, ref } from 'vue'
-// import { storeToRefs } from 'pinia'
+import { storeToRefs } from 'pinia'
 import { useMainStore } from '../store/mainStore'
+import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 import {
   SelectionModeMetadata,
@@ -135,9 +136,10 @@ import {
 } from '../lib/Configuration'
 import appService from '../appService'
 
+const router = useRouter()
 const mainStore = useMainStore()
 const store = useStore()
-const { tx } = mainStore
+const { tx } = storeToRefs(mainStore)
 
 // data
 const datePickerVisible = ref(false)
@@ -157,7 +159,7 @@ onMounted(() => {
 // methods
 
 function addPosting() {
-  tx.postings.push(new Posting())
+  tx.value.postings.push(new Posting())
 }
 
 function deletePosting(index) {
@@ -167,7 +169,7 @@ function deletePosting(index) {
     resetSlide = null
   }
 
-  tx.postings.splice(index, 1)
+  tx.value.postings.splice(index, 1)
 
   recalculateSum()
 }
@@ -181,12 +183,16 @@ function finalizeSlide(reset) {
   }, 2000)
 }
 
+function formatNumber(value) {
+  return appService.formatNumber(value)
+}
+
 /**
  * Find an empty posting, or create one.
  */
 function getEmptyPostingIndex() {
-  for (let i = 0; i < tx.postings.length; i++) {
-    const posting = tx.postings[i]
+  for (let i = 0; i < tx.value.postings.length; i++) {
+    const posting = tx.value.postings[i]
     if (!posting.account && !posting.amount && !posting.commodity) {
       return i
     }
@@ -194,8 +200,8 @@ function getEmptyPostingIndex() {
 
   // not found. Create a new one.
   const posting = new Posting()
-  tx.postings.push(posting)
-  return this.tx.postings.length - 1
+  tx.value.postings.push(posting)
+  return tx.value.postings.length - 1
 }
 
 /**
@@ -208,7 +214,7 @@ async function handleSelection() {
 
   switch (select.selectionType) {
     case 'payee':
-      tx.payee = id
+      tx.value.payee = id
       await loadLastTransaction(id)
       break
 
@@ -221,7 +227,7 @@ async function handleSelection() {
         // redirected from account register, find an appropriate posting
         index = getEmptyPostingIndex()
       }
-      let posting = tx.postings[index]
+      let posting = tx.value.postings[index]
 
       const account = await appService.db.accounts.get(id)
       posting.account = account.name
@@ -242,12 +248,12 @@ async function loadLastTransaction(payee) {
   const enabled = await settings.get(SettingKeys.rememberLastTransaction)
   if (!enabled) return
   // and we are not on an existing transaction
-  if (tx.id) return
+  if (tx.value.id) return
 
   const lastTx = await appService.db.lastTransaction.get(payee)
   if (!lastTx) return
   // use the current date
-  lastTx.transaction.date = tx.date
+  lastTx.transaction.date = tx.value.date
   // Replace the current transaction.
   mainStore.setTransaction(lastTx.transaction)
 }
@@ -265,16 +271,20 @@ function onSlide({ reset }) {
 function recalculateSum() {
   postingSum.value = 0
 
-  if (!tx.postings) return
+  if (!tx.value.postings) return
 
-  for (let i = 0; i < tx.postings.length; i++) {
-    const posting = tx.postings[i]
+  for (let i = 0; i < tx.value.postings.length; i++) {
+    const posting = tx.value.postings[i]
     if (!isNaN(posting.amount)) {
       postingSum.value += posting.amount
     } else {
       console.warn('The amount is not a number:', posting.amount)
     }
   }
+}
+
+function reorderPostings() {
+  router.push({ name: 'reorder postings' })
 }
 </script>
 <script>
@@ -288,10 +298,6 @@ export default {
   },
 
   methods: {
-    formatNumber(value) {
-      return appService.formatNumber(value)
-    },
-
     onAccountClicked(index) {
       const selectMode = new SelectionModeMetadata()
 
@@ -325,9 +331,6 @@ export default {
       this.$store.commit(SET_SELECT_MODE, selectMode)
       // show account picker
       this.$router.push({ name: 'payees' })
-    },
-    reorderPostings() {
-      this.$router.push({ name: 'reorder postings' })
     },
   },
 }
