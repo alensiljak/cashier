@@ -66,7 +66,7 @@
         </div>
       </template>
 
-      <q-list dark separator class="text-colour2">
+      <q-list dark separator class="text-colour2" dense>
         <q-item
           v-ripple
           clickable
