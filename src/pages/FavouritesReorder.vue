@@ -77,11 +77,8 @@
 import { onMounted, ref } from 'vue'
 import { useQuasar } from 'quasar'
 import Toolbar from '../components/CashierToolbar.vue'
-// import AccountsList from '../components/SortableAccountsList.vue'
-// import AccountItem from '../components/SortableAccountItem.vue'
 import { settings, SettingKeys } from '../lib/Configuration'
 import appService from '../appService'
-// import { SlickList, SlickItem } from 'vue-slicksort'
 import { useRouter } from 'vue-router'
 import draggable from 'vuedraggable'
 
