@@ -35,41 +35,31 @@
     </div> -->
 
     <h4 class="q-my-md">Synchronization</h4>
-    <div class="text-center">
-      <q-list>
-        <q-item>
-          <q-item-section>
-            <q-checkbox
-              v-model="syncAccounts"
-              dark
-              label="Refresh accounts list. Clears the existing accounts list and replaces with the list from Ledger. This is needed if an account has/had a zero balance because Ledger will not list null-balance accounts."
-            />
-          </q-item-section>
-          <q-item-label>
-            <font-awesome-icon
-              v-if="showAccountProgress"
-              icon="sync-alt"
-              spin
-            />
-          </q-item-label>
-        </q-item>
-        <q-item>
-          <q-item-section>
-            <q-checkbox
-              v-model="syncBalances"
-              dark
-              label="Refresh account balances (ledger balance --flat --no-total)."
-            />
-          </q-item-section>
-          <q-item-label>
-            <font-awesome-icon
-              v-if="showBalanceProgress"
-              icon="sync-alt"
-              spin
-            />
-          </q-item-label>
-        </q-item>
-      </q-list>
+    <q-list>
+      <q-item>
+        <q-item-section>
+          <q-checkbox
+            v-model="syncAccounts"
+            dark
+            label="Refresh accounts list. Clears the existing accounts list and replaces with the list from Ledger. This is needed if an account has/had a zero balance because Ledger will not list null-balance accounts."
+          />
+        </q-item-section>
+        <q-item-label>
+          <font-awesome-icon v-if="showAccountProgress" icon="sync-alt" spin />
+        </q-item-label>
+      </q-item>
+      <q-item>
+        <q-item-section>
+          <q-checkbox
+            v-model="syncBalances"
+            dark
+            label="Refresh account balances (ledger balance --flat --no-total)."
+          />
+        </q-item-section>
+        <q-item-label>
+          <font-awesome-icon v-if="showBalanceProgress" icon="sync-alt" spin />
+        </q-item-label>
+      </q-item>
       <q-item>
         <q-item-section>
           <q-checkbox
@@ -82,9 +72,9 @@
           <font-awesome-icon v-if="showAssetProgress" icon="sync-alt" spin />
         </q-item-label>
       </q-item>
+    </q-list>
 
-      <div class="q-mt-sm" />
-
+    <div class="text-center q-mt-sm">
       <q-btn
         color="accent"
         text-color="secondary"
@@ -102,7 +92,7 @@
     </div>
 
     <div class="row q-my-lg">
-      <div class="col">
+      <div class="col text-center">
         <q-btn
           label="Cache API"
           color="accent"
@@ -110,7 +100,7 @@
           to="cache"
         />
       </div>
-      <div class="col">
+      <div class="col text-center">
         <q-btn color="accent" text-color="secondary" @click="onShutdownClick">
           Shutdown Server
         </q-btn>
