@@ -109,163 +109,172 @@
   </q-page>
 </template>
 
-
-<script>
-import Toolbar from '../components/CashierToolbar.vue'
-import { SettingKeys, settings, Constants } from '../lib/Configuration'
-import { CashierSync } from '../lib/syncCashier'
+<script setup>
+import { onMounted, ref, toRaw } from 'vue'
+import { useRouter } from 'vue-router'
+import { useQuasar } from 'quasar'
 import appService from '../appService'
+import { CashierSync } from '../lib/syncCashier'
+import { SettingKeys, settings, Constants } from '../lib/Configuration'
 import CashierCache from '../lib/CashierCache'
+import Toolbar from '../components/CashierToolbar.vue'
 
-export default {
-  components: {
-    Toolbar,
-  },
-  data() {
-    return {
-      syncAccounts: false,
-      syncBalances: true,
-      syncAaValues: true,
-      serverUrl: 'http://localhost:8080', // the default value
-      showAccountProgress: false,
-      showBalanceProgress: false,
-      showAssetProgress: false,
+const router = useRouter()
+const $q = useQuasar()
+
+// data
+const serverUrl = ref('http://localhost:8080') // the default value
+const rootInvestmentAccount = ref(null)
+const currency = ref(null)
+
+const syncAccounts = ref(false)
+const syncBalances = ref(true)
+const syncAaValues = ref(true)
+const showAccountProgress = ref(false)
+const showBalanceProgress = ref(false)
+const showAssetProgress = ref(false)
+
+// methods
+
+onMounted(async () => {
+  await loadSettings()
+})
+
+async function loadSettings() {
+  serverUrl.value = await settings.get(SettingKeys.syncServerUrl)
+  rootInvestmentAccount.value = await settings.get(
+    SettingKeys.rootInvestmentAccount
+  )
+  currency.value = await settings.get(SettingKeys.currency)
+}
+
+async function onConnectClicked() {
+  const sync = new CashierSync(serverUrl.value)
+  try {
+    const response = await sync.healthCheck()
+
+    $q.notify({ message: response, color: 'positive' })
+  } catch (err) {
+    $q.notify({
+      message: 'Connecting to CashierSync: ' + err.message,
+      color: 'negative',
+    })
+  }
+}
+
+function onShutdownClick() {
+  $q.notify({
+    message: 'sending shutdown request',
+    color: 'secondary',
+  })
+
+  let sync = new CashierSync(serverUrl.value)
+  sync.shutdown()
+
+  // refresh the page to update the server status?
+  //window.location.reload(true)
+}
+
+async function saveSyncServerUrl() {
+  // sync server.
+  await settings.set(SettingKeys.syncServerUrl, serverUrl.value)
+
+  $q.notify({ message: 'sync server saved', color: 'info' })
+}
+
+async function synchronizeAaValues() {
+  const sync = new CashierSync(serverUrl.value)
+  try {
+    await sync.readCurrentValues()
+
+    $q.notify({
+      message: 'Asset Allocation values loaded',
+      color: 'primary',
+    })
+  } catch (error) {
+    $q.notify({ message: error.message, color: 'secondary' })
+  }
+}
+
+/**
+ * Download the List of Accounts.
+ */
+async function synchronizeAccounts() {
+  const sync = new CashierSync(serverUrl.value)
+
+  // Check if the accounts list is already cached. If not, cache it.
+  const cache = await caches.open(Constants.CacheName)
+  const accounts = await cache.match(sync.getAccountsUrl())
+  if (!accounts) {
+    const cacher = new CashierCache(Constants.CacheName)
+    await cacher.cache(sync.getAccountsUrl())
+  }
+
+  //const ledgerAccounts = await sync.readAccounts()
+  const ledgerAccounts = await accounts.json()
+
+  // delete all accounts only after we have retrieved the new ones.
+  await appService.deleteAccounts()
+  await appService.importAccounts(ledgerAccounts)
+
+  let message = 'accounts '
+  if (accounts) {
+    message += ' reused from cache'
+  } else {
+    message += ' loaded from the server'
+  }
+  $q.notify({ message: message, color: 'primary' })
+}
+
+/**
+ * Loads all accounts (ledger accounts) + balances (ledger balance)
+ */
+async function synchronizeBalances() {
+  const sync = new CashierSync(serverUrl.value)
+
+  // Import the account balances.
+  const lines = await sync.readBalances()
+  await appService.importBalanceSheet(lines)
+
+  $q.notify({ message: 'balances loaded', color: 'primary' })
+}
+
+async function onSyncClicked() {
+  try {
+    if (syncAccounts.value) {
+      showAccountProgress.value = true
+      await synchronizeAccounts()
+      showAccountProgress.value = false
     }
-  },
 
-  created() {
-    this.loadSettings()
-  },
+    if (syncBalances.value) {
+      showBalanceProgress.value = true
+      await synchronizeBalances()
+      showBalanceProgress.value = false
+    }
+    // Investment account balances in base currency, for Asset Allocation.
+    if (syncAaValues.value) {
+      showAssetProgress.value = true
+      await synchronizeAaValues()
+      showAssetProgress.value = false
+    }
+  } catch (error) {
+    $q.notify({ message: error.message, color: 'negative' })
+  }
+}
 
-  methods: {
-    async loadSettings() {
-      this.serverUrl = await settings.get(SettingKeys.syncServerUrl)
-      this.rootInvestmentAccount = await settings.get(
-        SettingKeys.rootInvestmentAccount
-      )
-      this.currency = await settings.get(SettingKeys.currency)
-    },
-    async onConnectClicked() {
-      const sync = new CashierSync(this.serverUrl)
-      try {
-        const response = await sync.healthCheck()
-
-        this.$q.notify({ message: response, color: 'positive' })
-      } catch (err) {
-        this.$q.notify({
-          message: 'Connecting to CashierSync: ' + err.message,
-          color: 'negative',
-        })
-      }
-    },
-    onShutdownClick() {
-      this.$q.notify({
-        message: 'sending shutdown request',
-        color: 'secondary',
+function shutdown() {
+  const sync = new CashierSync(serverUrl.value)
+  sync
+    .shutdown()
+    .catch((reason) =>
+      $q.notify({ message: 'Error:' + reason, color: 'secondary' })
+    )
+    .then((res) =>
+      $q.notify({
+        message: 'The server shutdown request sent.',
+        color: 'primary',
       })
-
-      let sync = new CashierSync(this.serverUrl)
-      sync.shutdown()
-
-      // refresh the page to update the server status?
-      //window.location.reload(true)
-    },
-    async saveSyncServerUrl() {
-      // sync server.
-      await settings.set(SettingKeys.syncServerUrl, this.serverUrl)
-
-      this.$q.notify({ message: 'sync server saved', color: 'info' })
-    },
-    async synchronizeAaValues() {
-      const sync = new CashierSync(this.serverUrl)
-      try {
-        await sync.readCurrentValues()
-
-        this.$q.notify({
-          message: 'Asset Allocation values loaded',
-          color: 'primary',
-        })
-      } catch (error) {
-        this.$q.notify({ message: error.message, color: 'secondary' })
-      }
-    },
-    /**
-     * Download the List of Accounts.
-     */
-    async synchronizeAccounts() {
-      const sync = new CashierSync(this.serverUrl)
-
-      // Check if the accounts list is already cached. If not, cache it.
-      const cache = await caches.open(Constants.CacheName)
-      const accounts = await cache.match(sync.getAccountsUrl())
-      if (!accounts) {
-        const cacher = new CashierCache(Constants.CacheName)
-        await cacher.cache(sync.getAccountsUrl())
-      }
-
-      //const ledgerAccounts = await sync.readAccounts()
-      const ledgerAccounts = await accounts.json()
-
-      // delete all accounts only after we have retrieved the new ones.
-      await appService.deleteAccounts()
-      await appService.importAccounts(ledgerAccounts)
-
-      let message = 'accounts '
-      if (accounts) {
-        message += ' reused from cache'
-      } else {
-        message += ' loaded from the server'
-      }
-      this.$q.notify({ message: message, color: 'primary' })
-    },
-    /**
-     * Loads all accounts (ledger accounts) + balances (ledger balance)
-     */
-    async synchronizeBalances() {
-      const sync = new CashierSync(this.serverUrl)
-
-      // Import the account balances.
-      const lines = await sync.readBalances()
-      await appService.importBalanceSheet(lines)
-      this.$q.notify({ message: 'balances loaded', color: 'primary' })
-    },
-    async onSyncClicked() {
-      try {
-        if (this.syncAccounts) {
-          this.showAccountProgress = true
-          await this.synchronizeAccounts()
-          this.showAccountProgress = false
-        }
-
-        if (this.syncBalances) {
-          this.showBalanceProgress = true
-          await this.synchronizeBalances()
-          this.showBalanceProgress = false
-        }
-        // Investment account balances in base currency, for Asset Allocation.
-        if (this.syncAaValues) {
-          this.showAssetProgress = true
-          await this.synchronizeAaValues()
-          this.showAssetProgress = false
-        }
-      } catch (error) {
-        this.$q.notify({ message: error.message, color: 'negative' })
-      }
-    },
-    shutdown() {
-      const sync = new CashierSync(this.serverUrl)
-      sync
-        .shutdown()
-        .catch((reason) =>
-          this.$q.notify({ message: 'Error:' + reason, color: 'secondary' })
-        )
-        .then((res) =>
-          this.$q.notify({
-            message: 'The server shutdown request sent.',
-            color: 'primary',
-          })
-        )
-    },
-  },
+    )
 }
 </script>
