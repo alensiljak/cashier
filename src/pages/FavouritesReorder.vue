@@ -4,6 +4,26 @@
       <q-btn flat round dense icon="check" @click="onSaveClicked" />
     </toolbar>
 
+    <draggable
+      tag="q-list"
+      :list="accounts"
+      class="list-group"
+      handle=".handle"
+      item-key="name"
+    >
+      <template #item="{ element }">
+        <q-item v-ripple clickable class="list-item">
+          <q-item-section side class="handle">
+            <q-icon left name="menu" />
+          </q-item-section>
+          <q-item-section>{{ element.name }}</q-item-section>
+          <q-item-section side>
+            {{ element.balance }} {{ element.currency }}
+          </q-item-section>
+        </q-item>
+      </template>
+    </draggable>
+
     <!-- <accounts-list
       axis="y"
       v-model:list="accounts"
@@ -21,7 +41,7 @@
     </accounts-list> -->
 
     <!--  @update:list="onListUpdated" -->
-    <SlickList
+    <!-- <SlickList
       axis="y"
       v-model:list="accounts"
       :value="accounts"
@@ -40,7 +60,7 @@
           </q-item-section>
         </q-item>
       </SlickItem>
-    </SlickList>
+    </SlickList> -->
 
     <!-- <div class="row q-my-xl justify-end">
       <q-btn
@@ -61,8 +81,9 @@ import Toolbar from '../components/CashierToolbar.vue'
 // import AccountItem from '../components/SortableAccountItem.vue'
 import { settings, SettingKeys } from '../lib/Configuration'
 import appService from '../appService'
-import { SlickList, SlickItem } from 'vue-slicksort'
+// import { SlickList, SlickItem } from 'vue-slicksort'
 import { useRouter } from 'vue-router'
+import draggable from 'vuedraggable'
 
 const $q = useQuasar()
 const router = useRouter()

@@ -55,14 +55,16 @@
       </li>
       <li>
         <a href="https://github.com/Akryum/vue-virtual-scroller">
-          Vue Virtual Scroller</a
-        >
+          Vue Virtual Scroller
+        </a>
       </li>
       <li>
         <a href="https://numeraljs.com/">Numeral JS</a>
       </li>
       <li>
-        <a href="https://github.com/Jexordexan/vue-slicksort">Vue Slicksort</a>
+        <a href="https://github.com/SortableJS/vue.draggable.next">
+          Vue Draggable Next
+        </a>
       </li>
       <li>
         <a href="https://github.com/sergirams/neu-calculator">Neu Calculator</a>
@@ -80,14 +82,14 @@
 </template>
 
 <script>
-import Toolbar from "../components/CashierToolbar.vue";
+import Toolbar from '../components/CashierToolbar.vue'
 
 export default {
   components: {
     Toolbar,
   },
   created() {},
-};
+}
 </script>
 
 <style lang="scss" scoped>
