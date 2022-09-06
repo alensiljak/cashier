@@ -12,7 +12,7 @@
       dark
       clearable
       label="Select backup file"
-      @input="onFileSelected"
+      @update:model-value="onFileSelected"
     />
 
     <q-input v-model="fileContent" dark type="textarea" />
@@ -24,9 +24,50 @@
     </div>
   </q-page>
 </template>
+
+<script setup>
+import { ref } from 'vue'
+import appService from '../appService'
+import { useQuasar } from 'quasar'
+
+const $q = useQuasar()
+
+// data
+const file = ref(null)
+const fileContent = ref(null)
+
+// methods
+
+function onFileSelected(value) {
+  // console.debug('file selected', file.value)
+  // read file
+  appService.readFile(file.value, onFileRead)
+}
+
+function onFileRead(content) {
+  fileContent.value = content
+}
+
+async function onRestoreClicked() {
+  // restore data from the file
+  if (!fileContent.value) {
+    $q.notify({
+      message: 'You need to select a file',
+      color: 'negative',
+    })
+    return
+  }
+
+  //console.log(this.fileContent)
+  await appService.importScheduledTransactions(fileContent.value)
+  $q.notify({
+    message: 'Restore complete',
+    color: 'positive',
+  })
+}
+</script>
 <script>
-import Toolbar from "../components/CashierToolbar.vue";
-import appService from "../appService";
+import Toolbar from '../components/CashierToolbar.vue'
 
 export default {
   components: {
@@ -35,40 +76,8 @@ export default {
   props: {
     type: {
       type: String,
-      default: "scheduled",
+      default: 'scheduled',
     },
   },
-  data() {
-    return {
-      file: null,
-      fileContent: null,
-    };
-  },
-  methods: {
-    onFileSelected() {
-      // read file
-      appService.readFile(this.file, this.onFileRead);
-    },
-    onFileRead(content) {
-      this.fileContent = content;
-    },
-    async onRestoreClicked() {
-      // restore data from the file
-      if (!this.fileContent) {
-        this.$q.notify({
-          message: "You need to select a file",
-          color: "negative",
-        });
-        return;
-      }
-
-      //console.log(this.fileContent)
-      await appService.importScheduledTransactions(this.fileContent);
-      this.$q.notify({
-        message: "Restore complete",
-        color: "positive",
-      });
-    },
-  },
-};
+}
 </script>
