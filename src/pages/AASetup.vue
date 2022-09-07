@@ -32,35 +32,34 @@
   </q-page>
 </template>
 
+<script setup>
+import Toolbar from '../components/CashierToolbar.vue'
+</script>
 <script>
-import { SettingKeys } from "../lib/Configuration";
-import appService from "../appService";
-import { Setting } from "../model";
-import Toolbar from "../components/CashierToolbar.vue";
+import { SettingKeys } from '../lib/Configuration'
+import appService from '../appService'
+import { Setting } from '../model'
 
 // const errorMessage = { color: "secondary", textColor: "amber-2" };
 
 export default {
-  components: {
-    Toolbar,
-  },
   data() {
     return {
       fileContent: null,
       rootAccount: null,
-    };
+    }
   },
 
   created() {
-    this.loadData();
+    this.loadData()
   },
 
   methods: {
     async loadData() {
       const setting = await appService.db.settings.get(
         SettingKeys.rootInvestmentAccount
-      );
-      this.rootAccount = setting.value;
+      )
+      this.rootAccount = setting.value
     },
     onCurrentBalClick() {
       // engine
@@ -77,11 +76,11 @@ export default {
       let setting = new Setting(
         SettingKeys.rootInvestmentAccount,
         this.rootAccount
-      );
+      )
       appService.db.settings.put(setting).then((result) => {
-        this.$q.notify({ message: "saved: " + result });
-      });
+        this.$q.notify({ message: 'saved: ' + result })
+      })
     },
   },
-};
+}
 </script>

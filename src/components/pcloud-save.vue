@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img src="../assets/icons8-pcloud.svg" @click="onImgClick">
+    <img src="../assets/icons8-pcloud.svg" @click="onImgClick" />
   </div>
 </template>
 <script>
@@ -37,8 +37,7 @@ export default {
       // save
       await settings.set(SettingKeys.pCloudToken, this.token)
 
-      // upload
-      await this.upload()
+      // await this.upload()
     },
   },
 

@@ -84,6 +84,11 @@ const routes = [
           import(/* webpackChunkName: 'calendar' */ '../pages/Calendar.vue'),
       },
       {
+        path: '/cloudbackup',
+        name: 'cloudbackup',
+        component: () => import('../pages/CloudBackup.vue'),
+      },
+      {
         path: '/commodities',
         name: 'commodities',
         component: () =>

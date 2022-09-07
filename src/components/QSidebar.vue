@@ -245,6 +245,22 @@
           </q-item-section>
         </q-item> -->
 
+        <!-- Cloud Backup -->
+        <q-item
+          v-ripple
+          to="/cloudbackup"
+          exact
+          clickable
+          active-class="active-link"
+        >
+          <q-item-section avatar>
+            <q-icon name="backup" transform="grow-6 right-6" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Cloud Backup</q-item-label>
+          </q-item-section>
+        </q-item>
+
         <!-- Settings -->
         <q-item
           v-ripple

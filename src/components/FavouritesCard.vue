@@ -30,46 +30,44 @@
 </template>
 
 <script setup>
-const emit = defineEmits(['click'])
-
-function onCardClick() {
-  emit('click')
-}
-</script>
-<script>
+import { onMounted, ref } from 'vue'
+import { useQuasar } from 'quasar'
 import { settings, SettingKeys } from '../lib/Configuration'
 import appService from '../appService'
 
-export default {
-  data() {
-    return {
-      accounts: [],
+const $q = useQuasar()
+
+const emit = defineEmits(['click'])
+
+// data
+const accounts = ref([])
+
+// methods
+
+onMounted(async () => {
+  loadData()
+})
+
+async function loadData() {
+  try {
+    let favArray = await appService.loadFavouriteAccounts()
+    if (!favArray) {
+      console.log('no favourite accounts selected yet')
+      return
     }
-  },
 
-  created() {
-    this.loadData()
-  },
+    // Use only the top 5 records.
+    favArray = favArray.slice(0, 5)
 
-  methods: {
-    async loadData() {
-      try {
-        let favArray = await appService.loadFavouriteAccounts()
-        if (!favArray) {
-          console.log('no favourite accounts selected yet')
-          return
-        }
+    // adjust the balance
+    //accounts = await this.adjustBalances(accounts)
+    accounts.value = favArray
+  } catch (reason) {
+    $q.notify({ color: 'secondary', message: reason.message })
+  }
+}
 
-        // Use only the top 5 records.
-        favArray = favArray.slice(0, 5)
-
-        // adjust the balance
-        //accounts = await this.adjustBalances(accounts)
-        this.accounts = favArray
-      } catch (reason) {
-        this.$q.notify({ color: 'secondary', message: reason.message })
-      }
-    },
-  },
+function onCardClick() {
+  emit('click')
 }
 </script>

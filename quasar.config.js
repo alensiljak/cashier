@@ -70,7 +70,13 @@ module.exports = configure(function (/* ctx */) {
       // polyfillModulePreload: true,
       // distDir
 
-      // extendViteConf (viteConf) {},
+      // extendViteConf(viteConf) {
+      //   viteConf.define = {
+      //     global: {
+      //       locationid: 2,
+      //     },
+      //   }
+      // },
       // viteVuePluginOptions: {},
 
       // vitePlugins: [
