@@ -13,11 +13,28 @@ import { settings, SettingKeys } from './Configuration'
   // })
 }
 
+function useCloudBackup() {
+  //
+  const state = 3
+
+  function yo() {
+    console.debug('yo!')
+  }
+
+  const cb = new CloudBackup()
+
+  return { yo, state, cb }
+}
+
 /**
  * Handles backup and restore to/from the cloud.
  */
 class CloudBackup {
   constructor() {}
+
+  talk() {
+    console.debug('hi!')
+  }
 
   async backupFavourites() {
     let favs = new FavouritesBackup()
@@ -47,4 +64,5 @@ class FavouritesBackup {
   }
 }
 
-export default CloudBackup
+//export default CloudBackup
+export default useCloudBackup
