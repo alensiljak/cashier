@@ -13,8 +13,8 @@
 
       <q-list>
         <q-item v-for="tx in transactions" :key="tx.id" dense class="q-px-none">
-          <span class="q-mr-lg">{{ tx.date }}</span>
-          {{ tx.payee }}
+          <q-item-section>{{ tx.date }} &nbsp; {{ tx.payee }}</q-item-section>
+          <q-item-section side>.</q-item-section>
         </q-item>
       </q-list>
     </q-card-section>
