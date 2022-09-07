@@ -41,12 +41,12 @@
 </template>
 
 <script>
-import appService from "../appService";
-import { mdiShareVariant } from "@quasar/extras/mdi-v4";
-import Toolbar from "../components/CashierToolbar.vue";
-import moment from "moment";
-import FileSaver from "file-saver";
-import PcloudSave from "src/components/pcloud-save.vue";
+import appService from '../appService'
+import { mdiShareVariant } from '@quasar/extras/mdi-v4'
+import Toolbar from '../components/CashierToolbar.vue'
+import moment from 'moment'
+import FileSaver from 'file-saver'
+import PcloudSave from 'src/components/pcloud-save.vue'
 
 export default {
   components: {
@@ -56,154 +56,155 @@ export default {
 
   data() {
     return {
-      output: "",
+      output: '',
       mdiShareVariant: null,
-      dataType: "journal", // journal, scheduled
-      title: "Export",
+      dataType: 'journal', // journal, scheduled
+      title: 'Export',
       fileName: null,
-    };
+    }
   },
 
   created() {
-    this.loadData();
+    this.loadData()
 
     // icons
-    this.mdiShareVariant = mdiShareVariant;
+    this.mdiShareVariant = mdiShareVariant
   },
 
   mounted() {
-    this.fileName = this.getFilename();
+    this.fileName = this.getFilename()
   },
 
   methods: {
     confirmDeleteAll() {
-      this.deleteAllTransactions();
+      this.deleteAllTransactions()
     },
 
     async copyToClipboard() {
-      await navigator.clipboard.writeText(this.output);
-      this.$q.notify({ message: "data copied", color: "positive" });
+      await navigator.clipboard.writeText(this.output)
+      this.$q.notify({ message: 'data copied', color: 'positive' })
     },
 
     downloadAsFile() {
       // use FileSaver
 
       //const filename = this.getFilename()
-      const filename = this.fileName;
-      const content = this.output;
+      const filename = this.fileName
+      const content = this.output
 
       var blob = new Blob([content], {
-        type: "text/plain;charset=utf-8",
-      });
-      FileSaver.saveAs(blob, filename);
+        type: 'text/plain;charset=utf-8',
+      })
+      FileSaver.saveAs(blob, filename)
     },
 
     /**
      * This was the original implementation but it stopped working in Firefox on Android.
      */
     downloadAsFile_orig() {
-      const filename = this.getFilename();
+      const filename = this.getFilename()
 
-      var a = document.createElement("a");
+      var a = document.createElement('a')
 
-      a.download = filename;
+      a.download = filename
 
-      const content = this.output;
-      let encoded = btoa(content);
+      const content = this.output
+      let encoded = btoa(content)
       // a.href = "data:application/octet-stream;base64," + Base64.encode(this.output);
-      a.href = "data:text/plain;base64," + encoded;
+      a.href = 'data:text/plain;base64,' + encoded
       // charset=UTF-8;
 
-      this.$refs.buttonContainer.appendChild(a);
-      a.click();
+      this.$refs.buttonContainer.appendChild(a)
+      a.click()
 
       // cleanup?
-      this.$refs.buttonContainer.removeChild(a);
+      this.$refs.buttonContainer.removeChild(a)
     },
 
     getFilename() {
       // create the file name for the downloaded export file.
-      let extension = this.getFileExtension();
+      let extension = this.getFileExtension()
       // filename
-      const now = moment().format("YYYY-MM-DD_HH-mm");
-      let filename = `cashier_${this.dataType}_${now}.${extension}`;
-      return filename;
+      const now = moment().format('YYYY-MM-DD_HH-mm')
+      let filename = `cashier_${this.dataType}_${now}.${extension}`
+      return filename
     },
 
     getFileExtension() {
       // extension
-      let extension = "txt";
+      let extension = 'txt'
 
       switch (this.dataType) {
-        case "journal":
-          extension = "ledger";
-          break;
-        case "scheduled":
-          extension = "json";
-          break;
+        case 'journal':
+          extension = 'ledger'
+          break
+        case 'scheduled':
+          extension = 'json'
+          break
       }
-      return extension;
+      return extension
     },
 
     async loadData() {
       // uses a route parameter for the type of data to load.
-      let dataType = this.$route.params.type;
-      console.debug(dataType);
+      let dataType = this.$route.params.type
+      console.debug('data type:', dataType)
+
       if (dataType) {
-        this.dataType = dataType;
+        this.dataType = dataType
       } else {
         // use default
-        dataType = this.dataType;
+        dataType = this.dataType
       }
-      this.title = `${this.title} ${dataType}`;
+      this.title = `${this.title} ${dataType}`
 
-      let output = null;
+      let output = null
 
       switch (dataType) {
-        case "journal":
+        case 'journal':
           // The default, old behaviour: use transactions
-          output = await appService.getExportTransactions();
-          break;
-        case "scheduled":
-          output = await this.loadScheduledTransactions();
-          break;
+          output = await appService.getExportTransactions()
+          break
+        case 'scheduled':
+          output = await this.loadScheduledTransactions()
+          break
       }
 
-      if (!output) output = "";
-      this.output = output;
+      if (!output) output = ''
+      this.output = output
     },
 
     async loadScheduledTransactions() {
       const collection = await appService.db.scheduled
-        .orderBy("nextDate")
-        .toArray();
+        .orderBy('nextDate')
+        .toArray()
       // console.debug(collection)
-      const output = JSON.stringify(collection);
-      return output;
+      const output = JSON.stringify(collection)
+      return output
     },
 
     webshare() {
       if (navigator.share) {
         navigator
           .share({
-            title: "Cashier Transactions",
+            title: 'Cashier Transactions',
             text: this.output,
             // url: "https://web.dev/"
             // url: this.output
           })
           .then(() =>
-            this.$q.notify({ message: "data copied", color: "positive" })
+            this.$q.notify({ message: 'data copied', color: 'positive' })
           )
           .catch((error) =>
             this.$q.notify({
-              message: "error:" + error.message,
-              color: "negative",
+              message: 'error:' + error.message,
+              color: 'negative',
             })
-          );
+          )
       }
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
