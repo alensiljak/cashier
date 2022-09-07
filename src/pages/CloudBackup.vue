@@ -36,17 +36,19 @@
 
 <script setup>
 import { onMounted } from 'vue'
+import { useQuasar } from 'quasar'
 import Toolbar from '../components/CashierToolbar.vue'
 // import CloudBackup from '../lib/CloudBackup'
 // import pcloudSdk from 'pcloud-sdk-js'
-import Notification from '../lib/CashierNotification'
-// import { negative, positive, neutral } from '../lib/CashierNotification.vue'
 import useNotifications from '../lib/CashierNotification'
 import useCloudBackup from '../lib/CloudBackup'
 
+const $q = useQuasar()
+const Notification = useNotifications($q)
+// const { positive, neutral, negative } = useNotifications($q)
+
 // var cloudBackup = new CloudBackup()
 const { yo, state, cb } = useCloudBackup()
-const { positive, neutral, negative } = useNotifications()
 
 // data
 
@@ -55,7 +57,7 @@ onMounted(async () => {
   console.debug("and we're on!")
 
   cb.talk()
-  neutral()
+  Notification.neutral('well, ok')
 })
 
 /**
@@ -64,10 +66,10 @@ onMounted(async () => {
 async function onFavUp() {
   //await cloudBackup.backupFavourites()
 
-  positive('yo')
+  Notification.positive('yo')
 }
 
 async function onFavDn() {
-  negative('meh')
+  Notification.negative('meh')
 }
 </script>

@@ -1,27 +1,32 @@
-import { useQuasar } from 'quasar'
+/**
+ * Notifications helper.
+ * Use:
+ *     const useNotification from 'CashierNotification'
+ *
+ */
 
-const $q = useQuasar()
+let $q = null
 
-console.debug('when is this executed, if ever?', $q)
+class Notification {
+  constructor(quasar) {
+    $q = quasar
+  }
+  negative(message) {
+    $q.notify({ color: 'negative', message: message })
+  }
 
-const negative = () => {
-  console.debug('negative')
+  neutral(message) {
+    //
+    $q.notify({ message: message })
+  }
 
-  $q.notify({ color: 'secondary', message: reason.message })
+  positive(message) {
+    $q.notify({ color: 'positive', message: message })
+  }
 }
-
-function neutral() {
-  //
-  console.debug('neutral')
-}
-
-function positive() {
-  console.log('positive')
-}
-
 // export default { negative, neutral, positive }
 // defineExpose({ negative, neutral, positive })
 
-export default function useNotifications() {
-  return { negative, neutral, positive }
+export default function useNotifications(quasar) {
+  return new Notification(quasar)
 }
