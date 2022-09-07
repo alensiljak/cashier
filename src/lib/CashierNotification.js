@@ -5,6 +5,8 @@
  *
  */
 
+import { useQuasar } from 'quasar'
+
 let $q = null
 
 class Notification {
@@ -28,5 +30,7 @@ class Notification {
 // defineExpose({ negative, neutral, positive })
 
 export default function useNotifications(quasar) {
-  return new Notification(quasar)
+  const $q = useQuasar()
+
+  return new Notification($q)
 }

@@ -36,15 +36,13 @@
 
 <script setup>
 import { onMounted } from 'vue'
-import { useQuasar } from 'quasar'
 import Toolbar from '../components/CashierToolbar.vue'
 // import CloudBackup from '../lib/CloudBackup'
 // import pcloudSdk from 'pcloud-sdk-js'
 import useNotifications from '../lib/CashierNotification'
 import useCloudBackup from '../lib/CloudBackup'
 
-const $q = useQuasar()
-const Notification = useNotifications($q)
+const Notification = useNotifications()
 // const { positive, neutral, negative } = useNotifications($q)
 
 // var cloudBackup = new CloudBackup()
