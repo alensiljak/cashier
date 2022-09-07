@@ -37,16 +37,12 @@
 <script setup>
 import { onMounted } from 'vue'
 import Toolbar from '../components/CashierToolbar.vue'
-// import CloudBackup from '../lib/CloudBackup'
-// import pcloudSdk from 'pcloud-sdk-js'
 import useNotifications from '../lib/CashierNotification'
 import useCloudBackup from '../lib/CloudBackup'
 
 const Notification = useNotifications()
-// const { positive, neutral, negative } = useNotifications($q)
 
-// var cloudBackup = new CloudBackup()
-const { yo, state, cb } = useCloudBackup()
+const { yo, state, cloud } = useCloudBackup()
 
 // data
 
@@ -54,7 +50,7 @@ const { yo, state, cb } = useCloudBackup()
 onMounted(async () => {
   console.debug("and we're on!")
 
-  cb.talk()
+  cloud.talk()
   Notification.neutral('well, ok')
 })
 

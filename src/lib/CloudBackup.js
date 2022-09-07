@@ -1,7 +1,11 @@
+/*
+  Cloud Backup functionality
+*/
+
+import { ref } from 'vue'
 // import appService from '../appService'
 import { settings, SettingKeys } from './Configuration'
-//import PcloudClient from './pCloudClient'
-//import pCloudSdk from 'pcloud-sdk-js'
+// import pCloudSdk from 'pcloud-sdk-js'
 
 {
   // import pcloudSdk from 'pcloud-sdk-js'
@@ -11,19 +15,6 @@ import { settings, SettingKeys } from './Configuration'
   // client.listfolder(0).then((fileMetadata) => {
   //   console.log(fileMetadata)
   // })
-}
-
-function useCloudBackup() {
-  //
-  const state = 3
-
-  function yo() {
-    console.debug('yo!')
-  }
-
-  const cb = new CloudBackup()
-
-  return { yo, state, cb }
 }
 
 /**
@@ -64,5 +55,15 @@ class FavouritesBackup {
   }
 }
 
-//export default CloudBackup
-export default useCloudBackup
+export default function useCloudBackup() {
+  //
+  const state = ref(3)
+
+  function yo() {
+    console.debug('yo!')
+  }
+
+  const cloud = new CloudBackup()
+
+  return { yo, state, cloud }
+}
