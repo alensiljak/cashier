@@ -71,7 +71,8 @@ module.exports = configure(function (/* ctx */) {
       // distDir
 
       extendViteConf(viteConf) {
-        viteConf.define.global = {}
+        // Enable the line below for debugging:
+        //viteConf.define.global = {}
         // global: {
         //locationid: 2,
         // },
