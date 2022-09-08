@@ -14,7 +14,16 @@
       <q-list>
         <q-item v-for="tx in transactions" :key="tx.id" dense class="q-px-none">
           <q-item-section>{{ tx.date }} &nbsp; {{ tx.payee }}</q-item-section>
-          <q-item-section side>.</q-item-section>
+          <q-item-section
+            side
+            :class="{
+              red: tx.amount < 0,
+              yellow: tx.amount === 0 || tx.amount === '<=>',
+              green: tx.amount > 0,
+            }"
+          >
+            {{ tx.amount }} {{ tx.currency }}
+          </q-item-section>
         </q-item>
       </q-list>
     </q-card-section>
@@ -51,6 +60,7 @@ import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import appService from '../appService'
 import useNotifications from 'src/lib/CashierNotification'
+import { TransactionParser } from 'src/lib/transactionParser'
 
 const Notification = useNotifications()
 const $router = useRouter()
@@ -77,8 +87,10 @@ function onNewTxClick() {
 
 async function loadData() {
   // load all transactions and related postings
+  let txs = null
+
   try {
-    transactions.value = await appService.db.transactions
+    txs = await appService.db.transactions
       .orderBy('date')
       .reverse()
       .limit(5)
@@ -86,5 +98,61 @@ async function loadData() {
   } catch (error) {
     Notification.negative(error.message)
   }
+
+  try {
+    calculateTxAmounts(txs)
+  } catch (error) {
+    Notification.negative(error.message)
+  }
+
+  transactions.value = txs
+}
+
+/**
+ * Find the amount to display, from the user's perspective - a debit, credit, transfer.
+ * @param {Array<Transaction>} txs
+ */
+function calculateTxAmounts(txs) {
+  // get Amounts
+  TransactionParser.calculateEmptyPostingAmounts(txs)
+
+  // Find the asset account and decide on the flow direction.
+  txs.forEach((tx) => {
+    let amount = 'n/a'
+    let currency = ''
+
+    // get the assets posting(s)
+    const postings = tx.postings.filter((posting) =>
+      posting.account.startsWith('Assets:')
+    )
+    if (postings.length === 1) {
+      tx.amount = postings[0].amount
+      tx.currency = postings[0].currency
+    } else if (postings.length === 2) {
+      // transfer
+      tx.amount = '<=>'
+      // todo: ...
+    } else {
+      // todo: handle these cases (transfers, complex tx)
+      console.warn('more than one posting found with assets')
+    }
+  })
 }
 </script>
+
+<style lang="sass" scoped>
+@import "../css/palette.scss"
+
+.red
+  color: $negative
+
+.yellow
+  color: $warning
+
+.green
+  color: $positive
+
+.remarks
+  color: $colour2
+</style>
+  

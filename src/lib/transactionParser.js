@@ -26,10 +26,16 @@ export class TransactionParser {
       //amounts.forEach((amount) => (sum += amount))
 
       // put this value into the empty posting.
-      let emptyPosting = postings.reduce((prev, curr) =>
-        curr.amount ? 1 : curr
-      )
-      emptyPosting.amount = Number(sum)
+      // let emptyPosting = postings.reduce((prev, curr) =>
+      //   curr.amount ? 1 : curr
+      // )
+      const emptyPostings = postings.filter((posting) => !posting.amount)
+      if (emptyPostings.length !== 1) {
+        throw new Error('multiple empty postings found!')
+      }
+      let emptyPosting = emptyPostings[0]
+
+      emptyPosting.amount = Number(sum) * -1
     })
 
     return transactions

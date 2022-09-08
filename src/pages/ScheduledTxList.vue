@@ -51,6 +51,7 @@
 <script setup>
 import { useMainStore } from '../store/mainStore'
 import { useRoute, useRouter } from 'vue-router'
+import appService from '../appService'
 
 const mainStore = useMainStore()
 //const route = useRoute()
@@ -62,6 +63,15 @@ function onFabClicked() {
   router.push({ name: 'scheduledtxeditor' })
 }
 
+/**
+ * Gets only the first line of the text (until the first line break).
+ */
+function getFirstLine(text) {
+  if (!text) return
+
+  return text.split('\n')[0]
+}
+
 async function showTx(id) {
   // load tx
   await mainStore.loadScheduledTx(id)
@@ -69,7 +79,6 @@ async function showTx(id) {
 }
 </script>
 <script>
-import appService from '../appService'
 import moment from 'moment'
 import StxToolbar from '../components/ScheduledTxToolbar.vue'
 
@@ -126,15 +135,6 @@ export default {
   },
 
   methods: {
-    /**
-    Gets only the first line of the text (until the first line break).
-     */
-    getFirstLine(text) {
-      if (!text) return
-
-      return text.split('\n')[0]
-    },
-
     async loadData() {
       let sorted = await appService.db.scheduled
         .orderBy('nextDate')
