@@ -45,45 +45,46 @@
     </q-card-actions>
   </q-card>
 </template>
-<script>
+
+<script setup>
+import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import appService from '../appService'
+import useNotifications from 'src/lib/CashierNotification'
 
-export default {
-  emits: ['click'],
+const Notification = useNotifications()
+const $router = useRouter()
+const emit = defineEmits(['click'])
 
-  data() {
-    return {
-      transactions: [],
-    }
-  },
+const transactions = ref([])
 
-  created() {
-    this.loadData()
-  },
+onMounted(async () => {
+  await loadData()
+})
 
-  methods: {
-    async loadData() {
-      // load all transactions and related postings
-      try {
-        this.transactions = await appService.db.transactions
-          .orderBy('date')
-          .reverse()
-          .limit(5)
-          .toArray()
-      } catch (error) {
-        this.$q.notify({ color: 'secondary', message: error.message })
-      }
-    },
-    onCardClick() {
-      // for some reason, need to explicitly forward the event
-      this.$emit('click')
-    },
-    onExportTxClick() {
-      this.$router.push({ name: 'export', params: { type: 'journal' } })
-    },
-    onNewTxClick() {
-      this.$router.push({ name: 'tx' })
-    },
-  },
+function onCardClick() {
+  // for some reason, need to explicitly forward the event
+  emit('click')
+}
+
+function onExportTxClick() {
+  $router.push({ name: 'export', params: { type: 'journal' } })
+}
+
+function onNewTxClick() {
+  $router.push({ name: 'tx' })
+}
+
+async function loadData() {
+  // load all transactions and related postings
+  try {
+    transactions.value = await appService.db.transactions
+      .orderBy('date')
+      .reverse()
+      .limit(5)
+      .toArray()
+  } catch (error) {
+    Notification.negative(error.message)
+  }
 }
 </script>
