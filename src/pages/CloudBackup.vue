@@ -47,21 +47,11 @@ import JournalCard from '../components/JournalCloudBackupCard.vue'
 
 const Notification = useNotifications()
 
-//const { yo, state, cloud } = useCloudBackup()
-const backup = useCloudBackup()
-
-// data
-
-// methods
 onMounted(async () => {
   // console.debug("and we're on!")
-  backup.talk()
   // Notification.neutral('well, ok')
 })
 
-/**
- * Backup Favourites.
- */
 async function onFavUp() {
   //await cloudBackup.backupFavourites()
 

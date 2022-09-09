@@ -99,7 +99,7 @@ class PcloudClient {
       .then(this.flat)
   }
   folderItems(folderid) {
-    console.log(folderid)
+    console.log('items in folder', folderid)
 
     return this.client
       .listfolder(0)
@@ -121,6 +121,7 @@ class PcloudClient {
   }
   receiveTokenCb(token) {
     console.log(token)
+
     this.access_token = token
     this.client = pCloudSdk.createClient(token)
     this.folderSize(0).then((a) => {
@@ -130,6 +131,7 @@ class PcloudClient {
       console.log('Items: ', a)
     })
   }
+
   size(metadata) {
     return metadata.size
   }
