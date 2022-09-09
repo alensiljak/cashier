@@ -5,17 +5,11 @@
 import { ref } from 'vue'
 // import appService from '../appService'
 import { settings, SettingKeys } from './Configuration'
-// import pCloudSdk from 'pcloud-sdk-js'
+//import pCloudSdk from 'pcloud-sdk-js'
+import usePcloud from './pCloudAdapter'
+import moment from 'moment'
 
-{
-  // import pcloudSdk from 'pcloud-sdk-js'
-  // // Create `client` using an oAuth token:
-  // const client = pcloudSdk.createClient('access_token')
-  // // then list root folder's contents:
-  // client.listfolder(0).then((fileMetadata) => {
-  //   console.log(fileMetadata)
-  // })
-}
+const isoTimestampFormat = 'YYYYMMDDHHmmss'
 
 /**
  * Handles backup and restore to/from the cloud.
@@ -23,13 +17,24 @@ import { settings, SettingKeys } from './Configuration'
 class CloudBackup {
   constructor() {}
 
+  favourites = new FavouritesBackup()
+
   talk() {
-    console.debug('hi!')
+    const timestamp = this.#getFilename('yo')
+    console.debug('hi!', timestamp)
   }
 
   async backupFavourites() {
     let favs = new FavouritesBackup()
     await favs.backup()
+  }
+
+  #getFilename(backupType) {
+    // get the timestamp
+    const now = moment()
+    const timestamp = now.format(isoTimestampFormat)
+
+    return `backup-${backupType}-${timestamp}.json`
   }
 
   /**
@@ -53,10 +58,14 @@ class FavouritesBackup {
     // shoot
     //console.debug(PcloudClient)
   }
+
+  async fetchRemoteBackups() {}
 }
 
 export default function useCloudBackup() {
   //
+  const adapter = usePcloud()
+
   const state = ref(3)
 
   function yo() {
@@ -65,5 +74,6 @@ export default function useCloudBackup() {
 
   const cloud = new CloudBackup()
 
-  return { yo, state, cloud }
+  //return { yo, state, cloud }
+  return cloud
 }

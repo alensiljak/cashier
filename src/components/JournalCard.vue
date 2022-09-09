@@ -41,16 +41,6 @@
         <font-awesome-icon icon="sign-out-alt" class="q-icon-small on-left" />
         Export
       </q-btn>
-      <!-- <q-btn
-        outline
-        dark
-        color="primary"
-        text-color="accent"
-        @click.stop="onNewTxClick"
-      >
-        <font-awesome-icon icon="plus" class="q-icon-small on-left" />
-        New
-      </q-btn> -->
     </q-card-actions>
   </q-card>
 </template>

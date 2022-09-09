@@ -14,7 +14,9 @@ export class TransactionParser {
       const currencySet = new Set(currencies)
       if (currencySet.size > 1) {
         console.warn(
-          'Multiple currencies detected. Ignoring transaction',
+          'Multiple currencies detected:',
+          ...currencySet,
+          '. Ignoring transaction',
           tx.date,
           tx.payee
         )
