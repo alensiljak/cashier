@@ -26,7 +26,6 @@ function getRegexFor(entityType) {
   const regex = new RegExp(template)
   //return template
   //.*?
-  console.debug('resulting regex =', regex)
   return regex
 }
 
@@ -39,12 +38,15 @@ class PcloudAdapter {
   async init() {
     // token
     if (!this.token) {
-      let token = await loadToken()
+      let token = await this.#loadToken()
 
       if (!token) {
-        // todo: request authorization
-        //token = await loginWithoutRedirect()
-        token = await loginWithRedirect()
+        // request authorization
+        token = await loginWithoutRedirect()
+        // token = await loginWithRedirect()
+
+        // Save token
+        await settings.set(SettingKeys.pCloudToken, token)
       }
 
       this.token = token
@@ -87,6 +89,12 @@ class PcloudAdapter {
 
     return result
   }
+
+  async #loadToken() {
+    // load access token
+    const token = await settings.get(SettingKeys.pCloudToken)
+    return token
+  }
 }
 
 async function loginWithRedirect() {
@@ -109,16 +117,18 @@ async function loginWithRedirect() {
   return result
 }
 
+/**
+ * Login directly and get the token.
+ * @returns authentication token
+ */
 async function loginWithoutRedirect() {
-  console.debug('login without redirect')
+  // console.debug('login without redirect')
 
   var result = new Promise((resolve, reject) => {
-    console.debug('initiating poll token')
-
     PcloudSdk.oauth.initOauthPollToken({
       client_id: CLIENT_ID,
       receiveToken: function (token) {
-        console.debug('received token:', token)
+        //console.debug('received token:', token)
 
         resolve(token)
       },
@@ -132,14 +142,7 @@ async function loginWithoutRedirect() {
   return result
 }
 
-async function loadToken() {
-  // load access token
-  const token = await settings.get(SettingKeys.pCloudToken)
-  return token
-}
-
 export default function usePcloud() {
-  // const locationid = 2
   window.locationid = 2
 
   let adapter = new PcloudAdapter()

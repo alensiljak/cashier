@@ -18,6 +18,7 @@ class PcloudClient {
       onError: (err) => console.log(err),
     })
   }
+
   loginWithoutRedirect() {
     let that = this
     pCloudSdk.oauth.initOauthPollToken({
