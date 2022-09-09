@@ -148,7 +148,7 @@ export default {
     async loadData() {
       // uses a route parameter for the type of data to load.
       let dataType = this.$route.params.type
-      console.debug('data type:', dataType)
+      // console.debug('data type:', dataType)
 
       if (dataType) {
         this.dataType = dataType

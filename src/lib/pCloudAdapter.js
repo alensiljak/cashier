@@ -3,13 +3,13 @@
   https://github.com/pCloud/pcloud-sdk-js/
 */
 import { ref } from 'vue'
-//import pCloudSdk from 'pcloud-sdk-js'
 import PcloudSdk from 'pcloud-sdk-js'
 import { settings, SettingKeys } from './Configuration'
 import appService from '../appService'
 import PcloudClient from './pCloudClient'
 
 const CLIENT_ID = 'swX3uGCh15u'
+const FOLDER_ID = 0 // folder id is always 0 since we have only one folder.
 
 {
   // import pcloudSdk from 'pcloud-sdk-js'
@@ -19,6 +19,15 @@ const CLIENT_ID = 'swX3uGCh15u'
   // client.listfolder(0).then((fileMetadata) => {
   //   console.log(fileMetadata)
   // })
+}
+
+function getRegexFor(entityType) {
+  const template = `backup-${entityType}-[0-9]{14}.json`
+  const regex = new RegExp(template)
+  //return template
+  //.*?
+  console.debug('resulting regex =', regex)
+  return regex
 }
 
 class PcloudAdapter {
@@ -46,19 +55,44 @@ class PcloudAdapter {
     }
   }
 
-  async getFileCount() {
-    let rootFolder = await this.client.listfolder(0)
-    const fileCount = rootFolder.contents.length
+  async getFileCount(entityType) {
+    let rootFolder = await this.client.listfolder(FOLDER_ID)
+
+    const filenames = rootFolder.contents.map((item) => item.name)
+
+    // Get only the list of the files of the given type.
+    const regex = getRegexFor(entityType)
+    console.log(regex)
+
+    const fileCount = filenames.filter((name) => name.match(regex)).length
+
     // .contents .name
 
     return fileCount
+  }
+
+  async upload(content, filename) {
+    if (!content || !filename) {
+      throw new Error('No content or filename sent for upload!')
+    }
+
+    const file = new File([content], filename)
+    const result = await this.client.upload(file, FOLDER_ID)
+
+    // this.client.upload(file, FOLDER_ID, {
+    //   onBegin: () => {},
+    //   onProgress: function (progress) {},
+    //   onFinish: function (fileMetadata) {},
+    // })
+
+    return result
   }
 }
 
 async function loginWithRedirect() {
   console.debug('login with redirect')
 
-  let result = new Promise(function (resolve, reject) {
+  let result = new Promise((resolve, reject) => {
     PcloudSdk.oauth.initOauthToken({
       client_id: CLIENT_ID,
       redirect_uri: 'http://127.0.0.1:8080/oauth.html',
@@ -78,7 +112,7 @@ async function loginWithRedirect() {
 async function loginWithoutRedirect() {
   console.debug('login without redirect')
 
-  var result = new Promise(function (resolve, reject) {
+  var result = new Promise((resolve, reject) => {
     console.debug('initiating poll token')
 
     PcloudSdk.oauth.initOauthPollToken({
@@ -104,18 +138,10 @@ async function loadToken() {
   return token
 }
 
-async function upload(file, folderId) {
-  //
-  const client = await getClient()
-  client.upload(file, folderId, {
-    onBegin: () => {},
-    onProgress: function (progress) {},
-    onFinish: function (fileMetadata) {},
-  })
-}
-
 export default function usePcloud() {
   // const locationid = 2
+  window.locationid = 2
+
   let adapter = new PcloudAdapter()
 
   // loadToken()

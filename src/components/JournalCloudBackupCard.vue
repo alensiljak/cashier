@@ -41,7 +41,7 @@ import useCloudBackup from 'src/lib/CloudBackup'
 import useNotifications from 'src/lib/CashierNotification'
 import appService from '../appService'
 
-const { favourites: backup } = useCloudBackup()
+const { journal: backup } = useCloudBackup()
 const Notification = useNotifications()
 
 // data
@@ -62,11 +62,17 @@ async function loadData() {
   backupsCount.value = await backup.getRemoteBackupCount()
 }
 
-function onBackupClick() {
-  Notification.positive('backup')
+async function onBackupClick() {
+  // get the content
+  const output = await appService.getExportTransactions()
+
+  await backup.backup(output)
+  Notification.positive('Journal backed up to the cloud.')
+
+  await loadData()
 }
 
 function onRestoreClick() {
-  Notification.negative('restore')
+  Notification.negative('restore not implemented yet')
 }
 </script>

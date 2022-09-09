@@ -11,27 +11,38 @@ const isoTimestampFormat = 'YYYYMMDDHHmmss'
 
 const { adapter } = usePcloud()
 
-// methods
-
-function getFilename(backupType) {
-  // get the timestamp
-  const now = moment()
-  const timestamp = now.format(isoTimestampFormat)
-
-  return `backup-${backupType}-${timestamp}.json`
-}
-
 /**
  * Handles backup and restore to/from the cloud.
  */
 class CloudBackup {
+  // to be set by the inheriting classes
+  entityType = undefined
+
   constructor() {}
 
-  favourites = new FavouritesBackup()
+  async backup(content) {
+    const filename = this.getFilename(this.entityType)
+    await adapter.upload(content, filename)
+  }
 
   talk() {
-    const timestamp = getFilename('yo')
+    const timestamp = this.getFilename('yo')
     console.debug('hi!', timestamp)
+  }
+
+  getFilename(backupType) {
+    // get the timestamp
+    const now = moment()
+    const timestamp = now.format(isoTimestampFormat)
+
+    return `backup-${backupType}-${timestamp}.json`
+  }
+
+  async getRemoteBackupCount() {
+    //
+    await adapter.init()
+    let result = await adapter.getFileCount(this.entityType)
+    return result
   }
 }
 
@@ -50,13 +61,10 @@ class FavouritesBackup {
   }
 
   async fetchRemoteBackups() {}
+}
 
-  async getRemoteBackupCount() {
-    //
-    await adapter.init()
-    let result = await adapter.getFileCount()
-    return result
-  }
+class JournalBackup extends CloudBackup {
+  entityType = 'journal'
 }
 
 export default function useCloudBackup() {
@@ -68,6 +76,7 @@ export default function useCloudBackup() {
 
   //const cloud = new CloudBackup()
   const favourites = new FavouritesBackup()
+  const journal = new JournalBackup()
 
-  return { yo, favourites }
+  return { yo, favourites, journal }
 }
