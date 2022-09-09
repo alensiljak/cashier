@@ -13,7 +13,11 @@ export class TransactionParser {
       const currencies = postings.map((posting) => posting.currency)
       const currencySet = new Set(currencies)
       if (currencySet.size > 1) {
-        console.warn('Multiple currencies detected. Ignoring transaction.')
+        console.warn(
+          'Multiple currencies detected. Ignoring transaction',
+          tx.date,
+          tx.payee
+        )
         return
       }
 

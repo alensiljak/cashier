@@ -73,10 +73,6 @@ module.exports = configure(function (/* ctx */) {
       extendViteConf(viteConf) {
         // Enable the line below for debugging:
         //viteConf.define.global = {}
-        // global: {
-        //locationid: 2,
-        // },
-        // }
       },
       // viteVuePluginOptions: {},
 
