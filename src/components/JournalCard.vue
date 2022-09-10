@@ -116,7 +116,7 @@ function calculateTxAmounts(txs) {
       posting.account.startsWith('Assets:')
     )
     if (postings.length === 1) {
-      tx.amount = postings[0].amount
+      tx.amount = postings[0].amount.toFixed(2)
       tx.currency = postings[0].currency
     } else if (postings.length === 2) {
       // transfer

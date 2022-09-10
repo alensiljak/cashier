@@ -34,6 +34,7 @@ import { onMounted, ref } from 'vue'
 import { useQuasar } from 'quasar'
 import { settings, SettingKeys } from '../lib/Configuration'
 import appService from '../appService'
+import { TransactionAugmenter } from 'src/lib/transactionAugmenter'
 
 const $q = useQuasar()
 
@@ -61,6 +62,9 @@ async function loadData() {
 
     // adjust the balance
     //accounts = await this.adjustBalances(accounts)
+    const augmenter = new TransactionAugmenter()
+    favArray = await augmenter.adjustBalances(favArray)
+
     accounts.value = favArray
   } catch (reason) {
     $q.notify({ color: 'secondary', message: reason.message })

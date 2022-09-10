@@ -117,6 +117,8 @@
 
 <script setup>
 import { useMainStore } from '../store/mainStore'
+import { TransactionAugmenter } from 'src/lib/transactionAugmenter'
+import appService from '../appService'
 
 const mainStore = useMainStore()
 
@@ -131,7 +133,6 @@ import {
   settings,
   SettingKeys,
 } from '../lib/Configuration'
-import appService from '../appService'
 
 const ACCOUNT = 'account'
 
@@ -184,50 +185,7 @@ export default {
           .then(() => this.loadData())
       })
     },
-    async adjustBalances(accounts) {
-      if (!accounts) {
-        console.info('no favourite accounts found for balance adjustment')
-        return
-      }
 
-      for (let i = 0; i < accounts.length; i++) {
-        // load all postings for the account
-        let account = accounts[i]
-        // todo: if the favourite account is not found, gray it out?
-        if (!account || !account.balance) continue // null check
-
-        let sum = parseFloat(account.balance)
-        if (!sum) continue
-
-        let postings = await appService.db.postings.where({
-          account: account.name,
-        })
-        let postingsArray = await postings.toArray()
-        for (let j = 0; j < postingsArray.length; j++) {
-          let amount = postingsArray[j].amount
-          if (!amount) continue
-          if (typeof amount === 'string') {
-            amount = parseFloat(amount)
-          }
-
-          sum += amount
-        }
-
-        if (isNaN(sum)) {
-          console.warn(
-            'The sum for ' + account.name + ' is not a number: ',
-            sum
-          )
-        }
-
-        let newBalance = sum.toFixed(2)
-
-        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
-        account.balance = new Intl.NumberFormat('en-AU') // { style: 'currency', currency: 'EUR' }
-          .format(newBalance)
-      }
-      return accounts
-    },
     async confirmDeleteAll() {
       // clear all favourites
       await settings.set(SettingKeys.favouriteAccounts, [])
@@ -266,8 +224,9 @@ export default {
           return
         }
 
-        // adjust the balance
-        favArray = await this.adjustBalances(favArray)
+        // adjust the balances
+        const augmenter = new TransactionAugmenter()
+        favArray = await augmenter.adjustBalances(favArray)
         this.accounts = favArray
       } catch (reason) {
         console.error(reason)

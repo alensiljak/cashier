@@ -381,6 +381,10 @@ class AppService {
     return db.assetAllocation.get(fullname)
   }
 
+  /**
+   * Loads the favourite accounts.
+   * @returns {Array} List of Account records which are marked as Favourites.
+   */
   async loadFavouriteAccounts() {
     let favArray = await settings.get(SettingKeys.favouriteAccounts)
     if (!favArray) {
