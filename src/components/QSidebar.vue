@@ -17,7 +17,7 @@
 
         <q-item v-ripple to="/home" exact clickable active-class="active-link">
           <q-item-section avatar>
-            <font-awesome-icon icon="home" transform="grow-6 right-6" />
+            <q-icon name="home" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Home</q-item-label>
@@ -114,7 +114,7 @@
           active-class="active-link"
         >
           <q-item-section avatar>
-            <font-awesome-icon icon="university" transform="grow-6 right-6" />
+            <q-icon name="account_balance" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Accounts</q-item-label>
@@ -128,7 +128,7 @@
           active-class="active-link"
         >
           <q-item-section avatar>
-            <font-awesome-icon icon="users" transform="grow-6 right-6" />
+            <q-icon name="groups" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Payees</q-item-label>
@@ -202,12 +202,14 @@
           active-class="active-link"
         >
           <q-item-section avatar>
-            <font-awesome-icon icon="calendar-alt" transform="grow-6 right-9" />
+            <q-icon name="event" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Scheduled Transactions</q-item-label>
           </q-item-section>
         </q-item>
+
+        <q-separator dark />
 
         <!-- Sync -->
         <q-item
@@ -270,13 +272,14 @@
         >
           <!-- exact -->
           <q-item-section avatar>
-            <font-awesome-icon icon="cog" transform="grow-6 right-6" />
+            <q-icon name="settings" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Settings</q-item-label>
           </q-item-section>
         </q-item>
 
+        <!-- help -->
         <q-item v-ripple to="/help" exact clickable active-class="active-link">
           <q-item-section avatar>
             <font-awesome-icon
@@ -289,9 +292,10 @@
           </q-item-section>
         </q-item>
 
+        <!-- about -->
         <q-item v-ripple to="/about" exact clickable active-class="active-link">
           <q-item-section avatar>
-            <font-awesome-icon icon="info" transform="grow-6 right-9" />
+            <q-icon name="info" />
           </q-item-section>
           <q-item-section>
             <q-item-label>About</q-item-label>

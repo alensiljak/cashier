@@ -11,14 +11,10 @@ import router from './router'
 import store from './stateStore'
 import './registerServiceWorker'
 import './persistentStorage'
-//import FontAwesomeIcon from "@/boot/fontAwesome";
-
-// Font Awesome configuration and import.
-// import './faConfig.js';
 
 // Quasar
 import './quasarConfig'
-//import './fontAwesome'
+// Font Awesome configuration and import.
 import FontAwesomeIcon from './boot/fontAwesome'
 
 Vue.config.productionTip = false
@@ -35,7 +31,7 @@ Vue.config.productionTip = false
 // }).$mount('#app')
 
 createApp(App)
-  .component("FontAwesomeIcon", FontAwesomeIcon)
+  .component('FontAwesomeIcon', FontAwesomeIcon)
   .use(store)
   .use(router)
-  .mount("#app");
+  .mount('#app')
