@@ -57,6 +57,8 @@ async function onBackupClick() {
   await backup.backup(settingsJson)
 
   Notification.positive('Settings backed up to the cloud.')
+
+  await loadData()
 }
 
 function onRestoreClick() {
