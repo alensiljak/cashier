@@ -36,7 +36,7 @@ export class TransactionParser {
       //   curr.amount ? 1 : curr
       // )
       const emptyPostings = postings.filter((posting) => !posting.amount)
-      if (emptyPostings.length !== 1) {
+      if (emptyPostings.length > 1) {
         throw new Error('multiple empty postings found!')
       }
       let emptyPosting = emptyPostings[0]
