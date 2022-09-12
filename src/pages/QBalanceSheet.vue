@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import Toolbar from "../components/CashierToolbar.vue";
+import Toolbar from '../components/CashierToolbar.vue'
 
 export default {
   components: {
@@ -43,50 +43,50 @@ export default {
     return {
       simple: [
         {
-          label: "Chart of accounts",
-          avatar: "/icons/favicon-32x32.png",
+          label: 'Chart of accounts',
+          avatar: '/icons/favicon-32x32.png',
           children: [
             {
-              label: "Dining",
-              icon: "restaurant_menu",
+              label: 'Dining',
+              icon: 'restaurant_menu',
               children: [
-                { label: "Quality ingredients" },
-                { label: "Good recipe" },
+                { label: 'Quality ingredients' },
+                { label: 'Good recipe' },
               ],
             },
             {
-              label: "Lodging",
-              icon: "room_service",
+              label: 'Lodging',
+              icon: 'room_service',
               disabled: true,
               children: [
-                { label: "Prompt attention" },
-                { label: "Professional waiter" },
+                { label: 'Prompt attention' },
+                { label: 'Professional waiter' },
               ],
             },
             {
-              label: "Bank Accounts",
-              icon: "account_balance",
+              label: 'Bank Accounts',
+              icon: 'account_balance',
               children: [
                 {
-                  label: "Checking",
-                  img: "https://cdn.quasar-framework.org/img/logo_calendar_128px.png",
+                  label: 'Checking',
+                  img: 'https://cdn.quasar-framework.org/img/logo_calendar_128px.png',
                 },
-                { label: "Good table presentation" },
-                { label: "Investment", icon: "assessment" },
+                { label: 'Good table presentation' },
+                { label: 'Investment', icon: 'assessment' },
               ],
             },
           ],
         },
       ],
-    };
+    }
   },
 
   created() {},
 
   methods: {
     openNewTransaction() {
-      this.$router.push({ name: "tx" });
+      this.$router.push({ name: 'tx' })
     },
   },
-};
+}
 </script>

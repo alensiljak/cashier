@@ -67,6 +67,12 @@ async function onBackupClick() {
 function onRestoreClick() {
   // todo: load the last backup
 
+  // todo: clear the settings table
+
+  // convert json to objects
+
+  // todo: insert the records
+
   Notification.negative('Not implemented yet')
 }
 </script>
