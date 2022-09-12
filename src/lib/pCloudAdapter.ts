@@ -21,7 +21,7 @@ const FOLDER_ID = 0 // folder id is always 0 since we have only one folder.
   // })
 }
 
-function getRegexFor(entityType) {
+function getRegexFor(entityType: string) {
   const template = `backup-${entityType}-[0-9]{14}.json`
   const regex = new RegExp(template)
   //return template
@@ -30,8 +30,8 @@ function getRegexFor(entityType) {
 }
 
 class PcloudAdapter {
-  token = null
-  client = null
+  token: string | undefined
+  client: any
 
   constructor() {}
 
@@ -57,23 +57,31 @@ class PcloudAdapter {
     }
   }
 
-  async getFileCount(entityType) {
-    let rootFolder = await this.client.listfolder(FOLDER_ID)
+  async getFilenameListFor(backupType: string): Promise<Array<string>> {
+    let listing = await this.client.listfolder(FOLDER_ID)
 
-    const filenames = rootFolder.contents.map((item) => item.name)
+    const filenames = listing.contents.map((item: any) => item.name)
 
     // Get only the list of the files of the given type.
-    const regex = getRegexFor(entityType)
+    const regex = getRegexFor(backupType)
     // console.log(regex)
 
-    const fileCount = filenames.filter((name) => name.match(regex)).length
+    const filteredFilenames = filenames.filter((name: string) =>
+      name.match(regex)
+    )
+    return filteredFilenames
+  }
+
+  async getFileCount(entityType: string): Promise<number> {
+    const fileList = await this.getFilenameListFor(entityType)
+    const fileCount = fileList.length
 
     // .contents .name
 
     return fileCount
   }
 
-  async upload(content, filename) {
+  async upload(content: any, filename: string) {
     if (!content || !filename) {
       throw new Error('No content or filename sent for upload!')
     }
@@ -90,9 +98,9 @@ class PcloudAdapter {
     return result
   }
 
-  async #loadToken() {
+  async #loadToken(): Promise<string> {
     // load access token
-    const token = await settings.get(SettingKeys.pCloudToken)
+    const token: string = await settings.get(SettingKeys.pCloudToken)
     return token
   }
 }
@@ -116,8 +124,8 @@ async function loginWithRedirect() {
  * Login directly and get the token.
  * @returns authentication token
  */
-async function loginWithoutRedirect() {
-  let result = new Promise((resolve, reject) => {
+async function loginWithoutRedirect(): Promise<string> {
+  let result: Promise<string> = new Promise((resolve, reject) => {
     PcloudSdk.oauth.initOauthPollToken({
       client_id: CLIENT_ID,
       response_type: 'poll_token',

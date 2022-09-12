@@ -7,7 +7,8 @@ import { settings, SettingKeys } from './Configuration'
 import usePcloud from './pCloudAdapter'
 import moment from 'moment'
 
-const isoTimestampFormat = 'YYYYMMDDHHmmss'
+//const isoTimestampFormat = 'YYYYMMDDHHmmss'
+const timestampFormat = 'YYYY-MM-DD-HHmmss'
 
 const { adapter } = usePcloud()
 
@@ -16,12 +17,12 @@ const { adapter } = usePcloud()
  */
 class CloudBackup {
   // to be set by the inheriting classes
-  entityTypeName = undefined
+  entityTypeName: string | undefined
 
   constructor() {}
 
-  async backup(content) {
-    const filename = this.getFilename(this.entityTypeName)
+  async backup(content: any) {
+    const filename = this.getFilename()
     await adapter.upload(content, filename)
   }
 
@@ -30,12 +31,23 @@ class CloudBackup {
     console.debug('hi!', timestamp)
   }
 
-  getFilename(backupType) {
+  getFilename() {
     // get the timestamp
     const now = moment()
-    const timestamp = now.format(isoTimestampFormat)
+    const timestamp = now.format(timestampFormat)
 
-    return `backup-${backupType}-${timestamp}.json`
+    return `backup-${this.entityTypeName}-${timestamp}.json`
+  }
+
+  async getLatestFilename(): Promise<string> {
+    const filenames = await adapter.getFilenameListFor(this.entityTypeName)
+    // order by name
+    filenames.sort()
+
+    const lastIndex = filenames.length - 1
+
+    let result = filenames[lastIndex]
+    return result
   }
 
   async getRemoteBackupCount() {

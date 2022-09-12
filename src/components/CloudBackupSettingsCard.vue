@@ -7,8 +7,8 @@
 
     <q-card-section>
       <div>
-        Last backup: {{ lastBackupTimestamp }}. Total backups:
-        {{ backupsCount }}
+        Total backups: {{ backupsCount }} <br />
+        Last backup: {{ lastBackupTimestamp }}.
       </div>
     </q-card-section>
 
@@ -47,6 +47,9 @@ onMounted(async () => {
 
 async function loadData() {
   backupsCount.value = await backup.getRemoteBackupCount()
+
+  let latest = await backup.getLatestFilename()
+  lastBackupTimestamp.value = latest
 }
 
 async function onBackupClick() {
@@ -62,6 +65,8 @@ async function onBackupClick() {
 }
 
 function onRestoreClick() {
+  // todo: load the last backup
+
   Notification.negative('Not implemented yet')
 }
 </script>

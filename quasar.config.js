@@ -76,8 +76,8 @@ module.exports = configure(function (/* ctx */) {
 
       extendViteConf(viteConf) {
         // Enable the line below for debugging:
-        viteConf.define.global = {}
-        viteConf.define.ENV = 'window'
+        // viteConf.define.global = {}
+        // viteConf.define.ENV = 'window'
       },
       // viteVuePluginOptions: {},
 
