@@ -6,14 +6,14 @@ import alasql from 'alasql'
 const dbName = 'Cashier'
 
 class BaseTable {
-  tableName = undefined
+  tableName: string = undefined
 
   async getAll() {
     const sql = `select * from ${this.tableName}`
     return this.run(sql)
   }
 
-  async run(sql) {
+  async run(sql: string) {
     // initialize
     await Database.attachDatabase()
 
@@ -51,6 +51,7 @@ export class Database {
     // tables:
 
     // todo: This is suspicious. The tables array is empty but has tables as object properties?!
+    const database = alasql.databases[dbName]
     const tableNames = Object.keys(database.tables)
 
     if (tableNames.length === 0) {

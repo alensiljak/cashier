@@ -4,15 +4,21 @@ module.exports = {
   // Remove this if you have an higher level ESLint config file (it usually happens into a monorepos)
   root: true,
 
+  // https://eslint.vuejs.org/user-guide/#how-to-use-a-custom-parser
+  // Must use parserOptions instead of "parser" to allow vue-eslint-parser to keep working
+  // `parser: 'vue-eslint-parser'` is already included with any 'plugin:vue/**' config and should be omitted
   parserOptions: {
     ecmaVersion: '2021', // Allows for the parsing of modern ECMAScript features
-    parser: '@babel/eslint-parser',
-    requireConfigFile: false,
+    //parser: '@babel/eslint-parser',
+    //parser: require.resolve('@typescript-eslint/parser'),
+    parser: '@typescript-eslint/parser',
+    extraFileExtensions: ['.vue'],
   },
 
   env: {
-    node: true,
     browser: true,
+    es2021: true,
+    node: true,
     'vue/setup-compiler-macros': true,
   },
 
@@ -21,10 +27,14 @@ module.exports = {
     // Base ESLint recommended rules
     // 'eslint:recommended',
 
+    // https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin#usage
+    // ESLint typescript rules
+    'plugin:@typescript-eslint/recommended',
+
     // Uncomment any of the lines below to choose desired strictness,
     // but leave only one uncommented!
     // See https://eslint.vuejs.org/rules/#available-rules
-    'plugin:vue/vue3-essential', // Priority A: Essential (Error Prevention)
+    // 'plugin:vue/vue3-essential', // Priority A: Essential (Error Prevention)
     'plugin:vue/vue3-strongly-recommended', // Priority B: Strongly Recommended (Improving Readability)
     // 'plugin:vue/vue3-recommended', // Priority C: Recommended (Minimizing Arbitrary Choices and Cognitive Overhead)
 
@@ -34,6 +44,9 @@ module.exports = {
   ],
 
   plugins: [
+    // required to apply rules which need type information
+    '@typescript-eslint',
+
     // https://eslint.vuejs.org/user-guide/#why-doesn-t-it-work-on-vue-files
     // required to lint *.vue files
     'vue',
@@ -58,9 +71,25 @@ module.exports = {
 
   // add your custom rules here
   rules: {
+    'prefer-const': 'off',
     'prefer-promise-reject-errors': 'off',
 
+    quotes: ['warn', 'single', { avoidEscape: true }],
+
+    // this rule, if on, would require explicit return type on the `render` function
+    '@typescript-eslint/explicit-function-return-type': 'off',
+
+    // in plain CommonJS modules, you can't use `import foo = require('foo')` to pass this rule, so it has to be disabled
+    '@typescript-eslint/no-var-requires': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-empty-function': 'off',
+
     'vue/multi-word-component-names': 'off',
+
+    // The core 'no-unused-vars' rules (in the eslint:recommended ruleset)
+    // does not work with type definitions
+    'no-unused-vars': 'off',
 
     // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',

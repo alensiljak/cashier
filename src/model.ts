@@ -4,22 +4,21 @@
 */
 
 export class Account {
-  constructor() {
-    this.name = null
-    this.balance = null
-    this.currency = null
-    this.currentValue = null
-    this.currentCurrency = null
-  }
+  name: any
+  balance: any
+  currency: any
+  currentValue: any
+  currentCurrency: any
 }
 
 export class Commodity {
-  constructor() {
-    this.name = null
-  }
+  name: string | undefined
 }
 
 export class LastTransaction {
+  payee: string
+  transaction: string
+
   constructor() {
     this.payee = ''
     this.transaction = ''
@@ -27,6 +26,11 @@ export class LastTransaction {
 }
 
 export class Posting {
+  transactionId: string
+  account: string
+  amount: any
+  currency: string
+
   constructor() {
     // Id is inserted automatically.
     // this.id = null
@@ -41,27 +45,33 @@ export class Posting {
  * Used for price download and export. Not used.
  */
 export class Price {
-  constructor() {
-    this.symbol = null // symbol used in the book
-    this.ticker = null // symbol on the exchange
-    this.price = null // downloaded price
-    this.currency = null // currency of the price
-  }
+  // symbol used in the book
+  symbol: string | undefined
+  // symbol on the exchange
+  ticker: string | undefined
+  // downloaded price
+  price: any
+  // currency of the price
+  currency: string | undefined
 }
 
 export class ScheduledTransaction {
-  constructor() {
-    this.id = null
-    this.nextDate = null
-    this.transaction = null
-    this.period = null
-    this.count = null
-    this.endDate = null
-    this.remarks = null
-  }
+  //id: any
+  nextDate: any
+  transaction: any
+  period: any
+  count: any
+  endDate: any
+  remarks: any
 }
 
 export class Transaction {
+  id: any
+  date: any
+  payee: string
+  note: string
+  postings: Posting[]
+
   constructor() {
     // this.id = newId()
     this.id = null
@@ -72,7 +82,7 @@ export class Transaction {
   }
 
   static create() {
-    var tx = new Transaction()
+    const tx = new Transaction()
     tx.date = new Date().toISOString().substring(0, 10)
 
     tx.postings.push(new Posting())
@@ -83,7 +93,10 @@ export class Transaction {
 }
 
 export class Setting {
-  constructor(key, value) {
+  key: string
+  value: string
+
+  constructor(key: string, value: string) {
     this.key = key
     this.value = value
   }

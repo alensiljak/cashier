@@ -1,5 +1,8 @@
 {
+  "extends": "@quasar/app-vite/tsconfig-preset",
+
   "compilerOptions": {
-    "target": "ES2021"
+    //"target": "ES2021"
+    "baseUrl": "."
   }
 }

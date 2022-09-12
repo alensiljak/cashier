@@ -70,6 +70,14 @@ Using Netlify to serve HTTPS site, as required by PWA specs. The [base url](http
 Manual deployment is done using `netlify-cli` package installed in the project.
 Run `npm run deploy` from the root project directory. This requires netlify.toml. Otherwise, run from dist/pwa directory. To deploy the Prod version, run `npx netlify deploy --prod`.
 
+## Linter
+
+eslint is used for linting. 
+The vite plugin is enabled. To disable ESLint, comment-out the eslint block in the quasar.config.js or
+comment-out the lines inside it (warnings, errors).
+
+ESLint itself is configured through .eslintrc.js cofiguration file.
+
 # Cashier Ecosystem
 
 Here is the description on how to set up Cashier on Android. It demonstrates the main principles on any platform.

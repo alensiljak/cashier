@@ -2,8 +2,10 @@
  * Transaction parser
  * Used for calculation of the empty postings
  */
+import { Transaction } from 'src/model'
+
 export class TransactionParser {
-  static calculateEmptyPostingAmounts(transactions) {
+  static calculateEmptyPostingAmounts(transactions: Array<Transaction>) {
     // iterate
     transactions.forEach((tx) => {
       const postings = tx.postings
@@ -39,7 +41,7 @@ export class TransactionParser {
         return
       }
 
-      let emptyPosting = emptyPostings[0]
+      const emptyPosting = emptyPostings[0]
       emptyPosting.amount = Number(sum) * -1
     })
 

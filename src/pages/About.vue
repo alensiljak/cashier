@@ -81,15 +81,8 @@
   </q-page>
 </template>
 
-<script>
+<script setup>
 import Toolbar from '../components/CashierToolbar.vue'
-
-export default {
-  components: {
-    Toolbar,
-  },
-  created() {},
-}
 </script>
 
 <style lang="scss" scoped>

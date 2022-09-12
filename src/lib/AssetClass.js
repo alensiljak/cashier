@@ -1,14 +1,14 @@
 export default class AssetClass {
   constructor() {
-    this.fullname = null;
+    this.fullname = null
     // this.full_name = null;
     // this.parentname = null;
     // this.name = null;
-    this.allocation = null;
-    this.symbols = null;
+    this.allocation = null
+    this.symbols = null
     // this.level = null; // the depth level, with root Allocation = 0
-    this.currentValue = null;
-    this.currency = null;
+    this.currentValue = null
+    this.currency = null
   }
 
   /**
@@ -16,10 +16,10 @@ export default class AssetClass {
    * The root element (Allocation) is 0. This is effectively the number of parents.
    */
   get depth() {
-    if (!this.parentName) return 0;
+    if (!this.parentName) return 0
 
-    let parents = this.parentName.split(":");
-    return parents.length;
+    let parents = this.parentName.split(':')
+    return parents.length
   }
 
   //   get fullname() {
@@ -39,16 +39,16 @@ export default class AssetClass {
   //   }
 
   get name() {
-    let parts = this.fullname.split(":");
-    let lastIndex = parts.length - 1;
-    return parts[lastIndex];
+    let parts = this.fullname.split(':')
+    let lastIndex = parts.length - 1
+    return parts[lastIndex]
   }
 
   get parentName() {
-    let parts = this.fullname.split(":");
-    let lastIndex = parts.length - 1;
+    let parts = this.fullname.split(':')
+    let lastIndex = parts.length - 1
     // this.name = parts[lastIndex];
-    parts.splice(lastIndex, 1);
-    return parts.join(":");
+    parts.splice(lastIndex, 1)
+    return parts.join(':')
   }
 }

@@ -12,6 +12,8 @@ const { configure } = require('quasar/wrappers')
 
 module.exports = configure(function (/* ctx */) {
   return {
+    //supportTS: true,
+
     eslint: {
       // fix: true,
       // include = [],
@@ -30,7 +32,9 @@ module.exports = configure(function (/* ctx */) {
     boot: ['errorHandler', 'fontAwesome', 'pinia', 'version'],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
-    //css: ["app.scss"],
+    // css: [
+    //   'app.scss'
+    // ],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
@@ -72,8 +76,8 @@ module.exports = configure(function (/* ctx */) {
 
       extendViteConf(viteConf) {
         // Enable the line below for debugging:
-        // viteConf.define.global = {}
-        // viteConf.define.ENV = 'window'
+        viteConf.define.global = {}
+        viteConf.define.ENV = 'window'
       },
       // viteVuePluginOptions: {},
 
@@ -114,7 +118,7 @@ module.exports = configure(function (/* ctx */) {
     // https://v2.quasar.dev/options/animations
     animations: [],
 
-    // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#property-sourcefiles
+    // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#sourcefiles
     // sourceFiles: {
     //   rootComponent: 'src/App.vue',
     //   router: 'src/router/index',
@@ -126,7 +130,7 @@ module.exports = configure(function (/* ctx */) {
     //   electronPreload: 'src-electron/electron-preload'
     // },
 
-    // https://v2.quasar.dev/quasar-cli/developing-ssr/configuring-ssr
+    // https://v2.quasar.dev/quasar-cli-vite/developing-ssr/configuring-ssr
     ssr: {
       // ssrPwaHtmlFilename: 'offline.html', // do NOT use index.html as name!
       // will mess up SSR
@@ -147,7 +151,7 @@ module.exports = configure(function (/* ctx */) {
       ],
     },
 
-    // https://v2.quasar.dev/quasar-cli/developing-pwa/configuring-pwa
+    // https://v2.quasar.dev/quasar-cli-vite/developing-pwa/configuring-pwa
     pwa: {
       workboxMode: 'generateSW', // or 'injectManifest'
       injectPwaMetaTags: true,

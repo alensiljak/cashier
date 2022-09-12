@@ -117,7 +117,7 @@ async function loginWithRedirect() {
  * @returns authentication token
  */
 async function loginWithoutRedirect() {
-  var result = new Promise((resolve, reject) => {
+  let result = new Promise((resolve, reject) => {
     PcloudSdk.oauth.initOauthPollToken({
       client_id: CLIENT_ID,
       response_type: 'poll_token',

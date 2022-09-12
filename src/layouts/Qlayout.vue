@@ -10,19 +10,19 @@
 </template>
 
 <script>
-import QSidebar from "../components/QSidebar.vue";
-import Toolbar from "../components/CashierToolbar.vue";
+import QSidebar from '../components/QSidebar.vue'
+import Toolbar from '../components/CashierToolbar.vue'
 
 export default {
-  name: "LayoutDefault",
+  name: 'LayoutDefault',
 
   components: {
     QSidebar,
     Toolbar,
   },
-};
+}
 </script>
 
 <style lang="scss">
-@import "../css/styles.scss";
+@import '../css/styles.scss';
 </style>

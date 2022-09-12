@@ -1,7 +1,7 @@
 /*
     Initialize font awesome
 */
-import { library } from "@fortawesome/fontawesome-svg-core";
+import { library } from '@fortawesome/fontawesome-svg-core'
 // icon
 import {
   faBalanceScale,
@@ -50,7 +50,7 @@ import {
   faUser,
   faUsers,
   faWallet,
-} from "@fortawesome/free-solid-svg-icons";
+} from '@fortawesome/free-solid-svg-icons'
 // import { faRegular } from '@fortawesome/free-regular-svg-icons'
 
 library.add(
@@ -114,5 +114,5 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 //export default FontAwesomeIcon;
 export default ({ app, router, store }) => {
-  app.component("FontAwesomeIcon", FontAwesomeIcon);
+  app.component('FontAwesomeIcon', FontAwesomeIcon)
 }

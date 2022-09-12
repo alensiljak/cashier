@@ -46,7 +46,7 @@ class Settings {
    * @param {any} key
    * @returns Promise with the Setting object
    */
-  async get(key) {
+  async get(key: any) {
     const setting = await db.settings.get(key)
 
     if (!setting) return null
@@ -62,13 +62,13 @@ class Settings {
   }
 
   async getAll() {
-    var sqlDb = new Database()
+    let sqlDb = new Database()
     return sqlDb.settings.getAll()
 
     //return db.settings.all()
   }
 
-  async set(key, value) {
+  async set(key: string, value: string) {
     let jsonValue = JSON.stringify(value)
     let setting = new Setting(key, jsonValue)
 
