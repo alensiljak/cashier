@@ -6,7 +6,7 @@ import alasql from 'alasql'
 const dbName = 'Cashier'
 
 class BaseTable {
-  tableName: string = undefined
+  tableName: string | undefined = undefined
 
   async getAll() {
     const sql = `select * from ${this.tableName}`

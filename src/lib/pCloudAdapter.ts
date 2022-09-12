@@ -147,6 +147,7 @@ async function loginWithoutRedirect(): Promise<string> {
 
 export default function usePcloud() {
   window.locationid = 2
+  //window['locationid'] = 2
 
   let adapter = new PcloudAdapter()
 

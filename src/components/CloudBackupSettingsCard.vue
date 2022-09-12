@@ -21,7 +21,12 @@
       >
         Backup
       </q-btn>
-      <q-btn color="accent" text-color="secondary" @click="onRestoreClick">
+      <q-btn
+        color="accent"
+        text-color="secondary"
+        @click="onRestoreClick"
+        v-if="backupsCount > 0"
+      >
         Restore
       </q-btn>
     </q-card-section>
