@@ -98,19 +98,14 @@ class PcloudAdapter {
 }
 
 async function loginWithRedirect() {
-  console.debug('login with redirect')
-
   let result = new Promise((resolve, reject) => {
     PcloudSdk.oauth.initOauthToken({
       client_id: CLIENT_ID,
       redirect_uri: 'http://127.0.0.1:8080/oauth.html',
+      response_type: 'token',
       receiveToken: function (stuff) {
         console.debug('token received:', stuff)
         resolve(stuff)
-      },
-      onError: (err) => {
-        console.log(err)
-        reject(err)
       },
     })
   })
@@ -122,11 +117,10 @@ async function loginWithRedirect() {
  * @returns authentication token
  */
 async function loginWithoutRedirect() {
-  // console.debug('login without redirect')
-
   var result = new Promise((resolve, reject) => {
     PcloudSdk.oauth.initOauthPollToken({
       client_id: CLIENT_ID,
+      response_type: 'poll_token',
       receiveToken: function (token) {
         //console.debug('received token:', token)
 
