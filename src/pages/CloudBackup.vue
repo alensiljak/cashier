@@ -26,12 +26,12 @@ The datasets can be backed up and restored at a push of a button.
       <div>Favourites</div>
       <div>Last backup:</div>
 
-      <q-btn color="accent" text-color="secondary" @click="onFavUp"
-        >Backup</q-btn
-      >
-      <q-btn color="accent" text-color="secondary" @click="onFavDn"
-        >Restore</q-btn
-      >
+      <q-btn color="accent" text-color="secondary" @click="onFavUp">
+        Backup
+      </q-btn>
+      <q-btn color="accent" text-color="secondary" @click="onFavDn">
+        Restore
+      </q-btn>
     </div>
 
     <JournalCard class="q-my-md"></JournalCard>
@@ -40,7 +40,7 @@ The datasets can be backed up and restored at a push of a button.
   </q-page>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onMounted } from 'vue'
 import Toolbar from '../components/CashierToolbar.vue'
 import useNotifications from '../lib/CashierNotification'

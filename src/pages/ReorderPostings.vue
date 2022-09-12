@@ -24,7 +24,7 @@
       lock-axis="y"
       axis="y"
       :value="postings"
-      :modelValue="postings"
+      :model-value="postings"
       @input="onListChange"
     >
       <posting-item
