@@ -34,9 +34,12 @@ export class TransactionParser {
       const emptyPostings = postings.filter((posting) => !posting.amount)
       if (emptyPostings.length > 1) {
         throw new Error('multiple empty postings found!')
+      } else if (emptyPostings.length === 0) {
+        // no empty postings
+        return
       }
-      let emptyPosting = emptyPostings[0]
 
+      let emptyPosting = emptyPostings[0]
       emptyPosting.amount = Number(sum) * -1
     })
 
