@@ -151,7 +151,7 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
 import { useMainStore } from '../store/mainStore'
-import appService from '../appService.js'
+import appService from '../appService'
 
 const mainStore = useMainStore()
 

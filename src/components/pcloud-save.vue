@@ -48,17 +48,21 @@ export default {
 
   methods: {
     async authenticate(client_id) {
-      var that = this
-
-      pCloudSdk.oauth.initOauthPollToken({
-        client_id: client_id,
-        receiveToken: function (access_token) {
-          //console.log('authenticated:', access_token)
-          that.token = access_token
-        },
-        onError: function (err) {
-          console.error(err)
-        },
+      let result = new Promise((resolve, reject) => {
+        // initiate a call to pcloud auth.
+        pCloudSdk.oauth.initOauthPollToken({
+          client_id: client_id,
+          receiveToken: function (access_token) {
+            //console.log('authenticated:', access_token)
+            //that.token = access_token
+            resolve(access_token)
+          },
+          onError: function (err) {
+            console.error(err)
+            reject(err)
+          },
+        })
+        //
       })
     },
 
@@ -81,7 +85,8 @@ export default {
       this.token = token
 
       if (!token) {
-        await this.authenticate(this.app_id)
+        let newToken = await this.authenticate(this.app_id)
+        this.token = newToken
       } else {
         // upload
         await this.upload()

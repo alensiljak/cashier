@@ -26,7 +26,8 @@ export class LastTransaction {
 }
 
 export class Posting {
-  transactionId: string
+  id: any
+  transactionId: string | any
   account: string
   amount: any
   currency: string

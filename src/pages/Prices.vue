@@ -23,11 +23,11 @@
   </q-page>
 </template>
 
-<script>
-import appService from "../appService";
-import { Price } from "../model";
+<script lang="ts">
+import appService from '../appService'
+import { Price } from '../model'
 // import { morningstar } from '../lib/PriceDownloaderMorningstar'
-import Toolbar from "../components/CashierToolbar.vue";
+import Toolbar from '../components/CashierToolbar.vue'
 
 export default {
   components: {
@@ -36,7 +36,7 @@ export default {
   data() {
     return {
       commodities: [],
-    };
+    }
   },
 
   created() {},
@@ -50,12 +50,12 @@ export default {
     getCommodities() {
       appService.getInvestmentCommodities().then((commodities) => {
         for (let i = 0; i < commodities.length; i++) {
-          const price = new Price();
-          price.symbol = commodities[i];
-          this.commodities.push(price);
+          const price = new Price()
+          price.symbol = commodities[i]
+          this.commodities.push(price)
         }
-      });
+      })
     },
   },
-};
+}
 </script>

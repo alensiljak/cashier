@@ -4,7 +4,7 @@
     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export
 */
 import db from './dataStore'
-import { Account, LastTransaction, Transaction } from './model'
+import { Account, LastTransaction, Posting, Transaction } from './model'
 import { Notify } from 'quasar'
 import { settings, SettingKeys } from './lib/Configuration'
 import { toRaw } from 'vue'
@@ -15,16 +15,16 @@ class AppService {
    * Clears Ids and reference Ids in Transaction and Postings.
    * @param {Transaction} tx
    */
-  clearIds(tx) {
+  clearIds(tx: Transaction) {
     delete tx.id
-    tx.postings.forEach((posting) => {
+    tx.postings.forEach((posting: Posting) => {
       delete posting.id
       delete posting.transactionId
     })
     return tx
   }
 
-  createAccount(name) {
+  createAccount(name: string) {
     let acc = new Account()
     acc.name = name
 
@@ -35,7 +35,7 @@ class AppService {
     return db
   }
 
-  deleteAccount(name) {
+  deleteAccount(name: string) {
     return db.accounts.delete(name)
   }
 
@@ -102,7 +102,7 @@ class AppService {
   async getExportTransactions() {
     const txs = await db.transactions.orderBy('date').toArray()
 
-    var output = ''
+    let output = ''
 
     for (let i = 0; i < txs.length; i++) {
       let tx = txs[i]
@@ -125,11 +125,11 @@ class AppService {
     if (!fileInfo) return
     //   console.log(fileInfo);
 
-    var reader = new FileReader()
+    let reader = new FileReader()
 
     reader.onload = (event) => {
       // File was successfully read.
-      var content = event.target.result
+      let content = event.target.result
 
       callback(content)
     }
@@ -184,7 +184,7 @@ class AppService {
     if (Number.isNaN(value)) return
 
     // make sure we have a number
-    var result = Number(value)
+    let result = Number(value)
     // let val = (value/1).toFixed(2).replace('.', ',')
     // return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
     return result.toFixed(2)
@@ -395,7 +395,7 @@ class AppService {
     let accounts = await db.accounts.bulkGet(favArray)
 
     // Handle any accounts that have not been found
-    for (var i = 0; i < accounts.length; i++) {
+    for (let i = 0; i < accounts.length; i++) {
       let account = accounts[i]
       if (account === undefined) {
         // the account has been removed but the Favourites record exists.
@@ -456,7 +456,7 @@ class AppService {
    * Removes the missing postings.
    */
   async processPostings(tx) {
-    var newPostingIds = []
+    let newPostingIds = []
 
     // modifications
     for (let i = 0; i < tx.postings.length; i++) {
@@ -478,8 +478,8 @@ class AppService {
 
     // Delete any removed postings.
     // Get the posting ids from the database.
-    var postings = await db.postings.where({ transactionId: tx.id }).toArray()
-    var oldPostingIds = []
+    let postings = await db.postings.where({ transactionId: tx.id }).toArray()
+    let oldPostingIds = []
     for (let i = 0; i < postings.length; i++) {
       oldPostingIds.push(postings[i].id)
     }
@@ -541,7 +541,7 @@ class AppService {
     this.processPostings(tx)
 
     // save all items in a transaction
-    var id = await db.transaction(
+    let id = await db.transaction(
       'rw',
       db.transactions,
       db.postings,
@@ -551,7 +551,7 @@ class AppService {
         //delete tx.postings
 
         // returns the transaction id
-        var id = await db.transactions.put(tx)
+        let id = await db.transactions.put(tx)
         return id
       }
     )

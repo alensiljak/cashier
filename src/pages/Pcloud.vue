@@ -25,8 +25,8 @@
 </template>
 
 <script>
-import RemoteStorage from "../lib/remoteStorage";
-import Toolbar from "../components/CashierToolbar.vue";
+import RemoteStorage from '../lib/remoteStorage'
+import Toolbar from '../components/CashierToolbar.vue'
 
 export default {
   components: {
@@ -36,7 +36,7 @@ export default {
     return {
       // url: null,
       output: null,
-    };
+    }
   },
 
   created() {},
@@ -44,17 +44,17 @@ export default {
   methods: {
     backup() {
       // get journal for export
-      let output = "test";
-      let client = new RemoteStorage();
-      this.output = client.store(output);
+      let output = 'test'
+      let client = new RemoteStorage()
+      this.output = client.store(output)
     },
     login() {
       //   let url = "https://webdav.pcloud.com";
       //   this.loginWithRedirect();
       // this.loginWithoutRedirect();
-      const client = new RemoteStorage();
-      this.output = client.fetch();
+      const client = new RemoteStorage()
+      this.output = client.fetch()
     },
   },
-};
+}
 </script>
