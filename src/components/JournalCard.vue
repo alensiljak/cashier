@@ -86,12 +86,14 @@ async function loadData() {
       .limit(5)
       .toArray()
   } catch (error) {
+    console.error(error)
     Notification.negative(error.message)
   }
 
   try {
     calculateTxAmounts(txs)
   } catch (error) {
+    console.error(error)
     Notification.negative(error.message)
   }
 
