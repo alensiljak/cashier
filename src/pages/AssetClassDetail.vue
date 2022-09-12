@@ -36,7 +36,6 @@
 import appService from '../appService'
 import { CashierSync } from '../lib/syncCashier'
 import { SettingKeys, settings } from '../lib/Configuration'
-import * as Vue from 'vue'
 import Toolbar from '../components/CashierToolbar.vue'
 import { SecurityAnalysis } from 'src/lib/securityAnalysis'
 
@@ -60,10 +59,11 @@ export default {
 
   methods: {
     async loadData() {
-      let that = this
+      //let that = this
       let col = await appService.getInvestmentAccounts()
       let array = await col.toArray()
-      that.investmentAccounts = array
+      //that.investmentAccounts = array
+      this.investmentAccounts = array
       this.loadAssetClass()
 
       this.currency = await settings.get(SettingKeys.currency)
@@ -108,10 +108,8 @@ export default {
      * Retrieve the security analysis from CashierSync
      */
     async fetchAnalysisFor(symbol) {
-      //let sync = new CashierSync(this.serverUrl);
       let sec = new SecurityAnalysis()
 
-      //let result = sync.readSecurityAnalysis(symbol)
       const result = await sec.getSecurityAnalysisFor(symbol)
       return result
     },
