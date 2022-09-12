@@ -26,6 +26,7 @@
     "@fortawesome/free-solid-svg-icons": "6.2.0",
     "@fortawesome/vue-fontawesome": "3.0.1",
     "@quasar/extras": "1.15.3",
+    "alasql": "1.7.3",
     "dexie": "3.2.2",
     "file-saver": "2.0.5",
     "js-yaml": "4.1.0",

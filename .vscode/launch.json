@@ -1,17 +1,17 @@
 {
-    "configurations": [
-        {
-            "type": "firefox",
-            "request": "attach",
-            "name": "Attach"
-        },
+  "configurations": [
     {
-        "type": "firefox",
-        "request": "launch",
-        "reAttach": true,
-        "name": "Launch localhost",
-        "url": "http://localhost:8081/",
-        "webRoot": "${workspaceFolder}"
+      "type": "firefox",
+      "request": "attach",
+      "name": "Attach"
+    },
+    {
+      "type": "firefox",
+      "request": "launch",
+      "reAttach": true,
+      "name": "Launch localhost",
+      "url": "http://localhost:9200/",
+      "webRoot": "${workspaceFolder}"
     }
-    ]
+  ]
 }

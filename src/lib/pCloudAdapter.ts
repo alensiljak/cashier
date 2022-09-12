@@ -64,7 +64,7 @@ class PcloudAdapter {
 
     // Get only the list of the files of the given type.
     const regex = getRegexFor(entityType)
-    console.log(regex)
+    // console.log(regex)
 
     const fileCount = filenames.filter((name) => name.match(regex)).length
 

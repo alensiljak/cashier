@@ -16,12 +16,12 @@ const { adapter } = usePcloud()
  */
 class CloudBackup {
   // to be set by the inheriting classes
-  entityType = undefined
+  entityTypeName = undefined
 
   constructor() {}
 
   async backup(content) {
-    const filename = this.getFilename(this.entityType)
+    const filename = this.getFilename(this.entityTypeName)
     await adapter.upload(content, filename)
   }
 
@@ -41,7 +41,7 @@ class CloudBackup {
   async getRemoteBackupCount() {
     //
     await adapter.init()
-    let result = await adapter.getFileCount(this.entityType)
+    let result = await adapter.getFileCount(this.entityTypeName)
     return result
   }
 }
@@ -64,7 +64,11 @@ class FavouritesBackup {
 }
 
 class JournalBackup extends CloudBackup {
-  entityType = 'journal'
+  entityTypeName = 'journal'
+}
+
+class SettingsBackup extends CloudBackup {
+  entityTypeName = 'settings'
 }
 
 export default function useCloudBackup() {
@@ -77,6 +81,7 @@ export default function useCloudBackup() {
   //const cloud = new CloudBackup()
   const favourites = new FavouritesBackup()
   const journal = new JournalBackup()
+  const settingsBackup = new SettingsBackup()
 
-  return { yo, favourites, journal }
+  return { yo, favourites, journal, settingsBackup }
 }

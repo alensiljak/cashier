@@ -35,6 +35,8 @@ The datasets can be backed up and restored at a push of a button.
     </div>
 
     <JournalCard class="q-my-md"></JournalCard>
+
+    <SettingsCard class="" />
   </q-page>
 </template>
 
@@ -44,6 +46,7 @@ import Toolbar from '../components/CashierToolbar.vue'
 import useNotifications from '../lib/CashierNotification'
 import useCloudBackup from '../lib/CloudBackup'
 import JournalCard from '../components/JournalCloudBackupCard.vue'
+import SettingsCard from 'src/components/CloudBackupSettingsCard.vue'
 
 const Notification = useNotifications()
 
