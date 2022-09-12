@@ -17,18 +17,13 @@ const { adapter } = usePcloud()
  */
 class CloudBackup {
   // to be set by the inheriting classes
-  entityTypeName: string | undefined
+  entityTypeName = ''
 
   constructor() {}
 
   async backup(content: any) {
     const filename = this.getFilename()
     await adapter.upload(content, filename)
-  }
-
-  talk() {
-    const timestamp = this.getFilename('yo')
-    console.debug('hi!', timestamp)
   }
 
   getFilename() {

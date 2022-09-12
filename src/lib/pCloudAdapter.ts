@@ -22,7 +22,8 @@ const FOLDER_ID = 0 // folder id is always 0 since we have only one folder.
 }
 
 function getRegexFor(entityType: string) {
-  const template = `backup-${entityType}-[0-9]{14}.json`
+  //const template = `backup-${entityType}-[0-9]{14}.json`
+  const template = `backup-${entityType}-[0-9-]{17}.json`
   const regex = new RegExp(template)
   //return template
   //.*?
