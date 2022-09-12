@@ -3,7 +3,8 @@
     <img src="../assets/icons8-pcloud.svg" @click="onImgClick" />
   </div>
 </template>
-<script>
+
+<script lang="ts">
 import { SettingKeys, settings } from '../lib/Configuration'
 import pCloudSdk from 'pcloud-sdk-js'
 
@@ -47,7 +48,7 @@ export default {
   },
 
   methods: {
-    async authenticate(client_id) {
+    async authenticate(client_id): Promise<string> {
       let result = new Promise((resolve, reject) => {
         // initiate a call to pcloud auth.
         pCloudSdk.oauth.initOauthPollToken({
@@ -64,6 +65,7 @@ export default {
         })
         //
       })
+      return result
     },
 
     getClient() {
