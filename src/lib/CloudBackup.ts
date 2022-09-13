@@ -2,7 +2,7 @@
   Cloud Backup functionality
 */
 
-import { ref } from 'vue'
+// import { ref } from 'vue'
 import { settings, SettingKeys } from './Configuration'
 import usePcloud from './pCloudAdapter'
 import moment from 'moment'
@@ -11,6 +11,20 @@ import moment from 'moment'
 const timestampFormat = 'YYYY-MM-DD-HHmmss'
 
 const { adapter } = usePcloud()
+
+interface FileInfo {
+  name: string
+  fileid: number
+}
+
+function getRegexFor(entityType: string): RegExp {
+  //const template = `backup-${entityType}-[0-9]{14}.json`
+  const template = `backup-${entityType}-[0-9-]{17}.json`
+  const regex = new RegExp(template)
+  //return template
+  //.*?
+  return regex
+}
 
 /**
  * Handles backup and restore to/from the cloud.
@@ -26,6 +40,10 @@ class CloudBackup {
     await adapter.upload(content, filename)
   }
 
+  async download(filename: string) {
+    return adapter.download('./' + filename)
+  }
+
   getFilename() {
     // get the timestamp
     const now = moment()
@@ -34,21 +52,41 @@ class CloudBackup {
     return `backup-${this.entityTypeName}-${timestamp}.json`
   }
 
-  async getLatestFilename(): Promise<string> {
-    const filenames = await adapter.getFilenameListFor(this.entityTypeName)
-    // order by name
+  async getLatestFile(): Promise<FileInfo> {
+    // Get only the list of the files of the given type.
+    const regex = getRegexFor(this.entityTypeName)
+
+    const fileList = await adapter.getFileListFor(regex)
+
+    // todo: get the latest, order by name
+    let filenames = fileList.map((item) => item.name)
     filenames.sort()
 
     const lastIndex = filenames.length - 1
+    let latestFilename = filenames[lastIndex]
 
-    let result = filenames[lastIndex]
-    return result
+    const latestFile = fileList.filter(
+      (item) => item.name === latestFilename
+    )[0]
+
+    // todo: convert to a common interface?
+
+    return latestFile as FileInfo
+  }
+
+  async getLatestFilename(): Promise<string> {
+    const file = await this.getLatestFile()
+    // console.log('latest file:', file)
+
+    return file.name
   }
 
   async getRemoteBackupCount() {
     //
     await adapter.init()
-    let result = await adapter.getFileCount(this.entityTypeName)
+    let regex: RegExp = getRegexFor(this.entityTypeName)
+
+    let result = await adapter.getFileCount(regex)
     return result
   }
 }

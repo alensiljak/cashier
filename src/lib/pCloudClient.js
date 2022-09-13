@@ -1,5 +1,6 @@
 /*
     Client that communicates to pCloud service.
+    Not used. Use pCloudAdapter for backup.
 */
 import pCloudSdk from 'pcloud-sdk-js'
 const CLIENT_ID = 'swX3uGCh15u'
@@ -33,12 +34,6 @@ class PcloudClient {
     })
   }
 
-  fetch() {
-    this.ensureLoggedIn()
-    // todo fetch the backup file
-    console.log('now')
-    return this.access_token
-  }
   /**
    * Store the text content to a file in the cloud.
    * @param {String} content

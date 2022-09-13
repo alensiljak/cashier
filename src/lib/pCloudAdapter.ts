@@ -21,15 +21,6 @@ const FOLDER_ID = 0 // folder id is always 0 since we have only one folder.
   // })
 }
 
-function getRegexFor(entityType: string) {
-  //const template = `backup-${entityType}-[0-9]{14}.json`
-  const template = `backup-${entityType}-[0-9-]{17}.json`
-  const regex = new RegExp(template)
-  //return template
-  //.*?
-  return regex
-}
-
 class PcloudAdapter {
   token: string | undefined
   client: any
@@ -58,23 +49,34 @@ class PcloudAdapter {
     }
   }
 
-  async getFilenameListFor(backupType: string): Promise<Array<string>> {
-    let listing = await this.client.listfolder(FOLDER_ID)
+  async download(filename: string) {
+    return this.client.downloadfile(filename)
+  }
 
-    const filenames = listing.contents.map((item: any) => item.name)
+  // async getFilenameListFor(regex: RegExp): Promise<Array<string>> {
+  //   let listing = await this.client.listfolder(FOLDER_ID)
 
-    // Get only the list of the files of the given type.
-    const regex = getRegexFor(backupType)
-    // console.log(regex)
+  //   const filenames = listing.contents.map((item: any) => item.name)
 
-    const filteredFilenames = filenames.filter((name: string) =>
-      name.match(regex)
+  //   const filteredFilenames = filenames.filter((name: string) =>
+  //     name.match(regex)
+  //   )
+  //   return filteredFilenames
+  // }
+
+  async getFileListFor(regex: RegExp): Promise<Array<any>> {
+    let folder = await this.client.listfolder(FOLDER_ID)
+
+    // const filenames = listing.contents.map( => item.name)
+
+    const filteredFilenames = folder.contents.filter((item: any) =>
+      item.name.match(regex)
     )
     return filteredFilenames
   }
 
-  async getFileCount(entityType: string): Promise<number> {
-    const fileList = await this.getFilenameListFor(entityType)
+  async getFileCount(regex: RegExp): Promise<number> {
+    const fileList = await this.getFileListFor(regex)
     const fileCount = fileList.length
 
     // .contents .name
@@ -145,9 +147,17 @@ async function loginWithoutRedirect(): Promise<string> {
   return result
 }
 
+/**
+ * Declare the required locationid property on the global window object.
+ */
+declare global {
+  interface Window {
+    locationid?: any
+  }
+}
+
 export default function usePcloud() {
   window.locationid = 2
-  //window['locationid'] = 2
 
   let adapter = new PcloudAdapter()
 

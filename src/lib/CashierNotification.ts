@@ -15,16 +15,16 @@ import { useQuasar } from 'quasar'
 export default function useNotifications() {
   const $q = useQuasar()
 
-  function negative(message) {
+  function negative(message: string): void {
     $q.notify({ color: 'negative', message: message })
   }
 
-  function neutral(message) {
+  function neutral(message: string): void {
     //
     $q.notify({ message: message })
   }
 
-  function positive(message) {
+  function positive(message: string): void {
     $q.notify({ color: 'positive', message: message })
   }
 

@@ -28,14 +28,14 @@
       >
         Backup
       </q-btn>
-      <q-btn
+      <!-- <q-btn
         color="accent"
         text-color="secondary"
         @click="onRestoreClick"
         v-if="backupsCount > 0"
       >
         Restore
-      </q-btn>
+      </q-btn> -->
     </q-card-section>
   </q-card>
 </template>
