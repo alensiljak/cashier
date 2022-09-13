@@ -12,10 +12,10 @@ import numeral from 'numeral'
  *
  */
 class AssetAllocationEngine {
-  constructor() {
-    this.assetClassIndex = null
-    this.stockIndex = null
-  }
+  assetClassIndex: object | undefined
+  stockIndex: object | undefined
+
+  constructor() {}
 
   async loadFullAssetAllocation() {
     // aa definition
@@ -46,8 +46,8 @@ class AssetAllocationEngine {
     return result
   }
 
-  buildAssetClassIndex(assetClasses) {
-    let index = {}
+  buildAssetClassIndex(assetClasses: AssetClass[]): object {
+    let index: any = {}
 
     for (let i = 0; i < assetClasses.length; i++) {
       let ac = assetClasses[i]
@@ -61,8 +61,8 @@ class AssetAllocationEngine {
    * Build the index of stocks for easy retrieval.
    * @param {Array} asetClasses
    */
-  buildStockIndex(asetClasses) {
-    let index = {}
+  buildStockIndex(asetClasses: AssetClass[]): object {
+    let index: any = {}
 
     for (let i = 0; i < asetClasses.length; i++) {
       let assetClass = asetClasses[i]
@@ -78,7 +78,7 @@ class AssetAllocationEngine {
     return index
   }
 
-  calculateOffsets(dictionary) {
+  calculateOffsets(dictionary: object) {
     let root = dictionary['Allocation']
     let total = root.currentValue
 
@@ -100,7 +100,7 @@ class AssetAllocationEngine {
     })
   }
 
-  cleanBlankArrayItems(array) {
+  cleanBlankArrayItems(array: any[]) {
     let i = 0
     while (i < array.length) {
       let part = array[i]
@@ -139,7 +139,7 @@ class AssetAllocationEngine {
    * The output can be stored for historical purposes, compared, etc.
    * @param {Array} rows
    */
-  formatAllocationRowsForTxtExport(rows) {
+  formatAllocationRowsForTxtExport(rows: Array<string>) {
     let outputRows = []
     outputRows.push(
       'Asset Class       Allocation Current  Diff.  Diff.%  Alloc.Val.  Curr. Val.  Difference'
@@ -203,13 +203,13 @@ class AssetAllocationEngine {
    * Update the current balances in the asset allocation.
    * @param {string} json
    */
-  async importCurrentValuesJson(json) {
+  async importCurrentValuesJson(json: object) {
     const accounts = Object.keys(json)
     for (let i = 0; i < accounts.length; i++) {
       const key = accounts[i]
 
       // fix the balance
-      let balance = json[key]
+      let balance: string = json[key]
       balance = balance.replace(',', '')
 
       // extract the currency
@@ -220,8 +220,7 @@ class AssetAllocationEngine {
       // Update existing account.
       let account = await appService.db.accounts.get(key)
       if (!account) {
-        // eslint-disable-next-line no-throw-literal
-        throw 'Invalid account ' + accountName
+        throw new Error('Invalid account ' + account.name)
       }
       account.currentValue = amount
       account.currentCurrency = currency
@@ -234,16 +233,16 @@ class AssetAllocationEngine {
    * Imports Asset Allocation definition as YAML
    * @param {string} content The content of the YAML definition file.
    */
-  async importYamlDefinition(content) {
-    var parsed = jsyaml.load(content)
+  async importYamlDefinition(content: string) {
+    let parsed = jsyaml.load(content)
 
     //var aa = parsed.Allocation
     // Convert to backward-compatible structure (tree -> list).
-    var assetClasses = this.linearizeObject(parsed)
+    let assetClasses = this.linearizeObject(parsed)
 
     // todo: use the tree structure directly, at some later point.
 
-    var result = await this.validateAndSave(assetClasses)
+    let result = await this.validateAndSave(assetClasses)
     return result
   }
 
@@ -252,18 +251,18 @@ class AssetAllocationEngine {
    * This converts the new structure into the old.
    * @param {object} rootObject
    */
-  linearizeObject(rootObject, namespace = '') {
-    var result = []
+  linearizeObject(rootObject: object, namespace = ''): Array<string> {
+    let result: Array<string> = []
 
     // only use the children.
 
     for (const propertyName in rootObject) {
-      var child = rootObject[propertyName]
+      let child = rootObject[propertyName]
 
       // symbols is an array, which is also an object. Skip.
       if (typeof child == 'object' && child.constructor !== Array) {
         // convert to Asset Class
-        var item = new AssetClass()
+        let item = new AssetClass()
         item.allocation = child.allocation
         item.symbols = child.symbols
         // todo: get the name
@@ -278,13 +277,13 @@ class AssetAllocationEngine {
         //console.log(`object: ${propertyName}`, child)
 
         // iterate
-        var childNamespace = namespace
+        let childNamespace = namespace
         if (namespace) {
           childNamespace += ':'
         }
         childNamespace += propertyName
 
-        var children = this.linearizeObject(child, childNamespace)
+        let children = this.linearizeObject(child, childNamespace)
         if (children.length) {
           result = result.concat(children)
         }
@@ -332,7 +331,7 @@ class AssetAllocationEngine {
    * Load the asset allocation definition from persistence.
    * @returns Array of asset class records
    */
-  async loadDefinition() {
+  async loadDefinition(): Promise<AssetClass[]> {
     return appService.db.assetAllocation.toArray()
   }
 

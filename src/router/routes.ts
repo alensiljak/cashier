@@ -207,25 +207,19 @@ const routes = [
         path: '/tx-actions/:id',
         name: 'tx-actions',
         props: true,
-        component: () => import('../pages/TransactionActions.vue'),
+        component: () => import('src/pages/TransactionActions.vue'),
       },
       {
         path: '/tx-search',
         name: 'tx-search',
         component: () =>
-          import(/* webpackChunkName: 'txsearch' */ '../pages/TxSearch.vue'),
+          import(/* webpackChunkName: 'txsearch' */ 'src/pages/TxSearch.vue'),
       },
       {
         path: '/xact',
         name: 'xact',
         component: () =>
-          import(/* webpackChunkName: 'xact' */ '../pages/Xact.vue'),
-      },
-      {
-        path: '/pcloud',
-        name: 'pcloud',
-        component: () =>
-          import(/* webpackChunkName: 'pcloud' */ '../pages/Pcloud.vue'),
+          import(/* webpackChunkName: 'xact' */ 'src/pages/Xact.vue'),
       },
     ],
   },
@@ -236,7 +230,7 @@ const routes = [
   // },
   {
     path: '/:catchAll(.*)*',
-    component: () => import('pages/Error404.vue'),
+    component: () => import('src/pages/Error404.vue'),
   },
 ]
 

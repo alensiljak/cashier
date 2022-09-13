@@ -13,7 +13,9 @@ export class CashierSync {
   static accountsCommand = 'accounts'
   static payeesCommand = 'payees'
 
-  constructor(serverUrl) {
+  serverUrl: string
+
+  constructor(serverUrl: string) {
     if (!serverUrl) {
       throw new Error('CashierSync URL not set.')
     }
@@ -25,7 +27,7 @@ export class CashierSync {
     //this.currentValuesUrl = this.serverUrl + CashierSync.currentValuesUrl
   }
 
-  async get(path, options) {
+  async get(path: string, options?: object) {
     const url = new URL(`${this.serverUrl}${path}`)
     const response = await ky(url, options)
     return response
@@ -41,13 +43,13 @@ export class CashierSync {
     return url
   }
 
-  getUrl(command) {
+  getUrl(command: string) {
     const path = this.getPath(command)
     const url = new URL(`${this.serverUrl}${path}`)
     return url
   }
 
-  getPath(command) {
+  getPath(command: string) {
     return `?command=${command}`
   }
 
@@ -55,7 +57,7 @@ export class CashierSync {
    * Sends a ledger command to the Ledger server and returns the response.
    * @param {String} command
    */
-  async ledger(command, options) {
+  async ledger(command: string, options?: object) {
     const url = this.getUrl(command)
 
     const response = await ky(url, options)
@@ -131,7 +133,7 @@ export class CashierSync {
     //const response = await ky.get(url)
     const response = await this.ledger(command)
     //const result = await response.text()
-    const result = await response.json()
+    const result: Array<string> = await response.json()
 
     // parse
     const currentValues = this.parseCurrentValues(result, rootAcct)
@@ -140,8 +142,8 @@ export class CashierSync {
     return 'OK'
   }
 
-  parseCurrentValues(lines, rootAccount) {
-    let result = {}
+  parseCurrentValues(lines: Array<string>, rootAccount: string): object {
+    let result: object = {}
 
     for (const line of lines) {
       if (line === '') continue
@@ -163,7 +165,7 @@ export class CashierSync {
     return result
   }
 
-  async readLots(symbol) {
+  async readLots(symbol: string) {
     const command = `b ^Assets and invest and :${symbol}$ --lots --no-total --collapse`
 
     //const response = await ky.get(url)
@@ -184,7 +186,7 @@ export class CashierSync {
     return result
   }
 
-  async search(searchParams) {
+  async search(searchParams: object) {
     const url = new URL(`${this.serverUrl}/search`)
 
     // For GET, use URL Search Params, for POST, use Form Data:
@@ -198,7 +200,7 @@ export class CashierSync {
     return result
   }
 
-  async xact(parameters) {
+  async xact(parameters: object) {
     const url = new URL(`${this.serverUrl}/xact`)
     const response = await ky.post(url, { json: parameters })
     //const result = await response.json()
