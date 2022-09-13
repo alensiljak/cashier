@@ -58,12 +58,12 @@
 </template>
 
 <script>
-import Toolbar from "../components/CashierToolbar.vue";
+import Toolbar from '../components/CashierToolbar.vue'
 
 export default {
   components: {
     Toolbar,
   },
   created() {},
-};
+}
 </script>
