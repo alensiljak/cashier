@@ -2,10 +2,9 @@
     Asset Allocation
 */
 import appService from '../appService'
-import AssetClass from './AssetClass'
+import { AssetClass } from './AssetClass'
 import jsyaml from 'js-yaml'
 import numeral from 'numeral'
-//var numeral = require("numeral")
 
 /**
  * loadDefinition = loads the pre-set definition

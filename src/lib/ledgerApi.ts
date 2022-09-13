@@ -5,7 +5,11 @@ import { settings, SettingKeys } from './Configuration'
  * Used to communicate with Ledger server.
  */
 export class LedgerApi {
-  constructor() {}
+  serverUrl: string
+
+  constructor() {
+    this.serverUrl = ''
+  }
 
   async init() {
     // Server base url
@@ -16,7 +20,7 @@ export class LedgerApi {
    * Perform a ledger-cli query
    * @param {String} command Ledger command. i.e. "balance assets -b 2022-08-01"
    */
-  async query(command) {
+  async query(command: string): Promise<string[]> {
     //console.debug('query:', command)
 
     const url = new URL(`${this.serverUrl}?command=${command}`)
@@ -27,7 +31,7 @@ export class LedgerApi {
       throw new Error('Error querying the ledger server!', response.Error)
     }
 
-    const result = await response.json()
+    const result: string[] = await response.json()
     return result
   }
 }

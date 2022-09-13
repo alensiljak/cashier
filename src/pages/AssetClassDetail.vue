@@ -32,96 +32,98 @@
   </q-page>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
+import { onMounted, Ref, ref } from 'vue'
 import appService from '../appService'
 import { CashierSync } from '../lib/syncCashier'
 import { SettingKeys, settings } from '../lib/Configuration'
 import Toolbar from '../components/CashierToolbar.vue'
-import { SecurityAnalysis } from 'src/lib/securityAnalysis'
+import { SecurityAnalyser } from 'src/lib/securityAnalysis'
+import { useRoute } from 'vue-router'
+import { AssetClass, StockSymbol } from 'src/lib/AssetClass'
+import { Collection } from 'dexie'
+import { Account } from 'src/model'
 
-export default {
-  components: {
-    Toolbar,
-  },
-  data() {
-    return {
-      assetClass: {},
-      symbols: [],
-      investmentAccounts: [],
-      currency: null,
-      serverUrl: null,
+const $route = useRoute()
+
+const assetClass: Ref<AssetClass | any> = ref({})
+const symbols: Ref<StockSymbol[]> = ref([])
+const investmentAccounts: Ref<Account[]> = ref([])
+const currency = ref(null)
+const serverUrl = ref(null)
+
+onMounted(async () => {
+  await loadData()
+})
+
+async function loadData() {
+  let col: Collection = await appService.getInvestmentAccounts()
+  let array: Account[] = await col.toArray()
+
+  investmentAccounts.value = array
+  await loadAssetClass()
+
+  currency.value = await settings.get(SettingKeys.currency)
+  serverUrl.value = await settings.get(SettingKeys.syncServerUrl)
+
+  await securityAnalysis()
+}
+
+async function loadAssetClass() {
+  const ac: AssetClass = await appService.loadAssetClass($route.params.fullname)
+  assetClass.value = ac
+  await loadConstituents()
+}
+
+/**
+ * Load all constituents - stocks, currencies.
+ */
+function loadConstituents() {
+  let childNames = assetClass.value.symbols
+  let stocks = []
+
+  // load account balances
+  for (let i = 0; i < childNames.length; i++) {
+    let childName = childNames[i]
+    let stock: StockSymbol = {
+      name: childName,
+      accounts: [],
     }
-  },
 
-  created() {
-    this.loadData()
-  },
-
-  methods: {
-    async loadData() {
-      //let that = this
-      let col = await appService.getInvestmentAccounts()
-      let array = await col.toArray()
-      //that.investmentAccounts = array
-      this.investmentAccounts = array
-      this.loadAssetClass()
-
-      this.currency = await settings.get(SettingKeys.currency)
-      this.serverUrl = await settings.get(SettingKeys.syncServerUrl)
-      this.securityAnalysis()
-    },
-    async loadAssetClass() {
-      const ac = await appService.loadAssetClass(this.$route.params.fullname)
-      this.assetClass = ac
-      await this.loadConstituents()
-    },
-    /**
-     * Load all constituents - stocks, currencies.
-     */
-    loadConstituents() {
-      let childNames = this.assetClass.symbols
-      let stocks = []
-
-      // load account balances
-      for (let i = 0; i < childNames.length; i++) {
-        let childName = childNames[i]
-        let stock = {
-          name: childName,
-          accounts: [],
-        }
-
-        let account = null
-        // find all accounts with this commodity
-        for (let j = 0; j < this.investmentAccounts.length; j++) {
-          account = this.investmentAccounts[j]
-          if (account.currency === childName) {
-            stock.accounts.push(account)
-          }
-        }
-
-        stocks.push(stock)
+    let account: Account | null = null
+    // find all accounts with this commodity
+    for (let j = 0; j < investmentAccounts.value.length; j++) {
+      account = investmentAccounts.value[j]
+      if (account.currency === childName) {
+        stock.accounts.push(account)
       }
+    }
 
-      this.symbols = stocks
-    },
-    /**
-     * Retrieve the security analysis from CashierSync
-     */
-    async fetchAnalysisFor(symbol) {
-      let sec = new SecurityAnalysis()
+    stocks.push(stock)
+  }
 
-      const result = await sec.getSecurityAnalysisFor(symbol)
-      return result
-    },
-    async securityAnalysis() {
-      // load analysis for all symbols
-      for (let i = 0; i < this.symbols.length; i++) {
-        let symbol = this.symbols[i].name
-        let analysis = await this.fetchAnalysisFor(symbol)
-        let stock = this.symbols.find((obj) => obj.name == symbol)
-        stock.analysis = analysis
-      }
-    },
-  },
+  symbols.value = stocks
+}
+
+/**
+ * Retrieve the security analysis from CashierSync
+ */
+async function fetchAnalysisFor(symbol: string) {
+  let sec = new SecurityAnalyser()
+
+  const result = await sec.getSecurityAnalysisFor(symbol)
+  return result
+}
+
+async function securityAnalysis() {
+  // load analysis for all symbols
+  for (let i = 0; i < symbols.value.length; i++) {
+    let symbol = symbols.value[i].name
+
+    let analysis = await fetchAnalysisFor(symbol)
+
+    let stock = symbols.value.find((obj) => obj.name === symbol)
+    stock.analysis = analysis
+  }
 }
 </script>

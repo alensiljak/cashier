@@ -9,8 +9,14 @@ const DATE_FORMAT = 'YYYY-MM-DD'
  * Security Analysis for symbols.
  * Calculates yield, etc.
  */
-export class SecurityAnalysis {
-  currency
+
+export interface SecurityAnalysis {
+  yield: any
+  gainloss: any
+}
+
+export class SecurityAnalyser {
+  currency: string | undefined
   ledgerApi
 
   constructor() {
@@ -24,13 +30,14 @@ export class SecurityAnalysis {
    * Performs the Security Analysis with Ledger data.
    * @param {string} symbol
    */
-  async getSecurityAnalysisFor(symbol) {
-    this.currency = await settings.get(SettingKeys.currency)
+  async getSecurityAnalysisFor(symbol: string): Promise<SecurityAnalysis> {
+    let currency = await settings.get(SettingKeys.currency)
+    this.currency = currency
     await this.ledgerApi.init()
 
-    var result = {
-      yield: await this.#getYield(symbol, this.currency),
-      gainloss: await this.#getGainLoss(symbol, this.currency),
+    let result: SecurityAnalysis = {
+      yield: await this.#getYield(symbol, currency),
+      gainloss: await this.#getGainLoss(symbol, currency),
     }
 
     return result
@@ -40,7 +47,7 @@ export class SecurityAnalysis {
    * Calculate the yield in the last 12 months.
    * This value is affected by the recent purchases, which result in seemingly lower yield!
    */
-  async #getYield(symbol, currency) {
+  async #getYield(symbol: string, currency: string) {
     // Retrieve income amount.
     let incomeStr = await this.#getIncomeBalance(symbol)
     let income = Number(incomeStr)
@@ -66,7 +73,7 @@ export class SecurityAnalysis {
     return result
   }
 
-  async #getGainLoss(symbol, currency) {
+  async #getGainLoss(symbol: string, currency: string) {
     const command = `b ^Assets and :${symbol}$ -G -n -X ${currency}`
     const report = await this.ledgerApi.query(command)
     const line = report[0]
@@ -79,7 +86,7 @@ export class SecurityAnalysis {
   /**
    * Get the income in the last year.
    */
-  async #getIncomeBalance(symbol) {
+  async #getIncomeBalance(symbol: string) {
     const currency = this.currency
     const yieldFrom = moment().subtract(1, 'year').format(DATE_FORMAT)
 
@@ -114,7 +121,7 @@ export class SecurityAnalysis {
     return totalNumeric
   }
 
-  async #getValueBalance(symbol, currency) {
+  async #getValueBalance(symbol: string, currency: string) {
     const command = `b ^Assets and :${symbol}$ -X ${currency}`
     const api = this.ledgerApi
 

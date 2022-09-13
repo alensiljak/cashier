@@ -1,4 +1,6 @@
-export default class AssetClass {
+import { Account } from 'src/model'
+
+export class AssetClass {
   fullname: string
   allocation
   allocatedValue
@@ -59,4 +61,10 @@ export default class AssetClass {
     parts.splice(lastIndex, 1)
     return parts.join(':')
   }
+}
+
+export interface StockSymbol {
+  name: string
+  accounts: Account[]
+  analysis: any
 }

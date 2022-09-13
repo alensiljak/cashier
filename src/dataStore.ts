@@ -13,7 +13,7 @@ import {
   ScheduledTransaction,
   Setting,
 } from './model'
-import AssetClass from './lib/AssetClass'
+import { AssetClass } from './lib/AssetClass'
 
 // Define the schema
 
