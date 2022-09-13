@@ -1,9 +1,17 @@
 export default class AssetClass {
+  fullname: string
+  allocation
+  allocatedValue
+  currentAllocation
+  currentValue
+  diff
+  diffAmount
+  diffPerc
+  currency
+  symbols
+
   constructor() {
-    this.fullname = null
-    // this.full_name = null;
-    // this.parentname = null;
-    // this.name = null;
+    this.fullname = ''
     this.allocation = null
     this.symbols = null
     // this.level = null; // the depth level, with root Allocation = 0

@@ -73,7 +73,7 @@
   </q-page>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useQuasar } from 'quasar'
 import Toolbar from '../components/CashierToolbar.vue'

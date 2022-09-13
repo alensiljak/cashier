@@ -145,7 +145,7 @@
   </q-page>
 </template>
 
-<script>
+<script lang="ts">
 import { settings, SettingKeys } from 'src/lib/Configuration'
 import { CashierSync } from '../lib/syncCashier'
 import { date } from 'quasar'

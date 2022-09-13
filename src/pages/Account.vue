@@ -118,7 +118,8 @@
   </q-page>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import appService from '../appService'
 import { useMainStore } from '../store/mainStore'
 
 const mainStore = useMainStore()
@@ -127,9 +128,7 @@ function menuClicked() {
   mainStore.toggleDrawer()
 }
 </script>
-<script>
-import appService from '../appService'
-
+<script lang="ts">
 export default {
   data() {
     return {

@@ -40,7 +40,7 @@
   </q-page>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useMainStore } from '../store/mainStore'
 
 const mainStore = useMainStore()
@@ -49,7 +49,7 @@ function onMenuClicked() {
   mainStore.toggleDrawer()
 }
 </script>
-<script>
+<script lang="ts">
 import { SET_SELECTED_ID } from '../mutations'
 import PayeesToolbar from '../components/PayeesToolbar.vue'
 import appService from '../appService'

@@ -48,7 +48,7 @@
   </q-page>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useMainStore } from '../store/mainStore'
 import { useRoute, useRouter } from 'vue-router'
 import appService from '../appService'
@@ -78,7 +78,7 @@ async function showTx(id) {
   await router.push({ name: 'scheduledtxactions', params: { id: id } })
 }
 </script>
-<script>
+<script lang="ts">
 import moment from 'moment'
 import StxToolbar from '../components/ScheduledTxToolbar.vue'
 

@@ -35,7 +35,8 @@
   </q-page>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import Toolbar from '../components/CashierToolbar.vue'
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import appService from '../appService'
@@ -178,14 +179,5 @@ async function loadTransactionsFor(postingRecords) {
   })
 
   return postingRecords
-}
-</script>
-<script>
-import Toolbar from '../components/CashierToolbar.vue'
-
-export default {
-  components: {
-    Toolbar,
-  },
 }
 </script>

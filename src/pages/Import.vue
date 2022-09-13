@@ -64,9 +64,9 @@
   </q-page>
 </template>
 
-<script>
-import Toolbar from "../components/CashierToolbar.vue";
-import appService from "../appService";
+<script lang="ts">
+import Toolbar from '../components/CashierToolbar.vue'
+import appService from '../appService'
 
 export default {
   components: {
@@ -76,51 +76,51 @@ export default {
     return {
       content: null,
       clicked: false, // indicates if a button was pressed
-    };
+    }
   },
 
   created() {},
 
   methods: {
     importCommoditiesClick() {
-      this.clicked = true;
+      this.clicked = true
 
       appService.importCommodities(this.content).then(() => {
-        this.$router.push({ name: "commodities" });
-      });
+        this.$router.push({ name: 'commodities' })
+      })
     },
     onImportBalanceClick() {
-      this.clicked = true;
+      this.clicked = true
 
       appService.importBalanceSheet(this.content).then(() => {
         // this.$q.notify({ color: "teal-9", message: "Accounts imported" });
-        this.$router.push({ name: "accounts" });
-      });
+        this.$router.push({ name: 'accounts' })
+      })
     },
     onFileSelected(files) {
-      this.readInputFile(files[0], "content");
+      this.readInputFile(files[0], 'content')
     },
     onFileHover(evt) {
-      evt.stopPropagation();
-      evt.preventDefault();
-      evt.dataTransfer.dropEffect = "copy"; // Explicitly show this is a copy.
+      evt.stopPropagation()
+      evt.preventDefault()
+      evt.dataTransfer.dropEffect = 'copy' // Explicitly show this is a copy.
     },
     readInputFile(fileInfo, dataField) {
       //   console.log(fileInfo);
-      var reader = new FileReader();
+      var reader = new FileReader()
 
       reader.onload = (event) => {
         // File was successfully read.
-        var content = event.target.result;
+        var content = event.target.result
 
         if (dataField) {
-          this[dataField] = content;
+          this[dataField] = content
           //   console.log("read", content);
         }
-      };
+      }
 
-      reader.readAsText(fileInfo);
+      reader.readAsText(fileInfo)
     },
   },
-};
+}
 </script>

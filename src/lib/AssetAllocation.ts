@@ -120,8 +120,8 @@ class AssetAllocationEngine {
     return appService.db.assetAllocation.clear()
   }
 
-  findChildren(dictionary, parent) {
-    let children = []
+  findChildren(dictionary: object, parent: AssetClass) {
+    let children: AssetClass[] = []
 
     Object.values(dictionary).forEach((val) => {
       // console.log(key); // the name of the current key.
@@ -139,7 +139,7 @@ class AssetAllocationEngine {
    * The output can be stored for historical purposes, compared, etc.
    * @param {Array} rows
    */
-  formatAllocationRowsForTxtExport(rows: Array<string>) {
+  formatAllocationRowsForTxtExport(rows: object[]) {
     let outputRows = []
     outputRows.push(
       'Asset Class       Allocation Current  Diff.  Diff.%  Alloc.Val.  Curr. Val.  Difference'
@@ -181,10 +181,10 @@ class AssetAllocationEngine {
     return text
   }
 
-  formatNumbers(dictionary) {
+  formatNumbers(dictionary: object) {
     let format = '0,0.00'
 
-    Object.values(dictionary).forEach((ac) => {
+    Object.values(dictionary).forEach((ac: AssetClass) => {
       ac.currentAllocation = numeral(ac.currentAllocation).format(format)
 
       ac.currentValue = numeral(ac.currentValue).format(format)
@@ -251,8 +251,8 @@ class AssetAllocationEngine {
    * This converts the new structure into the old.
    * @param {object} rootObject
    */
-  linearizeObject(rootObject: object, namespace = ''): Array<string> {
-    let result: Array<string> = []
+  linearizeObject(rootObject: object, namespace = ''): AssetClass[] {
+    let result: AssetClass[] = []
 
     // only use the children.
 
@@ -297,7 +297,7 @@ class AssetAllocationEngine {
    * Used on import only!
    * @param {Array} assetClassArray
    */
-  async validateAndSave(assetClassArray) {
+  async validateAndSave(assetClassArray: AssetClass[]) {
     // Validate
     let assetClassIndex = this.buildAssetClassIndex(assetClassArray)
     let errors = this.validate(assetClassIndex)
@@ -335,7 +335,7 @@ class AssetAllocationEngine {
     return appService.db.assetAllocation.toArray()
   }
 
-  sumGroupBalances(acIndex) {
+  sumGroupBalances(acIndex: object) {
     let root = acIndex['Allocation']
 
     if (root == null) {
@@ -349,7 +349,7 @@ class AssetAllocationEngine {
     root.currentValue = sum
   }
 
-  sumChildren(dictionary, item) {
+  sumChildren(dictionary: object, item: AssetClass) {
     // find all children
     let children = this.findChildren(dictionary, item)
     // console.log(children);
@@ -359,7 +359,7 @@ class AssetAllocationEngine {
 
     let sum = 0
     for (let i = 0; i < children.length; i++) {
-      let child = children[i]
+      let child: AssetClass = children[i]
       child.currentValue = this.sumChildren(dictionary, child)
 
       let amount = child.currentValue
@@ -373,12 +373,12 @@ class AssetAllocationEngine {
    * Validate Asset Allocation.
    * Currently checks the definition by comparing group sums.
    */
-  validate(assetClassList) {
-    let errors = []
+  validate(assetClassList: any) {
+    let errors: string[] = []
     let keys = Object.keys(assetClassList)
 
     keys.forEach((acName) => {
-      let ac = assetClassList[acName]
+      let ac: AssetClass = assetClassList[acName]
       let result = this.validateGroupAllocation(ac, assetClassList)
       if (result) {
         errors.push(result)

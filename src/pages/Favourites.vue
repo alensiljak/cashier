@@ -115,7 +115,7 @@
   </q-page>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useMainStore } from '../store/mainStore'
 import { TransactionAugmenter } from 'src/lib/transactionAugmenter'
 import appService from '../appService'
@@ -126,7 +126,7 @@ function onMenuClicked() {
   mainStore.toggleDrawer()
 }
 </script>
-<script>
+<script lang="ts">
 import { SET_SELECT_MODE } from '../mutations'
 import {
   SelectionModeMetadata,

@@ -40,7 +40,7 @@
   </q-page>
 </template>
 
-<script>
+<script lang="ts">
 import appService from '../appService'
 import { mdiShareVariant } from '@quasar/extras/mdi-v4'
 import Toolbar from '../components/CashierToolbar.vue'

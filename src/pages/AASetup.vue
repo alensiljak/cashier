@@ -32,7 +32,7 @@
   </q-page>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import Toolbar from '../components/CashierToolbar.vue'
 </script>
 <script>

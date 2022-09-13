@@ -15,9 +15,9 @@
     </q-page-sticky>
   </q-page>
 </template>
-<script>
-import Toolbar from "../components/CashierToolbar.vue";
-import CalculatorNeu from "../components/CalculatorNeu.vue";
+<script lang="ts">
+import Toolbar from 'src/components/CashierToolbar.vue'
+import CalculatorNeu from '../components/CalculatorNeu.vue'
 export default {
   components: {
     CalculatorNeu,
@@ -32,10 +32,10 @@ export default {
 
   methods: {
     onAcceptClick() {
-      this.$q.notify({ message: "ok!", color: "positive" });
+      this.$q.notify({ message: 'ok!', color: 'positive' })
 
       // todo: save the value to the state
     },
   },
-};
+}
 </script>

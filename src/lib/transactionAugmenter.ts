@@ -1,3 +1,4 @@
+import { Account } from 'src/model'
 import appService from '../appService'
 
 /**
@@ -14,7 +15,7 @@ export class TransactionAugmenter {
    * @param {Array} accounts The list of Account records.
    * @returns {Array} The list of accounts with adjusted balances.
    */
-  async adjustBalances(accounts) {
+  async adjustBalances(accounts: Account[]) {
     if (!accounts) {
       console.info('no favourite accounts found for balance adjustment')
       return

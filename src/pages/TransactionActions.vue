@@ -120,7 +120,7 @@
   </q-page>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onMounted, provide, ref, toRefs } from 'vue'
 import { useMainStore } from '../store/mainStore'
 import { useRouter } from 'vue-router'

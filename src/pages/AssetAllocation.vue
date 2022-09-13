@@ -151,7 +151,7 @@
   </q-page>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useMainStore } from '../store/mainStore'
 
 const mainStore = useMainStore()
@@ -160,7 +160,7 @@ function menuClicked() {
   mainStore.toggleDrawer()
 }
 </script>
-<script>
+<script lang="ts">
 import { engine } from '../lib/AssetAllocation'
 
 export default {

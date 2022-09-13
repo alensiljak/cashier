@@ -90,7 +90,7 @@
   </q-page>
 </template>
 
-<script>
+<script lang="ts">
 import Toolbar from '../components/CashierToolbar.vue'
 import { SettingKeys, settings, Constants } from '../lib/Configuration'
 import { CashierSync } from '../lib/syncCashier'

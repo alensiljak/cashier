@@ -26,7 +26,9 @@
   </q-page>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import TxEditor from '../components/TransactionEditor.vue'
+import ScheduleEditor from '../components/ScheduleEditor.vue'
 import { computed, onMounted, provide } from 'vue'
 import { toRaw } from 'vue'
 import { useStore } from 'vuex'
@@ -101,16 +103,5 @@ async function saveData() {
 
 function toggleDrawer() {
   mainStore.toggleDrawer()
-}
-</script>
-<script>
-import TxEditor from '../components/TransactionEditor.vue'
-import ScheduleEditor from '../components/ScheduleEditor.vue'
-
-export default {
-  components: {
-    ScheduleEditor,
-    TxEditor,
-  },
 }
 </script>

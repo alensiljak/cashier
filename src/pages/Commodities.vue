@@ -6,13 +6,6 @@
   </q-page>
 </template>
 
-<script>
+<script lang="ts" setup>
 import Toolbar from '../components/CashierToolbar.vue'
-
-export default {
-  components: {
-    Toolbar,
-  },
-  created() {},
-}
 </script>

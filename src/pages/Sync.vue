@@ -109,7 +109,7 @@
   </q-page>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref, toRaw } from 'vue'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'

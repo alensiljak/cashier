@@ -27,8 +27,8 @@
     </div>
   </q-page>
 </template>
-<script>
-import Toolbar from '../components/CashierToolbar.vue'
+<script lang="ts">
+import Toolbar from 'src/components/CashierToolbar.vue'
 import { Projector } from '../lib/scheduledTransactions'
 import moment from 'moment'
 import appService from '../appService'

@@ -67,15 +67,14 @@ export class ScheduledTransaction {
 }
 
 export class Transaction {
-  id: any
-  date: any
+  id?: number
+  date?: any
   payee: string
   note: string
   postings: Posting[]
 
   constructor() {
     // this.id = newId()
-    this.id = null
     this.date = null
     this.payee = ''
     this.note = ''

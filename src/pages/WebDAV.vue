@@ -10,7 +10,7 @@
   </q-page>
 </template>
 
-<script>
+<script lang="ts">
 /*
   WebDAV can't be used for pCloud from the browser, due to CORS settings!
   ***********************************************************************
@@ -18,7 +18,7 @@
 
 // const { createClient } = require("webdav");
 // import { createClient } from "webdav";
-import Toolbar from "../components/CashierToolbar.vue";
+import Toolbar from '../components/CashierToolbar.vue'
 
 export default {
   components: {
@@ -27,7 +27,7 @@ export default {
   data() {
     return {
       url: null,
-    };
+    }
   },
 
   created() {},
@@ -49,5 +49,5 @@ export default {
       // console.log(directoryItems)
     },
   },
-};
+}
 </script>

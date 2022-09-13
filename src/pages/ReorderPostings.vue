@@ -38,7 +38,7 @@
   </q-page>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useMainStore } from '../store/mainStore'
 
 const mainStore = useMainStore()
@@ -50,7 +50,7 @@ function toggleDrawer() {
   mainStore.toggleDrawer()
 }
 </script>
-<script>
+<script lang="ts">
 import AccountsList from '../components/SortableAccountsList.vue'
 import PostingItem from '../components/SortablePostingItem.vue'
 

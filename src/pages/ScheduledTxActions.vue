@@ -151,7 +151,7 @@
     </div>
   </q-page>
 </template>
-<script setup>
+<script setup lang="ts">
 import { computed, ref, toRaw } from 'vue'
 import { useMainStore } from '../store/mainStore'
 import { useQuasar } from 'quasar'
@@ -277,7 +277,7 @@ async function skip() {
   }
 }
 </script>
-<script>
+<script lang="ts">
 import Toolbar from '../components/CashierToolbar.vue'
 import JournalTransaction from '../components/JournalTransaction.vue'
 import appService from '../appService'

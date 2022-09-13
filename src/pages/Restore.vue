@@ -25,7 +25,7 @@
   </q-page>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import appService from '../appService'
 import { useQuasar } from 'quasar'
@@ -66,7 +66,7 @@ async function onRestoreClicked() {
   })
 }
 </script>
-<script>
+<script lang="ts">
 import Toolbar from '../components/CashierToolbar.vue'
 
 export default {

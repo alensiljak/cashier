@@ -52,7 +52,7 @@
   </q-page>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useRouter } from 'vue-router'
 import { useMainStore } from '../store/mainStore'
 
@@ -73,7 +73,7 @@ function onFab() {
   router.push({ name: 'tx' })
 }
 </script>
-<script>
+<script lang="ts">
 import SyncCard from '../components/SyncCard.vue'
 import FavouritesCard from '../components/FavouritesCard.vue'
 import JournalCard from '../components/JournalCard.vue'
