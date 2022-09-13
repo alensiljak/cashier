@@ -20,18 +20,22 @@
       </div>
     </div>
 
-    <p class="q-my-md">Asset Allocation settings</p>
-    <div class="row">
+    <div class="row q-mt-sm">
       <div class="col">
         <q-file
           v-model="aasettingsfile"
-          label="AA settings file"
+          label="Asset Allocation settings file"
           dark
           clearable
           @update:model-value="onAaFileSelected"
         />
       </div>
-      <div class="col text-center">
+      <div class="col-1 text-center">
+        <q-btn flat round dense @click="onAaHelpClick">
+          <font-awesome-icon icon="question-circle" />
+        </q-btn>
+      </div>
+      <div class="col text-right">
         <q-btn
           label="Import"
           color="secondary"
@@ -39,14 +43,10 @@
           @click="onDefinitionImportClick"
         />
       </div>
-      <div class="col-1">
-        <q-btn flat round dense @click="onAaHelpClick">
-          <font-awesome-icon icon="question-circle" />
-        </q-btn>
-      </div>
       <!-- </div> -->
     </div>
 
+    <p class="q-my-md">Last Transaction</p>
     <div class="row">
       <div class="col">
         <q-checkbox
@@ -79,12 +79,73 @@
 
     <hr />
 
+    <div class="row q-mt-md">
+      <div class="col">
+        <div>Restore</div>
+        <p>You can restore settings from a backup file.</p>
+      </div>
+      <div class="col text-center">
+        <q-file
+          accept=".json"
+          v-model="restoreFile"
+          label="settings backup file"
+          dark
+          clearable
+          @update:model-value="onRestoreFileSelected"
+        />
+      </div>
+      <div class="col text-right" v-if="restoreFile">
+        <q-btn
+          label="Restore"
+          color="secondary"
+          text-color="accent"
+          @click="onRestoreClick"
+        />
+      </div>
+    </div>
+
+    <q-dialog
+      v-model="isRestoreConfirmationVisible"
+      persistent
+      content-class="bg-blue-grey-10"
+    >
+      <q-card dark class="bg-secondary">
+        <q-card-section class="q-pa-sm">
+          <div class="row">
+            <div class="col-1 q-mt-none">
+              <q-icon name="help" />
+            </div>
+            <div class="col text-center q-mt-xs">Confirm restore</div>
+          </div>
+        </q-card-section>
+        <q-card-section class="row items-center">
+          <span>
+            Do you want to restore the backup <br />
+            {{ restoreFile.name }}?
+          </span>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn v-close-popup flat label="Cancel" color="accent" />
+          <q-btn
+            v-close-popup
+            flat
+            label="Restore"
+            color="accent"
+            @click="onConfirmRestore"
+          />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
     <div class="row q-mt-lg">
-      <div class="col text-center q-my-lg">
+      <div class="col q-my-lg">
         <p>
           Force-reload the page to refresh the version in case the background
           worker does not manage to update to the latest version.
         </p>
+      </div>
+      <div class="col text-right">
         <q-btn
           label="Reload App"
           color="secondary"
@@ -96,41 +157,81 @@
   </q-page>
 </template>
 
-<script>
-import { SettingKeys, settings } from '../lib/Configuration'
-import { engine } from '../lib/AssetAllocation'
-import Toolbar from '../components/CashierToolbar.vue'
+<script setup lang="ts">
+import { onMounted, ref } from 'vue'
 import appService from '../appService'
+import useNotifications from 'src/lib/CashierNotification'
+import db from 'src/dataStore'
+import { SettingKeys, settings } from '../lib/Configuration'
+import Toolbar from '../components/CashierToolbar.vue'
+
+const Notification = useNotifications()
+
+const currency = ref(null)
+const rememberLastTransaction = ref(null)
+const rootInvestmentAccount = ref(null)
+const restoreFile = ref(null)
+const isRestoreConfirmationVisible = ref(false)
+
+onMounted(async () => {
+  //
+  await loadSettings()
+})
+
+async function loadSettings() {
+  currency.value = await settings.get(SettingKeys.currency)
+  rootInvestmentAccount.value = await settings.get(
+    SettingKeys.rootInvestmentAccount
+  )
+  rememberLastTransaction.value = await settings.get(
+    SettingKeys.rememberLastTransaction
+  )
+}
+
+async function onRestoreClick() {
+  // todo: confirm settings overwrite
+  isRestoreConfirmationVisible.value = true
+}
+
+/**
+ * happens after the user confirms restoring the selected settings file.
+ */
+async function onConfirmRestore() {
+  // restore
+  const contents: any = await appService.readFileAsync(restoreFile.value)
+  //console.log('file:', contents)
+
+  // clear settings table
+  await db.settings.clear()
+
+  // store the new settings from json
+  const records = JSON.parse(contents)
+  await db.settings.bulkAdd(records)
+
+  Notification.positive('Settings imported')
+
+  await loadSettings()
+}
+
+function onRestoreFileSelected(file: any) {
+  //
+  //console.log('restore file selected', file, 'type:', typeof file)
+  restoreFile.value = file
+}
+</script>
+<script lang="ts">
+import { engine } from '../lib/AssetAllocation'
 
 export default {
-  components: {
-    Toolbar,
-  },
   data: function () {
     return {
       aasettingsfile: null,
       backupLocation: null,
-      currency: null,
-      rootInvestmentAccount: null,
       fileContent: null,
-      rememberLastTransaction: null,
     }
   },
 
-  created() {
-    this.loadSettings()
-  },
-
   methods: {
-    async loadSettings() {
-      this.currency = await settings.get(SettingKeys.currency)
-      this.rootInvestmentAccount = await settings.get(
-        SettingKeys.rootInvestmentAccount
-      )
-      this.rememberLastTransaction = await settings.get(
-        SettingKeys.rememberLastTransaction
-      )
-    },
     /**
      * The Asset Allocation definition selected.
      */

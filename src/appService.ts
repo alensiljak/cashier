@@ -137,6 +137,25 @@ class AppService {
     reader.readAsText(fileInfo)
   }
 
+  async readFileAsync(fileInfo) {
+    if (!fileInfo) return
+
+    return new Promise((resolve, reject) => {
+      //   console.log(fileInfo);
+
+      let reader = new FileReader()
+
+      reader.onload = (event) => {
+        // File was successfully read.
+        let content = event?.target?.result
+
+        resolve(content)
+      }
+
+      reader.readAsText(fileInfo)
+    })
+  }
+
   /**
    * Translates Transaction into a ledger entry.
    * @param {Transaction} tx

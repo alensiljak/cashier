@@ -3,7 +3,6 @@
 */
 import db from '../dataStore'
 import { Setting } from '../model'
-import { Database } from 'src/store/sqlDb'
 
 /**
  * Contains all the values required for the selection mode to function.
@@ -62,10 +61,7 @@ class Settings {
   }
 
   async getAll() {
-    let sqlDb = new Database()
-    return sqlDb.settings.getAll()
-
-    //return db.settings.all()
+    return db.settings.toArray()
   }
 
   async set(key: string, value: string) {
