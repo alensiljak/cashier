@@ -14,10 +14,7 @@
           @click="menuClicked"
         />
 
-        <q-toolbar-title>
-          Cashier
-          <span style="font-size: x-small">{{ version }}</span>
-        </q-toolbar-title>
+        <q-toolbar-title> Cashier </q-toolbar-title>
       </q-toolbar>
     </q-header>
     <!-- <img alt="Quasar logo" src="/icons/favicon-96x96.png"> -->
@@ -88,8 +85,6 @@ export default {
     FavouritesCard,
     JournalCard,
   },
-
-  inject: ['version'],
 
   data() {
     return {

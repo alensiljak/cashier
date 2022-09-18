@@ -3,10 +3,7 @@
     <toolbar :title="'About'" />
 
     <div style="width: 100%" class="text-center">
-      <h3 class="q-my-sm">
-        Cashier
-        <span style="font-size: 0.8rem">{{ $version }}</span>
-      </h3>
+      <h3 class="q-my-sm">Cashier</h3>
       <!-- <img src="/icons/favicon-96x96.png"> -->
       <img src="../../public/icons/favicon-96x96.png" />
     </div>

@@ -311,12 +311,7 @@
         </q-avatar>
         <!-- <div class="text-weight-bold">Cashier</div> -->
         <!-- <div>@cashier</div> -->
-        <div style="font-size: 2rem" class="q-pb-none">
-          Cashier
-          <span style="font-size: 0.75rem">
-            {{ version }}
-          </span>
-        </div>
+        <div style="font-size: 2rem" class="q-pb-none">Cashier</div>
       </div>
     </q-img>
   </q-drawer>
@@ -342,8 +337,6 @@ function toggleDrawer() {
 </script>
 <script>
 export default {
-  inject: ['version'],
-
   computed: {
     liveModeOn: {
       get() {
