@@ -40,51 +40,40 @@
 
 <script setup lang="ts">
 import { useMainStore } from '../store/mainStore'
+import AccountsList from '../components/SortableAccountsList.vue'
+import PostingItem from '../components/SortablePostingItem.vue'
+import { onMounted, ref } from 'vue'
+import { useQuasar } from 'quasar'
+import { useRouter } from 'vue-router'
 
 const mainStore = useMainStore()
 const { tx } = mainStore
+const $q = useQuasar()
+const $router = useRouter()
 
-//this.postings = tx.postings
+const postings = ref([])
+
+onMounted(async () => {
+  postings.value = tx.postings
+})
+
+function onListChange(list: any) {
+  postings.value = list
+}
+
+function onSaveClicked() {
+  save()
+  $router.back()
+}
+
+function save() {
+  // save the postings into the local store
+  tx.postings = postings.value
+
+  $q.notify({ message: 'Postings reordered', color: 'positive' })
+}
 
 function toggleDrawer() {
   mainStore.toggleDrawer()
-}
-</script>
-<script lang="ts">
-import AccountsList from '../components/SortableAccountsList.vue'
-import PostingItem from '../components/SortablePostingItem.vue'
-
-export default {
-  components: {
-    AccountsList,
-    PostingItem,
-  },
-
-  data() {
-    return {
-      postings: [],
-    }
-  },
-
-  created() {
-    // this.load()
-    this.postings = this.tx.postings
-  },
-
-  methods: {
-    onListChange(list) {
-      this.postings = list
-    },
-    onSaveClicked() {
-      this.save()
-      this.$router.back()
-    },
-    save() {
-      // save the postings into the local store
-      this.tx.postings = this.postings
-
-      this.$q.notify({ message: 'Postings reordered', color: 'positive' })
-    },
-  },
 }
 </script>
