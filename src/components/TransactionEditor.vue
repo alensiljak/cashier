@@ -61,7 +61,7 @@
             <font-awesome-icon icon="trash-alt" size="2x" class="q-ml-md" />
           </div>
         </template>
-        <q-item class="bg-colour1 q-px-none">
+        <q-item class="q-px-none">
           <q-item-section>
             <QPosting
               :index="index"

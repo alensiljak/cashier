@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="bg-colour1 text-colour2">
+  <q-page padding class="text-colour2">
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
         <q-btn
@@ -17,7 +17,7 @@
 
         <q-btn flat round dense icon="more_vert">
           <q-menu>
-            <q-list  style="min-width: 175px" class="bg-colour1">
+            <q-list style="min-width: 175px">
               <!-- dense -->
               <q-item v-close-popup clickable @click="addAccountClick">
                 <q-item-section>Add</q-item-section>
@@ -55,7 +55,6 @@
     <q-slide-item
       v-for="(account, index) in accounts"
       :key="account.name"
-      
       right-color="secondary"
       @right="onRightSlide"
     >
@@ -66,7 +65,7 @@
         </div>
       </template>
 
-      <q-list  separator class="text-colour2" dense>
+      <q-list separator class="text-colour2" dense>
         <q-item
           v-ripple
           clickable
@@ -93,7 +92,7 @@
       persistent
       content-class="bg-blue-grey-10"
     >
-      <q-card  class="bg-secondary text-amber-2">
+      <q-card class="bg-secondary text-amber-2">
         <q-card-section class="row items-center">
           <!-- <q-avatar icon="signal_wifi_off" color="primary" text-color="amber-2"/>
           <span class="q-ml-sm">You are currently not connected to any network.</span>-->

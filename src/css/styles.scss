@@ -1,4 +1,4 @@
-@import "palette.scss";
+@import 'palette.scss';
 
 // body {
 //     background-color: $colour1;
@@ -6,9 +6,9 @@
 // }
 
 // Quasar background colours
-.bg-colour1 {
-  background-color: $colour1;
-}
+// .bg-colour1 {
+//   background-color: $colour1;
+// }
 .bg-colour2 {
   background-color: $colour2;
 }
@@ -26,10 +26,10 @@
   color: $colour1;
 }
 .text-colour2 {
-    color: $colour2;
+  color: $colour2;
 }
 .text-colour3 {
-    color: $colour3;
+  color: $colour3;
 }
 .text-colour4 {
   color: $colour4;

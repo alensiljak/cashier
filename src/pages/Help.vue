@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="bg-colour1 text-colour2">
+  <q-page padding class="text-colour2">
     <toolbar title="Help" />
 
     <p>Here are some basic instructions on how to set up Cashier.</p>

@@ -1,5 +1,5 @@
 view<template>
-  <q-page padding class="bg-colour1 text-colour2">
+  <q-page padding class="text-colour2">
     <toolbar :title="'Xact'" />
 
     <p>

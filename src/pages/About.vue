@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="bg-colour1 text-colour2">
+  <q-page padding class="text-colour2">
     <toolbar :title="'About'" />
 
     <div style="width: 100%" class="text-center">

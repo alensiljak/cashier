@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="bg-colour1 text-amber-2">
+  <q-page padding class="text-amber-2">
     <Toolbar :title="'Cloud Backup'" />
 
     <!-- Cards -->

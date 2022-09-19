@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="bg-colour1 text-colour2">
+  <q-page padding class="text-colour2">
     <!-- toolbar -->
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">

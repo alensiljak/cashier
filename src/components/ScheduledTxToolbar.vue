@@ -16,7 +16,7 @@
 
       <q-btn flat round dense icon="more_vert">
         <q-menu auto-close>
-          <q-list style="min-width: 175px" class="bg-colour1">
+          <q-list style="min-width: 175px">
             <q-item clickable>
               <q-item-section @click="toggleSearch"> Find </q-item-section>
               <q-item-section side>

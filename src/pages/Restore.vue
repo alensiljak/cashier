@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="bg-colour1 text-colour2">
+  <q-page padding class="text-colour2">
     <toolbar title="Restore Backup" />
 
     <p>You can currently restore the backup of Scheduled Transactions</p>

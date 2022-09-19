@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="bg-colour1 text-colour2">
+  <q-page padding class="text-colour2">
     <toolbar :title="'Reorder Favourites'">
       <q-btn flat round dense icon="check" @click="onSaveClicked" />
     </toolbar>
@@ -81,9 +81,11 @@ import { settings, SettingKeys } from '../lib/Configuration'
 import appService from '../appService'
 import { useRouter } from 'vue-router'
 import draggable from 'vuedraggable'
+import useNotifications from 'src/lib/CashierNotification'
 
 const $q = useQuasar()
 const router = useRouter()
+const Notification = useNotifications()
 
 // data
 const accounts = ref([])
@@ -119,7 +121,7 @@ async function onSaveClicked() {
   await settings.set(SettingKeys.favouriteAccounts, names)
 
   await loadData()
-  $q.notify('Favourites reordered')
+  Notification.positive('Favourites reordered')
 
   //router.push({ name: 'favourites' })
   router.back()

@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="bg-colour1 text-amber-2">
+  <q-page padding class="text-amber-2">
     <toolbar title="Scheduled Transaction Actions" />
 
     <journal-transaction :tx="tx" />
@@ -85,7 +85,7 @@
         persistent
         content-class="bg-blue-grey-10"
       >
-        <q-card  class="bg-primary text-amber-2">
+        <q-card class="bg-primary text-amber-2">
           <q-card-section class="row items-center">
             <span>Do you want to skip the next iteration?</span>
           </q-card-section>
@@ -131,7 +131,7 @@
         persistent
         content-class="bg-blue-grey-10"
       >
-        <q-card  class="bg-primary text-amber-2">
+        <q-card class="bg-primary text-amber-2">
           <q-card-section class="row items-center">
             <span>Do you want to enter this transaction into the journal?</span>
           </q-card-section>

@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="bg-colour1 text-colour2">
+  <q-page padding class="text-colour2">
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
         <q-btn
@@ -15,7 +15,7 @@
 
         <q-btn flat round dense icon="more_vert">
           <q-menu>
-            <q-list  style="min-width: 175px" class="bg-colour1">
+            <q-list style="min-width: 175px">
               <q-item v-close-popup clickable @click="onSetupClick">
                 <q-item-section>Setup</q-item-section>
                 <q-item-section side>

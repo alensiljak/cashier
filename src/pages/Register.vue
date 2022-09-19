@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="bg-colour1 text-colour2">
+  <q-page padding class="text-colour2">
     <toolbar title="Register" />
 
     <div class="text-center q-mp-none bg-primary">

@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="bg-colour1 text-colour2">
+  <q-page padding class="text-colour2">
     <toolbar :title="'Transaction Search'" />
 
     <!-- date -->
@@ -91,7 +91,6 @@
     <q-input
       v-model="freeText"
       label="Free-text search"
-      
       @keypress="handleEnter"
     />
 
@@ -113,7 +112,7 @@
     </div>
 
     <!-- results -->
-    <q-list  separator>
+    <q-list separator>
       <q-item v-for="tx in results" :key="tx.id" v-ripple clickable>
         <q-item-section>
           <!-- <q-item-label overline>

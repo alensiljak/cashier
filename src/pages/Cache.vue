@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="bg-colour1 text-colour2">
+  <q-page padding class="text-colour2">
     <toolbar title="Cache" />
 
     <p>Control the cached data from Cashier-Sync.</p>

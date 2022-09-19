@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="bg-colour1 text-colour2">
+  <q-page padding class="text-colour2">
     <toolbar :title="'Asset Allocation Help'" />
 
     <h4>Asset Allocation Setup</h4>

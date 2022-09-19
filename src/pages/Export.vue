@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="bg-colour1 text-colour2 column">
+  <q-page padding class="text-colour2 column">
     <toolbar :title="title" />
 
     <div>
@@ -10,7 +10,7 @@
       </p>
     </div>
 
-    <textarea v-model="output" class="bg-colour1 text-amber-2 col-grow" />
+    <textarea v-model="output" class="text-amber-2 col-grow" />
 
     <footer class="row q-my-md justify-evenly">
       <q-btn
