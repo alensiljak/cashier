@@ -14,7 +14,6 @@
     <q-tree
       color="colour2"
       text-color="amber-2"
-      dark
       :nodes="simple"
       node-key="label"
     />

@@ -3,7 +3,6 @@
     <div>Repeats</div>
     <q-option-group
       v-model="repetition"
-      dark
       :options="repeatOptions"
       label="Repeats"
       type="radio"
@@ -14,7 +13,6 @@
           v-model="scheduledTx.count"
           type="number"
           label="Count"
-          dark
           input-class="text-center"
           class="q-mr-md"
         />
@@ -24,7 +22,6 @@
           v-model="scheduledTx.period"
           :options="periods"
           label="Periods"
-          dark
         />
       </div>
     </div>
@@ -33,7 +30,6 @@
       End on
       <q-option-group
         v-model="endOn"
-        dark
         :options="endOptions"
         label="End on"
         type="radio"
@@ -42,14 +38,12 @@
         <q-input
           v-model="scheduledTx.endDate"
           label="End date"
-          dark
           @click="datePickerVisible = true"
         />
         <q-dialog ref="qDateProxy" v-model="datePickerVisible">
           <q-date
             ref="datePicker"
             v-model="scheduledTx.endDate"
-            dark
             first-day-of-week="1"
             today-btn
             mask="YYYY-MM-DD"
@@ -66,7 +60,7 @@
 
     <div class="q-pt-md">
       Remarks
-      <q-input v-model="scheduledTx.remarks" type="textarea" dark />
+      <q-input v-model="scheduledTx.remarks" type="textarea" />
     </div>
   </div>
 </template>
@@ -124,7 +118,14 @@ export default {
 
   methods: {
     createPeriods() {
-      this.periods = ['days', 'weeks', 'months', 'start of month', 'end of month', 'years']
+      this.periods = [
+        'days',
+        'weeks',
+        'months',
+        'start of month',
+        'end of month',
+        'years',
+      ]
     },
     onDateSelected(value, reason) {
       if (reason !== 'day' && reason !== 'today') return

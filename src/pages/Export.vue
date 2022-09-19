@@ -10,7 +10,7 @@
       </p>
     </div>
 
-    <textarea v-model="output" dark class="bg-colour1 text-amber-2 col-grow" />
+    <textarea v-model="output" class="bg-colour1 text-amber-2 col-grow" />
 
     <footer class="row q-my-md justify-evenly">
       <q-btn

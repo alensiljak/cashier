@@ -14,7 +14,6 @@
           <q-input
             type="file"
             class="text-red"
-            dark
             clearable
             @input="onFileSelected"
           />

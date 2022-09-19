@@ -16,7 +16,7 @@
 
       <q-btn flat round dense icon="more_vert">
         <q-menu>
-          <q-list dark style="min-width: 175px" class="bg-colour1">
+          <q-list style="min-width: 175px" class="bg-colour1">
             <q-item>
               <q-item-section @click="goToCache">Cache</q-item-section>
             </q-item>
@@ -34,7 +34,6 @@
         rounded
         standout
         dense
-        dark
         color="accent"
         style="width: 23rem"
         debounce="400"

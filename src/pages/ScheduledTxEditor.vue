@@ -20,7 +20,7 @@
 
     <tx-editor />
 
-    <q-separator dark class="q-my-lg" />
+    <q-separator class="q-my-lg" />
 
     <schedule-editor />
   </q-page>

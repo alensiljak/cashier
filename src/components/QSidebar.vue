@@ -2,7 +2,6 @@
   <q-drawer
     v-model="drawerOpen"
     bordered
-    dark
     content-class="bg-colour1 text-amber-2"
   >
     <q-scroll-area
@@ -137,7 +136,6 @@
 
         <!-- Entities submenu -->
         <!-- <q-expansion-item
-          dark
           header-class="text-amber-2"
           expand-icon-class="text-amber-2"
           expand-separator
@@ -209,7 +207,7 @@
           </q-item-section>
         </q-item>
 
-        <q-separator dark />
+        <q-separator  />
 
         <!-- Sync -->
         <q-item

@@ -10,17 +10,11 @@
       <li>Export commodities with "ledger commodities"</li>
     </ul>
     <p>Import the text file</p>
-    <q-input
-      class="text-red"
-      dark
-      clearable
-      type="file"
-      @input="onFileSelected"
-    />
+    <q-input class="text-red" clearable type="file" @input="onFileSelected" />
     <!-- v-on:dragover="onFileHover"
     v-on:change="onFileSelected"-->
     <p class="q-mt-sm">or paste into the box below</p>
-    <q-input v-model="content" type="textarea" dark outlined />
+    <q-input v-model="content" type="textarea" outlined />
 
     <!-- <div class="q-mt-sm"/> -->
     <p class="q-mt-sm">Click the appropriate button to import:</p>

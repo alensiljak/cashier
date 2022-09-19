@@ -17,7 +17,7 @@
 
         <q-btn flat round dense icon="more_vert">
           <q-menu>
-            <q-list dark style="min-width: 175px" class="bg-colour1">
+            <q-list style="min-width: 175px" class="bg-colour1">
               <!-- dense -->
               <q-item v-close-popup clickable :to="{ name: 'sync' }">
                 <q-item-section>Synchronize</q-item-section>
@@ -54,7 +54,6 @@
           rounded
           standout
           dense
-          dark
           color="accent"
           style="width: 23rem"
           debounce="400"
@@ -90,7 +89,7 @@
     </RecycleScroller>
 
     <!-- new account (name) dialog -->
-    <q-dialog v-model="dialogVisible" dark>
+    <q-dialog v-model="dialogVisible" >
       <!-- persistent -->
       <q-card style="min-width: 400px" class="bg-primary text-colour2">
         <q-card-section>
@@ -128,7 +127,7 @@
       persistent
       content-class="bg-blue-grey-10"
     >
-      <q-card dark class="bg-secondary">
+      <q-card  class="bg-secondary">
         <q-card-section class="row items-center">
           <span>Do you want to delete all accounts?</span>
         </q-card-section>

@@ -1,5 +1,5 @@
 <template>
-  <q-card dark bordered @click="onCardClick">
+  <q-card bordered @click="onCardClick">
     <q-card-section class="bg-primary q-pa-sm">
       <font-awesome-icon icon="calendar-alt" class="q-mr-sm" />
       <strong>Upcoming Transactions</strong>
@@ -27,7 +27,6 @@
     <q-card-actions align="center">
       <q-btn
         outline
-        dark
         color="primary"
         text-color="accent"
         @click.capture="onCalendarClick"

@@ -28,7 +28,7 @@
     <journal-card class="my-card" @click="onJournalClick" />
 
     <!-- dummy -->
-    <!-- <q-card dark class="my-card bg-primary">
+    <!-- <q-card  class="my-card bg-primary">
       <q-card-section>{{ lorem }}</q-card-section>
       <q-separator />
       <q-card-section>{{ lorem }}</q-card-section>

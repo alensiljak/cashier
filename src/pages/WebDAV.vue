@@ -3,7 +3,7 @@
     <toolbar :title="'WebDAV'" />
 
     <div>
-      <q-input v-model="url" label="Remote location" dark />
+      <q-input v-model="url" label="Remote location" />
 
       <q-btn label="test" @click="testWebDav" />
     </div>

@@ -8,6 +8,9 @@ import { useQuasar } from 'quasar'
 
 const $q = useQuasar()
 
+// Activate dark mode globally until the styling for the light version iscomplete
+$q.dark.set(true)
+
 onErrorCaptured(function (err, instance, info) {
   console.error('[errorCaptured]', err, instance, info)
 

@@ -12,7 +12,7 @@
       There are no scheduled transactions
     </div>
 
-    <q-list dark class="text-colour2">
+    <q-list class="text-colour2">
       <!-- dense -->
       <q-item
         v-for="stx in filteredList"
@@ -52,6 +52,8 @@
 import { useMainStore } from '../store/mainStore'
 import { useRoute, useRouter } from 'vue-router'
 import appService from '../appService'
+import moment from 'moment'
+import StxToolbar from '../components/ScheduledTxToolbar.vue'
 
 const mainStore = useMainStore()
 //const route = useRoute()
@@ -66,7 +68,7 @@ function onFabClicked() {
 /**
  * Gets only the first line of the text (until the first line break).
  */
-function getFirstLine(text) {
+function getFirstLine(text: string) {
   if (!text) return
 
   return text.split('\n')[0]
@@ -79,9 +81,6 @@ async function showTx(id) {
 }
 </script>
 <script lang="ts">
-import moment from 'moment'
-import StxToolbar from '../components/ScheduledTxToolbar.vue'
-
 export default {
   components: {
     StxToolbar,

@@ -14,7 +14,6 @@
         <!-- root investment account -->
         <q-input
           v-model="rootInvestmentAccount"
-          dark
           label="Root investment account"
         />
       </div>
@@ -25,7 +24,6 @@
         <q-file
           v-model="aasettingsfile"
           label="Asset Allocation settings file"
-          dark
           clearable
           @update:model-value="onAaFileSelected"
         />
@@ -51,15 +49,25 @@
       <div class="col">
         <q-checkbox
           v-model="rememberLastTransaction"
-          dark
           label="Remember last transaction for payees. Fills the new transactions."
+        />
+      </div>
+    </div>
+
+    <div class="row">Dark Mode</div>
+    <div class="row">
+      <div class="col">
+        <q-checkbox
+          v-model="$q.dark.isActive"
+          label="Use dark mode."
+          @update:model-value="toggleDarkMode"
         />
       </div>
     </div>
 
     <!-- <div class="row">
       <div class="col">
-        <q-input v-model="backupLocation" label="Backup Location" dark />
+        <q-input v-model="backupLocation" label="Backup Location"  />
       </div>
       <div class="col">
         <q-btn label="Select" @click="onSelectBackupLocationClick" />
@@ -89,7 +97,6 @@
           accept=".json"
           v-model="restoreFile"
           label="settings backup file"
-          dark
           clearable
           @update:model-value="onRestoreFileSelected"
         />
@@ -158,18 +165,22 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, Ref, ref } from 'vue'
 import appService from '../appService'
 import useNotifications from 'src/lib/CashierNotification'
 import db from 'src/dataStore'
 import { SettingKeys, settings } from '../lib/Configuration'
 import Toolbar from '../components/CashierToolbar.vue'
+import { useRouter } from 'vue-router'
+import { useQuasar } from 'quasar'
 
 const Notification = useNotifications()
+const $router = useRouter()
+const $q = useQuasar()
 
-const currency = ref(null)
+const currency = ref('')
 const rememberLastTransaction = ref(null)
-const rootInvestmentAccount = ref(null)
+const rootInvestmentAccount: Ref<string> = ref('')
 const restoreFile = ref(null)
 const isRestoreConfirmationVisible = ref(false)
 
@@ -218,7 +229,48 @@ function onRestoreFileSelected(file: any) {
   //console.log('restore file selected', file, 'type:', typeof file)
   restoreFile.value = file
 }
+
+function onAaHelpClick() {
+  // navigate to help page
+  $router.push({ name: 'assetallocationsetuphelp' })
+}
+
+function darkMode() {
+  //isDarkModeOn.value = $q.dark.isActive
+  //console.debug($q.dark.mode)
+  //$q.dark.set(true)
+  // $q.dark.toggle()
+}
+
+function reloadApp() {
+  // force reload
+  window.location.reload(true)
+}
+
+async function onSaveClick() {
+  // currency
+  await settings.set(SettingKeys.currency, currency.value)
+
+  // root investment account
+  await settings.set(
+    SettingKeys.rootInvestmentAccount,
+    rootInvestmentAccount.value
+  )
+
+  await settings.set(
+    SettingKeys.rememberLastTransaction,
+    rememberLastTransaction.value
+  )
+
+  $q.notify({ message: 'Settings saved', color: 'positive' })
+}
+
+function toggleDarkMode() {
+  //console.debug('toggling')
+  //$q.dark.toggle()
+}
 </script>
+
 <script lang="ts">
 import { engine } from '../lib/AssetAllocation'
 
@@ -238,10 +290,6 @@ export default {
     onAaFileSelected(files) {
       if (!files) return
       appService.readFile(files, this.onFileRead)
-    },
-    onAaHelpClick() {
-      // navigate to help page
-      this.$router.push({ name: 'assetallocationsetuphelp' })
     },
     async onDefinitionImportClick() {
       try {
@@ -263,23 +311,6 @@ export default {
     onFileRead(content) {
       this.fileContent = content
     },
-    async onSaveClick() {
-      // currency
-      await settings.set(SettingKeys.currency, this.currency)
-
-      // root investment account
-      await settings.set(
-        SettingKeys.rootInvestmentAccount,
-        this.rootInvestmentAccount
-      )
-
-      await settings.set(
-        SettingKeys.rememberLastTransaction,
-        this.rememberLastTransaction
-      )
-
-      this.$q.notify({ message: 'Settings saved', color: 'positive' })
-    },
     async onSelectBackupLocationClick() {
       let dirHandle = await window.showDirectoryPicker()
 
@@ -287,9 +318,6 @@ export default {
       const subDir = dirHandle.getDirectoryHandle(dirName, {
         create: true,
       })
-    },
-    reloadApp() {
-      window.location.reload(true)
     },
   },
 }

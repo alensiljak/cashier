@@ -17,7 +17,7 @@
         <!-- <q-btn flat round dense icon="sim_card" class="q-mr-xs" /> -->
         <q-btn flat round dense icon="more_vert">
           <q-menu>
-            <q-list dark style="min-width: 175px" class="bg-colour1">
+            <q-list style="min-width: 175px" class="bg-colour1">
               <!-- dense -->
               <q-item v-close-popup clickable>
                 <q-item-section @click="exportJournal">Export</q-item-section>
@@ -54,7 +54,6 @@
     <q-slide-item
       v-for="tx in transactions"
       :key="tx.id"
-      dark
       right-color="secondary"
       @right="onSlide"
     >
@@ -88,7 +87,7 @@
       persistent
       content-class="bg-blue-grey-10"
     >
-      <q-card dark class="bg-secondary text-amber-2">
+      <q-card class="bg-secondary text-amber-2">
         <q-card-section class="row items-center">
           <span>Do you want to delete the transaction?</span>
         </q-card-section>
@@ -111,7 +110,7 @@
       persistent
       content-class="bg-blue-grey-10"
     >
-      <q-card dark class="bg-secondary text-amber-2">
+      <q-card class="bg-secondary text-amber-2">
         <q-card-section class="row items-center">
           <!-- <q-avatar icon="signal_wifi_off" color="primary" text-color="amber-2"/>
           <span class="q-ml-sm">You are currently not connected to any network.</span>-->

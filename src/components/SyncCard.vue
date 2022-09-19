@@ -1,5 +1,5 @@
 <template>
-  <q-card dark bordered class="my-card">
+  <q-card bordered class="my-card">
     <!-- header -->
     <q-card-section class="bg-primary q-pa-sm">
       <font-awesome-icon icon="sync-alt" class="q-mr-sm" />
@@ -43,11 +43,11 @@
           persistent
           content-class="bg-blue-grey-10"
         >
-          <q-card dark class="bg-primary text-amber-2">
+          <q-card class="bg-primary text-amber-2">
             <q-card-section class="row items-center">
               <!-- <q-avatar icon="signal_wifi_off" color="primary" text-color="amber-2"/>-->
-              Live Mode uses CashierSync as the data source for additional 'live' features.
-              CashierSync must be running for this to work.
+              Live Mode uses CashierSync as the data source for additional
+              'live' features. CashierSync must be running for this to work.
             </q-card-section>
 
             <q-card-actions align="right">
@@ -64,15 +64,14 @@
       </div>
     </q-card-section>
 
-    <!-- <q-separator dark /> -->
+    <!-- <q-separator  /> -->
 
     <q-card-actions align="center">
-      <!-- <q-btn flat dark color="primary" text-color="accent" @click="onSyncClick">
+      <!-- <q-btn flat  color="primary" text-color="accent" @click="onSyncClick">
         Sync
       </q-btn> -->
       <q-btn
         outline
-        dark
         color="primary"
         text-color="accent"
         @click="onSettingsClick"

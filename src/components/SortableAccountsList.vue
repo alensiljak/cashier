@@ -1,5 +1,5 @@
 <template>
-  <q-list dark separator class="bg-colour1 list">
+  <q-list separator class="bg-colour1 list">
     <slot />
   </q-list>
 </template>

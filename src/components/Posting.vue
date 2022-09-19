@@ -5,7 +5,6 @@
         <!-- Account -->
         <q-input
           v-model="account"
-          dark
           label="Account"
           @click="$emit('account-clicked')"
         />
@@ -17,7 +16,6 @@
         <!-- Amount -->
         <q-input
           v-model.number="amount"
-          dark
           label="Amount"
           type="number"
           input-class="text-right"
@@ -28,7 +26,7 @@
 
       <div class="q-pl-sm col-3 col-xs-4">
         <!-- currency -->
-        <q-input v-model="currency" dark label="Currency">
+        <q-input v-model="currency" label="Currency">
           <template #append>
             <!-- warn if there's no currency but we have an amount -->
             <font-awesome-icon

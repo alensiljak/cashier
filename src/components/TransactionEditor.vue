@@ -6,7 +6,6 @@
         <q-date
           ref="datePicker"
           v-model="tx.date"
-          dark
           first-day-of-week="1"
           today-btn
           mask="YYYY-MM-DD"
@@ -19,12 +18,7 @@
         </q-date>
       </q-dialog>
 
-      <q-input
-        v-model="tx.date"
-        label="Date"
-        dark
-        @click="datePickerVisible = true"
-      >
+      <q-input v-model="tx.date" label="Date" @click="datePickerVisible = true">
         <template #prepend>
           <font-awesome-icon icon="calendar-day" />
         </template>
@@ -32,14 +26,14 @@
     </div>
 
     <!-- payee -->
-    <q-input v-model="tx.payee" label="Payee" dark @click.once="onPayeeClick">
+    <q-input v-model="tx.payee" label="Payee" @click.once="onPayeeClick">
       <template #prepend>
         <font-awesome-icon icon="user" />
       </template>
     </q-input>
 
     <!--note -->
-    <q-input v-model="tx.note" label="Note" dark>
+    <q-input v-model="tx.note" label="Note">
       <template #prepend>
         <font-awesome-icon icon="file-alt" />
       </template>
@@ -54,7 +48,6 @@
       <q-slide-item
         v-for="(posting, index) in tx.postings"
         :key="index"
-        dark
         left-color="secondary"
         class="q-px-none"
         @left="onSlide"
@@ -68,7 +61,7 @@
             <font-awesome-icon icon="trash-alt" size="2x" class="q-ml-md" />
           </div>
         </template>
-        <q-item dark class="bg-colour1 q-px-none">
+        <q-item class="bg-colour1 q-px-none">
           <q-item-section>
             <QPosting
               :index="index"
@@ -81,7 +74,7 @@
       </q-slide-item>
 
       <!-- Sum -->
-      <q-item dark>
+      <q-item>
         <q-item-section>
           <q-item-label>Sum</q-item-label>
         </q-item-section>

@@ -1,5 +1,5 @@
 <template>
-  <q-card dark bordered>
+  <q-card bordered>
     <q-card-section class="bg-primary q-pa-sm">
       <font-awesome-icon icon="star" class="q-mr-sm" />
       <strong>Settings</strong>
@@ -37,7 +37,7 @@
       persistent
       content-class="bg-blue-grey-10"
     >
-      <q-card dark class="bg-secondary">
+      <q-card class="bg-secondary">
         <q-card-section class="row items-center">
           <span>
             Do you want to restore the backup {{ lastBackupFilename }}?

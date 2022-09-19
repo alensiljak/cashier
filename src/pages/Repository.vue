@@ -10,20 +10,19 @@
     </p>
 
     <!-- prices -->
-    <q-card dark bordered class="q-px-sm text-colour2 rounded-border q-mb-md">
+    <q-card bordered class="q-px-sm text-colour2 rounded-border q-mb-md">
       <q-card-section>
         <p class="text-h5">Prices</p>
         <q-input
           v-model="pricesRepoPath"
           type="text"
           class="text-red"
-          dark
           clearable
           label="Prices repository path"
           @change="onPricesRepoChange"
         />
       </q-card-section>
-      <q-separator dark />
+      <q-separator />
       <q-card-actions>
         <q-btn color="secondary" text-color="accent" @click="pricesRepoPull">
           <font-awesome-icon
@@ -53,7 +52,6 @@
           v-model="repoPath"
           type="text"
           class="text-red"
-          dark
           clearable
           label="Repository path"
           @change="onRepoChange"
@@ -101,7 +99,6 @@
           v-model="commitMessage"
           type="text"
           class="text-red"
-          dark
           clearable
           :rules="[(val) => !!val || 'Field is required']"
           label="Commit message"

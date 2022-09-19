@@ -1,5 +1,5 @@
 <template>
-  <q-card dark bordered class="my-card" @click="onCardClick">
+  <q-card bordered class="my-card" @click="onCardClick">
     <!-- <q-card-section class="text-subtitle2">Device Journal</q-card-section> -->
     <q-card-section class="bg-primary q-pa-sm">
       <font-awesome-icon icon="scroll" class="q-mr-sm" />
@@ -28,12 +28,11 @@
       </q-list>
     </q-card-section>
 
-    <!-- <q-separator dark /> -->
+    <!-- <q-separator  /> -->
 
     <q-card-actions align="center">
       <q-btn
         outline
-        dark
         color="primary"
         text-color="accent"
         @click.stop="onExportTxClick"

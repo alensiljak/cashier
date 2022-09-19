@@ -15,7 +15,6 @@
         <q-input
           v-model="serverUrl"
           label="Server URL"
-          dark
           @change="saveSyncServerUrl"
         />
       </div>
@@ -40,7 +39,6 @@
         <q-item-section>
           <q-checkbox
             v-model="syncAccounts"
-            dark
             label="Refresh accounts list. Clears the existing accounts list and replaces with the list from Ledger. This is needed if an account has/had a zero balance because Ledger will not list null-balance accounts."
           />
         </q-item-section>
@@ -52,7 +50,6 @@
         <q-item-section>
           <q-checkbox
             v-model="syncBalances"
-            dark
             label="Refresh account balances (ledger balance --flat --no-total)."
           />
         </q-item-section>
@@ -64,7 +61,6 @@
         <q-item-section>
           <q-checkbox
             v-model="syncAaValues"
-            dark
             label="Refresh asset allocation current values (ledger b ^<root> -X <CUR> --flat --no-total)."
           />
         </q-item-section>

@@ -1,5 +1,5 @@
 <template>
-  <q-card dark bordered>
+  <q-card bordered>
     <q-card-section class="bg-primary q-pa-sm">
       <font-awesome-icon icon="star" class="q-mr-sm" />
       <strong>Journal</strong>

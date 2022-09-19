@@ -1,5 +1,5 @@
 <template>
-  <q-card dark bordered @click="onCardClick">
+  <q-card bordered @click="onCardClick">
     <!-- <q-card-section class="text-subtitle2">Favourites</q-card-section> -->
 
     <q-card-section class="bg-primary q-pa-sm">

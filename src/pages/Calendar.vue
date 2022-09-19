@@ -7,7 +7,6 @@
         v-model="date"
         mask="YYYY-MM-DD"
         first-day-of-week="1"
-        dark
         :events="events"
         class="col q-mx-lg"
         @input="onDateChanged"
@@ -15,11 +14,11 @@
       />
     </div>
 
-    <q-separator dark class="q-my-lg" />
+    <q-separator class="q-my-lg" />
 
     <div>
       <p>Events on the selected day - {{ date }}</p>
-      <q-list dark>
+      <q-list>
         <q-item v-for="(event, index) in todaysEvents" :key="index">
           {{ event }}
         </q-item>

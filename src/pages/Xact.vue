@@ -9,19 +9,18 @@ view<template>
 
     <!-- date -->
     <q-dialog ref="qDateProxy" v-model="datePickerVisible">
-      <q-card dark>
+      <q-card>
         <q-card-section class="q-pa-none">
           <q-date
             ref="datePicker"
             v-model="date"
-            dark
             first-day-of-week="1"
             today-btn
             mask="YYYY-MM-DD"
             @input="onDateSelected"
           />
         </q-card-section>
-        <q-separator dark />
+        <q-separator />
         <q-card-actions align="right">
           <q-btn
             v-close-popup
@@ -34,18 +33,17 @@ view<template>
       </q-card>
     </q-dialog>
 
-    <q-input v-model="date" label="Date" dark @click="datePickerVisible = true">
+    <q-input v-model="date" label="Date" @click="datePickerVisible = true">
       <template #prepend>
         <font-awesome-icon icon="calendar-day" />
       </template>
     </q-input>
 
-    <q-input v-model="payee" label="Payee" dark @keypress="handleEnter" />
+    <q-input v-model="payee" label="Payee" @keypress="handleEnter" />
 
     <q-input
       v-model="freeText"
       label="Free-text search"
-      dark
       @keypress="handleEnter"
     />
 
@@ -61,7 +59,7 @@ view<template>
       </q-btn>
     </div>
 
-    <q-input v-model="results" dark type="textarea" />
+    <q-input v-model="results" type="textarea" />
 
     <!-- "Use" button -->
     <div v-if="results" class="text-center q-my-xl">

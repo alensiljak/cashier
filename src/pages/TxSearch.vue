@@ -7,24 +7,22 @@
       v-model="datePeriod"
       :options="datePeriods"
       label="Date Period"
-      dark
       @input="onDatePeriodChanged"
     />
 
     <q-dialog ref="qDateProxy" v-model="datePickerVisible">
-      <q-card dark>
+      <q-card>
         <q-card-section class="q-pa-none">
           <q-date
             ref="datePicker"
             v-model="dateFrom"
-            dark
             first-day-of-week="1"
             today-btn
             mask="YYYY-MM-DD"
             @input="onDateSelected"
           />
         </q-card-section>
-        <q-separator dark />
+        <q-separator />
         <q-card-actions align="right">
           <q-btn
             v-close-popup
@@ -40,7 +38,6 @@
     <q-input
       v-model="dateFrom"
       label="Date From"
-      dark
       @click="datePickerVisible = true"
     >
       <template #prepend>
@@ -49,19 +46,18 @@
     </q-input>
 
     <q-dialog ref="qDateToProxy" v-model="dateToPickerVisible">
-      <q-card dark>
+      <q-card>
         <q-card-section class="q-pa-none">
           <q-date
             ref="dateToPicker"
             v-model="dateTo"
-            dark
             first-day-of-week="1"
             today-btn
             mask="YYYY-MM-DD"
             @input="onDateToSelected"
           />
         </q-card-section>
-        <q-separator dark />
+        <q-separator />
         <q-card-actions align="right">
           <q-btn
             v-close-popup
@@ -77,7 +73,6 @@
     <q-input
       v-model="dateTo"
       label="Date To"
-      dark
       @click="dateToPickerVisible = true"
     >
       <template #prepend>
@@ -86,7 +81,7 @@
     </q-input>
 
     <!-- payee -->
-    <q-input v-model="payee" label="Payee" dark @keypress="handleEnter">
+    <q-input v-model="payee" label="Payee" @keypress="handleEnter">
       <template #prepend>
         <font-awesome-icon icon="user" />
       </template>
@@ -96,7 +91,7 @@
     <q-input
       v-model="freeText"
       label="Free-text search"
-      dark
+      
       @keypress="handleEnter"
     />
 
@@ -118,7 +113,7 @@
     </div>
 
     <!-- results -->
-    <q-list dark separator>
+    <q-list  separator>
       <q-item v-for="tx in results" :key="tx.id" v-ripple clickable>
         <q-item-section>
           <!-- <q-item-label overline>

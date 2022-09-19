@@ -16,7 +16,7 @@
 
         <q-btn flat round dense icon="more_vert">
           <q-menu>
-            <q-list dark style="min-width: 175px" class="bg-colour1">
+            <q-list style="min-width: 175px" class="bg-colour1">
               <!-- dense -->
               <q-item v-close-popup clickable>
                 <q-item-section>Synchronize</q-item-section>
@@ -57,7 +57,6 @@
     <q-input
       v-model="account.name"
       label="Account Name"
-      dark
       clearable
       @keyup.enter="onEnter"
     />
@@ -66,14 +65,12 @@
       v-model.number="account.balance"
       label="Balance"
       type="number"
-      dark
       clearable
       @keyup.enter="onEnter"
     />
     <q-input
       v-model="account.currency"
       label="Currency"
-      dark
       clearable
       @keyup.enter="onEnter"
     />
@@ -81,14 +78,12 @@
     <q-input
       v-model="account.currentValue"
       label="Current value"
-      dark
       clearable
       @keyup.enter="onEnter"
     />
     <q-input
       v-model="account.currentCurrency"
       label="Current value currency"
-      dark
       clearable
       @keyup.enter="onEnter"
     />

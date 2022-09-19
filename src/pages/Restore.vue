@@ -9,13 +9,12 @@
 
     <q-file
       v-model="file"
-      dark
       clearable
       label="Select backup file"
       @update:model-value="onFileSelected"
     />
 
-    <q-input v-model="fileContent" dark type="textarea" />
+    <q-input v-model="fileContent" type="textarea" />
 
     <div class="text-center q-pt-lg">
       <q-btn color="accent" text-color="secondary" @click="onRestoreClicked">

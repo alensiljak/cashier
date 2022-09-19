@@ -85,7 +85,7 @@
         persistent
         content-class="bg-blue-grey-10"
       >
-        <q-card dark class="bg-primary text-amber-2">
+        <q-card  class="bg-primary text-amber-2">
           <q-card-section class="row items-center">
             <span>Do you want to skip the next iteration?</span>
           </q-card-section>
@@ -108,7 +108,7 @@
         persistent
         content-class="bg-blue-grey-10"
       >
-        <q-card dark class="bg-secondary text-amber-2">
+        <q-card class="bg-secondary text-amber-2">
           <q-card-section class="row items-center">
             <span>Do you want to delete the scheduled transaction?</span>
           </q-card-section>
@@ -131,7 +131,7 @@
         persistent
         content-class="bg-blue-grey-10"
       >
-        <q-card dark class="bg-primary text-amber-2">
+        <q-card  class="bg-primary text-amber-2">
           <q-card-section class="row items-center">
             <span>Do you want to enter this transaction into the journal?</span>
           </q-card-section>

@@ -15,7 +15,7 @@
 
         <q-btn flat round dense icon="more_vert">
           <q-menu>
-            <q-list dark style="min-width: 175px" class="bg-colour1">
+            <q-list  style="min-width: 175px" class="bg-colour1">
               <q-item v-close-popup clickable @click="onSetupClick">
                 <q-item-section>Setup</q-item-section>
                 <q-item-section side>
