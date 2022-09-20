@@ -111,8 +111,13 @@ function loadConstituents() {
 async function fetchAnalysisFor(symbol: string) {
   let sec = new SecurityAnalyser()
 
-  const result = await sec.getSecurityAnalysisFor(symbol)
-  return result
+  try {
+    const result = await sec.getSecurityAnalysisFor(symbol)
+    return result
+  } catch (error: any) {
+    console.error(error.message)
+    //$q
+  }
 }
 
 async function securityAnalysis() {
