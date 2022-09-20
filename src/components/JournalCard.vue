@@ -14,15 +14,16 @@
       <q-list>
         <q-item v-for="tx in transactions" :key="tx.id" dense class="q-px-none">
           <q-item-section>{{ tx.date }} &nbsp; {{ tx.payee }}</q-item-section>
-          <q-item-section
-            side
-            :class="{
-              red: tx.amount < 0,
-              yellow: tx.amount === 0 || tx.amount === '<=>',
-              green: tx.amount > 0,
-            }"
-          >
-            {{ tx.amount }} {{ tx.currency }}
+          <q-item-section side>
+            <span
+              :class="{
+                red: tx.amount < 0,
+                yellow: tx.amount === 0 || tx.amount === '<=>',
+                green: tx.amount > 0,
+              }"
+            >
+              {{ tx.amount }} {{ tx.currency }}
+            </span>
           </q-item-section>
         </q-item>
       </q-list>
@@ -45,17 +46,18 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, Ref, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import appService from '../appService'
 import useNotifications from 'src/lib/CashierNotification'
 import { TransactionParser } from 'src/lib/transactionParser'
+import { Transaction } from 'src/model'
 
 const Notification = useNotifications()
 const $router = useRouter()
 const emit = defineEmits(['click'])
 
-const transactions = ref([])
+const transactions: Ref<Transaction[]> = ref([])
 
 onMounted(async () => {
   await loadData()
@@ -74,9 +76,11 @@ function onNewTxClick() {
   $router.push({ name: 'tx' })
 }
 
+/**
+ * load all transactions and related postings
+ */
 async function loadData() {
-  // load all transactions and related postings
-  let txs = null
+  let txs: Transaction[] | null = null
 
   try {
     txs = await appService.db.transactions
@@ -84,14 +88,14 @@ async function loadData() {
       .reverse()
       .limit(5)
       .toArray()
-  } catch (error) {
+  } catch (error: any) {
     console.error(error)
     Notification.negative(error.message)
   }
 
   try {
     calculateTxAmounts(txs)
-  } catch (error) {
+  } catch (error: any) {
     console.error(error)
     Notification.negative(error.message)
   }
@@ -103,7 +107,7 @@ async function loadData() {
  * Find the amount to display, from the user's perspective - a debit, credit, transfer.
  * @param {Array<Transaction>} txs
  */
-function calculateTxAmounts(txs) {
+function calculateTxAmounts(txs: Transaction[]) {
   // get Amounts
   TransactionParser.calculateEmptyPostingAmounts(txs)
 

@@ -37,3 +37,10 @@
 .text-colour5 {
   color: $colour5;
 }
+
+// Customize the dark-mode colours.
+.body--dark,
+.q-list--dark,
+.q-item--dark {
+  color: $colour2;
+}

@@ -72,6 +72,9 @@ export class Transaction {
   payee: string
   note: string
   postings: Posting[]
+  // 
+  //amount: any
+  //currency: any
 
   constructor() {
     // this.id = newId()
