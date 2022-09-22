@@ -1,6 +1,6 @@
 <template>
   <q-page padding class="text-colour2">
-    <stx-toolbar
+    <ScheduledTxToolbar
       title="Scheduled Transactions"
       @backup-clicked="onBackupClicked"
       @restore-clicked="onRestoreClicked"
@@ -53,11 +53,54 @@ import { useMainStore } from '../store/mainStore'
 import { useRoute, useRouter } from 'vue-router'
 import appService from '../appService'
 import moment from 'moment'
-import * as StxToolbar from '../components/ScheduledTxToolbar.vue'
+import ScheduledTxToolbar from '../components/ScheduledTxToolbar.vue'
+import { computed, onMounted, Ref, ref } from 'vue'
+import { ScheduledTransaction } from 'src/model'
 
 const mainStore = useMainStore()
 //const route = useRoute()
 const router = useRouter()
+
+const transactions = ref([])
+const today: Ref<string | null> = ref(null)
+const filter: Ref<string> = ref('')
+
+onMounted(async () => {
+  today.value = moment().format('YYYY-MM-DD')
+  await loadData()
+})
+
+const filteredList = computed(() => {
+  if (!filter.value) {
+    return transactions.value
+  }
+
+  if (!transactions.value) return
+
+  // apply the filter
+  return transactions.value.filter((stx: ScheduledTransaction) => {
+    const tx = JSON.parse(stx.transaction)
+    //const result = (tx.payee.toUpperCase().indexOf(this.filter.toUpperCase()) > -1)
+
+    // const result = stx.transaction.toUpperCase()
+    //   .indexOf(this.filter.toUpperCase()) > -1
+
+    // const result = stx.transaction.toLowerCase()
+    //   .indexOf(this.filter.toLowerCase()) > -1
+
+    // const result = stx.transaction
+    //   .localeCompare(this.filter, undefined, { sensitivity: 'base' }) === 0
+
+    // Use regex for performance.
+    var searchTerm = new RegExp(filter.value, 'i')
+    //const result = stx.transaction.match(searchTerm)
+    const result = tx.payee.match(searchTerm)
+
+    return result
+  })
+})
+
+// methods
 
 function onFabClicked() {
   // reset any cached values
@@ -74,100 +117,46 @@ function getFirstLine(text: string) {
   return text.split('\n')[0]
 }
 
+async function loadData() {
+  let sorted = await appService.db.scheduled
+    .orderBy('nextDate')
+    //.sortBy('symbol')
+    .toArray()
+
+  // sort also by payee, case insensitive
+  sorted.sort((a, b) => {
+    const tx1 = JSON.parse(a.transaction)
+    const tx2 = JSON.parse(b.transaction)
+
+    var sorting = a.nextDate.localeCompare(b.nextDate)
+    return sorting == 0
+      ? tx1.payee.localeCompare(tx2.payee, 'en', { sensitivity: 'base' })
+      : sorting
+  })
+
+  transactions.value = sorted
+}
+
+function onBackupClicked() {
+  router.push({ name: 'export', params: { type: 'scheduled' } })
+}
+
 function onCalendarClicked() {
   router.push({ name: 'calendar' })
+}
+
+function onFilterChanged(value: string) {
+  filter.value = value
+}
+
+function onRestoreClicked() {
+  router.push({ name: 'restore', params: { type: 'scheduled' } })
 }
 
 async function showTx(id) {
   // load tx
   await mainStore.loadScheduledTx(id)
   await router.push({ name: 'scheduledtxactions', params: { id: id } })
-}
-</script>
-<script lang="ts">
-export default {
-  components: {
-    StxToolbar,
-  },
-
-  data() {
-    return {
-      filter: null,
-      transactions: [],
-      today: null,
-    }
-  },
-
-  computed: {
-    filteredList: {
-      get() {
-        if (!this.filter) {
-          return this.transactions
-        }
-
-        if (!this.transactions) return
-
-        // apply the filter
-        return this.transactions.filter((stx) => {
-          const tx = JSON.parse(stx.transaction)
-          //const result = (tx.payee.toUpperCase().indexOf(this.filter.toUpperCase()) > -1)
-
-          // const result = stx.transaction.toUpperCase()
-          //   .indexOf(this.filter.toUpperCase()) > -1
-
-          // const result = stx.transaction.toLowerCase()
-          //   .indexOf(this.filter.toLowerCase()) > -1
-
-          // const result = stx.transaction
-          //   .localeCompare(this.filter, undefined, { sensitivity: 'base' }) === 0
-
-          // Use regex for performance.
-          var searchTerm = new RegExp(this.filter, 'i')
-          //const result = stx.transaction.match(searchTerm)
-          const result = tx.payee.match(searchTerm)
-
-          return result
-        })
-      },
-    },
-  },
-
-  created() {
-    this.today = moment().format('YYYY-MM-DD')
-    this.loadData()
-  },
-
-  methods: {
-    async loadData() {
-      let sorted = await appService.db.scheduled
-        .orderBy('nextDate')
-        //.sortBy('symbol')
-        .toArray()
-
-      // sort also by payee, case insensitive
-      sorted.sort((a, b) => {
-        const tx1 = JSON.parse(a.transaction)
-        const tx2 = JSON.parse(b.transaction)
-
-        var sorting = a.nextDate.localeCompare(b.nextDate)
-        return sorting == 0
-          ? tx1.payee.localeCompare(tx2.payee, 'en', { sensitivity: 'base' })
-          : sorting
-      })
-
-      this.transactions = sorted
-    },
-
-    onBackupClicked() {
-      this.$router.push({ name: 'export', params: { type: 'scheduled' } })
-    },
-    onFilterChanged(filter) {
-      this.filter = filter
-    },
-    onRestoreClicked() {
-      this.$router.push({ name: 'restore', params: { type: 'scheduled' } })
-    },
-  },
 }
 </script>
 <style lang="sass" scoped>
