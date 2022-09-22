@@ -90,7 +90,7 @@
   </q-header>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import { useMainStore } from '../store/mainStore'
 // import { useQuasar } from 'quasar'
@@ -140,15 +140,3 @@ function toggleSearch() {
   }
 }
 </script>
-<!-- <script>
-// import { QMenu } from 'quasar'
-
-//const searchInput = (ref < QMenu) | (null > null) // the search text input control
-
-export default {
-  setup() {
-    //const numEmployees = 10
-    return { searchInput }
-  },
-}
-</script> -->

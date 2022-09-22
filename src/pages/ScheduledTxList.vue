@@ -42,7 +42,7 @@
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab color="accent" text-color="secondary" @click="onFabClicked">
-        <font-awesome-icon icon="plus" transform="grow-6" />
+        <q-icon name="add" />
       </q-btn>
     </q-page-sticky>
   </q-page>
@@ -53,7 +53,7 @@ import { useMainStore } from '../store/mainStore'
 import { useRoute, useRouter } from 'vue-router'
 import appService from '../appService'
 import moment from 'moment'
-import StxToolbar from '../components/ScheduledTxToolbar.vue'
+import * as StxToolbar from '../components/ScheduledTxToolbar.vue'
 
 const mainStore = useMainStore()
 //const route = useRoute()
@@ -72,6 +72,10 @@ function getFirstLine(text: string) {
   if (!text) return
 
   return text.split('\n')[0]
+}
+
+function onCalendarClicked() {
+  router.push({ name: 'calendar' })
 }
 
 async function showTx(id) {
@@ -156,9 +160,6 @@ export default {
 
     onBackupClicked() {
       this.$router.push({ name: 'export', params: { type: 'scheduled' } })
-    },
-    onCalendarClicked() {
-      this.$router.push({ name: 'calendar' })
     },
     onFilterChanged(filter) {
       this.filter = filter

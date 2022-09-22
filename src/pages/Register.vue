@@ -29,7 +29,7 @@
     <!-- fab -->
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab color="accent" text-color="secondary" @click="onFabClick">
-        <font-awesome-icon icon="plus" transform="grow-6" />
+        <q-icon name="add" />
       </q-btn>
     </q-page-sticky>
   </q-page>
@@ -37,14 +37,14 @@
 
 <script setup lang="ts">
 import Toolbar from '../components/CashierToolbar.vue'
-import { onMounted, ref } from 'vue'
+import { onMounted, Ref, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import appService from '../appService'
 import { useQuasar } from 'quasar'
 import { useStore } from 'vuex'
 import { SET_SELECT_MODE } from '../mutations'
 import { SelectionModeMetadata } from '../lib/Configuration'
-import { Posting } from 'src/model'
+import { Account, Posting } from 'src/model'
 
 const route = useRoute()
 const router = useRouter()
@@ -55,10 +55,10 @@ const ACCOUNT = 'account'
 
 // data
 
-const account = ref({
+const account: Ref<Account> = ref({
   name: '',
 })
-const postings = ref([])
+const postings: Ref<Posting[]> = ref([])
 const balance = ref(0)
 
 // mounted
@@ -89,7 +89,7 @@ function calculateBalance() {
   balance.value = runningBalance
 }
 
-function createStartingBalancePosting(accountBalance, currency) {
+function createStartingBalancePosting(accountBalance, currency: string) {
   let record = new Posting()
   record.date = 'n/a'
   record.title = 'Opening Balance'
@@ -114,8 +114,6 @@ async function loadData() {
   let postingRecords = await loadPostingsFor(accountName)
   postings.value = postingRecords
 
-  // console.debug(account)
-
   // create the record for the opening balance?
   const startingBalanceRecord = createStartingBalancePosting(
     account.value.balance,
@@ -127,7 +125,7 @@ async function loadData() {
   calculateBalance()
 }
 
-async function loadPostingsFor(accountName) {
+async function loadPostingsFor(accountName: string) {
   const postingRecords = await appService.db.postings.where({
     account: accountName,
   })

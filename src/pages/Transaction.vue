@@ -47,23 +47,14 @@
           Reset
         </q-btn>
       </div>
-      <!-- save -->
-      <div class="col">
-        <q-btn
-          color="accent"
-          text-color="secondary"
-          size="medium"
-          @click="onSaveClicked"
-        >
-          <font-awesome-icon
-            icon="save"
-            transform="grow-9"
-            class="q-icon-small on-left"
-          />
-          Save
-        </q-btn>
-      </div>
     </footer>
+
+    <!-- floating action button -->
+    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+      <q-btn fab color="accent" text-color="secondary" @click="onFab">
+        <q-icon name="done" />
+      </q-btn>
+    </q-page-sticky>
 
     <!-- confirm deletion dialog -->
     <q-dialog
@@ -117,8 +108,6 @@ const isConfirmDeleteVisible = ref(false)
 
 provide('tx', tx)
 
-//console.debug('tx:', tx)
-
 onMounted(async () => {
   // const numId = Number(id.value)
   // if (!tx.value || tx.value.id !== numId) {
@@ -133,6 +122,11 @@ function confirmDelete() {
 
 function onClear() {
   isConfirmDeleteVisible.value = true
+}
+
+async function onFab() {
+  // save
+  await onSaveClicked()
 }
 
 async function onSaveClicked() {

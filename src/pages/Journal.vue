@@ -77,7 +77,7 @@
         text-color="secondary"
         @click="openNewTransaction"
       >
-        <font-awesome-icon icon="plus" transform="grow-6" />
+        <q-icon name="add" />
       </q-btn>
     </q-page-sticky>
 

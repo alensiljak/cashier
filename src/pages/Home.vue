@@ -43,7 +43,7 @@
     <!-- floating action button -->
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab color="accent" text-color="secondary" @click="onFab">
-        <font-awesome-icon icon="plus" transform="grow-6" />
+        <q-icon name="add" />
       </q-btn>
     </q-page-sticky>
   </q-page>
