@@ -80,7 +80,7 @@ function onNewTxClick() {
  * load all transactions and related postings
  */
 async function loadData() {
-  let txs: Transaction[] | null = null
+  let txs: Transaction[] = []
 
   try {
     txs = await appService.db.transactions

@@ -5,7 +5,14 @@
 import { Transaction } from 'src/model'
 
 export class TransactionParser {
-  static calculateEmptyPostingAmounts(transactions: Array<Transaction>) {
+  /**
+   * Calculates the amounts for the empty postings.
+   * @param transactions Array of Transactions
+   * @returns Array of Transactions
+   */
+  static calculateEmptyPostingAmounts(
+    transactions: Transaction[]
+  ): Transaction[] {
     // iterate
     transactions.forEach((tx) => {
       const postings = tx.postings
@@ -27,6 +34,8 @@ export class TransactionParser {
         )
         return
       }
+      // use the common currency
+      const commonCurrency = currencySet.values().next().value
 
       // do we have empty postings?
       const amounts = postings.map((posting) => posting.amount)
@@ -46,6 +55,10 @@ export class TransactionParser {
 
       const emptyPosting = emptyPostings[0]
       emptyPosting.amount = Number(sum) * -1
+
+      if (!emptyPosting.currency) {
+        emptyPosting.currency = commonCurrency
+      }
     })
 
     return transactions
