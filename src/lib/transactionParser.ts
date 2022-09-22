@@ -12,7 +12,10 @@ export class TransactionParser {
 
       // todo: what about multiple currencies?
       // do we have multiple currencies?
-      const currencies = postings.map((posting) => posting.currency)
+      let currencies = postings.map((posting) => posting.currency)
+      // eliminate blanks
+      currencies = currencies.filter((currency) => currency)
+      // Convert to a set to get unique values only.
       const currencySet = new Set(currencies)
       if (currencySet.size > 1) {
         console.warn(
