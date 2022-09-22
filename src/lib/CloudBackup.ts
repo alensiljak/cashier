@@ -81,7 +81,7 @@ class CloudBackup {
     return file.name
   }
 
-  async getRemoteBackupCount() {
+  async getRemoteBackupCount(): Promise<number> {
     //
     await adapter.init()
     let regex: RegExp = getRegexFor(this.entityTypeName)
@@ -91,21 +91,8 @@ class CloudBackup {
   }
 }
 
-class FavouritesBackup {
-  async backup() {
-    console.debug('backing up favourite accounts...')
-
-    // read favourites
-    let favArray = await settings.get(SettingKeys.favouriteAccounts)
-    console.log(favArray)
-
-    // prepare for upload
-
-    // shoot
-    //console.debug(PcloudClient)
-  }
-
-  async fetchRemoteBackups() {}
+class FavouritesBackup extends CloudBackup {
+  entityTypeName = 'favourites'
 }
 
 class JournalBackup extends CloudBackup {

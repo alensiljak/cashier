@@ -4,7 +4,7 @@
 
     <!-- Cards -->
 
-    <FavCard class="q-my-sm" />
+    <!-- <FavCard class="q-my-sm" /> -->
     <JournalCard class="q-my-sm" />
     <SchTxCard class="q-my-sm" />
     <SettingsCard class="q-my-sm" />
@@ -19,7 +19,7 @@ import useCloudBackup from '../lib/CloudBackup'
 import JournalCard from '../components/CloudBackupJournalCard.vue'
 import SettingsCard from 'src/components/CloudBackupSettingsCard.vue'
 import SchTxCard from 'src/components/CloudBackupSchTxCard.vue'
-import FavCard from 'src/components/CloudBackupFavouritesCard.vue'
+// import FavCard from 'src/components/CloudBackupFavouritesCard.vue'
 
 const Notification = useNotifications()
 </script>

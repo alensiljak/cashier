@@ -36,10 +36,26 @@
   
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
+import useCloudBackup from 'src/lib/CloudBackup'
+
+const { favourites: backup } = useCloudBackup()
 
 const lastBackupTimestamp = ref('n/a')
 const backupsCount = ref(0)
 const localRecordsCount = ref(0)
+
+onMounted(async () => {
+  await loadData()
+})
+
+async function loadData() {
+  backupsCount.value = await backup.getRemoteBackupCount()
+
+  //let latest = await backup.getLatestFilename()
+  let latest = await backup.getLatestFile()
+  lastBackupFilename.value = latest.name
+  lastBackupFileId.value = latest.fileid
+}
 
 async function onBackupClick() {}
 
