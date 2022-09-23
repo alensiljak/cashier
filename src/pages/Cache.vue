@@ -151,19 +151,19 @@ async function clearCache(url: URL) {
 }
 
 async function fetchAccounts() {
+  Notification.positive('fetching accounts')
+
   let cashierSync = new CashierSync(serverUrl.value)
   const url = cashierSync.getAccountsUrl()
   await cacheUrl(url)
-
-  $q.notify({ message: 'accounts cached', color: 'primary' })
 }
 
 async function fetchPayees() {
+  Notification.positive('fetching payees')
+
   let cashierSync = new CashierSync(serverUrl.value)
   const url = cashierSync.getPayeesUrl()
   await cacheUrl(url)
-
-  $q.notify({ message: 'Payees cached', color: 'primary' })
 }
 
 async function loadSettings() {
