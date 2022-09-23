@@ -90,133 +90,127 @@
   </q-page>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { onMounted, ref, Ref } from 'vue'
 import Toolbar from '../components/CashierToolbar.vue'
-import { SettingKeys, settings, Constants } from '../lib/Configuration'
 import { CashierSync } from '../lib/syncCashier'
+import { useQuasar } from 'quasar'
+import { SettingKeys, settings, Constants } from '../lib/Configuration'
 import CashierCache from '../lib/CashierCache'
+import useNotifications from 'src/lib/CashierNotification'
 
+const Notification = useNotifications()
+const $q = useQuasar()
 const NoneStatus = 'None'
 const ExistsStatus = 'Exists'
 
-export default {
-  components: {
-    Toolbar,
-  },
-  data() {
-    return {
-      serverUrl: null,
-      accountsStatus: 'unknown',
-      assetAllocationStatus: 'unknown',
-      balancesStatus: 'unknown',
-      payeesStatus: 'unknown',
-    }
-  },
+const serverUrl: Ref<string> = ref('')
+const accountsStatus = ref('unknown')
+const assetAllocationStatus = ref('unknown')
+const balancesStatus = ref('unknown')
+const payeesStatus = ref('unknown')
 
-  created() {
-    this.loadSettings()
-      // need to have value below in order to resolve the promise!
-      .then((value) => this.loadStatuses())
-  },
+onMounted(async () => {
+  await loadSettings()
+  // need to have value below in order to resolve the promise!
+  await loadStatuses()
+})
 
-  methods: {
-    async loadSettings() {
-      const value = await settings.get(SettingKeys.syncServerUrl)
-      this.serverUrl = value
+async function cacheUrl(url: URL) {
+  const cacher = new CashierCache(Constants.CacheName)
 
-      return value
-    },
-    async loadStatuses() {
-      const sync = new CashierSync(this.serverUrl)
+  try {
+    await cacher.cache(url)
+  } catch (reason) {
+    console.error(reason)
+    // show message
+    Notification.negative('Error: ' + reason)
 
-      // get the statuses of all cache items.
-      const cache = await caches.open(Constants.CacheName)
-      // Accounts
-      const accounts = await cache.match(sync.getAccountsUrl())
-      this.accountsStatus = accounts ? ExistsStatus : NoneStatus
+    return
+  }
 
-      // Balances
-      //const balances = await cache.match(sync.balancesUrl)
-      //this.balancesStatus = balances ? ExistsStatus : NoneStatus
-
-      //const currentValues = await cache.match(sync.currentValuesUrl)
-      //this.assetAllocationStatus = currentValues ? ExistsStatus : NoneStatus
-
-      const payees = await cache.match(sync.getPayeesUrl())
-      this.payeesStatus = payees ? ExistsStatus : NoneStatus
-    },
-
-    async clearAccounts() {
-      let cashierSync = new CashierSync(this.serverUrl)
-      const url = cashierSync.getAccountsUrl()
-      await this.clearCache(url)
-    },
-    // async clearBalances() {
-    //   let cashierSync = new CashierSync(this.serverUrl)
-    //   const url = cashierSync.balancesUrl
-    //   await this.clearCache(url)
-    // },
-    // async clearAssetAllocation() {
-    //   let cashierSync = new CashierSync(this.serverUrl)
-    //   const url = cashierSync.currentValuesUrl
-    //   await this.clearCache(url)
-    // },
-    async clearPayees() {
-      let cashierSync = new CashierSync(this.serverUrl)
-      const url = cashierSync.getPayeesUrl()
-      await this.clearCache(url)
-    },
-
-    async cacheUrl(url) {
-      const cacher = new CashierCache(Constants.CacheName)
-
-      try {
-        await cacher.cache(url)
-      } catch (reason) {
-        console.error(reason)
-        // show message
-        this.$q.notify({
-          message: 'Error: ' + reason,
-          color: 'secondary', // "teal-9", // green-9
-          textColor: 'amber-2',
-        })
-
-        return
-      }
-
-      await this.loadStatuses()
-    },
-
-    async clearCache(url) {
-      const cache = new CashierCache(Constants.CacheName)
-      await cache.clearCache(url)
-      await this.loadStatuses()
-    },
-
-    async fetchAccounts() {
-      let cashierSync = new CashierSync(this.serverUrl)
-      const url = cashierSync.getAccountsUrl()
-      await this.cacheUrl(url)
-
-      this.$q.notify({ message: 'accounts cached', color: 'primary' })
-    },
-    // async fetchAssetAllocation() {
-    //   let cashierSync = new CashierSync(this.serverUrl)
-    //   const url = cashierSync.currentValuesUrl
-    //   await this.cacheUrl(url)
-    // },
-    // async fetchBalances() {
-    //   let cashierSync = new CashierSync(this.serverUrl)
-    //   const url = cashierSync.balancesUrl
-    //   await this.cacheUrl(url)
-    // },
-    async fetchPayees() {
-      let cashierSync = new CashierSync(this.serverUrl)
-      const url = cashierSync.getPayeesUrl()
-      await this.cacheUrl(url)
-
-      this.$q.notify({ message: 'Payees cached', color: 'primary' })
-    },
-  },
+  await loadStatuses()
 }
+
+async function clearAccounts() {
+  let cashierSync = new CashierSync(serverUrl.value)
+  const url = cashierSync.getAccountsUrl()
+  await clearCache(url)
+}
+
+async function clearPayees() {
+  let cashierSync = new CashierSync(serverUrl.value)
+  const url = cashierSync.getPayeesUrl()
+  await clearCache(url)
+}
+
+async function clearCache(url: URL) {
+  const cache = new CashierCache(Constants.CacheName)
+  await cache.clearCache(url)
+  await loadStatuses()
+}
+
+async function fetchAccounts() {
+  let cashierSync = new CashierSync(serverUrl.value)
+  const url = cashierSync.getAccountsUrl()
+  await cacheUrl(url)
+
+  $q.notify({ message: 'accounts cached', color: 'primary' })
+}
+
+async function fetchPayees() {
+  let cashierSync = new CashierSync(serverUrl.value)
+  const url = cashierSync.getPayeesUrl()
+  await cacheUrl(url)
+
+  $q.notify({ message: 'Payees cached', color: 'primary' })
+}
+
+async function loadSettings() {
+  const value = await settings.get(SettingKeys.syncServerUrl)
+  serverUrl.value = value
+
+  return value
+}
+
+async function loadStatuses() {
+  const sync = new CashierSync(serverUrl.value)
+
+  // get the statuses of all cache items.
+  const cache = await caches.open(Constants.CacheName)
+  // Accounts
+  const accounts = await cache.match(sync.getAccountsUrl())
+  accountsStatus.value = accounts ? ExistsStatus : NoneStatus
+
+  // Balances
+  //const balances = await cache.match(sync.balancesUrl)
+  //this.balancesStatus = balances ? ExistsStatus : NoneStatus
+
+  //const currentValues = await cache.match(sync.currentValuesUrl)
+  //this.assetAllocationStatus = currentValues ? ExistsStatus : NoneStatus
+
+  const payees = await cache.match(sync.getPayeesUrl())
+  payeesStatus.value = payees ? ExistsStatus : NoneStatus
+}
+
+// async clearBalances() {
+//   let cashierSync = new CashierSync(this.serverUrl)
+//   const url = cashierSync.balancesUrl
+//   await this.clearCache(url)
+// },
+// async clearAssetAllocation() {
+//   let cashierSync = new CashierSync(this.serverUrl)
+//   const url = cashierSync.currentValuesUrl
+//   await this.clearCache(url)
+// },
+// async fetchAssetAllocation() {
+//   let cashierSync = new CashierSync(this.serverUrl)
+//   const url = cashierSync.currentValuesUrl
+//   await this.cacheUrl(url)
+// },
+// async fetchBalances() {
+//   let cashierSync = new CashierSync(this.serverUrl)
+//   const url = cashierSync.balancesUrl
+//   await this.cacheUrl(url)
+// },
 </script>

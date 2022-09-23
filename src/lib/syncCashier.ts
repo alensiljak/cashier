@@ -33,12 +33,12 @@ export class CashierSync {
     return response
   }
 
-  getAccountsUrl() {
+  getAccountsUrl(): URL {
     const url = this.getUrl(CashierSync.accountsCommand)
     return url
   }
 
-  getPayeesUrl() {
+  getPayeesUrl(): URL {
     const url = this.getUrl(CashierSync.payeesCommand)
     return url
   }
