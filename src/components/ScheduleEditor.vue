@@ -65,13 +65,36 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
+import { inject, Ref, ref } from 'vue'
+
+// const scheduledTx = inject('scheduledTx', {})
+
+// data
+
+const periods: Ref<string[]> = ref([])
+
+createPeriods()
+
+function createPeriods() {
+  periods.value = [
+    'days',
+    'weeks',
+    'months',
+    'start of month',
+    'end of month',
+    'years',
+  ]
+}
+
+//
+</script>
+<script lang="ts">
 export default {
   inject: ['scheduledTx'],
 
   data() {
     return {
-      periods: [],
       datePickerVisible: false,
       repeatOptions: [
         { label: 'Never', value: false },
@@ -87,6 +110,8 @@ export default {
   computed: {
     repetition: {
       get() {
+        if (!this.scheduledTx) return null
+
         return this.scheduledTx.count != null || this.scheduledTx.period != null
       },
       set(value) {
@@ -112,21 +137,7 @@ export default {
     },
   },
 
-  created() {
-    this.createPeriods()
-  },
-
   methods: {
-    createPeriods() {
-      this.periods = [
-        'days',
-        'weeks',
-        'months',
-        'start of month',
-        'end of month',
-        'years',
-      ]
-    },
     onDateSelected(value, reason) {
       if (reason !== 'day' && reason !== 'today') return
 

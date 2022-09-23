@@ -139,6 +139,10 @@ const datePickerVisible = ref(false)
 let resetSlide = null
 const postingSum = ref(0)
 
+if (!tx.value) {
+  tx.value = {}
+}
+
 // are we back from the select mode?
 if (store.state.selectModeMeta) {
   handleSelection()

@@ -23,6 +23,13 @@
     <q-separator class="q-my-lg" />
 
     <schedule-editor />
+
+    <!-- floating action button -->
+    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+      <q-btn fab color="accent" text-color="secondary" @click="onFabClicked">
+        <q-icon name="done" />
+      </q-btn>
+    </q-page-sticky>
   </q-page>
 </template>
 
@@ -68,6 +75,10 @@ provide('scheduledTx', scheduledTx)
 // }
 
 // methods
+
+async function onFabClicked() {
+  await onSaveClicked()
+}
 
 async function onSaveClicked() {
   const result = await saveData()

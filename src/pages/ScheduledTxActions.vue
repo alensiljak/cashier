@@ -110,7 +110,10 @@
       >
         <q-card class="bg-secondary text-amber-2">
           <q-card-section class="row items-center">
-            <span>Do you want to delete the scheduled transaction?</span>
+            <span
+              >Do you want to delete the scheduled transaction
+              {{ tx.payee }}?</span
+            >
           </q-card-section>
 
           <q-card-actions align="right">
@@ -152,17 +155,21 @@
   </q-page>
 </template>
 <script setup lang="ts">
-import { computed, ref, toRaw } from 'vue'
+import { computed, ref, toRaw, toRefs } from 'vue'
 import { useMainStore } from '../store/mainStore'
 import { useQuasar } from 'quasar'
 import { useRoute, useRouter } from 'vue-router'
+import Toolbar from '../components/CashierToolbar.vue'
+import JournalTransaction from '../components/JournalTransaction.vue'
+import appService from '../appService'
+import { Iterator } from '../lib/scheduledTransactions'
+import { storeToRefs } from 'pinia'
 
 const mainStore = useMainStore()
 const $q = useQuasar()
 // const route = useRoute()
 const router = useRouter()
-const { tx } = mainStore
-const { scheduledTx } = mainStore
+const { scheduledTx, tx } = storeToRefs(mainStore)
 
 const props = defineProps({
   id: { type: String, default: null },
@@ -177,11 +184,16 @@ const props = defineProps({
 //   },
 // })
 
+if (!scheduledTx.value) {
+  scheduledTx.value = {}
+}
+
 /*
   data
 */
 let enterConfirmationVisible = ref(false)
 const skipConfirmationVisible = ref(false)
+const confirmDeleteVisible = ref(false)
 
 // Methods
 
@@ -205,6 +217,41 @@ async function enterTransaction() {
 
   // open the transaction. Maintain page navigation history.
   router.replace({ name: 'tx', params: { id: id } })
+}
+
+function getNumericId() {
+  // when navigating back, the id becomes string instead of original numeric
+  const id = props.id
+
+  if (typeof id === 'string') {
+    return Number(id)
+  }
+  if (typeof id === 'number') {
+    return id
+  }
+
+  throw new Error('Invalid Id value', id)
+}
+
+async function confirmDelete() {
+  const id = scheduledTx.value.id
+  if (!id) {
+    console.error('the current scheduled transaction does not have an id')
+    return
+  }
+
+  const result = await appService.db.scheduled.where('id').equals(id).delete()
+  console.log('deletion result:', result)
+
+  //this.resetTransaction()
+
+  router.back()
+}
+
+function onEditClicked() {
+  // open the editor
+  const id = getNumericId()
+  router.push({ name: 'scheduledtxeditor', params: { id: id } })
 }
 
 async function onEnterConfirmed() {
@@ -239,10 +286,10 @@ async function saveData() {
  */
 async function skip() {
   let stx = scheduledTx
-  const startDate = stx.nextDate
-  const count = stx.count
-  const period = stx.period
-  const endDate = stx.endDate
+  const startDate = stx.value.nextDate
+  const count = stx.value.count
+  const period = stx.value.period
+  const endDate = stx.value.endDate
 
   // todo: handle the one-off occurrence (no count and no period)
 
@@ -263,10 +310,10 @@ async function skip() {
   // update the date on the transaction
   let templateTx = toRaw(tx)
   templateTx.date = newDate
-  stx.transaction = JSON.stringify(templateTx)
+  stx.value.transaction = JSON.stringify(templateTx)
   //tx.value = templateTx
 
-  stx.nextDate = tx.date
+  stx.value.nextDate = tx.value.date
 
   const result = await saveData()
   if (!result) {
@@ -275,60 +322,5 @@ async function skip() {
       color: 'negative',
     })
   }
-}
-</script>
-<script lang="ts">
-import Toolbar from '../components/CashierToolbar.vue'
-import JournalTransaction from '../components/JournalTransaction.vue'
-import appService from '../appService'
-import { Iterator } from '../lib/scheduledTransactions'
-
-export default {
-  components: {
-    Toolbar,
-    JournalTransaction,
-  },
-  data() {
-    return {
-      // scheduledTx: {},
-      confirmDeleteVisible: false,
-    }
-  },
-
-  methods: {
-    async confirmDelete() {
-      const id = this.scheduledTx.id
-      if (!id) {
-        console.error('the current scheduled transaction does not have an id')
-        return
-      }
-
-      const result = await appService.db.scheduled
-        .where('id')
-        .equals(id)
-        .delete()
-      console.log('deletion result:', result)
-
-      //this.resetTransaction()
-
-      this.$router.back()
-    },
-    getNumericId() {
-      // when navigating back, the id becomes string instead of original numeric
-      if (typeof this.id === 'string') {
-        return Number(this.id)
-      }
-      if (typeof this.id === 'number') {
-        return this.id
-      }
-
-      throw new Error('Invalid Id value', this.id)
-    },
-    onEditClicked() {
-      // open the editor
-      const id = this.getNumericId()
-      this.$router.push({ name: 'scheduledtxeditor', params: { id: id } })
-    },
-  },
 }
 </script>

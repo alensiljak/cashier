@@ -105,6 +105,7 @@ const filteredList = computed(() => {
 function onFabClicked() {
   // reset any cached values
   mainStore.newScheduledTx()
+  mainStore.newTx()
   router.push({ name: 'scheduledtxeditor' })
 }
 
