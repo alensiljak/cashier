@@ -66,8 +66,9 @@ async function loadData() {
     favArray = await augmenter.adjustBalances(favArray)
 
     accounts.value = favArray
-  } catch (reason) {
-    $q.notify({ color: 'secondary', message: reason.message })
+  } catch (error) {
+    console.error(error)
+    $q.notify({ color: 'secondary', message: error.message })
   }
 }
 

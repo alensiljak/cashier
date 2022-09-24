@@ -300,9 +300,10 @@ export default {
         await engine.importYamlDefinition(this.fileContent)
 
         this.$q.notify({ message: 'Definition imported', color: 'positive' })
-      } catch (msg) {
+      } catch (error) {
+        console.error(error)
         this.$q.notify({
-          message: 'Error during import: ' + msg,
+          message: 'Error during import: ' + error,
           color: 'secondary',
           textColor: 'amber-2',
         })

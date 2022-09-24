@@ -147,7 +147,7 @@ export default {
       try {
         value = await sync.healthCheck()
         value = JSON.parse(value)
-      } catch (reason) {
+      } catch (error) {
         // reset the live mode
         if (currentState === true) {
           this.liveModeOn = false

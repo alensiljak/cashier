@@ -258,9 +258,9 @@ function onEditClicked() {
 async function onEnterConfirmed() {
   try {
     await enterTransaction()
-  } catch (err: any) {
-    console.error(err)
-    $q.notify({ color: 'negative', message: err.message })
+  } catch (error: any) {
+    console.error(error)
+    $q.notify({ color: 'negative', message: error.message })
   }
 }
 
@@ -269,8 +269,9 @@ async function onSkipConfirmed() {
     await skip()
 
     router.back()
-  } catch (err) {
-    $q.notify({ color: 'negative', message: err.message })
+  } catch (error: any) {
+    console.error(error)
+    $q.notify({ color: 'negative', message: error.message })
   }
 }
 

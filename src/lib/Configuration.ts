@@ -53,7 +53,7 @@ class Settings {
     let value = null
     try {
       value = JSON.parse(setting.value)
-    } catch (e) {
+    } catch (error) {
       value = setting.value
     }
 

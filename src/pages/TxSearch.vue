@@ -234,7 +234,7 @@ export default {
       try {
         searchResults = await sync.search(searchParams)
       } catch (error) {
-        //console.log(error)
+        console.error(error)
         this.$q.notify({ message: error.message, color: 'secondary' })
       }
 

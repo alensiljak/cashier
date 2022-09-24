@@ -150,9 +150,10 @@ async function onConnectClicked() {
     const response = await sync.healthCheck()
 
     $q.notify({ message: response, color: 'positive' })
-  } catch (err) {
+  } catch (error) {
+    console.error(error)
     $q.notify({
-      message: 'Connecting to CashierSync: ' + err.message,
+      message: 'Connecting to CashierSync: ' + error.message,
       color: 'negative',
     })
   }
@@ -188,6 +189,7 @@ async function synchronizeAaValues() {
       color: 'primary',
     })
   } catch (error) {
+    console.error(error)
     $q.notify({ message: error.message, color: 'secondary' })
   }
 }
@@ -255,6 +257,7 @@ async function onSyncClicked() {
       showAssetProgress.value = false
     }
   } catch (error) {
+    console.error(error)
     $q.notify({ message: error.message, color: 'negative' })
   }
 }
@@ -263,9 +266,10 @@ function shutdown() {
   const sync = new CashierSync(serverUrl.value)
   sync
     .shutdown()
-    .catch((reason) =>
-      $q.notify({ message: 'Error:' + reason, color: 'secondary' })
-    )
+    .catch((error) => {
+      console.error(error)
+      $q.notify({ message: 'Error:' + error, color: 'secondary' })
+    })
     .then((res) =>
       $q.notify({
         message: 'The server shutdown request sent.',

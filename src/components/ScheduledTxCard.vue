@@ -67,6 +67,7 @@ export default {
           .limit(5)
           .toArray()
       } catch (error) {
+        console.error(error)
         this.$q.notify({ color: 'secondary', message: error.message })
       }
     },

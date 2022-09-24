@@ -183,10 +183,12 @@ export default {
       const sync = new CashierSync(this.serverUrl)
       sync
         .repoCommit(this.repoPath, this.commitMessage)
-        .then((result) => this.$q.notify(result))
-        .catch((error) =>
+        .then((result) => tis.$q.notify(result))
+        .catch((error) => {
+          console.error(error)
+
           this.$q.notify({ message: error, color: 'secondary' })
-        )
+        })
     },
     async onPricesRepoChange() {
       try {
@@ -196,6 +198,7 @@ export default {
         )
         this.$q.notify('prices path saved')
       } catch (error) {
+        console.error(error)
         this.$q.notify(error)
       }
     },
@@ -209,6 +212,7 @@ export default {
         const result = await sync.repoPull(this.repoPath)
         this.$q.notify({ message: result, color: 'primary' })
       } catch (error) {
+        console.error(error)
         this.$q.notify({ message: error, color: 'secondary' })
       }
     },
@@ -217,18 +221,20 @@ export default {
       sync
         .repoPush(this.repoPath)
         .then((result) => this.$q.notify({ message: result, color: 'primary' }))
-        .catch((error) =>
+        .catch((error) => {
+          console.error(error)
           this.$q.notify({ message: error, color: 'secondary' })
-        )
+        })
     },
     onRepoChange() {
       // this.$q.notify(this.repoPath)
       settings
         .set(SettingKeys.repositoryPath, this.repoPath)
         .then(() => this.$q.notify('journal path saved'))
-        .catch((error) =>
+        .catch((error) => {
+          console.error(error)
           this.$q.notify({ message: error, color: 'secondary' })
-        )
+        })
     },
     async onRefreshClick() {
       // Refresh the repository status.
@@ -236,6 +242,7 @@ export default {
         const sync = new CashierSync(this.serverUrl)
         this.gitStatus = await sync.repoStatus(this.repoPath)
       } catch (error) {
+        console.error(error)
         this.$q.notify({ message: error, color: 'secondary' })
       }
     },
@@ -244,9 +251,10 @@ export default {
       sync
         .repoPull(this.pricesRepoPath)
         .then((result) => this.$q.notify({ message: result, color: 'primary' }))
-        .catch((error) =>
+        .catch((error) => {
+          console.error(error)
           this.$q.notify({ message: error, color: 'secondary' })
-        )
+        })
     },
   },
 }

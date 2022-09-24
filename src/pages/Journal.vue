@@ -181,8 +181,9 @@ async function deleteAllTransactions() {
     $q.notify({ message: 'transactions deleted' })
 
     await loadData()
-  } catch (reason) {
-    $q.notify({ message: reason, color: 'danger' })
+  } catch (error) {
+    console.error(error)
+    $q.notify({ message: error, color: 'danger' })
   }
 }
 
@@ -208,6 +209,7 @@ async function deleteTransaction(id) {
 
     await loadData()
   } catch (error) {
+    console.error(error)
     $q.notify({ color: 'negative', message: error.message })
   }
 }
@@ -238,6 +240,7 @@ async function loadData() {
       .reverse()
       .toArray()
   } catch (error) {
+    console.error(error)
     errorMessage.message = error.message
     $q.notify(errorMessage)
   }

@@ -143,9 +143,9 @@ async function onSaveClicked() {
     }
 
     await router.back()
-  } catch (err) {
-    console.error(err)
-    $q.notify({ message: 'error: ' + err.message, color: 'negative' })
+  } catch (error) {
+    console.error(error)
+    $q.notify({ message: 'error: ' + error.message, color: 'negative' })
   }
 }
 

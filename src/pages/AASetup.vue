@@ -66,8 +66,8 @@ export default {
       //   .then(() => {
       //     this.$q.notify({ message: "Values imported" });
       //   })
-      //   .catch(reason => {
-      //     errorMessage.message = reason;
+      //   .catch(error => {
+      //     errorMessage.message = error;
       //     this.$q.notify(errorMessage);
       //   });
     },

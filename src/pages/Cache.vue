@@ -121,10 +121,10 @@ async function cacheUrl(url: URL) {
 
   try {
     await cacher.cache(url)
-  } catch (reason) {
-    console.error(reason)
+  } catch (error) {
+    console.error(error)
     // show message
-    Notification.negative('Error: ' + reason)
+    Notification.negative('Error: ' + error)
 
     return
   }

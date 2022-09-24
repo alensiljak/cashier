@@ -143,6 +143,7 @@ export default {
         result = JSON.parse(result)
         this.results = result
       } catch (error) {
+        console.error(error)
         this.$q.notify({ message: error, color: 'secondary' })
       }
     },

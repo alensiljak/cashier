@@ -173,8 +173,9 @@ async function deleteTransaction() {
     mainStore.setTransaction(null)
 
     $q.notify({ message: 'Transaction deleted', color: 'positive' })
-  } catch (reason) {
-    $q.notify({ message: reason.message, color: 'negative' })
+  } catch (error) {
+    console.error(error)
+    $q.notify({ message: error.message, color: 'negative' })
   }
 }
 
@@ -224,9 +225,9 @@ async function onDuplicateClicked() {
     // navigate to the editor for the new transaction,
     // resetting the navigation?
     await router.replace({ name: 'tx', params: { id: id } })
-  } catch (err) {
-    console.error(err)
-    $q.notify({ color: 'negative', message: err.message })
+  } catch (error) {
+    console.error(error)
+    $q.notify({ color: 'negative', message: error.message })
     return
   }
 }
