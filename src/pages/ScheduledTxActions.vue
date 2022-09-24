@@ -154,6 +154,7 @@
     </div>
   </q-page>
 </template>
+
 <script setup lang="ts">
 import { computed, ref, toRaw, toRefs } from 'vue'
 import { useMainStore } from '../store/mainStore'
@@ -257,7 +258,8 @@ function onEditClicked() {
 async function onEnterConfirmed() {
   try {
     await enterTransaction()
-  } catch (err) {
+  } catch (err: any) {
+    console.error(err)
     $q.notify({ color: 'negative', message: err.message })
   }
 }
