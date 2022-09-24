@@ -165,6 +165,7 @@ import JournalTransaction from '../components/JournalTransaction.vue'
 import appService from '../appService'
 import { Iterator } from '../lib/scheduledTransactions'
 import { storeToRefs } from 'pinia'
+import { Transaction } from 'src/model'
 
 const mainStore = useMainStore()
 const $q = useQuasar()
@@ -203,7 +204,7 @@ const confirmDeleteVisible = ref(false)
  */
 async function enterTransaction() {
   // Create the journal transaction.
-  let newTx = toRaw(tx)
+  let newTx: Transaction = toRaw(tx.value)
   // clear the id field, if any, to get a new one on save.
   newTx.id = null
   const id = await appService.saveTransaction(newTx)
@@ -279,7 +280,7 @@ async function onSkipConfirmed() {
  * Saves the Scheduled Transaction record.
  */
 async function saveData() {
-  let raw = toRaw(scheduledTx)
+  let raw = toRaw(scheduledTx.value)
   const result = await appService.saveScheduledTransaction(raw)
   return result
 }
@@ -311,7 +312,7 @@ async function skip() {
   }
 
   // update the date on the transaction
-  let templateTx = toRaw(tx)
+  let templateTx = toRaw(tx.value)
   templateTx.date = newDate
   stx.value.transaction = JSON.stringify(templateTx)
   //tx.value = templateTx

@@ -529,7 +529,7 @@ class AppService {
    * @param {Transaction} tx The transaction object
    * @returns the numeric id of the new transaction
    */
-  async saveTransaction(tx) {
+  async saveTransaction(tx: Transaction) {
     if (!tx) {
       throw new Error('transaction object is invalid!', tx)
     }
