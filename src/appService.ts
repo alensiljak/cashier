@@ -16,6 +16,7 @@ import { settings, SettingKeys } from './lib/Configuration'
 import { toRaw } from 'vue'
 import { TransactionParser } from './lib/transactionParser'
 import { TransactionAugmenter } from './lib/transactionAugmenter'
+import { Collection } from 'dexie'
 
 class AppService {
   /**
@@ -128,7 +129,7 @@ class AppService {
    * @param {FileInfo} fileInfo The file info from the input control.
    * @param {Function} callback A function to run when complete, passing the file content.
    */
-  readFile(fileInfo, callback) {
+  readFile(fileInfo: Blob, callback: any) {
     if (!fileInfo) return
     //   console.log(fileInfo);
 
@@ -136,7 +137,7 @@ class AppService {
 
     reader.onload = (event) => {
       // File was successfully read.
-      let content = event.target.result
+      let content = event.target?.result
 
       callback(content)
     }
@@ -144,7 +145,7 @@ class AppService {
     reader.readAsText(fileInfo)
   }
 
-  async readFileAsync(fileInfo) {
+  async readFileAsync(fileInfo: Blob) {
     if (!fileInfo) return
 
     return new Promise((resolve, reject) => {
@@ -204,10 +205,10 @@ class AppService {
    * Format a given value as a number with 2 decimals.
    * @param {*} value
    */
-  formatNumber(value) {
+  formatNumber(value: number): string | null {
     // if (!value) return;
-    if (value == null) return
-    if (Number.isNaN(value)) return
+    if (value == null) return null
+    if (Number.isNaN(value)) return null
 
     // make sure we have a number
     let result = Number(value)
@@ -221,7 +222,7 @@ class AppService {
    * Start from the investment root setting, and include the commodity.
    * @returns Promise with investment accounts collection
    */
-  async getInvestmentAccounts() {
+  async getInvestmentAccounts(): Promise<Collection<Account>> {
     // get the root investment account.
     const rootAccount = await settings.get(SettingKeys.rootInvestmentAccount)
 
@@ -235,9 +236,9 @@ class AppService {
   /**
    * Get all the investment commodities. These are commodities used in inv. accounts.
    */
-  async getInvestmentCommodities() {
+  async getInvestmentCommodities(): Promise<string[]> {
     // get all investment accounts, iterate to get unique commodities?
-    let commodities = []
+    let commodities: string[] = []
 
     const accounts = await this.getInvestmentAccounts()
     await accounts.each((account) => {
@@ -251,7 +252,7 @@ class AppService {
     return commodities
   }
 
-  async importAccounts(accountsList) {
+  async importAccounts(accountsList: string[]) {
     if (!accountsList) {
       throw new Error('The accounts list is required!')
     }
@@ -270,7 +271,7 @@ class AppService {
     return db.accounts.bulkPut(accounts)
   }
 
-  async importBalanceSheet(lines) {
+  async importBalanceSheet(lines: string[]) {
     if (!lines) {
       throw new Error('No balance records received for import!')
     }
@@ -337,7 +338,7 @@ class AppService {
     return db.accounts.bulkPut(accounts)
   }
 
-  importCommodities(text) {
+  importCommodities(text: string) {
     if (!text) {
       Notify.create({ message: 'No data to import.' })
       return
@@ -360,7 +361,7 @@ class AppService {
    * Imports Scheduled Transactions from a JSON String backup (from the export file).
    * @param {String} jsonList
    */
-  async importScheduledTransactions(jsonList) {
+  async importScheduledTransactions(jsonList: string) {
     if (!jsonList) {
       throw new Error('The transactions list is required!')
     }
@@ -446,10 +447,7 @@ class AppService {
     }
 
     const tx = await db.transactions.get(id)
-    // load postings
-    //const postings = await db.postings.where({ transactionId: tx.id }).toArray()
 
-    //tx.postings = postings
     return tx
   }
 
