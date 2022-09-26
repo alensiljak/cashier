@@ -1,5 +1,6 @@
-import { Account } from 'src/model'
+import { Account, Transaction } from 'src/model'
 import appService from '../appService'
+import { TransactionParser } from './transactionParser'
 
 /**
  * Modifies the transaction records in-memory to create the missing parts,
@@ -7,6 +8,65 @@ import appService from '../appService'
  */
 export class TransactionAugmenter {
   constructor() {}
+
+  /**
+   * Calculates the amounts for the empty postings.
+   * @param transactions Array of Transactions
+   * @returns The same array of Transactions
+   */
+  static calculateEmptyPostingAmounts(
+    transactions: Transaction[]
+  ): Transaction[] {
+    // iterate
+    transactions.forEach((tx) => {
+      const postings = tx.postings
+
+      // todo: what about multiple currencies?
+      // do we have multiple currencies?
+      let currencies = postings.map((posting) => posting.currency)
+      // eliminate blanks
+      currencies = currencies.filter((currency) => currency)
+      // Convert to a set to get unique values only.
+      const currencySet = new Set(currencies)
+      if (currencySet.size > 1) {
+        console.warn(
+          'Multiple currencies detected:',
+          ...currencySet,
+          '. Ignoring transaction',
+          tx.date,
+          tx.payee
+        )
+        return
+      }
+      // use the common currency
+      const commonCurrency = currencySet.values().next().value
+
+      // do we have empty postings?
+      const amounts = postings.map((posting) => posting.amount)
+      if (amounts.length <= 0) return
+
+      // add all the existing amounts
+      const sum = amounts.reduce((prev, curr) => prev + curr)
+
+      // put this value into the empty posting.
+      const emptyPostings = postings.filter((posting) => !posting.amount)
+      if (emptyPostings.length > 1) {
+        throw new Error('multiple empty postings found!')
+      } else if (emptyPostings.length === 0) {
+        // no empty postings
+        return
+      }
+
+      const emptyPosting = emptyPostings[0]
+      emptyPosting.amount = Number(sum) * -1
+
+      if (!emptyPosting.currency) {
+        emptyPosting.currency = commonCurrency
+      }
+    })
+
+    return transactions
+  }
 
   /**
    * Corrects the account balance by adding the local transactions into the calculation.
@@ -30,12 +90,13 @@ export class TransactionAugmenter {
       let sum = parseFloat(account.balance)
       if (!sum) continue
 
-      let postings = await appService.db.postings.where({
-        account: account.name,
-      })
-      let postingsArray = await postings.toArray()
-      for (let j = 0; j < postingsArray.length; j++) {
-        let amount = postingsArray[j].amount
+      //
+      let txs = await appService.loadAccountTransactionsFor(account.name)
+      TransactionAugmenter.calculateEmptyPostingAmounts(txs)
+      let postings = TransactionParser.extractPostingsFor(txs, account.name)
+
+      for (let j = 0; j < postings.length; j++) {
+        let amount = postings[j].amount
         if (!amount) continue
         if (typeof amount === 'string') {
           amount = parseFloat(amount)

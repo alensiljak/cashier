@@ -9,6 +9,7 @@ import { Notify } from 'quasar'
 import { settings, SettingKeys } from './lib/Configuration'
 import { toRaw } from 'vue'
 import { TransactionParser } from './lib/transactionParser'
+import { TransactionAugmenter } from './lib/transactionAugmenter'
 
 class AppService {
   /**
@@ -393,7 +394,7 @@ class AppService {
 
     let txs = await db.transactions.bulkGet(txIds)
 
-    txs = TransactionParser.calculateEmptyPostingAmounts(txs)
+    txs = TransactionAugmenter.calculateEmptyPostingAmounts(txs)
 
     return txs
   }

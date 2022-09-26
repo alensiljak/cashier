@@ -52,6 +52,7 @@ import appService from '../appService'
 import useNotifications from 'src/lib/CashierNotification'
 import { TransactionParser } from 'src/lib/transactionParser'
 import { Transaction } from 'src/model'
+import { TransactionAugmenter } from 'src/lib/transactionAugmenter'
 
 const Notification = useNotifications()
 const $router = useRouter()
@@ -109,7 +110,7 @@ async function loadData() {
  */
 function calculateTxAmounts(txs: Transaction[]) {
   // get Amounts
-  TransactionParser.calculateEmptyPostingAmounts(txs)
+  TransactionAugmenter.calculateEmptyPostingAmounts(txs)
 
   // Find the asset account and decide on the flow direction.
   txs.forEach((tx) => {

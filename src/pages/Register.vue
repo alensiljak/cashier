@@ -46,6 +46,7 @@ import { SET_SELECT_MODE } from '../mutations'
 import { SelectionModeMetadata } from '../lib/Configuration'
 import { Account, Posting } from 'src/model'
 import { TransactionParser } from 'src/lib/transactionParser'
+import { TransactionAugmenter } from 'src/lib/transactionAugmenter'
 
 const route = useRoute()
 const router = useRouter()
@@ -112,7 +113,7 @@ async function loadData() {
   account.value = accountRecord
 
   let txs = await appService.loadAccountTransactionsFor(accountName)
-  TransactionParser.calculateEmptyPostingAmounts(txs)
+  TransactionAugmenter.calculateEmptyPostingAmounts(txs)
 
   //let postingRecords = await loadPostingsFor(accountName)
   //postings.value = postingRecords

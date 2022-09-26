@@ -61,7 +61,6 @@ async function loadData() {
     favArray = favArray.slice(0, 5)
 
     // adjust the balance
-    //accounts = await this.adjustBalances(accounts)
     const augmenter = new TransactionAugmenter()
     favArray = await augmenter.adjustBalances(favArray)
 
