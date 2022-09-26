@@ -183,10 +183,7 @@ async function synchronizeAaValues() {
   try {
     await sync.readCurrentValues()
 
-    $q.notify({
-      message: 'Asset Allocation values loaded',
-      color: 'primary',
-    })
+    Notification.positive('Asset Allocation values loaded')
   } catch (error: any) {
     console.error(error)
     Notification.negative(error.message)
