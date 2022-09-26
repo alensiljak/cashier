@@ -85,10 +85,15 @@ export class TransactionAugmenter {
       // load all postings for the account
       let account = accounts[i]
       // todo: if the favourite account is not found, gray it out?
-      if (!account || !account.balance) continue // null check
+      if (!account) continue // null check
+
+      // handle empty balances
+      if (!account.balance) {
+        account.balance = 0
+      }
 
       let sum = parseFloat(account.balance)
-      if (!sum) continue
+      //if (!sum) continue
 
       //
       let txs = await appService.loadAccountTransactionsFor(account.name)
@@ -103,6 +108,11 @@ export class TransactionAugmenter {
         }
 
         sum += amount
+
+        // For accounts with no starting balance, use the currency from the first expense.
+        if (!account.currency) {
+          account.currency = postings[j].currency
+        }
       }
 
       if (isNaN(sum)) {
