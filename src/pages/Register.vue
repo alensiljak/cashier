@@ -45,6 +45,7 @@ import { useStore } from 'vuex'
 import { SET_SELECT_MODE } from '../mutations'
 import { SelectionModeMetadata } from '../lib/Configuration'
 import { Account, Posting } from 'src/model'
+import { TransactionParser } from 'src/lib/transactionParser'
 
 const route = useRoute()
 const router = useRouter()
@@ -59,7 +60,7 @@ const account: Ref<Account> = ref({
   name: '',
 })
 const postings: Ref<Posting[]> = ref([])
-const balance = ref(0)
+const balance = ref('')
 
 // mounted
 
@@ -86,7 +87,8 @@ function calculateBalance() {
     runningBalance += posting.amount
   })
 
-  balance.value = runningBalance
+  // round to 2 decimals
+  balance.value = runningBalance.toFixed(2)
 }
 
 function createStartingBalancePosting(accountBalance, currency: string) {
@@ -105,26 +107,42 @@ function formatNumber(value) {
 }
 
 async function loadData() {
-  const accountName = route.params.name
+  const accountName = route.params.name as string
   const accountRecord = await appService.db.accounts.get(accountName)
   account.value = accountRecord
 
-  //let txs = await appService.loadAccountTransactionsFor(accountName)
+  let txs = await appService.loadAccountTransactionsFor(accountName)
+  TransactionParser.calculateEmptyPostingAmounts(txs)
 
-  let postingRecords = await loadPostingsFor(accountName)
-  postings.value = postingRecords
+  //let postingRecords = await loadPostingsFor(accountName)
+  //postings.value = postingRecords
+
+  // append transaction details to postings.
+  txs.forEach((tx) => {
+    tx.postings.forEach((posting) => {
+      posting.date = tx.date
+      posting.title = tx.payee
+    })
+  })
+  let localPostings = TransactionParser.extractPostingsFor(txs, accountName)
 
   // create the record for the opening balance?
   const startingBalanceRecord = createStartingBalancePosting(
     account.value.balance,
     account.value.currency
   )
-  postings.value.splice(0, 0, startingBalanceRecord)
+  localPostings.splice(0, 0, startingBalanceRecord)
+
+  postings.value = localPostings
 
   // calculate the current balance
   calculateBalance()
 }
 
+/**
+ * Loads the postings for the account.
+ * @param accountName Full account name
+ */
 async function loadPostingsFor(accountName: string) {
   const postingRecords = await appService.db.postings.where({
     account: accountName,
@@ -144,6 +162,10 @@ function onItemClick(txId) {
   router.push({ name: 'tx', params: { id: txId } })
 }
 
+/**
+ * Sets the account as a result of selection process.
+ * @param accountToSend the name of the account
+ */
 function sendAccountToTransaction(accountToSend) {
   const selectMode = new SelectionModeMetadata()
 

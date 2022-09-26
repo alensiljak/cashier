@@ -2,13 +2,13 @@
  * Transaction parser
  * Used for calculation of the empty postings
  */
-import { Transaction } from 'src/model'
+import { Posting, Transaction } from 'src/model'
 
 export class TransactionParser {
   /**
    * Calculates the amounts for the empty postings.
    * @param transactions Array of Transactions
-   * @returns Array of Transactions
+   * @returns The same array of Transactions
    */
   static calculateEmptyPostingAmounts(
     transactions: Transaction[]
@@ -62,5 +62,24 @@ export class TransactionParser {
     })
 
     return transactions
+  }
+
+  /**
+   * Extract the postings for the given account from the list of Transactions
+   * @param accountName The name of the account
+   */
+  static extractPostingsFor(
+    txs: Transaction[],
+    accountName: string
+  ): Posting[] {
+    let result: Posting[] = []
+
+    txs.forEach((tx) => {
+      let postings = tx.postings.filter(
+        (posting) => posting.account == accountName
+      )
+      result = result.concat(postings)
+    })
+    return result
   }
 }

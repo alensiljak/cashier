@@ -382,7 +382,9 @@ class AppService {
    * Used to calculate the balance.
    * @param {String} accountName
    */
-  async loadAccountTransactionsFor(accountName) {
+  async loadAccountTransactionsFor(
+    accountName: string
+  ): Promise<Transaction[]> {
     // get all the transactions which have postings that have this account.
     let txIds = []
     await db.postings
@@ -396,7 +398,7 @@ class AppService {
     return txs
   }
 
-  loadAssetClass(fullname) {
+  loadAssetClass(fullname: string) {
     return db.assetAllocation.get(fullname)
   }
 
