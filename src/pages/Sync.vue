@@ -108,7 +108,6 @@
 <script setup lang="ts">
 import { onMounted, ref, toRaw } from 'vue'
 import { useRouter } from 'vue-router'
-import { useQuasar } from 'quasar'
 import appService from '../appService'
 import { CashierSync } from '../lib/syncCashier'
 import { SettingKeys, settings, Constants } from '../lib/Configuration'
@@ -117,7 +116,6 @@ import Toolbar from '../components/CashierToolbar.vue'
 import useNotifications from 'src/lib/CashierNotification'
 
 const router = useRouter()
-//const $q = useQuasar()
 const Notification = useNotifications()
 
 // data
@@ -227,7 +225,7 @@ async function synchronizeBalances() {
   const lines = await sync.readBalances()
   await appService.importBalanceSheet(lines)
 
-  $q.notify({ message: 'balances loaded', color: 'primary' })
+  Notification.positive('balances loaded')
 }
 
 async function onSyncClicked() {
