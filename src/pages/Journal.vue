@@ -261,7 +261,7 @@ function onTransactionDeleteClicked(data) {
   // transactionIdToDelete.value = data.id
 }
 
-async function onTxClick(id) {
+async function onTxClick(id: number) {
   if (typeof id !== 'number') {
     $q.notify({
       message: 'The id (' + id + ') is not numeric! Try again.',

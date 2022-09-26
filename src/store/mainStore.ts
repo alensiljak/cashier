@@ -3,26 +3,34 @@ import appService from '../appService'
 import { ScheduledTransaction, Transaction } from 'src/model'
 import { isNumber } from 'mathjs'
 
+interface IState {
+  drawerOpen: boolean
+  scheduledTx: ScheduledTransaction | null
+  tx: Transaction | null
+}
+
+const myState: IState = {
+  /**
+   * Indicates whether the sidebar is open or not.
+   */
+  drawerOpen: false,
+  /**
+   * Scheduled transaction being edited.
+   */
+  scheduledTx: null,
+  /**
+   * Transaction being edited.
+   */
+  tx: null,
+}
+
 export const useMainStore = defineStore('mainStore', {
   /**
    * Initial state.
    * data
    * @returns state
    */
-  state: () => ({
-    /**
-     * Indicates whether the sidebar is open or not.
-     */
-    drawerOpen: false,
-    /**
-     * Scheduled transaction being edited.
-     */
-    scheduledTx: null,
-    /**
-     * Transaction being edited.
-     */
-    tx: null,
-  }),
+  state: () => myState,
 
   /**
    * computed
@@ -77,7 +85,7 @@ export const useMainStore = defineStore('mainStore', {
     setDrawerOpen(isOpen: boolean) {
       this.drawerOpen = isOpen
     },
-    setTransaction(tx: Transaction) {
+    setTransaction(tx: Transaction | null) {
       // if (this.tx) {
       //   //Object.assign(this.tx, tx)
       //   //this.tx.$patch(tx)

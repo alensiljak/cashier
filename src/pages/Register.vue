@@ -47,19 +47,19 @@ import { SelectionModeMetadata } from '../lib/Configuration'
 import { Account, Posting } from 'src/model'
 import { TransactionParser } from 'src/lib/transactionParser'
 import { TransactionAugmenter } from 'src/lib/transactionAugmenter'
+import useNotifications from 'src/lib/CashierNotification'
 
 const route = useRoute()
 const router = useRouter()
 const $q = useQuasar()
 const store = useStore()
+const Notification = useNotifications()
 
 const ACCOUNT = 'account'
 
 // data
 
-const account: Ref<Account> = ref({
-  name: '',
-})
+const account: Ref<Account> = ref(new Account())
 const postings: Ref<Posting[]> = ref([])
 const balance = ref('')
 
@@ -78,11 +78,10 @@ onMounted(async () => {
 function calculateBalance() {
   let runningBalance = 0
   postings.value.forEach((posting) => {
-    if (posting.currency !== account.value.currency) {
-      $q.notify({
-        color: 'secondary',
-        message: 'The postings contain multiple currencies',
-      })
+    if (account.value.currency && posting.currency !== account.value.currency) {
+      const msg = 'The postings contain multiple currencies'
+      console.warn(msg)
+      Notification.negative(msg)
     }
 
     runningBalance += posting.amount
@@ -92,10 +91,17 @@ function calculateBalance() {
   balance.value = runningBalance.toFixed(2)
 }
 
-function createStartingBalancePosting(accountBalance, currency: string) {
+function createStartingBalancePosting(
+  accountBalance: number,
+  currency: string
+) {
   let record = new Posting()
   record.date = 'n/a'
   record.title = 'Opening Balance'
+
+  if (typeof accountBalance === 'undefined') {
+    accountBalance = 0
+  }
 
   record.amount = accountBalance
   record.currency = currency
@@ -156,10 +162,10 @@ async function loadPostingsFor(accountName: string) {
 
 function onFabClick() {
   // add posting with this account
-  sendAccountToTransaction(account)
+  sendAccountToTransaction(account.value)
 }
 
-function onItemClick(txId) {
+function onItemClick(txId: number) {
   router.push({ name: 'tx', params: { id: txId } })
 }
 
@@ -167,7 +173,7 @@ function onItemClick(txId) {
  * Sets the account as a result of selection process.
  * @param accountToSend the name of the account
  */
-function sendAccountToTransaction(accountToSend) {
+function sendAccountToTransaction(accountToSend: Account) {
   const selectMode = new SelectionModeMetadata()
 
   // set the type
@@ -184,7 +190,7 @@ function sendAccountToTransaction(accountToSend) {
  * Add the transaction date and the payee to the posting record.
  * @param {Array} postings
  */
-async function loadTransactionsFor(postingRecords) {
+async function loadTransactionsFor(postingRecords: Posting[]) {
   const txIds = postingRecords.map((posting) => posting.transactionId)
   const txs = await appService.db.transactions.bulkGet(txIds)
 

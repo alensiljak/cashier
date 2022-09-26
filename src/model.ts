@@ -4,29 +4,24 @@
 */
 
 export class Account {
-  name: any
-  balance: any
+  name = ''
+  balance?: number
   currency: any
   currentValue: any
   currentCurrency: any
 }
 
 export class Commodity {
-  name: string | undefined
+  name?: string
 }
 
 export class LastTransaction {
-  payee: string
-  transaction: string
-
-  constructor() {
-    this.payee = ''
-    this.transaction = ''
-  }
+  payee = ''
+  transaction?: Transaction
 }
 
 export class Posting {
-  id: any
+  id?: number
   transactionId: string | any
   account: string
   amount: any
@@ -57,7 +52,7 @@ export class Price {
 }
 
 export class ScheduledTransaction {
-  //id: any
+  id?: number
   nextDate: any
   transaction: any
   period: any
@@ -72,7 +67,7 @@ export class Transaction {
   payee: string
   note: string
   postings: Posting[]
-  // 
+  //
   //amount: any
   //currency: any
 

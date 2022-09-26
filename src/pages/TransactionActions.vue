@@ -121,7 +121,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, provide, ref, toRefs } from 'vue'
+import { onMounted, provide, Ref, ref, toRefs } from 'vue'
 import { useMainStore } from '../store/mainStore'
 import { useRouter } from 'vue-router'
 import appService from '../appService'
@@ -129,11 +129,12 @@ import { useQuasar } from 'quasar'
 import Toolbar from '../components/CashierToolbar.vue'
 import JournalTransaction from '../components/JournalTransaction.vue'
 import { storeToRefs } from 'pinia'
+import { Transaction } from 'src/model'
 
 const router = useRouter()
 const $q = useQuasar()
 const mainStore = useMainStore()
-const { tx } = storeToRefs(mainStore)
+const { tx }: { tx: Ref<Transaction> } = storeToRefs(mainStore)
 
 //provide('tx', tx)
 
@@ -224,7 +225,7 @@ async function onDuplicateClicked() {
     // navigate to the editor for the new transaction,
     // resetting the navigation?
     await router.replace({ name: 'tx', params: { id: id } })
-  } catch (error) {
+  } catch (error: any) {
     console.error(error)
     $q.notify({ color: 'negative', message: error.message })
     return
