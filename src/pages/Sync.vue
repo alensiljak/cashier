@@ -114,9 +114,11 @@ import { CashierSync } from '../lib/syncCashier'
 import { SettingKeys, settings, Constants } from '../lib/Configuration'
 import CashierCache from '../lib/CashierCache'
 import Toolbar from '../components/CashierToolbar.vue'
+import useNotifications from 'src/lib/CashierNotification'
 
 const router = useRouter()
 const $q = useQuasar()
+const Notification = useNotifications()
 
 // data
 const serverUrl = ref('http://localhost:8080') // the default value
@@ -149,13 +151,10 @@ async function onConnectClicked() {
   try {
     const response = await sync.healthCheck()
 
-    $q.notify({ message: response, color: 'positive' })
-  } catch (error) {
+    Notification.positive(response)
+  } catch (error: any) {
     console.error(error)
-    $q.notify({
-      message: 'Connecting to CashierSync: ' + error.message,
-      color: 'negative',
-    })
+    Notification.negative('Connecting to CashierSync: ' + error.message)
   }
 }
 
@@ -188,9 +187,9 @@ async function synchronizeAaValues() {
       message: 'Asset Allocation values loaded',
       color: 'primary',
     })
-  } catch (error) {
+  } catch (error: any) {
     console.error(error)
-    $q.notify({ message: error.message, color: 'secondary' })
+    Notification.negative(error.message)
   }
 }
 
@@ -209,7 +208,7 @@ async function synchronizeAccounts() {
   }
 
   //const ledgerAccounts = await sync.readAccounts()
-  const ledgerAccounts = await accounts.json()
+  const ledgerAccounts = await accounts?.json()
 
   // delete all accounts only after we have retrieved the new ones.
   await appService.deleteAccounts()
@@ -221,7 +220,7 @@ async function synchronizeAccounts() {
   } else {
     message += ' loaded from the server'
   }
-  $q.notify({ message: message, color: 'primary' })
+  Notification.positive(message)
 }
 
 /**
@@ -256,25 +255,21 @@ async function onSyncClicked() {
       await synchronizeAaValues()
       showAssetProgress.value = false
     }
-  } catch (error) {
+  } catch (error: any) {
     console.error(error)
-    $q.notify({ message: error.message, color: 'negative' })
+    Notification.negative(error.message)
   }
 }
 
-function shutdown() {
+async function shutdown() {
   const sync = new CashierSync(serverUrl.value)
-  sync
-    .shutdown()
-    .catch((error) => {
-      console.error(error)
-      $q.notify({ message: 'Error:' + error, color: 'secondary' })
-    })
-    .then((res) =>
-      $q.notify({
-        message: 'The server shutdown request sent.',
-        color: 'primary',
-      })
-    )
+  try {
+    await sync.shutdown()
+  } catch (error: any) {
+    console.error(error)
+    Notification.negative(error.message)
+  }
+
+  Notification.neutral('The server shutdown request sent.')
 }
 </script>
