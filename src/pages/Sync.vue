@@ -117,7 +117,7 @@ import Toolbar from '../components/CashierToolbar.vue'
 import useNotifications from 'src/lib/CashierNotification'
 
 const router = useRouter()
-const $q = useQuasar()
+//const $q = useQuasar()
 const Notification = useNotifications()
 
 // data
@@ -159,10 +159,7 @@ async function onConnectClicked() {
 }
 
 function onShutdownClick() {
-  $q.notify({
-    message: 'sending shutdown request',
-    color: 'secondary',
-  })
+  Notification.neutral('sending shutdown request')
 
   let sync = new CashierSync(serverUrl.value)
   sync.shutdown()
@@ -175,7 +172,7 @@ async function saveSyncServerUrl() {
   // sync server.
   await settings.set(SettingKeys.syncServerUrl, serverUrl.value)
 
-  $q.notify({ message: 'sync server saved', color: 'info' })
+  Notification.info('sync server saved')
 }
 
 async function synchronizeAaValues() {

@@ -5,9 +5,9 @@
 const useNotification from 'CashierNotification'
 
 const Notification = useNotifications()
-// const { positive, neutral, negative } = useNotifications()
+// or: const { positive, neutral, negative } = useNotifications()
 
-Notification.neutra('message')
+Notification.neutral('message')
  */
 
 import { useQuasar } from 'quasar'
@@ -17,6 +17,10 @@ export default function useNotifications() {
 
   function negative(message: string): void {
     $q.notify({ color: 'negative', message: message })
+  }
+
+  function info(message: string): void {
+    $q.notify({ message, color: 'info' })
   }
 
   function neutral(message: string): void {
@@ -32,5 +36,5 @@ export default function useNotifications() {
     $q.notify({ color: 'positive', message: message })
   }
 
-  return { negative, neutral, positive }
+  return { info, negative, neutral, positive }
 }
