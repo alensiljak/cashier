@@ -133,12 +133,13 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, Ref, ref } from 'vue'
 import { useQuasar } from 'quasar'
 import { useRouter } from 'vue-router'
 import { useMainStore } from '../store/mainStore'
 import appService from '../appService'
 import JournalTransaction from '../components/JournalTransaction.vue'
+import { Transaction } from 'src/model'
 
 const $q = useQuasar()
 const router = useRouter()
@@ -147,10 +148,10 @@ const mainStore = useMainStore()
 // data
 
 const confirmDeleteAllVisible = ref(false)
-const transactions = ref([])
+const transactions: Ref<Transaction[]> = ref([])
 const confirmDeleteVisible = ref(false)
 
-let resetSlide = null
+let resetSlide: any = null
 let timer = null
 
 const errorMessage = { color: 'secondary', message: '' }
@@ -218,7 +219,7 @@ function exportJournal() {
   router.push({ name: 'export' })
 }
 
-function finalize(reset) {
+function finalize(reset: any) {
   timer = setTimeout(() => {
     // has it been already deleted?
     if (!resetSlide) return
@@ -239,7 +240,7 @@ async function loadData() {
       .orderBy('date')
       .reverse()
       .toArray()
-  } catch (error) {
+  } catch (error: any) {
     console.error(error)
     errorMessage.message = error.message
     $q.notify(errorMessage)

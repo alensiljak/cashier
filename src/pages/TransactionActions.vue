@@ -145,13 +145,12 @@ const confirmDeleteVisible = ref(false)
 
 const props = defineProps({ id: { type: String, default: null } })
 const { id } = toRefs(props)
-// console.debug('id', id.value, 'tx:', tx)
 
 onMounted(async () => {
   const numId = Number(id.value)
 
   if (!tx.value || tx.value.id !== numId) {
-    await mainStore.loadTx(id.value)
+    await mainStore.loadTx(numId)
   }
 })
 
@@ -173,7 +172,7 @@ async function deleteTransaction() {
     mainStore.setTransaction(null)
 
     $q.notify({ message: 'Transaction deleted', color: 'positive' })
-  } catch (error) {
+  } catch (error: any) {
     console.error(error)
     $q.notify({ message: error.message, color: 'negative' })
   }

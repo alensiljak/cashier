@@ -4,7 +4,13 @@
     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export
 */
 import db from './dataStore'
-import { Account, LastTransaction, Posting, Transaction } from './model'
+import {
+  Account,
+  LastTransaction,
+  Posting,
+  ScheduledTransaction,
+  Transaction,
+} from './model'
 import { Notify } from 'quasar'
 import { settings, SettingKeys } from './lib/Configuration'
 import { toRaw } from 'vue'
@@ -48,7 +54,7 @@ class AppService {
    * Delete transaction and related postings.
    * @param {*} id Int/long id of the transaction to delete
    */
-  async deleteTransaction(id) {
+  async deleteTransaction(id: number) {
     if (typeof id === 'string') {
       id = Number(id)
     }
@@ -85,7 +91,7 @@ class AppService {
     await this.db.transactions.clear()
   }
 
-  async duplicateTransaction(tx) {
+  async duplicateTransaction(tx: Transaction) {
     // copy a new transaction
     //const newTx = JSON.parse(JSON.stringify(tx))
     const newTx = toRaw(tx)
@@ -162,7 +168,7 @@ class AppService {
    * @param {Transaction} tx
    * @returns {String} A ledger entry
    */
-  translateToLedger(tx) {
+  translateToLedger(tx: Transaction) {
     let output = ''
 
     // transaction
@@ -367,7 +373,7 @@ class AppService {
     await db.scheduled.bulkPut(parsed)
   }
 
-  async loadAccount(id) {
+  async loadAccount(id: number) {
     return db.accounts.get(id)
   }
 
@@ -387,7 +393,7 @@ class AppService {
     accountName: string
   ): Promise<Transaction[]> {
     // get all the transactions which have postings that have this account.
-    let txIds = []
+    let txIds: number[] = []
     await db.postings
       .where({ account: accountName })
       .each((posting) => txIds.push(posting.transactionId))
@@ -434,20 +440,20 @@ class AppService {
    * @param {int} id Transaction id
    * @returns Transaction with Postings
    */
-  async loadTransaction(id) {
+  async loadTransaction(id: number) {
     if (typeof id === 'string') {
       throw new Error('numeric ids are required as keys!')
     }
 
     const tx = await db.transactions.get(id)
     // load postings
-    const postings = await db.postings.where({ transactionId: tx.id }).toArray()
+    //const postings = await db.postings.where({ transactionId: tx.id }).toArray()
 
-    tx.postings = postings
+    //tx.postings = postings
     return tx
   }
 
-  saveAccount(account) {
+  saveAccount(account: Account) {
     return db.accounts.put(account)
   }
 
@@ -456,7 +462,7 @@ class AppService {
    * This is retrieved when the Payee is selected on a new transaction, or when editing.
    * @param {Transaction} tx
    */
-  async saveLastTransaction(tx) {
+  async saveLastTransaction(tx: Transaction) {
     let lastTx = new LastTransaction()
     lastTx.payee = tx.payee
 
@@ -477,34 +483,20 @@ class AppService {
    * Ensures correct data/types for new postings during saving.
    * Removes the missing postings.
    */
-  async processPostings(tx) {
-    let newPostingIds = []
-
+  async processPostings(tx: Transaction) {
     // modifications
-    for (let i = 0; i < tx.postings.length; i++) {
-      // set transaction id on postings
-      tx.postings[i].transactionId = tx.id
+    // set transaction id on postings
+    tx.postings.forEach((posting) => (posting.transactionId = tx.id))
+    let newPostingIds = tx.postings.map((posting) => posting.id)
 
-      // Make sure all the values are numbers! <= this sets the NaN values to 0,
-      // which is also wrong!
-      // if (typeof tx.postings[i].amount === 'string') {
-      //   //const numericValue = parseFloat(tx.postings[i].amount)
-      //   const numericValue = Number(tx.postings[i].amount)
-      //   tx.postings[i].amount = numericValue
-      // }
-
-      newPostingIds.push(tx.postings[i].id)
-    }
-
-    // Ensure only one posting with no amount (ledger requirement)?
+    // todo: Ensure only one posting with no amount (ledger requirement)?
 
     // Delete any removed postings.
     // Get the posting ids from the database.
-    let postings = await db.postings.where({ transactionId: tx.id }).toArray()
-    let oldPostingIds = []
-    for (let i = 0; i < postings.length; i++) {
-      oldPostingIds.push(postings[i].id)
-    }
+    let existingTx: Transaction = await db.transactions.get(tx.id)
+    let postings = existingTx.postings
+    let oldPostingIds = postings.map((posting) => posting.id)
+
     for (let i = 0; i < oldPostingIds.length; i++) {
       let oldPostingId = oldPostingIds[i]
 
@@ -515,7 +507,7 @@ class AppService {
     }
   }
 
-  async saveScheduledTransaction(stx) {
+  async saveScheduledTransaction(stx: ScheduledTransaction) {
     if (!stx.id) {
       stx.id = new Date().getTime()
       // console.log('new id generated:', this.scheduledTx.id)

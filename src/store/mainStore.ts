@@ -36,7 +36,7 @@ export const useMainStore = defineStore('mainStore', {
    * Can be asynchronous.
    */
   actions: {
-    async loadScheduledTx(id) {
+    async loadScheduledTx(id: number) {
       console.debug('loading schtx', id, 'id type', typeof id)
 
       if (typeof id === 'string') {
@@ -56,8 +56,8 @@ export const useMainStore = defineStore('mainStore', {
 
       return schTx
     },
-    async loadTx(id) {
-      console.debug('mainStore: loading tx', id, '; id type', typeof id)
+    async loadTx(id: number) {
+      //console.debug('mainStore: loading tx', id, '; id type', typeof id)
 
       if (!isNumber(id)) {
         id = Number(id)
@@ -74,10 +74,10 @@ export const useMainStore = defineStore('mainStore', {
       const tx = Transaction.create()
       this.setTransaction(tx)
     },
-    setDrawerOpen(isOpen) {
+    setDrawerOpen(isOpen: boolean) {
       this.drawerOpen = isOpen
     },
-    setTransaction(tx) {
+    setTransaction(tx: Transaction) {
       // if (this.tx) {
       //   //Object.assign(this.tx, tx)
       //   //this.tx.$patch(tx)
