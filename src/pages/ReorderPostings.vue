@@ -19,7 +19,7 @@
       </q-toolbar>
     </q-header>
 
-    <accounts-list
+    <!-- <accounts-list
       v-model:list="postings"
       lock-axis="y"
       axis="y"
@@ -34,31 +34,61 @@
         :posting="posting"
         :value="posting"
       />
-    </accounts-list>
+    </accounts-list> -->
+
+    <draggable
+      tag="q-list"
+      :list="postings"
+      class="list-group"
+      handle=".handle"
+      item-key="name"
+    >
+      <template #item="{ element }">
+        <q-item v-ripple clickable class="list-item">
+          <q-item-section>{{ element.account }}</q-item-section>
+          <q-item-section side>
+            {{ element.amount }} {{ element.currency }}
+          </q-item-section>
+          <q-item-section side class="handle">
+            <q-icon left name="menu" />
+          </q-item-section>
+        </q-item>
+      </template>
+    </draggable>
+
+    <!-- floating action button -->
+    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+      <q-btn fab color="accent" text-color="secondary" @click="onFabClicked">
+        <q-icon name="done" />
+      </q-btn>
+    </q-page-sticky>
   </q-page>
 </template>
 
 <script setup lang="ts">
 import { useMainStore } from '../store/mainStore'
-import AccountsList from '../components/SortableAccountsList.vue'
-import PostingItem from '../components/SortablePostingItem.vue'
-import { onMounted, ref } from 'vue'
+import { onMounted, Ref, ref } from 'vue'
 import { useQuasar } from 'quasar'
 import { useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import { Posting, Transaction } from 'src/model'
+import useNotifications from 'src/lib/CashierNotification'
+import draggable from 'vuedraggable'
 
 const mainStore = useMainStore()
-const { tx } = mainStore
+const { tx } = storeToRefs(mainStore)
 const $q = useQuasar()
 const $router = useRouter()
+const Notification = useNotifications()
 
-const postings = ref([])
+const postings: Ref<Posting[]> = ref([])
 
 onMounted(async () => {
-  postings.value = tx.postings
+  postings.value = tx.value.postings
 })
 
-function onListChange(list: any) {
-  postings.value = list
+function onFabClicked() {
+  onSaveClicked()
 }
 
 function onSaveClicked() {
@@ -68,9 +98,9 @@ function onSaveClicked() {
 
 function save() {
   // save the postings into the local store
-  tx.postings = postings.value
+  tx.value.postings = postings.value
 
-  $q.notify({ message: 'Postings reordered', color: 'positive' })
+  Notification.positive('Postings reordered')
 }
 
 function toggleDrawer() {
