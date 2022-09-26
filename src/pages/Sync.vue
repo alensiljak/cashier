@@ -250,6 +250,11 @@ async function onSyncClicked() {
   } catch (error: any) {
     console.error(error)
     Notification.negative(error.message)
+
+    // reset all progress indicators
+    showAccountProgress.value = false
+    showBalanceProgress.value = false
+    showAssetProgress.value = false
   }
 }
 
