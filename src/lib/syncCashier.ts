@@ -98,15 +98,14 @@ export class CashierSync {
    * Retrieve the account balances.
    * @returns array of Account objects
    */
-  async readBalances() {
+  async readBalances(): Promise<string[]> {
     //const currency = await settings.get(SettingKeys.currency)
 
     // Get values in the default currency? In case of multi-currency accounts (i.e. expenses).
 
     const command = 'b --flat --no-total'
-    // const url = new URL(this.balancesUrl)
     const response = await this.ledger(command)
-    const content = await response.json()
+    const content: string[] = await response.json()
 
     return content
   }
@@ -115,24 +114,13 @@ export class CashierSync {
    * Get current account values in the base currency.
    * @returns Current account values
    */
-  async readCurrentValues() {
+  async readCurrentValues(): Promise<string> {
     const rootAcct = await settings.get(SettingKeys.rootInvestmentAccount)
     const currency = await settings.get(SettingKeys.currency)
 
-    // const url = new URL(this.currentValuesUrl)
-    // const params = {
-    //   root: rootAcct,
-    //   currency: currency,
-    // }
-    // Object.keys(params).forEach((key) =>
-    //   url.searchParams.append(key, params[key])
-    // )
-
     const command = `b ^${rootAcct} -X ${currency} --flat --no-total`
 
-    //const response = await ky.get(url)
     const response = await this.ledger(command)
-    //const result = await response.text()
     const result: Array<string> = await response.json()
 
     // parse
@@ -143,7 +131,7 @@ export class CashierSync {
   }
 
   parseCurrentValues(lines: Array<string>, rootAccount: string): object {
-    let result: object = {}
+    let result: any = {}
 
     for (const line of lines) {
       if (line === '') continue
@@ -172,7 +160,7 @@ export class CashierSync {
     const response = await this.ledger(command)
     if (!response.ok) throw new Error('error fetching lots: ' + response.text())
 
-    const result = await response.json()
+    const result: string[] = await response.json()
 
     // remove "Assets" account title
     const lastIndex = result.length - 1
