@@ -7,12 +7,12 @@
   "license": "GPL-3.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MisterY/cashier"
+    "url": "https://github.com/alensiljak/cashier"
   },
   "bugs": {
-    "url": "https://github.com/MisterY/cashier/issues"
+    "url": "https://github.com/alensiljak/cashier/issues"
   },
-  "homepage": "https://github.com/MisterY/cashier",
+  "homepage": "https://github.com/alensiljak/cashier",
   "scripts": {
     "dev": "quasar dev --mode pwa",
     "build": "quasar build --mode pwa",

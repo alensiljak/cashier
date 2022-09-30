@@ -10,17 +10,21 @@
 
       <q-list>
         <q-item v-for="stx in list" :key="stx.id" dense class="q-px-none">
-          <span
-            class="q-mr-lg"
-            :class="{
-              red: stx.nextDate < today,
-              yellow: stx.nextDate === today,
-              green: stx.nextDate > today,
-            }"
-          >
-            {{ stx.nextDate }}
-          </span>
-          {{ JSON.parse(stx.transaction).payee }}
+          <q-item-section side>
+            <span
+              :class="{
+                red: stx.nextDate < today,
+                yellow: stx.nextDate === today,
+                green: stx.nextDate > today,
+              }"
+            >
+              {{ stx.nextDate }}
+            </span>
+          </q-item-section>
+          <q-item-section>
+            {{ JSON.parse(stx.transaction).payee }}
+          </q-item-section>
+          <q-item-section side> n/a </q-item-section>
         </q-item>
       </q-list>
     </q-card-section>
@@ -38,47 +42,52 @@
   </q-card>
 </template>
 
-<script setup>
-// const emit = defineEmits(['click'])
-</script>
-<script>
+<script setup lang="ts">
+import { onMounted, Ref, ref } from 'vue'
+import moment, { Moment } from 'moment'
+import { useRouter } from 'vue-router'
+import useNotifications from 'src/lib/CashierNotification'
 import appService from '../appService'
-import moment from 'moment'
+import { TransactionAugmenter } from 'src/lib/transactionAugmenter'
 
-export default {
-  emits: ['click'],
+const emit = defineEmits(['click'])
 
-  data() {
-    return {
-      list: [],
-      today: null,
-    }
-  },
-  created() {
-    this.today = moment().format('YYYY-MM-DD')
-    this.loadData()
-  },
+const router = useRouter()
+const Notification = useNotifications()
 
-  methods: {
-    async loadData() {
-      try {
-        this.list = await appService.db.scheduled
-          .orderBy('nextDate')
-          .limit(5)
-          .toArray()
-      } catch (error) {
-        console.error(error)
-        this.$q.notify({ color: 'secondary', message: error.message })
-      }
-    },
-    onCalendarClick() {
-      //this.$emit('calendar-click')
-      this.$router.push({ name: 'calendar' })
-    },
-    onCardClick() {
-      this.$emit('click')
-    },
-  },
+const today: Ref<string> = ref('')
+const list: Ref<any> = ref([])
+
+onMounted(async () => {
+  today.value = moment().format('YYYY-MM-DD')
+  // load data
+  await loadData()
+})
+
+async function loadData() {
+  try {
+    const schtxs = await appService.db.scheduled
+      .orderBy('nextDate')
+      .limit(5)
+      .toArray()
+
+    // add the transaction value?
+    // TransactionAugmenter.
+
+    list.value = schtxs
+  } catch (error: any) {
+    console.error(error)
+    Notification.negative(error.message)
+  }
+}
+
+function onCalendarClick() {
+  //this.$emit('calendar-click')
+  router.push({ name: 'calendar' })
+}
+
+function onCardClick() {
+  emit('click')
 }
 </script>
 <style lang="sass" scoped>

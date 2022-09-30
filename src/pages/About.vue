@@ -20,7 +20,7 @@
     </ul>
     <p>
       The source code is available in a
-      <a href="https://github.com/MisterY/cashier">source code repository</a>
+      <a href="https://github.com/alensiljak/cashier">source code repository</a>
       on GitHub. This is also the preferred way to submit feature and bugs.
     </p>
 

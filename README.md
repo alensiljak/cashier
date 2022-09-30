@@ -9,7 +9,7 @@ The accounts and balances can be imported from Ledger to establish baselines and
 
 The app works completely offline, meaning **all** the data required for the functioning of the app is stored in a local database in a browser. 
 
-The existing data from your Ledger book can be populated by using [Cashier Ledger Server](https://github.com/MisterY/cashier-ledger-server-go). This will provide your ledger reports to Cashier. Since Ledger-cli is **readonly**, your data only is only read. Cashier or Cashier Ledger Server cannot write to your Ledger book.
+The existing data from your Ledger book can be populated by using [Cashier Ledger Server](https://github.com/alensiljak/cashier-ledger-server-go). This will provide your ledger reports to Cashier. Since Ledger-cli is **readonly**, your data only is only read. Cashier or Cashier Ledger Server cannot write to your Ledger book.
 
 The transactions entered in Cashier can be exported in Ledger format and appended to your Ledger book.
 
@@ -84,7 +84,7 @@ Here is the description on how to set up Cashier on Android. It demonstrates the
 
 Open https://cashier.alensiljak.eu.org in the browser. Use "Add to Home screen" or "Install" options to add the app.
 
-Set up synchronization with [Ledger Server](https://github.com/MisterY/cashier-ledger-server-go):
+Set up synchronization with [Ledger Server](https://github.com/alensiljak/cashier-ledger-server-go):
 
 ## Android
 
@@ -95,7 +95,7 @@ Set up synchronization with [Ledger Server](https://github.com/MisterY/cashier-l
 
 ## Set up
 
-- download Ledger Server from https://github.com/MisterY/cashier-ledger-server-go
+- download Ledger Server from https://github.com/alensiljak/cashier-ledger-server-go
 - git clone or manually create folders for the ledger book and prices
 - set up .ledgerrc in the home directory, to point to the book and prices files
 
