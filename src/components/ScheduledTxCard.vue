@@ -50,6 +50,7 @@ import useNotifications from 'src/lib/CashierNotification'
 import appService from '../appService'
 import { TransactionAugmenter } from 'src/lib/transactionAugmenter'
 import { ScheduledTransaction, Transaction } from 'src/model'
+import { TransactionParser } from 'src/lib/transactionParser'
 
 const emit = defineEmits(['click'])
 
@@ -68,16 +69,14 @@ onMounted(async () => {
 
 async function loadData() {
   try {
-    //const augmenter = new TransactionAugmenter()
-
     const schtxs: ScheduledTransaction[] = await appService.db.scheduled
       .orderBy('nextDate')
       .limit(5)
       .toArray()
 
-    // add the transaction value?
+    // add the transaction amounts.
     let txs = schtxs.map((schtx) => schtx.transaction)
-    TransactionAugmenter.calculateEmptyPostingAmounts(txs)
+    TransactionParser.calculateTxAmounts(txs)
 
     list.value = schtxs
   } catch (error: any) {
