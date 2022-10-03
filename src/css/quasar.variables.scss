@@ -15,13 +15,23 @@
 // ***
 // This file loads by default (Sass, Scss), without any addional configuration.
 
-$primary   : #076461;
-$secondary : #92140c;
-$accent    : #ffd700;
+@import 'palette.scss';
 
-$dark      : #1D1D1D;
+//$primary: #076461;
+$primary: $colour5;
+//$secondary: #92140c;
+$secondary: $colour4;
+//$accent: #ffd700;
+$accent: $colour3;
 
-$positive  : #21BA45;
-$negative  : #C10015;
-$info      : #31CCEC;
-$warning   : #F2C037;
+//$dark: #1d1d1d;
+$dark: $colour1;
+
+//$positive: #21ba45;
+$positive: $colour5;
+//$negative: #c10015;
+$negative: $colour4;
+//$info: #31ccec;
+$info: $colour2;
+//$warning: #f2c037;
+$warning: $colour3;

@@ -20,7 +20,7 @@ export default function useNotifications() {
   }
 
   function info(message: string): void {
-    $q.notify({ message, color: 'info' })
+    $q.notify({ message, color: 'colour2', textColor: 'colour1' })
   }
 
   function neutral(message: string): void {

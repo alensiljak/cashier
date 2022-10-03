@@ -10,6 +10,13 @@
                 <q-icon name="drive_file_move_outline" />
               </q-item-section>
             </q-item>
+
+            <q-item v-close-popup clickable @click="onDemoDataClick">
+              <q-item-section>Create demo data</q-item-section>
+              <q-item-section side>
+                <q-icon name="data_object" />
+              </q-item-section>
+            </q-item>
           </q-list>
         </q-menu>
       </q-btn>
@@ -246,6 +253,10 @@ function onRestoreFileSelected(file: any) {
 function onAaHelpClick() {
   // navigate to help page
   $router.push({ name: 'assetallocationsetuphelp' })
+}
+
+function onDemoDataClick() {
+  $router.push({ name: 'demoData' })
 }
 
 function darkMode() {

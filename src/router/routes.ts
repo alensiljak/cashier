@@ -91,10 +91,12 @@ const routes = [
       {
         path: '/commodities',
         name: 'commodities',
-        component: () =>
-          import(
-            /* webpackChunkName: 'commodities' */ 'src/pages/Commodities.vue'
-          ),
+        component: () => import('src/pages/Commodities.vue'),
+      },
+      {
+        path: '/demoData',
+        name: 'demoData',
+        component: () => import('src/pages/DemoData.vue'),
       },
       {
         path: '/export/:type?',

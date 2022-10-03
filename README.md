@@ -61,9 +61,7 @@ This is the equivalent of `quasar build --mode pwa`.
 
 The testing is done with Playwright.
 
-``` console
-npx playwright test
-```
+`npm run test`
 
 ## Deployment
 

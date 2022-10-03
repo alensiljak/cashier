@@ -27,7 +27,7 @@ interface CashierDatabase extends Dexie {
   scheduled: Table
 }
 
-const db: CashierDatabase = new Dexie('Cashier')
+const db = new Dexie('Cashier') as CashierDatabase
 
 // Schema
 
