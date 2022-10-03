@@ -165,7 +165,7 @@ import JournalTransaction from '../components/JournalTransaction.vue'
 import appService from '../appService'
 import { Iterator } from '../lib/scheduledTransactions'
 import { storeToRefs } from 'pinia'
-import { Transaction } from 'src/model'
+import { ScheduledTransaction, Transaction } from 'src/model'
 import CashierDAL from '../store/dal'
 
 const mainStore = useMainStore()
@@ -199,8 +199,8 @@ async function enterTransaction() {
   // Create the journal transaction.
   let newTx: Transaction = toRaw(tx.value)
   // clear the id field, if any, to get a new one on save.
-  newTx.id = null
-  const id = await appService.saveTransaction(newTx)
+  newTx.id = undefined
+  const id = await dal.saveTransaction(newTx)
 
   // update the iteration date
   await skip()
@@ -273,7 +273,7 @@ async function onSkipConfirmed() {
  * Saves the Scheduled Transaction record.
  */
 async function saveData() {
-  let raw = toRaw(scheduledTx.value)
+  let raw = toRaw(scheduledTx.value) as ScheduledTransaction
   const result = await dal.saveScheduledTransaction(raw)
   return result
 }
@@ -283,10 +283,14 @@ async function saveData() {
  */
 async function skip() {
   let stx = scheduledTx
-  const startDate = stx.value?.nextDate
-  const count = stx.value?.count
-  const period = stx.value?.period
-  const endDate = stx.value?.endDate
+  if (!stx.value) {
+    throw new Error('The scheduled transaction reference is invalid!')
+  }
+
+  const startDate = stx.value.nextDate
+  const count = stx.value.count
+  const period = stx.value.period
+  const endDate = stx.value.endDate
 
   // todo: handle the one-off occurrence (no count and no period)
 
@@ -305,12 +309,12 @@ async function skip() {
   }
 
   // update the date on the transaction
-  let templateTx = toRaw(tx.value)
+  let templateTx = toRaw(tx.value) as Transaction
   templateTx.date = newDate
-  stx.value.transaction = JSON.stringify(templateTx)
+  stx.value.transaction = templateTx
   //tx.value = templateTx
 
-  stx.value.nextDate = tx.value.date
+  stx.value.nextDate = tx.value?.date
 
   const result = await saveData()
   if (!result) {

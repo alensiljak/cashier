@@ -99,7 +99,7 @@ async function saveData() {
   stx.transaction = tempTx
 
   // use transaction date.
-  stx.nextDate = tx.date
+  stx.nextDate = tx?.date
 
   const result = await dal.saveScheduledTransaction(stx)
   return result

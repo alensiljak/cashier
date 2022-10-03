@@ -244,13 +244,13 @@ function onScheduleClick() {
   mainStore.newScheduledTx()
 
   // clear the tx id
-  tx.id = null
+  tx.value.id = undefined
 
   router.push({ name: 'scheduledtxeditor', params: { id: 0 } })
 }
 
 function onXactClicked() {
-  router.push({ name: 'xact', params: { payee: tx.payee } })
+  router.push({ name: 'xact', params: { payee: tx.value.payee } })
 }
 </script>
 
