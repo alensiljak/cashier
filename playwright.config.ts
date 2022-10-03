@@ -12,11 +12,11 @@ import { devices } from '@playwright/test'
  */
 const config: PlaywrightTestConfig = {
   // baseUrl: 'http://localhost:9200'
-  browserName: 'firefox',
-  headless: false,
-  viewport: { width: 1280, height: 720 },
-  ignoreHTTPSErrors: true,
-  video: 'on-first-retry',
+  //browserName: 'firefox',
+  //   headless: false,
+  //   viewport: { width: 1280, height: 720 },
+  //   ignoreHTTPSErrors: true,
+  //   video: 'on-first-retry',
   /* */
 
   testDir: './tests',
@@ -66,12 +66,12 @@ const config: PlaywrightTestConfig = {
       },
     },
 
-    {
-      name: 'webkit',
-      use: {
-        ...devices['Desktop Safari'],
-      },
-    },
+    // {
+    //   name: 'webkit',
+    //   use: {
+    //     ...devices['Desktop Safari'],
+    //   },
+    // },
 
     /* Test against mobile viewports. */
     // {
