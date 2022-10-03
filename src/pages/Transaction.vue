@@ -91,11 +91,14 @@ import { useQuasar } from 'quasar'
 import appService from '../appService'
 import TxEditor from '../components/TransactionEditor.vue'
 import { storeToRefs } from 'pinia'
+import CashierDAL from '../store/dal'
+import { Transaction } from 'src/model'
 
 const router = useRouter()
 const mainStore = useMainStore()
 const { tx } = storeToRefs(mainStore)
 const $q = useQuasar()
+const dal = new CashierDAL()
 
 // props
 
@@ -131,10 +134,9 @@ async function onFab() {
 
 async function onSaveClicked() {
   try {
-    let txObj = toRaw(tx.value)
-    // console.debug('saving tx', txObj)
+    let txObj = toRaw(tx.value) as Transaction
 
-    await appService.saveTransaction(txObj)
+    await dal.saveTransaction(txObj)
 
     // Remember Last Transaction?
     const remember = await settings.get(SettingKeys.rememberLastTransaction)
@@ -143,7 +145,7 @@ async function onSaveClicked() {
     }
 
     await router.back()
-  } catch (error) {
+  } catch (error: any) {
     console.error(error)
     $q.notify({ message: 'error: ' + error.message, color: 'negative' })
   }

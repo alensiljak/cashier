@@ -130,11 +130,13 @@ import Toolbar from '../components/CashierToolbar.vue'
 import JournalTransaction from '../components/JournalTransaction.vue'
 import { storeToRefs } from 'pinia'
 import { Transaction } from 'src/model'
+import CashierDAL from '../store/dal'
 
 const router = useRouter()
 const $q = useQuasar()
 const mainStore = useMainStore()
 const { tx }: { tx: Ref<Transaction> } = storeToRefs(mainStore)
+const dal = new CashierDAL()
 
 //provide('tx', tx)
 
@@ -214,7 +216,7 @@ async function onDuplicateClicked() {
     // create the transaction
     const newTx = await appService.duplicateTransaction(tx.value)
     // save
-    const id = await appService.saveTransaction(newTx)
+    const id = await dal.saveTransaction(newTx)
 
     // display a notification after or ask before the action.
     $q.notify({ color: 'positive', message: 'Transaction duplicated' })
