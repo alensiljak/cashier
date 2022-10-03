@@ -62,7 +62,7 @@ async function loadData() {
 
     // adjust the balance
     const augmenter = new TransactionAugmenter()
-    favArray = await augmenter.adjustBalances(favArray)
+    favArray = await augmenter.adjustAccountBalances(favArray)
 
     accounts.value = favArray
   } catch (error) {

@@ -12,8 +12,8 @@ import {
   Posting,
   ScheduledTransaction,
   Setting,
-} from './model'
-import { AssetClass } from './lib/AssetClass'
+} from '../model'
+import { AssetClass } from '../lib/AssetClass'
 
 // Define the schema
 

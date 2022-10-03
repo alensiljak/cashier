@@ -166,25 +166,18 @@ import appService from '../appService'
 import { Iterator } from '../lib/scheduledTransactions'
 import { storeToRefs } from 'pinia'
 import { Transaction } from 'src/model'
+import CashierDAL from '../store/dal'
 
 const mainStore = useMainStore()
 const $q = useQuasar()
 // const route = useRoute()
 const router = useRouter()
 const { scheduledTx, tx } = storeToRefs(mainStore)
+const dal = new CashierDAL()
 
 const props = defineProps({
   id: { type: String, default: null },
 })
-
-// const tx = computed({
-//   get() {
-//     return JSON.parse(scheduledTx.transaction)
-//   },
-//   set(value) {
-//     scheduledTx.transaction = JSON.stringify(value)
-//   },
-// })
 
 if (!scheduledTx.value) {
   scheduledTx.value = {}
@@ -281,7 +274,7 @@ async function onSkipConfirmed() {
  */
 async function saveData() {
   let raw = toRaw(scheduledTx.value)
-  const result = await appService.saveScheduledTransaction(raw)
+  const result = await dal.saveScheduledTransaction(raw)
   return result
 }
 
@@ -290,10 +283,10 @@ async function saveData() {
  */
 async function skip() {
   let stx = scheduledTx
-  const startDate = stx.value.nextDate
-  const count = stx.value.count
-  const period = stx.value.period
-  const endDate = stx.value.endDate
+  const startDate = stx.value?.nextDate
+  const count = stx.value?.count
+  const period = stx.value?.period
+  const endDate = stx.value?.endDate
 
   // todo: handle the one-off occurrence (no count and no period)
 

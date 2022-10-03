@@ -34,7 +34,7 @@
           {{ stx.nextDate }}
         </q-item-section>
         <q-item-section>
-          {{ JSON.parse(stx.transaction).payee }}
+          {{ stx.transaction.payee }}
           <small class="remarks">{{ getFirstLine(stx.remarks) }}</small>
         </q-item-section>
       </q-item>
@@ -55,13 +55,13 @@ import appService from '../appService'
 import moment from 'moment'
 import ScheduledTxToolbar from '../components/ScheduledTxToolbar.vue'
 import { computed, onMounted, Ref, ref } from 'vue'
-import { ScheduledTransaction } from 'src/model'
+import { ScheduledTransaction, Transaction } from 'src/model'
 
 const mainStore = useMainStore()
 //const route = useRoute()
 const router = useRouter()
 
-const transactions = ref([])
+const transactions: Ref<Array<ScheduledTransaction>> = ref([])
 const today: Ref<string | null> = ref(null)
 const filter: Ref<string> = ref('')
 
@@ -79,7 +79,7 @@ const filteredList = computed(() => {
 
   // apply the filter
   return transactions.value.filter((stx: ScheduledTransaction) => {
-    const tx = JSON.parse(stx.transaction)
+    const tx = stx.transaction
     //const result = (tx.payee.toUpperCase().indexOf(this.filter.toUpperCase()) > -1)
 
     // const result = stx.transaction.toUpperCase()
@@ -94,7 +94,7 @@ const filteredList = computed(() => {
     // Use regex for performance.
     var searchTerm = new RegExp(filter.value, 'i')
     //const result = stx.transaction.match(searchTerm)
-    const result = tx.payee.match(searchTerm)
+    const result = tx?.payee.match(searchTerm)
 
     return result
   })
@@ -126,8 +126,8 @@ async function loadData() {
 
   // sort also by payee, case insensitive
   sorted.sort((a, b) => {
-    const tx1 = JSON.parse(a.transaction)
-    const tx2 = JSON.parse(b.transaction)
+    const tx1 = a.transaction
+    const tx2 = b.transaction
 
     var sorting = a.nextDate.localeCompare(b.nextDate)
     return sorting == 0

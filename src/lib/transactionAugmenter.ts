@@ -73,12 +73,12 @@ export class TransactionAugmenter {
    * The initial value is the account's balance from Ledger. Then we calculate the
    * local transactions and adjust the balance accordingly.
    * @param {Array} accounts The list of Account records.
-   * @returns {Array} The list of accounts with adjusted balances.
+   * @returns {Promise<Array<Account>>} The list of accounts with adjusted balances.
    */
-  async adjustBalances(accounts: Account[]) {
+  async adjustAccountBalances(accounts: Account[]): Promise<Array<Account>> {
     if (!accounts) {
       console.info('no favourite accounts found for balance adjustment')
-      return
+      return accounts
     }
 
     for (let i = 0; i < accounts.length; i++) {
@@ -93,10 +93,10 @@ export class TransactionAugmenter {
       }
 
       let sum = parseFloat(account.balance)
-      //if (!sum) continue
 
       //
       let txs = await appService.loadAccountTransactionsFor(account.name)
+
       TransactionAugmenter.calculateEmptyPostingAmounts(txs)
       let postings = TransactionParser.extractPostingsFor(txs, account.name)
 
@@ -122,8 +122,8 @@ export class TransactionAugmenter {
       let newBalance = sum.toFixed(2)
 
       // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
-      account.balance = new Intl.NumberFormat('en-AU') // { style: 'currency', currency: 'EUR' }
-        .format(newBalance)
+      account.balance = new Intl.NumberFormat('en-AU').format(newBalance)
+      // { style: 'currency', currency: 'EUR' }
     }
     return accounts
   }

@@ -225,7 +225,7 @@ export default {
 
         // adjust the balances
         const augmenter = new TransactionAugmenter()
-        favArray = await augmenter.adjustBalances(favArray)
+        favArray = await augmenter.adjustAccountBalances(favArray)
         this.accounts = favArray
       } catch (reason) {
         console.error(reason)

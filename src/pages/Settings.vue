@@ -1,6 +1,19 @@
 <template>
   <q-page padding class="text-colour2">
-    <toolbar :title="'Settings'" />
+    <toolbar :title="'Settings'">
+      <q-btn flat round dense icon="more_vert">
+        <q-menu>
+          <q-list style="min-width: 175px">
+            <q-item v-close-popup clickable @click="onSchTxMigrationClick">
+              <q-item-section>SchTx data migration</q-item-section>
+              <q-item-section side>
+                <q-icon name="drive_file_move_outline" />
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-menu>
+      </q-btn>
+    </toolbar>
 
     <div class="row">
       <div class="col">
@@ -168,7 +181,7 @@
 import { onMounted, Ref, ref } from 'vue'
 import appService from '../appService'
 import useNotifications from 'src/lib/CashierNotification'
-import db from 'src/dataStore'
+import db from '../store/indexedDb'
 import { SettingKeys, settings } from '../lib/Configuration'
 import Toolbar from '../components/CashierToolbar.vue'
 import { useRouter } from 'vue-router'
@@ -240,6 +253,39 @@ function darkMode() {
   //console.debug($q.dark.mode)
   //$q.dark.set(true)
   // $q.dark.toggle()
+}
+
+/**
+ * Migrate Transaction records inside the ScheduledTransaction to objects from JSON.
+ */
+async function onSchTxMigrationClick() {
+  let result = ''
+  let counter = 0
+
+  try {
+    let schTxs = await appService.db.scheduled.toArray()
+
+    // convert JSON Transaction records to objects.
+    schTxs.forEach((schTx) => {
+      if (typeof schTx.transaction == 'string') {
+        let tx = JSON.parse(schTx.transaction)
+        schTx.transaction = tx
+
+        counter++
+      }
+    })
+
+    //schTxs
+    result = await appService.db.scheduled.bulkPut(schTxs)
+  } catch (error: any) {
+    Notification.negative(error)
+  }
+
+  Notification.info(
+    counter +
+      ' SchTx Transaction records converted from JSON to objects.' +
+      result
+  )
 }
 
 function reloadApp() {

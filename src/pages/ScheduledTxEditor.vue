@@ -43,24 +43,16 @@ import { useQuasar } from 'quasar'
 import { useRouter } from 'vue-router'
 import appService from '../appService'
 import { useMainStore } from '../store/mainStore'
+import CashierDAL from '../store/dal'
+import { ScheduledTransaction, Transaction } from 'src/model'
 
 const store = useStore()
 const $q = useQuasar()
 const mainStore = useMainStore()
 const router = useRouter()
+const dal = new CashierDAL()
 
 const { scheduledTx, tx } = mainStore
-
-// computed
-
-// const tx = computed({
-//   get() {
-//     return JSON.parse(scheduledTx.transaction)
-//   },
-//   set(value) {
-//     scheduledTx.transaction = JSON.stringify(value)
-//   },
-// })
 
 // provide
 
@@ -97,18 +89,19 @@ function resetTransaction() {
  */
 async function saveData() {
   // serialize transaction
-  let tempTx = toRaw(tx)
+  let tempTx = toRaw(tx) as Transaction
   // clear any transaction ids!
-  tempTx.id = null
-  const txStr = JSON.stringify(tempTx)
+  tempTx.id = undefined
+  //const txStr = JSON.stringify(tempTx)
 
-  let stx = toRaw(scheduledTx)
-  stx.transaction = txStr
+  let stx = toRaw(scheduledTx) as ScheduledTransaction
+  //stx.transaction = txStr
+  stx.transaction = tempTx
 
   // use transaction date.
   stx.nextDate = tx.date
 
-  const result = await appService.saveScheduledTransaction(stx)
+  const result = await dal.saveScheduledTransaction(stx)
   return result
 }
 

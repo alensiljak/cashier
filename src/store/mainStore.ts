@@ -59,7 +59,7 @@ export const useMainStore = defineStore('mainStore', {
       this.scheduledTx = schTx
 
       // transaction
-      let tx = JSON.parse(schTx.transaction)
+      let tx = schTx.transaction
       this.setTransaction(tx)
 
       return schTx

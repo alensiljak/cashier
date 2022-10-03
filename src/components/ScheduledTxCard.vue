@@ -22,9 +22,9 @@
             </span>
           </q-item-section>
           <q-item-section>
-            {{ JSON.parse(stx.transaction).payee }}
+            {{ stx.transaction.payee }}
           </q-item-section>
-          <q-item-section side> n/a </q-item-section>
+          <q-item-section side>{{ stx.transaction.amount }} </q-item-section>
         </q-item>
       </q-list>
     </q-card-section>
@@ -49,6 +49,7 @@ import { useRouter } from 'vue-router'
 import useNotifications from 'src/lib/CashierNotification'
 import appService from '../appService'
 import { TransactionAugmenter } from 'src/lib/transactionAugmenter'
+import { ScheduledTransaction, Transaction } from 'src/model'
 
 const emit = defineEmits(['click'])
 
@@ -57,6 +58,7 @@ const Notification = useNotifications()
 
 const today: Ref<string> = ref('')
 const list: Ref<any> = ref([])
+//const transactions: Ref<Array<Transaction>> = ref([])
 
 onMounted(async () => {
   today.value = moment().format('YYYY-MM-DD')
@@ -66,13 +68,16 @@ onMounted(async () => {
 
 async function loadData() {
   try {
-    const schtxs = await appService.db.scheduled
+    //const augmenter = new TransactionAugmenter()
+
+    const schtxs: ScheduledTransaction[] = await appService.db.scheduled
       .orderBy('nextDate')
       .limit(5)
       .toArray()
 
     // add the transaction value?
-    // TransactionAugmenter.
+    let txs = schtxs.map((schtx) => schtx.transaction)
+    TransactionAugmenter.calculateEmptyPostingAmounts(txs)
 
     list.value = schtxs
   } catch (error: any) {

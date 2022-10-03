@@ -19,7 +19,7 @@
               <q-item v-close-popup clickable @click="onSetupClick">
                 <q-item-section>Setup</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="cog" transform="grow-9 left-5" />
+                  <q-icon name="settings" />
                 </q-item-section>
               </q-item>
 

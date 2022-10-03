@@ -54,7 +54,10 @@ export class Price {
 export class ScheduledTransaction {
   id?: number
   nextDate: any
-  transaction: any
+  /**
+   * Transaction in JSON
+   */
+  transaction?: Transaction
   period: any
   count: any
   endDate: any

@@ -1,7 +1,7 @@
 /*
     Various configuration-related things
 */
-import db from '../dataStore'
+import db from '../store/indexedDb'
 import { Setting } from '../model'
 
 /**
