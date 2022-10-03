@@ -1,23 +1,9 @@
 <template>
   <q-page padding class="text-amber-2">
     <!-- toolbar -->
-    <q-header elevated class="glossy">
-      <q-toolbar class="text-colour2">
-        <q-btn
-          flat
-          dense
-          round
-          aria-label="Menu"
-          icon="menu"
-          @click="toggleDrawer"
-        />
-
-        <q-toolbar-title>Journal Transaction</q-toolbar-title>
-        <q-space />
-
-        <q-btn flat round dense icon="check" @click="onSaveClicked" />
-      </q-toolbar>
-    </q-header>
+    <cashier-toolbar title="Journal Transaction">
+      <q-btn flat round dense icon="check" @click="onSaveClicked" />
+    </cashier-toolbar>
 
     <div v-if="!tx || !tx.id" class="bg-primary text-center q-pa-sm q-ma-none">
       New transaction
@@ -93,6 +79,7 @@ import TxEditor from '../components/TransactionEditor.vue'
 import { storeToRefs } from 'pinia'
 import CashierDAL from '../store/dal'
 import { Transaction } from 'src/model'
+import CashierToolbar from 'src/components/CashierToolbar.vue'
 
 const router = useRouter()
 const mainStore = useMainStore()
