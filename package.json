@@ -19,7 +19,8 @@
     "lint": "eslint --ext .js,.vue ./",
     "deploy": "netlify deploy --prod",
     "format": "prettier --write \"**/*.{js,vue,scss,html,md,json}\" --ignore-path .gitignore",
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "playwright test",
+    "test-test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "6.2.0",
@@ -46,6 +47,7 @@
   "devDependencies": {
     "@babel/core": "7.19.3",
     "@babel/eslint-parser": "7.19.1",
+    "@playwright/test": "1.26.1",
     "@quasar/app-vite": "1.1.2",
     "@types/js-yaml": "^4.0.5",
     "@types/numeral": "^2.0.2",

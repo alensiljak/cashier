@@ -57,6 +57,14 @@ Updating libraries: list outdated with `npm outdated`.
 Build the release version with `npm run build`.
 This is the equivalent of `quasar build --mode pwa`.
 
+## Test
+
+The testing is done with Playwright.
+
+``` console
+npx playwright test
+```
+
 ## Deployment
 
 ### Test
