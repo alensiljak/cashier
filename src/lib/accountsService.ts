@@ -4,8 +4,8 @@
  * and parse them when needed.
  * No other local storage is used.
  */
-import { SettingKeys, settings, Constants } from './Configuration';
-import { CashierSync } from './syncCashier';
+import { SettingKeys, settings, Constants } from './Configuration'
+import { CashierSync } from './syncCashier'
 
 export class AccountService {
   constructor() {}
@@ -14,9 +14,105 @@ export class AccountService {
     const serverUrl = await settings.get(SettingKeys.syncServerUrl)
     const cashierSync = new CashierSync(serverUrl)
     const cache = await caches.open(Constants.CacheName)
-    const accountsResponse = await cache.match(cashierSync.accountsUrl)
+    const accountsResponse = await cache.match(cashierSync.getAccountsUrl())
+    if (!accountsResponse) {
+      throw new Error('Accounts not cached!')
+    }
     const accounts = await accountsResponse.json()
     // they should be already sorted by name.
     console.debug(accounts)
+  }
+
+  getDefaultChartOfAccounts() {
+    const accountsList = `
+    Assets:Cash
+    Assets:Bank Accounts
+    Assets:Fixed Assets
+    Assets:Investments
+    Assets:Retirement
+    Assets:Savings
+    Equity:Opening Balances
+    Expenses:Auto:Accessories
+    Expenses:Auto:Auto Insurance
+    Expenses:Auto:Car Wash
+    Expenses:Auto:Fuel
+    Expenses:Auto:Parking
+    Expenses:Auto:Registration
+    Expenses:Auto:Service
+    Expenses:Auto:Tickets
+    Expenses:Auto:Toll
+    Expenses:Auto:Tyres
+    Expenses:Charity
+    Expenses:Clothing:Clothes
+    Expenses:Clothing:Footwear
+    Expenses:Commissions
+    Expenses:Culture:Books
+    Expenses:Culture:Cinema
+    Expenses:Culture:Museums
+    Expenses:Culture:Music
+    Expenses:Culture:Photo
+    Expenses:Culture:Printing
+    Expenses:Culture:Sightseeing
+    Expenses:Culture:Stationary
+    Expenses:Education
+    Expenses:Financial:Bank Charge
+    Expenses:Financial:Interest
+    Expenses:Food
+    Expenses:Gifts Given
+    Expenses:Health:Dental
+    Expenses:Health:Diagnostics
+    Expenses:Health:Doctor
+    Expenses:Health:Medicines
+    Expenses:Health:Optical
+    Expenses:Health:Products
+    Expenses:Home:Appliances
+    Expenses:Home:Furniture
+    Expenses:Home:Maintenance
+    Expenses:Home:Repairs
+    Expenses:Home:Furnishing
+    Expenses:Home:Tools
+    Expenses:Home:Utensils
+    Expenses:Hospitality:Accommodation
+    Expenses:Hospitality:Dining
+    Expenses:Hospitality:Drinks
+    Expenses:Housing:Building Maintenance
+    Expenses:Housing:Electricity
+    Expenses:Housing:Gas
+    Expenses:Housing:Mortgage Fees
+    Expenses:Housing:Property Tax
+    Expenses:Housing:Gas Service
+    Expenses:InfoComm:Electronics
+    Expenses:InfoComm:Hardware
+    Expenses:InfoComm:Internet
+    Expenses:InfoComm:Mobile Services
+    Expenses:InfoComm:Phone
+    Expenses:InfoComm:Services
+    Expenses:InfoComm:Service Fees
+    Expenses:InfoComm:Software
+    Expenses:Insurance:Health Insurance
+    Expenses:Insurance:Life Insurance
+    Expenses:Personal:Care
+    Expenses:Personal:Hairdressing
+    Expenses:Personal:Other
+    Expenses:Recreation:Activities
+    Expenses:Recreation:Durables
+    Expenses:Recreation:Games
+    Expenses:Recreation:Rides
+    Expenses:Tax:Federal
+    Expenses:Transport:Bus
+    Expenses:Transport:Flights
+    Expenses:Transport:Post
+    Expenses:Transport:Public
+    Expenses:Transport:Taxi
+    Expenses:Transport:Train
+    Expenses:Vacation:Package
+    Income:Interest
+    Income:Investments
+    Income:Salary
+    Income:Other
+    Liabilities:Credit Cards
+    Liabilities:Loans
+    `
+    return accountsList
   }
 }
