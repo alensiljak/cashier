@@ -66,6 +66,7 @@
             @delete-row="deletePosting"
             @account-clicked="onAccountClicked(index)"
             @amount-changed="onAmountChanged"
+            @currency-changed="onCurrencyChanged"
           />
         </q-item-section>
       </q-item>
@@ -74,7 +75,7 @@
 
     <!-- warnings -->
     <div v-if="hasMultipleCurrencies" class="q-my-sm text-right">
-      Multiple currencies detected
+      Multiple currencies found
       <q-icon name="warning" color="accent" size="sm" />
     </div>
 
@@ -152,6 +153,8 @@ onMounted(() => {
 
 function addPosting() {
   tx.value?.postings.push(new Posting())
+
+  validateCurrencies()
 }
 
 function deletePosting(index: number) {
@@ -164,6 +167,7 @@ function deletePosting(index: number) {
   tx.value?.postings.splice(index, 1)
 
   recalculateSum()
+  validateCurrencies()
 }
 
 function finalizeSlide(reset: any) {
@@ -263,6 +267,10 @@ function onAmountChanged() {
   recalculateSum()
 }
 
+function onCurrencyChanged() {
+  validateCurrencies()
+}
+
 function onSlide({ reset }: { reset: any }) {
   resetSlide = reset
   finalizeSlide(reset)
@@ -296,10 +304,28 @@ function reorderPostings() {
  * Non-matching means there are no even number of same-currency accounts,
  * assuming Trading accounts are used.
  */
-function validateMultipleCurrencies() {
-  // todo: get the currencies from all postings
-  // todo: separate by name
-  // todo: check the number for each name
+function validateCurrencies() {
+  if (!tx.value) {
+    throw new Error('No transaction loaded!')
+  }
+
+  // get the currencies from all postings
+  let currencies = tx.value.postings.map((posting) => posting.currency)
+
+  // separate by name
+  let uniqueNames = [...new Set(currencies)]
+  let totalCurrencies = uniqueNames.length
+
+  // check the number for each name
+  const counts: any = {}
+  for (const currency of currencies) {
+    counts[currency] = counts[currency] ? counts[currency] + 1 : 1
+  }
+  // uniqueNames.forEach(currencyName => {
+  //   //counts[currencyName]
+  // })
+
+  hasMultipleCurrencies.value = totalCurrencies > 1
 }
 </script>
 <script lang="ts">

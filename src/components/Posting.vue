@@ -27,13 +27,19 @@
 
       <div class="q-pl-sm col-3 col-xs-4">
         <!-- currency -->
-        <q-input v-model="currency" label="Currency">
+        <q-input
+          v-model="currency"
+          label="Currency"
+          @keyup="$emit('currency-changed')"
+          @change="$emit('currency-changed')"
+        >
           <template #append>
             <!-- warn if there's no currency but we have an amount -->
-            <font-awesome-icon
+            <q-icon
               v-if="isMissingCurrency"
-              icon="exclamation-circle"
-              style="color: #92140c"
+              name="report"
+              color="negative"
+              size="md"
             />
           </template>
         </q-input>
@@ -43,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, toRefs } from 'vue'
+import { computed, toRefs, WritableComputedRef } from 'vue'
 import { useMainStore } from '../store/mainStore'
 import { storeToRefs } from 'pinia'
 
@@ -61,7 +67,11 @@ let i = index.value
 
 // emits
 
-const emit = defineEmits(['account-clicked', 'amount-changed'])
+const emit = defineEmits([
+  'account-clicked',
+  'amount-changed',
+  'currency-changed',
+])
 
 // computed
 
@@ -90,6 +100,21 @@ const currency = computed({
   },
 })
 
+const isMissingCurrency = computed({
+  get() {
+    const hasValidAmount = !isNaN(amount.value)
+    const amountMissing = amount.value === ''
+    const hasNoCurrency = currency.value === ''
+
+    if (amountMissing) return false
+
+    return hasNoCurrency && hasValidAmount
+  },
+  set(val) {
+    // ?
+  },
+})
+
 // methods
 
 /**
@@ -98,22 +123,5 @@ const currency = computed({
  */
 function onAmountFocus(e: any) {
   e.target.select()
-}
-</script>
-<script lang="ts">
-export default {
-  computed: {
-    isMissingCurrency: {
-      get() {
-        const hasValidAmount = !isNaN(this.amount)
-        const amountMissing = this.amount === ''
-        const hasNoCurrency = this.currency === ''
-
-        if (amountMissing) return false
-
-        return hasNoCurrency && hasValidAmount
-      },
-    },
-  },
 }
 </script>
