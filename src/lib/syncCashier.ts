@@ -116,7 +116,13 @@ export class CashierSync {
    */
   async readCurrentValues(): Promise<string> {
     const rootAcct = await settings.get(SettingKeys.rootInvestmentAccount)
+    if (!rootAcct) {
+      throw new Error('No root investment account set!')
+    }
     const currency = await settings.get(SettingKeys.currency)
+    if (!currency) {
+      throw new Error('No default currency set!')
+    }
 
     const command = `b ^${rootAcct} -X ${currency} --flat --no-total`
 

@@ -277,6 +277,13 @@ class AppService {
 
     const accounts = []
     const mainCurrency = await settings.get(SettingKeys.currency)
+    if (!mainCurrency) {
+      throw new Error('No default currency set!')
+    }
+
+    // Handle multi-currency accounts.
+    let multicurrencyAccount = false
+    let mainCurrencyAmount = null
 
     // read and parse the balance sheet entries
     for (let i = 0; i < lines.length; i++) {
@@ -303,10 +310,6 @@ class AppService {
 
       // name
       account.name = namePart
-
-      // Handle multi-currency accounts.
-      let multicurrencyAccount = false
-      let mainCurrencyAmount = null
 
       // If we have a currency but no account, it's a multicurrency account.
       if (!namePart) {
