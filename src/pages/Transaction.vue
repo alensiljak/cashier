@@ -2,7 +2,26 @@
   <q-page padding class="text-amber-2">
     <!-- toolbar -->
     <cashier-toolbar title="Journal Transaction">
-      <q-btn flat round dense icon="check" @click="onSaveClicked" />
+      <q-btn flat round dense icon="more_vert">
+        <q-menu>
+          <q-list style="min-width: 175px">
+            <!-- Save -->
+            <q-item v-close-popup clickable @click="onSaveClicked">
+              <q-item-section>Save</q-item-section>
+              <q-item-section side>
+                <q-icon name="save" />
+              </q-item-section>
+            </q-item>
+            <!-- Reset -->
+            <q-item v-close-popup clickable @click="onClear">
+              <q-item-section>Reset</q-item-section>
+              <q-item-section side>
+                <q-icon name="cancel" />
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-menu>
+      </q-btn>
     </cashier-toolbar>
 
     <div v-if="!tx || !tx.id" class="bg-primary text-center q-pa-sm q-ma-none">
@@ -11,29 +30,6 @@
 
     <!-- Transaction -->
     <tx-editor />
-
-    <q-separator />
-
-    <!-- main (tx) Actions -->
-
-    <footer class="row q-my-xl justify-end text-center">
-      <!-- Reset -->
-      <div class="col">
-        <q-btn
-          color="secondary"
-          text-color="accent"
-          size="medium"
-          @click="onClear"
-        >
-          <font-awesome-icon
-            icon="times-circle"
-            transform="grow-9"
-            class="q-icon-small on-left"
-          />
-          Reset
-        </q-btn>
-      </div>
-    </footer>
 
     <!-- floating action button -->
     <q-page-sticky position="bottom-right" :offset="[18, 18]">

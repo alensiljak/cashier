@@ -41,49 +41,45 @@
 
     <!-- Postings -->
     <div class="row q-mt-sm bg-primary">
-      <div class="col-auto q-px-xs">Postings</div>
+      <div class="col q-px-xs">Postings</div>
+      <div class="col-auto q-px-xs">Sum: {{ formatNumber(postingSum) }}</div>
     </div>
 
-    <div>
-      <q-slide-item
-        v-for="(posting, index) in tx.postings"
-        :key="index"
-        left-color="secondary"
-        class="q-px-none"
-        @left="onSlide"
-      >
-        <template #left>
-          <div
-            class="row items-center text-accent"
-            @click="deletePosting(index)"
-          >
-            Click to confirm or wait 2s to cancel
-            <font-awesome-icon icon="trash-alt" size="2x" class="q-ml-md" />
-          </div>
-        </template>
-        <q-item class="q-px-none">
-          <q-item-section>
-            <QPosting
-              :index="index"
-              @delete-row="deletePosting"
-              @account-clicked="onAccountClicked(index)"
-              @amount-changed="onAmountChanged"
-            />
-          </q-item-section>
-        </q-item>
-      </q-slide-item>
-
-      <!-- Sum -->
-      <q-item>
+    <!-- <div> -->
+    <q-slide-item
+      v-for="(posting, index) in tx.postings"
+      :key="index"
+      left-color="secondary"
+      class="q-px-none"
+      @left="onSlide"
+    >
+      <template #left>
+        <div class="row items-center text-accent" @click="deletePosting(index)">
+          Click to confirm or wait 2s to cancel
+          <font-awesome-icon icon="trash-alt" size="2x" class="q-ml-md" />
+        </div>
+      </template>
+      <q-item class="q-px-none">
         <q-item-section>
-          <q-item-label>Sum</q-item-label>
+          <QPosting
+            :index="index"
+            @delete-row="deletePosting"
+            @account-clicked="onAccountClicked(index)"
+            @amount-changed="onAmountChanged"
+          />
         </q-item-section>
-        <q-item-section avatar>{{ formatNumber(postingSum) }}</q-item-section>
       </q-item>
+    </q-slide-item>
+    <!-- </div> -->
+
+    <!-- warnings -->
+    <div v-if="hasMultipleCurrencies" class="q-my-sm text-right">
+      Multiple currencies detected
+      <q-icon name="warning" color="accent" size="sm" />
     </div>
 
     <!-- posting actions -->
-    <div class="row justify-center text-center q-mb-md">
+    <div class="row justify-center text-center q-my-lg">
       <q-btn
         color="primary"
         text-color="accent"
@@ -91,11 +87,7 @@
         class="col-auto q-mr-md"
         @click="addPosting"
       >
-        <font-awesome-icon
-          icon="plus-circle"
-          transform="grow-9"
-          class="q-icon-small on-left"
-        />
+        <q-icon name="add_circle" class="q-icon-small on-left" />
         <div>Add</div>
       </q-btn>
       <q-btn
@@ -105,18 +97,19 @@
         class="col-auto"
         @click="reorderPostings"
       >
-        <font-awesome-icon
+        <!-- <font-awesome-icon
           icon="sort"
           transform="grow-9"
           class="q-icon-small on-left"
-        />
+        /> -->
+        <q-icon name="swap_vertical_circle" class="q-icon-small on-left" />
         <div>Reorder</div>
       </q-btn>
     </div>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { inject, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useMainStore } from '../store/mainStore'
@@ -128,6 +121,7 @@ import {
   settings,
 } from '../lib/Configuration'
 import appService from '../appService'
+import QPosting from '../components/Posting.vue'
 
 const router = useRouter()
 const mainStore = useMainStore()
@@ -136,11 +130,12 @@ const { tx } = storeToRefs(mainStore)
 
 // data
 const datePickerVisible = ref(false)
-let resetSlide = null
+let resetSlide: any = null
 const postingSum = ref(0)
+const hasMultipleCurrencies = ref(false)
 
 if (!tx.value) {
-  tx.value = {}
+  tx.value = new Transaction()
 }
 
 // are we back from the select mode?
@@ -156,22 +151,22 @@ onMounted(() => {
 // methods
 
 function addPosting() {
-  tx.value.postings.push(new Posting())
+  tx.value?.postings.push(new Posting())
 }
 
-function deletePosting(index) {
+function deletePosting(index: number) {
   if (resetSlide) {
     // remove the slide section.
     resetSlide()
     resetSlide = null
   }
 
-  tx.value.postings.splice(index, 1)
+  tx.value?.postings.splice(index, 1)
 
   recalculateSum()
 }
 
-function finalizeSlide(reset) {
+function finalizeSlide(reset: any) {
   let timer = setTimeout(() => {
     // has it been already deleted?
     if (!reset) return
@@ -180,7 +175,7 @@ function finalizeSlide(reset) {
   }, 2000)
 }
 
-function formatNumber(value) {
+function formatNumber(value: number) {
   return appService.formatNumber(value)
 }
 
@@ -188,9 +183,13 @@ function formatNumber(value) {
  * Find an empty posting, or create one.
  */
 function getEmptyPostingIndex() {
+  if (!tx.value) {
+    throw new Error('No transaction loaded!')
+  }
+
   for (let i = 0; i < tx.value.postings.length; i++) {
     const posting = tx.value.postings[i]
-    if (!posting.account && !posting.amount && !posting.commodity) {
+    if (!posting.account && !posting.amount && !posting.currency) {
       return i
     }
   }
@@ -240,7 +239,11 @@ async function handleSelection() {
 /**
  * Load the last transaction for the payee
  */
-async function loadLastTransaction(payee) {
+async function loadLastTransaction(payee: string) {
+  if (!tx.value) {
+    throw new Error('No transaction loaded!')
+  }
+
   // do this only if enabled
   const enabled = await settings.get(SettingKeys.rememberLastTransaction)
   if (!enabled) return
@@ -260,12 +263,16 @@ function onAmountChanged() {
   recalculateSum()
 }
 
-function onSlide({ reset }) {
+function onSlide({ reset }: { reset: any }) {
   resetSlide = reset
   finalizeSlide(reset)
 }
 
 function recalculateSum() {
+  if (!tx.value) {
+    throw new Error('No transaction loaded!')
+  }
+
   postingSum.value = 0
 
   if (!tx.value.postings) return
@@ -283,19 +290,25 @@ function recalculateSum() {
 function reorderPostings() {
   router.push({ name: 'reorder postings' })
 }
+
+/**
+ * Check if there are multiple non-matching currencies and show a warning.
+ * Non-matching means there are no even number of same-currency accounts,
+ * assuming Trading accounts are used.
+ */
+function validateMultipleCurrencies() {
+  // todo: get the currencies from all postings
+  // todo: separate by name
+  // todo: check the number for each name
+}
 </script>
-<script>
+<script lang="ts">
 import { SET_SELECT_MODE } from '../mutations'
-import QPosting from '../components/Posting.vue'
-import { Posting } from '../model'
+import { Posting, Transaction } from '../model'
 
 export default {
-  components: {
-    QPosting,
-  },
-
   methods: {
-    onAccountClicked(index) {
+    onAccountClicked(index: number) {
       const selectMode = new SelectionModeMetadata()
 
       // save the index of the posting being edited

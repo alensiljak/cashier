@@ -283,7 +283,7 @@ class AppService {
 
     // Handle multi-currency accounts.
     let multicurrencyAccount = false
-    let mainCurrencyAmount = null
+    let mainCurrencyAmount = 0
 
     // read and parse the balance sheet entries
     for (let i = 0; i < lines.length; i++) {
@@ -331,7 +331,7 @@ class AppService {
 
         // reset the indicator.
         multicurrencyAccount = false
-        mainCurrencyAmount = null
+        mainCurrencyAmount = 0
       }
 
       accounts.push(account)

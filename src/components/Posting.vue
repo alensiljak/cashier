@@ -20,6 +20,7 @@
           type="number"
           input-class="text-right"
           @change="$emit('amount-changed')"
+          @keyup="$emit('amount-changed')"
           @focus="onAmountFocus"
         />
       </div>
@@ -41,7 +42,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed, toRefs } from 'vue'
 import { useMainStore } from '../store/mainStore'
 import { storeToRefs } from 'pinia'
@@ -95,18 +96,12 @@ const currency = computed({
  * Select the amount when tapped in the field, for easier overwriting the value.
  * @param {Event} e
  */
-function onAmountFocus(e) {
+function onAmountFocus(e: any) {
   e.target.select()
 }
 </script>
-<script>
+<script lang="ts">
 export default {
-  data: function () {
-    return {
-      accountOptions: null,
-    }
-  },
-
   computed: {
     isMissingCurrency: {
       get() {
