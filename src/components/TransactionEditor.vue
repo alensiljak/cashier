@@ -218,6 +218,10 @@ function getEmptyPostingIndex() {
  * Handle selection after a picker returned.
  */
 async function handleSelection() {
+  if (!tx.value) {
+    throw new Error('No transaction loaded!')
+  }
+
   // todo handle blank id if the user presses 'back'.
   const select = store.state.selectModeMeta
   const id = select.selectedId
@@ -242,6 +246,9 @@ async function handleSelection() {
       const account = await appService.db.accounts.get(id)
       posting.account = account.name
       posting.currency = account.currency
+
+      recalculateSum()
+      validateCurrencies()
 
       break
   }
