@@ -74,8 +74,16 @@
     <!-- </div> -->
 
     <!-- warnings -->
+    <div v-if="hasInvalidCurrencies" class="q-my-sm text-right">
+      Invalid currencies
+      <q-icon name="report" color="negative" size="sm" />
+    </div>
     <div v-if="hasMultipleCurrencies" class="q-my-sm text-right">
       Multiple currencies found
+      <q-icon name="warning" color="accent" size="sm" />
+    </div>
+    <div v-if="hasMultipleNans" class="q-my-sm text-right">
+      Multiple empty amounts found
       <q-icon name="warning" color="accent" size="sm" />
     </div>
 
@@ -133,7 +141,9 @@ const { tx } = storeToRefs(mainStore)
 const datePickerVisible = ref(false)
 let resetSlide: any = null
 const postingSum = ref(0)
+const hasInvalidCurrencies = ref(false)
 const hasMultipleCurrencies = ref(false)
+const hasMultipleNans = ref(false)
 
 if (!tx.value) {
   tx.value = new Transaction()
@@ -276,6 +286,10 @@ function onSlide({ reset }: { reset: any }) {
   finalizeSlide(reset)
 }
 
+/**
+ * Recalculate the sum and validate amounts.
+ * Only one posting should be allowed to have an empty amount.
+ */
 function recalculateSum() {
   if (!tx.value) {
     throw new Error('No transaction loaded!')
@@ -285,14 +299,18 @@ function recalculateSum() {
 
   if (!tx.value.postings) return
 
-  for (let i = 0; i < tx.value.postings.length; i++) {
-    const posting = tx.value.postings[i]
-    if (!isNaN(posting.amount)) {
-      postingSum.value += posting.amount
-    } else {
+  let invalidCount = 0
+
+  tx.value.postings.forEach((posting) => {
+    if (isNaN(posting.amount)) {
       console.warn('The amount is not a number:', posting.amount)
+      invalidCount++
+    } else {
+      postingSum.value += posting.amount
     }
-  }
+  })
+
+  hasMultipleNans.value = invalidCount > 1
 }
 
 function reorderPostings() {
@@ -312,19 +330,24 @@ function validateCurrencies() {
   // get the currencies from all postings
   let currencies = tx.value.postings.map((posting) => posting.currency)
 
-  // separate by name
-  let uniqueNames = [...new Set(currencies)]
-  let totalCurrencies = uniqueNames.length
-
   // check the number for each name
   const counts: any = {}
   for (const currency of currencies) {
     counts[currency] = counts[currency] ? counts[currency] + 1 : 1
   }
-  // uniqueNames.forEach(currencyName => {
-  //   //counts[currencyName]
-  // })
 
+  // only one currency is allowed blank
+  hasInvalidCurrencies.value = counts[''] > 1
+
+  // remove the empty currency now.
+  currencies = currencies.filter((currency) => currency)
+
+  // separate by name
+  let uniqueNames = [...new Set(currencies)]
+  let totalCurrencies = uniqueNames.length
+
+  // delete counts['']
+  // multiple currencies
   hasMultipleCurrencies.value = totalCurrencies > 1
 }
 </script>
