@@ -77,7 +77,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 // https://vuejsexamples.com/a-basic-ios-flavor-calculator-made-with-vuejs/
 
 export default {

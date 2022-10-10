@@ -4,7 +4,7 @@
   </q-list>
 </template>
 
-<script>
+<script lang="ts">
 import { ContainerMixin } from 'vue-slicksort'
 
 export default {

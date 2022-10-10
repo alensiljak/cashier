@@ -141,7 +141,8 @@
     </div>
   </div>
 </template>
-<script>
+
+<script lang="ts">
 import { evaluate as mathEvaluate } from 'mathjs'
 
 export default {

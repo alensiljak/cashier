@@ -82,7 +82,7 @@
   </q-card>
 </template>
 
-<script>
+<script lang="ts">
 import { SET_LEDGER_USE } from '../mutations'
 import { CashierSync } from '../lib/syncCashier'
 import { SettingKeys, settings } from '../lib/Configuration'

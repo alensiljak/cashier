@@ -2,7 +2,7 @@
   <router-view />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onErrorCaptured } from 'vue'
 import { useQuasar } from 'quasar'
 
@@ -14,10 +14,10 @@ $q.dark.set(true)
 onErrorCaptured(function (err, instance, info) {
   console.error('[errorCaptured]', err, instance, info)
 
-  $q.notify({ color: 'secondary', message: err + instance + info })
+  $q.notify({ color: 'secondary', message: err.message + instance + info })
 })
 </script>
-<script>
+<script lang="ts">
 export default {
   name: 'App',
 

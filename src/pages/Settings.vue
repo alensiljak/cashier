@@ -4,12 +4,12 @@
       <q-btn flat round dense icon="more_vert">
         <q-menu>
           <q-list style="min-width: 175px">
-            <q-item v-close-popup clickable @click="onSchTxMigrationClick">
+            <!-- <q-item v-close-popup clickable @click="onSchTxMigrationClick">
               <q-item-section>SchTx data migration</q-item-section>
               <q-item-section side>
                 <q-icon name="drive_file_move_outline" />
               </q-item-section>
-            </q-item>
+            </q-item> -->
 
             <q-item v-close-popup clickable @click="onDemoDataClick">
               <q-item-section>Create demo data</q-item-section>

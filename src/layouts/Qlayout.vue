@@ -9,7 +9,7 @@
   </q-layout>
 </template>
 
-<script>
+<script lang="ts">
 import QSidebar from '../components/QSidebar.vue'
 import Toolbar from '../components/CashierToolbar.vue'
 

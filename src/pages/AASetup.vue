@@ -34,7 +34,7 @@
 <script setup lang="ts">
 import Toolbar from '../components/CashierToolbar.vue'
 </script>
-<script>
+<script lang="ts">
 import { SettingKeys } from '../lib/Configuration'
 import appService from '../appService'
 import { Setting } from '../model'

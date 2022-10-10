@@ -73,7 +73,7 @@ view<template>
   </q-page>
 </template>
 
-<script>
+<script lang="ts">
 import Toolbar from '../components/CashierToolbar.vue'
 import { settings, SettingKeys } from 'src/lib/Configuration'
 import { CashierSync } from '../lib/syncCashier'

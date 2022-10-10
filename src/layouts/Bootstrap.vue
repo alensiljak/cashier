@@ -11,18 +11,19 @@
   </div>
   <!-- app -->
 </template>
-<script>
-import Slideout from "slideout";
-import SideMenu from "../components/Sidebar.vue";
+
+<script lang="ts">
+import Slideout from 'slideout';
+import SideMenu from '../components/Sidebar.vue';
 
 export default {
-  name: "Cashier",
+  name: 'Cashier',
   mounted() {
     // Show the slideout menu.
     // eslint-disable-next-line
     var slideout = new Slideout({
-      panel: document.getElementById("panel"),
-      menu: document.getElementById("menu"),
+      panel: document.getElementById('panel'),
+      menu: document.getElementById('menu'),
       padding: 256,
       tolerance: 70,
     });

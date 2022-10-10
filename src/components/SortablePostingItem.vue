@@ -7,7 +7,7 @@
   </q-item>
 </template>
 
-<script>
+<script lang="ts">
 import { ElementMixin } from 'vue-slicksort'
 
 export default {

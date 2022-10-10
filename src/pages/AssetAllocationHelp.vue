@@ -28,7 +28,7 @@
   </q-page>
 </template>
 
-<script>
+<script lang="ts">
 import Toolbar from '../components/CashierToolbar.vue'
 
 export default {

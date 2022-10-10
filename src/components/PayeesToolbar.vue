@@ -52,7 +52,7 @@
   </q-header>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 
 const emit = defineEmits(['filter', 'menu-clicked'])
@@ -66,7 +66,7 @@ const myFilter = computed({
   },
 })
 </script>
-<script>
+<script lang="ts">
 export default {
   props: {
     title: { type: String, default: '' },

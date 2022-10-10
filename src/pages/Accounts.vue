@@ -147,7 +147,7 @@
   </q-page>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { useMainStore } from '../store/mainStore'
 import appService from '../appService'
@@ -235,7 +235,7 @@ async function onDeleteAccount(accountName) {
   await loadData()
 }
 </script>
-<script>
+<script lang="ts">
 import { ListSearch } from '../ListSearch.js'
 import { RecycleScroller } from 'vue-virtual-scroller'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'

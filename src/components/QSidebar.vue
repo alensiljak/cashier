@@ -315,7 +315,7 @@
   </q-drawer>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useMainStore } from '../store/mainStore'
 import { useQuasar } from 'quasar'
 import { storeToRefs } from 'pinia'
@@ -333,7 +333,7 @@ function toggleDrawer() {
   mainStore.toggleDrawer()
 }
 </script>
-<script>
+<script lang="ts">
 export default {
   computed: {
     liveModeOn: {

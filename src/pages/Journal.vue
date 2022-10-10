@@ -281,10 +281,3 @@ function openNewTransaction() {
   router.push({ name: 'tx' })
 }
 </script>
-<!-- <script>
-export default {
-  components: {
-    JournalTransaction,
-  },
-}
-</script> -->
