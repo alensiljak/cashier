@@ -9,11 +9,7 @@
     </div>
 
     <div class="row">
-      <q-checkbox
-        label="Create All"
-        v-model="createAllChecked"
-        @update:model-value="onAllClicked"
-      />
+      <q-checkbox label="Create All" v-model="createAllChecked" @update:model-value="onAllClicked" />
     </div>
     <div class="row">
       <q-checkbox label="Create Accounts" v-model="createAccountsChecked" />
@@ -24,12 +20,7 @@
 
     <!-- button -->
     <div class="row justify-center">
-      <q-btn
-        color="secondary"
-        text-color="accent"
-        label="Create"
-        @click="create"
-      />
+      <q-btn color="secondary" text-color="accent" label="Create" @click="create" />
     </div>
   </q-page>
 </template>
@@ -38,36 +29,44 @@
 import CashierToolbar from 'src/components/CashierToolbar.vue'
 import { ref } from 'vue'
 import useNotifications from 'src/lib/CashierNotification'
+import { AccountService } from 'src/lib/accountsService'
 
 const Notification = useNotifications()
 
 const createAllChecked = ref(false)
 const createAccountsChecked = ref(false)
 
-function create() {
+async function create() {
   // create records
   if (createAccountsChecked.value) {
-    confirmCreateAccounts()
+    await confirmCreateAccounts()
   }
 
-  Notification.info('not (yet) implemented')
 }
 
 function onAllClicked() {
-  console.log('all toggle', createAllChecked.value)
+  //console.log('all toggle', createAllChecked.value)
 
-  createAccountsChecked.value = createAllChecked.value
+  const checked = createAllChecked.value
+
+  createAccountsChecked.value = checked
 }
 
-function confirmCreateAccounts() {
+async function confirmCreateAccounts() {
   //
   if (haveExistingData()) {
     // todo: prompt
   }
+
+  // No confirmation at the moment. Create chart of accounts.
+  await createAccounts()
 }
 
-function createAccounts() {
-  // todo: create demo chart of Accounts.
+async function createAccounts() {
+  //  create demo chart of Accounts.
+  await new AccountService().createDefaultAccounts()
+
+  Notification.positive('Chart of Accounst created')
 }
 
 function haveExistingData(): boolean {

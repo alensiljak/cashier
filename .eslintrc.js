@@ -88,6 +88,7 @@ module.exports = {
     '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/no-this-alias': 'off',
 
+    'vue/first-attribute-linebreak': 'off',
     'vue/multi-word-component-names': 'off',
 
     // The core 'no-unused-vars' rules (in the eslint:recommended ruleset)

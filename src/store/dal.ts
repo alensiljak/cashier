@@ -2,6 +2,7 @@
  * Data Access Layer for permanent storage (indexeddb)
  */
 
+import { IndexableType } from 'dexie'
 import { ScheduledTransaction, Transaction } from 'src/model'
 import db from './indexedDb'
 
@@ -85,14 +86,16 @@ class CashierDAL {
   async _processPostings(tx: Transaction) {
     // modifications
     // set transaction id on postings
-    tx.postings.forEach((posting) => (posting.transactionId = tx.id))
+    tx.postings.forEach((posting) => (posting.transactionId = tx.id as number))
     let newPostingIds = tx.postings.map((posting) => posting.id)
 
     // todo: Ensure only one posting with no amount (ledger requirement)?
 
     // Delete any removed postings.
     // Get the posting ids from the database.
-    let existingTx: Transaction = await db.transactions.get(tx.id)
+    let existingTx: Transaction = await db.transactions.get(
+      tx.id as IndexableType
+    )
     let postings = existingTx.postings
     let oldPostingIds = postings.map((posting) => posting.id) as number[]
 

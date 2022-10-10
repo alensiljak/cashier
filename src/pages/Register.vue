@@ -8,13 +8,8 @@
     </div>
 
     <q-list>
-      <q-item
-        v-for="posting in postings"
-        :key="posting.id"
-        clickable
-        class="q-px-none"
-        @click="onItemClick(posting.transactionId)"
-      >
+      <q-item v-for="posting in postings" :key="posting.id" clickable class="q-px-none"
+        @click="onItemClick(posting.transactionId)">
         <q-item-section side>{{ posting.date }}</q-item-section>
         <q-item-section>{{ posting.title }}</q-item-section>
         <q-item-section side>
@@ -59,7 +54,7 @@ const ACCOUNT = 'account'
 
 // data
 
-const account: Ref<Account> = ref(new Account())
+const account: Ref<Account> = ref(new Account(''))
 const postings: Ref<Posting[]> = ref([])
 const balance = ref('')
 
@@ -109,7 +104,7 @@ function createStartingBalancePosting(
   return record
 }
 
-function formatNumber(value) {
+function formatNumber(value: number) {
   return appService.formatNumber(value)
 }
 
@@ -135,7 +130,7 @@ async function loadData() {
 
   // create the record for the opening balance?
   const startingBalanceRecord = createStartingBalancePosting(
-    account.value.balance,
+    account.value.balance as number,
     account.value.currency
   )
   localPostings.splice(0, 0, startingBalanceRecord)

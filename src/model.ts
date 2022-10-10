@@ -9,6 +9,10 @@ export class Account {
   currency: any
   currentValue: any
   currentCurrency: any
+
+  constructor(accountName: string) {
+    this.name = accountName
+  }
 }
 
 export class Commodity {

@@ -4,11 +4,31 @@
  * and parse them when needed.
  * No other local storage is used.
  */
+import { Account } from 'src/model'
+import db from 'src/store/indexedDb'
 import { SettingKeys, settings, Constants } from './Configuration'
 import { CashierSync } from './syncCashier'
 
 export class AccountService {
   constructor() {}
+
+  async createDefaultAccounts() {
+    let accountsList = this.getDefaultChartOfAccounts()
+    let accountNames = accountsList.split('\n')
+    // trim
+    accountNames = accountNames.map((account) => account.trim())
+    accountNames = accountNames.filter((account) => account)
+
+    // create objects
+    // const accounts = accountNames.map((accountName) => new Account(accountName))
+    const accounts = accountNames.map((accountName) => {
+      return {
+        name: accountName,
+      }
+    })
+    await db.accounts.bulkAdd(accounts)
+  }
+
   async getAccountsFromCache() {
     // This version simply retrieves the cached version of /accounts response.
     const serverUrl = await settings.get(SettingKeys.syncServerUrl)
