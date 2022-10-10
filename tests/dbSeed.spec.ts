@@ -38,6 +38,26 @@ test.describe('db seed', () => {
   })
 
   test('seedDb', async ({ page }) => {
-    console.log('seeding the database...')
+    await page.goto('http://localhost:9200/')
+    // await page.goto('http://localhost:9200/#/')
+    // await page.goto('http://localhost:9200/#/home')
+    await expect(page).toHaveURL('http://localhost:9200/#/home')
+
+    await page.getByRole('link', { name: 'Settings' }).click()
+    await expect(page).toHaveURL('http://localhost:9200/#/settings')
+
+    // Click the menu
+    await page.locator('button:has-text("more_vert")').click()
+
+    await page.getByText('Create demo data').click()
+    await expect(page).toHaveURL('http://localhost:9200/#/demoData')
+
+    await page.getByRole('checkbox', { name: 'Create All' }).click()
+
+    await page.getByRole('button', { name: 'Create' }).click()
+
+    const alert = page.locator('div[role="alert"]')
+    await alert.waitFor()
+    await expect(alert).toHaveText('not (yet) implemented')
   })
 })
