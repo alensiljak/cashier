@@ -57,8 +57,7 @@ test('savingDefaultCurrency', async ({ page }) => {
 test('createDefaultAccounts', async ({ page }) => {
   const demoDataPage = new DemoDataPage(page)
   await demoDataPage.goto()
-  await demoDataPage.clickCreateAll()
-  await demoDataPage.clickCreate()
+  await demoDataPage.createAccounts()
 
   const alertText = 'Chart of Accounst created'
   let alert = demoDataPage.alert
