@@ -5,7 +5,7 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('db seed', () => {
-  test.beforeAll(async ({ page }) => {
+  test.beforeEach(async ({ page }) => {
     await page.goto('http://localhost:9200/')
 
     let x = await page.evaluate(async () => {

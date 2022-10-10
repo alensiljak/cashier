@@ -22,8 +22,7 @@
     "test": "playwright test",
     "test-test": "echo \"No test specified\" && exit 0"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "@babel/core": "7.19.3",
     "@babel/eslint-parser": "7.19.1",

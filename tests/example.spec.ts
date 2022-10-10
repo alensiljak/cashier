@@ -1,7 +1,27 @@
 /*
   Playwright example.
 */
-import { test, expect } from '@playwright/test'
+import { test, expect, Page } from '@playwright/test'
+//import { firefox } from 'playwright'
+
+test.describe.configure({ mode: 'serial' })
+
+let page: Page
+
+test.beforeAll(async ({ browser }) => {
+  //const browser = await firefox.launch()
+  page = await browser.newPage()
+
+  await page.goto('http://localhost:9200/')
+})
+test.afterAll(async () => {
+  // clean-up
+  page.close()
+})
+
+test('some test', async () => {
+  //
+})
 
 test('homepage has Playwright in title and get started link linking to the intro page', async ({
   page,
