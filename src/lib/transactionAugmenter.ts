@@ -51,7 +51,7 @@ export class TransactionAugmenter {
       // put this value into the empty posting.
       const emptyPostings = postings.filter((posting) => !posting.amount)
       if (emptyPostings.length > 1) {
-        throw new Error('multiple empty postings found!')
+        throw new Error(`Multiple empty postings found on ${tx.payee}`)
       } else if (emptyPostings.length === 0) {
         // no empty postings
         return
