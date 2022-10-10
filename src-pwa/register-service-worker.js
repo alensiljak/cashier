@@ -28,6 +28,10 @@ register(process.env.SERVICE_WORKER_FILE, {
     //if (process.env.DEV) {
     console.log('Content has been cached for offline use.')
     //}
+
+    // Notify.create({
+    //   message: 'New version has been downloaded.',
+    // })
   },
 
   updatefound(/* registration */) {
@@ -37,7 +41,7 @@ register(process.env.SERVICE_WORKER_FILE, {
     Notify.create({
       message: 'Downloading application update...',
       //color:
-      timeout: 3000,
+      timeout: 1000,
     })
     //}
   },
@@ -73,5 +77,10 @@ register(process.env.SERVICE_WORKER_FILE, {
     //if (process.env.DEV) {
     console.error('Error during service worker registration:', err)
     //}
+
+    Notify.create({
+      message: 'Error: ' + err,
+      color: 'negative',
+    })
   },
 })

@@ -1,124 +1,79 @@
 import { test, expect } from '@playwright/test'
+import { DemoDataPage } from './seedDb'
 
-const testData = [
-  { id: 1, name: 'test' },
-  { id: 2, name: 'second test' },
-]
+const rootUrl = 'http://localhost:9200'
 
-test.describe('Settings', () => {
-  test.beforeAll(async ({ page }) => {
-    // todo: seed the database
-    // const aWindowHandle = await page.evaluateHandle(() =>
-    //   Promise.resolve(window)
-    // )
-    //aWindowHandle.
-    //const windowHandle = await page.evaluateHandle(() => window)
-    //console.log(windowHandle)
-    //const win = windowHandle.asElement() as Window
-    //let ib = win.indexeddb
-    // let win = await page.evaluate(() => window)
-    // let ib = win.indexedDB
-    // console.log('indexedDB enabled:', ib)
+test.beforeEach(async ({ page }) => {
+  // Go to the starting url before each test.
+  await page.goto(rootUrl)
+  await expect(page).toHaveURL(rootUrl + '/#/home')
+})
 
-    // console.log(db.accounts)
-    // await db.accounts.put({ name: 'account1' })
-    // console.log(db.accounts)
+test('savingDefaultCurrency', async ({ page }) => {
+  await expect(page).toHaveURL('http://localhost:9200/#/home')
 
-    await page.goto('http://localhost:9200/')
+  // Click text=Settings >> nth=1
+  await page.locator('text=Settings').nth(1).click()
+  await expect(page).toHaveURL('http://localhost:9200/#/settings')
 
-    const result = await page.evaluate(() => {
-      if (!window.indexedDB) {
-        //window.alert("Your browser doesn't support a stable version of IndexedDB.")
-        throw new Error('no support for indexeddb')
-      }
+  // Click [aria-label="Main Currency"]
+  await page.locator('[aria-label="Main Currency"]').click()
 
-      return new Promise(function (resolve, reject) {
-        const storeName = 'cashier'
-        //let db
-        let openRequest = window.indexedDB.open(storeName)
-        openRequest.onerror = function (event) {
-          reject(Error('Error text'))
-        }
-        openRequest.onupgradeneeded = function (event) {
-          // Objectstore does not exist. Nothing to load
-          //event.target.transaction.abort();
-          reject(Error('Data store not found ("upgrade needed" received)'))
-        }
-        openRequest.onsuccess = function (event) {
-          // seed
-          let db = openRequest.result
-          const tx = db.transaction([storeName])
-          const store = tx.objectStore(storeName)
+  // Fill [aria-label="Main Currency"]
+  await page.locator('[aria-label="Main Currency"]').fill('EUR')
 
-          const objectRequest = store.put({ name: 'test account' })
-          objectRequest.onerror = function (event) {
-            reject(Error('Error text'))
-          }
+  // Click text=Home >> nth=1
+  await page.locator('text=Home').nth(1).click()
+  await expect(page).toHaveURL('http://localhost:9200/#/home')
 
-          objectRequest.onsuccess = function (event) {
-            if (objectRequest.result) {
-              resolve(objectRequest.result)
-            } else {
-              reject(Error('object not found'))
-            }
-          }
+  // Click text=Settings >> nth=1
+  await page.locator('text=Settings').nth(1).click()
+  await expect(page).toHaveURL('http://localhost:9200/#/settings')
 
-          //return db
-        }
-      })
-    })
-    console.log(result)
-  })
+  // If not saved, the value is not persisted!
+  await expect(page.locator('[aria-label="Main Currency"]')).toHaveValue('')
 
-  test.beforeEach(async ({ page }) => {
-    // Go to the starting url before each test.
-    await page.goto('http://localhost:9200/')
-  })
+  // Click [aria-label="Main Currency"]
+  await page.locator('[aria-label="Main Currency"]').click()
 
-  test('savingDefaultCurrency', async ({ page }) => {
-    await expect(page).toHaveURL('http://localhost:9200/#/home')
+  // Fill [aria-label="Main Currency"]
+  await page.locator('[aria-label="Main Currency"]').fill('EUR')
 
-    // Click text=Settings >> nth=1
-    await page.locator('text=Settings').nth(1).click()
-    await expect(page).toHaveURL('http://localhost:9200/#/settings')
+  // Save settings.
+  await page.locator('button:has-text("save")').click()
 
-    // Click [aria-label="Main Currency"]
-    await page.locator('[aria-label="Main Currency"]').click()
+  // Go away from Settings.
+  await page.locator('text=Home').nth(1).click()
+  await expect(page).toHaveURL('http://localhost:9200/#/home')
 
-    // Fill [aria-label="Main Currency"]
-    await page.locator('[aria-label="Main Currency"]').fill('EUR')
+  // Click text=Settings >> nth=1
+  await page.locator('text=Settings').nth(1).click()
+  await expect(page).toHaveURL('http://localhost:9200/#/settings')
 
-    // Click text=Home >> nth=1
-    await page.locator('text=Home').nth(1).click()
-    await expect(page).toHaveURL('http://localhost:9200/#/home')
+  // Assert that the value has been saved.
+  await expect(page.locator('[aria-label="Main Currency"]')).toHaveValue('EUR')
+})
 
-    // Click text=Settings >> nth=1
-    await page.locator('text=Settings').nth(1).click()
-    await expect(page).toHaveURL('http://localhost:9200/#/settings')
+test('createDefaultAccounts', async ({ page }) => {
+  const demoDataPage = new DemoDataPage(page)
+  await demoDataPage.goto()
+  await demoDataPage.clickCreateAll()
+  await demoDataPage.clickCreate()
 
-    // If not saved, the value is not persisted!
-    await expect(page.locator('[aria-label="Main Currency"]')).toHaveValue('')
+  const alertText = 'Chart of Accounst created'
+  let alert = demoDataPage.alert
+  if ((await alert.count()) > 1) {
+    alert = alert.getByText(alertText)
+  }
+  await alert.waitFor()
+  await expect(alert).toHaveText(alertText)
 
-    // Click [aria-label="Main Currency"]
-    await page.locator('[aria-label="Main Currency"]').click()
+  // Check that the accounts are created
 
-    // Fill [aria-label="Main Currency"]
-    await page.locator('[aria-label="Main Currency"]').fill('EUR')
-
-    // Save settings.
-    await page.locator('button:has-text("save")').click()
-
-    // Go away from Settings.
-    await page.locator('text=Home').nth(1).click()
-    await expect(page).toHaveURL('http://localhost:9200/#/home')
-
-    // Click text=Settings >> nth=1
-    await page.locator('text=Settings').nth(1).click()
-    await expect(page).toHaveURL('http://localhost:9200/#/settings')
-
-    // Assert that the value has been saved.
-    await expect(page.locator('[aria-label="Main Currency"]')).toHaveValue(
-      'EUR'
-    )
-  })
+  await page.goto(rootUrl + '/#/accounts')
+  await expect(page).toHaveURL('http://localhost:9200/#/accounts')
+  const accountsList = page.getByText(
+    'Assets:Bank Accounts Assets:Cash Assets:Fixed Assets Assets:Investments Assets:R'
+  )
+  await expect(accountsList).toContainText('Expenses:Culture:Music')
 })

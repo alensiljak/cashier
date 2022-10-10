@@ -63,10 +63,14 @@ async function confirmCreateAccounts() {
 }
 
 async function createAccounts() {
-  //  create demo chart of Accounts.
-  await new AccountService().createDefaultAccounts()
-
-  Notification.positive('Chart of Accounst created')
+  try {
+    //  create demo chart of Accounts.
+    await new AccountService().createDefaultAccounts()
+    Notification.positive('Chart of Accounst created')
+  } catch (error: any) {
+    console.error(error.message)
+    Notification.negative(error.message)
+  }
 }
 
 function haveExistingData(): boolean {
