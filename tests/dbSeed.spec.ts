@@ -10,10 +10,8 @@ test.describe('db seed', () => {
 
     let x = await page.evaluate(async () => {
       const idb = window.indexedDB
-      //return idb
 
       //let dbInfo = await idb.databases()
-      //console.log(dbInfo)
       //return dbInfo
 
       async function openDb(): Promise<IDBDatabase> {
