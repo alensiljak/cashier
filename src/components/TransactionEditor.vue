@@ -215,9 +215,10 @@ async function handleSelection() {
       }
       let posting = tx.value.postings[index]
 
+      // load the account
       const account = await appService.db.accounts.get(id)
       posting.account = account.name
-      posting.currency = account.currency
+      posting.currency = account.balance.currency
 
       recalculateSum()
       validateCurrencies()
