@@ -91,11 +91,15 @@ class CashierDAL {
 
     // todo: Ensure only one posting with no amount (ledger requirement)?
 
-    // Delete any removed postings.
-    // Get the posting ids from the database.
-    let existingTx: Transaction = await db.transactions.get(
-      tx.id as IndexableType
-    )
+    // Delete any removed postings in the database. Get the posting ids from the existing record.
+    await this._deleteRemovedPostings(newPostingIds, tx.id)
+  }
+
+  async _deleteRemovedPostings(newPostingIds: number[], txId?: number) {
+    if (!newPostingIds) return
+    if (!txId) return
+
+    let existingTx: Transaction = await db.transactions.get(txId)
     let postings = existingTx.postings
     let oldPostingIds = postings.map((posting) => posting.id) as number[]
 

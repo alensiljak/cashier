@@ -48,16 +48,15 @@
   </q-page>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import Toolbar from '../components/CashierToolbar.vue'
+</script>
+<script lang="ts">
 import { settings, SettingKeys } from 'src/lib/settings'
 import { CashierSync } from '../lib/syncCashier'
 import { XactParser } from '../lib/XactParser'
 
 export default {
-  components: {
-    Toolbar,
-  },
   data() {
     return {
       date: null,
