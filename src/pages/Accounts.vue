@@ -102,8 +102,15 @@
 import { computed, onMounted, Ref, ref, WritableComputedRef } from 'vue'
 import { useMainStore } from '../store/mainStore'
 import appService from '../appService'
+import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
+import { ListSearch } from '../ListSearch.js'
+import { RecycleScroller } from 'vue-virtual-scroller'
+import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
+import { Account } from 'src/model'
 
 const mainStore = useMainStore()
+const $router = useRouter()
 
 // data
 
@@ -112,6 +119,8 @@ const filterText = ref('')
 const dialogVisible = ref(false)
 const newAccount = ref(null)
 const confirmDeleteAllVisible = ref(false)
+const pickerMode = ref(false)
+const $store = useStore()
 
 // computed
 
@@ -126,10 +135,26 @@ const filter = computed({
 })
 
 onMounted(async () => {
+  let meta = $store.state.selectModeMeta
+  pickerMode.value = !!meta
+
   await loadData()
 })
 
 // methods
+
+function itemClicked(id: string) {
+  if (pickerMode.value) {
+    // select the item and return to the caller.
+    $store.dispatch('setSelectedId', id)
+
+    //$router.go(-1)
+    $router.back()
+  } else {
+    // edit account
+    $router.push({ name: 'account', params: { id: id } })
+  }
+}
 
 async function confirmDeleteAll() {
   await appService.deleteAccounts()
@@ -180,48 +205,10 @@ function onFab() {
   dialogVisible.value = true
 }
 
-async function onDeleteAccount(accountName) {
+async function onDeleteAccount(accountName: string) {
   // console.log(event);
   await appService.deleteAccount(accountName)
   await loadData()
-}
-</script>
-<script lang="ts">
-import { ListSearch } from '../ListSearch.js'
-import { RecycleScroller } from 'vue-virtual-scroller'
-import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
-import { Account } from 'src/model'
-
-export default {
-  components: {
-    RecycleScroller,
-  },
-
-  data() {
-    return {
-      pickerMode: false,
-    }
-  },
-
-  created() {
-    // picker mode
-    let meta = this.$store.state.selectModeMeta
-    this.pickerMode = !!meta
-  },
-
-  methods: {
-    itemClicked(id) {
-      if (this.pickerMode) {
-        // select the item and return to the caller.
-        this.$store.dispatch('setSelectedId', id)
-
-        this.$router.go(-1)
-      } else {
-        // edit account
-        this.$router.push({ name: 'account', params: { id: id } })
-      }
-    },
-  },
 }
 </script>
 

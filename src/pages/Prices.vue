@@ -23,39 +23,29 @@
   </q-page>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { Ref, ref } from 'vue';
 import appService from '../appService'
+import Toolbar from '../components/CashierToolbar.vue'
 import { Price } from '../model'
 // import { morningstar } from '../lib/PriceDownloaderMorningstar'
-import Toolbar from '../components/CashierToolbar.vue'
 
-export default {
-  components: {
-    Toolbar,
-  },
-  data() {
-    return {
-      commodities: [],
+const commodities: Ref<string[]> = ref([])
+
+function getCommodities() {
+  appService.getInvestmentCommodities().then((investmentCommodities) => {
+    for (let i = 0; i < investmentCommodities.length; i++) {
+      const price = new Price()
+      price.symbol = investmentCommodities[i]
+      commodities.value.push(price.currency as string)
     }
-  },
+  })
+}
 
-  created() {},
-
-  methods: {
     // downloadPrice(symbol) {
     // console.log(symbol)
     // let m = morningstar.download(symbol)
     // console.log(m)
     // },
-    getCommodities() {
-      appService.getInvestmentCommodities().then((commodities) => {
-        for (let i = 0; i < commodities.length; i++) {
-          const price = new Price()
-          price.symbol = commodities[i]
-          this.commodities.push(price)
-        }
-      })
-    },
-  },
-}
+
 </script>

@@ -240,9 +240,9 @@ class AppService {
 
     const accounts = await this.getInvestmentAccounts()
     await accounts.each((account) => {
-      // todo: FIX!
-      const accountCommodities = account.balances?.keys
-      //commodities.push(account.currency)
+      if (!account.balances) return
+
+      const accountCommodities = Object.keys(account.balances)
       commodities.push(...accountCommodities)
     })
 

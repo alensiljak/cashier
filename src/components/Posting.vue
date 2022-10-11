@@ -3,44 +3,24 @@
     <div class="row">
       <div class="col">
         <!-- Account -->
-        <q-input
-          v-model="account"
-          label="Account"
-          @click="$emit('account-clicked')"
-        />
+        <q-input v-model="account" label="Account" @click="$emit('account-clicked')" />
       </div>
     </div>
 
     <div class="row justify-end">
       <div class="col-3 col-xs-5">
         <!-- Amount -->
-        <q-input
-          v-model.number="amount"
-          label="Amount"
-          type="number"
-          input-class="text-right"
-          @change="$emit('amount-changed')"
-          @keyup="$emit('amount-changed')"
-          @focus="onAmountFocus"
-        />
+        <q-input v-model.number="amount" label="Amount" type="number" input-class="text-right"
+          @change="$emit('amount-changed')" @keyup="$emit('amount-changed')" @focus="onAmountFocus" />
       </div>
 
       <div class="q-pl-sm col-3 col-xs-4">
         <!-- currency -->
-        <q-input
-          v-model="currency"
-          label="Currency"
-          @keyup="$emit('currency-changed')"
-          @change="$emit('currency-changed')"
-        >
+        <q-input v-model="currency" label="Currency" @keyup="$emit('currency-changed')"
+          @change="$emit('currency-changed')">
           <template #append>
             <!-- warn if there's no currency but we have an amount -->
-            <q-icon
-              v-if="isMissingCurrency"
-              name="report"
-              color="negative"
-              size="md"
-            />
+            <q-icon v-if="isMissingCurrency" name="report" color="negative" size="md" />
           </template>
         </q-input>
       </div>
@@ -77,25 +57,49 @@ const emit = defineEmits([
 
 const account = computed({
   get() {
+    if (!tx.value) {
+      throw new Error('Transaction does not exist!')
+    }
+
     return tx.value.postings[i].account
   },
   set(val) {
+    if (!tx.value) {
+      throw new Error('Transaction does not exist!')
+    }
+
     tx.value.postings[i].account = val
   },
 })
 const amount = computed({
   get() {
+    if (!tx.value) {
+      throw new Error('Transaction does not exist!')
+    }
+
     return tx.value.postings[i].amount
   },
   set(val) {
+    if (!tx.value) {
+      throw new Error('Transaction does not exist!')
+    }
+
     tx.value.postings[i].amount = val
   },
 })
-const currency = computed({
+const currency: WritableComputedRef<string> = computed({
   get() {
+    if (!tx.value) {
+      throw new Error('Transaction does not exist!')
+    }
+
     return tx.value.postings[i].currency
   },
-  set(val) {
+  set(val: string) {
+    if (!tx.value) {
+      throw new Error('Transaction does not exist!')
+    }
+
     tx.value.postings[i].currency = val
   },
 })
