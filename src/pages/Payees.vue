@@ -34,10 +34,12 @@ import { SET_SELECTED_ID } from '../mutations'
 import PayeesToolbar from '../components/PayeesToolbar.vue'
 import { RecycleScroller } from 'vue-virtual-scroller'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
+import useNotifications from 'src/lib/CashierNotification'
 
 const $router = useRouter()
 const mainStore = useMainStore()
 const store = useStore()
+const Notification = useNotifications()
 
 const payees = ref([])
 const filter: Ref<string | undefined> = ref(undefined)
@@ -45,7 +47,12 @@ const newPayee = ref(null)
 const addDialogVisible = ref(false)
 
 onMounted(async () => {
-  await loadData()
+  try {
+    await loadData()
+  } catch (error: any) {
+    console.error(error)
+    Notification.negative(error.message)
+  }
 })
 
 /**
@@ -73,6 +80,9 @@ async function loadData() {
   const cache = await caches.open(Constants.CacheName)
 
   const serverUrl = await settings.get(SettingKeys.syncServerUrl)
+  if (!serverUrl) {
+    throw new Error('The sync URL not set. Cannot read cached data.')
+  }
   const cashierSync = new CashierSync(serverUrl)
   const payeesCache = await cache.match(cashierSync.getPayeesUrl())
 

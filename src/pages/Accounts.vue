@@ -2,14 +2,7 @@
   <q-page padding class="text-colour2">
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn
-          flat
-          dense
-          round
-          aria-label="Menu"
-          icon="menu"
-          @click="menuClicked"
-        />
+        <q-btn flat dense round aria-label="Menu" icon="menu" @click="menuClicked" />
 
         <q-toolbar-title>Accounts</q-toolbar-title>
 
@@ -22,10 +15,7 @@
               <q-item v-close-popup clickable :to="{ name: 'sync' }">
                 <q-item-section>Synchronize</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon
-                    icon="sync-alt"
-                    transform="grow-9 left-5"
-                  />
+                  <font-awesome-icon icon="sync-alt" transform="grow-9 left-5" />
                 </q-item-section>
               </q-item>
 
@@ -34,10 +24,7 @@
                   Delete All
                 </q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon
-                    icon="trash-alt"
-                    transform="grow-9 left-5"
-                  />
+                  <font-awesome-icon icon="trash-alt" transform="grow-9 left-5" />
                 </q-item-section>
               </q-item>
             </q-list>
@@ -48,36 +35,16 @@
       <!-- search -->
       <q-toolbar class="text-white flex flex-center">
         <!-- <q-toolbar-title> -->
-        <q-input
-          v-model="filter"
-          autofocus
-          rounded
-          standout
-          dense
-          color="accent"
-          style="width: 23rem"
-          debounce="400"
-        >
+        <q-input v-model="filter" autofocus rounded standout dense color="accent" style="width: 23rem" debounce="400">
           <template #append>
             <font-awesome-icon v-if="filter === ''" icon="search" />
-            <q-icon
-              v-else
-              name="clear"
-              class="cursor-pointer"
-              @click="filter = ''"
-            />
+            <q-icon v-else name="clear" class="cursor-pointer" @click="filter = ''" />
           </template>
         </q-input>
       </q-toolbar>
     </q-header>
 
-    <RecycleScroller
-      v-slot="{ item }"
-      class="scroller"
-      :items="accounts"
-      :item-size="42"
-      key-field="name"
-    >
+    <RecycleScroller v-slot="{ item }" class="scroller" :items="accounts" :item-size="42" key-field="name">
       <div class="scroller-item" @click="itemClicked(item.name)">
         <div class="scroller-item-content">
           {{ item.name }}
@@ -97,14 +64,8 @@
         </q-card-section>
 
         <q-card-section>
-          <q-input
-            v-model="newAccount"
-            dense
-            autofocus
-            input-class="text-amber-2"
-            color="accent"
-            @keyup.enter="onAddAccount"
-          />
+          <q-input v-model="newAccount" dense autofocus input-class="text-amber-2" color="accent"
+            @keyup.enter="onAddAccount" />
         </q-card-section>
 
         <q-card-actions align="right" class="text-accent">
@@ -122,11 +83,7 @@
     </q-page-sticky>
 
     <!-- confirm deletion dialog -->
-    <q-dialog
-      v-model="confirmDeleteAllVisible"
-      persistent
-      content-class="bg-blue-grey-10"
-    >
+    <q-dialog v-model="confirmDeleteAllVisible" persistent content-class="bg-blue-grey-10">
       <q-card class="bg-secondary">
         <q-card-section class="row items-center">
           <span>Do you want to delete all accounts?</span>
@@ -134,13 +91,7 @@
 
         <q-card-actions align="right">
           <q-btn v-close-popup flat label="Cancel" color="accent" />
-          <q-btn
-            v-close-popup
-            flat
-            label="Delete"
-            color="accent"
-            @click="confirmDeleteAll"
-          />
+          <q-btn v-close-popup flat label="Delete" color="accent" @click="confirmDeleteAll" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -148,7 +99,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, Ref, ref, WritableComputedRef } from 'vue'
 import { useMainStore } from '../store/mainStore'
 import appService from '../appService'
 
@@ -156,8 +107,8 @@ const mainStore = useMainStore()
 
 // data
 
-const accounts = ref([])
-const filterText = ref(null)
+const accounts: Ref<Account[]> = ref([])
+const filterText = ref('')
 const dialogVisible = ref(false)
 const newAccount = ref(null)
 const confirmDeleteAllVisible = ref(false)
@@ -194,7 +145,7 @@ async function loadData() {
 
     records = records.filter((account) => regex.test(account.name))
   }
-  let accounts_array = await records.toArray()
+  let accounts_array: Account[] = await records.toArray()
 
   accounts.value = accounts_array
 }
@@ -239,6 +190,7 @@ async function onDeleteAccount(accountName) {
 import { ListSearch } from '../ListSearch.js'
 import { RecycleScroller } from 'vue-virtual-scroller'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
+import { Account } from 'src/model'
 
 export default {
   components: {
@@ -295,6 +247,7 @@ export default {
 .scroller-item-content {
   flex-grow: 1;
 }
+
 .scroller-item-action {
   text-align: right;
 }

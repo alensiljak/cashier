@@ -9,11 +9,20 @@
 
 export class Account {
   name = ''
-  // balance?: number
   balances?: Record<string, number>
   // currency: any
   currentValue: any
   currentCurrency: any
+  // balance?: number
+  getBalance() {
+    const balance = this._getBalanceRecord()
+  }
+
+  _getBalanceRecord() {
+    if (!this.balances) return null
+    const keys = this.balances.keys()
+    console.log(keys)
+  }
 
   constructor(accountName: string) {
     this.name = accountName
