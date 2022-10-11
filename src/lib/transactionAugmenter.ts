@@ -1,4 +1,4 @@
-import { Account, Transaction } from 'src/model'
+import { Account, AccountBalance, Transaction } from 'src/model'
 import appService from '../appService'
 import { TransactionParser } from './transactionParser'
 
@@ -89,10 +89,11 @@ export class TransactionAugmenter {
 
       // handle empty balances
       if (!account.balance) {
-        account.balance = 0
+        account.balance = new AccountBalance()
       }
 
-      let sum = parseFloat(account.balance)
+      //let sum = parseFloat(account.balance.amount)
+      let sum = account.balance.amount
 
       //
       let txs = await appService.loadAccountTransactionsFor(account.name)
@@ -110,8 +111,8 @@ export class TransactionAugmenter {
         sum += amount
 
         // For accounts with no starting balance, use the currency from the first expense.
-        if (!account.currency) {
-          account.currency = postings[j].currency
+        if (!account.balance.currency) {
+          account.balance.currency = postings[j].currency
         }
       }
 
@@ -119,10 +120,11 @@ export class TransactionAugmenter {
         console.warn('The sum for ' + account.name + ' is not a number: ', sum)
       }
 
-      const newBalance = sum.toFixed(2)
+      const newBalance = Number(sum.toFixed(2))
 
       // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
-      account.balance = new Intl.NumberFormat('en-AU').format(newBalance)
+      //let x = new Intl.NumberFormat('en-AU').format(newBalance)
+      account.balance.amount = newBalance
       // { style: 'currency', currency: 'EUR' }
     }
     return accounts

@@ -2,26 +2,45 @@
     The domain model
 */
 
-// export class AccountBalance {
-//   amount = 0
-//   currency = ''
-// }
+export class AccountBalance {
+  amount = 0
+  currency = ''
+}
 
 export class Account {
+  _balance?: AccountBalance
+
   name = ''
   balances?: Record<string, number>
   // currency: any
   currentValue: any
   currentCurrency: any
-  // balance?: number
-  getBalance() {
-    const balance = this._getBalanceRecord()
+
+  get balance() {
+    if (!this._balance) {
+      // If not set, use the first record.
+      this._balance = this._getBalanceRecord()
+    }
+    return this._balance
   }
 
-  _getBalanceRecord() {
-    if (!this.balances) return null
-    const keys = this.balances.keys()
-    console.log(keys)
+  set balance(value) {
+    this._balance = value
+  }
+
+  _getBalanceRecord(): AccountBalance | undefined {
+    if (!this.balances) return undefined
+
+    const keys = Object.keys(this.balances)
+    if (!keys) {
+      return undefined
+    }
+
+    const result = new AccountBalance()
+    const key = keys[0]
+    result.amount = this.balances[key]
+    result.currency = key
+    return result
   }
 
   constructor(accountName: string) {

@@ -144,8 +144,8 @@ export default {
       const sync = new CashierSync(this.serverUrl)
       sync
         .repoCommit(this.repoPath, this.commitMessage)
-        .then((result) => tis.$q.notify(result))
-        .catch((error) => {
+        .then((result) => this.$q.notify(result))
+        .catch((error: any) => {
           console.error(error)
 
           this.$q.notify({ message: error, color: 'secondary' })

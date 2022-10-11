@@ -240,7 +240,10 @@ class AppService {
 
     const accounts = await this.getInvestmentAccounts()
     await accounts.each((account) => {
-      commodities.push(account.currency)
+      // todo: FIX!
+      const accountCommodities = account.balances?.keys
+      //commodities.push(account.currency)
+      commodities.push(...accountCommodities)
     })
 
     // keep only unique values

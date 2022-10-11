@@ -50,7 +50,7 @@
           {{ item.name }}
         </div>
         <div class="scroller-item-action">
-          {{ item.balance }} {{ item.currency }}
+          {{ item.balance?.amount }} {{ item.balance?.currency }}
         </div>
       </div>
     </RecycleScroller>

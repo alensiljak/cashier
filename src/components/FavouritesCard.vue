@@ -17,7 +17,7 @@
         <q-item v-for="account in accounts" :key="account.name" class="q-px-none" dense>
           <q-item-section>{{ account.name }}</q-item-section>
           <q-item-section side>
-            {{ account.balance }} {{ account.currency }}
+            {{ account.balance?.amount }} {{ account.balance?.currency }}
           </q-item-section>
         </q-item>
       </q-list>
@@ -26,18 +26,19 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, Ref, ref } from 'vue'
 import { useQuasar } from 'quasar'
 import { settings, SettingKeys } from '../lib/settings'
 import appService from '../appService'
 import { TransactionAugmenter } from 'src/lib/transactionAugmenter'
+import { Account } from 'src/model'
 
 const $q = useQuasar()
 
 const emit = defineEmits(['click'])
 
 // data
-const accounts = ref([])
+const accounts: Ref<Account[]> = ref([])
 
 // methods
 
@@ -61,7 +62,7 @@ async function loadData() {
     favArray = await augmenter.adjustAccountBalances(favArray)
 
     accounts.value = favArray
-  } catch (error) {
+  } catch (error: any) {
     console.error(error)
     $q.notify({ color: 'secondary', message: error.message })
   }
