@@ -119,7 +119,7 @@ export class TransactionAugmenter {
         console.warn('The sum for ' + account.name + ' is not a number: ', sum)
       }
 
-      let newBalance = sum.toFixed(2)
+      const newBalance = sum.toFixed(2)
 
       // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
       account.balance = new Intl.NumberFormat('en-AU').format(newBalance)

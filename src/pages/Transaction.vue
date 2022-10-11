@@ -39,11 +39,7 @@
     </q-page-sticky>
 
     <!-- confirm deletion dialog -->
-    <q-dialog
-      v-model="isConfirmDeleteVisible"
-      persistent
-      content-class="bg-blue-grey-10"
-    >
+    <q-dialog v-model="isConfirmDeleteVisible" persistent content-class="bg-blue-grey-10">
       <q-card class="bg-secondary">
         <q-card-section class="row items-center">
           <span>Do you want to clear all the fields?</span>
@@ -51,13 +47,7 @@
 
         <q-card-actions align="right">
           <q-btn v-close-popup flat label="Cancel" color="accent" />
-          <q-btn
-            v-close-popup
-            flat
-            label="Confirm"
-            color="accent"
-            @click="confirmDelete"
-          />
+          <q-btn v-close-popup flat label="Confirm" color="accent" @click="confirmDelete" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -70,9 +60,9 @@ import { useMainStore } from '../store/mainStore'
 import { useRouter } from 'vue-router'
 import { SettingKeys, settings } from 'src/lib/Configuration'
 import { useQuasar } from 'quasar'
+import { storeToRefs } from 'pinia'
 import appService from '../appService'
 import TxEditor from '../components/TransactionEditor.vue'
-import { storeToRefs } from 'pinia'
 import CashierDAL from '../store/dal'
 import { Transaction } from 'src/model'
 import CashierToolbar from 'src/components/CashierToolbar.vue'

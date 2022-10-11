@@ -33,9 +33,7 @@ class AppService {
   }
 
   createAccount(name: string) {
-    let acc = new Account()
-    acc.name = name
-
+    const acc = new Account(name)
     return db.accounts.add(acc)
   }
 
@@ -262,7 +260,7 @@ class AppService {
       const line = accountsList[i]
       if (line === '') continue
 
-      const account = new Account()
+      const account = new Account('')
       account.name = line
       accounts.push(account)
     }
@@ -271,7 +269,7 @@ class AppService {
   }
 
   async importBalanceSheet(lines: string[]) {
-    if (!lines) {
+    if (!lines || !lines.length) {
       throw new Error('No balance records received for import!')
     }
 
@@ -285,14 +283,17 @@ class AppService {
     let multicurrencyAccount = false
     let mainCurrencyAmount = 0
 
+    let account = new Account('')
+
     // read and parse the balance sheet entries
     for (let i = 0; i < lines.length; i++) {
       // console.log(lines[i]);
       const line = lines[i]
       if (line === '') continue
 
-      const account = new Account()
+      // name
       let namePart = line.substring(21).trim()
+      account.name = namePart
 
       let balancePart = line.substring(0, 20)
       balancePart = balancePart.trim()
@@ -307,9 +308,6 @@ class AppService {
       // currency
       let currencyPart = balanceParts[1]
       account.currency = currencyPart
-
-      // name
-      account.name = namePart
 
       // If we have a currency but no account, it's a multicurrency account.
       if (!namePart) {
@@ -376,8 +374,8 @@ class AppService {
     await db.scheduled.bulkPut(parsed)
   }
 
-  async loadAccount(id: number) {
-    return db.accounts.get(id)
+  async loadAccount(name: string) {
+    return db.accounts.get(name)
   }
 
   /**
@@ -457,7 +455,7 @@ class AppService {
    */
   async saveLastTransaction(tx: Transaction) {
     let lastTx = new LastTransaction()
-    lastTx.payee = tx.payee
+    lastTx.payee = tx.payee as string
 
     lastTx.transaction = tx
 

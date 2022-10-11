@@ -3,14 +3,7 @@
     <!-- toolbar -->
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn
-          flat
-          dense
-          round
-          aria-label="Menu"
-          icon="menu"
-          @click="menuClicked"
-        />
+        <q-btn flat dense round aria-label="Menu" icon="menu" @click="menuClicked" />
 
         <q-toolbar-title>Account</q-toolbar-title>
 
@@ -21,29 +14,20 @@
               <q-item v-close-popup clickable>
                 <q-item-section>Synchronize</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon
-                    icon="sync-alt"
-                    transform="grow-9 left-7"
-                  />
+                  <font-awesome-icon icon="sync-alt" transform="grow-9 left-7" />
                 </q-item-section>
               </q-item>
               <q-item v-close-popup clickable>
                 <q-item-section>Import</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon
-                    icon="sign-in-alt"
-                    transform="grow-9 left-7"
-                  />
+                  <font-awesome-icon icon="sign-in-alt" transform="grow-9 left-7" />
                 </q-item-section>
               </q-item>
               <q-item v-close-popup clickable>
                 <q-item-section @click="deleteAccount">Delete</q-item-section>
                 <q-item-section side>
                   <!-- <q-icon name="star"/> -->
-                  <font-awesome-icon
-                    icon="trash-alt"
-                    transform="grow-9 left-7"
-                  />
+                  <font-awesome-icon icon="trash-alt" transform="grow-9 left-7" />
                 </q-item-section>
               </q-item>
             </q-list>
@@ -54,66 +38,28 @@
 
     <!-- <p>Editor for the Account: {{ account.name }}</p> -->
 
-    <q-input
-      v-model="account.name"
-      label="Account Name"
-      clearable
-      @keyup.enter="onEnter"
-    />
+    <q-input v-model="account.name" label="Account Name" clearable @keyup.enter="onEnter" />
     <!-- balance -->
-    <q-input
-      v-model.number="account.balance"
-      label="Balance"
-      type="number"
-      clearable
-      @keyup.enter="onEnter"
-    />
-    <q-input
-      v-model="account.currency"
-      label="Currency"
-      clearable
-      @keyup.enter="onEnter"
-    />
+    <q-input v-model.number="account.balance" label="Balance" type="number" clearable @keyup.enter="onEnter" />
+    <q-input v-model="account.currency" label="Currency" clearable @keyup.enter="onEnter" />
 
-    <q-input
-      v-model="account.currentValue"
-      label="Current value"
-      clearable
-      @keyup.enter="onEnter"
-    />
-    <q-input
-      v-model="account.currentCurrency"
-      label="Current value currency"
-      clearable
-      @keyup.enter="onEnter"
-    />
+    <q-input v-model="account.currentValue" label="Current value" clearable @keyup.enter="onEnter" />
+    <q-input v-model="account.currentCurrency" label="Current value currency" clearable @keyup.enter="onEnter" />
 
     <!-- Actions -->
     <div class="row q-mt-xl justify-end">
       <div class="col text-center">
-        <q-btn
-          color="secondary"
-          text-color="accent"
-          label="Cancel"
-          size="medium"
-          @click="onCancel"
-        />
+        <q-btn color="secondary" text-color="accent" label="Cancel" size="medium" @click="onCancel" />
       </div>
       <div class="col text-center">
-        <q-btn
-          class="q-px-lg"
-          color="accent"
-          text-color="secondary"
-          label="Save"
-          size="medium"
-          @click="onSave"
-        />
+        <q-btn class="q-px-lg" color="accent" text-color="secondary" label="Save" size="medium" @click="onSave" />
       </div>
     </div>
   </q-page>
 </template>
 
 <script setup lang="ts">
+import { Account } from 'src/model';
 import appService from '../appService'
 import { useMainStore } from '../store/mainStore'
 
@@ -127,13 +73,13 @@ function menuClicked() {
 export default {
   data() {
     return {
-      account: {},
-      originalName: null, // track name change
+      account: new Account(''),
+      originalName: '', // to track name change
     }
   },
 
   created() {
-    this.loadAccount(this.$route.params.id)
+    this.loadAccount(this.$route.params.id as string)
   },
 
   methods: {
@@ -142,7 +88,7 @@ export default {
       await appService.deleteAccount(this.account.name)
       history.go(-1)
     },
-    async loadAccount(name) {
+    async loadAccount(name: string) {
       this.originalName = name
 
       let account = await appService.loadAccount(name)

@@ -1,22 +1,25 @@
-/* eslint-disable no-unused-expressions */
 /*
     The domain model
 */
 
+class AccountBalance {
+  amount = 0
+  currency = ''
+}
+
 export class Account {
   name = ''
   balance?: number
+  balances: Record<string, any>
   currency: any
   currentValue: any
   currentCurrency: any
 
   constructor(accountName: string) {
     this.name = accountName
+    this.balances = {}
+    //this.balances['EUR'] = 30
   }
-}
-
-export class Commodity {
-  name?: string
 }
 
 export class LastTransaction {
@@ -42,7 +45,8 @@ export class Posting {
 }
 
 /**
- * Used for price download and export. Not used.
+ * Intended for price download and export.
+ * Not used.
  */
 export class Price {
   // symbol used in the book
@@ -58,9 +62,6 @@ export class Price {
 export class ScheduledTransaction {
   id?: number
   nextDate: any
-  /**
-   * Transaction in JSON
-   */
   transaction?: Transaction
   period: any
   count: any
@@ -70,9 +71,9 @@ export class ScheduledTransaction {
 
 export class Transaction {
   id?: number
-  date?: any
-  payee: string
-  note: string
+  date?: string
+  payee?: string
+  note?: string
   postings: Posting[]
   //
   //amount: any
@@ -80,9 +81,8 @@ export class Transaction {
 
   constructor() {
     // this.id = newId()
-    this.date = null
+    this.date = ''
     this.payee = ''
-    this.note = ''
     this.postings = []
   }
 
