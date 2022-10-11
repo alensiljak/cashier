@@ -118,6 +118,7 @@ export class TransactionAugmenter {
 
       if (isNaN(sum)) {
         console.warn('The sum for ' + account.name + ' is not a number: ', sum)
+        sum = 0
       }
 
       const newBalance = Number(sum.toFixed(2))
