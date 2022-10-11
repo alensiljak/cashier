@@ -11,20 +11,10 @@
       </p>
       <div class="row">
         <div class="col">
-          <q-input
-            type="file"
-            class="text-red"
-            clearable
-            @input="onFileSelected"
-          />
+          <q-input type="file" class="text-red" clearable @input="onFileSelected" />
         </div>
         <div class="col text-center">
-          <q-btn
-            label="Import"
-            color="secondary"
-            text-color="accent"
-            @click="onCurrentBalClick"
-          />
+          <q-btn label="Import" color="secondary" text-color="accent" @click="onCurrentBalClick" />
         </div>
       </div>
     </div>
@@ -35,7 +25,7 @@
 import Toolbar from '../components/CashierToolbar.vue'
 </script>
 <script lang="ts">
-import { SettingKeys } from '../lib/Configuration'
+import { SettingKeys } from '../lib/settings'
 import appService from '../appService'
 import { Setting } from '../model'
 

@@ -3,14 +3,8 @@
     <!-- date -->
     <div id="dateSelector">
       <q-dialog ref="qDateProxy" v-model="datePickerVisible">
-        <q-date
-          ref="datePicker"
-          v-model="tx.date"
-          first-day-of-week="1"
-          today-btn
-          mask="YYYY-MM-DD"
-          @input="onDateSelected"
-        >
+        <q-date ref="datePicker" v-model="tx.date" first-day-of-week="1" today-btn mask="YYYY-MM-DD"
+          @input="onDateSelected">
           <div class="row items-center justify-end q-gutter-sm">
             <!-- <q-btn v-close-popup label="Cancel" color="primary" flat /> -->
             <q-btn v-close-popup label="OK" color="accent" flat />
@@ -46,13 +40,8 @@
     </div>
 
     <!-- <div> -->
-    <q-slide-item
-      v-for="(posting, index) in tx.postings"
-      :key="index"
-      left-color="secondary"
-      class="q-px-none"
-      @left="onSlide"
-    >
+    <q-slide-item v-for="(posting, index) in tx.postings" :key="index" left-color="secondary" class="q-px-none"
+      @left="onSlide">
       <template #left>
         <div class="row items-center text-accent" @click="deletePosting(index)">
           Click to confirm or wait 2s to cancel
@@ -61,13 +50,8 @@
       </template>
       <q-item class="q-px-none">
         <q-item-section>
-          <QPosting
-            :index="index"
-            @delete-row="deletePosting"
-            @account-clicked="onAccountClicked(index)"
-            @amount-changed="onAmountChanged"
-            @currency-changed="onCurrencyChanged"
-          />
+          <QPosting :index="index" @delete-row="deletePosting" @account-clicked="onAccountClicked(index)"
+            @amount-changed="onAmountChanged" @currency-changed="onCurrencyChanged" />
         </q-item-section>
       </q-item>
     </q-slide-item>
@@ -89,23 +73,11 @@
 
     <!-- posting actions -->
     <div class="row justify-center text-center q-my-lg">
-      <q-btn
-        color="primary"
-        text-color="accent"
-        size="medium"
-        class="col-auto q-mr-md"
-        @click="addPosting"
-      >
+      <q-btn color="primary" text-color="accent" size="medium" class="col-auto q-mr-md" @click="addPosting">
         <q-icon name="add_circle" class="q-icon-small on-left" />
         <div>Add</div>
       </q-btn>
-      <q-btn
-        color="primary"
-        text-color="accent"
-        size="medium"
-        class="col-auto"
-        @click="reorderPostings"
-      >
+      <q-btn color="primary" text-color="accent" size="medium" class="col-auto" @click="reorderPostings">
         <!-- <font-awesome-icon
           icon="sort"
           transform="grow-9"
@@ -128,7 +100,7 @@ import {
   SelectionModeMetadata,
   SettingKeys,
   settings,
-} from '../lib/Configuration'
+} from '../lib/settings'
 import appService from '../appService'
 import QPosting from '../components/Posting.vue'
 

@@ -1,5 +1,5 @@
 import moment from 'moment'
-import { settings, SettingKeys } from './Configuration'
+import { settings, SettingKeys } from './settings'
 import { LedgerApi } from './ledgerApi'
 import { LedgerOutputParser } from './ledgerOutputParser'
 

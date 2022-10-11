@@ -64,7 +64,7 @@ class Settings {
     return db.settings.toArray()
   }
 
-  async set(key: string, value: string) {
+  async set(key: string, value: any) {
     let jsonValue = JSON.stringify(value)
     let setting = new Setting(key, jsonValue)
 

@@ -12,7 +12,7 @@
 <script lang="ts">
 import Toolbar from '../components/CashierToolbar.vue'
 import { CashierSync } from '../lib/syncCashier'
-import { SettingKeys, settings } from '../lib/Configuration'
+import { SettingKeys, settings } from '../lib/settings'
 
 export default {
   components: {

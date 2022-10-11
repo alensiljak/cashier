@@ -2,14 +2,7 @@
   <q-page padding class="text-colour2">
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn
-          flat
-          dense
-          round
-          aria-label="Menu"
-          icon="menu"
-          @click="onMenuClicked"
-        />
+        <q-btn flat dense round aria-label="Menu" icon="menu" @click="onMenuClicked" />
 
         <q-toolbar-title>Favourites</q-toolbar-title>
 
@@ -22,20 +15,14 @@
               <q-item v-close-popup clickable @click="addAccountClick">
                 <q-item-section>Add</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon
-                    icon="plus-circle"
-                    transform="grow-9 left-5"
-                  />
+                  <font-awesome-icon icon="plus-circle" transform="grow-9 left-5" />
                 </q-item-section>
               </q-item>
 
               <q-item v-close-popup clickable @click="onDeleteAllClick">
                 <q-item-section>Delete All</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon
-                    icon="trash-alt"
-                    transform="grow-9 left-5"
-                  />
+                  <font-awesome-icon icon="trash-alt" transform="grow-9 left-5" />
                 </q-item-section>
               </q-item>
 
@@ -52,12 +39,8 @@
     </q-header>
 
     <!-- account list -->
-    <q-slide-item
-      v-for="(account, index) in accounts"
-      :key="account.name"
-      right-color="secondary"
-      @right="onRightSlide"
-    >
+    <q-slide-item v-for="(account, index) in accounts" :key="account.name" right-color="secondary"
+      @right="onRightSlide">
       <template #right>
         <div class="row items-center text-accent" @click="removeAccount(index)">
           Click to confirm or wait 2s to cancel
@@ -66,12 +49,7 @@
       </template>
 
       <q-list separator class="text-colour2" dense>
-        <q-item
-          v-ripple
-          clickable
-          class="q-px-none"
-          @click="onListItemClick(account.name)"
-        >
+        <q-item v-ripple clickable class="q-px-none" @click="onListItemClick(account.name)">
           <q-item-section>{{ account.name }}</q-item-section>
           <q-item-section side>
             {{ account.balance }} {{ account.currency }}
@@ -87,11 +65,7 @@
     </q-page-sticky>
 
     <!-- confirm deletion dialog -->
-    <q-dialog
-      v-model="confirmDeleteDialogVisible"
-      persistent
-      content-class="bg-blue-grey-10"
-    >
+    <q-dialog v-model="confirmDeleteDialogVisible" persistent content-class="bg-blue-grey-10">
       <q-card class="bg-secondary text-amber-2">
         <q-card-section class="row items-center">
           <!-- <q-avatar icon="signal_wifi_off" color="primary" text-color="amber-2"/>
@@ -101,13 +75,7 @@
 
         <q-card-actions align="right">
           <q-btn v-close-popup flat label="Cancel" color="accent" />
-          <q-btn
-            v-close-popup
-            flat
-            label="Delete"
-            color="accent"
-            @click="confirmDeleteAll"
-          />
+          <q-btn v-close-popup flat label="Delete" color="accent" @click="confirmDeleteAll" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -131,7 +99,7 @@ import {
   SelectionModeMetadata,
   settings,
   SettingKeys,
-} from '../lib/Configuration'
+} from '../lib/settings'
 
 const ACCOUNT = 'account'
 

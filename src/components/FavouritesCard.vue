@@ -14,12 +14,7 @@
       </div>
 
       <q-list>
-        <q-item
-          v-for="account in accounts"
-          :key="account.name"
-          class="q-px-none"
-          dense
-        >
+        <q-item v-for="account in accounts" :key="account.name" class="q-px-none" dense>
           <q-item-section>{{ account.name }}</q-item-section>
           <q-item-section side>
             {{ account.balance }} {{ account.currency }}
@@ -33,7 +28,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useQuasar } from 'quasar'
-import { settings, SettingKeys } from '../lib/Configuration'
+import { settings, SettingKeys } from '../lib/settings'
 import appService from '../appService'
 import { TransactionAugmenter } from 'src/lib/transactionAugmenter'
 

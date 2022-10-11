@@ -4,7 +4,7 @@
 */
 import { ref } from 'vue'
 import PcloudSdk from 'pcloud-sdk-js'
-import { settings, SettingKeys } from './Configuration'
+import { settings, SettingKeys } from './settings'
 import appService from '../appService'
 import PcloudClient from './pCloudClient'
 

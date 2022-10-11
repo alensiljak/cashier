@@ -13,23 +13,13 @@
     <q-card bordered class="q-px-sm text-colour2 rounded-border q-mb-md">
       <q-card-section>
         <p class="text-h5">Prices</p>
-        <q-input
-          v-model="pricesRepoPath"
-          type="text"
-          class="text-red"
-          clearable
-          label="Prices repository path"
-          @change="onPricesRepoChange"
-        />
+        <q-input v-model="pricesRepoPath" type="text" class="text-red" clearable label="Prices repository path"
+          @change="onPricesRepoChange" />
       </q-card-section>
       <q-separator />
       <q-card-actions>
         <q-btn color="secondary" text-color="accent" @click="pricesRepoPull">
-          <font-awesome-icon
-            icon="download"
-            transform="grow-6 right-6"
-            class="q-mr-sm"
-          />
+          <font-awesome-icon icon="download" transform="grow-6 right-6" class="q-mr-sm" />
           <span class="q-ml-sm">Pull</span>
         </q-btn>
       </q-card-actions>
@@ -48,14 +38,8 @@
     <div>
       <p>Add the relative path to the book / journal repository.</p>
       <div class="q-my-sm">
-        <q-input
-          v-model="repoPath"
-          type="text"
-          class="text-red"
-          clearable
-          label="Repository path"
-          @change="onRepoChange"
-        />
+        <q-input v-model="repoPath" type="text" class="text-red" clearable label="Repository path"
+          @change="onRepoChange" />
       </div>
     </div>
 
@@ -64,22 +48,14 @@
       <div class="col text-center">
         <!-- Pull -->
         <q-btn color="secondary" text-color="accent" @click="onPullClick">
-          <font-awesome-icon
-            icon="download"
-            transform="grow-6 right-6"
-            class="q-mr-sm"
-          />
+          <font-awesome-icon icon="download" transform="grow-6 right-6" class="q-mr-sm" />
           <span class="q-ml-sm">Pull</span>
         </q-btn>
       </div>
       <!-- Push -->
       <div class="col text-center">
         <q-btn color="secondary" text-color="accent" @click="onPushClick">
-          <font-awesome-icon
-            icon="upload"
-            transform="grow-6 right-6"
-            class="q-mr-sm"
-          />
+          <font-awesome-icon icon="upload" transform="grow-6 right-6" class="q-mr-sm" />
           <span class="q-ml-sm">Push</span>
         </q-btn>
       </div>
@@ -94,23 +70,12 @@
         book/sync.ledger
       </p>
       <div class="q-my-sm">
-        <q-input
-          ref="input"
-          v-model="commitMessage"
-          type="text"
-          class="text-red"
-          clearable
-          :rules="[(val) => !!val || 'Field is required']"
-          label="Commit message"
-        />
+        <q-input ref="input" v-model="commitMessage" type="text" class="text-red" clearable
+          :rules="[(val) => !!val || 'Field is required']" label="Commit message" />
       </div>
       <div class="text-center">
         <q-btn color="secondary" text-color="accent" @click="onCommitClick">
-          <font-awesome-icon
-            icon="save"
-            transform="grow-6 right-6"
-            class="q-mr-sm"
-          />
+          <font-awesome-icon icon="save" transform="grow-6 right-6" class="q-mr-sm" />
           <span class="q-ml-sm">Commit</span>
         </q-btn>
       </div>
@@ -123,11 +88,7 @@
       <div class="row">
         <div class="col">
           <q-btn color="secondary" text-color="accent" @click="onRefreshClick">
-            <font-awesome-icon
-              icon="sync-alt"
-              transform="grow-6 right-6"
-              class="q-mr-sm"
-            />
+            <font-awesome-icon icon="sync-alt" transform="grow-6 right-6" class="q-mr-sm" />
             <span class="q-ml-sm">Refresh</span>
           </q-btn>
         </div>
@@ -138,7 +99,7 @@
 
 <script lang="ts">
 import Toolbar from '../components/CashierToolbar.vue'
-import { SettingKeys, settings } from '../lib/Configuration'
+import { SettingKeys, settings } from '../lib/settings'
 import { CashierSync } from '../lib/syncCashier'
 
 export default {

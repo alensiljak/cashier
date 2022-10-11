@@ -32,21 +32,14 @@
     <div class="row">
       <div class="col">
         <!-- root investment account -->
-        <q-input
-          v-model="rootInvestmentAccount"
-          label="Root investment account"
-        />
+        <q-input v-model="rootInvestmentAccount" label="Root investment account" />
       </div>
     </div>
 
     <div class="row q-mt-sm">
       <div class="col">
-        <q-file
-          v-model="aasettingsfile"
-          label="Asset Allocation settings file"
-          clearable
-          @update:model-value="onAaFileSelected"
-        />
+        <q-file v-model="aasettingsfile" label="Asset Allocation settings file" clearable
+          @update:model-value="onAaFileSelected" />
       </div>
       <div class="col-1 text-center">
         <q-btn flat round dense @click="onAaHelpClick">
@@ -54,12 +47,7 @@
         </q-btn>
       </div>
       <div class="col text-right">
-        <q-btn
-          label="Import"
-          color="secondary"
-          text-color="accent"
-          @click="onDefinitionImportClick"
-        />
+        <q-btn label="Import" color="secondary" text-color="accent" @click="onDefinitionImportClick" />
       </div>
       <!-- </div> -->
     </div>
@@ -67,21 +55,15 @@
     <p class="q-my-md">Last Transaction</p>
     <div class="row">
       <div class="col">
-        <q-checkbox
-          v-model="rememberLastTransaction"
-          label="Remember last transaction for payees. Fills the new transactions."
-        />
+        <q-checkbox v-model="rememberLastTransaction"
+          label="Remember last transaction for payees. Fills the new transactions." />
       </div>
     </div>
 
     <div class="row">Dark Mode</div>
     <div class="row">
       <div class="col">
-        <q-checkbox
-          v-model="$q.dark.isActive"
-          label="Use dark mode."
-          @update:model-value="toggleDarkMode"
-        />
+        <q-checkbox v-model="$q.dark.isActive" label="Use dark mode." @update:model-value="toggleDarkMode" />
       </div>
     </div>
 
@@ -96,12 +78,7 @@
 
     <div class="row q-mt-lg">
       <div class="col text-center q-my-lg">
-        <q-btn
-          label="save"
-          color="secondary"
-          text-color="accent"
-          @click="onSaveClick"
-        />
+        <q-btn label="save" color="secondary" text-color="accent" @click="onSaveClick" />
       </div>
     </div>
 
@@ -113,29 +90,15 @@
         <p>You can restore settings from a backup file.</p>
       </div>
       <div class="col text-center">
-        <q-file
-          accept=".json"
-          v-model="restoreFile"
-          label="settings backup file"
-          clearable
-          @update:model-value="onRestoreFileSelected"
-        />
+        <q-file accept=".json" v-model="restoreFile" label="settings backup file" clearable
+          @update:model-value="onRestoreFileSelected" />
       </div>
       <div class="col text-right" v-if="restoreFile">
-        <q-btn
-          label="Restore"
-          color="secondary"
-          text-color="accent"
-          @click="onRestoreClick"
-        />
+        <q-btn label="Restore" color="secondary" text-color="accent" @click="onRestoreClick" />
       </div>
     </div>
 
-    <q-dialog
-      v-model="isRestoreConfirmationVisible"
-      persistent
-      content-class="bg-blue-grey-10"
-    >
+    <q-dialog v-model="isRestoreConfirmationVisible" persistent content-class="bg-blue-grey-10">
       <q-card dark class="bg-secondary">
         <q-card-section class="q-pa-sm">
           <div class="row">
@@ -154,13 +117,7 @@
 
         <q-card-actions align="right">
           <q-btn v-close-popup flat label="Cancel" color="accent" />
-          <q-btn
-            v-close-popup
-            flat
-            label="Restore"
-            color="accent"
-            @click="onConfirmRestore"
-          />
+          <q-btn v-close-popup flat label="Restore" color="accent" @click="onConfirmRestore" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -173,12 +130,7 @@
         </p>
       </div>
       <div class="col text-right">
-        <q-btn
-          label="Reload App"
-          color="secondary"
-          text-color="accent"
-          @click="reloadApp"
-        />
+        <q-btn label="Reload App" color="secondary" text-color="accent" @click="reloadApp" />
       </div>
     </div>
   </q-page>
@@ -189,7 +141,7 @@ import { onMounted, Ref, ref } from 'vue'
 import appService from '../appService'
 import useNotifications from 'src/lib/CashierNotification'
 import db from '../store/indexedDb'
-import { SettingKeys, settings } from '../lib/Configuration'
+import { SettingKeys, settings } from '../lib/settings'
 import Toolbar from '../components/CashierToolbar.vue'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
@@ -199,7 +151,7 @@ const $router = useRouter()
 const $q = useQuasar()
 
 const currency = ref('')
-const rememberLastTransaction = ref(null)
+const rememberLastTransaction: Ref<boolean | undefined> = ref(undefined)
 const rootInvestmentAccount: Ref<string> = ref('')
 const restoreFile = ref(null)
 const isRestoreConfirmationVisible = ref(false)
@@ -294,8 +246,8 @@ async function onSchTxMigrationClick() {
 
   Notification.info(
     counter +
-      ' SchTx Transaction records converted from JSON to objects.' +
-      result
+    ' SchTx Transaction records converted from JSON to objects.' +
+    result
   )
 }
 
@@ -309,15 +261,9 @@ async function onSaveClick() {
   await settings.set(SettingKeys.currency, currency.value)
 
   // root investment account
-  await settings.set(
-    SettingKeys.rootInvestmentAccount,
-    rootInvestmentAccount.value
-  )
+  await settings.set(SettingKeys.rootInvestmentAccount, rootInvestmentAccount.value)
 
-  await settings.set(
-    SettingKeys.rememberLastTransaction,
-    rememberLastTransaction.value
-  )
+  await settings.set(SettingKeys.rememberLastTransaction, rememberLastTransaction.value)
 
   $q.notify({ message: 'Settings saved', color: 'positive' })
 }

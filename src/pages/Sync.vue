@@ -12,20 +12,11 @@
     <div class="q-my-md row">
       <div class="col">
         <!-- server URL -->
-        <q-input
-          v-model="serverUrl"
-          label="Server URL"
-          @change="saveSyncServerUrl"
-        />
+        <q-input v-model="serverUrl" label="Server URL" @change="saveSyncServerUrl" />
       </div>
 
       <div class="col text-center">
-        <q-btn
-          label="Test"
-          color="secondary"
-          text-color="accent"
-          @click="onConnectClicked"
-        />
+        <q-btn label="Test" color="secondary" text-color="accent" @click="onConnectClicked" />
       </div>
     </div>
 
@@ -37,10 +28,8 @@
     <q-list>
       <q-item>
         <q-item-section>
-          <q-checkbox
-            v-model="syncAccounts"
-            label="Refresh accounts list. Clears the existing accounts list and replaces with the list from Ledger. This is needed if an account has/had a zero balance because Ledger will not list null-balance accounts."
-          />
+          <q-checkbox v-model="syncAccounts"
+            label="Refresh accounts list. Clears the existing accounts list and replaces with the list from Ledger. This is needed if an account has/had a zero balance because Ledger will not list null-balance accounts." />
         </q-item-section>
         <q-item-label>
           <font-awesome-icon v-if="showAccountProgress" icon="sync-alt" spin />
@@ -48,10 +37,7 @@
       </q-item>
       <q-item>
         <q-item-section>
-          <q-checkbox
-            v-model="syncBalances"
-            label="Refresh account balances (ledger balance --flat --no-total)."
-          />
+          <q-checkbox v-model="syncBalances" label="Refresh account balances (ledger balance --flat --no-total)." />
         </q-item-section>
         <q-item-label>
           <font-awesome-icon v-if="showBalanceProgress" icon="sync-alt" spin />
@@ -59,10 +45,8 @@
       </q-item>
       <q-item>
         <q-item-section>
-          <q-checkbox
-            v-model="syncAaValues"
-            label="Refresh asset allocation current values (ledger b ^<root> -X <CUR> --flat --no-total)."
-          />
+          <q-checkbox v-model="syncAaValues"
+            label="Refresh asset allocation current values (ledger b ^<root> -X <CUR> --flat --no-total)." />
         </q-item-section>
         <q-item-label>
           <font-awesome-icon v-if="showAssetProgress" icon="sync-alt" spin />
@@ -71,30 +55,15 @@
     </q-list>
 
     <div class="text-center q-mt-sm">
-      <q-btn
-        color="accent"
-        text-color="secondary"
-        size="1.3rem"
-        class="q-my-lg q-mx-md"
-        @click="onSyncClicked"
-      >
-        <font-awesome-icon
-          icon="sync-alt"
-          transform="grow-9"
-          class="q-icon-small on-left"
-        />
+      <q-btn color="accent" text-color="secondary" size="1.3rem" class="q-my-lg q-mx-md" @click="onSyncClicked">
+        <font-awesome-icon icon="sync-alt" transform="grow-9" class="q-icon-small on-left" />
         Sync
       </q-btn>
     </div>
 
     <div class="row q-my-lg">
       <div class="col text-center">
-        <q-btn
-          label="Cache API"
-          color="accent"
-          text-color="secondary"
-          to="cache"
-        />
+        <q-btn label="Cache API" color="accent" text-color="secondary" to="cache" />
       </div>
       <div class="col text-center">
         <q-btn color="accent" text-color="secondary" @click="onShutdownClick">
@@ -110,7 +79,7 @@ import { onMounted, ref, toRaw } from 'vue'
 import { useRouter } from 'vue-router'
 import appService from '../appService'
 import { CashierSync } from '../lib/syncCashier'
-import { SettingKeys, settings, Constants } from '../lib/Configuration'
+import { SettingKeys, settings, Constants } from '../lib/settings'
 import CashierCache from '../lib/CashierCache'
 import Toolbar from '../components/CashierToolbar.vue'
 import useNotifications from 'src/lib/CashierNotification'

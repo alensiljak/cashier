@@ -1,4 +1,4 @@
-view<template>
+<template>
   <q-page padding class="text-colour2">
     <toolbar :title="'Xact'" />
 
@@ -11,24 +11,12 @@ view<template>
     <q-dialog ref="qDateProxy" v-model="datePickerVisible">
       <q-card>
         <q-card-section class="q-pa-none">
-          <q-date
-            ref="datePicker"
-            v-model="date"
-            first-day-of-week="1"
-            today-btn
-            mask="YYYY-MM-DD"
-            @input="onDateSelected"
-          />
+          <q-date ref="datePicker" v-model="date" first-day-of-week="1" today-btn mask="YYYY-MM-DD"
+            @input="onDateSelected" />
         </q-card-section>
         <q-separator />
         <q-card-actions align="right">
-          <q-btn
-            v-close-popup
-            label="OK"
-            flat
-            color="secondary"
-            text-color="accent"
-          />
+          <q-btn v-close-popup label="OK" flat color="secondary" text-color="accent" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -41,20 +29,12 @@ view<template>
 
     <q-input v-model="payee" label="Payee" @keypress="handleEnter" />
 
-    <q-input
-      v-model="freeText"
-      label="Free-text search"
-      @keypress="handleEnter"
-    />
+    <q-input v-model="freeText" label="Free-text search" @keypress="handleEnter" />
 
     <!-- action button -->
     <div class="text-center q-my-xl">
       <q-btn color="secondary" text-color="accent" @click="run">
-        <font-awesome-icon
-          icon="search"
-          transform="grow-6 right-6"
-          class="q-mr-sm"
-        />
+        <font-awesome-icon icon="search" transform="grow-6 right-6" class="q-mr-sm" />
         <span class="q-ml-sm">Xact</span>
       </q-btn>
     </div>
@@ -63,19 +43,14 @@ view<template>
 
     <!-- "Use" button -->
     <div v-if="results" class="text-center q-my-xl">
-      <q-btn
-        color="secondary"
-        text-color="accent"
-        label="Use"
-        @click="useResult"
-      />
+      <q-btn color="secondary" text-color="accent" label="Use" @click="useResult" />
     </div>
   </q-page>
 </template>
 
 <script lang="ts">
 import Toolbar from '../components/CashierToolbar.vue'
-import { settings, SettingKeys } from 'src/lib/Configuration'
+import { settings, SettingKeys } from 'src/lib/settings'
 import { CashierSync } from '../lib/syncCashier'
 import { XactParser } from '../lib/XactParser'
 

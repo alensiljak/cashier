@@ -3,7 +3,7 @@
 */
 
 // import { ref } from 'vue'
-import { settings, SettingKeys } from './Configuration'
+import { settings, SettingKeys } from './settings'
 import usePcloud from './pCloudAdapter'
 import moment from 'moment'
 

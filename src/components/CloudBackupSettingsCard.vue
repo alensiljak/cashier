@@ -13,12 +13,7 @@
     </q-card-section>
 
     <q-card-section class="text-center">
-      <q-btn
-        color="primary"
-        text-color="accent"
-        @click="onBackupClick"
-        class="q-mr-lg"
-      >
+      <q-btn color="primary" text-color="accent" @click="onBackupClick" class="q-mr-lg">
         Backup
       </q-btn>
       <!-- <q-btn
@@ -32,11 +27,7 @@
     </q-card-section>
 
     <!-- confirm deletion dialog -->
-    <q-dialog
-      v-model="isRestoreConfirmationVisible"
-      persistent
-      content-class="bg-blue-grey-10"
-    >
+    <q-dialog v-model="isRestoreConfirmationVisible" persistent content-class="bg-blue-grey-10">
       <q-card class="bg-secondary">
         <q-card-section class="row items-center">
           <span>
@@ -46,13 +37,7 @@
 
         <q-card-actions align="right">
           <q-btn v-close-popup flat label="Cancel" color="accent" />
-          <q-btn
-            v-close-popup
-            flat
-            label="Restore"
-            color="accent"
-            @click="onConfirmRestore"
-          />
+          <q-btn v-close-popup flat label="Restore" color="accent" @click="onConfirmRestore" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -64,7 +49,7 @@ import { onMounted, Ref, ref } from 'vue'
 import useCloudBackup from 'src/lib/CloudBackup'
 import useNotifications from 'src/lib/CashierNotification'
 import appService from '../appService'
-import { settings, SettingKeys } from '../lib/Configuration'
+import { settings, SettingKeys } from '../lib/settings'
 
 const { settingsBackup: backup } = useCloudBackup()
 const Notification = useNotifications()

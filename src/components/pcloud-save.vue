@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { SettingKeys, settings } from '../lib/Configuration'
+import { SettingKeys, settings } from '../lib/settings'
 import pCloudSdk from 'pcloud-sdk-js'
 
 export default {

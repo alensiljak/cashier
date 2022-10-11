@@ -58,7 +58,7 @@
 import { onMounted, provide, ref, toRaw, toRefs } from 'vue'
 import { useMainStore } from '../store/mainStore'
 import { useRouter } from 'vue-router'
-import { SettingKeys, settings } from 'src/lib/Configuration'
+import { SettingKeys, settings } from 'src/lib/settings'
 import { useQuasar } from 'quasar'
 import { storeToRefs } from 'pinia'
 import appService from '../appService'

@@ -8,60 +8,30 @@
         <div class="col">Accounts</div>
         <div class="col">{{ accountsStatus }}</div>
         <div class="col">
-          <q-btn
-            label="Fetch"
-            color="secondary"
-            text-color="accent"
-            @click="fetchAccounts"
-          />
+          <q-btn label="Fetch" color="secondary" text-color="accent" @click="fetchAccounts" />
         </div>
         <div class="col">
-          <q-btn
-            label="Clear"
-            color="secondary"
-            text-color="accent"
-            @click="clearAccounts"
-          />
+          <q-btn label="Clear" color="secondary" text-color="accent" @click="clearAccounts" />
         </div>
       </div>
       <div v-show="false" class="row">
         <div class="col">Account Balances</div>
         <div class="col">{{ balancesStatus }}</div>
         <div class="col">
-          <q-btn
-            label="Fetch"
-            color="secondary"
-            text-color="accent"
-            @click="fetchBalances"
-          />
+          <q-btn label="Fetch" color="secondary" text-color="accent" @click="fetchBalances" />
         </div>
         <div class="col">
-          <q-btn
-            label="Clear"
-            color="secondary"
-            text-color="accent"
-            @click="clearBalances"
-          />
+          <q-btn label="Clear" color="secondary" text-color="accent" @click="clearBalances" />
         </div>
       </div>
       <div v-show="false" class="row">
         <div class="col">Asset Allocation</div>
         <div class="col">{{ assetAllocationStatus }}</div>
         <div class="col">
-          <q-btn
-            label="Fetch"
-            color="secondary"
-            text-color="accent"
-            @click="fetchAssetAllocation"
-          />
+          <q-btn label="Fetch" color="secondary" text-color="accent" @click="fetchAssetAllocation" />
         </div>
         <div class="col">
-          <q-btn
-            label="Clear"
-            color="secondary"
-            text-color="accent"
-            @click="clearAssetAllocation"
-          />
+          <q-btn label="Clear" color="secondary" text-color="accent" @click="clearAssetAllocation" />
         </div>
       </div>
 
@@ -70,20 +40,10 @@
         <div class="col">Payees</div>
         <div class="col">{{ payeesStatus }}</div>
         <div class="col">
-          <q-btn
-            label="Fetch"
-            color="secondary"
-            text-color="accent"
-            @click="fetchPayees"
-          />
+          <q-btn label="Fetch" color="secondary" text-color="accent" @click="fetchPayees" />
         </div>
         <div class="col">
-          <q-btn
-            label="Clear"
-            color="secondary"
-            text-color="accent"
-            @click="clearPayees"
-          />
+          <q-btn label="Clear" color="secondary" text-color="accent" @click="clearPayees" />
         </div>
       </div>
     </div>
@@ -95,7 +55,7 @@ import { onMounted, ref, Ref } from 'vue'
 import Toolbar from '../components/CashierToolbar.vue'
 import { CashierSync } from '../lib/syncCashier'
 import { useQuasar } from 'quasar'
-import { SettingKeys, settings, Constants } from '../lib/Configuration'
+import { SettingKeys, settings, Constants } from '../lib/settings'
 import CashierCache from '../lib/CashierCache'
 import useNotifications from 'src/lib/CashierNotification'
 

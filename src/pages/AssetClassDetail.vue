@@ -13,10 +13,7 @@
         <ul>
           <li v-if="symbol.analysis">
             {{ symbol.analysis }} -
-            <router-link
-              :to="{ name: 'lots', params: { symbol: symbol.name } }"
-              class="text-colour2"
-            >
+            <router-link :to="{ name: 'lots', params: { symbol: symbol.name } }" class="text-colour2">
               lots
             </router-link>
           </li>
@@ -36,7 +33,7 @@
 import { onMounted, Ref, ref } from 'vue'
 import appService from '../appService'
 import { CashierSync } from '../lib/syncCashier'
-import { SettingKeys, settings } from '../lib/Configuration'
+import { SettingKeys, settings } from '../lib/settings'
 import Toolbar from '../components/CashierToolbar.vue'
 import { SecurityAnalyser } from 'src/lib/securityAnalysis'
 import { useRoute } from 'vue-router'

@@ -1,5 +1,5 @@
 import ky from 'ky'
-import { settings, SettingKeys } from './Configuration'
+import { settings, SettingKeys } from './settings'
 
 /**
  * Used to communicate with Ledger server.

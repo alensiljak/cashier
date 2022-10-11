@@ -2,7 +2,7 @@
   Synchronization with Ledger server.
 */
 import ky from 'ky'
-import { settings, SettingKeys } from './Configuration'
+import { settings, SettingKeys } from './settings'
 import { engine } from './AssetAllocation'
 
 /**

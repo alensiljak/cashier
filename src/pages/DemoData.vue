@@ -11,6 +11,10 @@
     <div class="row">
       <q-checkbox label="Create All" v-model="createAllChecked" @update:model-value="onAllClicked" />
     </div>
+    <q-separator />
+    <div class="row">
+      <q-checkbox label="Create default settings" v-model="createDefaultSettingsChecked" />
+    </div>
     <div class="row">
       <q-checkbox label="Create Accounts" v-model="createAccountsChecked" />
     </div>
@@ -30,10 +34,13 @@ import CashierToolbar from 'src/components/CashierToolbar.vue'
 import { ref } from 'vue'
 import useNotifications from 'src/lib/CashierNotification'
 import { AccountService } from 'src/lib/accountsService'
+// import appService from 'src/appService';
+import { SettingKeys, settings } from '../lib/settings'
 
 const Notification = useNotifications()
 
 const createAllChecked = ref(false)
+const createDefaultSettingsChecked = ref(false)
 const createAccountsChecked = ref(false)
 
 async function create() {
@@ -41,7 +48,9 @@ async function create() {
   if (createAccountsChecked.value) {
     await confirmCreateAccounts()
   }
-
+  if (createDefaultSettingsChecked.value) {
+    await createDefaultSettings()
+  }
 }
 
 function onAllClicked() {
@@ -50,6 +59,7 @@ function onAllClicked() {
   const checked = createAllChecked.value
 
   createAccountsChecked.value = checked
+  createDefaultSettingsChecked.value = checked
 }
 
 async function confirmCreateAccounts() {
@@ -71,6 +81,16 @@ async function createAccounts() {
     console.error(error.message)
     Notification.negative(error.message)
   }
+}
+
+async function createDefaultSettings() {
+  await settings.set(SettingKeys.currency, 'EUR')
+  await settings.set(SettingKeys.rootInvestmentAccount, 'Assets:Investment')
+
+  await settings.set(SettingKeys.syncServerUrl, 'http://localhost:8080')
+
+  Notification.positive('Default settings created')
+
 }
 
 function haveExistingData(): boolean {

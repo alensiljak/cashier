@@ -2,22 +2,21 @@
     The domain model
 */
 
-class AccountBalance {
-  amount = 0
-  currency = ''
-}
+// export class AccountBalance {
+//   amount = 0
+//   currency = ''
+// }
 
 export class Account {
   name = ''
-  balance?: number
-  balances: Record<string, any>
-  currency: any
+  // balance?: number
+  balances?: Record<string, number>
+  // currency: any
   currentValue: any
   currentCurrency: any
 
   constructor(accountName: string) {
     this.name = accountName
-    this.balances = {}
     //this.balances['EUR'] = 30
   }
 }

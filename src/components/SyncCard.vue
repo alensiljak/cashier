@@ -5,11 +5,7 @@
       <font-awesome-icon icon="sync-alt" class="q-mr-sm" />
       <strong>CashierSync</strong>
       <span class="float-right">
-        <font-awesome-icon
-          icon="question-circle"
-          transform="grow-9 "
-          @click="onHelpClick"
-        />
+        <font-awesome-icon icon="question-circle" transform="grow-9 " @click="onHelpClick" />
       </span>
     </q-card-section>
     <q-card-section>
@@ -23,13 +19,7 @@
             <font-awesome-icon icon="skull" class="off" /> Not running
           </span>
           <!-- image used for CashierSync server detection -->
-          <q-img
-            v-if="serverUrl"
-            v-show="false"
-            :src="testUrl"
-            @error="onStatusError"
-            @load="onStatusSuccess"
-          />
+          <q-img v-if="serverUrl" v-show="false" :src="testUrl" @error="onStatusError" @load="onStatusSuccess" />
         </div>
 
         <div class="col text-right">
@@ -38,11 +28,7 @@
         </div>
 
         <!-- help dialog -->
-        <q-dialog
-          v-model="liveModeHelpVisible"
-          persistent
-          content-class="bg-blue-grey-10"
-        >
+        <q-dialog v-model="liveModeHelpVisible" persistent content-class="bg-blue-grey-10">
           <q-card class="bg-primary text-amber-2">
             <q-card-section class="row items-center">
               <!-- <q-avatar icon="signal_wifi_off" color="primary" text-color="amber-2"/>-->
@@ -51,13 +37,7 @@
             </q-card-section>
 
             <q-card-actions align="right">
-              <q-btn
-                v-close-popup
-                flat
-                label="OK"
-                color="accent"
-                @click="liveModeHelpVisible = false"
-              />
+              <q-btn v-close-popup flat label="OK" color="accent" @click="liveModeHelpVisible = false" />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -70,12 +50,7 @@
       <!-- <q-btn flat  color="primary" text-color="accent" @click="onSyncClick">
         Sync
       </q-btn> -->
-      <q-btn
-        outline
-        color="primary"
-        text-color="accent"
-        @click="onSettingsClick"
-      >
+      <q-btn outline color="primary" text-color="accent" @click="onSettingsClick">
         Sync Settings
       </q-btn>
     </q-card-actions>
@@ -85,7 +60,7 @@
 <script lang="ts">
 import { SET_LEDGER_USE } from '../mutations'
 import { CashierSync } from '../lib/syncCashier'
-import { SettingKeys, settings } from '../lib/Configuration'
+import { SettingKeys, settings } from '../lib/settings'
 
 export default {
   data() {
@@ -107,7 +82,7 @@ export default {
     },
     testUrl: {
       get() {
-        const url = this.serverUrl + '/hello?' + Date.now()
+                const url = this.serv      + '/hello?' + Date.now()
         // console.debug('fettching test url', url)
         return url
       },

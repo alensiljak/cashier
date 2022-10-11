@@ -3,43 +3,22 @@
     <toolbar :title="'Transaction Search'" />
 
     <!-- date -->
-    <q-select
-      v-model="datePeriod"
-      :options="datePeriods"
-      label="Date Period"
-      @input="onDatePeriodChanged"
-    />
+    <q-select v-model="datePeriod" :options="datePeriods" label="Date Period" @input="onDatePeriodChanged" />
 
     <q-dialog ref="qDateProxy" v-model="datePickerVisible">
       <q-card>
         <q-card-section class="q-pa-none">
-          <q-date
-            ref="datePicker"
-            v-model="dateFrom"
-            first-day-of-week="1"
-            today-btn
-            mask="YYYY-MM-DD"
-            @input="onDateSelected"
-          />
+          <q-date ref="datePicker" v-model="dateFrom" first-day-of-week="1" today-btn mask="YYYY-MM-DD"
+            @input="onDateSelected" />
         </q-card-section>
         <q-separator />
         <q-card-actions align="right">
-          <q-btn
-            v-close-popup
-            label="OK"
-            flat
-            color="secondary"
-            text-color="accent"
-          />
+          <q-btn v-close-popup label="OK" flat color="secondary" text-color="accent" />
         </q-card-actions>
       </q-card>
     </q-dialog>
 
-    <q-input
-      v-model="dateFrom"
-      label="Date From"
-      @click="datePickerVisible = true"
-    >
+    <q-input v-model="dateFrom" label="Date From" @click="datePickerVisible = true">
       <template #prepend>
         <font-awesome-icon icon="calendar-day" />
       </template>
@@ -48,33 +27,17 @@
     <q-dialog ref="qDateToProxy" v-model="dateToPickerVisible">
       <q-card>
         <q-card-section class="q-pa-none">
-          <q-date
-            ref="dateToPicker"
-            v-model="dateTo"
-            first-day-of-week="1"
-            today-btn
-            mask="YYYY-MM-DD"
-            @input="onDateToSelected"
-          />
+          <q-date ref="dateToPicker" v-model="dateTo" first-day-of-week="1" today-btn mask="YYYY-MM-DD"
+            @input="onDateToSelected" />
         </q-card-section>
         <q-separator />
         <q-card-actions align="right">
-          <q-btn
-            v-close-popup
-            label="OK"
-            flat
-            color="secondary"
-            text-color="accent"
-          />
+          <q-btn v-close-popup label="OK" flat color="secondary" text-color="accent" />
         </q-card-actions>
       </q-card>
     </q-dialog>
 
-    <q-input
-      v-model="dateTo"
-      label="Date To"
-      @click="dateToPickerVisible = true"
-    >
+    <q-input v-model="dateTo" label="Date To" @click="dateToPickerVisible = true">
       <template #prepend>
         <font-awesome-icon icon="calendar-day" />
       </template>
@@ -88,11 +51,7 @@
     </q-input>
 
     <!-- free text -->
-    <q-input
-      v-model="freeText"
-      label="Free-text search"
-      @keypress="handleEnter"
-    />
+    <q-input v-model="freeText" label="Free-text search" @keypress="handleEnter" />
 
     <p>
       Hints: ^ = begins with, $ = ends with, --related and --related-all show
@@ -102,11 +61,7 @@
     <!-- search button -->
     <div class="text-center q-my-lg">
       <q-btn color="secondary" text-color="accent" @click="search">
-        <font-awesome-icon
-          icon="search"
-          transform="grow-6 right-6"
-          class="q-mr-sm"
-        />
+        <font-awesome-icon icon="search" transform="grow-6 right-6" class="q-mr-sm" />
         <span class="q-ml-sm">Search</span>
       </q-btn>
     </div>
@@ -122,16 +77,9 @@
             <span class="q-mr-sm">{{ tx.header.date }}</span>
             {{ tx.header.payee }}
           </q-item-label>
-          <q-item-label
-            v-for="(posting, index) in tx.postings"
-            :key="index"
-            caption
-            class="q-ml-md"
-          >
+          <q-item-label v-for="(posting, index) in tx.postings" :key="index" caption class="q-ml-md">
             {{ posting.account }}
-            <span style="float: right"
-              >{{ posting.amount }} {{ posting.currency }}</span
-            >
+            <span style="float: right">{{ posting.amount }} {{ posting.currency }}</span>
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -140,7 +88,7 @@
 </template>
 
 <script lang="ts">
-import { settings, SettingKeys } from 'src/lib/Configuration'
+import { settings, SettingKeys } from 'src/lib/settings'
 import { CashierSync } from '../lib/syncCashier'
 import { date } from 'quasar'
 const { subtractFromDate, addToDate } = date

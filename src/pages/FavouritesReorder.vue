@@ -4,13 +4,7 @@
       <q-btn flat round dense icon="check" @click="onSaveClicked" />
     </toolbar>
 
-    <draggable
-      tag="q-list"
-      :list="accounts"
-      class="list-group"
-      handle=".handle"
-      item-key="name"
-    >
+    <draggable tag="q-list" :list="accounts" class="list-group" handle=".handle" item-key="name">
       <template #item="{ element }">
         <q-item v-ripple clickable class="list-item">
           <q-item-section side class="handle">
@@ -77,7 +71,7 @@
 import { onMounted, ref } from 'vue'
 import { useQuasar } from 'quasar'
 import Toolbar from '../components/CashierToolbar.vue'
-import { settings, SettingKeys } from '../lib/Configuration'
+import { settings, SettingKeys } from '../lib/settings'
 import appService from '../appService'
 import { useRouter } from 'vue-router'
 import draggable from 'vuedraggable'

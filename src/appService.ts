@@ -6,13 +6,14 @@
 import db from './store/indexedDb'
 import {
   Account,
+  AccountBalance,
   LastTransaction,
   Posting,
   ScheduledTransaction,
   Transaction,
 } from './model'
 import { Notify } from 'quasar'
-import { settings, SettingKeys } from './lib/Configuration'
+import { settings, SettingKeys } from './lib/settings'
 import { toRaw } from 'vue'
 import { TransactionParser } from './lib/transactionParser'
 import { TransactionAugmenter } from './lib/transactionAugmenter'
@@ -268,26 +269,33 @@ class AppService {
     return db.accounts.bulkPut(accounts)
   }
 
-  async importBalanceSheet(lines: string[]) {
+  /**
+   * Populates the Account balances. Reads the balances from a Ledger report.
+   *
+   * @param lines Output of `ledger balance --flat`
+   * @returns The promise resolving to the id of the last record updated (Dexie default)
+   */
+  async importBalanceSheet(lines: string[]): Promise<any> {
     if (!lines || !lines.length) {
       throw new Error('No balance records received for import!')
     }
 
-    const accounts = []
     const mainCurrency = await settings.get(SettingKeys.currency)
     if (!mainCurrency) {
       throw new Error('No default currency set!')
     }
 
+    const accounts: Account[] = [] // the array of accounts to be updated.
+
     // Handle multi-currency accounts.
     let multicurrencyAccount = false
-    let mainCurrencyAmount = 0
 
     let account = new Account('')
+    // balance
+    let accountBalances: Record<string, number> = {}
 
     // read and parse the balance sheet entries
     for (let i = 0; i < lines.length; i++) {
-      // console.log(lines[i]);
       const line = lines[i]
       if (line === '') continue
 
@@ -300,39 +308,26 @@ class AppService {
       // separate the currency
       const balanceParts = balancePart.split(' ')
 
+      // currency
+      let currencyPart = balanceParts[1]
+
       let amountPart = balanceParts[0]
       // clean-up the thousand-separators
       amountPart = amountPart.replace(/,/g, '')
-      account.balance = parseFloat(amountPart)
 
-      // currency
-      let currencyPart = balanceParts[1]
-      account.currency = currencyPart
+      accountBalances[currencyPart] = parseFloat(amountPart)
 
-      // If we have a currency but no account, it's a multicurrency account.
-      if (!namePart) {
-        if (currencyPart) {
-          multicurrencyAccount = true
+      // If we do not have a name, it's an amount of a multicurrency account.
+      // Keep the balance until we get the line with the account name.
+      if (!namePart) continue
 
-          if (currencyPart === mainCurrency) {
-            mainCurrencyAmount = account.balance
-          }
-        }
-
-        continue
-      }
-
-      if (multicurrencyAccount) {
-        // Use the main currency.
-        account.currency = mainCurrency
-        account.balance = mainCurrencyAmount
-
-        // reset the indicator.
-        multicurrencyAccount = false
-        mainCurrencyAmount = 0
-      }
-
+      // Once we have the name, assign the balances dictionary and keep for update.
+      account.balances = accountBalances
       accounts.push(account)
+
+      // clean-up.
+      account = new Account('')
+      accountBalances = {}
     }
 
     return db.accounts.bulkPut(accounts)
