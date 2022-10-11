@@ -19,7 +19,7 @@ export class Account {
   get balance() {
     if (!this._balance) {
       // If not set, use the first record.
-      this._balance = this._getBalanceRecord()
+      this._balance = this._getDefaultBalanceRecord()
     }
     return this._balance
   }
@@ -28,7 +28,7 @@ export class Account {
     this._balance = value
   }
 
-  _getBalanceRecord(): AccountBalance | undefined {
+  _getDefaultBalanceRecord(): AccountBalance | undefined {
     if (!this.balances) return undefined
 
     const keys = Object.keys(this.balances)

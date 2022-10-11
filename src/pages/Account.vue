@@ -40,11 +40,20 @@
 
     <q-input v-model="account.name" label="Account Name" clearable @keyup.enter="onEnter" />
     <!-- balance -->
-    <q-input v-model.number="account.balance" label="Balance" type="number" clearable @keyup.enter="onEnter" />
-    <q-input v-model="account.currency" label="Currency" clearable @keyup.enter="onEnter" />
+    <!-- <q-input v-model.number="account.balance" label="Balance" type="number" clearable @keyup.enter="onEnter" />
+    <q-input v-model="account.currency" label="Currency" clearable @keyup.enter="onEnter" /> -->
 
     <q-input v-model="account.currentValue" label="Current value" clearable @keyup.enter="onEnter" />
     <q-input v-model="account.currentCurrency" label="Current value currency" clearable @keyup.enter="onEnter" />
+
+    <!-- balances -->
+    <div v-if="account.balances" class="q-mt-md">
+      <label>Account Balances:</label>
+      <ul>
+        <li v-for="currency in Object.keys(account.balances)" :key="currency">
+          {{account.balances[currency]}} {{currency}}</li>
+      </ul>
+    </div>
 
     <!-- Actions -->
     <div class="row q-mt-xl justify-end">
