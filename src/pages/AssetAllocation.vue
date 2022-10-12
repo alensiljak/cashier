@@ -2,14 +2,7 @@
   <q-page padding class="text-colour2">
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="menuClicked"
-        />
+        <q-btn flat dense round icon="menu" aria-label="Menu" @click="menuClicked" />
 
         <q-toolbar-title>Asset Allocation</q-toolbar-title>
 
@@ -23,48 +16,31 @@
                 </q-item-section>
               </q-item>
 
-              <q-item
-                v-if="canShare"
-                v-close-popup
-                clickable
-                @click="onShareClick"
-              >
+              <q-item v-if="canShare" v-close-popup clickable @click="onShareClick">
                 <q-item-section>Share</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon
-                    icon="share-alt"
-                    transform="grow-9 left-5"
-                  />
+                  <font-awesome-icon icon="share-alt" transform="grow-9 left-5" />
                 </q-item-section>
               </q-item>
 
               <q-item v-close-popup clickable @click="onExportClick">
                 <q-item-section>Export</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon
-                    icon="sign-out-alt"
-                    transform="grow-9 left-5"
-                  />
+                  <font-awesome-icon icon="sign-out-alt" transform="grow-9 left-5" />
                 </q-item-section>
               </q-item>
 
               <q-item v-close-popup clickable @click="onValidateClick">
                 <q-item-section>Validate</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon
-                    icon="balance-scale"
-                    transform="grow-9 left-5"
-                  />
+                  <font-awesome-icon icon="balance-scale" transform="grow-9 left-5" />
                 </q-item-section>
               </q-item>
 
               <q-item v-close-popup clickable @click="onHelpClick">
                 <q-item-section>Help</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon
-                    icon="question-circle"
-                    transform="grow-9 left-5"
-                  />
+                  <font-awesome-icon icon="question-circle" transform="grow-9 left-5" />
                 </q-item-section>
               </q-item>
             </q-list>
@@ -97,12 +73,10 @@
             <!-- Asset Class Name -->
             <td>
               <span :style="{ paddingLeft: assetClass.depth + 'rem' }" />
-              <router-link
-                :to="{
-                  name: 'assetclassdetail',
-                  params: { fullname: assetClass.fullname },
-                }"
-              >
+              <router-link :to="{
+                name: 'assetclassdetail',
+                params: { fullname: assetClass.fullname },
+              }">
                 {{ assetClass.name }}
               </router-link>
             </td>
@@ -113,18 +87,14 @@
               {{ assetClass.diff }}
             </td>
             <!-- difference % -->
-            <td
-              class="text-right"
-              style="width: 3.5rem"
-              :class="{
-                'text-red-10': assetClass.diffPerc <= -20,
-                'text-red-3':
-                  -20 < assetClass.diffPerc && assetClass.diffPerc < 0,
-                'text-green-3':
-                  assetClass.diffPerc > 0 && assetClass.diffPerc < 20,
-                'text-green-9': assetClass.diffPerc >= 20,
-              }"
-            >
+            <td class="text-right" style="width: 3.5rem" :class="{
+              'text-red-10': assetClass.diffPerc <= -20,
+              'text-red-3':
+                -20 < assetClass.diffPerc && assetClass.diffPerc < 0,
+              'text-green-3':
+                assetClass.diffPerc > 0 && assetClass.diffPerc < 20,
+              'text-green-9': assetClass.diffPerc >= 20,
+            }">
               {{ assetClass.diffPerc }}
             </td>
             <!-- Allocated Value -->
@@ -133,15 +103,12 @@
             <td class="text-right" style="width: 5.5rem">
               {{ assetClass.currentValue }}
             </td>
-            <td
-              class="text-right"
-              :class="{
-                'text-red-10': assetClass.diff < -20,
-                'text-red-3': assetClass.diff < 0,
-                'text-green-3': assetClass.diff > 0,
-                'text-green-9': assetClass.diff > 20,
-              }"
-            >
+            <td class="text-right" :class="{
+              'text-red-10': assetClass.diff < -20,
+              'text-red-3': assetClass.diff < 0,
+              'text-green-3': assetClass.diff > 0,
+              'text-green-9': assetClass.diff > 20,
+            }">
               {{ assetClass.diffAmount }}
             </td>
           </tr>
@@ -152,13 +119,25 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
 import { useMainStore } from '../store/mainStore'
 
 const mainStore = useMainStore()
+const $router = useRouter()
 
 function menuClicked() {
   mainStore.toggleDrawer()
 }
+
+function onHelpClick() {
+  // navigate to help page
+  $router.push({ name: 'assetallocationhelp' })
+}
+
+function onSetupClick() {
+  $router.push({ name: 'settings' })
+}
+
 </script>
 <script lang="ts">
 import { engine } from '../lib/AssetAllocation'
@@ -173,7 +152,7 @@ export default {
           label: 'Asset Class',
           align: 'left',
           field: 'name',
-          format: (val) => `${val}`,
+          format: (val: any) => `${val}`,
           classes: 'bg-teal-9 ellipsis',
         },
         { name: 'allocation', label: 'Allocation', field: 'allocation' },
@@ -201,14 +180,12 @@ export default {
     },
   },
 
-  created() {},
-
   mounted() {
     this.loadData()
   },
 
   methods: {
-    downloadAsFile(content) {
+    downloadAsFile(content: string) {
       var a = document.createElement('a')
 
       // filename
@@ -235,7 +212,6 @@ export default {
       this.$refs.buttonContainer.removeChild(a)
     },
     getAaForExport() {
-      // let output = JSON.stringify(this.assetClasses);
       let output = engine.formatAllocationRowsForTxtExport(this.assetClasses)
 
       return output
@@ -244,7 +220,7 @@ export default {
       try {
         let result = await engine.loadFullAssetAllocation()
         this.assetClasses = result
-      } catch (error) {
+      } catch (error: any) {
         console.error(error)
         this.$q.notify({ message: error.message, color: 'secondary' })
       }
@@ -252,13 +228,6 @@ export default {
     onExportClick() {
       let output = this.getAaForExport()
       this.downloadAsFile(output)
-    },
-    onHelpClick() {
-      // navigate to help page
-      this.$router.push({ name: 'assetallocationhelp' })
-    },
-    onSetupClick() {
-      this.$router.push({ name: 'settings' })
     },
     onShareClick() {
       // prepare for export?
@@ -300,6 +269,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '../css/palette.scss';
+
 a {
   color: $colour2;
   //color: $amber-2;

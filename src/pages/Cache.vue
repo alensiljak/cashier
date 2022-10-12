@@ -71,9 +71,13 @@ const balancesStatus = ref('unknown')
 const payeesStatus = ref('unknown')
 
 onMounted(async () => {
-  await loadSettings()
-  // need to have value below in order to resolve the promise!
-  await loadStatuses()
+  try {
+    await loadSettings()
+    await loadStatuses()
+  } catch (error: any) {
+    console.error(error)
+    Notification.negative(error.message)
+  }
 })
 
 async function cacheUrl(url: URL) {

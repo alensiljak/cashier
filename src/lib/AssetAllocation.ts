@@ -11,15 +11,19 @@ import numeral from 'numeral'
  *
  */
 class AssetAllocationEngine {
-  assetClassIndex: object | undefined
-  stockIndex: object | undefined
+  assetClassIndex: Record<string, AssetClass>
+  stockIndex: Record<string, string>
 
-  constructor() {}
-
-  async loadFullAssetAllocation() {
+  constructor() {
+    this.assetClassIndex = {}
+    this.stockIndex = {}
+  }
+  async loadFullAssetAllocation(): Promise<AssetClass[]> {
     // aa definition
 
     let assetClasses = await this.loadDefinition()
+    if (!assetClasses.length) return []
+
     this.assetClassIndex = this.buildAssetClassIndex(assetClasses)
 
     // build the stock index
@@ -40,13 +44,13 @@ class AssetAllocationEngine {
     this.formatNumbers(this.assetClassIndex)
 
     // convert to array for display in a table
-    let result = Object.values(this.assetClassIndex)
+    let result: AssetClass[] = Object.values(this.assetClassIndex)
 
     return result
   }
 
-  buildAssetClassIndex(assetClasses: AssetClass[]): object {
-    let index: any = {}
+  buildAssetClassIndex(assetClasses: AssetClass[]): Record<string, AssetClass> {
+    let index: Record<string, AssetClass> = {}
 
     for (let i = 0; i < assetClasses.length; i++) {
       let ac = assetClasses[i]
@@ -60,8 +64,8 @@ class AssetAllocationEngine {
    * Build the index of stocks for easy retrieval.
    * @param {Array} asetClasses
    */
-  buildStockIndex(asetClasses: AssetClass[]): object {
-    let index: any = {}
+  buildStockIndex(asetClasses: AssetClass[]): Record<string, string> {
+    let index: Record<string, string> = {}
 
     for (let i = 0; i < asetClasses.length; i++) {
       let assetClass = asetClasses[i]
@@ -77,7 +81,7 @@ class AssetAllocationEngine {
     return index
   }
 
-  calculateOffsets(dictionary: object) {
+  calculateOffsets(dictionary: Record<string, AssetClass>) {
     let root = dictionary['Allocation']
     let total = root.currentValue
 
@@ -233,7 +237,7 @@ class AssetAllocationEngine {
    * @param {string} content The content of the YAML definition file.
    */
   async importYamlDefinition(content: string) {
-    let parsed = jsyaml.load(content)
+    let parsed: object = jsyaml.load(content) as object
 
     //var aa = parsed.Allocation
     // Convert to backward-compatible structure (tree -> list).
@@ -314,7 +318,10 @@ class AssetAllocationEngine {
       let amount = parseFloat(account.currentValue)
       // amount = amount.toFixed(2)
 
-      let commodity = account.currency
+      if (!account.balance) {
+        throw new Error(`Account ${account.name} has no balance!`)
+      }
+      let commodity = account.balance.currency
       // now get the asset class for this commodity
       let assetClassName = this.stockIndex[commodity]
       let assetClass = this.assetClassIndex[assetClassName]
@@ -372,7 +379,7 @@ class AssetAllocationEngine {
    * Validate Asset Allocation.
    * Currently checks the definition by comparing group sums.
    */
-  validate(assetClassList: any) {
+  validate(assetClassList: Record<string, AssetClass>) {
     let errors: string[] = []
     let keys = Object.keys(assetClassList)
 
@@ -393,7 +400,10 @@ class AssetAllocationEngine {
    * Validate that the group's allocation matches the sum of the children classes.
    * @param {AssetClass} assetClass
    */
-  validateGroupAllocation(assetClass, list) {
+  validateGroupAllocation(
+    assetClass: AssetClass,
+    list: Record<string, AssetClass>
+  ) {
     // let key = assetClass.fullname
     let children = this.findChildren(list, assetClass)
     if (children.length === 0) return
