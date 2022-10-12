@@ -121,9 +121,27 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import { useMainStore } from '../store/mainStore'
+import { computed, onMounted, ref } from 'vue'
+import { useQuasar } from 'quasar'
+import { engine } from '../lib/AssetAllocation'
+import moment from 'moment'
 
 const mainStore = useMainStore()
 const $router = useRouter()
+const $q = useQuasar()
+
+// computed
+
+const canShare = computed(() => {
+  return navigator && 'share' in navigator
+})
+
+// data
+const buttonContainer = ref(null)
+
+onMounted(async () => {
+  console.log(buttonContainer)
+})
 
 function menuClicked() {
   mainStore.toggleDrawer()
@@ -140,8 +158,6 @@ function onSetupClick() {
 
 </script>
 <script lang="ts">
-import { engine } from '../lib/AssetAllocation'
-
 export default {
   data() {
     return {
@@ -174,12 +190,6 @@ export default {
     }
   },
 
-  computed: {
-    canShare() {
-      return navigator && 'share' in navigator
-    },
-  },
-
   mounted() {
     this.loadData()
   },
@@ -189,6 +199,7 @@ export default {
       var a = document.createElement('a')
 
       // filename
+      // todo: let now = moment()
       let now = new Date()
       let filename = 'asset_allocation-'
       filename += now.toISOString().substring(0, 10)
@@ -265,6 +276,7 @@ export default {
     },
   },
 }
+
 </script>
 
 <style lang="scss" scoped>
