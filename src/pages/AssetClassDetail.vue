@@ -1,6 +1,6 @@
 <template>
   <q-page padding class="text-colour2">
-    <toolbar title="Asset Class Detail" />
+    <Toolbar title="Asset Class Detail" />
 
     <div>{{ assetClass.fullname }}</div>
     <!-- <p>{{ assetClass.name }}</p> -->
@@ -17,8 +17,8 @@
               lots
             </router-link>
           </li>
-          <li v-for="account in symbol.accounts" :key="account.fullname">
-            {{ account.name }}, {{ account.balance }} {{ account.currency }},
+          <li v-for="account in symbol.accounts" :key="account.name">
+            {{ account.name }}, {{ account.balance?.amount }} {{ account.balance?.currency }},
             {{ account.currentValue }} {{ account.currentCurrency }},
             <!-- {{ account }} -->
           </li>
@@ -67,9 +67,9 @@ async function loadData() {
 }
 
 async function loadAssetClass() {
-  const ac: AssetClass = await appService.loadAssetClass($route.params.fullname)
+  const ac: AssetClass = await appService.loadAssetClass($route.params.fullname as string)
   assetClass.value = ac
-  await loadConstituents()
+  loadConstituents()
 }
 
 /**
@@ -85,13 +85,14 @@ function loadConstituents() {
     let stock: StockSymbol = {
       name: childName,
       accounts: [],
+      analysis: undefined
     }
 
     let account: Account | null = null
     // find all accounts with this commodity
     for (let j = 0; j < investmentAccounts.value.length; j++) {
       account = investmentAccounts.value[j]
-      if (account.currency === childName) {
+      if (account.balance?.currency === childName) {
         stock.accounts.push(account)
       }
     }
@@ -125,6 +126,9 @@ async function securityAnalysis() {
     let analysis = await fetchAnalysisFor(symbol)
 
     let stock = symbols.value.find((obj) => obj.name === symbol)
+    if (!stock) {
+      throw new Error(`Stock ${symbol} not found!`)
+    }
     stock.analysis = analysis
   }
 }
