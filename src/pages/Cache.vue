@@ -34,9 +34,6 @@ const NoneStatus = 'None'
 const ExistsStatus = 'Exists'
 
 const serverUrl: Ref<string> = ref('')
-const accountsStatus = ref('unknown')
-const assetAllocationStatus = ref('unknown')
-const balancesStatus = ref('unknown')
 const payeesStatus = ref('unknown')
 
 onMounted(async () => {
@@ -97,16 +94,6 @@ async function loadStatuses() {
 
   // get the statuses of all cache items.
   const cache = await caches.open(Constants.CacheName)
-  // Accounts
-  const accounts = await cache.match(sync.getAccountsUrl())
-  accountsStatus.value = accounts ? ExistsStatus : NoneStatus
-
-  // Balances
-  //const balances = await cache.match(sync.balancesUrl)
-  //this.balancesStatus = balances ? ExistsStatus : NoneStatus
-
-  //const currentValues = await cache.match(sync.currentValuesUrl)
-  //this.assetAllocationStatus = currentValues ? ExistsStatus : NoneStatus
 
   const payees = await cache.match(sync.getPayeesUrl())
   payeesStatus.value = payees ? ExistsStatus : NoneStatus
