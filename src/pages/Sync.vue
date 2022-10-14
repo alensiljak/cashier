@@ -26,7 +26,7 @@
         <!-- Accounts -->
         <q-item>
           <q-item-section>
-            <q-checkbox v-model="syncAccounts" label="Load accounts list with balances." />
+            <q-checkbox v-model="syncAccounts" label="Sync accounts list with balances." />
           </q-item-section>
           <q-item-label>
             <font-awesome-icon v-if="showAccountProgress" icon="sync-alt" spin />
@@ -35,7 +35,7 @@
         <!-- Payees -->
         <q-item>
           <q-item-section>
-            <q-checkbox v-model="syncPayees" label="Load Payees." />
+            <q-checkbox v-model="syncPayees" label="Sync Payees." />
           </q-item-section>
           <q-item-label>
             <font-awesome-icon v-if="showPayeesProgress" icon="sync-alt" spin />
@@ -45,7 +45,7 @@
         <q-item>
           <q-item-section>
             <q-checkbox v-model="syncAaValues"
-              label="Refresh asset allocation current values (ledger b ^<root> -X <CUR> --flat --no-total)." />
+              label="Sync account values in base currency (ledger b ^<root> -X <CUR> --flat --no-total). Used for asset allocation." />
           </q-item-section>
           <q-item-label>
             <font-awesome-icon v-if="showAssetProgress" icon="sync-alt" spin />
