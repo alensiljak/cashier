@@ -253,6 +253,12 @@ class AppService {
     return commodities
   }
 
+  /**
+   * Deprecated. Now using importBalanceSheet instead.
+   * Imports accounts list from Ledger.
+   * @param accountsList Output of `ledger accounts`
+   * @returns
+   */
   async importAccounts(accountsList: string[]) {
     if (!accountsList) {
       throw new Error('The accounts list is required!')
@@ -311,6 +317,9 @@ class AppService {
 
       // currency
       let currencyPart = balanceParts[1]
+      if (typeof currencyPart === 'undefined') {
+        currencyPart = 'N/A'
+      }
 
       let amountPart = balanceParts[0]
       // clean-up the thousand-separators

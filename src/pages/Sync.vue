@@ -169,7 +169,6 @@ async function synchronizeAccounts() {
 
   // delete all accounts only after we have retrieved the new ones.
   await appService.deleteAccounts()
-  //await appService.importAccounts(ledgerAccounts)
   await appService.importBalanceSheet(report)
 
   Notification.positive('accounts fetched from Ledger')
