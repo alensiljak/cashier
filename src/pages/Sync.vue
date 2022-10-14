@@ -20,56 +20,57 @@
       </div>
     </div>
 
-    <!-- <div class="text-right">
-      <q-btn label="Settings" :to="{name: 'settings'}" color="secondary" text-color="accent" />
-    </div> -->
+    <div class="container">
+      <h4 class="q-my-md">Synchronization</h4>
+      <q-list>
+        <!-- Accounts -->
+        <q-item>
+          <q-item-section>
+            <q-checkbox v-model="syncAccounts" label="Load accounts list with balances." />
+          </q-item-section>
+          <q-item-label>
+            <font-awesome-icon v-if="showAccountProgress" icon="sync-alt" spin />
+          </q-item-label>
+        </q-item>
+        <!-- Payees -->
+        <q-item>
+          <q-item-section>
+            <q-checkbox v-model="syncPayees" label="Load Payees." />
+          </q-item-section>
+          <q-item-label>
+            <font-awesome-icon v-if="showPayeesProgress" icon="sync-alt" spin />
+          </q-item-label>
+        </q-item>
+        <!-- Asset Allocation values -->
+        <q-item>
+          <q-item-section>
+            <q-checkbox v-model="syncAaValues"
+              label="Refresh asset allocation current values (ledger b ^<root> -X <CUR> --flat --no-total)." />
+          </q-item-section>
+          <q-item-label>
+            <font-awesome-icon v-if="showAssetProgress" icon="sync-alt" spin />
+          </q-item-label>
+        </q-item>
+      </q-list>
 
-    <h4 class="q-my-md">Synchronization</h4>
-    <q-list>
-      <q-item>
-        <q-item-section>
-          <q-checkbox v-model="syncAccounts"
-            label="Refresh accounts list. Clears the existing accounts list and replaces with the list from Ledger. This is needed if an account has/had a zero balance because Ledger will not list null-balance accounts." />
-        </q-item-section>
-        <q-item-label>
-          <font-awesome-icon v-if="showAccountProgress" icon="sync-alt" spin />
-        </q-item-label>
-      </q-item>
-      <q-item>
-        <q-item-section>
-          <q-checkbox v-model="syncBalances" label="Refresh account balances (ledger balance --flat --no-total)." />
-        </q-item-section>
-        <q-item-label>
-          <font-awesome-icon v-if="showBalanceProgress" icon="sync-alt" spin />
-        </q-item-label>
-      </q-item>
-      <q-item>
-        <q-item-section>
-          <q-checkbox v-model="syncAaValues"
-            label="Refresh asset allocation current values (ledger b ^<root> -X <CUR> --flat --no-total)." />
-        </q-item-section>
-        <q-item-label>
-          <font-awesome-icon v-if="showAssetProgress" icon="sync-alt" spin />
-        </q-item-label>
-      </q-item>
-    </q-list>
+      <div class="row q-my-lg">
+        <div class="col text-center q-mt-sm">
+          <q-btn color="accent" text-color="secondary" size="1.3rem" class="q-my-lg q-mx-md" @click="onSyncClicked">
+            <font-awesome-icon icon="sync-alt" transform="grow-9" class="q-icon-small on-left" />
+            Sync
+          </q-btn>
+        </div>
+        <div class="col text-center q-my-lg" style="align-self: center;">
+          <q-btn outline color="accent" text-color="secondary" @click="onShutdownClick">
+            Shutdown Server
+          </q-btn>
+        </div>
 
-    <div class="text-center q-mt-sm">
-      <q-btn color="accent" text-color="secondary" size="1.3rem" class="q-my-lg q-mx-md" @click="onSyncClicked">
-        <font-awesome-icon icon="sync-alt" transform="grow-9" class="q-icon-small on-left" />
-        Sync
-      </q-btn>
-    </div>
-
-    <div class="row q-my-lg">
-      <div class="col text-center">
-        <q-btn label="Cache API" color="accent" text-color="secondary" to="cache" />
       </div>
-      <div class="col text-center">
-        <q-btn color="accent" text-color="secondary" @click="onShutdownClick">
-          Shutdown Server
-        </q-btn>
-      </div>
+
+      <!-- <div class="col text-center">
+          <q-btn label="Cache API" color="accent" text-color="secondary" to="cache" />
+        </div> -->
     </div>
   </q-page>
 </template>
@@ -92,11 +93,11 @@ const serverUrl = ref('http://localhost:8080') // the default value
 const rootInvestmentAccount = ref(null)
 const currency = ref(null)
 
-const syncAccounts = ref(false)
-const syncBalances = ref(true)
+const syncAccounts = ref(true)
+const syncPayees = ref(true)
 const syncAaValues = ref(true)
 const showAccountProgress = ref(false)
-const showBalanceProgress = ref(false)
+const showPayeesProgress = ref(false)
 const showAssetProgress = ref(false)
 
 // methods
@@ -160,41 +161,18 @@ async function synchronizeAaValues() {
 async function synchronizeAccounts() {
   const sync = new CashierSync(serverUrl.value)
 
-  // Check if the accounts list is already cached. If not, cache it.
-  const cache = await caches.open(Constants.CacheName)
-  const accounts = await cache.match(sync.getAccountsUrl())
-  if (!accounts) {
-    const cacher = new CashierCache(Constants.CacheName)
-    await cacher.cache(sync.getAccountsUrl())
+  const report = await sync.readAccounts()
+  if (!report || report.length == 0) {
+    Notification.negative('Invalid response received: ' + report)
+    return
   }
-
-  //const ledgerAccounts = await sync.readAccounts()
-  const ledgerAccounts = await accounts?.json()
 
   // delete all accounts only after we have retrieved the new ones.
   await appService.deleteAccounts()
-  await appService.importAccounts(ledgerAccounts)
+  //await appService.importAccounts(ledgerAccounts)
+  await appService.importBalanceSheet(report)
 
-  let message = 'accounts '
-  if (accounts) {
-    message += ' reused from cache'
-  } else {
-    message += ' loaded from the server'
-  }
-  Notification.positive(message)
-}
-
-/**
- * Loads all accounts (ledger accounts) + balances (ledger balance)
- */
-async function synchronizeBalances() {
-  const sync = new CashierSync(serverUrl.value)
-
-  // Import the account balances.
-  const lines = await sync.readBalances()
-  await appService.importBalanceSheet(lines)
-
-  Notification.positive('balances loaded')
+  Notification.positive('accounts fetched from Ledger')
 }
 
 async function onSyncClicked() {
@@ -205,11 +183,12 @@ async function onSyncClicked() {
       showAccountProgress.value = false
     }
 
-    if (syncBalances.value) {
-      showBalanceProgress.value = true
-      await synchronizeBalances()
-      showBalanceProgress.value = false
+    if (syncPayees.value) {
+      showPayeesProgress.value = true
+      await synchronizePayees()
+      showPayeesProgress.value = false
     }
+
     // Investment account balances in base currency, for Asset Allocation.
     if (syncAaValues.value) {
       showAssetProgress.value = true
@@ -222,9 +201,19 @@ async function onSyncClicked() {
 
     // reset all progress indicators
     showAccountProgress.value = false
-    showBalanceProgress.value = false
+    showPayeesProgress.value = false
     showAssetProgress.value = false
   }
+}
+
+async function synchronizePayees() {
+  const sync = new CashierSync(serverUrl.value)
+
+  let cashierSync = new CashierSync(serverUrl.value)
+  const url = cashierSync.getPayeesUrl()
+
+  const cacher = new CashierCache(Constants.CacheName)
+  await cacher.cache(url)
 }
 
 async function shutdown() {

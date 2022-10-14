@@ -39,9 +39,9 @@ import { SettingKeys, settings } from '../lib/settings'
 
 const Notification = useNotifications()
 
-const createAllChecked = ref(false)
-const createDefaultSettingsChecked = ref(false)
-const createAccountsChecked = ref(false)
+const createAllChecked = ref(true)
+const createDefaultSettingsChecked = ref(true)
+const createAccountsChecked = ref(true)
 
 async function create() {
   // create records

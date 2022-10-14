@@ -273,8 +273,9 @@ class AppService {
   }
 
   /**
+   * Imports the accounts list with their balances.
    * Populates the Account balances. Reads the balances from a Ledger report.
-   *
+   * 10,000 AUD  Assets:Bank Account
    * @param lines Output of `ledger balance --flat`
    * @returns The promise resolving to the id of the last record updated (Dexie default)
    */
@@ -289,9 +290,6 @@ class AppService {
     }
 
     const accounts: Account[] = [] // the array of accounts to be updated.
-
-    // Handle multi-currency accounts.
-    let multicurrencyAccount = false
 
     let account = new Account('')
     // balance

@@ -4,37 +4,6 @@
 
     <p>Control the cached data from Cashier-Sync.</p>
     <div>
-      <div class="row">
-        <div class="col">Accounts</div>
-        <div class="col">{{ accountsStatus }}</div>
-        <div class="col">
-          <q-btn label="Fetch" color="secondary" text-color="accent" @click="fetchAccounts" />
-        </div>
-        <div class="col">
-          <q-btn label="Clear" color="secondary" text-color="accent" @click="clearAccounts" />
-        </div>
-      </div>
-      <div v-show="false" class="row">
-        <div class="col">Account Balances</div>
-        <div class="col">{{ balancesStatus }}</div>
-        <div class="col">
-          <q-btn label="Fetch" color="secondary" text-color="accent" @click="fetchBalances" />
-        </div>
-        <div class="col">
-          <q-btn label="Clear" color="secondary" text-color="accent" @click="clearBalances" />
-        </div>
-      </div>
-      <div v-show="false" class="row">
-        <div class="col">Asset Allocation</div>
-        <div class="col">{{ assetAllocationStatus }}</div>
-        <div class="col">
-          <q-btn label="Fetch" color="secondary" text-color="accent" @click="fetchAssetAllocation" />
-        </div>
-        <div class="col">
-          <q-btn label="Clear" color="secondary" text-color="accent" @click="clearAssetAllocation" />
-        </div>
-      </div>
-
       <!-- Payees -->
       <div class="row">
         <div class="col">Payees</div>
@@ -85,22 +54,16 @@ async function cacheUrl(url: URL) {
 
   try {
     await cacher.cache(url)
+
+    await loadStatuses()
   } catch (error) {
     console.error(error)
     // show message
     Notification.negative('Error: ' + error)
-
-    return
   }
 
-  await loadStatuses()
 }
 
-async function clearAccounts() {
-  let cashierSync = new CashierSync(serverUrl.value)
-  const url = cashierSync.getAccountsUrl()
-  await clearCache(url)
-}
 
 async function clearPayees() {
   let cashierSync = new CashierSync(serverUrl.value)
@@ -112,14 +75,6 @@ async function clearCache(url: URL) {
   const cache = new CashierCache(Constants.CacheName)
   await cache.clearCache(url)
   await loadStatuses()
-}
-
-async function fetchAccounts() {
-  Notification.positive('fetching accounts')
-
-  let cashierSync = new CashierSync(serverUrl.value)
-  const url = cashierSync.getAccountsUrl()
-  await cacheUrl(url)
 }
 
 async function fetchPayees() {
@@ -156,25 +111,4 @@ async function loadStatuses() {
   const payees = await cache.match(sync.getPayeesUrl())
   payeesStatus.value = payees ? ExistsStatus : NoneStatus
 }
-
-// async clearBalances() {
-//   let cashierSync = new CashierSync(this.serverUrl)
-//   const url = cashierSync.balancesUrl
-//   await this.clearCache(url)
-// },
-// async clearAssetAllocation() {
-//   let cashierSync = new CashierSync(this.serverUrl)
-//   const url = cashierSync.currentValuesUrl
-//   await this.clearCache(url)
-// },
-// async fetchAssetAllocation() {
-//   let cashierSync = new CashierSync(this.serverUrl)
-//   const url = cashierSync.currentValuesUrl
-//   await this.cacheUrl(url)
-// },
-// async fetchBalances() {
-//   let cashierSync = new CashierSync(this.serverUrl)
-//   const url = cashierSync.balancesUrl
-//   await this.cacheUrl(url)
-// },
 </script>

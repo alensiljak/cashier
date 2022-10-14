@@ -10,8 +10,11 @@ import { engine } from './AssetAllocation'
  * implemented by the server. This is a proxy class for fething Ledger data.
  */
 export class CashierSync {
-  static accountsCommand = 'accounts'
-  static payeesCommand = 'payees'
+  //static accountsCommand = 'accounts'
+  /**
+   * This returns all the accounts and also includes the balances
+   */
+  static accountsCommand = 'b --flat --empty --no-total'
 
   serverUrl: string
 
@@ -33,23 +36,18 @@ export class CashierSync {
     return response
   }
 
-  getAccountsUrl(): string | URL {
-    const url = this.getUrl(CashierSync.accountsCommand)
-    return url
-  }
-
   getPayeesUrl(): URL {
-    const url = this.getUrl(CashierSync.payeesCommand)
+    const url = this.createUrl('payees')
     return url
   }
 
-  getUrl(command: string) {
-    const path = this.getPath(command)
+  createUrl(command: string): URL {
+    const path = this.createPath(command)
     const url = new URL(`${this.serverUrl}${path}`)
     return url
   }
 
-  getPath(command: string) {
+  createPath(command: string) {
     return `?command=${command}`
   }
 
@@ -58,7 +56,7 @@ export class CashierSync {
    * @param {String} command
    */
   async ledger(command: string, options?: object) {
-    const url = this.getUrl(command)
+    const url = this.createUrl(command)
 
     const response = await ky(url, options)
     return response
@@ -82,14 +80,14 @@ export class CashierSync {
    * Retrieve the list of accounts
    * @returns array of Account objects
    */
-  async readAccounts() {
+  async readAccounts(): Promise<string[]> {
     const command = CashierSync.accountsCommand
     const response = await this.ledger(command)
     if (!response.ok) {
       throw new Error('Error reading accounts!')
     }
 
-    const content = await response.json()
+    const content = (await response.json()) as string[]
 
     return content
   }
