@@ -136,7 +136,7 @@ export default {
     /**
      * Add account to the favourites list.
      */
-    addAccount(accountName) {
+    addAccount(accountName: string) {
       // load favourites
       settings.get(SettingKeys.favouriteAccounts).then((favArray) => {
         if (!favArray) {
@@ -158,7 +158,7 @@ export default {
       await settings.set(SettingKeys.favouriteAccounts, [])
       await this.loadData()
     },
-    finalize(reset) {
+    finalize(reset: any) {
       this.timer = setTimeout(() => {
         // has it been already deleted?
         if (!this.resetSlide) return
@@ -195,9 +195,9 @@ export default {
         const augmenter = new TransactionAugmenter()
         favArray = await augmenter.adjustAccountBalances(favArray)
         this.accounts = favArray
-      } catch (reason) {
-        console.error(reason)
-        this.$q.notify({ color: 'secondary', message: reason.message })
+      } catch (error: any) {
+        console.error(error)
+        this.$q.notify({ color: 'secondary', message: error.message })
       }
     },
     onDeleteAllClick() {
@@ -207,7 +207,7 @@ export default {
     onFabClicked() {
       this.addAccountClick()
     },
-    onListItemClick(accountName) {
+    onListItemClick(accountName: string) {
       // console.log(accountName)
       this.$router.push({ name: 'register', params: { name: accountName } })
     },
@@ -218,7 +218,7 @@ export default {
     onSortClick() {
       this.$router.push({ name: 'favreorder' })
     },
-    async removeAccount(index) {
+    async removeAccount(index: number) {
       if (this.resetSlide) {
         // remove the slide section.
         this.resetSlide()
