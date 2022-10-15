@@ -52,7 +52,7 @@
         <q-item v-ripple clickable class="q-px-none" @click="onListItemClick(account.name)">
           <q-item-section>{{ account.name }}</q-item-section>
           <q-item-section side>
-            {{ account.balance }} {{ account.currency }}
+            {{ account.balance.amount }} {{ account.balance.currency }}
           </q-item-section>
         </q-item>
       </q-list>
