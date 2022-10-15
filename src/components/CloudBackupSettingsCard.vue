@@ -12,6 +12,7 @@
       </div>
     </q-card-section>
 
+    <!-- buttons -->
     <q-card-section class="text-center">
       <q-btn color="primary" text-color="accent" @click="onBackupClick" class="q-mr-lg">
         Backup
@@ -48,7 +49,6 @@
 import { onMounted, Ref, ref } from 'vue'
 import useCloudBackup from 'src/lib/CloudBackup'
 import useNotifications from 'src/lib/CashierNotification'
-import appService from '../appService'
 import { settings, SettingKeys } from '../lib/settings'
 
 const { settingsBackup: backup } = useCloudBackup()

@@ -2,7 +2,6 @@
   Cloud Backup functionality
 */
 
-// import { ref } from 'vue'
 import { settings, SettingKeys } from './settings'
 import usePcloud from './pCloudAdapter'
 import moment from 'moment'
@@ -91,8 +90,8 @@ class CloudBackup {
   }
 }
 
-class FavouritesBackup extends CloudBackup {
-  entityTypeName = 'favourites'
+class ScheduledTxBackup extends CloudBackup {
+  entityTypeName = 'scheduled'
 }
 
 class JournalBackup extends CloudBackup {
@@ -110,10 +109,9 @@ export default function useCloudBackup() {
     console.debug('yo!')
   }
 
-  //const cloud = new CloudBackup()
-  const favourites = new FavouritesBackup()
   const journal = new JournalBackup()
+  const scheduledTxBackup = new ScheduledTxBackup()
   const settingsBackup = new SettingsBackup()
 
-  return { yo, favourites, journal, settingsBackup }
+  return { yo, scheduledTxBackup, journal, settingsBackup }
 }
