@@ -127,7 +127,7 @@ class AppService {
    * @param {FileInfo} fileInfo The file info from the input control.
    * @param {Function} callback A function to run when complete, passing the file content.
    */
-  readFile(fileInfo: Blob, callback: any) {
+  readFile(fileInfo: Blob, callback: any): void {
     if (!fileInfo) return
     //   console.log(fileInfo);
 

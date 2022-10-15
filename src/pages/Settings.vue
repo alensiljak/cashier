@@ -145,16 +145,21 @@ import { SettingKeys, settings } from '../lib/settings'
 import Toolbar from '../components/CashierToolbar.vue'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
+import { engine } from '../lib/AssetAllocation'
 
 const Notification = useNotifications()
 const $router = useRouter()
 const $q = useQuasar()
 
+// data
+
 const currency = ref('')
 const rememberLastTransaction: Ref<boolean | undefined> = ref(undefined)
 const rootInvestmentAccount: Ref<string> = ref('')
-const restoreFile = ref(null)
+const restoreFile: Ref<Blob> | Ref<null> = ref(null)
 const isRestoreConfirmationVisible = ref(false)
+const fileContent: Ref<string> = ref('')
+const aasettingsfile = ref(null)
 
 onMounted(async () => {
   //
@@ -171,6 +176,14 @@ async function loadSettings() {
   )
 }
 
+/**
+ * The Asset Allocation definition selected.
+ */
+function onAaFileSelected(files: Blob) {
+  if (!files) return
+  appService.readFile(files, onFileRead)
+}
+
 async function onRestoreClick() {
   // todo: confirm settings overwrite
   isRestoreConfirmationVisible.value = true
@@ -181,8 +194,7 @@ async function onRestoreClick() {
  */
 async function onConfirmRestore() {
   // restore
-  const contents: any = await appService.readFileAsync(restoreFile.value)
-  //console.log('file:', contents)
+  const contents: any = await appService.readFileAsync(restoreFile.value as Blob)
 
   // clear settings table
   await db.settings.clear()
@@ -207,6 +219,25 @@ function onAaHelpClick() {
   $router.push({ name: 'assetallocationsetuphelp' })
 }
 
+async function onDefinitionImportClick() {
+  try {
+    // Clean-up any existing data first.
+    await engine.emptyData()
+    // import AA definition file
+    //await engine.importDefinition(this.fileContent)
+    await engine.importYamlDefinition(fileContent.value)
+
+    $q.notify({ message: 'Definition imported', color: 'positive' })
+  } catch (error) {
+    console.error(error)
+    $q.notify({
+      message: 'Error during import: ' + error,
+      color: 'secondary',
+      textColor: 'amber-2',
+    })
+  }
+}
+
 function onDemoDataClick() {
   $router.push({ name: 'demoData' })
 }
@@ -218,11 +249,15 @@ function darkMode() {
   // $q.dark.toggle()
 }
 
+function onFileRead(content: string) {
+  fileContent.value = content
+}
+
 /**
  * Migrate Transaction records inside the ScheduledTransaction to objects from JSON.
  */
 async function onSchTxMigrationClick() {
-  let result = ''
+  let result = null
   let counter = 0
 
   try {
@@ -275,46 +310,16 @@ function toggleDarkMode() {
 </script>
 
 <script lang="ts">
-import { engine } from '../lib/AssetAllocation'
 
 export default {
   data: function () {
     return {
-      aasettingsfile: null,
       backupLocation: null,
-      fileContent: null,
     }
   },
 
   methods: {
-    /**
-     * The Asset Allocation definition selected.
-     */
-    onAaFileSelected(files) {
-      if (!files) return
-      appService.readFile(files, this.onFileRead)
-    },
-    async onDefinitionImportClick() {
-      try {
-        // Clean-up any existing data first.
-        await engine.emptyData()
-        // import AA definition file
-        //await engine.importDefinition(this.fileContent)
-        await engine.importYamlDefinition(this.fileContent)
 
-        this.$q.notify({ message: 'Definition imported', color: 'positive' })
-      } catch (error) {
-        console.error(error)
-        this.$q.notify({
-          message: 'Error during import: ' + error,
-          color: 'secondary',
-          textColor: 'amber-2',
-        })
-      }
-    },
-    onFileRead(content) {
-      this.fileContent = content
-    },
     async onSelectBackupLocationClick() {
       let dirHandle = await window.showDirectoryPicker()
 
