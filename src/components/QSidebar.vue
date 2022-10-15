@@ -1,16 +1,10 @@
 <template>
-  <q-drawer
-    v-model="drawerOpen"
-    bordered
-    content-class="bg-colour1 text-amber-2"
-  >
-    <q-scroll-area
-      style="
+  <q-drawer v-model="drawerOpen" bordered content-class="bg-colour1 text-amber-2">
+    <q-scroll-area style="
         height: calc(100% - 150px);
         margin-top: 150px;
         border-right: 1px solid #ddd;
-      "
-    >
+      ">
       <q-list padding class="text-colour2">
         <!-- <q-item-label header>Navigation</q-item-label> -->
 
@@ -23,13 +17,7 @@
           </q-item-section>
         </q-item>
 
-        <q-item
-          v-ripple
-          to="/journal"
-          exact
-          clickable
-          active-class="active-link"
-        >
+        <q-item v-ripple to="/journal" exact clickable active-class="active-link">
           <q-item-section avatar>
             <font-awesome-icon icon="scroll" transform="grow-6 right-6" />
           </q-item-section>
@@ -38,13 +26,7 @@
           </q-item-section>
         </q-item>
 
-        <q-item
-          v-ripple
-          to="/favourites"
-          exact
-          clickable
-          active-class="active-link"
-        >
+        <q-item v-ripple to="/favourites" exact clickable active-class="active-link">
           <q-item-section avatar>
             <font-awesome-icon icon="star" transform="grow-6 right-6" />
           </q-item-section>
@@ -53,33 +35,16 @@
           </q-item-section>
         </q-item>
 
-        <q-item
-          v-if="liveModeOn"
-          v-ripple
-          to="tx-search"
-          exact
-          clickable
-          active-class="active-link"
-        >
+        <q-item v-if="liveModeOn" v-ripple to="tx-search" exact clickable active-class="active-link">
           <q-item-section avatar>
-            <font-awesome-icon
-              icon="search-dollar"
-              transform="grow-6 right-6"
-            />
+            <font-awesome-icon icon="search-dollar" transform="grow-6 right-6" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Transaction Search</q-item-label>
           </q-item-section>
         </q-item>
 
-        <q-item
-          v-if="liveModeOn"
-          v-ripple
-          to="xact"
-          exact
-          clickable
-          active-class="active-link"
-        >
+        <q-item v-if="liveModeOn" v-ripple to="xact" exact clickable active-class="active-link">
           <q-item-section avatar>
             <font-awesome-icon icon="list-ul" transform="grow-6 right-6" />
           </q-item-section>
@@ -106,12 +71,7 @@
           </q-item-section>
         </q-item> -->
 
-        <q-item
-          v-ripple
-          :to="{ name: 'accounts' }"
-          clickable
-          active-class="active-link"
-        >
+        <q-item v-ripple :to="{ name: 'accounts' }" clickable active-class="active-link">
           <q-item-section avatar>
             <q-icon name="account_balance" />
           </q-item-section>
@@ -120,12 +80,7 @@
           </q-item-section>
         </q-item>
 
-        <q-item
-          v-ripple
-          :to="{ name: 'payees' }"
-          clickable
-          active-class="active-link"
-        >
+        <q-item v-ripple :to="{ name: 'payees' }" clickable active-class="active-link">
           <q-item-section avatar>
             <q-icon name="groups" />
           </q-item-section>
@@ -174,31 +129,16 @@
           </q-list>
         </q-expansion-item>-->
 
-        <q-item
-          v-ripple
-          to="/assetallocation"
-          exact
-          clickable
-          active-class="active-link"
-        >
+        <q-item v-ripple to="/assetallocation" exact clickable active-class="active-link">
           <q-item-section avatar>
-            <font-awesome-icon
-              icon="business-time"
-              transform="grow-6 right-9"
-            />
+            <font-awesome-icon icon="business-time" transform="grow-6 right-9" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Asset Allocation</q-item-label>
           </q-item-section>
         </q-item>
 
-        <q-item
-          v-ripple
-          to="/scheduledtransactions"
-          exact
-          clickable
-          active-class="active-link"
-        >
+        <q-item v-ripple to="/scheduledtransactions" exact clickable active-class="active-link">
           <q-item-section avatar>
             <q-icon name="event" />
           </q-item-section>
@@ -207,17 +147,10 @@
           </q-item-section>
         </q-item>
 
-        <q-separator  />
+        <q-separator />
 
         <!-- Sync -->
-        <q-item
-          v-if="liveModeOn"
-          v-ripple
-          to="/sync"
-          exact
-          clickable
-          active-class="active-link"
-        >
+        <q-item v-if="liveModeOn" v-ripple to="/sync" exact clickable active-class="active-link">
           <q-item-section avatar>
             <font-awesome-icon icon="sync-alt" transform="grow-6 right-6" />
           </q-item-section>
@@ -246,13 +179,7 @@
         </q-item> -->
 
         <!-- Cloud Backup -->
-        <q-item
-          v-ripple
-          to="/cloudbackup"
-          exact
-          clickable
-          active-class="active-link"
-        >
+        <q-item v-ripple to="/cloudbackup" exact clickable active-class="active-link">
           <q-item-section avatar>
             <q-icon name="backup" transform="grow-6 right-6" />
           </q-item-section>
@@ -262,12 +189,7 @@
         </q-item>
 
         <!-- Settings -->
-        <q-item
-          v-ripple
-          :to="{ name: 'settings' }"
-          clickable
-          active-class="active-link"
-        >
+        <q-item v-ripple :to="{ name: 'settings' }" clickable active-class="active-link">
           <!-- exact -->
           <q-item-section avatar>
             <q-icon name="settings" />
@@ -280,10 +202,7 @@
         <!-- help -->
         <q-item v-ripple to="/help" exact clickable active-class="active-link">
           <q-item-section avatar>
-            <font-awesome-icon
-              icon="question-circle"
-              transform="grow-6 right-9"
-            />
+            <font-awesome-icon icon="question-circle" transform="grow-6 right-9" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Help</q-item-label>
