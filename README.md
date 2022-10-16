@@ -2,7 +2,7 @@
 
 A mobile companion for Ledger-cli
 
-https://cashier.alensiljak.eu.org/
+Live app: https://cashier.alensiljak.eu.org/
 
 Cashier is a PWA GUI assistant application for [Ledger-cli](https://ledger-cli.org). It is intended to be used for entering transactions and previewing balances, mostly on a mobile device. 
 The accounts and balances can be imported from Ledger to establish baselines and the entered transactions can be exported to be merged into the main ledger file.
