@@ -4,24 +4,35 @@
 
     <p>CashierSync needs to be running and accessible.</p>
     <p>
-      To run locally, install cashiersync with pip and run. Configure ledger
-      with .ledgerrc in the root Termux user folder.
+      To run locally, install cashier-ledger sync server. Configure ledger
+      with .ledgerrc in the user profile folder.
     </p>
 
-    <h4 class="q-my-md">Settings</h4>
+    <h4 class="q-my-md text-center">Settings</h4>
     <div class="q-my-md row">
-      <div class="col">
+      <div class="col q-py-md">
         <!-- server URL -->
         <q-input v-model="serverUrl" label="Server URL" @change="saveSyncServerUrl" />
       </div>
 
       <div class="col text-center">
-        <q-btn label="Test" color="secondary" text-color="accent" @click="onConnectClicked" />
+      </div>
+      <div class="col text-center q-my-lg" style="align-self: center;">
+        <div>
+          <q-btn label="Test" color="secondary" text-color="accent" @click="onConnectClicked" />
+        </div>
+        <div class="q-mt-md">
+          <q-btn outline color="accent" text-color="secondary" @click="onShutdownClick">
+            Shutdown Server
+          </q-btn>
+        </div>
       </div>
     </div>
 
+    <q-separator />
+
     <div class="container">
-      <h4 class="q-my-md">Synchronization</h4>
+      <h4 class="q-my-md text-center">Synchronization</h4>
       <q-list>
         <!-- Accounts -->
         <q-item>
@@ -60,12 +71,6 @@
             Sync
           </q-btn>
         </div>
-        <div class="col text-center q-my-lg" style="align-self: center;">
-          <q-btn outline color="accent" text-color="secondary" @click="onShutdownClick">
-            Shutdown Server
-          </q-btn>
-        </div>
-
       </div>
 
       <!-- <div class="col text-center">

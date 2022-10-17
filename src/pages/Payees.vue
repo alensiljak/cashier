@@ -48,12 +48,31 @@ const addDialogVisible = ref(false)
 
 onMounted(async () => {
   try {
+    await checkCache()
+
     await loadData()
   } catch (error: any) {
     console.error(error)
     Notification.negative(error.message)
   }
 })
+
+async function checkCache() {
+  Notification.custom({
+    //message: i18n.t('messages.update_available'),
+    message: 'The synchronization root not set. Click the button to go to sync settings.',
+    color: 'info',
+    icon: 'settings',
+    //closeBtn: i18n.t('labels.update'),
+    closeBtn: 'Settings',
+    timeout: 6000,
+    onDismiss() {
+      // todo: go to settings
+      $router.push('/sync')
+    },
+  })
+
+}
 
 /**
  * Currently we only use click for selecting a Payee in a Transaction.
