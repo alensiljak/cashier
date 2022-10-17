@@ -39,24 +39,13 @@
       <div class="col-auto q-px-xs">Sum: {{ formatNumber(postingSum) }}</div>
     </div>
 
-    <!-- <div> -->
-    <q-slide-item v-for="(posting, index) in tx.postings" :key="index" left-color="secondary" class="q-px-none"
-      @left="onSlide">
-      <template #left>
-        <div class="row items-center text-accent" @click="deletePosting(index)">
-          Click to confirm or wait 2s to cancel
-          <font-awesome-icon icon="trash-alt" size="2x" class="q-ml-md" />
-        </div>
-      </template>
-      <q-item class="q-px-none">
-        <q-item-section>
-          <QPosting :index="index" @delete-row="deletePosting" @account-clicked="onAccountClicked(index)"
-            @amount-changed="onAmountChanged" @currency-changed="onCurrencyChanged"
-            @delete-posting="onDeletePostingClicked(index)" />
-        </q-item-section>
-      </q-item>
-    </q-slide-item>
-    <!-- </div> -->
+    <q-item v-for="(posting, index) in tx?.postings" :key="index" class="q-px-none">
+      <q-item-section>
+        <QPosting :index="index" @delete-row="deletePosting" @account-clicked="onAccountClicked(index)"
+          @amount-changed="onAmountChanged" @currency-changed="onCurrencyChanged"
+          @delete-posting="onDeletePostingClicked(index)" />
+      </q-item-section>
+    </q-item>
 
     <!-- warnings -->
     <div v-if="hasInvalidCurrencies" class="q-my-sm text-right">
@@ -107,7 +96,7 @@
 </template>
 
 <script setup lang="ts">
-import { inject, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useMainStore } from '../store/mainStore'
 import { useRouter } from 'vue-router'
@@ -119,6 +108,8 @@ import {
 } from '../lib/settings'
 import appService from '../appService'
 import QPosting from '../components/Posting.vue'
+import { SET_SELECT_MODE } from '../mutations'
+import { Posting, Transaction } from '../model'
 
 const router = useRouter()
 const mainStore = useMainStore()
@@ -127,7 +118,6 @@ const { tx } = storeToRefs(mainStore)
 
 // data
 const datePickerVisible = ref(false)
-let resetSlide: any = null
 const postingSum = ref(0)
 const hasInvalidCurrencies = ref(false)
 const hasMultipleCurrencies = ref(false)
@@ -158,25 +148,10 @@ function addPosting() {
 }
 
 function deletePosting(index: number) {
-  if (resetSlide) {
-    // remove the slide section.
-    resetSlide()
-    resetSlide = null
-  }
-
   tx.value?.postings.splice(index, 1)
 
   recalculateSum()
   validateCurrencies()
-}
-
-function finalizeSlide(reset: any) {
-  let timer = setTimeout(() => {
-    // has it been already deleted?
-    if (!reset) return
-
-    reset()
-  }, 2000)
 }
 
 function formatNumber(value: number) {
@@ -292,11 +267,6 @@ function onDeletePostingConfirmed() {
   deletePosting(postingIndexToDelete.value)
 }
 
-function onSlide({ reset }: { reset: any }) {
-  resetSlide = reset
-  finalizeSlide(reset)
-}
-
 /**
  * Recalculate the sum and validate amounts.
  * Only one posting should be allowed to have an empty amount.
@@ -363,8 +333,6 @@ function validateCurrencies() {
 }
 </script>
 <script lang="ts">
-import { SET_SELECT_MODE } from '../mutations'
-import { Posting, Transaction } from '../model'
 
 export default {
   methods: {
