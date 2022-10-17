@@ -51,7 +51,8 @@
       <q-item class="q-px-none">
         <q-item-section>
           <QPosting :index="index" @delete-row="deletePosting" @account-clicked="onAccountClicked(index)"
-            @amount-changed="onAmountChanged" @currency-changed="onCurrencyChanged" />
+            @amount-changed="onAmountChanged" @currency-changed="onCurrencyChanged"
+            @delete-posting="onDeletePostingClicked(index)" />
         </q-item-section>
       </q-item>
     </q-slide-item>
@@ -88,6 +89,21 @@
       </q-btn>
     </div>
   </div>
+
+  <!-- Delete posting confirmation dialog -->
+  <q-dialog v-model="deletePostingConfirmationVisible" persistent content-class="bg-blue-grey-10">
+    <q-card class="bg-negative text-amber-2">
+      <q-card-section class="row items-center">
+        <span>Do you want to delete the posting?</span>
+      </q-card-section>
+
+      <q-card-actions align="right">
+        <q-btn v-close-popup flat label="No" color="accent" />
+        <q-btn v-close-popup flat label="Yes" color="accent" @click="onDeletePostingConfirmed" />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+
 </template>
 
 <script setup lang="ts">
@@ -116,6 +132,8 @@ const postingSum = ref(0)
 const hasInvalidCurrencies = ref(false)
 const hasMultipleCurrencies = ref(false)
 const hasMultipleNans = ref(false)
+const deletePostingConfirmationVisible = ref(false)
+const postingIndexToDelete = ref(-1)
 
 if (!tx.value) {
   tx.value = new Transaction()
@@ -259,6 +277,19 @@ function onAmountChanged() {
 
 function onCurrencyChanged() {
   validateCurrencies()
+}
+
+/**
+ * The user requested to delete a posting
+ * @param index index of the Posting that was clicked
+ */
+function onDeletePostingClicked(index: number) {
+  postingIndexToDelete.value = index
+  deletePostingConfirmationVisible.value = true
+}
+
+function onDeletePostingConfirmed() {
+  deletePosting(postingIndexToDelete.value)
 }
 
 function onSlide({ reset }: { reset: any }) {

@@ -8,6 +8,9 @@
     </div>
 
     <div class="row justify-end">
+      <div class="col flex valign-middle">
+        <q-btn icon="delete" color="" text-color="negative" @click="$emit('delete-posting')" />
+      </div>
       <div class="col-3 col-xs-5">
         <!-- Amount -->
         <q-input v-model.number="amount" label="Amount" type="number" input-class="text-right"
@@ -41,8 +44,6 @@ const props = defineProps({
 })
 const { index } = toRefs(props)
 
-// inject('tx')
-
 let i = index.value
 
 // emits
@@ -51,6 +52,7 @@ const emit = defineEmits([
   'account-clicked',
   'amount-changed',
   'currency-changed',
+  'delete-posting'
 ])
 
 // computed
