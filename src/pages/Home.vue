@@ -58,9 +58,12 @@
         <span>Your database is empty. <br />
           Do you want to create some demo data to try the app?</span>
       </q-card-section>
+      <q-card-section>
+        <p>You can always create demo data from the Settings page.</p>
+      </q-card-section>
 
       <q-card-actions align="right">
-        <q-btn v-close-popup flat label="No" color="accent" />
+        <q-btn v-close-popup flat label="No" color="accent" @click="onCreateDataDenied" />
         <q-btn v-close-popup flat label="Yes" color="accent" @click="onCreateDataConfirmed" />
       </q-card-actions>
     </q-card>
@@ -99,6 +102,10 @@ function menuClicked() {
 function onCreateDataConfirmed() {
   // go to create demo data page.
   router.push({ name: 'demoData' })
+}
+
+function onCreateDataDenied() {
+  settings.set(SettingKeys.dbInitialized, false)
 }
 
 /**
