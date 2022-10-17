@@ -5,14 +5,7 @@
     <!-- Toolbar -->
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn
-          flat
-          dense
-          round
-          aria-label="Menu"
-          icon="menu"
-          @click="menuClicked"
-        />
+        <q-btn flat dense round aria-label="Menu" icon="menu" @click="menuClicked" />
 
         <q-toolbar-title> Cashier </q-toolbar-title>
       </q-toolbar>
@@ -47,17 +40,65 @@
       </q-btn>
     </q-page-sticky>
   </q-page>
+
+  <!-- Prompt to create demo data -->
+  <q-dialog v-model="dataCreationDialogVisible" persistent content-class="bg-blue-grey-10">
+    <q-card class="bg-primary text-amber-2">
+      <q-bar>
+        <div>Database empty</div>
+
+        <q-space />
+
+        <q-btn dense flat icon="close" v-close-popup>
+          <q-tooltip>Close</q-tooltip>
+        </q-btn>
+      </q-bar>
+
+      <q-card-section class="row items-center">
+        <span>Your database is empty. <br />
+          Do you want to create some demo data to try the app?</span>
+      </q-card-section>
+
+      <q-card-actions align="right">
+        <q-btn v-close-popup flat label="No" color="accent" />
+        <q-btn v-close-popup flat label="Yes" color="accent" @click="onCreateDataConfirmed" />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import { useMainStore } from '../store/mainStore'
+import SyncCard from '../components/SyncCard.vue'
+import FavouritesCard from '../components/FavouritesCard.vue'
+import JournalCard from '../components/JournalCard.vue'
+import ScheduledCard from '../components/ScheduledTxCard.vue'
+import { onMounted, ref } from 'vue'
+import { SettingKeys, settings } from '../lib/settings'
+import useNotifications from 'src/lib/CashierNotification'
 
 const router = useRouter()
 const mainStore = useMainStore()
+const Notification = useNotifications()
+
+const dataCreationDialogVisible = ref(false)
+
+onMounted(async () => {
+  // Check if the db is empty and offer to create demo data.
+  const isDbInitialized = await settings.get(SettingKeys.dbInitialized)
+  if (isDbInitialized == null) {
+    dataCreationDialogVisible.value = true
+  }
+})
 
 function menuClicked() {
   mainStore.toggleDrawer()
+}
+
+function onCreateDataConfirmed() {
+  // go to create demo data page.
+  router.push({ name: 'demoData' })
 }
 
 /**
@@ -69,41 +110,19 @@ function onFab() {
 
   router.push({ name: 'tx' })
 }
-</script>
-<script lang="ts">
-import SyncCard from '../components/SyncCard.vue'
-import FavouritesCard from '../components/FavouritesCard.vue'
-import JournalCard from '../components/JournalCard.vue'
-import ScheduledCard from '../components/ScheduledTxCard.vue'
 
-export default {
-  name: 'PageHome',
-
-  components: {
-    ScheduledCard,
-    SyncCard,
-    FavouritesCard,
-    JournalCard,
-  },
-
-  data() {
-    return {
-      lorem: 'some text',
-    }
-  },
-
-  methods: {
-    onFavClick() {
-      this.$router.push({ name: 'favourites' })
-    },
-    onJournalClick() {
-      this.$router.push({ name: 'journal' })
-    },
-    onScheduledClick() {
-      this.$router.push({ name: 'scheduledtransactions' })
-    },
-  },
+function onFavClick() {
+  router.push({ name: 'favourites' })
 }
+
+function onJournalClick() {
+  router.push({ name: 'journal' })
+}
+
+function onScheduledClick() {
+  router.push({ name: 'scheduledtransactions' })
+}
+
 </script>
 
 <style lang="sass" scoped>

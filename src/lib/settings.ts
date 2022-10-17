@@ -28,6 +28,7 @@ export const SettingKeys = {
   assetAllocationDefinition: 'aa.definition',
   currency: 'currency',
   favouriteAccounts: 'favouriteAccounts',
+  dbInitialized: 'dbInitialized', // Marks that the db has been initialized
   pCloudToken: 'pCloudToken',
   syncServerUrl: 'syncServerUrl',
   // path to the prices repository for CashierSync.

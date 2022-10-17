@@ -86,6 +86,12 @@
 import { useMainStore } from '../store/mainStore'
 import { TransactionAugmenter } from 'src/lib/transactionAugmenter'
 import appService from '../appService'
+import { SET_SELECT_MODE } from '../mutations'
+import {
+  SelectionModeMetadata,
+  settings,
+  SettingKeys,
+} from '../lib/settings'
 
 const mainStore = useMainStore()
 
@@ -94,13 +100,6 @@ function onMenuClicked() {
 }
 </script>
 <script lang="ts">
-import { SET_SELECT_MODE } from '../mutations'
-import {
-  SelectionModeMetadata,
-  settings,
-  SettingKeys,
-} from '../lib/settings'
-
 const ACCOUNT = 'account'
 
 export default {
@@ -136,21 +135,21 @@ export default {
     /**
      * Add account to the favourites list.
      */
-    addAccount(accountName: string) {
+    async addAccount(accountName: string) {
       // load favourites
-      settings.get(SettingKeys.favouriteAccounts).then((favArray) => {
-        if (!favArray) {
-          // initialize favourites
-          favArray = []
-        }
+      let favArray = await settings.get(SettingKeys.favouriteAccounts)
 
-        // append this one
-        favArray.push(accountName)
-        // save
-        settings
-          .set(SettingKeys.favouriteAccounts, favArray)
-          .then(() => this.loadData())
-      })
+      if (!favArray) {
+        // initialize favourites
+        favArray = []
+      }
+
+      // append this one
+      favArray.push(accountName)
+
+      // save
+      await settings.set(SettingKeys.favouriteAccounts, favArray)
+      await this.loadData()
     },
 
     async confirmDeleteAll() {
