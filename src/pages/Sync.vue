@@ -34,11 +34,9 @@
       </div>
       <div class="col text-center q-my-lg" style="align-self: center;">
         <div>
-          <q-btn label="Test" color="secondary" text-color="accent" @click="onConnectClicked" />
-        </div>
-        <div class="q-mt-md">
-          <q-btn outline color="accent" text-color="secondary" @click="onShutdownClick">
-            Shutdown Server
+          <q-btn color="secondary" text-color="accent" @click="onConnectClicked">
+            <Activity class="on-left" />
+            Test
           </q-btn>
         </div>
       </div>
@@ -82,7 +80,8 @@
       <div class="row q-my-lg">
         <div class="col text-center q-mt-sm">
           <q-btn color="accent" text-color="secondary" size="1.3rem" class="q-my-lg q-mx-md" @click="onSyncClicked">
-            <font-awesome-icon icon="sync-alt" transform="grow-9" class="q-icon-small on-left" />
+            <refresh-cw size="30" stroke-width="3" class="on-left" />
+            <!-- <font-awesome-icon icon="sync-alt" transform="grow-9" class="q-icon-small on-left" /> -->
             Sync
           </q-btn>
         </div>
@@ -105,7 +104,7 @@ import CashierCache from '../lib/CashierCache'
 import Toolbar from '../components/CashierToolbar.vue'
 import useNotifications from 'src/lib/CashierNotification'
 import CashierDal from '../store/dal'
-import { MoreVertical, Power } from 'lucide-vue-next'
+import { Activity, MoreVertical, Power, RefreshCw } from 'lucide-vue-next'
 
 const router = useRouter()
 const Notification = useNotifications()
