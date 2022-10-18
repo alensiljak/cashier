@@ -220,6 +220,8 @@ async function synchronizePayees() {
 
   const cacher = new CashierCache(Constants.CacheName)
   await cacher.cache(url)
+
+  Notification.positive('Payees fetched from Ledger')
 }
 
 async function shutdown() {
