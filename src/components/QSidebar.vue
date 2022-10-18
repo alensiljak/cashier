@@ -10,7 +10,7 @@
 
         <q-item v-ripple to="/home" exact clickable active-class="active-link">
           <q-item-section avatar>
-            <q-icon name="home" />
+            <home-icon />
           </q-item-section>
           <q-item-section>
             <q-item-label>Home</q-item-label>
@@ -19,7 +19,7 @@
 
         <q-item v-ripple to="/journal" exact clickable active-class="active-link">
           <q-item-section avatar>
-            <font-awesome-icon icon="scroll" transform="grow-6 right-6" />
+            <scroll />
           </q-item-section>
           <q-item-section>
             <q-item-label>Device Journal</q-item-label>
@@ -28,7 +28,7 @@
 
         <q-item v-ripple to="/favourites" exact clickable active-class="active-link">
           <q-item-section avatar>
-            <font-awesome-icon icon="star" transform="grow-6 right-6" />
+            <star />
           </q-item-section>
           <q-item-section>
             <q-item-label>Favourites</q-item-label>
@@ -73,7 +73,7 @@
 
         <q-item v-ripple :to="{ name: 'accounts' }" clickable active-class="active-link">
           <q-item-section avatar>
-            <q-icon name="account_balance" />
+            <landmark />
           </q-item-section>
           <q-item-section>
             <q-item-label>Accounts</q-item-label>
@@ -82,7 +82,7 @@
 
         <q-item v-ripple :to="{ name: 'payees' }" clickable active-class="active-link">
           <q-item-section avatar>
-            <q-icon name="groups" />
+            <users />
           </q-item-section>
           <q-item-section>
             <q-item-label>Payees</q-item-label>
@@ -131,16 +131,17 @@
 
         <q-item v-ripple to="/assetallocation" exact clickable active-class="active-link">
           <q-item-section avatar>
-            <font-awesome-icon icon="business-time" transform="grow-6 right-9" />
+            <pie-chart />
           </q-item-section>
           <q-item-section>
             <q-item-label>Asset Allocation</q-item-label>
           </q-item-section>
         </q-item>
 
+        <!-- Scheduled Transactions -->
         <q-item v-ripple to="/scheduledtransactions" exact clickable active-class="active-link">
           <q-item-section avatar>
-            <q-icon name="event" />
+            <calendar-clock />
           </q-item-section>
           <q-item-section>
             <q-item-label>Scheduled Transactions</q-item-label>
@@ -181,7 +182,7 @@
         <!-- Cloud Backup -->
         <q-item v-ripple to="/cloudbackup" exact clickable active-class="active-link">
           <q-item-section avatar>
-            <q-icon name="backup" transform="grow-6 right-6" />
+            <upload-cloud />
           </q-item-section>
           <q-item-section>
             <q-item-label>Cloud Backup</q-item-label>
@@ -192,7 +193,7 @@
         <q-item v-ripple :to="{ name: 'settings' }" clickable active-class="active-link">
           <!-- exact -->
           <q-item-section avatar>
-            <q-icon name="settings" />
+            <settings-icon />
           </q-item-section>
           <q-item-section>
             <q-item-label>Settings</q-item-label>
@@ -202,7 +203,7 @@
         <!-- help -->
         <q-item v-ripple to="/help" exact clickable active-class="active-link">
           <q-item-section avatar>
-            <font-awesome-icon icon="question-circle" transform="grow-6 right-9" />
+            <HelpCircle />
           </q-item-section>
           <q-item-section>
             <q-item-label>Help</q-item-label>
@@ -212,7 +213,7 @@
         <!-- about -->
         <q-item v-ripple to="/about" exact clickable active-class="active-link">
           <q-item-section avatar>
-            <q-icon name="info" />
+            <info-icon />
           </q-item-section>
           <q-item-section>
             <q-item-label>About</q-item-label>
@@ -238,6 +239,12 @@
 import { useMainStore } from '../store/mainStore'
 import { useQuasar } from 'quasar'
 import { storeToRefs } from 'pinia'
+import {
+  CalendarClock,
+  HelpCircle, Home as HomeIcon, Info as InfoIcon, Landmark, PieChart,
+  Scroll, Settings as SettingsIcon,
+  Star, UploadCloud, Users
+} from 'lucide-vue-next'
 
 const $q = useQuasar()
 const mainStore = useMainStore()
@@ -246,7 +253,7 @@ const { drawerOpen } = storeToRefs(mainStore)
 // onCreated
 
 // initial state of the drawer
-mainStore.setDrawerOpen($q.platform.is.desktop)
+mainStore.setDrawerOpen($q.platform.is.desktop as boolean)
 
 function toggleDrawer() {
   mainStore.toggleDrawer()
