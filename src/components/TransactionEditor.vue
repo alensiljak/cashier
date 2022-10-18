@@ -68,11 +68,6 @@
         <div>Add</div>
       </q-btn>
       <q-btn color="primary" text-color="accent" size="medium" class="col-auto" @click="reorderPostings">
-        <!-- <font-awesome-icon
-          icon="sort"
-          transform="grow-9"
-          class="q-icon-small on-left"
-        /> -->
         <q-icon name="swap_vertical_circle" class="q-icon-small on-left" />
         <div>Reorder</div>
       </q-btn>

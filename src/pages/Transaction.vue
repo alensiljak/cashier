@@ -34,7 +34,7 @@
     <!-- floating action button -->
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab color="accent" text-color="secondary" @click="onFab">
-        <q-icon name="done" />
+        <check-icon />
       </q-btn>
     </q-page-sticky>
 
@@ -66,6 +66,7 @@ import TxEditor from '../components/TransactionEditor.vue'
 import CashierDAL from '../store/dal'
 import { Transaction } from 'src/model'
 import CashierToolbar from 'src/components/CashierToolbar.vue'
+import { Check as CheckIcon } from 'lucide-vue-next'
 
 const router = useRouter()
 const mainStore = useMainStore()

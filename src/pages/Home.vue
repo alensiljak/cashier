@@ -36,7 +36,7 @@
     <!-- floating action button -->
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab color="accent" text-color="secondary" @click="onFab">
-        <q-icon name="add" />
+        <plus-icon />
       </q-btn>
     </q-page-sticky>
   </q-page>
@@ -80,6 +80,7 @@ import ScheduledCard from '../components/ScheduledTxCard.vue'
 import { onMounted, ref } from 'vue'
 import { SettingKeys, settings } from '../lib/settings'
 import useNotifications from 'src/lib/CashierNotification'
+import { Plus as PlusIcon } from 'lucide-vue-next'
 
 const router = useRouter()
 const mainStore = useMainStore()
