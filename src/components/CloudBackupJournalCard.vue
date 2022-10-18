@@ -1,7 +1,7 @@
 <template>
   <q-card bordered>
     <q-card-section class="bg-primary q-pa-sm">
-      <font-awesome-icon icon="star" class="q-mr-sm" />
+      <scroll size="20" class="icon q-mr-sm" />
       <strong>Journal</strong>
     </q-card-section>
 
@@ -45,6 +45,7 @@ import { onMounted, ref } from 'vue'
 import useCloudBackup from 'src/lib/CloudBackup'
 import useNotifications from 'src/lib/CashierNotification'
 import appService from '../appService'
+import { Scroll } from 'lucide-vue-next'
 
 const { journal: backup } = useCloudBackup()
 const Notification = useNotifications()

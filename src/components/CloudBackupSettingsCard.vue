@@ -1,7 +1,7 @@
 <template>
   <q-card bordered>
     <q-card-section class="bg-primary q-pa-sm">
-      <font-awesome-icon icon="star" class="q-mr-sm" />
+      <star size="20" class="icon q-mr-sm" />
       <strong>Settings</strong>
     </q-card-section>
 
@@ -50,6 +50,7 @@ import { onMounted, Ref, ref } from 'vue'
 import useCloudBackup from 'src/lib/CloudBackup'
 import useNotifications from 'src/lib/CashierNotification'
 import { settings, SettingKeys } from '../lib/settings'
+import { Star } from 'lucide-vue-next'
 
 const { settingsBackup: backup } = useCloudBackup()
 const Notification = useNotifications()

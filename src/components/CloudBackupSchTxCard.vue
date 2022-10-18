@@ -1,7 +1,7 @@
 <template>
   <q-card bordered>
     <q-card-section class="bg-primary q-pa-sm">
-      <font-awesome-icon icon="star" class="q-mr-sm" />
+      <calendar-clock size="20" class="icon q-mr-sm" />
       <strong>Scheduled Transactions</strong>
     </q-card-section>
 
@@ -36,6 +36,7 @@ import { onMounted, Ref, ref } from 'vue'
 import useCloudBackup from 'src/lib/CloudBackup'
 import db from 'src/store/indexedDb';
 import useNotifications from 'src/lib/CashierNotification'
+import { CalendarClock } from 'lucide-vue-next'
 
 const { scheduledTxBackup: backup } = useCloudBackup()
 const Notification = useNotifications()
