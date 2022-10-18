@@ -95,7 +95,9 @@ class CashierDAL {
     // modifications
     // set transaction id on postings
     tx.postings.forEach((posting) => (posting.transactionId = tx.id as number))
-    let newPostingIds = tx.postings.map((posting) => posting.id)
+    const newPostingIds: number[] = tx.postings.map(
+      (posting) => posting.id
+    ) as number[]
 
     // todo: Ensure only one posting with no amount (ledger requirement)?
 
