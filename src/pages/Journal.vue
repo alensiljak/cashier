@@ -3,14 +3,7 @@
     <!-- Toolbar -->
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn
-          flat
-          dense
-          round
-          aria-label="Menu"
-          icon="menu"
-          @click="menuClicked"
-        />
+        <q-btn flat dense round aria-label="Menu" icon="menu" @click="menuClicked" />
 
         <q-toolbar-title>Device Journal</q-toolbar-title>
 
@@ -22,20 +15,14 @@
               <q-item v-close-popup clickable>
                 <q-item-section @click="exportJournal">Export</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon
-                    icon="sign-out-alt"
-                    transform="grow-9 left-5"
-                  />
+                  <font-awesome-icon icon="sign-out-alt" transform="grow-9 left-5" />
                 </q-item-section>
               </q-item>
 
               <q-item v-close-popup clickable @click="onDeleteAllClicked">
                 <q-item-section>Delete All</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon
-                    icon="trash-alt"
-                    transform="grow-9 left-5"
-                  />
+                  <font-awesome-icon icon="trash-alt" transform="grow-9 left-5" />
                 </q-item-section>
               </q-item>
 
@@ -51,17 +38,9 @@
       </q-toolbar>
     </q-header>
 
-    <q-slide-item
-      v-for="tx in transactions"
-      :key="tx.id"
-      right-color="secondary"
-      @right="onSlide"
-    >
+    <q-slide-item v-for="tx in transactions" :key="tx.id" right-color="secondary" @right="onSlide">
       <template #right>
-        <div
-          class="row items-center text-accent"
-          @click="deleteTransaction(tx.id)"
-        >
+        <div class="row items-center text-accent" @click="deleteTransaction(tx.id)">
           Click to confirm or wait 2s to cancel
           <font-awesome-icon icon="trash-alt" size="2x" class="q-ml-md" />
         </div>
@@ -71,22 +50,13 @@
     </q-slide-item>
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn
-        fab
-        color="accent"
-        text-color="secondary"
-        @click="openNewTransaction"
-      >
+      <q-btn fab color="accent" text-color="secondary" @click="openNewTransaction">
         <q-icon name="add" />
       </q-btn>
     </q-page-sticky>
 
     <!-- confirm deletion dialog -->
-    <q-dialog
-      v-model="confirmDeleteVisible"
-      persistent
-      content-class="bg-blue-grey-10"
-    >
+    <q-dialog v-model="confirmDeleteVisible" persistent content-class="bg-blue-grey-10">
       <q-card class="bg-secondary text-amber-2">
         <q-card-section class="row items-center">
           <span>Do you want to delete the transaction?</span>
@@ -94,22 +64,12 @@
 
         <q-card-actions align="right">
           <q-btn v-close-popup flat label="Cancel" color="accent" />
-          <q-btn
-            v-close-popup
-            flat
-            label="Delete"
-            color="accent"
-            @click="confirmDelete"
-          />
+          <q-btn v-close-popup flat label="Delete" color="accent" @click="confirmDelete" />
         </q-card-actions>
       </q-card>
     </q-dialog>
     <!-- delete all dialog -->
-    <q-dialog
-      v-model="confirmDeleteAllVisible"
-      persistent
-      content-class="bg-blue-grey-10"
-    >
+    <q-dialog v-model="confirmDeleteAllVisible" persistent content-class="bg-blue-grey-10">
       <q-card class="bg-secondary text-amber-2">
         <q-card-section class="row items-center">
           <!-- <q-avatar icon="signal_wifi_off" color="primary" text-color="amber-2"/>
@@ -119,13 +79,7 @@
 
         <q-card-actions align="right">
           <q-btn v-close-popup flat label="Cancel" color="accent" />
-          <q-btn
-            v-close-popup
-            flat
-            label="Delete"
-            color="accent"
-            @click="confirmDeleteAll"
-          />
+          <q-btn v-close-popup flat label="Delete" color="accent" @click="confirmDeleteAll" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -188,7 +142,7 @@ async function deleteAllTransactions() {
   }
 }
 
-async function deleteTransaction(id) {
+async function deleteTransaction(id: number) {
   if (!id) {
     $q.notify({
       color: 'negative',

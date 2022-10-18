@@ -4,7 +4,7 @@
 
     <div class="text-center q-mp-none bg-primary">
       <span>{{ account.name }}</span>
-      <span class="q-ml-lg">Balance: {{ balance }} {{ account.currency }}</span>
+      <span class="q-ml-lg">Balance: {{ balance }} {{ account.balance?.currency }}</span>
     </div>
 
     <q-list>
@@ -130,8 +130,8 @@ async function loadData() {
 
   // create the record for the opening balance?
   const startingBalanceRecord = createStartingBalancePosting(
-    account.value.balance as number,
-    account.value.currency
+    account.value.balance?.amount as number,
+    account.value._balance?.currency as string
   )
   localPostings.splice(0, 0, startingBalanceRecord)
 
