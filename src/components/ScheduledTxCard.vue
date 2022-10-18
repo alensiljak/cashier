@@ -1,7 +1,7 @@
 <template>
   <q-card bordered @click="onCardClick">
     <q-card-section class="bg-primary q-pa-sm">
-      <font-awesome-icon icon="calendar-alt" class="q-mr-sm" />
+      <calendar-days class="icon q-mr-sm" size="1.4em" />
       <strong>Upcoming Transactions</strong>
     </q-card-section>
 
@@ -11,13 +11,11 @@
       <q-list>
         <q-item v-for="stx in list" :key="stx.id" dense class="q-px-none">
           <q-item-section side>
-            <span
-              :class="{
-                red: stx.nextDate < today,
-                yellow: stx.nextDate === today,
-                green: stx.nextDate > today,
-              }"
-            >
+            <span :class="{
+              red: stx.nextDate < today,
+              yellow: stx.nextDate === today,
+              green: stx.nextDate > today,
+            }">
               {{ stx.nextDate }}
             </span>
           </q-item-section>
@@ -29,12 +27,7 @@
       </q-list>
     </q-card-section>
     <q-card-actions align="center">
-      <q-btn
-        outline
-        color="primary"
-        text-color="accent"
-        @click.capture="onCalendarClick"
-      >
+      <q-btn outline color="primary" text-color="accent" @click.capture="onCalendarClick">
         <font-awesome-icon icon="calendar-alt" class="q-icon-small on-left" />
         Calendar
       </q-btn>
@@ -51,6 +44,7 @@ import appService from '../appService'
 import { TransactionAugmenter } from 'src/lib/transactionAugmenter'
 import { ScheduledTransaction, Transaction } from 'src/model'
 import { TransactionParser } from 'src/lib/transactionParser'
+import { CalendarDays } from 'lucide-vue-next'
 
 const emit = defineEmits(['click'])
 

@@ -3,7 +3,7 @@
     <!-- <q-card-section class="text-subtitle2">Favourites</q-card-section> -->
 
     <q-card-section class="bg-primary q-pa-sm">
-      <font-awesome-icon icon="star" class="q-mr-sm" />
+      <Star class="icon q-mr-sm" size="1.4em" />
       <!-- <q-icon name="star" size="xs" class="q-mr-sm" /> -->
       <strong>Favourites</strong>
     </q-card-section>
@@ -32,6 +32,7 @@ import { settings, SettingKeys } from '../lib/settings'
 import appService from '../appService'
 import { TransactionAugmenter } from 'src/lib/transactionAugmenter'
 import { Account } from 'src/model'
+import { Star } from 'lucide-vue-next'
 
 const $q = useQuasar()
 

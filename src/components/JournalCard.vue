@@ -2,7 +2,7 @@
   <q-card bordered class="my-card" @click="onCardClick">
     <!-- <q-card-section class="text-subtitle2">Device Journal</q-card-section> -->
     <q-card-section class="bg-primary q-pa-sm">
-      <font-awesome-icon icon="scroll" class="q-mr-sm" />
+      <Scroll class="icon q-mr-sm" size="1.4em" />
       <strong>Device Journal</strong>
     </q-card-section>
 
@@ -15,13 +15,11 @@
         <q-item v-for="tx in transactions" :key="tx.id" dense class="q-px-none">
           <q-item-section>{{ tx.date }} &nbsp; {{ tx.payee }}</q-item-section>
           <q-item-section side>
-            <span
-              :class="{
-                red: tx.amount < 0,
-                yellow: tx.amount === 0 || tx.amount === '<=>',
-                green: tx.amount > 0,
-              }"
-            >
+            <span :class="{
+              red: tx.amount < 0,
+              yellow: tx.amount === 0 || tx.amount === '<=>',
+              green: tx.amount > 0,
+            }">
               {{ tx.amount }} {{ tx.currency }}
             </span>
           </q-item-section>
@@ -32,12 +30,7 @@
     <!-- <q-separator  /> -->
 
     <q-card-actions align="center">
-      <q-btn
-        outline
-        color="primary"
-        text-color="accent"
-        @click.stop="onExportTxClick"
-      >
+      <q-btn outline color="primary" text-color="accent" @click.stop="onExportTxClick">
         <font-awesome-icon icon="sign-out-alt" class="q-icon-small on-left" />
         Export
       </q-btn>
@@ -53,6 +46,7 @@ import useNotifications from 'src/lib/CashierNotification'
 import { TransactionParser } from 'src/lib/transactionParser'
 import { Transaction } from 'src/model'
 import { TransactionAugmenter } from 'src/lib/transactionAugmenter'
+import { Scroll } from 'lucide-vue-next'
 
 const Notification = useNotifications()
 const $router = useRouter()

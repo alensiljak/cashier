@@ -1,7 +1,20 @@
 <template>
   <q-page padding class="text-colour2">
     <toolbar :title="'CashierSync'">
-
+      <q-btn flat round dense>
+        <more-vertical />
+        <q-menu>
+          <q-list style="min-width: 175px">
+            <!-- Shutdown server -->
+            <q-item v-close-popup clickable @click="onShutdownClick">
+              <q-item-section>Turn Server Off</q-item-section>
+              <q-item-section side>
+                <power />
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-menu>
+      </q-btn>
     </toolbar>
 
     <p>CashierSync needs to be running and accessible.</p>
@@ -92,6 +105,7 @@ import CashierCache from '../lib/CashierCache'
 import Toolbar from '../components/CashierToolbar.vue'
 import useNotifications from 'src/lib/CashierNotification'
 import CashierDal from '../store/dal'
+import { MoreVertical, Power } from 'lucide-vue-next'
 
 const router = useRouter()
 const Notification = useNotifications()

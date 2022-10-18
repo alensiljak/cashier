@@ -2,10 +2,10 @@
   <q-card bordered class="my-card">
     <!-- header -->
     <q-card-section class="bg-primary q-pa-sm">
-      <font-awesome-icon icon="sync-alt" class="q-mr-sm" />
+      <refresh-cw class="icon q-mr-sm" size="1.4em" />
       <strong>CashierSync</strong>
       <span class="float-right">
-        <font-awesome-icon icon="question-circle" transform="grow-9 " @click="onHelpClick" />
+        <help-circle class="icon q-mr-sm" size="1.4em" @click="onHelpClick" />
       </span>
     </q-card-section>
     <q-card-section>
@@ -57,15 +57,32 @@
   </q-card>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { RefreshCw } from 'lucide-vue-next'
 import { SET_LEDGER_USE } from '../mutations'
 import { CashierSync } from '../lib/syncCashier'
 import { SettingKeys, settings } from '../lib/settings'
+import { useRouter } from 'vue-router'
+import { ref } from 'vue'
+import { HelpCircle } from 'lucide-vue-next'
 
+const $router = useRouter()
+
+const liveModeHelpVisible = ref(false)
+
+function onHelpClick() {
+  liveModeHelpVisible.value = true
+}
+
+function onSettingsClick() {
+  $router.push({ name: 'sync' })
+}
+
+</script>
+<script lang="ts">
 export default {
   data() {
     return {
-      liveModeHelpVisible: false,
       serverStatus: false,
       serverUrl: null,
     }
@@ -82,7 +99,7 @@ export default {
     },
     testUrl: {
       get() {
-                const url = this.serv      + '/hello?' + Date.now()
+        const url = this.serv + '/hello?' + Date.now()
         // console.debug('fettching test url', url)
         return url
       },
@@ -96,15 +113,8 @@ export default {
       // console.debug('server url loaded')
     })
   },
-  async mounted() {
-    // turn on Live Mode if the server is up.
-    //this.liveModeOn = this.serverStatus
-  },
 
   methods: {
-    onHelpClick() {
-      this.liveModeHelpVisible = true
-    },
     async liveModeToggle() {
       this.$store.commit(SET_LEDGER_USE, this.liveModeOn)
 
@@ -147,9 +157,6 @@ export default {
       }
 
       return result
-    },
-    onSettingsClick() {
-      this.$router.push({ name: 'sync' })
     },
     onStatusError(e) {
       // could not reach the server hello image
