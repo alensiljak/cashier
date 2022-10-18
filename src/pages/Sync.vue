@@ -1,6 +1,8 @@
 <template>
   <q-page padding class="text-colour2">
-    <toolbar :title="'CashierSync'" />
+    <toolbar :title="'CashierSync'">
+
+    </toolbar>
 
     <p>CashierSync needs to be running and accessible.</p>
     <p>
@@ -187,17 +189,17 @@ async function onSyncClicked() {
       showAccountProgress.value = false
     }
 
-    if (syncPayees.value) {
-      showPayeesProgress.value = true
-      await synchronizePayees()
-      showPayeesProgress.value = false
-    }
-
     // Investment account balances in base currency, for Asset Allocation.
     if (syncAaValues.value) {
       showAssetProgress.value = true
       await synchronizeAaValues()
       showAssetProgress.value = false
+    }
+
+    if (syncPayees.value) {
+      showPayeesProgress.value = true
+      await synchronizePayees()
+      showPayeesProgress.value = false
     }
   } catch (error: any) {
     console.error(error)
