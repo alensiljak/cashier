@@ -2,8 +2,8 @@
  * Data Access Layer for permanent storage (indexeddb)
  */
 
-import { IndexableType } from 'dexie'
-import { ScheduledTransaction, Transaction } from 'src/model'
+import { Collection, IndexableType } from 'dexie'
+import { Payee, ScheduledTransaction, Transaction } from 'src/model'
 import db from './indexedDb'
 
 class CashierDAL {
@@ -16,6 +16,10 @@ class CashierDAL {
    */
   loadAccounts() {
     return db.accounts.orderBy('name')
+  }
+
+  loadPayees(): Collection<Payee> {
+    return db.payees.orderBy('name')
   }
 
   async saveScheduledTransaction(stx: ScheduledTransaction) {

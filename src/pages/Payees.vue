@@ -2,10 +2,10 @@
   <q-page padding class="text-colour2">
     <payees-toolbar title="Payees" :filter="filter" @filter="onFilter" @menu-clicked="onMenuClicked" />
 
-    <RecycleScroller v-slot="{ item }" page-mode class="scroller" :items="payees" :item-size="42" key-field="id">
-      <div class="scroller-item" @click="itemClicked(item)">
+    <RecycleScroller v-slot="{ item }" page-mode class="scroller" :items="payees" :item-size="42" key-field="name">
+      <div class="scroller-item" @click="itemClicked(item.name)">
         <div class="scroller-item-content">
-          {{ item }}
+          {{ item.name }}
         </div>
       </div>
     </RecycleScroller>
@@ -16,9 +16,9 @@
       </q-item>
     </q-list> -->
 
-    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+    <!-- <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab icon="check" color="accent" text-color="secondary" @click="onAcceptClick" />
-    </q-page-sticky>
+    </q-page-sticky> -->
   </q-page>
 </template>
 
@@ -35,13 +35,16 @@ import PayeesToolbar from '../components/PayeesToolbar.vue'
 import { RecycleScroller } from 'vue-virtual-scroller'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 import useNotifications from 'src/lib/CashierNotification'
+import CashierDAL from 'src/store/dal'
+import { Payee } from 'src/model'
+import { ListSearch } from 'src/ListSearch'
 
 const $router = useRouter()
 const mainStore = useMainStore()
 const store = useStore()
 const Notification = useNotifications()
 
-const payees = ref([])
+const payees: Ref<Payee[]> = ref([])
 const filter: Ref<string | undefined> = ref(undefined)
 const newPayee = ref(null)
 const addDialogVisible = ref(false)
@@ -98,27 +101,18 @@ function itemClicked(id: string) {
 }
 
 async function loadData() {
-  // get the payees from the cache
-  const cache = await caches.open(Constants.CacheName)
 
-  const serverUrl = await settings.get(SettingKeys.syncServerUrl)
-  if (!serverUrl) {
-    throw new Error('The sync URL not set. Cannot read cached data.')
-  }
-  const cashierSync = new CashierSync(serverUrl)
-  const payeesCache = await cache.match(cashierSync.getPayeesUrl())
-
-  let payeesJson = await payeesCache?.json()
+  const dal = new CashierDAL()
+  const payeeRecords = await dal.loadPayees().toArray()
 
   // Apply filter
   if (filter.value) {
-    // todo: option for case-sensitivity?
-    payees.value = payeesJson.filter(
-      (payee: string) =>
-        payee.toLowerCase().includes(filter.value?.toLowerCase() as string)
-    )
+    let search = new ListSearch()
+    let regex = search.getRegex(filter.value)
+
+    payees.value = payeeRecords.filter((payee) => regex.test(payee.name))
   } else {
-    payees.value = payeesJson
+    payees.value = payeeRecords
   }
 }
 

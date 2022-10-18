@@ -108,6 +108,7 @@ import { ListSearch } from '../ListSearch.js'
 import { RecycleScroller } from 'vue-virtual-scroller'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 import { Account } from 'src/model'
+import CashierDAL from 'src/store/dal'
 
 const mainStore = useMainStore()
 const $router = useRouter()
@@ -162,7 +163,8 @@ async function confirmDeleteAll() {
 }
 
 async function loadData() {
-  let records = appService.db.accounts.orderBy('name')
+  const dal = new CashierDAL()
+  let records = dal.loadAccounts()
 
   if (filter.value) {
     let search = new ListSearch()
