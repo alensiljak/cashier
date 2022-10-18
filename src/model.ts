@@ -55,8 +55,12 @@ export class LastTransaction {
 }
 
 export class Payee {
-  id?: number
+  // id?: number
   name = ''
+
+  constructor(name: string) {
+    this.name = name
+  }
 }
 
 export class Posting {

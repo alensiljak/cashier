@@ -9,6 +9,7 @@ import {
   Account,
   LastTransaction,
   Transaction,
+  Payee,
   Posting,
   ScheduledTransaction,
   Setting,
@@ -21,6 +22,7 @@ interface CashierDatabase extends Dexie {
   accounts: Table
   assetAllocation: Table
   lastTransaction: Table
+  payees: Table
   postings: Table
   transactions: Table
   settings: Table
@@ -47,12 +49,16 @@ db.version(2).stores({
 db.version(2.1).stores({
   lastTransaction: 'payee',
 })
+db.version(2.2).stores({
+  payees: 'name',
+})
 
 // Mappings
 
 db.accounts.mapToClass(Account)
 db.assetAllocation.mapToClass(AssetClass)
 db.lastTransaction.mapToClass(LastTransaction)
+db.payees.mapToClass(Payee)
 db.postings.mapToClass(Posting)
 db.transactions.mapToClass(Transaction)
 db.settings.mapToClass(Setting)

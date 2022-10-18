@@ -7,6 +7,10 @@ import { ScheduledTransaction, Transaction } from 'src/model'
 import db from './indexedDb'
 
 class CashierDAL {
+  async deletePayees() {
+    return db.payees.clear()
+  }
+
   /**
    * @returns Collection
    */

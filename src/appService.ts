@@ -8,6 +8,7 @@ import {
   Account,
   AccountBalance,
   LastTransaction,
+  Payee,
   Posting,
   ScheduledTransaction,
   Transaction,
@@ -360,6 +361,15 @@ class AppService {
     // todo: save
 
     return commodities
+  }
+
+  /**
+   * Imports the payees into storage.
+   * @param payees Array of payee names from Ledger.
+   */
+  async importPayees(payeeNames: string[]): Promise<void> {
+    let payees = payeeNames.map((name) => new Payee(name))
+    await db.payees.bulkAdd(payees)
   }
 
   /**

@@ -15,6 +15,7 @@ export class CashierSync {
    * This returns all the accounts and also includes the balances
    */
   static accountsCommand = 'b --flat --empty --no-total'
+  static payeesCommand = 'payees'
 
   serverUrl: string
 
@@ -37,7 +38,7 @@ export class CashierSync {
   }
 
   getPayeesUrl(): URL {
-    const url = this.createUrl('payees')
+    const url = this.createUrl(CashierSync.payeesCommand)
     return url
   }
 
@@ -176,6 +177,22 @@ export class CashierSync {
     }
 
     return result
+  }
+
+  /**
+   * Retrieve the list of Payees
+   * @returns array of Payee objects
+   */
+  async readPayees(): Promise<string[]> {
+    const command = CashierSync.payeesCommand
+    const response = await this.ledger(command)
+    if (!response.ok) {
+      throw new Error('Error reading payees!')
+    }
+
+    const content = (await response.json()) as string[]
+
+    return content
   }
 
   async search(searchParams: object) {

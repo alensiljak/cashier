@@ -91,6 +91,7 @@ import { SettingKeys, settings, Constants } from '../lib/settings'
 import CashierCache from '../lib/CashierCache'
 import Toolbar from '../components/CashierToolbar.vue'
 import useNotifications from 'src/lib/CashierNotification'
+import CashierDal from '../store/dal'
 
 const router = useRouter()
 const Notification = useNotifications()
@@ -215,11 +216,18 @@ async function onSyncClicked() {
 async function synchronizePayees() {
   const sync = new CashierSync(serverUrl.value)
 
-  let cashierSync = new CashierSync(serverUrl.value)
-  const url = cashierSync.getPayeesUrl()
+  const response = await sync.readPayees()
 
-  const cacher = new CashierCache(Constants.CacheName)
-  await cacher.cache(url)
+  if (!response || response.length == 0) {
+    Notification.negative('Invalid response received: ' + response)
+    return
+  }
+
+  // delete all payees only after we have retrieved the new ones.
+  const dal = new CashierDal()
+  await dal.deletePayees()
+
+  await appService.importPayees(response)
 
   Notification.positive('Payees fetched from Ledger')
 }
