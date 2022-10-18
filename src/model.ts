@@ -54,6 +54,11 @@ export class LastTransaction {
   transaction?: Transaction
 }
 
+export class Payee {
+  id?: number
+  name = ''
+}
+
 export class Posting {
   id?: number
   transactionId: string | any

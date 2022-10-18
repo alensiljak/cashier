@@ -43,15 +43,6 @@
             <font-awesome-icon v-if="showAccountProgress" icon="sync-alt" spin />
           </q-item-label>
         </q-item>
-        <!-- Payees -->
-        <q-item>
-          <q-item-section>
-            <q-checkbox v-model="syncPayees" label="Sync Payees." />
-          </q-item-section>
-          <q-item-label>
-            <font-awesome-icon v-if="showPayeesProgress" icon="sync-alt" spin />
-          </q-item-label>
-        </q-item>
         <!-- Asset Allocation values -->
         <q-item>
           <q-item-section>
@@ -60,6 +51,15 @@
           </q-item-section>
           <q-item-label>
             <font-awesome-icon v-if="showAssetProgress" icon="sync-alt" spin />
+          </q-item-label>
+        </q-item>
+        <!-- Payees -->
+        <q-item>
+          <q-item-section>
+            <q-checkbox v-model="syncPayees" label="Sync Payees." />
+          </q-item-section>
+          <q-item-label>
+            <font-awesome-icon v-if="showPayeesProgress" icon="sync-alt" spin />
           </q-item-label>
         </q-item>
       </q-list>

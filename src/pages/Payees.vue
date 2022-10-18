@@ -58,16 +58,19 @@ onMounted(async () => {
 })
 
 async function checkCache() {
+  const serverUrl = await settings.get(SettingKeys.syncServerUrl)
+  if (serverUrl) {
+    return
+  }
+
   Notification.custom({
-    //message: i18n.t('messages.update_available'),
     message: 'The synchronization root not set. Click the button to go to sync settings.',
     color: 'info',
     icon: 'settings',
-    //closeBtn: i18n.t('labels.update'),
     closeBtn: 'Settings',
     timeout: 6000,
     onDismiss() {
-      // todo: go to settings
+      // go to settings
       $router.push('/sync')
     },
   })
