@@ -38,9 +38,24 @@ export class SecurityAnalyser {
     let result: SecurityAnalysis = {
       yield: await this.#getYield(symbol, currency),
       gainloss: await this.#getGainLoss(symbol, currency),
+      //basis: await this.#getBasis(symbol, currency),
     }
 
     return result
+  }
+
+  /**
+   * Used temporarily only to check the base amount. It mostly fits the gain/loss plus
+   * the balance in base currency (not always!).
+   * @param symbol
+   * @param currency
+   * @returns
+   */
+  async #getBasis(symbol: string, currency: string) {
+    const command = `b ^Assets and :${symbol}$ -B -n -X ${currency}`
+    const report = await this.ledgerApi.query(command)
+
+    return report
   }
 
   /**
@@ -80,6 +95,9 @@ export class SecurityAnalyser {
 
     let number = this.#getNumberFromCollapseResult(line)
     const result = number + ' ' + this.currency
+
+    // calculate the percentage
+
     return result
   }
 

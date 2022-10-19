@@ -130,7 +130,6 @@ class AppService {
    */
   readFile(fileInfo: Blob, callback: any): void {
     if (!fileInfo) return
-    //   console.log(fileInfo);
 
     let reader = new FileReader()
 
@@ -144,11 +143,9 @@ class AppService {
     reader.readAsText(fileInfo)
   }
 
-  async readFileAsync(fileInfo: Blob) {
-    if (!fileInfo) return
-
+  async readFileAsync(fileInfo: Blob): Promise<string> {
     return new Promise((resolve, reject) => {
-      //   console.log(fileInfo);
+      if (!fileInfo) reject('FileInfo must be sent!')
 
       let reader = new FileReader()
 
@@ -156,7 +153,10 @@ class AppService {
         // File was successfully read.
         let content = event?.target?.result
 
-        resolve(content)
+        resolve(content as string)
+      }
+      reader.onerror = (error) => {
+        reject(error)
       }
 
       reader.readAsText(fileInfo)

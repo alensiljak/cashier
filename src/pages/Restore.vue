@@ -7,12 +7,7 @@
       Note that this will overwrite all your current records of the same type!
     </p>
 
-    <q-file
-      v-model="file"
-      clearable
-      label="Select backup file"
-      @update:model-value="onFileSelected"
-    />
+    <q-file v-model="file" clearable label="Select backup file" @update:model-value="onFileSelected" />
 
     <q-input v-model="fileContent" type="textarea" />
 
@@ -25,25 +20,30 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { Ref, ref } from 'vue'
 import appService from '../appService'
 import { useQuasar } from 'quasar'
+import Toolbar from '../components/CashierToolbar.vue'
 
 const $q = useQuasar()
 
+const props = defineProps({
+  type: { type: String, default: 'scheduled' }
+})
+
 // data
-const file = ref(null)
-const fileContent = ref(null)
+const file: Ref<Blob> | Ref<null> = ref(null) // The selected file.
+const fileContent: Ref<string> = ref('')      // Selected file's contents.
 
 // methods
 
-function onFileSelected(value) {
-  // console.debug('file selected', file.value)
+function onFileSelected(value: File) {
   // read file
-  appService.readFile(file.value, onFileRead)
+  //appService.readFile(file.value as Blob, onFileRead)
+  appService.readFile(value, onFileRead)
 }
 
-function onFileRead(content) {
+function onFileRead(content: string) {
   fileContent.value = content
 }
 
@@ -63,20 +63,5 @@ async function onRestoreClicked() {
     message: 'Restore complete',
     color: 'positive',
   })
-}
-</script>
-<script lang="ts">
-import Toolbar from '../components/CashierToolbar.vue'
-
-export default {
-  components: {
-    Toolbar,
-  },
-  props: {
-    type: {
-      type: String,
-      default: 'scheduled',
-    },
-  },
 }
 </script>

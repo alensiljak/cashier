@@ -180,13 +180,15 @@ async function loadSettings() {
 /**
  * The Asset Allocation definition selected.
  */
-function onAaFileSelected(files: Blob) {
-  if (!files) return
-  appService.readFile(files, onFileRead)
+async function onAaFileSelected(file: Blob) {
+  if (!file) return
+
+  const content = await appService.readFileAsync(file)
+  fileContent.value = content
 }
 
 async function onRestoreClick() {
-  // todo: confirm settings overwrite
+  // confirm settings overwrite
   isRestoreConfirmationVisible.value = true
 }
 
@@ -248,10 +250,6 @@ function darkMode() {
   //console.debug($q.dark.mode)
   //$q.dark.set(true)
   // $q.dark.toggle()
-}
-
-function onFileRead(content: string) {
-  fileContent.value = content
 }
 
 /**
