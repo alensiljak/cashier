@@ -1,14 +1,7 @@
 <template>
   <q-header elevated class="glossy">
     <q-toolbar class="text-colour2">
-      <q-btn
-        flat
-        dense
-        round
-        aria-label="Menu"
-        icon="menu"
-        @click="onMenuClicked"
-      />
+      <q-btn flat dense round aria-label="Menu" icon="menu" @click="onMenuClicked" />
 
       <q-toolbar-title>{{ title }}</q-toolbar-title>
 
@@ -20,7 +13,7 @@
             <q-item clickable>
               <q-item-section @click="toggleSearch"> Find </q-item-section>
               <q-item-section side>
-                <font-awesome-icon icon="search" transform="grow-9 left-5" />
+                <icon-search />
               </q-item-section>
             </q-item>
             <q-item clickable>
@@ -28,10 +21,7 @@
                 Restore
               </q-item-section>
               <q-item-section side>
-                <font-awesome-icon
-                  icon="sign-in-alt"
-                  transform="grow-9 left-5"
-                />
+                <archive-restore />
               </q-item-section>
             </q-item>
             <q-item clickable>
@@ -39,10 +29,7 @@
                 Backup
               </q-item-section>
               <q-item-section side>
-                <font-awesome-icon
-                  icon="sign-out-alt"
-                  transform="grow-9 left-5"
-                />
+                <file-down />
               </q-item-section>
             </q-item>
             <!-- Calendar -->
@@ -51,10 +38,7 @@
                 Calendar
               </q-item-section>
               <q-item-section side>
-                <font-awesome-icon
-                  icon="calendar-alt"
-                  transform="grow-9 left-5"
-                />
+                <icon-calendar />
               </q-item-section>
             </q-item>
           </q-list>
@@ -64,26 +48,11 @@
 
     <!-- search -->
     <q-toolbar v-if="searchVisible" class="text-white flex flex-center">
-      <q-input
-        ref="searchInput"
-        v-model="filter"
-        autofocus
-        rounded
-        standout
-        dense
-        color="accent"
-        style="width: 23rem"
-        debounce="400"
-        @update:model-value="$emit('filterChanged', filter)"
-      >
+      <q-input ref="searchInput" v-model="filter" autofocus rounded standout dense color="accent" style="width: 23rem"
+        debounce="400" @update:model-value="$emit('filterChanged', filter)">
         <template #append>
-          <font-awesome-icon v-if="filter === ''" icon="search" />
-          <q-icon
-            v-else
-            name="clear"
-            class="cursor-pointer"
-            @click="onResetFilterClicked"
-          />
+          <icon-search v-if="!filter" />
+          <x-circle v-else name="clear" @click="onResetFilterClicked" />
         </template>
       </q-input>
     </q-toolbar>
@@ -94,6 +63,10 @@
 import { ref } from 'vue'
 import { useMainStore } from '../store/mainStore'
 // import { useQuasar } from 'quasar'
+import {
+  ArchiveRestore, CalendarDays as IconCalendar, FileDown, Search as IconSearch,
+  XCircle
+} from 'lucide-vue-next'
 
 const mainStore = useMainStore()
 // const $q = useQuasar()
