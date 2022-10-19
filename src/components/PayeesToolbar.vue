@@ -1,20 +1,13 @@
 <template>
   <q-header elevated class="glossy">
     <q-toolbar class="text-colour2">
-      <q-btn
-        flat
-        dense
-        round
-        aria-label="Menu"
-        icon="menu"
-        @click="$emit('menu-clicked')"
-      />
+      <q-btn flat dense round aria-label="Menu" icon="menu" @click="$emit('menu-clicked')" />
 
       <q-toolbar-title>{{ title }}</q-toolbar-title>
 
       <q-space />
 
-      <q-btn flat round dense icon="more_vert">
+      <!-- <q-btn flat round dense icon="more_vert">
         <q-menu>
           <q-list style="min-width: 175px">
             <q-item>
@@ -22,30 +15,16 @@
             </q-item>
           </q-list>
         </q-menu>
-      </q-btn>
+      </q-btn> -->
     </q-toolbar>
 
     <!-- filter toolbar -->
     <q-toolbar class="text-white flex flex-center">
       <!-- <q-toolbar-title> -->
-      <q-input
-        v-model="myFilter"
-        autofocus
-        rounded
-        standout
-        dense
-        color="accent"
-        style="width: 23rem"
-        debounce="400"
-      >
+      <q-input v-model="myFilter" autofocus rounded standout dense color="accent" style="width: 23rem" debounce="400">
         <template #append>
-          <font-awesome-icon v-if="myFilter === ''" icon="search" />
-          <q-icon
-            v-else
-            name="clear"
-            class="cursor-pointer"
-            @click="myFilter = ''"
-          />
+          <icon-search v-if="myFilter === ''" size="30" />
+          <q-icon v-else name="clear" class="cursor-pointer" @click="myFilter = ''" />
         </template>
       </q-input>
     </q-toolbar>
@@ -54,29 +33,29 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { Search as IconSearch } from 'lucide-vue-next'
+import { useRouter } from 'vue-router'
+
+const $router = useRouter()
 
 const emit = defineEmits(['filter', 'menu-clicked'])
 
+const props = defineProps({
+  title: { type: String, default: '' },
+  filter: { type: String, default: '' },
+})
+
 const myFilter = computed({
   get() {
-    return this.filter
+    return props.filter
   },
   set(value) {
     emit('filter', value)
   },
 })
-</script>
-<script lang="ts">
-export default {
-  props: {
-    title: { type: String, default: '' },
-    filter: { type: String, default: '' },
-  },
 
-  methods: {
-    goToCache() {
-      this.$router.push({ name: 'cache' })
-    },
-  },
+function goToCache() {
+  $router.push({ name: 'cache' })
 }
+
 </script>

@@ -14,7 +14,7 @@
 
       <q-input v-model="tx.date" label="Date" @click="datePickerVisible = true">
         <template #prepend>
-          <font-awesome-icon icon="calendar-day" />
+          <IconCalendar :size="iconSize" />
         </template>
       </q-input>
     </div>
@@ -22,14 +22,14 @@
     <!-- payee -->
     <q-input v-model="tx.payee" label="Payee" @click.once="onPayeeClick">
       <template #prepend>
-        <font-awesome-icon icon="user" />
+        <icon-user :size="iconSize" />
       </template>
     </q-input>
 
     <!--note -->
     <q-input v-model="tx.note" label="Note">
       <template #prepend>
-        <font-awesome-icon icon="file-alt" />
+        <file-text :size="iconSize" />
       </template>
     </q-input>
 
@@ -64,11 +64,11 @@
     <!-- posting actions -->
     <div class="row justify-center text-center q-my-lg">
       <q-btn color="primary" text-color="accent" size="medium" class="col-auto q-mr-md" @click="addPosting">
-        <q-icon name="add_circle" class="q-icon-small on-left" />
+        <PlusCircle class="on-left" />
         <div>Add</div>
       </q-btn>
       <q-btn color="primary" text-color="accent" size="medium" class="col-auto" @click="reorderPostings">
-        <q-icon name="swap_vertical_circle" class="q-icon-small on-left" />
+        <ArrowUpDown class="on-left" />
         <div>Reorder</div>
       </q-btn>
     </div>
@@ -105,6 +105,7 @@ import appService from '../appService'
 import QPosting from '../components/Posting.vue'
 import { SET_SELECT_MODE } from '../mutations'
 import { Posting, Transaction } from '../model'
+import { ArrowUpDown, Calendar as IconCalendar, FileText, PlusCircle, User as IconUser } from 'lucide-vue-next'
 
 const router = useRouter()
 const mainStore = useMainStore()
@@ -119,6 +120,7 @@ const hasMultipleCurrencies = ref(false)
 const hasMultipleNans = ref(false)
 const deletePostingConfirmationVisible = ref(false)
 const postingIndexToDelete = ref(-1)
+const iconSize = ref(28)
 
 if (!tx.value) {
   tx.value = new Transaction()
