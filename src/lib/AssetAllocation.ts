@@ -281,7 +281,7 @@ class AssetAllocationEngine {
         let item = new AssetClass()
         item.allocation = child.allocation
         item.symbols = child.symbols
-        // todo: get the name
+        // get the name
         if (namespace) {
           item.fullname = namespace + ':' + propertyName
         } else {

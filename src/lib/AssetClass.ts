@@ -2,7 +2,7 @@ import { Account } from 'src/model'
 
 export class AssetClass {
   fullname: string
-  allocation
+  allocation = 0
   allocatedValue
   currentAllocation
   currentValue
@@ -14,7 +14,6 @@ export class AssetClass {
 
   constructor() {
     this.fullname = ''
-    this.allocation = null
     this.symbols = null
     // this.level = null; // the depth level, with root Allocation = 0
     this.currentValue = null

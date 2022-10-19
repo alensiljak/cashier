@@ -121,10 +121,11 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import { useMainStore } from '../store/mainStore'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, Ref, ref } from 'vue'
 import { useQuasar } from 'quasar'
 import { engine } from '../lib/AssetAllocation'
 import moment from 'moment'
+import { AssetClass } from 'src/lib/AssetClass'
 
 const mainStore = useMainStore()
 const $router = useRouter()
@@ -137,14 +138,64 @@ const canShare = computed(() => {
 })
 
 // data
-const buttonContainer = ref(null)
+const assetClasses: Ref<AssetClass[]> = ref([])
+const buttonContainer: Ref<any> = ref(null)
 
 onMounted(async () => {
-  console.log(buttonContainer)
+  //console.log(buttonContainer)
+  await loadData()
 })
+
+function downloadAsFile(content: string) {
+  var a = document.createElement('a')
+
+  // filename
+  // todo: let now = moment()
+  let now = new Date()
+  let filename = 'asset_allocation-'
+  filename += now.toISOString().substring(0, 10)
+  filename += '_'
+  filename += ('' + now.getHours()).padStart(2, '0')
+  filename += '-'
+  filename += ('' + now.getMinutes()).padStart(2, '0')
+  // filename += now.getTimezoneOffset()
+  filename += '.txt'
+  a.download = filename
+
+  let encoded = btoa(content)
+  // a.href = "data:application/octet-stream;base64," + Base64.encode(this.output);
+  a.href = 'data:text/plain;base64,' + encoded
+  // charset=UTF-8;
+
+  buttonContainer.value.appendChild(a)
+  a.click()
+
+  // cleanup?
+  buttonContainer.value.removeChild(a)
+}
+
+function getAaForExport() {
+  let output = engine.formatAllocationRowsForTxtExport(assetClasses.value)
+  return output
+}
+
+async function loadData() {
+  try {
+    let result = await engine.loadFullAssetAllocation()
+    assetClasses.value = result
+  } catch (error: any) {
+    console.error(error)
+    $q.notify({ message: error.message, color: 'secondary' })
+  }
+}
 
 function menuClicked() {
   mainStore.toggleDrawer()
+}
+
+function onExportClick() {
+  let output = getAaForExport()
+  downloadAsFile(output)
 }
 
 function onHelpClick() {
@@ -156,12 +207,47 @@ function onSetupClick() {
   $router.push({ name: 'settings' })
 }
 
+function onShareClick() {
+  // prepare for export?
+  let output = getAaForExport()
+
+  let dateFormatted = 'today'
+  navigator.share({
+    title: 'Asset Allocation ' + dateFormatted,
+    text: output,
+    url: 'https://cashier.alensiljak.eu.org/',
+  })
+}
+
+/**
+ * validate the allocation (definition)
+ */
+function onValidateClick() {
+  if (assetClasses.value.length === 0) {
+    $q.notify({ message: 'Please recalculate the allocation first.' })
+  }
+
+  // confirm that the group allocations match the sum of the children's allocation.
+  let errors = engine.validate(engine.assetClassIndex)
+  if (errors.length > 0) {
+    let message = 'Errors: '
+    for (let i = 0; i < errors.length; i++) {
+      message += errors[i]
+    }
+    $q.notify({ message: message, color: 'secondary' })
+  } else {
+    $q.notify({
+      message: 'The allocation is valid.',
+      color: 'teal-9',
+    }) // teal
+  }
+}
+
 </script>
 <script lang="ts">
 export default {
   data() {
     return {
-      assetClasses: [],
       columns: [
         {
           name: 'name',
@@ -190,91 +276,6 @@ export default {
     }
   },
 
-  mounted() {
-    this.loadData()
-  },
-
-  methods: {
-    downloadAsFile(content: string) {
-      var a = document.createElement('a')
-
-      // filename
-      // todo: let now = moment()
-      let now = new Date()
-      let filename = 'asset_allocation-'
-      filename += now.toISOString().substring(0, 10)
-      filename += '_'
-      filename += ('' + now.getHours()).padStart(2, '0')
-      filename += '-'
-      filename += ('' + now.getMinutes()).padStart(2, '0')
-      // filename += now.getTimezoneOffset()
-      filename += '.txt'
-      a.download = filename
-
-      let encoded = btoa(content)
-      // a.href = "data:application/octet-stream;base64," + Base64.encode(this.output);
-      a.href = 'data:text/plain;base64,' + encoded
-      // charset=UTF-8;
-
-      this.$refs.buttonContainer.appendChild(a)
-      a.click()
-
-      // cleanup?
-      this.$refs.buttonContainer.removeChild(a)
-    },
-    getAaForExport() {
-      let output = engine.formatAllocationRowsForTxtExport(this.assetClasses)
-
-      return output
-    },
-    async loadData() {
-      try {
-        let result = await engine.loadFullAssetAllocation()
-        this.assetClasses = result
-      } catch (error: any) {
-        console.error(error)
-        this.$q.notify({ message: error.message, color: 'secondary' })
-      }
-    },
-    onExportClick() {
-      let output = this.getAaForExport()
-      this.downloadAsFile(output)
-    },
-    onShareClick() {
-      // prepare for export?
-      let output = this.getAaForExport()
-
-      let dateFormatted = 'today'
-      navigator.share({
-        title: 'Asset Allocation ' + dateFormatted,
-        text: output,
-        url: 'https://cashier.alensiljak.eu.org/',
-      })
-    },
-    /**
-     * validate the allocation (definition)
-     */
-    onValidateClick() {
-      if (this.assetClasses.length === 0) {
-        this.$q.notify({ message: 'Please recalculate the allocation first.' })
-      }
-
-      // confirm that the group allocations match the sum of the children's allocation.
-      let errors = engine.validate(engine.assetClassIndex)
-      if (errors.length > 0) {
-        let message = 'Errors: '
-        for (let i = 0; i < errors.length; i++) {
-          message += errors[i]
-        }
-        this.$q.notify({ message: message, color: 'secondary' })
-      } else {
-        this.$q.notify({
-          message: 'The allocation is valid.',
-          color: 'teal-9',
-        }) // teal
-      }
-    },
-  },
 }
 
 </script>
