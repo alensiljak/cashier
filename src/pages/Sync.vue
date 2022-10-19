@@ -25,14 +25,11 @@
 
     <h4 class="q-my-md text-center">Settings</h4>
     <div class="q-my-md row">
-      <div class="col q-py-md">
+      <div class="col-8 q-py-md">
         <!-- server URL -->
         <q-input v-model="serverUrl" label="Server URL" @change="saveSyncServerUrl" />
       </div>
-
-      <div class="col text-center">
-      </div>
-      <div class="col text-center q-my-lg" style="align-self: center;">
+      <div class="col-4 text-center q-my-lg" style="align-self: center;">
         <div>
           <q-btn color="secondary" text-color="accent" @click="onConnectClicked">
             <Activity class="on-left" />

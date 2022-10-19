@@ -185,7 +185,7 @@ export class CashierSync {
    */
   async readPayees(): Promise<string[]> {
     const command = CashierSync.payeesCommand
-    const response = await this.ledger(command)
+    const response = await this.ledger(command, { timeout: 20000 })
     if (!response.ok) {
       throw new Error('Error reading payees!')
     }
