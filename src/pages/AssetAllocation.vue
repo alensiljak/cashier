@@ -12,35 +12,35 @@
               <q-item v-close-popup clickable @click="onSetupClick">
                 <q-item-section>Setup</q-item-section>
                 <q-item-section side>
-                  <q-icon name="settings" />
+                  <icon-settings />
                 </q-item-section>
               </q-item>
 
               <q-item v-if="canShare" v-close-popup clickable @click="onShareClick">
                 <q-item-section>Share</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="share-alt" transform="grow-9 left-5" />
+                  <share2 />
                 </q-item-section>
               </q-item>
 
               <q-item v-close-popup clickable @click="onExportClick">
                 <q-item-section>Export</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="sign-out-alt" transform="grow-9 left-5" />
+                  <file-down />
                 </q-item-section>
               </q-item>
 
               <q-item v-close-popup clickable @click="onValidateClick">
                 <q-item-section>Validate</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="balance-scale" transform="grow-9 left-5" />
+                  <icon-scale />
                 </q-item-section>
               </q-item>
 
               <q-item v-close-popup clickable @click="onHelpClick">
                 <q-item-section>Help</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="question-circle" transform="grow-9 left-5" />
+                  <help-circle />
                 </q-item-section>
               </q-item>
             </q-list>
@@ -126,6 +126,10 @@ import { useQuasar } from 'quasar'
 import { engine } from '../lib/AssetAllocation'
 import moment from 'moment'
 import { AssetClass } from 'src/lib/AssetClass'
+import {
+  FileDown, HelpCircle, Settings as IconSettings, Scale as IconScale,
+  Share2
+} from 'lucide-vue-next'
 
 const mainStore = useMainStore()
 const $router = useRouter()
@@ -242,42 +246,6 @@ function onValidateClick() {
     }) // teal
   }
 }
-
-</script>
-<script lang="ts">
-export default {
-  data() {
-    return {
-      columns: [
-        {
-          name: 'name',
-          label: 'Asset Class',
-          align: 'left',
-          field: 'name',
-          format: (val: any) => `${val}`,
-          classes: 'bg-teal-9 ellipsis',
-        },
-        { name: 'allocation', label: 'Allocation', field: 'allocation' },
-        {
-          name: 'current-allocation',
-          label: 'Current',
-          field: 'currentAllocation',
-        },
-        { name: 'diff', label: 'Diff', field: 'diff' },
-        { name: 'diff-perc', label: 'Diff %', field: 'diffPerc' },
-        {
-          name: 'allocatedAmount',
-          label: 'Alloc.Value',
-          field: 'allocatedAmount',
-        },
-        { name: 'currentValue', label: 'Current', field: 'currentValue' },
-        { name: 'diffAmount', label: 'Difference', field: 'diffAmount' },
-      ],
-    }
-  },
-
-}
-
 </script>
 
 <style lang="scss" scoped>
