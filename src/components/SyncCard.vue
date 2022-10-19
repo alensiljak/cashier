@@ -51,6 +51,7 @@
         Sync
       </q-btn> -->
       <q-btn outline color="primary" text-color="accent" @click="onSettingsClick">
+        <icon-cog size="20" class="on-left" />
         Sync Settings
       </q-btn>
     </q-card-actions>
@@ -64,7 +65,7 @@ import { CashierSync } from '../lib/syncCashier'
 import { SettingKeys, settings } from '../lib/settings'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
-import { HelpCircle } from 'lucide-vue-next'
+import { Cog as IconCog, HelpCircle } from 'lucide-vue-next'
 
 const $router = useRouter()
 

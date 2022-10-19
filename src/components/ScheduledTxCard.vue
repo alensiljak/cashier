@@ -1,7 +1,7 @@
 <template>
   <q-card bordered @click="onCardClick">
     <q-card-section class="bg-primary q-pa-sm">
-      <calendar-days class="icon q-mr-sm" size="1.4em" />
+      <calendar-clock class="icon q-mr-sm" size="1.4em" />
       <strong>Upcoming Transactions</strong>
     </q-card-section>
 
@@ -28,7 +28,7 @@
     </q-card-section>
     <q-card-actions align="center">
       <q-btn outline color="primary" text-color="accent" @click.capture="onCalendarClick">
-        <font-awesome-icon icon="calendar-alt" class="q-icon-small on-left" />
+        <calendar-days size="20" class="on-left" />
         Calendar
       </q-btn>
     </q-card-actions>
@@ -44,7 +44,7 @@ import appService from '../appService'
 import { TransactionAugmenter } from 'src/lib/transactionAugmenter'
 import { ScheduledTransaction, Transaction } from 'src/model'
 import { TransactionParser } from 'src/lib/transactionParser'
-import { CalendarDays } from 'lucide-vue-next'
+import { CalendarClock, CalendarDays } from 'lucide-vue-next'
 
 const emit = defineEmits(['click'])
 

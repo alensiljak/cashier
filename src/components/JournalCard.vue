@@ -31,7 +31,7 @@
 
     <q-card-actions align="center">
       <q-btn outline color="primary" text-color="accent" @click.stop="onExportTxClick">
-        <font-awesome-icon icon="sign-out-alt" class="q-icon-small on-left" />
+        <FileUp size="20" class="on-left" />
         Export
       </q-btn>
     </q-card-actions>
@@ -46,7 +46,7 @@ import useNotifications from 'src/lib/CashierNotification'
 import { TransactionParser } from 'src/lib/transactionParser'
 import { Transaction } from 'src/model'
 import { TransactionAugmenter } from 'src/lib/transactionAugmenter'
-import { Scroll } from 'lucide-vue-next'
+import { FileUp, Scroll } from 'lucide-vue-next'
 
 const Notification = useNotifications()
 const $router = useRouter()
