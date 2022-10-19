@@ -15,23 +15,16 @@
               <q-item v-close-popup clickable>
                 <q-item-section @click="exportJournal">Export</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="sign-out-alt" transform="grow-9 left-5" />
+                  <file-down />
                 </q-item-section>
               </q-item>
 
               <q-item v-close-popup clickable @click="onDeleteAllClicked">
                 <q-item-section>Delete All</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="trash-alt" transform="grow-9 left-5" />
+                  <trash2 />
                 </q-item-section>
               </q-item>
-
-              <!-- <q-item v-close-popup clickable @click="onHelpClick">
-                <q-item-section>Help</q-item-section>
-                <q-item-section side>
-                  <font-awesome-icon icon="question-circle" transform="grow-9 left-5" />
-                </q-item-section>
-              </q-item> -->
             </q-list>
           </q-menu>
         </q-btn>
@@ -42,7 +35,7 @@
       <template #right>
         <div class="row items-center text-accent" @click="deleteTransaction(tx.id)">
           Click to confirm or wait 2s to cancel
-          <font-awesome-icon icon="trash-alt" size="2x" class="q-ml-md" />
+          <trash2 class="on-right" />
         </div>
       </template>
 
@@ -94,6 +87,7 @@ import { useMainStore } from '../store/mainStore'
 import appService from '../appService'
 import JournalTransaction from '../components/JournalTransaction.vue'
 import { Transaction } from 'src/model'
+import { FileDown, Trash2 } from 'lucide-vue-next'
 
 const $q = useQuasar()
 const router = useRouter()

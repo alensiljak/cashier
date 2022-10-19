@@ -18,73 +18,32 @@
 
     <div id="actions" class="q-mt-lg column text-center">
       <!-- Enter -->
-      <q-btn
-        color="accent"
-        text-color="secondary"
-        size="1.3rem"
-        class="q-my-lg q-mx-md"
-        @click="enterConfirmationVisible = true"
-      >
-        <font-awesome-icon
-          icon="scroll"
-          transform="grow-9"
-          class="q-icon-small on-left"
-        />
+      <q-btn color="accent" text-color="secondary" size="1.3rem" class="q-my-lg q-mx-md"
+        @click="enterConfirmationVisible = true">
+        <icon-scroll size="32" class="on-left" />
         Enter
       </q-btn>
       <!-- Skip -->
-      <q-btn
-        color="primary"
-        text-color="accent"
-        size="1.3rem"
-        class="q-my-lg q-mx-md"
-        @click="skipConfirmationVisible = true"
-      >
-        <font-awesome-icon
-          icon="forward"
-          transform="grow-9"
-          class="q-icon-small on-left"
-        />
+      <q-btn color="primary" text-color="accent" size="1.3rem" class="q-my-lg q-mx-md"
+        @click="skipConfirmationVisible = true">
+        <chevrons-right size="32" class="on-left" />
         Skip
       </q-btn>
       <!-- Edit -->
-      <q-btn
-        color="accent"
-        text-color="secondary"
-        size="1.3rem"
-        class="q-my-lg q-mx-md"
-        @click="onEditClicked"
-      >
-        <font-awesome-icon
-          icon="save"
-          transform="grow-9"
-          class="q-icon-small on-left"
-        />
+      <q-btn color="accent" text-color="secondary" size="1.3rem" class="q-my-lg q-mx-md" @click="onEditClicked">
+        <icon-edit size="32" class="on-left" />
         Edit
       </q-btn>
       <!-- Delete -->
-      <q-btn
-        color="secondary"
-        text-color="accent"
-        size="1.3rem"
-        class="q-my-lg q-mx-md"
-        @click.once="confirmDeleteVisible = true"
-      >
-        <font-awesome-icon
-          icon="trash-alt"
-          transform="grow-9"
-          class="q-icon-small on-left"
-        />
+      <q-btn color="secondary" text-color="accent" size="1.3rem" class="q-my-lg q-mx-md"
+        @click.once="confirmDeleteVisible = true">
+        <trash2 size="32" class="on-left" />
         Delete
       </q-btn>
     </div>
     <div id="dialogs">
       <!-- 'Skip' confirmation dialog -->
-      <q-dialog
-        v-model="skipConfirmationVisible"
-        persistent
-        content-class="bg-blue-grey-10"
-      >
+      <q-dialog v-model="skipConfirmationVisible" persistent content-class="bg-blue-grey-10">
         <q-card class="bg-primary text-amber-2">
           <q-card-section class="row items-center">
             <span>Do you want to skip the next iteration?</span>
@@ -92,48 +51,26 @@
 
           <q-card-actions align="right">
             <q-btn v-close-popup flat label="No" color="accent" />
-            <q-btn
-              v-close-popup
-              flat
-              label="Yes"
-              color="accent"
-              @click="onSkipConfirmed"
-            />
+            <q-btn v-close-popup flat label="Yes" color="accent" @click="onSkipConfirmed" />
           </q-card-actions>
         </q-card>
       </q-dialog>
       <!-- confirm stx deletion dialog -->
-      <q-dialog
-        v-model="confirmDeleteVisible"
-        persistent
-        content-class="bg-blue-grey-10"
-      >
+      <q-dialog v-model="confirmDeleteVisible" persistent content-class="bg-blue-grey-10">
         <q-card class="bg-secondary text-amber-2">
           <q-card-section class="row items-center">
-            <span
-              >Do you want to delete the scheduled transaction
-              {{ tx.payee }}?</span
-            >
+            <span>Do you want to delete the scheduled transaction
+              {{ tx.payee }}?</span>
           </q-card-section>
 
           <q-card-actions align="right">
             <q-btn v-close-popup flat label="Cancel" color="accent" />
-            <q-btn
-              v-close-popup
-              flat
-              label="Delete"
-              color="accent"
-              @click="confirmDelete"
-            />
+            <q-btn v-close-popup flat label="Delete" color="accent" @click="confirmDelete" />
           </q-card-actions>
         </q-card>
       </q-dialog>
       <!-- 'Enter' confirmation dialog -->
-      <q-dialog
-        v-model="enterConfirmationVisible"
-        persistent
-        content-class="bg-blue-grey-10"
-      >
+      <q-dialog v-model="enterConfirmationVisible" persistent content-class="bg-blue-grey-10">
         <q-card class="bg-primary text-amber-2">
           <q-card-section class="row items-center">
             <span>Do you want to enter this transaction into the journal?</span>
@@ -141,13 +78,7 @@
 
           <q-card-actions align="right">
             <q-btn v-close-popup flat label="No" color="accent" />
-            <q-btn
-              v-close-popup
-              flat
-              label="Yes"
-              color="accent"
-              @click="onEnterConfirmed"
-            />
+            <q-btn v-close-popup flat label="Yes" color="accent" @click="onEnterConfirmed" />
           </q-card-actions>
         </q-card>
       </q-dialog>
@@ -167,6 +98,7 @@ import { Iterator } from '../lib/scheduledTransactions'
 import { storeToRefs } from 'pinia'
 import { ScheduledTransaction, Transaction } from 'src/model'
 import CashierDAL from '../store/dal'
+import { ChevronsRight, Edit as IconEdit, Scroll as IconScroll, Trash2 } from 'lucide-vue-next'
 
 const mainStore = useMainStore()
 const $q = useQuasar()

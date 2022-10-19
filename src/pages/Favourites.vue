@@ -15,21 +15,21 @@
               <q-item v-close-popup clickable @click="addAccountClick">
                 <q-item-section>Add</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="plus-circle" transform="grow-9 left-5" />
+                  <plus-circle />
                 </q-item-section>
               </q-item>
 
               <q-item v-close-popup clickable @click="onDeleteAllClick">
                 <q-item-section>Delete All</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="trash-alt" transform="grow-9 left-5" />
+                  <trash2 />
                 </q-item-section>
               </q-item>
 
               <q-item v-close-popup clickable @click="onSortClick">
                 <q-item-section>Reorder</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="sort" transform="grow-9 left-5" />
+                  <arrow-up-down />
                 </q-item-section>
               </q-item>
             </q-list>
@@ -44,7 +44,7 @@
       <template #right>
         <div class="row items-center text-accent" @click="removeAccount(index)">
           Click to confirm or wait 2s to cancel
-          <font-awesome-icon icon="trash-alt" size="2x" class="q-ml-md" />
+          <trash2 size="32" class="on-right" />
         </div>
       </template>
 
@@ -60,7 +60,7 @@
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab color="accent" text-color="secondary" @click="onFabClicked">
-        <q-icon name="add" />
+        <icon-plus />
       </q-btn>
     </q-page-sticky>
 
@@ -92,6 +92,7 @@ import {
   settings,
   SettingKeys,
 } from '../lib/settings'
+import { ArrowUpDown, Plus as IconPlus, PlusCircle, Trash2 } from 'lucide-vue-next'
 
 const mainStore = useMainStore()
 
