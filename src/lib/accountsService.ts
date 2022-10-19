@@ -46,7 +46,8 @@ export class AccountService {
   getDefaultChartOfAccounts() {
     const accountsList = `
     Assets:Cash
-    Assets:Bank Accounts
+    Assets:Bank Accounts:Checking
+    Assets:Bank Accounts:Savings
     Assets:Fixed Assets
     Assets:Investments
     Assets:Retirement

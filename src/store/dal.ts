@@ -11,6 +11,10 @@ class CashierDAL {
     return db.payees.clear()
   }
 
+  async addPayees(payees: Payee[]): Promise<IndexableType> {
+    return db.payees.bulkAdd(payees)
+  }
+
   /**
    * @returns Collection
    */

@@ -21,6 +21,9 @@
     <div class="row">
       <q-checkbox label="Create Favourite Accounst" v-model="createFavAccountsChecked" />
     </div>
+    <div class="row">
+      <q-checkbox label="Create Payees" v-model="createPayeesChecked" />
+    </div>
     <p>Create Transactions</p>
     <p>Create Scheduled Transactions</p>
     <p>Create Asset Allocation</p>
@@ -39,7 +42,7 @@ import useNotifications from 'src/lib/CashierNotification'
 import { AccountService } from 'src/lib/accountsService'
 // import appService from 'src/appService';
 import { SettingKeys, settings } from '../lib/settings'
-import db from 'src/store/indexedDb'
+import { createDemoPayees } from '../lib/demoDataGenerator'
 
 const Notification = useNotifications()
 
@@ -47,6 +50,7 @@ const createAllChecked = ref(true)
 const createDefaultSettingsChecked = ref(true)
 const createAccountsChecked = ref(true)
 const createFavAccountsChecked = ref(true)
+const createPayeesChecked = ref(true)
 
 async function create() {
   // create records
@@ -59,16 +63,18 @@ async function create() {
   if (createFavAccountsChecked.value) {
     await createFavouriteAccounts()
   }
+  if (createPayeesChecked.value) {
+    createPayees()
+  }
 }
 
 function onAllClicked() {
-  //console.log('all toggle', createAllChecked.value)
-
   const checked = createAllChecked.value
 
   createAccountsChecked.value = checked
   createDefaultSettingsChecked.value = checked
   createFavAccountsChecked.value = checked
+  createPayeesChecked.value = checked
 }
 
 async function confirmCreateAccounts() {
@@ -103,10 +109,15 @@ async function createDefaultSettings() {
 }
 
 async function createFavouriteAccounts() {
-  const favArray = ['Assets:Cash']
+  const favArray = ['Assets:Cash', 'Assets:Bank Accounts:Checking']
   await settings.set(SettingKeys.favouriteAccounts, favArray)
 
   Notification.positive('Favourite Accounts created')
+}
+
+async function createPayees() {
+  await createDemoPayees()
+  Notification.positive('Payees created')
 }
 
 function haveExistingData(): boolean {

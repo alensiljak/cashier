@@ -50,11 +50,10 @@
         this will only read your Ledger data and populate Cashier so that it is
         operational with your Accounts.
       </li>
-      <li>In Settings / Cache API, click Fetch the Payees.</li>
     </ol>
     <p>
       CashierSync source code is available at
-      <a href="https://gitlab.com/alensiljak/cashier-sync">GitLab</a>
+      <a href="https://github.com/alensiljak/cashier-ledger-server-go">GitHub</a>
       and the package is available at Pypi and can be installed with pip
       directly.
     </p>

@@ -51,34 +51,12 @@ const addDialogVisible = ref(false)
 
 onMounted(async () => {
   try {
-    await checkCache()
-
     await loadData()
   } catch (error: any) {
     console.error(error)
     Notification.negative(error.message)
   }
 })
-
-async function checkCache() {
-  const serverUrl = await settings.get(SettingKeys.syncServerUrl)
-  if (serverUrl) {
-    return
-  }
-
-  Notification.custom({
-    message: 'The synchronization root not set. Click the button to go to sync settings.',
-    color: 'info',
-    icon: 'settings',
-    closeBtn: 'Settings',
-    timeout: 6000,
-    onDismiss() {
-      // go to settings
-      $router.push('/sync')
-    },
-  })
-
-}
 
 /**
  * Currently we only use click for selecting a Payee in a Transaction.
@@ -101,7 +79,6 @@ function itemClicked(id: string) {
 }
 
 async function loadData() {
-
   const dal = new CashierDAL()
   const payeeRecords = await dal.loadPayees().toArray()
 

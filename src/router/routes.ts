@@ -65,12 +65,6 @@ const routes = [
         component: () =>
           import(/* webpackChunkName: 'bal' */ 'src/pages/QBalanceSheet.vue'),
       },
-      {
-        path: '/cache',
-        name: 'cache',
-        component: () =>
-          import(/* webpackChunkName: 'cache' */ 'src/pages/Cache.vue'),
-      },
       // {
       //   path: "/calculator",
       //   components: {

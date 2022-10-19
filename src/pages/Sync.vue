@@ -83,9 +83,6 @@
         </div>
       </div>
 
-      <!-- <div class="col text-center">
-          <q-btn label="Cache API" color="accent" text-color="secondary" to="cache" />
-        </div> -->
     </div>
   </q-page>
 </template>
@@ -96,7 +93,6 @@ import { useRouter } from 'vue-router'
 import appService from '../appService'
 import { CashierSync } from '../lib/syncCashier'
 import { SettingKeys, settings, Constants } from '../lib/settings'
-import CashierCache from '../lib/CashierCache'
 import Toolbar from '../components/CashierToolbar.vue'
 import useNotifications from 'src/lib/CashierNotification'
 import CashierDal from '../store/dal'

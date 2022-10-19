@@ -9,15 +9,6 @@
 
       <q-space />
 
-      <!-- <q-btn flat round dense icon="more_vert">
-        <q-menu>
-          <q-list style="min-width: 175px">
-            <q-item>
-              <q-item-section @click="goToCache">Cache</q-item-section>
-            </q-item>
-          </q-list>
-        </q-menu>
-      </q-btn> -->
     </q-toolbar>
 
     <!-- filter toolbar -->
@@ -56,9 +47,5 @@ const myFilter = computed({
     emit('filter', value)
   },
 })
-
-function goToCache() {
-  $router.push({ name: 'cache' })
-}
 
 </script>
