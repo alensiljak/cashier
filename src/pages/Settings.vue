@@ -36,22 +36,6 @@
       </div>
     </div>
 
-    <div class="row q-mt-sm">
-      <div class="col-8">
-        <q-file v-model="aasettingsfile" label="Asset Allocation settings file" clearable
-          @update:model-value="onAaFileSelected" />
-      </div>
-      <div class="col-1 text-center">
-        <q-btn flat round dense @click="onAaHelpClick">
-          <help-circle />
-        </q-btn>
-      </div>
-      <div class="col-3 text-center">
-        <q-btn label="Import" color="secondary" text-color="accent" @click="onDefinitionImportClick" />
-      </div>
-      <!-- </div> -->
-    </div>
-
     <p class="q-my-md">Last Transaction</p>
     <div class="row">
       <div class="col">
@@ -84,11 +68,26 @@
 
     <hr />
 
-    <div class="row q-mt-md">
+    <!-- Asset Allocation -->
+    <h5 class="q-mt-md q-mb-none">Asset Allocation</h5>
+    <div class="row">
       <div class="col">
-        <div>Restore</div>
-        <p>You can restore settings from a backup file.</p>
+        <q-file v-model="aaSettingsFile" label="Asset Allocation settings file" clearable
+          @update:model-value="onAaFileSelected" />
       </div>
+      <div class="col-1 text-center">
+        <q-btn flat round dense @click="onAaHelpClick">
+          <help-circle />
+        </q-btn>
+      </div>
+      <div v-if="aaSettingsFile" class="col-3 text-center">
+        <q-btn label="Import" color="secondary" text-color="accent" @click="onDefinitionImportClick" />
+      </div>
+    </div>
+
+    <!-- Restore -->
+    <h5 class="q-mt-md q-mb-none">Restore Settings</h5>
+    <div class="row">
       <div class="col text-center">
         <q-file accept=".json" v-model="restoreFile" label="settings backup file" clearable
           @update:model-value="onRestoreFileSelected" />
@@ -122,14 +121,13 @@
       </q-card>
     </q-dialog>
 
-    <div class="row q-mt-lg">
-      <div class="col q-my-lg">
-        <p>
-          Force-reload the page to refresh the version in case the background
-          worker does not manage to update to the latest version.
-        </p>
+    <h5 class="q-mt-md q-mb-none">Reload App</h5>
+    <div class="row q-mb-lg">
+      <div class="col">
+        Force-reload the page to refresh the version in case the background service
+        worker does not manage to update to the latest version.
       </div>
-      <div class="col text-right">
+      <div class="col-3 text-center">
         <q-btn label="Reload App" color="secondary" text-color="accent" @click="reloadApp" />
       </div>
     </div>
@@ -138,15 +136,15 @@
 
 <script setup lang="ts">
 import { onMounted, Ref, ref } from 'vue'
-import appService from '../appService'
-import useNotifications from 'src/lib/CashierNotification'
 import db from '../store/indexedDb'
-import { SettingKeys, settings } from '../lib/settings'
 import Toolbar from '../components/CashierToolbar.vue'
+import { SettingKeys, settings } from '../lib/settings'
+import useNotifications from 'src/lib/CashierNotification'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
 import { engine } from '../lib/AssetAllocation'
 import { HelpCircle } from 'lucide-vue-next'
+import appService from '../appService'
 
 const Notification = useNotifications()
 const $router = useRouter()
@@ -160,7 +158,7 @@ const rootInvestmentAccount: Ref<string> = ref('')
 const restoreFile: Ref<Blob> | Ref<null> = ref(null)
 const isRestoreConfirmationVisible = ref(false)
 const fileContent: Ref<string> = ref('')
-const aasettingsfile = ref(null)
+const aaSettingsFile = ref(null)
 
 onMounted(async () => {
   //
@@ -228,7 +226,8 @@ async function onDefinitionImportClick() {
     await engine.emptyData()
     // import AA definition file
     //await engine.importDefinition(this.fileContent)
-    await engine.importYamlDefinition(fileContent.value)
+    //await engine.importYamlDefinition(fileContent.value)
+    await engine.importTomlDefinition(fileContent.value)
 
     $q.notify({ message: 'Definition imported', color: 'positive' })
   } catch (error) {

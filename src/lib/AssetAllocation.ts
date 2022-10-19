@@ -3,12 +3,12 @@
 */
 import appService from '../appService'
 import { AssetClass } from './AssetClass'
-import jsyaml from 'js-yaml'
+//import jsyaml from 'js-yaml'
 import numeral from 'numeral'
+import toml from 'toml'
 
 /**
  * loadDefinition = loads the pre-set definition
- *
  */
 class AssetAllocationEngine {
   assetClassIndex: Record<string, AssetClass>
@@ -232,14 +232,19 @@ class AssetAllocationEngine {
     }
   }
 
+  async importTomlDefinition(content: string) {
+    const aa = toml.parse(content)
+    console.log('toml:', aa)
+  }
+
   /**
-   * Imports Asset Allocation definition as YAML
+   * Do not use - the dependent js-yaml package is removed.
+   * Imports Asset Allocation definition as YAML.
    * @param {string} content The content of the YAML definition file.
    */
   async importYamlDefinition(content: string) {
-    let parsed: object = jsyaml.load(content) as object
+    let parsed: object = {} //= jsyaml.load(content) as object
 
-    //var aa = parsed.Allocation
     // Convert to backward-compatible structure (tree -> list).
     let assetClasses = this.linearizeObject(parsed)
 
@@ -250,9 +255,9 @@ class AssetAllocationEngine {
   }
 
   /**
-   * Convert a YAML tree AA structure into a list of Asset Classes.
+   * Convert a tree AA structure (object) into a list of Asset Classes.
    * This converts the new structure into the old.
-   * @param {object} rootObject
+   * @param {object} rootObject The Asset Allocation object
    */
   linearizeObject(rootObject: object, namespace = ''): AssetClass[] {
     let result: AssetClass[] = []
@@ -298,6 +303,7 @@ class AssetAllocationEngine {
 
   /**
    * Used on import only!
+   * Validates the asset allocation and stores it into the database.
    * @param {Array} assetClassArray
    */
   async validateAndSave(assetClassArray: AssetClass[]) {
