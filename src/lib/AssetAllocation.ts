@@ -233,8 +233,16 @@ class AssetAllocationEngine {
   }
 
   async importTomlDefinition(content: string) {
-    const aa = toml.parse(content)
-    console.log('toml:', aa)
+    const parsed = toml.parse(content)
+    //console.log('toml:', aa)
+
+    // Convert to backward-compatible structure (tree -> list).
+    let assetClasses = this.linearizeObject(parsed)
+
+    // todo: use the tree structure directly, at some later point.
+
+    let result = await this.validateAndSave(assetClasses)
+    return result
   }
 
   /**
