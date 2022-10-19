@@ -1,7 +1,9 @@
 <template>
   <q-header elevated class="glossy">
     <q-toolbar class="text-colour2">
-      <q-btn flat dense round aria-label="Menu" icon="menu" @click="$emit('menu-clicked')" />
+      <q-btn flat dense round aria-label="Menu" @click="$emit('menu-clicked')">
+        <icon-menu />
+      </q-btn>
 
       <q-toolbar-title>{{ title }}</q-toolbar-title>
 
@@ -23,8 +25,8 @@
       <!-- <q-toolbar-title> -->
       <q-input v-model="myFilter" autofocus rounded standout dense color="accent" style="width: 23rem" debounce="400">
         <template #append>
-          <icon-search v-if="myFilter === ''" size="30" />
-          <q-icon v-else name="clear" class="cursor-pointer" @click="myFilter = ''" />
+          <icon-search v-if="myFilter === ''" />
+          <x-circle v-else class="cursor-pointer" @click="myFilter = ''" />
         </template>
       </q-input>
     </q-toolbar>
@@ -35,6 +37,7 @@
 import { computed } from 'vue'
 import { Search as IconSearch } from 'lucide-vue-next'
 import { useRouter } from 'vue-router'
+import { Menu as IconMenu, XCircle } from 'lucide-vue-next'
 
 const $router = useRouter()
 

@@ -6,100 +6,36 @@
 
     <div id="actions" class="q-mt-lg column text-center">
       <!-- Edit -->
-      <q-btn
-        color="accent"
-        text-color="secondary"
-        size="1.3rem"
-        class="q-my-lg q-mx-md"
-        @click.once="onEditClicked"
-      >
-        <font-awesome-icon
-          icon="save"
-          transform="grow-9"
-          class="q-icon-small on-left"
-        />
+      <q-btn color="accent" text-color="secondary" size="1.3rem" class="q-my-lg q-mx-md" @click.once="onEditClicked">
+        <icon-edit size="32" class="on-left" />
         Edit
       </q-btn>
-      <q-btn
-        color="primary"
-        text-color="accent"
-        size="1.3rem"
-        class="q-my-lg q-mx-md"
-        @click="onDuplicateClicked"
-      >
-        <font-awesome-icon
-          icon="copy"
-          transform="grow-9"
-          class="q-icon-small on-left"
-        />
+      <q-btn color="primary" text-color="accent" size="1.3rem" class="q-my-lg q-mx-md" @click="onDuplicateClicked">
+        <icon-copy size="32" class="on-left" />
         Duplicate
       </q-btn>
-      <q-btn
-        color="accent"
-        text-color="secondary"
-        size="1.3rem"
-        class="q-my-lg q-mx-md"
-        @click="onScheduleClick"
-      >
-        <font-awesome-icon
-          icon="calendar-alt"
-          transform="grow-9"
-          class="q-icon-small on-left"
-        />
+      <q-btn color="accent" text-color="secondary" size="1.3rem" class="q-my-lg q-mx-md" @click="onScheduleClick">
+        <calendar-clock size="32" class="on-left" />
         Schedule
       </q-btn>
-      <q-btn
-        v-if="$store.getters.liveModeOn"
-        size="1.3rem"
-        color="primary"
-        text-color="accent"
-        class="q-my-lg q-mx-md"
-        @click="onXactClicked"
-      >
-        <font-awesome-icon
-          icon="scroll"
-          transform="grow-9"
-          class="q-icon-small on-left"
-        />
+      <q-btn v-if="$store.getters.liveModeOn" size="1.3rem" color="primary" text-color="accent" class="q-my-lg q-mx-md"
+        @click="onXactClicked">
+        <icon-scroll size="32" class="on-left" />
         xact
       </q-btn>
-      <q-btn
-        color="primary"
-        text-color="accent"
-        size="1.3rem"
-        class="q-my-lg q-mx-md"
-        @click="onCopyClicked"
-      >
-        <font-awesome-icon
-          icon="copy"
-          transform="grow-9"
-          class="q-icon-small on-left"
-        />
+      <q-btn color="primary" text-color="accent" size="1.3rem" class="q-my-lg q-mx-md" @click="onCopyClicked">
+        <clipboard-copy size="32" class="on-left" />
         copy ledger entry
       </q-btn>
-      <q-btn
-        v-if="tx && tx.id"
-        color="secondary"
-        text-color="accent"
-        size="1.3rem"
-        class="q-my-lg q-mx-md"
-        @click="onDeleteClick"
-      >
-        <font-awesome-icon
-          icon="trash-alt"
-          transform="grow-9"
-          class="q-icon-small on-left"
-        />
+      <q-btn v-if="tx && tx.id" color="secondary" text-color="accent" size="1.3rem" class="q-my-lg q-mx-md"
+        @click="onDeleteClick">
+        <icon-trash2 size="32" class="on-left" />
         Delete
       </q-btn>
     </div>
 
     <!-- confirm tx deletion dialog -->
-    <q-dialog
-      v-model="confirmDeleteVisible"
-      persistent
-      content-class="bg-blue-grey-10"
-    >
+    <q-dialog v-model="confirmDeleteVisible" persistent content-class="bg-blue-grey-10">
       <q-card class="bg-secondary text-amber-2">
         <q-card-section class="row items-center">
           <span>Do you want to delete the transaction?</span>
@@ -107,13 +43,7 @@
 
         <q-card-actions align="right">
           <q-btn v-close-popup flat label="Cancel" color="accent" />
-          <q-btn
-            v-close-popup
-            flat
-            label="Delete"
-            color="accent"
-            @click="confirmDelete"
-          />
+          <q-btn v-close-popup flat label="Delete" color="accent" @click="confirmDelete" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -131,6 +61,10 @@ import JournalTransaction from '../components/JournalTransaction.vue'
 import { storeToRefs } from 'pinia'
 import { Transaction } from 'src/model'
 import CashierDAL from '../store/dal'
+import {
+  CalendarClock, ClipboardCopy, Copy as IconCopy, Edit as IconEdit, Save as IconSave,
+  Scroll as IconScroll, Trash2 as IconTrash2
+} from 'lucide-vue-next'
 
 const router = useRouter()
 const $q = useQuasar()

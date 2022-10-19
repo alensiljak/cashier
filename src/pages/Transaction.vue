@@ -2,21 +2,22 @@
   <q-page padding class="text-amber-2">
     <!-- toolbar -->
     <cashier-toolbar title="Journal Transaction">
-      <q-btn flat round dense icon="more_vert">
+      <q-btn flat round dense>
+        <more-vertical />
         <q-menu>
           <q-list style="min-width: 175px">
             <!-- Save -->
             <q-item v-close-popup clickable @click="onSaveClicked">
               <q-item-section>Save</q-item-section>
               <q-item-section side>
-                <q-icon name="save" />
+                <icon-save />
               </q-item-section>
             </q-item>
             <!-- Reset -->
             <q-item v-close-popup clickable @click="onClear">
               <q-item-section>Reset</q-item-section>
               <q-item-section side>
-                <q-icon name="cancel" />
+                <x-circle />
               </q-item-section>
             </q-item>
           </q-list>
@@ -66,7 +67,7 @@ import TxEditor from '../components/TransactionEditor.vue'
 import CashierDAL from '../store/dal'
 import { Transaction } from 'src/model'
 import CashierToolbar from 'src/components/CashierToolbar.vue'
-import { Check as CheckIcon } from 'lucide-vue-next'
+import { Check as CheckIcon, MoreVertical, Save as IconSave, XCircle } from 'lucide-vue-next'
 
 const router = useRouter()
 const mainStore = useMainStore()
