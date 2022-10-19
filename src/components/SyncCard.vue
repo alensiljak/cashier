@@ -13,10 +13,10 @@
         <div class="col">
           Status:
           <span v-if="serverStatus === true">
-            <font-awesome-icon icon="check" class="on" /> Running
+            <icon-check class="on icon" /> Running
           </span>
           <span v-if="serverStatus === false">
-            <font-awesome-icon icon="skull" class="off" /> Not running
+            <icon-skull class="off icon" size="22" /> Not running
           </span>
           <!-- image used for CashierSync server detection -->
           <q-img v-if="serverUrl" v-show="false" :src="testUrl" @error="onStatusError" @load="onStatusSuccess" />
@@ -65,7 +65,7 @@ import { CashierSync } from '../lib/syncCashier'
 import { SettingKeys, settings } from '../lib/settings'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
-import { Cog as IconCog, HelpCircle } from 'lucide-vue-next'
+import { Check as IconCheck, Cog as IconCog, HelpCircle, Skull as IconSkull } from 'lucide-vue-next'
 
 const $router = useRouter()
 

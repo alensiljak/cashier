@@ -37,7 +37,7 @@
 
         <q-item v-if="liveModeOn" v-ripple to="tx-search" exact clickable active-class="active-link">
           <q-item-section avatar>
-            <font-awesome-icon icon="search-dollar" transform="grow-6 right-6" />
+            <icon-search />
           </q-item-section>
           <q-item-section>
             <q-item-label>Transaction Search</q-item-label>
@@ -46,7 +46,7 @@
 
         <q-item v-if="liveModeOn" v-ripple to="xact" exact clickable active-class="active-link">
           <q-item-section avatar>
-            <font-awesome-icon icon="list-ul" transform="grow-6 right-6" />
+            <icon-list />
           </q-item-section>
           <q-item-section>
             <q-item-label>Xact</q-item-label>
@@ -241,8 +241,8 @@ import { useQuasar } from 'quasar'
 import { storeToRefs } from 'pinia'
 import {
   CalendarClock,
-  HelpCircle, Home as HomeIcon, Info as InfoIcon, Landmark, PieChart,
-  Scroll, Settings as SettingsIcon,
+  HelpCircle, Home as HomeIcon, Info as InfoIcon, Landmark, List as IconList,
+  PieChart, Search as IconSearch, Scroll, Settings as SettingsIcon,
   Star, UploadCloud, Users
 } from 'lucide-vue-next'
 
@@ -255,6 +255,13 @@ const { drawerOpen } = storeToRefs(mainStore)
 // initial state of the drawer
 mainStore.setDrawerOpen($q.platform.is.desktop as boolean)
 
+function onHeaderClick() {
+  // "reset browser history" by going back to the beginning.
+  let back = (window.history.length - 1) * -1
+  // console.log('history:', window.history.length)
+  window.history.go(back)
+}
+
 function toggleDrawer() {
   mainStore.toggleDrawer()
 }
@@ -266,15 +273,6 @@ export default {
       get() {
         return this.$store.state.useLedger
       },
-    },
-  },
-
-  methods: {
-    onHeaderClick() {
-      // "reset browser history" by going back to the beginning.
-      let back = (window.history.length - 1) * -1
-      // console.log('history:', window.history.length)
-      window.history.go(back)
     },
   },
 }

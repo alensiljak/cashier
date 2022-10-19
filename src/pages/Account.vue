@@ -14,20 +14,19 @@
               <q-item v-close-popup clickable>
                 <q-item-section>Synchronize</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="sync-alt" transform="grow-9 left-7" />
+                  <refresh-cw />
                 </q-item-section>
               </q-item>
               <q-item v-close-popup clickable>
                 <q-item-section>Import</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="sign-in-alt" transform="grow-9 left-7" />
+                  <archive-restore />
                 </q-item-section>
               </q-item>
               <q-item v-close-popup clickable>
                 <q-item-section @click="deleteAccount">Delete</q-item-section>
                 <q-item-section side>
-                  <!-- <q-icon name="star"/> -->
-                  <font-awesome-icon icon="trash-alt" transform="grow-9 left-7" />
+                  <trash2 />
                 </q-item-section>
               </q-item>
             </q-list>
@@ -71,6 +70,7 @@
 import { Account } from 'src/model';
 import appService from '../appService'
 import { useMainStore } from '../store/mainStore'
+import { ArchiveRestore, RefreshCw, Trash2 } from 'lucide-vue-next'
 
 const mainStore = useMainStore()
 
