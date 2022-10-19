@@ -50,7 +50,7 @@
             <q-checkbox v-model="syncAccounts" label="Sync accounts list with balances." />
           </q-item-section>
           <q-item-label>
-            <font-awesome-icon v-if="showAccountProgress" icon="sync-alt" spin />
+            <RefreshCw v-if="showAccountProgress" size="18" class="spin" />
           </q-item-label>
         </q-item>
         <!-- Asset Allocation values -->
@@ -60,7 +60,7 @@
               label="Sync account values in base currency (ledger b ^<root> -X <CUR> --flat --no-total). Used for asset allocation." />
           </q-item-section>
           <q-item-label>
-            <font-awesome-icon v-if="showAssetProgress" icon="sync-alt" spin />
+            <RefreshCw v-if="showAssetProgress" size="18" class="spin" />
           </q-item-label>
         </q-item>
         <!-- Payees -->
@@ -69,7 +69,7 @@
             <q-checkbox v-model="syncPayees" label="Sync Payees." />
           </q-item-section>
           <q-item-label>
-            <font-awesome-icon v-if="showPayeesProgress" icon="sync-alt" spin />
+            <RefreshCw v-if="showPayeesProgress" size="18" class="spin" />
           </q-item-label>
         </q-item>
       </q-list>
@@ -78,7 +78,6 @@
         <div class="col text-center q-mt-sm">
           <q-btn color="accent" text-color="secondary" size="1.3rem" class="q-my-lg q-mx-md" @click="onSyncClicked">
             <refresh-cw size="30" stroke-width="3" class="on-left" />
-            <!-- <font-awesome-icon icon="sync-alt" transform="grow-9" class="q-icon-small on-left" /> -->
             Sync
           </q-btn>
         </div>

@@ -37,16 +37,16 @@
     </div>
 
     <div class="row q-mt-sm">
-      <div class="col">
+      <div class="col-8">
         <q-file v-model="aasettingsfile" label="Asset Allocation settings file" clearable
           @update:model-value="onAaFileSelected" />
       </div>
       <div class="col-1 text-center">
         <q-btn flat round dense @click="onAaHelpClick">
-          <font-awesome-icon icon="question-circle" />
+          <help-circle />
         </q-btn>
       </div>
-      <div class="col text-right">
+      <div class="col-3 text-center">
         <q-btn label="Import" color="secondary" text-color="accent" @click="onDefinitionImportClick" />
       </div>
       <!-- </div> -->
@@ -146,6 +146,7 @@ import Toolbar from '../components/CashierToolbar.vue'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
 import { engine } from '../lib/AssetAllocation'
+import { HelpCircle } from 'lucide-vue-next'
 
 const Notification = useNotifications()
 const $router = useRouter()
