@@ -17,7 +17,7 @@
     </q-list> -->
 
     <!-- <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn fab icon="check" color="accent" text-color="secondary" @click="onAcceptClick" />
+      <q-btn fab color="accent" text-color="secondary" @click="onAcceptClick"><icon-check /></q-btn>
     </q-page-sticky> -->
   </q-page>
 </template>

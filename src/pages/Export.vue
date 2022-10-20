@@ -13,35 +13,24 @@
     <textarea v-model="output" class="text-amber-2 col-grow" />
 
     <footer class="row q-my-md justify-evenly">
-      <q-btn
-        label="Copy to clipboard"
-        color="secondary"
-        text-color="accent"
-        @click="copyToClipboard"
-      />
+      <q-btn label="Copy to clipboard" color="secondary" text-color="accent" @click="copyToClipboard" />
       <pcloud-save :filename="fileName" :content="output" />
       <div>
-        <q-btn
-          round
-          :icon="mdiShareVariant"
-          color="secondary"
-          text-color="accent"
-          @click="webshare"
-        />
+        <q-btn round color="secondary" text-color="accent" @click="webshare">
+          <share2 />
+        </q-btn>
       </div>
-      <q-btn
-        ref="buttonContainer"
-        label="Download"
-        color="secondary"
-        text-color="accent"
-        @click="downloadAsFile"
-      />
+      <q-btn ref="buttonContainer" label="Download" color="secondary" text-color="accent" @click="downloadAsFile" />
     </footer>
   </q-page>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import appService from '../appService'
+import { Share2 } from 'lucide-vue-next'
+
+</script>
+<script lang="ts">
 import { mdiShareVariant } from '@quasar/extras/mdi-v4'
 import Toolbar from '../components/CashierToolbar.vue'
 import moment from 'moment'

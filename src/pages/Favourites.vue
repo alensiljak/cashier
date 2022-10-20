@@ -2,13 +2,16 @@
   <q-page padding class="text-colour2">
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn flat dense round aria-label="Menu" icon="menu" @click="onMenuClicked" />
+        <q-btn flat dense round aria-label="Menu" @click="onMenuClicked">
+          <icon-menu />
+        </q-btn>
 
         <q-toolbar-title>Favourites</q-toolbar-title>
 
         <q-space />
 
-        <q-btn flat round dense icon="more_vert">
+        <q-btn flat round dense>
+          <more-vertical />
           <q-menu>
             <q-list style="min-width: 175px">
               <!-- dense -->
@@ -68,8 +71,6 @@
     <q-dialog v-model="confirmDeleteDialogVisible" persistent content-class="bg-blue-grey-10">
       <q-card class="bg-secondary text-amber-2">
         <q-card-section class="row items-center">
-          <!-- <q-avatar icon="signal_wifi_off" color="primary" text-color="amber-2"/>
-          <span class="q-ml-sm">You are currently not connected to any network.</span>-->
           <span>Do you want to unmark all the favourite accounts?</span>
         </q-card-section>
 
@@ -92,7 +93,10 @@ import {
   settings,
   SettingKeys,
 } from '../lib/settings'
-import { ArrowUpDown, Plus as IconPlus, PlusCircle, Trash2 } from 'lucide-vue-next'
+import {
+  ArrowUpDown, Menu as IconMenu, MoreVertical, Plus as IconPlus, PlusCircle,
+  Trash2
+} from 'lucide-vue-next'
 
 const mainStore = useMainStore()
 

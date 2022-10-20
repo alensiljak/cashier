@@ -1,7 +1,9 @@
 <template>
   <q-page padding class="text-colour2">
     <toolbar :title="'Reorder Favourites'">
-      <q-btn flat round dense icon="check" @click="onSaveClicked" />
+      <q-btn flat round dense @click="onSaveClicked">
+        <check />
+      </q-btn>
     </toolbar>
 
     <draggable tag="q-list" :list="accounts" class="list-group" handle=".handle" item-key="name">
@@ -76,6 +78,7 @@ import appService from '../appService'
 import { useRouter } from 'vue-router'
 import draggable from 'vuedraggable'
 import useNotifications from 'src/lib/CashierNotification'
+import { Check } from 'lucide-vue-next'
 
 const $q = useQuasar()
 const router = useRouter()

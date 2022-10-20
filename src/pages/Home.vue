@@ -5,7 +5,9 @@
     <!-- Toolbar -->
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn flat dense round aria-label="Menu" icon="menu" @click="menuClicked" />
+        <q-btn flat dense round aria-label="Menu" @click="menuClicked">
+          <icon-menu />
+        </q-btn>
 
         <q-toolbar-title> Cashier </q-toolbar-title>
       </q-toolbar>
@@ -49,7 +51,8 @@
 
         <q-space />
 
-        <q-btn dense flat icon="close" v-close-popup>
+        <q-btn dense flat v-close-popup>
+          <icon-x />
           <q-tooltip>Close</q-tooltip>
         </q-btn>
       </q-bar>
@@ -80,7 +83,7 @@ import ScheduledCard from '../components/ScheduledTxCard.vue'
 import { onMounted, ref } from 'vue'
 import { SettingKeys, settings } from '../lib/settings'
 import useNotifications from 'src/lib/CashierNotification'
-import { Plus as PlusIcon } from 'lucide-vue-next'
+import { Menu as IconMenu, Plus as PlusIcon, X as IconX } from 'lucide-vue-next'
 
 const router = useRouter()
 const mainStore = useMainStore()

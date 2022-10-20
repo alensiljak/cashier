@@ -31,7 +31,6 @@
         <q-dialog v-model="liveModeHelpVisible" persistent content-class="bg-blue-grey-10">
           <q-card class="bg-primary text-amber-2">
             <q-card-section class="row items-center">
-              <!-- <q-avatar icon="signal_wifi_off" color="primary" text-color="amber-2"/>-->
               Live Mode uses CashierSync as the data source for additional
               'live' features. CashierSync must be running for this to work.
             </q-card-section>

@@ -3,12 +3,14 @@
     <!-- Toolbar -->
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn flat dense round aria-label="Menu" icon="menu" @click="menuClicked" />
+        <q-btn flat dense round aria-label="Menu" @click="menuClicked">
+          <icon-menu />
+        </q-btn>
 
         <q-toolbar-title>Device Journal</q-toolbar-title>
 
-        <!-- <q-btn flat round dense icon="sim_card" class="q-mr-xs" /> -->
-        <q-btn flat round dense icon="more_vert">
+        <q-btn flat round dense>
+          <more-vertical />
           <q-menu>
             <q-list style="min-width: 175px">
               <!-- dense -->
@@ -65,8 +67,6 @@
     <q-dialog v-model="confirmDeleteAllVisible" persistent content-class="bg-blue-grey-10">
       <q-card class="bg-secondary text-amber-2">
         <q-card-section class="row items-center">
-          <!-- <q-avatar icon="signal_wifi_off" color="primary" text-color="amber-2"/>
-          <span class="q-ml-sm">You are currently not connected to any network.</span>-->
           <span>Do you want to delete all transactions?</span>
         </q-card-section>
 
@@ -87,7 +87,7 @@ import { useMainStore } from '../store/mainStore'
 import appService from '../appService'
 import JournalTransaction from '../components/JournalTransaction.vue'
 import { Transaction } from 'src/model'
-import { FileDown, Trash2 } from 'lucide-vue-next'
+import { FileDown, Menu as IconMenu, MoreVertical, Trash2 } from 'lucide-vue-next'
 
 const $q = useQuasar()
 const router = useRouter()

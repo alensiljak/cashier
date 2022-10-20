@@ -1,7 +1,8 @@
 <template>
   <q-page padding class="text-colour2">
     <toolbar :title="'Settings'">
-      <q-btn flat round dense icon="more_vert">
+      <q-btn flat round dense>
+        <more-vertical />
         <q-menu>
           <q-list style="min-width: 175px">
             <!-- <q-item v-close-popup clickable @click="onSchTxMigrationClick">
@@ -145,6 +146,7 @@ import { useQuasar } from 'quasar'
 import { engine } from '../lib/AssetAllocation'
 import { HelpCircle } from 'lucide-vue-next'
 import appService from '../appService'
+import { MoreVertical } from 'lucide-vue-next'
 
 const Notification = useNotifications()
 const $router = useRouter()
