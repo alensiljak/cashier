@@ -49,16 +49,16 @@
 
     <!-- warnings -->
     <div v-if="hasInvalidCurrencies" class="q-my-sm text-right">
-      Invalid currencies
-      <q-icon name="report" color="negative" size="sm" />
+      <span>Invalid currencies</span>
+      <AlertOctagon class="icon on-right" size="22" />
     </div>
     <div v-if="hasMultipleCurrencies" class="q-my-sm text-right">
       Multiple currencies found
-      <q-icon name="warning" color="accent" size="sm" />
+      <AlertTriangle class="icon on-right" />
     </div>
     <div v-if="hasMultipleNans" class="q-my-sm text-right">
       Multiple empty amounts found
-      <q-icon name="warning" color="accent" size="sm" />
+      <AlertTriangle class="icon on-right" />
     </div>
 
     <!-- posting actions -->
@@ -105,7 +105,10 @@ import appService from '../appService'
 import QPosting from '../components/Posting.vue'
 import { SET_SELECT_MODE } from '../mutations'
 import { Posting, Transaction } from '../model'
-import { ArrowUpDown, Calendar as IconCalendar, FileText, PlusCircle, User as IconUser } from 'lucide-vue-next'
+import {
+  AlertOctagon, AlertTriangle, ArrowUpDown, Calendar as IconCalendar, FileText,
+  PlusCircle, User as IconUser
+} from 'lucide-vue-next'
 
 const router = useRouter()
 const mainStore = useMainStore()

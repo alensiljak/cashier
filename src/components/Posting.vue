@@ -25,7 +25,7 @@
           @change="$emit('currency-changed')">
           <template #append>
             <!-- warn if there's no currency but we have an amount -->
-            <q-icon v-if="isMissingCurrency" name="report" color="negative" size="md" />
+            <alert-octagon v-if="isMissingCurrency" class="icon" color="darkred" />
           </template>
         </q-input>
       </div>
@@ -37,7 +37,7 @@
 import { computed, toRefs, WritableComputedRef } from 'vue'
 import { useMainStore } from '../store/mainStore'
 import { storeToRefs } from 'pinia'
-import { Trash as IconTrash } from 'lucide-vue-next'
+import { AlertOctagon, AlertTriangle, Trash as IconTrash } from 'lucide-vue-next'
 
 const mainStore = useMainStore()
 const { tx } = storeToRefs(mainStore)

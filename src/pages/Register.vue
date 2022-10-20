@@ -24,7 +24,7 @@
     <!-- fab -->
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab color="accent" text-color="secondary" @click="onFabClick">
-        <q-icon name="add" />
+        <icon-plus />
       </q-btn>
     </q-page-sticky>
   </q-page>
@@ -43,6 +43,7 @@ import { Account, Posting } from 'src/model'
 import { TransactionParser } from 'src/lib/transactionParser'
 import { TransactionAugmenter } from 'src/lib/transactionAugmenter'
 import useNotifications from 'src/lib/CashierNotification'
+import { Plus as IconPlus } from 'lucide-vue-next'
 
 const route = useRoute()
 const router = useRouter()

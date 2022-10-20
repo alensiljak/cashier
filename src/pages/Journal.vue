@@ -46,7 +46,7 @@
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab color="accent" text-color="secondary" @click="openNewTransaction">
-        <q-icon name="add" />
+        <icon-plus />
       </q-btn>
     </q-page-sticky>
 
@@ -87,7 +87,7 @@ import { useMainStore } from '../store/mainStore'
 import appService from '../appService'
 import JournalTransaction from '../components/JournalTransaction.vue'
 import { Transaction } from 'src/model'
-import { FileDown, Menu as IconMenu, MoreVertical, Trash2 } from 'lucide-vue-next'
+import { FileDown, Menu as IconMenu, MoreVertical, Plus as IconPlus, Trash2 } from 'lucide-vue-next'
 
 const $q = useQuasar()
 const router = useRouter()

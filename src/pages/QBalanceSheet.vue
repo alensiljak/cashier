@@ -11,26 +11,20 @@
       (favourite).
     </p>
 
-    <q-tree
-      color="colour2"
-      text-color="amber-2"
-      :nodes="simple"
-      node-key="label"
-    />
+    <q-tree color="colour2" text-color="amber-2" :nodes="simple" node-key="label" />
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn
-        fab
-        color="accent"
-        text-color="secondary"
-        @click="openNewTransaction"
-      >
-        <q-icon name="add" />
+      <q-btn fab color="accent" text-color="secondary" @click="openNewTransaction">
+        <icon-plus />
       </q-btn>
     </q-page-sticky>
   </q-page>
 </template>
 
+<script setup lang="ts">
+import { Plus as IconPlus } from 'lucide-vue-next'
+
+</script>
 <script lang="ts">
 import Toolbar from '../components/CashierToolbar.vue'
 
@@ -80,7 +74,7 @@ export default {
     }
   },
 
-  created() {},
+  created() { },
 
   methods: {
     openNewTransaction() {

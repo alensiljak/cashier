@@ -81,7 +81,7 @@
     <!-- floating action button -->
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab color="accent" text-color="secondary" @click="onFab">
-        <q-icon name="add" />
+        <IconPlus />
       </q-btn>
     </q-page-sticky>
 
@@ -112,7 +112,10 @@ import { RecycleScroller } from 'vue-virtual-scroller'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 import { Account } from 'src/model'
 import CashierDAL from 'src/store/dal'
-import { Menu as IconMenu, MoreVertical, RefreshCw, Search as IconSearch, Trash2, XCircle } from 'lucide-vue-next'
+import {
+  Menu as IconMenu, MoreVertical, Plus as IconPlus, RefreshCw, Search as IconSearch,
+  Trash2, XCircle
+} from 'lucide-vue-next'
 
 const mainStore = useMainStore()
 const $router = useRouter()

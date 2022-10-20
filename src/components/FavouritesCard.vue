@@ -4,7 +4,6 @@
 
     <q-card-section class="bg-primary q-pa-sm">
       <Star class="icon q-mr-sm" size="1.4em" />
-      <!-- <q-icon name="star" size="xs" class="q-mr-sm" /> -->
       <strong>Favourites</strong>
     </q-card-section>
 

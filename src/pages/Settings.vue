@@ -8,14 +8,14 @@
             <!-- <q-item v-close-popup clickable @click="onSchTxMigrationClick">
               <q-item-section>SchTx data migration</q-item-section>
               <q-item-section side>
-                <q-icon name="drive_file_move_outline" />
+                <folder-output />
               </q-item-section>
             </q-item> -->
 
             <q-item v-close-popup clickable @click="onDemoDataClick">
               <q-item-section>Create demo data</q-item-section>
               <q-item-section side>
-                <q-icon name="data_object" />
+                <curly-braces />
               </q-item-section>
             </q-item>
           </q-list>
@@ -103,7 +103,7 @@
         <q-card-section class="q-pa-sm">
           <div class="row">
             <div class="col-1 q-mt-none">
-              <q-icon name="help" />
+              <help-circle />
             </div>
             <div class="col text-center q-mt-xs">Confirm restore</div>
           </div>
@@ -144,9 +144,8 @@ import useNotifications from 'src/lib/CashierNotification'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
 import { engine } from '../lib/AssetAllocation'
-import { HelpCircle } from 'lucide-vue-next'
 import appService from '../appService'
-import { MoreVertical } from 'lucide-vue-next'
+import { CurlyBraces, HelpCircle, MoreVertical } from 'lucide-vue-next'
 
 const Notification = useNotifications()
 const $router = useRouter()

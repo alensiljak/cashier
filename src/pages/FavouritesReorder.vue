@@ -10,7 +10,7 @@
       <template #item="{ element }">
         <q-item v-ripple clickable class="list-item">
           <q-item-section side class="handle">
-            <q-icon left name="menu" />
+            <icon-menu left />
           </q-item-section>
           <q-item-section>{{ element.name }}</q-item-section>
           <!-- <q-item-section side>
@@ -78,7 +78,7 @@ import appService from '../appService'
 import { useRouter } from 'vue-router'
 import draggable from 'vuedraggable'
 import useNotifications from 'src/lib/CashierNotification'
-import { Check } from 'lucide-vue-next'
+import { Check, Menu as IconMenu } from 'lucide-vue-next'
 
 const $q = useQuasar()
 const router = useRouter()

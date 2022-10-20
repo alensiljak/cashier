@@ -41,7 +41,7 @@
             {{ element.amount }} {{ element.currency }}
           </q-item-section>
           <q-item-section side class="handle">
-            <q-icon left name="menu" />
+            <icon-menu left />
           </q-item-section>
         </q-item>
       </template>
@@ -50,7 +50,7 @@
     <!-- floating action button -->
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab color="accent" text-color="secondary" @click="onFabClicked">
-        <q-icon name="done" />
+        <icon-check />
       </q-btn>
     </q-page-sticky>
   </q-page>

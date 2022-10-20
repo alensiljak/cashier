@@ -1,12 +1,7 @@
 <template>
   <q-page padding class="text-colour2">
-    <ScheduledTxToolbar
-      title="Scheduled Transactions"
-      @backup-clicked="onBackupClicked"
-      @restore-clicked="onRestoreClicked"
-      @filter-changed="onFilterChanged"
-      @calendar-clicked="onCalendarClicked"
-    />
+    <ScheduledTxToolbar title="Scheduled Transactions" @backup-clicked="onBackupClicked"
+      @restore-clicked="onRestoreClicked" @filter-changed="onFilterChanged" @calendar-clicked="onCalendarClicked" />
 
     <div v-if="transactions.length === 0">
       There are no scheduled transactions
@@ -14,23 +9,13 @@
 
     <q-list class="text-colour2">
       <!-- dense -->
-      <q-item
-        v-for="stx in filteredList"
-        :key="stx.id"
-        v-ripple
-        clickable
-        class="q-px-none"
-        @click="showTx(stx.id)"
-      >
+      <q-item v-for="stx in filteredList" :key="stx.id" v-ripple clickable class="q-px-none" @click="showTx(stx.id)">
         <!-- <q-item-label>Label</q-item-label> -->
-        <q-item-section
-          avatar
-          :class="{
-            red: stx.nextDate < today,
-            yellow: stx.nextDate === today,
-            green: stx.nextDate > today,
-          }"
-        >
+        <q-item-section avatar :class="{
+          red: stx.nextDate < today,
+          yellow: stx.nextDate === today,
+          green: stx.nextDate > today,
+        }">
           {{ stx.nextDate }}
         </q-item-section>
         <q-item-section>
@@ -42,7 +27,7 @@
 
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab color="accent" text-color="secondary" @click="onFabClicked">
-        <q-icon name="add" />
+        <IconPlus />
       </q-btn>
     </q-page-sticky>
   </q-page>
@@ -56,6 +41,7 @@ import moment from 'moment'
 import ScheduledTxToolbar from '../components/ScheduledTxToolbar.vue'
 import { computed, onMounted, Ref, ref } from 'vue'
 import { ScheduledTransaction, Transaction } from 'src/model'
+import { Plus as IconPlus } from 'lucide-vue-next'
 
 const mainStore = useMainStore()
 //const route = useRoute()
