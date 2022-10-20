@@ -3,11 +3,14 @@
     <!-- toolbar -->
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn flat dense round aria-label="Menu" icon="menu" @click="menuClicked" />
+        <q-btn flat dense round aria-label="Menu" @click="menuClicked">
+          <icon-menu />
+        </q-btn>
 
         <q-toolbar-title>Account</q-toolbar-title>
 
-        <q-btn flat round dense icon="more_vert">
+        <q-btn flat round dense>
+          <more-vertical />
           <q-menu>
             <q-list style="min-width: 175px">
               <!-- dense -->
@@ -70,7 +73,7 @@
 import { Account } from 'src/model';
 import appService from '../appService'
 import { useMainStore } from '../store/mainStore'
-import { ArchiveRestore, RefreshCw, Trash2 } from 'lucide-vue-next'
+import { ArchiveRestore, Menu as IconMenu, MoreVertical, RefreshCw, Trash2 } from 'lucide-vue-next'
 
 const mainStore = useMainStore()
 

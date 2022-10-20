@@ -3,19 +3,16 @@
     <!-- toolbar -->
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn
-          flat
-          dense
-          round
-          aria-label="Menu"
-          icon="menu"
-          @click="toggleDrawer"
-        />
+        <q-btn flat dense round aria-label="Menu" @click="toggleDrawer">
+          <icon-menu />
+        </q-btn>
 
         <q-toolbar-title>Reorder Postings</q-toolbar-title>
         <q-space />
 
-        <q-btn flat round dense icon="check" @click="onSaveClicked" />
+        <q-btn flat round dense @click="onSaveClicked">
+          <icon-check />
+        </q-btn>
       </q-toolbar>
     </q-header>
 
@@ -36,13 +33,7 @@
       />
     </accounts-list> -->
 
-    <draggable
-      tag="q-list"
-      :list="postings"
-      class="list-group"
-      handle=".handle"
-      item-key="name"
-    >
+    <draggable tag="q-list" :list="postings" class="list-group" handle=".handle" item-key="name">
       <template #item="{ element }">
         <q-item v-ripple clickable class="list-item">
           <q-item-section>{{ element.account }}</q-item-section>
@@ -74,6 +65,7 @@ import { storeToRefs } from 'pinia'
 import { Posting, Transaction } from 'src/model'
 import useNotifications from 'src/lib/CashierNotification'
 import draggable from 'vuedraggable'
+import { Check as IconCheck, Menu as IconMenu } from 'lucide-vue-next'
 
 const mainStore = useMainStore()
 const { tx } = storeToRefs(mainStore)

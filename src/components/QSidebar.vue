@@ -94,8 +94,8 @@
           header-class="text-amber-2"
           expand-icon-class="text-amber-2"
           expand-separator
-          icon="settings"
           label="Entities">
+          <icon-settings />
           <q-list>
             <q-item
               :inset-level="1"

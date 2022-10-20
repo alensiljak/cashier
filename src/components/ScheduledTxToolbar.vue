@@ -1,13 +1,16 @@
 <template>
   <q-header elevated class="glossy">
     <q-toolbar class="text-colour2">
-      <q-btn flat dense round aria-label="Menu" icon="menu" @click="onMenuClicked" />
+      <q-btn flat dense round aria-label="Menu" @click="onMenuClicked">
+        <icon-menu />
+      </q-btn>
 
       <q-toolbar-title>{{ title }}</q-toolbar-title>
 
       <q-space />
 
-      <q-btn flat round dense icon="more_vert">
+      <q-btn flat round dense>
+        <more-vertical />
         <q-menu auto-close>
           <q-list style="min-width: 175px">
             <q-item clickable>
@@ -64,8 +67,8 @@ import { ref } from 'vue'
 import { useMainStore } from '../store/mainStore'
 // import { useQuasar } from 'quasar'
 import {
-  ArchiveRestore, CalendarDays as IconCalendar, FileDown, Search as IconSearch,
-  XCircle
+  ArchiveRestore, CalendarDays as IconCalendar, FileDown, Menu as IconMenu, MoreVertical,
+  Search as IconSearch, XCircle
 } from 'lucide-vue-next'
 
 const mainStore = useMainStore()

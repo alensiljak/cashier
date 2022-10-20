@@ -2,19 +2,16 @@
   <q-page padding class="text-colour2">
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn
-          flat
-          dense
-          round
-          aria-label="Menu"
-          icon="menu"
-          @click="toggleDrawer"
-        />
+        <q-btn flat dense round aria-label="Menu" @click="toggleDrawer">
+          <icon-menu />
+        </q-btn>
 
         <q-toolbar-title>Scheduled Transaction Edit</q-toolbar-title>
         <q-space />
 
-        <q-btn flat round dense icon="check" @click="onSaveClicked" />
+        <q-btn flat round dense @click="onSaveClicked">
+          <icon-check />
+        </q-btn>
       </q-toolbar>
     </q-header>
 
@@ -27,7 +24,7 @@
     <!-- floating action button -->
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
       <q-btn fab color="accent" text-color="secondary" @click="onFabClicked">
-        <q-icon name="done" />
+        <icon-check />
       </q-btn>
     </q-page-sticky>
   </q-page>
@@ -45,6 +42,7 @@ import appService from '../appService'
 import { useMainStore } from '../store/mainStore'
 import CashierDAL from '../store/dal'
 import { ScheduledTransaction, Transaction } from 'src/model'
+import { Check as IconCheck, Menu as IconMenu } from 'lucide-vue-next'
 
 const store = useStore()
 const $q = useQuasar()

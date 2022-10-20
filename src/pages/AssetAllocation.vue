@@ -2,11 +2,14 @@
   <q-page padding class="text-colour2">
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn flat dense round icon="menu" aria-label="Menu" @click="menuClicked" />
+        <q-btn flat dense round aria-label="Menu" @click="menuClicked">
+          <icon-menu />
+        </q-btn>
 
         <q-toolbar-title>Asset Allocation</q-toolbar-title>
 
-        <q-btn flat round dense icon="more_vert">
+        <q-btn flat round dense>
+          <more-vertical />
           <q-menu>
             <q-list style="min-width: 175px">
               <q-item v-close-popup clickable @click="onSetupClick">
@@ -127,8 +130,8 @@ import { engine } from '../lib/AssetAllocation'
 import moment from 'moment'
 import { AssetClass } from 'src/lib/AssetClass'
 import {
-  FileDown, HelpCircle, Settings as IconSettings, Scale as IconScale,
-  Share2
+  FileDown, HelpCircle, Menu as IconMenu, MoreVertical, Settings as IconSettings,
+  Scale as IconScale, Share2
 } from 'lucide-vue-next'
 
 const mainStore = useMainStore()

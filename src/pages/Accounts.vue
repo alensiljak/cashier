@@ -2,13 +2,16 @@
   <q-page padding class="text-colour2">
     <q-header elevated class="glossy">
       <q-toolbar class="text-colour2">
-        <q-btn flat dense round aria-label="Menu" icon="menu" @click="menuClicked" />
+        <q-btn flat dense round aria-label="Menu" @click="menuClicked">
+          <IconMenu />
+        </q-btn>
 
         <q-toolbar-title>Accounts</q-toolbar-title>
 
         <q-space />
 
-        <q-btn flat round dense icon="more_vert">
+        <q-btn flat round dense>
+          <MoreVertical />
           <q-menu>
             <q-list style="min-width: 175px">
               <!-- dense -->
@@ -109,7 +112,7 @@ import { RecycleScroller } from 'vue-virtual-scroller'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 import { Account } from 'src/model'
 import CashierDAL from 'src/store/dal'
-import { RefreshCw, Search as IconSearch, Trash2, XCircle } from 'lucide-vue-next'
+import { Menu as IconMenu, MoreVertical, RefreshCw, Search as IconSearch, Trash2, XCircle } from 'lucide-vue-next'
 
 const mainStore = useMainStore()
 const $router = useRouter()
