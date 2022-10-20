@@ -28,8 +28,7 @@
     <ul>
       <li>
         <a href="https://www.freepik.com/free-photos-vectors/gold">
-          Gold vector created by freepik - www.freepik.com</a
-        >
+          Gold vector created by freepik - www.freepik.com</a>
       </li>
     </ul>
 
@@ -39,10 +38,10 @@
         <a href="https://quasar.dev/">Quasar Framework</a>
       </li>
       <li>
-        <a href="https://material.io/tools/icons">Material Design Icons</a>
+        <a href="http://lucide.dev/">Lucide icons</a>
       </li>
       <li>
-        <a href="http://fontawesome.com/">Font Awesome icons</a>
+        <a href="https://material.io/tools/icons">Material Design Icons</a>
       </li>
       <li>
         <a href="https://vuejs.org/">Vue JS, Vuex</a>

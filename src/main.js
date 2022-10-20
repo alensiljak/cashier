@@ -14,8 +14,6 @@ import './persistentStorage'
 
 // Quasar
 import './quasarConfig'
-// Font Awesome configuration and import.
-import FontAwesomeIcon from './boot/fontAwesome'
 
 Vue.config.productionTip = false
 
@@ -30,8 +28,4 @@ Vue.config.productionTip = false
 //   render: h => h(App)
 // }).$mount('#app')
 
-createApp(App)
-  .component('FontAwesomeIcon', FontAwesomeIcon)
-  .use(store)
-  .use(router)
-  .mount('#app')
+createApp(App).use(store).use(router).mount('#app')
