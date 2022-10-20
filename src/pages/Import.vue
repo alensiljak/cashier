@@ -21,14 +21,9 @@
 
     <div class="row text-center q-mt-sm">
       <div class="col text-center">
-        <q-btn
-          :disable="clicked"
-          color="secondary"
-          text-color="accent"
-          @click="onImportBalanceClick"
-        >
-          <font-awesome-icon icon="wallet" class="q-icon on-left" />
-          <div>Accounts</div>
+        <q-btn :disable="clicked" color="secondary" text-color="accent" @click="onImportBalanceClick">
+          <icon-wallet class="q-icon on-left" />
+          Accounts
         </q-btn>
       </div>
     </div>
@@ -36,36 +31,32 @@
     <div class="row q-mt-md">
       <div class="col text-center">
         <q-btn disable color="secondary" text-color="accent">
-          <font-awesome-icon icon="users" class="q-icon on-left" />
-          <div>Payees</div>
+          <icon-users class="q-icon on-left" />
+          Payees
         </q-btn>
       </div>
     </div>
 
     <div class="row q-mt-md">
       <div class="col text-center">
-        <q-btn
-          color="secondary"
-          text-color="accent"
-          :disable="clicked"
-          @click="importCommoditiesClick"
-        >
-          <font-awesome-icon icon="boxes" class="q-icon on-left" />
-          <div>Commodities</div>
+        <q-btn color="secondary" text-color="accent" :disable="clicked" @click="importCommoditiesClick">
+          <icon-boxes class="q-icon on-left" />
+          Commodities
         </q-btn>
       </div>
     </div>
   </q-page>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import Toolbar from '../components/CashierToolbar.vue'
+import { Boxes as IconBoxes, Users as IconUsers, Wallet as IconWallet } from 'lucide-vue-next'
+
+</script>
+<script lang="ts">
 import appService from '../appService'
 
 export default {
-  components: {
-    Toolbar,
-  },
   data() {
     return {
       content: null,
@@ -73,7 +64,7 @@ export default {
     }
   },
 
-  created() {},
+  created() { },
 
   methods: {
     importCommoditiesClick() {

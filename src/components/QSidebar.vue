@@ -55,7 +55,7 @@
 
         <!-- <q-item to="/bal" exact clickable v-ripple active-class="active-link">
           <q-item-section avatar>
-            <font-awesome-icon icon="balance-scale" transform="grow-6 right-6"/>
+            <icon-scale />
           </q-item-section>
           <q-item-section>
             <q-item-label>Balance Sheet</q-item-label>
@@ -64,7 +64,7 @@
 
         <!-- <q-item v-ripple to="/tx" clickable active-class="active-link">
           <q-item-section avatar>
-            <font-awesome-icon icon="money-bill-wave" transform="grow-6 right-6" />
+            <banknote />
           </q-item-section>
           <q-item-section>
             <q-item-label>Transaction</q-item-label>
@@ -105,7 +105,7 @@
               v-ripple
               active-class="active-link">
               <q-item-section avatar>
-                <font-awesome-icon icon="users" transform="grow-6 right-6"/>
+                <icon-users />
               </q-item-section>
               <q-item-section>
                 <q-item-label>Payees</q-item-label>
@@ -120,7 +120,7 @@
               v-ripple
               active-class="active-link">
               <q-item-section avatar>
-                <font-awesome-icon icon="luggage-cart" transform="grow-6 right-6"/>
+                <baggage-claim />
               </q-item-section>
               <q-item-section>
                 <q-item-label>Commodities</q-item-label>
@@ -153,7 +153,7 @@
         <!-- Sync -->
         <q-item v-if="liveModeOn" v-ripple to="/sync" exact clickable active-class="active-link">
           <q-item-section avatar>
-            <font-awesome-icon icon="sync-alt" transform="grow-6 right-6" />
+            <RefreshCw />
           </q-item-section>
           <q-item-section>
             <q-item-label>CashierSync</q-item-label>
@@ -169,10 +169,7 @@
           active-class="active-link"
         >
           <q-item-section avatar>
-            <font-awesome-icon
-              icon="sign-out-alt"
-              transform="grow-6 right-6"
-            />
+            <file-down />
           </q-item-section>
           <q-item-section>
             <q-item-label>Export</q-item-label>
@@ -240,9 +237,9 @@ import { useMainStore } from '../store/mainStore'
 import { useQuasar } from 'quasar'
 import { storeToRefs } from 'pinia'
 import {
-  CalendarClock,
+  CalendarClock, FileDown,
   HelpCircle, Home as HomeIcon, Info as InfoIcon, Landmark, List as IconList,
-  PieChart, Search as IconSearch, Scroll, Settings as SettingsIcon,
+  PieChart, RefreshCw, Search as IconSearch, Scroll, Settings as SettingsIcon,
   Star, UploadCloud, Users
 } from 'lucide-vue-next'
 

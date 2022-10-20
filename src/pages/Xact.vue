@@ -23,7 +23,7 @@
 
     <q-input v-model="date" label="Date" @click="datePickerVisible = true">
       <template #prepend>
-        <font-awesome-icon icon="calendar-day" />
+        <icon-calendar size="28" />
       </template>
     </q-input>
 
@@ -34,8 +34,8 @@
     <!-- action button -->
     <div class="text-center q-my-xl">
       <q-btn color="secondary" text-color="accent" @click="run">
-        <font-awesome-icon icon="search" transform="grow-6 right-6" class="q-mr-sm" />
-        <span class="q-ml-sm">Xact</span>
+        <icon-search class="on-left" />
+        Xact
       </q-btn>
     </div>
 
@@ -49,10 +49,11 @@
 </template>
 
 <script setup lang="ts">
+import { settings, SettingKeys } from 'src/lib/settings'
 import Toolbar from '../components/CashierToolbar.vue'
+import { Calendar as IconCalendar, Search as IconSearch } from 'lucide-vue-next'
 </script>
 <script lang="ts">
-import { settings, SettingKeys } from 'src/lib/settings'
 import { CashierSync } from '../lib/syncCashier'
 import { XactParser } from '../lib/XactParser'
 

@@ -15,7 +15,7 @@
               <q-item v-close-popup clickable :to="{ name: 'sync' }">
                 <q-item-section>Synchronize</q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="sync-alt" transform="grow-9 left-5" />
+                  <RefreshCw />
                 </q-item-section>
               </q-item>
 
@@ -24,7 +24,7 @@
                   Delete All
                 </q-item-section>
                 <q-item-section side>
-                  <font-awesome-icon icon="trash-alt" transform="grow-9 left-5" />
+                  <Trash2 />
                 </q-item-section>
               </q-item>
             </q-list>
@@ -37,8 +37,8 @@
         <!-- <q-toolbar-title> -->
         <q-input v-model="filter" autofocus rounded standout dense color="accent" style="width: 23rem" debounce="400">
           <template #append>
-            <font-awesome-icon v-if="filter === ''" icon="search" />
-            <q-icon v-else name="clear" class="cursor-pointer" @click="filter = ''" />
+            <icon-search v-if="filter === ''" size="28" />
+            <XCircle v-else name="clear" class="cursor-pointer" @click="filter = ''" />
           </template>
         </q-input>
       </q-toolbar>
@@ -109,6 +109,7 @@ import { RecycleScroller } from 'vue-virtual-scroller'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 import { Account } from 'src/model'
 import CashierDAL from 'src/store/dal'
+import { RefreshCw, Search as IconSearch, Trash2, XCircle } from 'lucide-vue-next'
 
 const mainStore = useMainStore()
 const $router = useRouter()

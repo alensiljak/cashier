@@ -20,7 +20,7 @@
 
     <q-input v-model="dateFrom" label="Date From" @click="datePickerVisible = true">
       <template #prepend>
-        <font-awesome-icon icon="calendar-day" />
+        <icon-calendar size="28" />
       </template>
     </q-input>
 
@@ -39,14 +39,14 @@
 
     <q-input v-model="dateTo" label="Date To" @click="dateToPickerVisible = true">
       <template #prepend>
-        <font-awesome-icon icon="calendar-day" />
+        <icon-calendar size="28" />
       </template>
     </q-input>
 
     <!-- payee -->
     <q-input v-model="payee" label="Payee" @keypress="handleEnter">
       <template #prepend>
-        <font-awesome-icon icon="user" />
+        <icon-user size="30" />
       </template>
     </q-input>
 
@@ -61,8 +61,8 @@
     <!-- search button -->
     <div class="text-center q-my-lg">
       <q-btn color="secondary" text-color="accent" @click="search">
-        <font-awesome-icon icon="search" transform="grow-6 right-6" class="q-mr-sm" />
-        <span class="q-ml-sm">Search</span>
+        <icon-search class="on-left" />
+        Search
       </q-btn>
     </div>
 
@@ -87,23 +87,18 @@
   </q-page>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { settings, SettingKeys } from 'src/lib/settings'
+import { Calendar as IconCalendar, User as IconUser, Search as IconSearch } from 'lucide-vue-next'
+import Toolbar from '../components/CashierToolbar.vue'
 import { CashierSync } from '../lib/syncCashier'
 import { date } from 'quasar'
+
 const { subtractFromDate, addToDate } = date
-//import { RecycleScroller } from 'vue-virtual-scroller'
-import Toolbar from '../components/CashierToolbar.vue'
 
-//import * as Vue from 'vue'
-//Vue.component('RecycleScroller', RecycleScroller)
-
+</script>
+<script lang="ts">
 export default {
-  components: {
-    Toolbar,
-    //RecycleScroller
-  },
-
   data() {
     return {
       freeText: null,
@@ -127,7 +122,6 @@ export default {
     }
   },
 
-  created() {},
   mounted() {
     // the defaults
     this.selectDatePeriod('Last Week')
