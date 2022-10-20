@@ -41,9 +41,6 @@
         <a href="http://lucide.dev/">Lucide icons</a>
       </li>
       <li>
-        <a href="https://material.io/tools/icons">Material Design Icons</a>
-      </li>
-      <li>
         <a href="https://vuejs.org/">Vue JS, Vuex</a>
       </li>
       <li>
