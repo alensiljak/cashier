@@ -1,5 +1,5 @@
 /*
-  deprecated now!
+  deprecated now?
   See https://quasar.dev/quasar-cli/boot-files#Introduction
   
     Vue.js initialization file.
@@ -11,6 +11,7 @@ import router from './router'
 import store from './stateStore'
 import './registerServiceWorker'
 import './persistentStorage'
+//import lucideIcons from './src/lucide-icons.ts'
 
 // Quasar
 import './quasarConfig'
@@ -28,4 +29,10 @@ Vue.config.productionTip = false
 //   render: h => h(App)
 // }).$mount('#app')
 
-createApp(App).use(store).use(router).mount('#app')
+createApp(App)
+  .use(store)
+  .use(router)
+  // .use(Quasar, {
+  //   iconSet: lucideIcons,
+  // })
+  .mount('#app')

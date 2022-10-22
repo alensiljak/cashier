@@ -9,6 +9,7 @@
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
 
 const { configure } = require('quasar/wrappers')
+//const LucideIcons = require('./src/lucide-icons.ts')
 
 module.exports = configure(function (/* ctx */) {
   return {
@@ -98,6 +99,7 @@ module.exports = configure(function (/* ctx */) {
 
       // iconSet: 'material-icons', // Quasar icon set
       iconSet: 'svg-material-icons',
+      //iconSet: 'lucide-icons',
       // lang: 'en-US', // Quasar language pack
 
       // For special cases outside of where the auto-import strategy can have an impact
