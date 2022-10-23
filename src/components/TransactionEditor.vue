@@ -109,6 +109,7 @@ import {
   AlertOctagon, AlertTriangle, ArrowUpDown, Calendar as IconCalendar, FileText,
   PlusCircle, User as IconUser
 } from 'lucide-vue-next'
+import { AccountService } from '../lib/accountsService'
 
 const router = useRouter()
 const mainStore = useMainStore()
@@ -191,6 +192,8 @@ async function handleSelection() {
   const select = store.state.selectModeMeta
   const id = select.selectedId
 
+  const defaultCurrency = await settings.get(SettingKeys.currency)
+
   switch (select.selectionType) {
     case 'payee':
       tx.value.payee = id
@@ -210,8 +213,10 @@ async function handleSelection() {
 
       // load the account
       const account = await appService.db.accounts.get(id)
+      const acctSvc = new AccountService()
+      const acctBalance = await acctSvc.getAccountBalance(account, defaultCurrency)
       posting.account = account.name
-      posting.currency = account.balance.currency
+      posting.currency = acctBalance.currency
 
       recalculateSum()
       validateCurrencies()
@@ -352,7 +357,7 @@ export default {
     /**
      * (value, reason, details)
      */
-    onDateSelected(value, reason) {
+    onDateSelected(value: any, reason: any) {
       if (reason !== 'day' && reason !== 'today') return
 
       // close the picker if the date was selected

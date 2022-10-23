@@ -53,7 +53,7 @@
           {{ item.name }}
         </div>
         <div class="scroller-item-action">
-          {{ item.balance?.amount }} {{ item.balance?.currency }}
+          {{ getBalance(item).amount }} {{ getBalance(item).currency }}
         </div>
       </div>
     </RecycleScroller>
@@ -110,15 +110,18 @@ import { useStore } from 'vuex'
 import { ListSearch } from '../ListSearch.js'
 import { RecycleScroller } from 'vue-virtual-scroller'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
-import { Account } from 'src/model'
+import { Account, AccountBalance } from 'src/model'
 import CashierDAL from 'src/store/dal'
 import {
   Menu as IconMenu, MoreVertical, Plus as IconPlus, RefreshCw, Search as IconSearch,
   Trash2, XCircle
 } from 'lucide-vue-next'
+import { SettingKeys, settings } from 'src/lib/settings'
+import { AccountService } from 'src/lib/accountsService'
 
 const mainStore = useMainStore()
 const $router = useRouter()
+const acctSvc = new AccountService()
 
 // data
 
@@ -129,6 +132,7 @@ const newAccount = ref(null)
 const confirmDeleteAllVisible = ref(false)
 const pickerMode = ref(false)
 const $store = useStore()
+let defaultCurrency: string
 
 // computed
 
@@ -150,6 +154,14 @@ onMounted(async () => {
 })
 
 // methods
+
+function getBalance(account: Account) {
+  if (!defaultCurrency) {
+    return new AccountBalance()
+  }
+
+  return acctSvc.getAccountBalance(account, defaultCurrency)
+}
 
 function itemClicked(id: string) {
   if (pickerMode.value) {
@@ -182,6 +194,8 @@ async function loadData() {
   let accounts_array: Account[] = await records.toArray()
 
   accounts.value = accounts_array
+
+  defaultCurrency = await settings.get(SettingKeys.currency)
 }
 
 function menuClicked() {

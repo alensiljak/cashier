@@ -3,7 +3,7 @@
  */
 
 import { Collection, IndexableType } from 'dexie'
-import { Payee, ScheduledTransaction, Transaction } from 'src/model'
+import { Account, Payee, ScheduledTransaction, Transaction } from 'src/model'
 import db from './indexedDb'
 
 class CashierDAL {
@@ -13,6 +13,10 @@ class CashierDAL {
 
   async addPayees(payees: Payee[]): Promise<IndexableType> {
     return db.payees.bulkAdd(payees)
+  }
+
+  async getAccount(name: string): Promise<Account> {
+    return await db.accounts.get(name)
   }
 
   /**
@@ -36,6 +40,10 @@ class CashierDAL {
     //console.debug('saving schtx:', result)
 
     return result
+  }
+
+  async saveAccount(account: Account): Promise<IndexableType> {
+    return await db.accounts.put(account)
   }
 
   /**

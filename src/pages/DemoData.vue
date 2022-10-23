@@ -13,13 +13,16 @@
     </div>
     <q-separator />
     <div class="row">
-      <q-checkbox label="Create default settings" v-model="createDefaultSettingsChecked" />
-    </div>
-    <div class="row">
       <q-checkbox label="Create Accounts" v-model="createAccountsChecked" />
     </div>
     <div class="row">
-      <q-checkbox label="Create Favourite Accounst" v-model="createFavAccountsChecked" />
+      <q-checkbox label="Create demo Account balances" v-model="createAccountBalancesChecked" />
+    </div>
+    <div class="row">
+      <q-checkbox label="Create default settings" v-model="createDefaultSettingsChecked" />
+    </div>
+    <div class="row">
+      <q-checkbox label="Create favourite accounts" v-model="createFavAccountsChecked" />
     </div>
     <div class="row">
       <q-checkbox label="Create Payees" v-model="createPayeesChecked" />
@@ -42,13 +45,14 @@ import useNotifications from 'src/lib/CashierNotification'
 import { AccountService } from 'src/lib/accountsService'
 // import appService from 'src/appService';
 import { SettingKeys, settings } from '../lib/settings'
-import { createDemoPayees } from '../lib/demoDataGenerator'
+import { createPayees, createAccountBalances } from '../lib/demoDataGenerator'
 
 const Notification = useNotifications()
 
 const createAllChecked = ref(true)
-const createDefaultSettingsChecked = ref(true)
 const createAccountsChecked = ref(true)
+const createAccountBalancesChecked = ref(true)
+const createDefaultSettingsChecked = ref(true)
 const createFavAccountsChecked = ref(true)
 const createPayeesChecked = ref(true)
 
@@ -56,6 +60,10 @@ async function create() {
   // create records
   if (createAccountsChecked.value) {
     await confirmCreateAccounts()
+  }
+  if (createAccountBalancesChecked.value) {
+    await createAccountBalances()
+    Notification.positive('Demo account balances created.')
   }
   if (createDefaultSettingsChecked.value) {
     await createDefaultSettings()
@@ -65,6 +73,7 @@ async function create() {
   }
   if (createPayeesChecked.value) {
     createPayees()
+    Notification.positive('Payees created')
   }
 }
 
@@ -72,6 +81,7 @@ function onAllClicked() {
   const checked = createAllChecked.value
 
   createAccountsChecked.value = checked
+  createAccountBalancesChecked.value = checked
   createDefaultSettingsChecked.value = checked
   createFavAccountsChecked.value = checked
   createPayeesChecked.value = checked
@@ -113,11 +123,6 @@ async function createFavouriteAccounts() {
   await settings.set(SettingKeys.favouriteAccounts, favArray)
 
   Notification.positive('Favourite Accounts created')
-}
-
-async function createPayees() {
-  await createDemoPayees()
-  Notification.positive('Payees created')
 }
 
 function haveExistingData(): boolean {

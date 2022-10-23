@@ -38,12 +38,13 @@ import appService from '../appService'
 import { useQuasar } from 'quasar'
 import { useStore } from 'vuex'
 import { SET_SELECT_MODE } from '../mutations'
-import { SelectionModeMetadata } from '../lib/settings'
+import { SelectionModeMetadata, SettingKeys, settings } from '../lib/settings'
 import { Account, Posting } from 'src/model'
 import { TransactionParser } from 'src/lib/transactionParser'
 import { TransactionAugmenter } from 'src/lib/transactionAugmenter'
 import useNotifications from 'src/lib/CashierNotification'
 import { Plus as IconPlus } from 'lucide-vue-next'
+import { AccountService } from 'src/lib/accountsService'
 
 const route = useRoute()
 const router = useRouter()
@@ -58,6 +59,7 @@ const ACCOUNT = 'account'
 const account: Ref<Account> = ref(new Account(''))
 const postings: Ref<Posting[]> = ref([])
 const balance = ref('')
+
 
 // mounted
 
@@ -88,18 +90,18 @@ function calculateBalance() {
 }
 
 function createStartingBalancePosting(
-  accountBalance: number,
+  amount: number,
   currency: string
 ) {
   let record = new Posting()
   record.date = 'n/a'
   record.title = 'Opening Balance'
 
-  if (typeof accountBalance === 'undefined') {
-    accountBalance = 0
+  if (typeof amount === 'undefined') {
+    amount = 0
   }
 
-  record.amount = accountBalance
+  record.amount = amount
   record.currency = currency
 
   return record
@@ -110,15 +112,13 @@ function formatNumber(value: number) {
 }
 
 async function loadData() {
+
   const accountName = route.params.name as string
   const accountRecord = await appService.db.accounts.get(accountName)
   account.value = accountRecord
 
   let txs = await appService.loadAccountTransactionsFor(accountName)
   TransactionAugmenter.calculateEmptyPostingAmounts(txs)
-
-  //let postingRecords = await loadPostingsFor(accountName)
-  //postings.value = postingRecords
 
   // append transaction details to postings.
   txs.forEach((tx) => {
@@ -130,9 +130,12 @@ async function loadData() {
   let localPostings = TransactionParser.extractPostingsFor(txs, accountName)
 
   // create the record for the opening balance?
+  const defaultCurrency = await settings.get(SettingKeys.currency)
+  const acctSvc = new AccountService()
+  const acctBalance = acctSvc.getAccountBalance(account.value, defaultCurrency)
   const startingBalanceRecord = createStartingBalancePosting(
-    account.value.balance?.amount as number,
-    account.value._balance?.currency as string
+    acctBalance.amount as number,
+    acctBalance.currency as string
   )
   localPostings.splice(0, 0, startingBalanceRecord)
 

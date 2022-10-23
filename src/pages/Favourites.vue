@@ -55,7 +55,7 @@
         <q-item v-ripple clickable class="q-px-none" @click="onListItemClick(account.name)">
           <q-item-section>{{ account.name }}</q-item-section>
           <q-item-section side>
-            {{ account.balance.amount }} {{ account.balance.currency }}
+            {{ getBalance(account).amount }} {{ getBalance(account).currency }}
           </q-item-section>
         </q-item>
       </q-list>
@@ -84,6 +84,7 @@
 </template>
 
 <script setup lang="ts">
+import { useStore } from 'vuex'
 import { useMainStore } from '../store/mainStore'
 import { TransactionAugmenter } from 'src/lib/transactionAugmenter'
 import appService from '../appService'
@@ -97,12 +98,58 @@ import {
   ArrowUpDown, Menu as IconMenu, MoreVertical, Plus as IconPlus, PlusCircle,
   Trash2
 } from 'lucide-vue-next'
+import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { AccountService } from '../lib/accountsService'
+import { Account } from 'src/model'
 
+const $store = useStore()
 const mainStore = useMainStore()
+const $router = useRouter()
+const accountService = new AccountService()
+
+const confirmDeleteDialogVisible = ref(false)
+let defaultCurrency: string
+
+onMounted(async () => {
+  defaultCurrency = await settings.get(SettingKeys.currency)
+
+})
+
+function addAccountClick() {
+  // show the account picker
+  let selectMode = new SelectionModeMetadata()
+
+  // set the type
+  selectMode.selectionType = ACCOUNT
+
+  // set the selection mode
+  $store.commit(SET_SELECT_MODE, selectMode)
+  // show account picker
+  $router.push({ name: 'accounts' })
+}
+
+function getBalance(account: Account) {
+  return accountService.getAccountBalance(account, defaultCurrency)
+}
+
+function onDeleteAllClick() {
+  // confirm
+  confirmDeleteDialogVisible.value = true
+}
+
+function onFabClicked() {
+  addAccountClick()
+}
 
 function onMenuClicked() {
   mainStore.toggleDrawer()
 }
+
+function onSortClick() {
+  $router.push({ name: 'favreorder' })
+}
+
 </script>
 <script lang="ts">
 const ACCOUNT = 'account'
@@ -111,7 +158,6 @@ export default {
   data() {
     return {
       accounts: [],
-      confirmDeleteDialogVisible: false,
       resetSlide: null,
     }
   },
@@ -125,18 +171,6 @@ export default {
   },
 
   methods: {
-    addAccountClick() {
-      // show the account picker
-      let selectMode = new SelectionModeMetadata()
-
-      // set the type
-      selectMode.selectionType = ACCOUNT
-
-      // set the selection mode
-      this.$store.commit(SET_SELECT_MODE, selectMode)
-      // show account picker
-      this.$router.push({ name: 'accounts' })
-    },
     /**
      * Add account to the favourites list.
      */
@@ -204,13 +238,6 @@ export default {
         this.$q.notify({ color: 'secondary', message: error.message })
       }
     },
-    onDeleteAllClick() {
-      // confirm
-      this.confirmDeleteDialogVisible = true
-    },
-    onFabClicked() {
-      this.addAccountClick()
-    },
     onListItemClick(accountName: string) {
       // console.log(accountName)
       this.$router.push({ name: 'register', params: { name: accountName } })
@@ -218,9 +245,6 @@ export default {
     onRightSlide({ reset }) {
       this.resetSlide = reset
       this.finalize(reset)
-    },
-    onSortClick() {
-      this.$router.push({ name: 'favreorder' })
     },
     async removeAccount(index: number) {
       if (this.resetSlide) {

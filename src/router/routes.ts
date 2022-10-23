@@ -19,8 +19,7 @@ const routes = [
       {
         path: '/account/:id',
         name: 'account',
-        component: () =>
-          import(/* webpackChunkName: 'account' */ 'src/pages/Account.vue'),
+        component: () => import('src/pages/Account.vue'),
       },
       {
         path: '/accounts',
@@ -30,40 +29,27 @@ const routes = [
       {
         path: '/assetallocation',
         name: 'assetallocation',
-        component: () =>
-          import(
-            /* webpackChunkName: 'assetallocation' */ 'src/pages/AssetAllocation.vue'
-          ),
+        component: () => import('src/pages/AssetAllocation.vue'),
       },
       {
         path: '/assetallocationhelp',
         name: 'assetallocationhelp',
-        component: () =>
-          import(
-            /* webpackChunkName: 'assetallocation' */ 'src/pages/AssetAllocationHelp.vue'
-          ),
+        component: () => import('src/pages/AssetAllocationHelp.vue'),
       },
       {
         path: '/assetallocationsetuphelp',
         name: 'assetallocationsetuphelp',
-        component: () =>
-          import(
-            /* webpackChunkName: 'assetallocation' */ 'src/pages/AASetupHelp.vue'
-          ),
+        component: () => import('src/pages/AASetupHelp.vue'),
       },
       {
         path: '/assetclassdetail/:fullname?',
         name: 'assetclassdetail',
-        component: () =>
-          import(
-            /* webpackChunkName: 'assetallocation' */ 'src/pages/AssetClassDetail.vue'
-          ),
+        component: () => import('src/pages/AssetClassDetail.vue'),
       },
       {
         path: '/bal',
         name: 'balanceSheet',
-        component: () =>
-          import(/* webpackChunkName: 'bal' */ 'src/pages/QBalanceSheet.vue'),
+        component: () => import('src/pages/QBalanceSheet.vue'),
       },
       // {
       //   path: "/calculator",
@@ -74,8 +60,7 @@ const routes = [
       {
         path: '/calendar',
         name: 'calendar',
-        component: () =>
-          import(/* webpackChunkName: 'calendar' */ 'src/pages/Calendar.vue'),
+        component: () => import('src/pages/Calendar.vue'),
       },
       {
         path: '/cloudbackup',
@@ -110,8 +95,7 @@ const routes = [
       {
         path: '/help',
         name: 'help',
-        component: () =>
-          import(/* webpackChunkName: 'help' */ 'src/pages/Help.vue'),
+        component: () => import('src/pages/Help.vue'),
       },
       {
         path: '/home',
@@ -126,8 +110,7 @@ const routes = [
       {
         path: '/lots/:symbol',
         name: 'lots',
-        component: () =>
-          import(/* webpackChunkName: 'lots' */ 'src/pages/Lots.vue'),
+        component: () => import('src/pages/Lots.vue'),
       },
       {
         path: '/payees',
@@ -137,8 +120,7 @@ const routes = [
       {
         path: '/prices',
         name: 'prices',
-        component: () =>
-          import(/* webpackChunkName: 'prices' */ 'src/pages/Prices.vue'),
+        component: () => import('src/pages/Prices.vue'),
       },
       {
         path: '/reg/:name',
@@ -148,16 +130,12 @@ const routes = [
       {
         path: '/reorder-postings',
         name: 'reorder postings',
-        component: () =>
-          import(
-            /* webpackChunkName: 'reorder-postings' */ 'src/pages/ReorderPostings.vue'
-          ),
+        component: () => import('src/pages/ReorderPostings.vue'),
       },
       {
         path: '/restore/:type?',
         name: 'restore',
-        component: () =>
-          import(/* webpackChunkName: 'restore' */ 'src/pages/Restore.vue'),
+        component: () => import('src/pages/Restore.vue'),
       },
       {
         path: '/settings',
@@ -167,27 +145,18 @@ const routes = [
       {
         path: '/scheduledtransactions',
         name: 'scheduledtransactions',
-        component: () =>
-          import(
-            /* webpackChunkName: 'scheduledtx' */ 'src/pages/ScheduledTxList.vue'
-          ),
+        component: () => import('src/pages/ScheduledTxList.vue'),
       },
       {
         path: '/scheduledtxactions/:id',
         name: 'scheduledtxactions',
         props: true,
-        component: () =>
-          import(
-            /* webpackChunkName: 'scheduledtx' */ '../pages/ScheduledTxActions.vue'
-          ),
+        component: () => import('../pages/ScheduledTxActions.vue'),
       },
       {
         path: '/scheduledtxeditor/:id?',
         name: 'scheduledtxeditor',
-        component: () =>
-          import(
-            /* webpackChunkName: 'scheduledtx' */ '../pages/ScheduledTxEditor.vue'
-          ),
+        component: () => import('../pages/ScheduledTxEditor.vue'),
       },
       {
         path: '/sync',
@@ -208,14 +177,12 @@ const routes = [
       {
         path: '/tx-search',
         name: 'tx-search',
-        component: () =>
-          import(/* webpackChunkName: 'txsearch' */ 'src/pages/TxSearch.vue'),
+        component: () => import('src/pages/TxSearch.vue'),
       },
       {
         path: '/xact',
         name: 'xact',
-        component: () =>
-          import(/* webpackChunkName: 'xact' */ 'src/pages/Xact.vue'),
+        component: () => import('src/pages/Xact.vue'),
       },
     ],
   },

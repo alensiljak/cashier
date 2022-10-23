@@ -6,6 +6,8 @@ import { AssetClass } from './AssetClass'
 //import jsyaml from 'js-yaml'
 import numeral from 'numeral'
 import toml from 'toml'
+import { AccountService } from './accountsService'
+import { SettingKeys, settings } from './settings'
 
 /**
  * loadDefinition = loads the pre-set definition
@@ -324,13 +326,21 @@ class AssetAllocationEngine {
     return appService.db.assetAllocation.bulkPut(assetClassArray)
   }
 
+  /**
+   * Load current balances from accounts.
+   * Add the account balances to asset classes.
+   */
   async loadCurrentValues() {
-    // load current balances from accounts
-    // add the account balances to asset classes
-    let invAccounts = await appService.getInvestmentAccounts()
+    const acctSvc = new AccountService()
+    const defaultCurrency = await settings.get(SettingKeys.currency)
+    const invAccounts = await appService.getInvestmentAccounts()
+
     await invAccounts.each((account) => {
       let amount = parseFloat(account.currentValue)
       // amount = amount.toFixed(2)
+
+      const acctBalance = acctSvc.getAccountBalance(account, defaultCurrency)
+      account.balance = acctBalance
 
       if (!account.balance) {
         throw new Error(`Account ${account.name} has no balance!`)

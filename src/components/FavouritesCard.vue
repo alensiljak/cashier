@@ -16,7 +16,7 @@
         <q-item v-for="account in accounts" :key="account.name" class="q-px-none" dense>
           <q-item-section>{{ account.name }}</q-item-section>
           <q-item-section side>
-            {{ account.balance?.amount }} {{ account.balance?.currency }}
+            {{ getBalance(account).amount }} {{ getBalance(account).currency }}
           </q-item-section>
         </q-item>
       </q-list>
@@ -27,18 +27,21 @@
 <script setup lang="ts">
 import { onMounted, Ref, ref } from 'vue'
 import { useQuasar } from 'quasar'
-import { settings, SettingKeys } from '../lib/settings'
 import appService from '../appService'
 import { TransactionAugmenter } from 'src/lib/transactionAugmenter'
 import { Account } from 'src/model'
 import { Star } from 'lucide-vue-next'
+import { AccountService } from '../lib/accountsService'
+import { SettingKeys, settings } from 'src/lib/settings'
 
 const $q = useQuasar()
+const accountService = new AccountService()
 
 const emit = defineEmits(['click'])
 
 // data
 const accounts: Ref<Account[]> = ref([])
+let defaultCurrency: string
 
 // methods
 
@@ -46,7 +49,13 @@ onMounted(async () => {
   loadData()
 })
 
+function getBalance(account: Account) {
+  return accountService.getAccountBalance(account, defaultCurrency)
+}
+
 async function loadData() {
+  defaultCurrency = await settings.get(SettingKeys.currency)
+
   try {
     let favArray = await appService.loadFavouriteAccounts()
     if (!favArray) {

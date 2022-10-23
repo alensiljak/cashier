@@ -4,7 +4,7 @@
  * and parse them when needed.
  * No other local storage is used.
  */
-import { Account } from 'src/model'
+import { Account, AccountBalance } from 'src/model'
 import db from 'src/store/indexedDb'
 import { SettingKeys, settings, Constants } from './settings'
 import { CashierSync } from './syncCashier'
@@ -29,19 +29,52 @@ export class AccountService {
     await db.accounts.bulkAdd(accounts)
   }
 
-  async getAccountsFromCache() {
-    // This version simply retrieves the cached version of /accounts response.
-    const serverUrl = await settings.get(SettingKeys.syncServerUrl)
-    const cashierSync = new CashierSync(serverUrl)
-    const cache = await caches.open(Constants.CacheName)
-    const accountsResponse = await cache.match(cashierSync.getAccountsUrl())
-    if (!accountsResponse) {
-      throw new Error('Accounts not cached!')
+  getAccountBalance(account: Account, defaultCurrency: string): AccountBalance {
+    if (!defaultCurrency) {
+      throw new Error('Default currency is mandatory!')
     }
-    const accounts = await accountsResponse.json()
-    // they should be already sorted by name.
-    console.debug(accounts)
+
+    let result = new AccountBalance()
+    // const defaultCurrency = await settings.get(SettingKeys.currency)
+
+    // default value
+    result.amount = 0
+    result.currency = defaultCurrency
+
+    // Are there any balance records?
+    if (!account.balances) return result
+
+    // Do we have a balance in the default currency?
+    let balance = account.balances[defaultCurrency]
+    if (balance) {
+      result.amount = balance
+      result.currency = defaultCurrency
+      return result
+    }
+
+    // Otherwise take the first balance/currency.
+    const currencies = Object.keys(account.balances)
+    if (!currencies) return result
+
+    const currency = currencies[0]
+    result.amount = account.balances[currency]
+    result.currency = currency
+    return result
   }
+
+  // async getAccountsFromCache() {
+  //   // This version simply retrieves the cached version of /accounts response.
+  //   const serverUrl = await settings.get(SettingKeys.syncServerUrl)
+  //   const cashierSync = new CashierSync(serverUrl)
+  //   const cache = await caches.open(Constants.CacheName)
+  //   const accountsResponse = await cache.match(cashierSync.getAccountsUrl())
+  //   if (!accountsResponse) {
+  //     throw new Error('Accounts not cached!')
+  //   }
+  //   const accounts = await accountsResponse.json()
+  //   // they should be already sorted by name.
+  //   console.debug(accounts)
+  // }
 
   getDefaultChartOfAccounts() {
     const accountsList = `
@@ -49,9 +82,9 @@ export class AccountService {
     Assets:Bank Accounts:Checking
     Assets:Bank Accounts:Savings
     Assets:Fixed Assets
-    Assets:Investments
+    Assets:Investments:Cash
+    Assets:Investments:Stocks
     Assets:Retirement
-    Assets:Savings
     Equity:Opening Balances
     Expenses:Auto:Accessories
     Expenses:Auto:Auto Insurance

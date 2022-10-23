@@ -8,40 +8,13 @@ export class AccountBalance {
 }
 
 export class Account {
-  _balance?: AccountBalance
+  balance?: AccountBalance
 
   name = ''
   balances?: Record<string, number>
   // currency: any
   currentValue: any
   currentCurrency: any
-
-  get balance() {
-    if (!this._balance) {
-      // If not set, use the first record.
-      this._balance = this._getDefaultBalanceRecord()
-    }
-    return this._balance
-  }
-
-  set balance(value) {
-    this._balance = value
-  }
-
-  _getDefaultBalanceRecord(): AccountBalance | undefined {
-    if (!this.balances) return undefined
-
-    const keys = Object.keys(this.balances)
-    if (!keys) {
-      return undefined
-    }
-
-    const result = new AccountBalance()
-    const key = keys[0]
-    result.amount = this.balances[key]
-    result.currency = key
-    return result
-  }
 
   constructor(accountName: string) {
     this.name = accountName

@@ -1,6 +1,8 @@
 import { Account, AccountBalance, Transaction } from 'src/model'
 import appService from '../appService'
 import { TransactionParser } from './transactionParser'
+import { AccountService } from './accountsService'
+import { SettingKeys, settings } from './settings'
 
 /**
  * Modifies the transaction records in-memory to create the missing parts,
@@ -81,6 +83,9 @@ export class TransactionAugmenter {
       return accounts
     }
 
+    const acctSvc = new AccountService()
+    const defaultCurrency = await settings.get(SettingKeys.currency)
+
     for (let i = 0; i < accounts.length; i++) {
       // load all postings for the account
       let account = accounts[i]
@@ -89,7 +94,7 @@ export class TransactionAugmenter {
 
       // handle empty balances
       if (!account.balance) {
-        account.balance = new AccountBalance()
+        account.balance = acctSvc.getAccountBalance(account, defaultCurrency)
       }
 
       //let sum = parseFloat(account.balance.amount)
