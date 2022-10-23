@@ -3,21 +3,18 @@ import { Account } from 'src/model'
 export class AssetClass {
   fullname: string
   allocation = 0
-  allocatedValue
-  currentAllocation
-  currentValue
-  diff
-  diffAmount
-  diffPerc
-  currency
-  symbols
+  allocatedValue = 0
+  currentAllocation = 0
+  currentValue = 0
+  diff = 0
+  diffAmount = 0
+  diffPerc = 0
+  currency = ''
+  symbols = []
 
   constructor() {
     this.fullname = ''
-    this.symbols = null
     // this.level = null; // the depth level, with root Allocation = 0
-    this.currentValue = null
-    this.currency = null
   }
 
   /**

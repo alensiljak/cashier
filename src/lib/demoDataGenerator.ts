@@ -1,11 +1,27 @@
 /**
  * Demo data generator.
  */
-import { Account, Payee } from 'src/model'
+import { Payee } from 'src/model'
 import CashierDAL from '../store/dal'
+import { AccountService } from './accountsService'
 import { engine as assetAllocationEngine } from './AssetAllocation'
 
 const dal = new CashierDAL()
+
+async function createInvestmentAccounts() {
+  const investmentAccountNames = `
+    Assets:Investments:Stocks:VT
+    Assets:Investments:Stocks:BND
+    Assets:Investments:Stocks:BNDX
+    Assets:Investments:Stocks:VNQ
+    Assets:Investments:Stocks:VNQI
+    Assets:Investments:Cash USD
+    Assets:Investments:Cash AUD
+    `
+
+  const acctSvc = new AccountService()
+  await acctSvc.createAccounts(investmentAccountNames)
+}
 
 async function createPayees() {
   const payeeNames = ['Investment Fund', 'My Bank', 'Salary', 'Supermarket']
@@ -29,6 +45,26 @@ async function createAccountBalances() {
 
   // Investments
   await setAccountBalances('Assets:Investments:Cash', { EUR: 1000 })
+  await setAccountCurrentValue('Assets:Investments:Cash', { EUR: 1000 })
+  await setAccountBalances('Assets:Investments:Cash USD', { USD: 486.5 })
+  await setAccountCurrentValue('Assets:Investments:Cash USD', { EUR: 500 })
+  await setAccountBalances('Assets:Investments:Cash AUD', { AUD: 782 })
+  await setAccountCurrentValue('Assets:Investments:Cash AUD', { EUR: 500 })
+  //
+  await setAccountCurrentValue('Assets:Investments:Stocks', { EUR: 0 })
+  // Stocks
+  await setAccountBalances('Assets:Investments:Stocks:VT', { VT: 12 })
+  await setAccountCurrentValue('Assets:Investments:Stocks:VT', { EUR: 983.52 })
+  // Bonds
+  await setAccountBalances('Assets:Investments:Stocks:BND', { BND: 10 })
+  await setAccountCurrentValue('Assets:Investments:Stocks:BND', { EUR: 695 })
+  await setAccountBalances('Assets:Investments:Stocks:BNDX', { BNDX: 10 })
+  await setAccountCurrentValue('Assets:Investments:Stocks:BNDX', { EUR: 470.8 })
+  // Real-Estate
+  await setAccountBalances('Assets:Investments:Stocks:VNQ', { VNQ: 10 })
+  await setAccountCurrentValue('Assets:Investments:Stocks:VNQ', { EUR: 781.5 })
+  await setAccountBalances('Assets:Investments:Stocks:VNQI', { VNQI: 10 })
+  await setAccountCurrentValue('Assets:Investments:Stocks:VNQI', { EUR: 374.6 })
 }
 
 async function createAssetAllocation() {
@@ -65,4 +101,23 @@ async function setAccountBalances(
   await dal.saveAccount(account)
 }
 
-export { createAccountBalances, createAssetAllocation, createPayees }
+async function setAccountCurrentValue(
+  accountName: string,
+  currentBalance: Record<string, number>
+) {
+  let account = await dal.getAccount(accountName)
+  const keys = Object.keys(currentBalance)
+  const currency = keys[0]
+
+  account.currentValue = currentBalance[currency]
+  account.currentCurrency = currency
+
+  await dal.saveAccount(account)
+}
+
+export {
+  createAccountBalances,
+  createAssetAllocation,
+  createInvestmentAccounts,
+  createPayees,
+}

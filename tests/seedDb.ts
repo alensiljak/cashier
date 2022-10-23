@@ -39,3 +39,18 @@ export class DemoDataPage {
     this.alert.waitFor()
   }
 }
+
+let created = false
+
+export async function createDemoData(page: Page) {
+  if (created) return
+
+  await page.getByRole('button', { name: 'Yes' }).click()
+  await expect(page).toHaveURL('http://localhost:9200/#/demoData')
+
+  await page.getByRole('button', { name: 'Create' }).click()
+
+  expect(page.getByText('Asset Allocation created')).toBeVisible()
+
+  created = true
+}

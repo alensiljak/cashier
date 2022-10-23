@@ -54,10 +54,7 @@ onMounted(async () => {
 })
 
 async function loadData() {
-  let col: Collection = await appService.getInvestmentAccounts()
-  let array: Account[] = await col.toArray()
-
-  investmentAccounts.value = array
+  investmentAccounts.value = await appService.loadInvestmentAccounts()
   await loadAssetClass()
 
   currency.value = await settings.get(SettingKeys.currency)
@@ -69,13 +66,13 @@ async function loadData() {
 async function loadAssetClass() {
   const ac: AssetClass = await appService.loadAssetClass($route.params.fullname as string)
   assetClass.value = ac
-  loadConstituents()
+  getConstituents()
 }
 
 /**
  * Load all constituents - stocks, currencies.
  */
-function loadConstituents() {
+function getConstituents() {
   let childNames = assetClass.value.symbols
   let stocks = []
 

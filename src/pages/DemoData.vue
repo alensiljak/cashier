@@ -13,13 +13,16 @@
     </div>
     <q-separator />
     <div class="row">
-      <q-checkbox label="Create Accounts" v-model="createAccountsChecked" />
-    </div>
-    <div class="row">
-      <q-checkbox label="Create demo Account balances" v-model="createAccountBalancesChecked" />
+      <q-checkbox label="Create default Chact of Accounts" v-model="createAccountsChecked" />
     </div>
     <div class="row">
       <q-checkbox label="Create default settings" v-model="createDefaultSettingsChecked" />
+    </div>
+    <div class="row">
+      <q-checkbox label="Create demo investment accounts" v-model="createInvestmentAccountsChecked" />
+    </div>
+    <div class="row">
+      <q-checkbox label="Create demo Account balances" v-model="createAccountBalancesChecked" />
     </div>
     <div class="row">
       <q-checkbox label="Create favourite accounts" v-model="createFavAccountsChecked" />
@@ -28,7 +31,7 @@
       <q-checkbox label="Create Payees" v-model="createPayeesChecked" />
     </div>
     <div class="row">
-      <p>TODO: Create Transactions</p>
+      <p>TODO: Create demo Transactions</p>
     </div>
     <div class="row">
       <p>TODO: Create Scheduled Transactions</p>
@@ -51,12 +54,16 @@ import useNotifications from 'src/lib/CashierNotification'
 import { AccountService } from 'src/lib/accountsService'
 // import appService from 'src/appService';
 import { SettingKeys, settings } from '../lib/settings'
-import { createPayees, createAccountBalances, createAssetAllocation } from '../lib/demoDataGenerator'
+import {
+  createPayees, createAccountBalances, createAssetAllocation,
+  createInvestmentAccounts
+} from '../lib/demoDataGenerator'
 
 const Notification = useNotifications()
 
 const createAllChecked = ref(true)
 const createAccountsChecked = ref(true)
+const createInvestmentAccountsChecked = ref(true)
 const createAccountBalancesChecked = ref(true)
 const createDefaultSettingsChecked = ref(true)
 const createFavAccountsChecked = ref(true)
@@ -68,9 +75,13 @@ async function create() {
   if (createAccountsChecked.value) {
     await confirmCreateAccounts()
   }
+  if (createInvestmentAccountsChecked.value) {
+    await createInvestmentAccounts()
+    Notification.positive('Demo investment accounts created')
+  }
   if (createAccountBalancesChecked.value) {
     await createAccountBalances()
-    Notification.positive('Demo account balances created.')
+    Notification.positive('Demo account balances created')
   }
   if (createDefaultSettingsChecked.value) {
     await createDefaultSettings()
@@ -93,6 +104,7 @@ function onAllClicked() {
   const checked = createAllChecked.value
 
   createAccountsChecked.value = checked
+  createInvestmentAccountsChecked.value = checked
   createAccountBalancesChecked.value = checked
   createDefaultSettingsChecked.value = checked
   createFavAccountsChecked.value = checked

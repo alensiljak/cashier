@@ -144,7 +144,7 @@ class AssetAllocationEngine {
    * The output can be stored for historical purposes, compared, etc.
    * @param {Array} rows
    */
-  formatAllocationRowsForTxtExport(rows: object[]) {
+  formatAllocationRowsForTxtExport(rows: AssetClass[]) {
     let outputRows = []
     outputRows.push(
       'Asset Class       Allocation Current  Diff.  Diff.%  Alloc.Val.  Curr. Val.  Difference'
@@ -208,7 +208,7 @@ class AssetAllocationEngine {
    * Update the current balances in the asset allocation.
    * @param {string} json
    */
-  async importCurrentValuesJson(json: object) {
+  async importCurrentValuesJson(json: Record<string, string>) {
     const accounts = Object.keys(json)
     for (let i = 0; i < accounts.length; i++) {
       const key = accounts[i]
@@ -333,10 +333,17 @@ class AssetAllocationEngine {
   async loadCurrentValues() {
     const acctSvc = new AccountService()
     const defaultCurrency = await settings.get(SettingKeys.currency)
-    const invAccounts = await appService.getInvestmentAccounts()
+    const invAccounts = await appService.loadInvestmentAccounts()
 
-    await invAccounts.each((account) => {
+    await invAccounts.forEach((account) => {
       let amount = parseFloat(account.currentValue)
+      if (!amount) {
+        console.warn(`Account ${account.name} has no current value set.`)
+      }
+      if (isNaN(amount)) {
+        console.warn(`Account ${account.name} has no current value set.`)
+        amount = 0
+      }
       // amount = amount.toFixed(2)
 
       const acctBalance = acctSvc.getAccountBalance(account, defaultCurrency)
@@ -350,7 +357,8 @@ class AssetAllocationEngine {
       let assetClassName = this.stockIndex[commodity]
       let assetClass = this.assetClassIndex[assetClassName]
 
-      if (typeof assetClass.currentValue === 'undefined') {
+      if (isNaN(assetClass.currentValue)) {
+        // typeof assetClass.currentValue === 'undefined'
         assetClass.currentValue = 0
       }
       assetClass.currentValue += amount

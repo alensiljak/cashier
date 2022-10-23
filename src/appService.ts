@@ -19,6 +19,7 @@ import { toRaw } from 'vue'
 import { TransactionParser } from './lib/transactionParser'
 import { TransactionAugmenter } from './lib/transactionAugmenter'
 import { Collection } from 'dexie'
+import { AccountService } from './lib/accountsService'
 
 class AppService {
   /**
@@ -221,7 +222,7 @@ class AppService {
    * Start from the investment root setting, and include the commodity.
    * @returns Promise with investment accounts collection
    */
-  async getInvestmentAccounts(): Promise<Collection<Account>> {
+  async loadInvestmentAccounts(): Promise<Account[]> {
     // get the root investment account.
     const rootAccount = await settings.get(SettingKeys.rootInvestmentAccount)
 
@@ -229,7 +230,19 @@ class AppService {
       throw new Error('Root investment account not set!')
     }
 
-    return this.db.accounts.where('name').startsWithIgnoreCase(rootAccount)
+    let accounts: Account[] = await this.db.accounts
+      .where('name')
+      .startsWithIgnoreCase(rootAccount)
+      .toArray()
+
+    // add the balance
+    const defaultCurrency = await settings.get(SettingKeys.currency)
+    const acctSvc = new AccountService()
+    accounts.forEach((account) => {
+      account.balance = acctSvc.getAccountBalance(account, defaultCurrency)
+    })
+
+    return accounts
   }
 
   /**
@@ -239,7 +252,7 @@ class AppService {
     // get all investment accounts, iterate to get unique commodities?
     let commodities: string[] = []
 
-    const accounts = await this.getInvestmentAccounts()
+    const accounts = await this.loadInvestmentAccounts()
     await accounts.each((account) => {
       if (!account.balances) return
 

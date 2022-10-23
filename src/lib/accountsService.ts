@@ -14,6 +14,14 @@ export class AccountService {
 
   async createDefaultAccounts() {
     let accountsList = this.getDefaultChartOfAccounts()
+    await this.createAccounts(accountsList)
+  }
+
+  /**
+   * Creates accounts in the db, from a string list.
+   * @param accountsList List of accounts, one account full name per line
+   */
+  async createAccounts(accountsList: string) {
     let accountNames = accountsList.split('\n')
     // trim
     accountNames = accountNames.map((account) => account.trim())
