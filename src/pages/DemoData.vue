@@ -27,9 +27,15 @@
     <div class="row">
       <q-checkbox label="Create Payees" v-model="createPayeesChecked" />
     </div>
-    <p>Create Transactions</p>
-    <p>Create Scheduled Transactions</p>
-    <p>Create Asset Allocation</p>
+    <div class="row">
+      <p>TODO: Create Transactions</p>
+    </div>
+    <div class="row">
+      <p>TODO: Create Scheduled Transactions</p>
+    </div>
+    <div class="row">
+      <q-checkbox label="Create Asset Allocation" v-model="createAssetAllocationChecked" />
+    </div>
 
     <!-- button -->
     <div class="row justify-center">
@@ -45,7 +51,7 @@ import useNotifications from 'src/lib/CashierNotification'
 import { AccountService } from 'src/lib/accountsService'
 // import appService from 'src/appService';
 import { SettingKeys, settings } from '../lib/settings'
-import { createPayees, createAccountBalances } from '../lib/demoDataGenerator'
+import { createPayees, createAccountBalances, createAssetAllocation } from '../lib/demoDataGenerator'
 
 const Notification = useNotifications()
 
@@ -55,6 +61,7 @@ const createAccountBalancesChecked = ref(true)
 const createDefaultSettingsChecked = ref(true)
 const createFavAccountsChecked = ref(true)
 const createPayeesChecked = ref(true)
+const createAssetAllocationChecked = ref(true)
 
 async function create() {
   // create records
@@ -72,8 +79,13 @@ async function create() {
     await createFavouriteAccounts()
   }
   if (createPayeesChecked.value) {
-    createPayees()
+    await createPayees()
     Notification.positive('Payees created')
+  }
+
+  if (createAssetAllocationChecked.value) {
+    await createAssetAllocation()
+    Notification.positive('Asset Allocation created')
   }
 }
 
@@ -85,6 +97,8 @@ function onAllClicked() {
   createDefaultSettingsChecked.value = checked
   createFavAccountsChecked.value = checked
   createPayeesChecked.value = checked
+
+  createAssetAllocationChecked.value = checked
 }
 
 async function confirmCreateAccounts() {

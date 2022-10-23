@@ -1,5 +1,5 @@
 /**
- * Accounts tests
+ * Asset Allocation tests
  */
 
 import { test, expect } from '@playwright/test'
@@ -17,15 +17,16 @@ test.beforeEach(async ({ page }) => {
 
   expect(page.getByText('Asset Allocation created')).toBeVisible()
 
-  // await page.locator('a[role="listitem"]:has-text("Home")').click()
-  // await expect(page).toHaveURL('http://localhost:9200/#/home')
+  //   await page.locator('a[role="listitem"]:has-text("Home")').click()
+  //   await expect(page).toHaveURL('http://localhost:9200/#/home')
 })
 
 test('testDiningAccountBalance', async ({ page }) => {
-  await page.locator('a[role="listitem"]:has-text("Accounts")').click()
-  await expect(page).toHaveURL('http://localhost:9200/#/accounts')
-  await page.getByLabel('').click()
-  await page.getByLabel('').fill('din')
-  //await page.getByText('256 EUR').nth(1)
-  expect(page.getByText('256 EUR').nth(1)).toHaveText('256 EUR')
+  await page.locator('a[role="listitem"]:has-text("Asset Allocation")').click()
+  await expect(page).toHaveURL('http://localhost:9200/#/assetallocation')
+
+  await page.getByRole('button').nth(2).click()
+  await page.getByText('Validate').click()
+
+  expect(page.getByText('The allocation is valid.')).toBeVisible()
 })

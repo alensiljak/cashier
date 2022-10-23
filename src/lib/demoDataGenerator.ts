@@ -3,6 +3,7 @@
  */
 import { Account, Payee } from 'src/model'
 import CashierDAL from '../store/dal'
+import { engine as assetAllocationEngine } from './AssetAllocation'
 
 const dal = new CashierDAL()
 
@@ -30,6 +31,31 @@ async function createAccountBalances() {
   await setAccountBalances('Assets:Investments:Cash', { EUR: 1000 })
 }
 
+async function createAssetAllocation() {
+  let tomlDefinition = `
+  [Allocation]
+  allocation = 100
+
+  [Allocation.Equity]
+  allocation = 55
+  symbols = ["VT"]
+
+  [Allocation.Fixed]
+  allocation = 30
+  symbols = ["BND", "BNDX"]
+
+  [Allocation.Real]
+  allocation = 12
+  symbols = ["VNQ", "VNQI"]
+
+  [Allocation.Cash]
+  allocation = 3
+  symbols = ["EUR", "USD", "AUD", "GBP"]
+  `
+
+  await assetAllocationEngine.importTomlDefinition(tomlDefinition)
+}
+
 async function setAccountBalances(
   accountName: string,
   balances: Record<string, number>
@@ -39,4 +65,4 @@ async function setAccountBalances(
   await dal.saveAccount(account)
 }
 
-export { createAccountBalances, createPayees }
+export { createAccountBalances, createAssetAllocation, createPayees }
