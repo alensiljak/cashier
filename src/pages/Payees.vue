@@ -16,9 +16,11 @@
       </q-item>
     </q-list> -->
 
-    <!-- <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn fab color="accent" text-color="secondary" @click="onAcceptClick"><icon-check /></q-btn>
-    </q-page-sticky> -->
+    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+      <q-btn fab color="accent" text-color="secondary" @click="onAcceptClick">
+        <icon-check />
+      </q-btn>
+    </q-page-sticky>
   </q-page>
 </template>
 
@@ -38,6 +40,7 @@ import useNotifications from 'src/lib/CashierNotification'
 import CashierDAL from 'src/store/dal'
 import { Payee } from 'src/model'
 import { ListSearch } from 'src/ListSearch'
+import { Check as IconCheck } from 'lucide-vue-next'
 
 const $router = useRouter()
 const mainStore = useMainStore()
