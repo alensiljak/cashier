@@ -19,8 +19,7 @@
     "lint": "eslint --ext .js,.vue ./",
     "deploy": "netlify deploy --prod",
     "format": "prettier --write \"**/*.{js,vue,scss,html,md,json}\" --ignore-path .gitignore",
-    "test": "playwright test",
-    "test-test": "echo \"No test specified\" && exit 0"
+    "test": "playwright test"
   },
   "dependencies": {},
   "devDependencies": {
