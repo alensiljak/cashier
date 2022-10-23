@@ -253,7 +253,7 @@ class AppService {
     let commodities: string[] = []
 
     const accounts = await this.loadInvestmentAccounts()
-    await accounts.each((account) => {
+    await accounts.forEach((account) => {
       if (!account.balances) return
 
       const accountCommodities = Object.keys(account.balances)

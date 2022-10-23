@@ -27,7 +27,7 @@ export class TransactionParser {
 
   /**
    * Find the amount to display, from the user's perspective - a debit, credit, transfer.
-   * Append (amount, currency) to the Transaction record.
+   * Appends {amount, currency} to the Transaction record.
    * @param {Array<Transaction>} txs
    */
   static calculateTxAmounts(txs: Transaction[]) {
@@ -37,7 +37,7 @@ export class TransactionParser {
     // Find the asset account and decide on the flow direction.
     txs.forEach((tx) => {
       let amount = 'n/a'
-      let currency = ''
+      //let currency = ''
 
       // get the assets posting(s)
       const postings = tx.postings.filter(
@@ -45,6 +45,7 @@ export class TransactionParser {
           posting.account.startsWith('Assets:') ||
           posting.account.startsWith('Liabilities:')
       )
+
       if (postings.length === 0) {
         console.warn('No postings found in Assets or Liabilities!')
       } else if (postings.length === 1) {
@@ -52,8 +53,9 @@ export class TransactionParser {
         tx.currency = postings[0].currency
       } else if (postings.length === 2) {
         // transfer
-        tx.amount = '<=>'
-        // todo: ...
+        //tx.amount = '<=>'
+        tx.amount = Math.abs(postings[0].amount)
+        tx.currency = postings[0].currency
       } else {
         // todo: handle these cases (transfers, complex tx)
         console.warn('more than one posting found with assets')
