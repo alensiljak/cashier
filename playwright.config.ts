@@ -11,7 +11,6 @@ import { devices } from '@playwright/test'
  * See https://playwright.dev/docs/test-configuration.
  */
 const config: PlaywrightTestConfig = {
-  // baseUrl: 'http://localhost:9200'
   //browserName: 'firefox',
   //   headless: false,
   //   viewport: { width: 1280, height: 720 },
@@ -45,6 +44,9 @@ const config: PlaywrightTestConfig = {
     actionTimeout: 0,
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: 'http://localhost:3000',
+    baseURL: 'http://localhost:9200',
+
+    // headless: true,
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -63,6 +65,7 @@ const config: PlaywrightTestConfig = {
       name: 'firefox',
       use: {
         ...devices['Desktop Firefox'],
+        // headless: true,
       },
     },
 

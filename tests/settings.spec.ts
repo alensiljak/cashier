@@ -12,11 +12,11 @@ test.beforeEach(async ({ page }) => {
 })
 
 test('savingDefaultCurrency', async ({ page }) => {
-  await expect(page).toHaveURL('http://localhost:9200/#/home')
+  await expect(page).toHaveURL('/#/home')
 
   // Click text=Settings >> nth=1
   await page.locator('text=Settings').nth(1).click()
-  await expect(page).toHaveURL('http://localhost:9200/#/settings')
+  await expect(page).toHaveURL('/#/settings')
 
   // Click [aria-label="Main Currency"]
   await page.locator('[aria-label="Main Currency"]').click()
@@ -26,11 +26,11 @@ test('savingDefaultCurrency', async ({ page }) => {
 
   // Click text=Home >> nth=1
   await page.locator('text=Home').nth(1).click()
-  await expect(page).toHaveURL('http://localhost:9200/#/home')
+  await expect(page).toHaveURL('/#/home')
 
   // Click text=Settings >> nth=1
   await page.locator('text=Settings').nth(1).click()
-  await expect(page).toHaveURL('http://localhost:9200/#/settings')
+  await expect(page).toHaveURL('/#/settings')
 
   // If not saved, the value is not persisted!
   await expect(page.locator('[aria-label="Main Currency"]')).toHaveValue('')

@@ -2,42 +2,58 @@
   <q-page padding class="text-amber-2">
     <CashierToolbar title="Demo Data" />
 
-    <p>Incomplete !</p>
-
     <div class="row">
-      <p>Here you will be able to create demo data.</p>
+      <p>Here you can create some default data as well as demo records that
+        help illustrate how to use the application.</p>
     </div>
 
     <div class="row">
       <q-checkbox label="Create All" v-model="createAllChecked" @update:model-value="onAllClicked" />
+      <Check v-if="progress.allDone" class="q-mt-sm on-right" />
     </div>
+
     <q-separator />
+
     <div class="row">
       <q-checkbox label="Create default Chact of Accounts" v-model="createAccountsChecked" />
+      <Check v-if="progress.accounts" class="q-mt-sm on-right" />
     </div>
+
     <div class="row">
       <q-checkbox label="Create default settings" v-model="createDefaultSettingsChecked" />
+      <Check v-if="progress.defaultSettings" class="q-mt-sm on-right" />
     </div>
+
     <div class="row">
       <q-checkbox label="Create demo investment accounts" v-model="createInvestmentAccountsChecked" />
+      <Check v-if="progress.investmentAccounts" class="q-mt-sm on-right" />
     </div>
+
     <div class="row">
       <q-checkbox label="Create demo Account balances" v-model="createAccountBalancesChecked" />
+      <Check v-if="progress.balances" class="q-mt-sm on-right" />
     </div>
+
     <div class="row">
       <q-checkbox label="Create favourite accounts" v-model="createFavAccountsChecked" />
+      <Check v-if="progress.favourites" class="q-mt-sm on-right" />
     </div>
+
     <div class="row">
       <q-checkbox label="Create Payees" v-model="createPayeesChecked" />
+      <Check v-if="progress.payees" class="q-mt-sm on-right" />
     </div>
+
     <div class="row">
       <p>TODO: Create demo Transactions</p>
     </div>
     <div class="row">
       <p>TODO: Create Scheduled Transactions</p>
     </div>
+
     <div class="row">
       <q-checkbox label="Create Asset Allocation" v-model="createAssetAllocationChecked" />
+      <Check v-if="progress.assetAllocation" class="q-mt-sm on-right" />
     </div>
 
     <!-- button -->
@@ -58,6 +74,7 @@ import {
   createPayees, createAccountBalances, createAssetAllocation,
   createInvestmentAccounts
 } from '../lib/demoDataGenerator'
+import { Check } from 'lucide-vue-next'
 
 const Notification = useNotifications()
 
@@ -69,35 +86,55 @@ const createDefaultSettingsChecked = ref(true)
 const createFavAccountsChecked = ref(true)
 const createPayeesChecked = ref(true)
 const createAssetAllocationChecked = ref(true)
+const progress = ref({
+  allDone: false,
+  accounts: false,
+  defaultSettings: false,
+  investmentAccounts: false,
+  balances: false,
+  favourites: false,
+  payees: false,
+  assetAllocation: false
+})
 
 async function create() {
   // create records
   if (createAccountsChecked.value) {
     await confirmCreateAccounts()
+    progress.value.accounts = true
   }
+
   if (createInvestmentAccountsChecked.value) {
     await createInvestmentAccounts()
-    Notification.positive('Demo investment accounts created')
+    progress.value.investmentAccounts = true
   }
+
   if (createAccountBalancesChecked.value) {
     await createAccountBalances()
-    Notification.positive('Demo account balances created')
+    progress.value.balances = true
   }
+
   if (createDefaultSettingsChecked.value) {
     await createDefaultSettings()
+    progress.value.defaultSettings = true
   }
+
   if (createFavAccountsChecked.value) {
     await createFavouriteAccounts()
+    progress.value.favourites = true
   }
+
   if (createPayeesChecked.value) {
     await createPayees()
-    Notification.positive('Payees created')
+    progress.value.payees = true
   }
 
   if (createAssetAllocationChecked.value) {
     await createAssetAllocation()
-    Notification.positive('Asset Allocation created')
+    progress.value.assetAllocation = true
   }
+
+  progress.value.allDone = true
 }
 
 function onAllClicked() {
@@ -127,7 +164,6 @@ async function createAccounts() {
   try {
     //  create demo chart of Accounts.
     await new AccountService().createDefaultAccounts()
-    Notification.positive('Chart of Accounts created')
   } catch (error: any) {
     console.error(error.message)
     Notification.negative(error.message)
@@ -140,15 +176,11 @@ async function createDefaultSettings() {
   await settings.set(SettingKeys.rootInvestmentAccount, 'Assets:Investment')
 
   await settings.set(SettingKeys.syncServerUrl, 'http://localhost:8080')
-
-  Notification.positive('Default settings created')
 }
 
 async function createFavouriteAccounts() {
   const favArray = ['Assets:Cash', 'Assets:Bank Accounts:Checking']
   await settings.set(SettingKeys.favouriteAccounts, favArray)
-
-  Notification.positive('Favourite Accounts created')
 }
 
 function haveExistingData(): boolean {

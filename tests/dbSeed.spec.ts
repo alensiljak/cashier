@@ -6,7 +6,7 @@ import { test, expect } from '@playwright/test'
 
 test.describe('db seed', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('http://localhost:9200/')
+    await page.goto('/')
 
     // let x = await page.evaluate(async () => {
     //const idb = window.indexedDB
@@ -35,19 +35,17 @@ test.describe('db seed', () => {
   })
 
   test('seedDb', async ({ page }) => {
-    await page.goto('http://localhost:9200/')
-    // await page.goto('http://localhost:9200/#/')
-    // await page.goto('http://localhost:9200/#/home')
-    await expect(page).toHaveURL('http://localhost:9200/#/home')
+    await page.goto('/')
+    await expect(page).toHaveURL('/#/home')
 
     await page.getByRole('link', { name: 'Settings' }).click()
-    await expect(page).toHaveURL('http://localhost:9200/#/settings')
+    await expect(page).toHaveURL('/#/settings')
 
     // Click the menu
     await page.locator('button:has-text("more_vert")').click()
 
     await page.getByText('Create demo data').click()
-    await expect(page).toHaveURL('http://localhost:9200/#/demoData')
+    await expect(page).toHaveURL('/#/demoData')
 
     await page.getByRole('checkbox', { name: 'Create All' }).click()
 

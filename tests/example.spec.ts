@@ -11,7 +11,7 @@ test.beforeAll(async ({ browser }) => {
   //const browser = await firefox.launch()
   page = await browser.newPage()
 
-  await page.goto('http://localhost:9200/')
+  await page.goto('/')
 })
 test.afterAll(async () => {
   // clean-up
@@ -62,7 +62,7 @@ test.describe('Settings', () => {
     // await db.accounts.put({ name: 'account1' })
     // console.log(db.accounts)
 
-    await page.goto('http://localhost:9200/')
+    await page.goto('/')
 
     const result = await page.evaluate(() => {
       if (!window.indexedDB) {

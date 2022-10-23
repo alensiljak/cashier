@@ -3,18 +3,18 @@
  */
 
 import { test, expect } from '@playwright/test'
-import { createDemoData } from './seedDb'
+import { initialize } from './seedDb'
 
+test.describe('Asset Allocation tests', () => {})
 test.beforeEach(async ({ page }) => {
   // Create demo data.
+  await initialize(page)
 
-  await page.goto('http://localhost:9200/')
-  expect(page).toHaveURL('http://localhost:9200/#/home')
-
-  await createDemoData(page)
+  await page.locator('a[role="listitem"]:has-text("Home")').click()
+  await expect(page).toHaveURL('/#/home')
 
   await page.locator('a[role="listitem"]:has-text("Asset Allocation")').click()
-  await expect(page).toHaveURL('http://localhost:9200/#/assetallocation')
+  await expect(page).toHaveURL('/#/assetallocation')
 })
 
 test('testValidation', async ({ page }) => {
@@ -31,4 +31,8 @@ test('testCashAmounts', async ({ page }) => {
   expect(page.getByRole('cell', { name: '159.16' })).toBeVisible()
   // difference
   expect(page.getByRole('cell', { name: '1,840.84' })).toBeVisible()
+})
+
+test('testVisually', async ({ page }) => {
+  await expect(page).toHaveScreenshot()
 })

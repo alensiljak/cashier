@@ -19,7 +19,7 @@ export class DemoDataPage {
   }
 
   async goto() {
-    await this.page.goto('http://localhost:9200/#/demoData')
+    await this.page.goto('/#/demoData')
   }
 
   //   async clickCreateAll() {
@@ -42,15 +42,21 @@ export class DemoDataPage {
 
 let created = false
 
-export async function createDemoData(page: Page) {
+export async function initialize(page: Page) {
+  await page.goto('/')
+  expect(page).toHaveURL('/#/home')
+
   if (created) return
 
   await page.getByRole('button', { name: 'Yes' }).click()
-  await expect(page).toHaveURL('http://localhost:9200/#/demoData')
+  await expect(page).toHaveURL('/#/demoData')
 
   await page.getByRole('button', { name: 'Create' }).click()
 
-  expect(page.getByText('Asset Allocation created')).toBeVisible()
+  //expect(page.getByText('Asset Allocation created')).toBeVisible()
+  // The checkmark on All Done (apparently)
+  expect(page.locator('.q-mt-sm').first()).toBeVisible()
+  // page.locator('.q-mt-sm').first().waitFor()
 
   created = true
 }
