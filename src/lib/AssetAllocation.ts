@@ -337,10 +337,7 @@ class AssetAllocationEngine {
 
     await invAccounts.forEach((account) => {
       let amount = parseFloat(account.currentValue)
-      if (!amount) {
-        console.warn(`Account ${account.name} has no current value set.`)
-      }
-      if (isNaN(amount)) {
+      if (!amount || isNaN(amount)) {
         console.warn(`Account ${account.name} has no current value set.`)
         amount = 0
       }
@@ -349,18 +346,24 @@ class AssetAllocationEngine {
       const acctBalance = acctSvc.getAccountBalance(account, defaultCurrency)
       account.balance = acctBalance
 
-      if (!account.balance) {
-        throw new Error(`Account ${account.name} has no balance!`)
+      if (acctBalance.amount == 0) {
+        // skip adding to the sum.
+        return
       }
-      let commodity = account.balance.currency
-      // now get the asset class for this commodity
-      let assetClassName = this.stockIndex[commodity]
-      let assetClass = this.assetClassIndex[assetClassName]
 
-      if (
-        typeof assetClass.currentValue === 'undefined' ||
-        isNaN(assetClass.currentValue)
-      ) {
+      let commodity = account.balance.currency
+      // Now get the asset class for this commodity.
+      let assetClassName = this.stockIndex[commodity]
+      // if (!assetClassName) {
+      //   throw new Error(`Asset class name not found: ${assetClassName}`)
+      // }
+      let assetClass = this.assetClassIndex[assetClassName]
+      // if (!assetClass) {
+      //   throw new Error(`Asset class not found: ${assetClassName}`)
+      // }
+
+      if (isNaN(assetClass.currentValue)) {
+        // typeof assetClass.currentValue === 'undefined' ||
         assetClass.currentValue = 0
       }
       assetClass.currentValue += amount

@@ -74,6 +74,8 @@ async function loadAssetClass() {
  */
 function getConstituents() {
   let childNames = assetClass.value.symbols
+  if (!childNames || childNames.length == 0) return;
+
   let stocks = []
 
   // load account balances
