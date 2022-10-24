@@ -19,15 +19,9 @@
       </div>
     </q-card-section>
     <q-card-section class="text-center">
-      <!-- <q-btn
-        v-if="localTxCount > 0"
-        color="primary"
-        text-color="accent"
-        @click="onBackupClick"
-        class="q-mr-lg"
-      >
+      <q-btn v-if="localTxCount > 0" color="primary" text-color="accent" @click="onBackupClick" class="q-mr-lg">
         Backup
-      </q-btn> -->
+      </q-btn>
       <!-- <q-btn
         color="accent"
         text-color="secondary"

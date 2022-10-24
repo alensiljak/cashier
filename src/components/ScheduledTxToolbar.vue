@@ -72,7 +72,6 @@ import {
 } from 'lucide-vue-next'
 
 const mainStore = useMainStore()
-// const $q = useQuasar()
 
 const emit = defineEmits([
   'backupClicked',

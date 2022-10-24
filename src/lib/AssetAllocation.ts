@@ -20,6 +20,7 @@ class AssetAllocationEngine {
     this.assetClassIndex = {}
     this.stockIndex = {}
   }
+
   async loadFullAssetAllocation(): Promise<AssetClass[]> {
     // aa definition
 
@@ -248,7 +249,7 @@ class AssetAllocationEngine {
    * @param {string} content The content of the YAML definition file.
    */
   async importYamlDefinition(content: string) {
-    let parsed: object = {} //= jsyaml.load(content) as object
+    let parsed: AssetClassDefinition = { allocation: 0, symbols: [] } //= jsyaml.load(content) as object
 
     // Convert to backward-compatible structure (tree -> list).
     let assetClasses = this.linearizeObject(parsed)
@@ -273,6 +274,8 @@ class AssetAllocationEngine {
     // only use the children.
 
     for (const propertyName in rootObject) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       let child: AssetClassDefinition = rootObject[propertyName]
 
       // Only process the other definitions, not the properties (like allocation).
@@ -340,7 +343,6 @@ class AssetAllocationEngine {
         console.warn(`Account ${account.name} has no current value set.`)
         amount = 0
       }
-      // amount = amount.toFixed(2)
 
       const acctBalance = acctSvc.getAccountBalance(account, defaultCurrency)
       account.balance = acctBalance
@@ -377,7 +379,7 @@ class AssetAllocationEngine {
     return appService.db.assetAllocation.toArray()
   }
 
-  sumGroupBalances(acIndex: object) {
+  sumGroupBalances(acIndex: Record<string, AssetClass>) {
     let root = acIndex['Allocation']
 
     if (root == null) {
@@ -440,17 +442,18 @@ class AssetAllocationEngine {
     assetClass: AssetClass,
     list: Record<string, AssetClass>
   ) {
-    // let key = assetClass.fullname
     let children = this.findChildren(list, assetClass)
     if (children.length === 0) return
 
-    // sum the children's allocation
+    // sum the children's allocation.
     let sum = 0.0
     for (let i = 0; i < children.length; i++) {
-      sum += parseFloat(children[i].allocation)
+      //sum += parseFloat(children[i].allocation)
+      sum += children[i].allocation
     }
 
-    let equal = parseFloat(assetClass.allocation) === sum
+    //let equal = parseFloat(assetClass.allocation) === sum
+    let equal = assetClass.allocation === sum
 
     if (!equal) {
       return (
