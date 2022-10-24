@@ -2,7 +2,7 @@
     Asset Allocation
 */
 import appService from '../appService'
-import { AssetClass } from './AssetClass'
+import { AssetClass, AssetClassDefinition } from './AssetClass'
 //import jsyaml from 'js-yaml'
 import numeral from 'numeral'
 import toml from 'toml'
@@ -170,13 +170,13 @@ class AssetAllocationEngine {
       // let name = row.name.padStart(22, ' ')
       let firstCol = (space + row.name).padEnd(20, ' ')
       let alloc = row.allocation.toString().padStart(6, ' ')
-      let curAl = row.currentAllocation.padStart(6, ' ')
-      let diff = row.diff.padStart(5, ' ')
-      let diffPerc = row.diffPerc.padStart(6, ' ')
-      let alVal = row.allocatedValue.padStart(10, ' ')
-      let value = row.currentValue.padStart(10, ' ')
+      let curAl = row.currentAllocation.toString().padStart(6, ' ')
+      let diff = row.diff.toString().padStart(5, ' ')
+      let diffPerc = row.diffPerc.toString().padStart(6, ' ')
+      let alVal = row.allocatedValue.toString().padStart(10, ' ')
+      let value = row.currentValue.toString().padStart(10, ' ')
       // let locCur =
-      let diffAmt = row.diffAmount.padStart(10, ' ')
+      let diffAmt = row.diffAmount.toString().padStart(10, ' ')
 
       let output = `${firstCol}  ${alloc}  ${curAl}  ${diff}  ${diffPerc}  ${alVal}  ${value}  ${diffAmt}`
 
@@ -191,15 +191,10 @@ class AssetAllocationEngine {
 
     Object.values(dictionary).forEach((ac: AssetClass) => {
       ac.currentAllocation = numeral(ac.currentAllocation).format(format)
-
       ac.currentValue = numeral(ac.currentValue).format(format)
-
       ac.allocatedValue = numeral(ac.allocatedValue).format(format)
-
       ac.diff = numeral(ac.diff).format(format)
-
       ac.diffPerc = numeral(ac.diffPerc).format(format)
-
       ac.diffAmount = numeral(ac.diffAmount).format(format)
     })
   }
@@ -269,42 +264,46 @@ class AssetAllocationEngine {
    * This converts the new structure into the old.
    * @param {object} rootObject The Asset Allocation object
    */
-  linearizeObject(rootObject: object, namespace = ''): AssetClass[] {
+  linearizeObject(
+    rootObject: AssetClassDefinition,
+    namespace = ''
+  ): AssetClass[] {
     let result: AssetClass[] = []
 
     // only use the children.
 
     for (const propertyName in rootObject) {
-      let child = rootObject[propertyName]
+      let child: AssetClassDefinition = rootObject[propertyName]
 
+      // Only process the other definitions, not the properties (like allocation).
       // symbols is an array, which is also an object. Skip.
-      if (typeof child == 'object' && child.constructor !== Array) {
-        // convert to Asset Class
-        let item = new AssetClass()
-        item.allocation = child.allocation
-        item.symbols = child.symbols
-        // get the name
-        if (namespace) {
-          item.fullname = namespace + ':' + propertyName
-        } else {
-          item.fullname = propertyName
-        }
+      if (!(typeof child == 'object') || child.constructor === Array) continue
 
-        result.push(item)
+      // convert to Asset Class
+      let item = new AssetClass()
+      item.allocation = child.allocation
+      item.symbols = child.symbols
+      // get the name
+      if (namespace) {
+        item.fullname = namespace + ':' + propertyName
+      } else {
+        item.fullname = propertyName
+      }
 
-        //console.log(`object: ${propertyName}`, child)
+      result.push(item)
 
-        // iterate
-        let childNamespace = namespace
-        if (namespace) {
-          childNamespace += ':'
-        }
-        childNamespace += propertyName
+      //console.log(`object: ${propertyName}`, child)
 
-        let children = this.linearizeObject(child, childNamespace)
-        if (children.length) {
-          result = result.concat(children)
-        }
+      // iterate
+      let childNamespace = namespace
+      if (namespace) {
+        childNamespace += ':'
+      }
+      childNamespace += propertyName
+
+      let children = this.linearizeObject(child, childNamespace)
+      if (children.length) {
+        result = result.concat(children)
       }
     }
 

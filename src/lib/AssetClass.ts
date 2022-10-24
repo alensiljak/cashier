@@ -10,7 +10,7 @@ export class AssetClass {
   diffAmount = 0
   diffPerc = 0
   currency = ''
-  symbols = []
+  symbols: string[] = []
 
   constructor() {
     this.fullname = ''
@@ -63,4 +63,21 @@ export interface StockSymbol {
   name: string
   accounts: Account[]
   analysis: any
+}
+
+/**
+ * The object that the AA definition gets parsed into from TOML (or YAML).
+ * Besides the properties below, it also contains the properties for children,
+ * i.e. Equity.
+ * {
+ *   Allocation: {
+ *     allocation: 100
+ *     Equity: {
+ *      allocation: 55
+ *      symbols: ["VTI"]
+ *     } } }
+ */
+export interface AssetClassDefinition {
+  allocation: number
+  symbols: string[]
 }
