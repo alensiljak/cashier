@@ -12,15 +12,15 @@
       </div>
 
       <q-list>
-        <q-item v-for="tx in transactions" :key="tx.id" dense class="q-px-none">
+        <q-item v-for="tx, index in transactions" :key="index" dense class="q-px-none">
           <q-item-section>{{ tx.date }} &nbsp; {{ tx.payee }}</q-item-section>
           <q-item-section side>
             <span :class="{
-              red: tx.amount < 0,
-              yellow: tx.amount === 0 || tx.amount === '<=>',
-              green: tx.amount > 0,
+              red: txAmounts[index].amount < 0,
+              yellow: txAmounts[index].amount === 0,
+              green: txAmounts[index].amount > 0,
             }">
-              {{ tx.amount }} {{ tx.currency }}
+              {{ txAmounts[index].amount }} {{ txAmounts[index].currency }}
             </span>
           </q-item-section>
         </q-item>
@@ -44,7 +44,7 @@ import { useRouter } from 'vue-router'
 import appService from '../appService'
 import useNotifications from 'src/lib/CashierNotification'
 import { TransactionParser } from 'src/lib/transactionParser'
-import { Transaction } from 'src/model'
+import { AccountBalance, Transaction } from 'src/model'
 import { TransactionAugmenter } from 'src/lib/transactionAugmenter'
 import { FileUp, Scroll } from 'lucide-vue-next'
 
@@ -53,6 +53,7 @@ const $router = useRouter()
 const emit = defineEmits(['click'])
 
 const transactions: Ref<Transaction[]> = ref([])
+const txAmounts: Ref<AccountBalance[]> = ref([])
 
 onMounted(async () => {
   await loadData()
@@ -89,7 +90,8 @@ async function loadData() {
   }
 
   try {
-    TransactionParser.calculateTxAmounts(txs)
+    const amounts = TransactionAugmenter.calculateTxAmounts(txs)
+    txAmounts.value.push(...amounts)
   } catch (error: any) {
     console.error(error)
     Notification.negative(error.message)

@@ -135,4 +135,49 @@ export class TransactionAugmenter {
     }
     return accounts
   }
+
+  /**
+   * Find the amount to display, from the user's perspective - a debit, credit, transfer.
+   * Appends {amount, currency} to the Transaction record.
+   * @param {Array<Transaction>} txs
+   * @returns {Array<AccountBalance>} An array of balance records that matches the transactions.
+   */
+  static calculateTxAmounts(txs: Transaction[]): AccountBalance[] {
+    // get Amounts
+    TransactionAugmenter.calculateEmptyPostingAmounts(txs)
+
+    const result: AccountBalance[] = []
+
+    // Find the asset account and decide on the flow direction.
+    txs.forEach((tx, index) => {
+      let amount = 'n/a'
+      let balance = new AccountBalance()
+
+      // get the assets posting(s)
+      const postings = tx.postings.filter(
+        (posting) =>
+          posting.account.startsWith('Assets:') ||
+          posting.account.startsWith('Liabilities:')
+      )
+
+      if (postings.length === 0) {
+        console.warn('No postings found in Assets or Liabilities!')
+      } else if (postings.length === 1) {
+        // a clear case with one asset/liability account.
+        balance.amount = postings[0].amount?.toFixed(2)
+        balance.currency = postings[0].currency
+      } else if (postings.length === 2) {
+        // transfer
+        balance.amount = Math.abs(postings[0].amount)
+        balance.currency = postings[0].currency
+      } else {
+        // todo: handle these cases (transfers, complex tx)
+        console.warn('more than one posting found with assets')
+      }
+
+      result.push(balance)
+    })
+
+    return result
+  }
 }

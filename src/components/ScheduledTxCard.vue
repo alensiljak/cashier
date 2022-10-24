@@ -70,7 +70,7 @@ async function loadData() {
 
     // add the transaction amounts.
     let txs = schtxs.map((schtx) => schtx.transaction)
-    TransactionParser.calculateTxAmounts(txs)
+    TransactionAugmenter.calculateTxAmounts(txs)
 
     list.value = schtxs
   } catch (error: any) {
