@@ -63,9 +63,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { Ref, ref } from 'vue'
 import { useMainStore } from '../store/mainStore'
-// import { useQuasar } from 'quasar'
 import {
   ArchiveRestore, CalendarDays as IconCalendar, FileDown, Menu as IconMenu, MoreVertical,
   Search as IconSearch, XCircle
@@ -90,7 +89,7 @@ const props = defineProps({
 
 const filter = ref('')
 const searchVisible = ref(true)
-const searchInput = ref(null)
+const searchInput: Ref<HTMLElement | null> = ref(null)
 
 // methods
 
@@ -99,8 +98,7 @@ function onMenuClicked() {
 }
 
 function onResetFilterClicked() {
-  filter.value = null
-  //this.$emit('filterChanged', this.filter)
+  filter.value = ''
   emit('filterChanged', filter.value)
 }
 
@@ -108,10 +106,9 @@ function toggleSearch() {
   searchVisible.value = !searchVisible.value
 
   if (searchVisible.value) {
-    // focus on the search input
+    // focus on the search input textbox
     console.debug(searchInput.value)
     searchInput.value?.focus()
-    //$q.refs
   }
 }
 </script>
