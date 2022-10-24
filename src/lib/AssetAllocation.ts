@@ -357,8 +357,10 @@ class AssetAllocationEngine {
       let assetClassName = this.stockIndex[commodity]
       let assetClass = this.assetClassIndex[assetClassName]
 
-      if (isNaN(assetClass.currentValue)) {
-        // typeof assetClass.currentValue === 'undefined'
+      if (
+        typeof assetClass.currentValue === 'undefined' ||
+        isNaN(assetClass.currentValue)
+      ) {
         assetClass.currentValue = 0
       }
       assetClass.currentValue += amount
