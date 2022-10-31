@@ -150,7 +150,7 @@ export class TransactionAugmenter {
 
     // Find the asset account and decide on the flow direction.
     txs.forEach((tx, index) => {
-      let amount = 'n/a'
+      // let amount = 'n/a'
       let balance = new AccountBalance()
 
       // get the assets posting(s)
@@ -164,6 +164,11 @@ export class TransactionAugmenter {
         console.warn('No postings found in Assets or Liabilities!')
       } else if (postings.length === 1) {
         // a clear case with one asset/liability account.
+        if (!postings[0] || !postings[0].amount) {
+          throw new Error(
+            `Amount missing on ${tx.date} ${tx.payee} ${postings[0].account}`
+          )
+        }
         balance.amount = postings[0].amount?.toFixed(2)
         balance.currency = postings[0].currency
       } else if (postings.length === 2) {
