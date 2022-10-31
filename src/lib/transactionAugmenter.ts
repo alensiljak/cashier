@@ -164,16 +164,18 @@ export class TransactionAugmenter {
         console.warn('No postings found in Assets or Liabilities!')
       } else if (postings.length === 1) {
         // a clear case with one asset/liability account.
-        if (!postings[0] || !postings[0].amount) {
+        const posting = postings[0]
+        if (!posting || !posting.amount || typeof posting.amount === 'string') {
           throw new Error(
-            `Amount missing on ${tx.date} ${tx.payee} ${postings[0].account}`
+            `Invalid amount on ${tx.date} ${tx.payee} ${posting.account} ${posting.amount}`
           )
         }
-        balance.amount = postings[0].amount?.toFixed(2)
-        balance.currency = postings[0].currency
+
+        balance.amount = Number(posting.amount?.toFixed(2) as string)
+        balance.currency = posting.currency
       } else if (postings.length === 2) {
         // transfer
-        balance.amount = Math.abs(postings[0].amount)
+        balance.amount = Math.abs(postings[0].amount as number)
         balance.currency = postings[0].currency
       } else {
         // todo: handle these cases (transfers, complex tx)

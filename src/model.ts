@@ -40,7 +40,7 @@ export class Posting {
   id?: number
   transactionId: string | any
   account: string
-  amount: any
+  amount?: number
   currency: string
 
   constructor() {
@@ -48,7 +48,6 @@ export class Posting {
     // this.id = null
     this.transactionId = ''
     this.account = ''
-    this.amount = ''
     this.currency = ''
   }
 }
