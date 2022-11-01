@@ -87,7 +87,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, toRaw, toRefs } from 'vue'
+import { computed, Ref, ref, toRaw, toRefs } from 'vue'
 import { useMainStore } from '../store/mainStore'
 import { useQuasar } from 'quasar'
 import { useRoute, useRouter } from 'vue-router'
@@ -214,7 +214,7 @@ async function saveData() {
  * Skips the next iteration.
  */
 async function skip() {
-  let stx = scheduledTx
+  let stx: Ref<ScheduledTransaction> = scheduledTx as Ref<ScheduledTransaction>
   if (!stx.value) {
     throw new Error('The scheduled transaction reference is invalid!')
   }
@@ -223,6 +223,8 @@ async function skip() {
   const count = stx.value.count
   const period = stx.value.period
   const endDate = stx.value.endDate
+
+  validateSchedule(stx.value)
 
   // todo: handle the one-off occurrence (no count and no period)
 
@@ -254,6 +256,14 @@ async function skip() {
       message: 'transaction not saved!',
       color: 'negative',
     })
+  }
+}
+
+function validateSchedule(schTx: ScheduledTransaction) {
+  // A schedule can't have no repetitions and no end. Skipping the date would result
+  // in an invalid situation.
+  if (!schTx.endDate && !(schTx.count || schTx.period)) {
+    throw new Error('A schedule must have either an end date or a repetition pattern.')
   }
 }
 </script>
