@@ -53,8 +53,8 @@
     </ol>
     <p>
       CashierSync source code is available at
-      <a href="https://github.com/alensiljak/cashier-ledger-server-go">GitHub</a>
-      and the package is available at Pypi and can be installed with pip
+      <a href="https://github.com/alensiljak/cashier-server-rust">GitHub</a>
+      and the package is available at Crates.io and can be installed with Cargo
       directly.
     </p>
 
