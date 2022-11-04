@@ -53,7 +53,10 @@ export class TransactionAugmenter {
       // put this value into the empty posting.
       const emptyPostings = postings.filter((posting) => !posting.amount)
       if (emptyPostings.length > 1) {
-        throw new Error(`Multiple empty postings found on ${tx.payee}`)
+        const msg = `Multiple empty postings found on ${tx.payee}`
+        //throw new Error(msg)
+        console.warn(msg)
+        return
       } else if (emptyPostings.length === 0) {
         // no empty postings
         return
@@ -166,9 +169,10 @@ export class TransactionAugmenter {
         // a clear case with one asset/liability account.
         const posting = postings[0]
         if (!posting || !posting.amount || typeof posting.amount === 'string') {
-          throw new Error(
-            `Invalid amount on ${tx.date} ${tx.payee} ${posting.account} ${posting.amount}`
-          )
+          const msg = `Invalid amount on ${tx.date} ${tx.payee} ${posting.account} ${posting.amount}`
+          //throw new Error(msg)
+          console.error(msg)
+          return
         }
 
         balance.amount = Number(posting.amount?.toFixed(2) as string)
