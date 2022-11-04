@@ -7,8 +7,8 @@
 
     <q-card-section>
       <div>
-        Last backup: {{ lastBackupTimestamp }}. Total backups:
-        {{ backupsCount }}
+        Total backups: {{ backupsCount }} <br />
+        Last backup: {{ lastBackupFilename }}
       </div>
     </q-card-section>
 
@@ -19,7 +19,8 @@
       </div>
     </q-card-section>
     <q-card-section class="text-center">
-      <q-btn v-if="localTxCount > 0" color="primary" text-color="accent" @click="onBackupClick" class="q-mr-lg">
+      <q-btn v-if="localTxCount > 0 && !isUploading" color="primary" text-color="accent" @click="onBackupClick"
+        class="q-mr-lg">
         Backup
       </q-btn>
       <!-- <q-btn
@@ -45,9 +46,11 @@ const { journal: backup } = useCloudBackup()
 const Notification = useNotifications()
 
 // data
-const lastBackupTimestamp = ref('n/a')
 const backupsCount = ref(0)
 const localTxCount = ref(0)
+const lastBackupFilename = ref('n/a')
+const lastBackupFileId = ref(0)
+const isUploading = ref(false)
 
 onMounted(async () => {
   await loadData()
@@ -59,9 +62,23 @@ async function loadData() {
 
   // fetch remote backups
   backupsCount.value = await backup.getRemoteBackupCount()
+
+  // Latest backup details
+  let latest = await backup.getLatestFile()
+  if (!latest) {
+    latest = {
+      name: '',
+      fileid: 0
+    }
+  }
+  lastBackupFilename.value = latest.name
+  lastBackupFileId.value = latest.fileid
+
 }
 
 async function onBackupClick() {
+  isUploading.value = true
+
   // get the content
   const output = await appService.getExportTransactions()
 
@@ -69,6 +86,8 @@ async function onBackupClick() {
   Notification.positive('Journal backed up to the cloud.')
 
   await loadData()
+
+  isUploading.value = false
 }
 
 function onRestoreClick() {

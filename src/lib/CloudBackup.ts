@@ -2,7 +2,6 @@
   Cloud Backup functionality
 */
 
-import { settings, SettingKeys } from './settings'
 import usePcloud from './pCloudAdapter'
 import moment from 'moment'
 
@@ -16,9 +15,9 @@ interface FileInfo {
   fileid: number
 }
 
-function getRegexFor(entityType: string): RegExp {
+function getRegexFor(entityType: string, fileExtension: string): RegExp {
   //const template = `backup-${entityType}-[0-9]{14}.json`
-  const template = `backup-${entityType}-[0-9-]{17}.json`
+  const template = `backup-${entityType}-[0-9-]{17}.${fileExtension}`
   const regex = new RegExp(template)
   //return template
   //.*?
@@ -31,6 +30,7 @@ function getRegexFor(entityType: string): RegExp {
 class CloudBackup {
   // to be set by the inheriting classes
   entityTypeName = ''
+  fileExtension = 'json'
 
   constructor() {}
 
@@ -48,12 +48,12 @@ class CloudBackup {
     const now = moment()
     const timestamp = now.format(timestampFormat)
 
-    return `backup-${this.entityTypeName}-${timestamp}.json`
+    return `backup-${this.entityTypeName}-${timestamp}.${this.fileExtension}`
   }
 
   async getLatestFile(): Promise<FileInfo> {
     // Get only the list of the files of the given type.
-    const regex = getRegexFor(this.entityTypeName)
+    const regex = getRegexFor(this.entityTypeName, this.fileExtension)
 
     const fileList = await adapter.getFileListFor(regex)
 
@@ -83,7 +83,7 @@ class CloudBackup {
   async getRemoteBackupCount(): Promise<number> {
     //
     await adapter.init()
-    let regex: RegExp = getRegexFor(this.entityTypeName)
+    let regex: RegExp = getRegexFor(this.entityTypeName, this.fileExtension)
 
     let result = await adapter.getFileCount(regex)
     return result
@@ -96,6 +96,7 @@ class ScheduledTxBackup extends CloudBackup {
 
 class JournalBackup extends CloudBackup {
   entityTypeName = 'journal'
+  fileExtension = 'ledger'
 }
 
 class SettingsBackup extends CloudBackup {
@@ -103,8 +104,6 @@ class SettingsBackup extends CloudBackup {
 }
 
 export default function useCloudBackup() {
-  //
-
   function yo() {
     console.debug('yo!')
   }
