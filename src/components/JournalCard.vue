@@ -66,6 +66,7 @@ function onCardClick() {
 
 function onExportTxClick() {
   $router.push({ name: 'export', params: { type: 'journal' } })
+  //$router.push({ name: 'cloudbackup' })
 }
 
 function onNewTxClick() {

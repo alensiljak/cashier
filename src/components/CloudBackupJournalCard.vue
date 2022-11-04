@@ -19,7 +19,7 @@
       </div>
     </q-card-section>
     <q-card-section class="text-center">
-      <q-btn v-if="localTxCount > 0 && !isUploading" color="primary" text-color="accent" @click="onBackupClick"
+      <q-btn v-if="localTxCount > 0" color="primary" text-color="accent" @click="onBackupClick" :disable="isUploading"
         class="q-mr-lg">
         Backup
       </q-btn>
