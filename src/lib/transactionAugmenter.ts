@@ -49,7 +49,12 @@ export class TransactionAugmenter {
       if (amounts.length <= 0) return
 
       // add all the existing amounts
-      const sum = amounts.reduce((prev, curr) => prev + curr)
+      const sum = amounts.reduce((prev, curr) => {
+        if (!prev) prev = 0
+        if (!curr) curr = 0
+
+        return prev + curr
+      })
 
       // put this value into the empty posting.
       const emptyPostings = postings.filter((posting) => !posting.amount)
