@@ -91,6 +91,7 @@ async function loadData() {
   }
 
   try {
+    TransactionAugmenter.calculateEmptyPostingAmounts(txs)
     const amounts = TransactionAugmenter.calculateTxAmounts(txs)
     txAmounts.value.push(...amounts)
   } catch (error: any) {

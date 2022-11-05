@@ -12,7 +12,8 @@ export class TransactionAugmenter {
   constructor() {}
 
   /**
-   * Calculates the amounts for the empty postings.
+   * Calculates and adds the amounts for the empty postings. This "completes" the Postings
+   * so that they have an amount and a currency.
    * @param transactions Array of Transactions
    * @returns The same array of Transactions
    */
@@ -140,8 +141,10 @@ export class TransactionAugmenter {
   }
 
   /**
-   * Find the amount to display, from the user's perspective - a debit, credit, transfer.
+   * Identifies the amount to display, from the user's perspective - a debit, credit, transfer for
+   * a Transaction.
    * Appends {amount, currency} to the Transaction record.
+   * It is normally useful to run calculateEmptyPostingAmounts() to populate the blank Postings.
    * @param {Array<Transaction>} txs
    * @returns {Array<AccountBalance>} An array of balance records that matches the transactions.
    */
