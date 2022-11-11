@@ -332,7 +332,7 @@ class AppService {
       // currency
       let currencyPart = balanceParts[1]
       if (typeof currencyPart === 'undefined') {
-        currencyPart = 'N/A'
+        currencyPart = ''
       }
 
       let amountPart = balanceParts[0]

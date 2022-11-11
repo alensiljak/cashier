@@ -161,7 +161,6 @@ export class TransactionAugmenter {
 
     // Find the asset account and decide on the flow direction.
     txs.forEach((tx, index) => {
-      // let amount = 'n/a'
       let balance = new AccountBalance()
 
       // get the assets posting(s)
