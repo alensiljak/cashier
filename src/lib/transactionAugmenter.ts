@@ -176,10 +176,9 @@ export class TransactionAugmenter {
         // a clear case with one asset/liability account.
         const posting = postings[0]
         if (!posting || !posting.amount || typeof posting.amount === 'string') {
-          const msg = `Invalid amount on ${tx.date} ${tx.payee} ${posting.account} ${posting.amount}`
-          //throw new Error(msg)
+          const msg = `Invalid amount on ${tx.date}, ${tx.payee}, ${posting.account}, ${posting.amount}`
           console.error(msg)
-          return
+          //return
         }
 
         balance.amount = Number(posting.amount?.toFixed(2) as string)

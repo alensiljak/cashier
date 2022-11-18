@@ -75,7 +75,7 @@ async function onBackupClick() {
 
   await backup.backup(output)
 
-  Notification.positive('Settings backed up to the cloud.')
+  Notification.positive('Scheduled tx backed up to the cloud')
 
   await loadData()
 }
