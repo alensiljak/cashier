@@ -179,10 +179,10 @@ export class TransactionAugmenter {
           const msg = `Invalid amount on ${tx.date}, ${tx.payee}, ${posting.account}, ${posting.amount}`
           console.error(msg)
           //return
+        } else {
+          balance.amount = Number(posting.amount?.toFixed(2) as string)
+          balance.currency = posting.currency
         }
-
-        balance.amount = Number(posting.amount?.toFixed(2) as string)
-        balance.currency = posting.currency
       } else if (postings.length === 2) {
         // transfer
         balance.amount = Math.abs(postings[0].amount as number)
