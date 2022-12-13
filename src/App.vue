@@ -5,6 +5,7 @@
 <script setup lang="ts">
 import { onErrorCaptured } from 'vue'
 import { useQuasar } from 'quasar'
+import { errorAsString } from './lib/errorHelpers';
 
 const $q = useQuasar()
 
@@ -14,7 +15,9 @@ $q.dark.set(true)
 onErrorCaptured(function (err, instance, info) {
   console.error('[errorCaptured]', err, instance, info)
 
-  $q.notify({ color: 'secondary', message: err.message + instance + info })
+  let msg = errorAsString(err)
+
+  $q.notify({ color: 'secondary', message: msg })
 })
 </script>
 <script lang="ts">
