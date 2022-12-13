@@ -88,6 +88,13 @@ class CloudBackup {
     let result = await adapter.getFileCount(regex)
     return result
   }
+
+  /**
+   * Reset the cloud settings to defaults.
+   */
+  async resetSettings() {
+    await adapter.resetSettings()
+  }
 }
 
 class ScheduledTxBackup extends CloudBackup {

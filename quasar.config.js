@@ -75,8 +75,8 @@ module.exports = configure(function (/* ctx */) {
 
       extendViteConf(viteConf) {
         // Enable the 2 lines below for pCloud in debug mode:
-        // viteConf.define.global = {}
-        // viteConf.define.ENV = 'window'
+        viteConf.define.global = {}
+        viteConf.define.ENV = 'window'
       },
       // viteVuePluginOptions: {},
 

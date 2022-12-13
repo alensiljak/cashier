@@ -106,6 +106,11 @@ class PcloudAdapter {
     const token: string = await settings.get(SettingKeys.pCloudToken)
     return token
   }
+
+  async resetSettings() {
+    this.token = undefined
+    await settings.set(SettingKeys.pCloudToken, null)
+  }
 }
 
 async function loginWithRedirect() {
