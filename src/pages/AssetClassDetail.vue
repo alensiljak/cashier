@@ -40,8 +40,10 @@ import { useRoute } from 'vue-router'
 import { AssetClass, StockSymbol } from 'src/lib/AssetClass'
 import { Collection } from 'dexie'
 import { Account } from 'src/model'
+import useNotifications from '../lib/CashierNotification'
 
 const $route = useRoute()
+const Notification = useNotifications()
 
 const assetClass: Ref<AssetClass | any> = ref({})
 const symbols: Ref<StockSymbol[]> = ref([])
@@ -112,8 +114,9 @@ async function fetchAnalysisFor(symbol: string) {
     const result = await sec.getSecurityAnalysisFor(symbol)
     return result
   } catch (error: any) {
-    console.error(error.message)
-    //$q
+    let msg = symbol + ':' + error.message
+    console.error(msg)
+    Notification.negative(msg)
   }
 }
 
