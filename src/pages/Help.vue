@@ -18,41 +18,41 @@
 
     <h4 class="q-my-sm text-center">Set-up with CashierSync</h4>
     <p>
-      The backend functionality for Cashier is provided by CashierSync. It is a
-      Python program that links Cashier to your Ledger-cli book. The flow of
-      information is only book to Cashier and never directly from Cashier to the
-      book. Cashier and CashierSync do not track you or store any of your data
+      The backend functionality for Cashier is provided by Cashier Server. It is a
+      Rust application that links Cashier to your Ledger-cli book. The flow of
+      information is only from Ledger to Cashier and never in the other direction.
+      Cashier and Cashier Server do not track you or store any of your data
       anywhere else other than on your device. To start:
     </p>
     <ol>
       <li>
-        Install Python. On Android, the best option is to install it in Termux.
+        Install Rust. On Android, the recommended option is to use Termux.
       </li>
-      <li>Install CashierSync with "pip install cashiersync"</li>
+      <li>Install Cashier Server with "cargo install cashier-server"</li>
       <li>
-        Set up Ledger-cli so that it is accessible by CashierSync. For example,
-        create .ledgerrc in your home directory, setting up your Ledger default
-        settings, specifying files to use, date format, etc.
+        Set up Ledger-cli so that it is accessible from the location where you will run
+        Cashier Server. For example, create .ledgerrc in your home directory, setting up
+        your Ledger default settings, specifying files to use, date format, etc.
       </li>
-      <li>Run "cashiersync"</li>
+      <li>Run "cashier-server"</li>
     </ol>
     <p>In Cashier,</p>
     <ol>
       <li>
         go to Sync Settings, enter the Server URL. This is the address
-        CashierSync is using. The default is on the local machine but it is
+        Cashier Server will use. The default is on the local machine but it is
         possible to use a remote machine. You can use a service like
         <a href="https://ngrok.com/">ngrok</a> or localtunnel to create a
         temporary public URL, for example.
       </li>
       <li>
-        Click Sync to synchronize the account data with CashierSync. Note that
+        Click Sync to download the account data with Cashier Server. Note that
         this will only read your Ledger data and populate Cashier so that it is
         operational with your Accounts.
       </li>
     </ol>
     <p>
-      CashierSync source code is available at
+      Cashier Server source code is available at
       <a href="https://github.com/alensiljak/cashier-server-rust">GitHub</a>
       and the package is available at Crates.io and can be installed with Cargo
       directly.
@@ -72,7 +72,7 @@
       <li>
         You can export your transactions into a file and transfer it to the
         device where you can copy them to your book. Snapdrop.net is a practical
-        service for transferring files on the same network.
+        service for transferring files on the same network, for example.
       </li>
     </ul>
   </q-page>
