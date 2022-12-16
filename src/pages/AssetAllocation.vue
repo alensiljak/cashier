@@ -149,7 +149,6 @@ const assetClasses: Ref<AssetClass[]> = ref([])
 const buttonContainer: Ref<any> = ref(null)
 
 onMounted(async () => {
-  //console.log(buttonContainer)
   await loadData()
 })
 

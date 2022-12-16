@@ -355,13 +355,15 @@ class AssetAllocationEngine {
       let commodity = account.balance.currency
       // Now get the asset class for this commodity.
       let assetClassName = this.stockIndex[commodity]
-      // if (!assetClassName) {
-      //   throw new Error(`Asset class name not found: ${assetClassName}`)
-      // }
+      if (!assetClassName) {
+        // console.debug(this.stockIndex)
+        console.debug(account)
+        throw new Error(`Asset class name not found for commodity ${commodity}`)
+      }
       let assetClass = this.assetClassIndex[assetClassName]
-      // if (!assetClass) {
-      //   throw new Error(`Asset class not found: ${assetClassName}`)
-      // }
+      if (!assetClass) {
+        throw new Error(`Asset class not found: ${assetClassName}`)
+      }
 
       if (isNaN(assetClass.currentValue)) {
         // typeof assetClass.currentValue === 'undefined' ||
