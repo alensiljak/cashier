@@ -53,7 +53,7 @@
     </q-header>
 
     <!-- The button is required for file export, to attach the event! -->
-    <div ref="buttonContainer" hidden="hidden">
+    <div ref="buttonContainer" style="display:none;">
       <q-btn color="secondary" text-color="accent" label="Export" />
     </div>
 
@@ -83,11 +83,11 @@
                 {{ assetClass.name }}
               </router-link>
             </td>
-            <td class="text-right">{{ assetClass.allocation }}</td>
-            <td class="text-right">{{ assetClass.currentAllocation }}</td>
+            <td class="text-right">{{ numeral(assetClass.allocation).format(NUMBER_FORMAT) }}</td>
+            <td class="text-right">{{ numeral(assetClass.currentAllocation).format(NUMBER_FORMAT) }}</td>
             <!-- difference -->
             <td class="text-right" style="width: 3rem">
-              {{ assetClass.diff }}
+              {{ numeral(assetClass.diff).format(NUMBER_FORMAT) }}
             </td>
             <!-- difference % -->
             <td class="text-right" style="width: 3.5rem" :class="{
@@ -98,13 +98,13 @@
                 assetClass.diffPerc > 0 && assetClass.diffPerc < 20,
               'text-green-9': assetClass.diffPerc >= 20,
             }">
-              {{ assetClass.diffPerc }}
+              {{ numeral(assetClass.diffPerc).format(NUMBER_FORMAT) }}
             </td>
             <!-- Allocated Value -->
-            <td class="text-right">{{ assetClass.allocatedValue }}</td>
+            <td class="text-right">{{ numeral(assetClass.allocatedValue).format(NUMBER_FORMAT) }}</td>
             <!-- Current Value -->
             <td class="text-right" style="width: 5.5rem">
-              {{ assetClass.currentValue }}
+              {{ numeral(assetClass.currentValue).format(NUMBER_FORMAT) }}
             </td>
             <td class="text-right" :class="{
               'text-red-10': assetClass.diff < -20,
@@ -112,7 +112,7 @@
               'text-green-3': assetClass.diff > 0,
               'text-green-9': assetClass.diff > 20,
             }">
-              {{ assetClass.diffAmount }}
+              {{ numeral(assetClass.diffAmount).format(NUMBER_FORMAT) }}
             </td>
           </tr>
         </tbody>
@@ -127,12 +127,12 @@ import { useMainStore } from '../store/mainStore'
 import { computed, onMounted, Ref, ref } from 'vue'
 import { useQuasar } from 'quasar'
 import { engine } from '../lib/AssetAllocation'
-import moment from 'moment'
 import { AssetClass } from 'src/lib/AssetClass'
 import {
   FileDown, HelpCircle, Menu as IconMenu, MoreVertical, Settings as IconSettings,
   Scale as IconScale, Share2
 } from 'lucide-vue-next'
+import numeral from 'numeral'
 
 const mainStore = useMainStore()
 const $router = useRouter()
@@ -143,6 +143,10 @@ const $q = useQuasar()
 const canShare = computed(() => {
   return navigator && 'share' in navigator
 })
+
+// constants
+
+const NUMBER_FORMAT = '0,0.00'
 
 // data
 const assetClasses: Ref<AssetClass[]> = ref([])

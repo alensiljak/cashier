@@ -43,8 +43,8 @@ class AssetAllocationEngine {
     // calculate offsets
     this.calculateOffsets(this.assetClassIndex)
 
-    // format numbers for output
-    this.formatNumbers(this.assetClassIndex)
+    // Format numbers for output. Now done in the view.
+    // this.formatNumbers(this.assetClassIndex)
 
     // convert to array for display in a table
     let result: AssetClass[] = Object.values(this.assetClassIndex)
@@ -187,18 +187,18 @@ class AssetAllocationEngine {
     return text
   }
 
-  formatNumbers(dictionary: object) {
-    let format = '0,0.00'
+  // formatNumbers(dictionary: object) {
+  //   let format = '0,0.00'
 
-    Object.values(dictionary).forEach((ac: AssetClass) => {
-      ac.currentAllocation = numeral(ac.currentAllocation).format(format)
-      ac.currentValue = numeral(ac.currentValue).format(format)
-      ac.allocatedValue = numeral(ac.allocatedValue).format(format)
-      ac.diff = numeral(ac.diff).format(format)
-      ac.diffPerc = numeral(ac.diffPerc).format(format)
-      ac.diffAmount = numeral(ac.diffAmount).format(format)
-    })
-  }
+  //   Object.values(dictionary).forEach((ac: AssetClass) => {
+  //     ac.currentAllocation = numeral(ac.currentAllocation).format(format)
+  //     ac.currentValue = numeral(ac.currentValue).format(format)
+  //     ac.allocatedValue = numeral(ac.allocatedValue).format(format)
+  //     ac.diff = numeral(ac.diff).format(format)
+  //     ac.diffPerc = numeral(ac.diffPerc).format(format)
+  //     ac.diffAmount = numeral(ac.diffAmount).format(format)
+  //   })
+  // }
 
   /**
    * Update the current balances in the asset allocation.
