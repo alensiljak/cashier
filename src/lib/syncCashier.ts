@@ -66,7 +66,7 @@ export class CashierSync {
   /**
    * See if the server is running
    */
-  async healthCheck() {
+  async healthCheck(): Promise<string> {
     // HEAD is enough to check if the server is online.
     const result = await this.get('/ping')
     if (!result.ok) {

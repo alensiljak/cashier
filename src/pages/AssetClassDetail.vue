@@ -49,7 +49,7 @@ const assetClass: Ref<AssetClass | any> = ref({})
 const symbols: Ref<StockSymbol[]> = ref([])
 const investmentAccounts: Ref<Account[]> = ref([])
 const currency = ref(null)
-const serverUrl = ref(null)
+const serverUrl: Ref<string> = ref('')
 
 onMounted(async () => {
   await loadData()
@@ -120,8 +120,20 @@ async function fetchAnalysisFor(symbol: string) {
   }
 }
 
+/**
+ * load analysis for all symbols
+ */
 async function securityAnalysis() {
-  // load analysis for all symbols
+  // Check if the server is online first.
+  let sync = new CashierSync(serverUrl.value);
+  try {
+    let status = sync.healthCheck()
+  } catch {
+    // not online
+    console.info('Cashier server not online. Aborting fetching analysis.')
+    return
+  }
+
   for (let i = 0; i < symbols.value.length; i++) {
     let symbol = symbols.value[i].name
 
