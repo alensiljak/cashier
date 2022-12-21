@@ -135,8 +135,11 @@ export class CashierSync {
     return 'OK'
   }
 
-  parseCurrentValues(lines: Array<string>, rootAccount: string): object {
-    let result: any = {}
+  parseCurrentValues(
+    lines: Array<string>,
+    rootAccount: string
+  ): Record<string, string> {
+    let result: Record<string, string> = {}
 
     for (const line of lines) {
       if (line === '') continue
