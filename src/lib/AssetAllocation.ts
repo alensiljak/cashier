@@ -173,10 +173,9 @@ class AssetAllocationEngine {
         space += ' '
       }
       // let name = row.name.padStart(22, ' ')
-      let display = numeral(row.name).format(NUMBER_FORMAT)
-      let firstCol = (space + display).padEnd(20, ' ')
+      let firstCol = (space + row.name).padEnd(20, ' ')
 
-      display = numeral(row.allocation).format(NUMBER_FORMAT)
+      let display = numeral(row.allocation).format(NUMBER_FORMAT)
       let alloc = display.toString().padStart(6, ' ')
 
       display = numeral(row.currentAllocation).format(NUMBER_FORMAT)
