@@ -126,7 +126,7 @@ import { useRouter } from 'vue-router'
 import { useMainStore } from '../store/mainStore'
 import { computed, onMounted, Ref, ref } from 'vue'
 import { useQuasar } from 'quasar'
-import { engine } from '../lib/AssetAllocation'
+import { engine, NUMBER_FORMAT } from '../lib/AssetAllocation'
 import { AssetClass } from 'src/lib/AssetClass'
 import {
   FileDown, HelpCircle, Menu as IconMenu, MoreVertical, Settings as IconSettings,
@@ -143,10 +143,6 @@ const $q = useQuasar()
 const canShare = computed(() => {
   return navigator && 'share' in navigator
 })
-
-// constants
-
-const NUMBER_FORMAT = '0,0.00'
 
 // data
 const assetClasses: Ref<AssetClass[]> = ref([])

@@ -9,6 +9,10 @@ import toml from 'toml'
 import { AccountService } from './accountsService'
 import { SettingKeys, settings } from './settings'
 
+// constants
+
+export const NUMBER_FORMAT = '0,0.00'
+
 /**
  * loadDefinition = loads the pre-set definition
  */
@@ -169,15 +173,30 @@ class AssetAllocationEngine {
         space += ' '
       }
       // let name = row.name.padStart(22, ' ')
-      let firstCol = (space + row.name).padEnd(20, ' ')
-      let alloc = row.allocation.toString().padStart(6, ' ')
-      let curAl = row.currentAllocation.toString().padStart(6, ' ')
-      let diff = row.diff.toString().padStart(5, ' ')
-      let diffPerc = row.diffPerc.toString().padStart(6, ' ')
-      let alVal = row.allocatedValue.toString().padStart(10, ' ')
-      let value = row.currentValue.toString().padStart(10, ' ')
+      let display = numeral(row.name).format(NUMBER_FORMAT)
+      let firstCol = (space + display).padEnd(20, ' ')
+
+      display = numeral(row.allocation).format(NUMBER_FORMAT)
+      let alloc = display.toString().padStart(6, ' ')
+
+      display = numeral(row.currentAllocation).format(NUMBER_FORMAT)
+      let curAl = display.toString().padStart(6, ' ')
+
+      display = numeral(row.diff).format(NUMBER_FORMAT)
+      let diff = display.toString().padStart(5, ' ')
+
+      display = numeral(row.diffPerc).format(NUMBER_FORMAT)
+      let diffPerc = display.toString().padStart(6, ' ')
+
+      display = numeral(row.allocatedValue).format(NUMBER_FORMAT)
+      let alVal = display.toString().padStart(10, ' ')
+
+      display = numeral(row.currentValue).format(NUMBER_FORMAT)
+      let value = display.toString().padStart(10, ' ')
+
       // let locCur =
-      let diffAmt = row.diffAmount.toString().padStart(10, ' ')
+      display = numeral(row.diffAmount).format(NUMBER_FORMAT)
+      let diffAmt = display.toString().padStart(10, ' ')
 
       let output = `${firstCol}  ${alloc}  ${curAl}  ${diff}  ${diffPerc}  ${alVal}  ${value}  ${diffAmt}`
 
