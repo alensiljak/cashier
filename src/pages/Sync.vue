@@ -98,7 +98,7 @@ import useNotifications from 'src/lib/CashierNotification'
 import CashierDal from '../store/dal'
 import { Activity, MoreVertical, Power, RefreshCw } from 'lucide-vue-next'
 
-const router = useRouter()
+// const router = useRouter()
 const Notification = useNotifications()
 
 // data
@@ -107,8 +107,8 @@ const rootInvestmentAccount = ref(null)
 const currency = ref(null)
 
 const syncAccounts = ref(true)
-const syncPayees = ref(true)
 const syncAaValues = ref(true)
+const syncPayees = ref(true)
 const showAccountProgress = ref(false)
 const showPayeesProgress = ref(false)
 const showAssetProgress = ref(false)
@@ -125,6 +125,11 @@ async function loadSettings() {
     SettingKeys.rootInvestmentAccount
   )
   currency.value = await settings.get(SettingKeys.currency)
+
+  // checkboxes
+  syncAccounts.value = await settings.get(SettingKeys.syncAccounts)
+  syncAaValues.value = await settings.get(SettingKeys.syncAaValues)
+  syncPayees.value = await settings.get(SettingKeys.syncPayees)
 }
 
 async function onConnectClicked() {
@@ -215,6 +220,11 @@ async function onSyncClicked() {
     showAccountProgress.value = false
     showPayeesProgress.value = false
     showAssetProgress.value = false
+
+    // Save the current sync choices
+    await settings.set(SettingKeys.syncAccounts, syncAccounts.value)
+    await settings.set(SettingKeys.syncAaValues, syncAaValues.value)
+    await settings.set(SettingKeys.syncPayees, syncPayees.value)
   }
 }
 

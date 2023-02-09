@@ -38,6 +38,10 @@ export const SettingKeys = {
   rootInvestmentAccount: 'aa.rootAccount',
   rememberLastTransaction: 'rememberLastTransaction',
   writeableJournalFilePath: 'writeableJournalFilePath',
+  // synchronization choices
+  syncAccounts: 'syncAccounts',
+  syncAaValues: 'syncAaValues',
+  syncPayees: 'syncPayees',
 }
 
 class Settings {
