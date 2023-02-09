@@ -212,6 +212,12 @@ async function onSyncClicked() {
       await synchronizePayees()
       showPayeesProgress.value = false
     }
+
+    // Save the current sync choices
+    await settings.set(SettingKeys.syncAccounts, syncAccounts.value)
+    await settings.set(SettingKeys.syncAaValues, syncAaValues.value)
+    await settings.set(SettingKeys.syncPayees, syncPayees.value)
+
   } catch (error: any) {
     console.error(error)
     Notification.negative(error.message)
@@ -220,11 +226,6 @@ async function onSyncClicked() {
     showAccountProgress.value = false
     showPayeesProgress.value = false
     showAssetProgress.value = false
-
-    // Save the current sync choices
-    await settings.set(SettingKeys.syncAccounts, syncAccounts.value)
-    await settings.set(SettingKeys.syncAaValues, syncAaValues.value)
-    await settings.set(SettingKeys.syncPayees, syncPayees.value)
   }
 }
 
