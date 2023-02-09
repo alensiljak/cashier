@@ -4,6 +4,7 @@
 import ky from 'ky'
 import { settings, SettingKeys } from './settings'
 import { engine } from './AssetAllocation'
+import moment from 'moment'
 
 /**
  * Cashier Sync class talks to CashierSync on the server. The methods here represent the methods
@@ -187,7 +188,13 @@ export class CashierSync {
    * @returns array of Payee objects
    */
   async readPayees(): Promise<string[]> {
-    const command = CashierSync.payeesCommand
+    // Limit the payees to the last 5 years, otherwise there's a high risk of crashing.
+    // This command is somehow very memory hungry on Android.
+    let year_str = moment().format('YYYY')
+    let year = Number(year_str)
+    let begin = year - 5
+
+    const command = CashierSync.payeesCommand + ' -b ' + begin
     const response = await this.ledger(command, { timeout: 20000 })
     if (!response.ok) {
       throw new Error('Error reading payees!')
