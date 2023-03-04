@@ -2,10 +2,10 @@
   <q-card bordered class="my-card">
     <!-- header -->
     <q-card-section class="bg-primary q-pa-sm">
-      <refresh-cw class="icon q-mr-sm" size="1.4em" />
+      <refresh-cw class="icon q-mr-sm" size="20" />
       <strong>CashierSync</strong>
       <span class="float-right">
-        <help-circle class="icon q-mr-sm" size="1.4em" @click="onHelpClick" />
+        <help-circle class="icon q-mr-sm" size="20" @click="onHelpClick" />
       </span>
     </q-card-section>
     <q-card-section>

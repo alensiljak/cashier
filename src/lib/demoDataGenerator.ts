@@ -1,7 +1,7 @@
 /**
  * Demo data generator.
  */
-import { Payee } from 'src/model'
+import { Payee, Posting, Transaction } from 'src/model'
 import CashierDAL from '../store/dal'
 import { AccountService } from './accountsService'
 import { engine as assetAllocationEngine } from './AssetAllocation'
@@ -115,9 +115,54 @@ async function setAccountCurrentValue(
   await dal.saveAccount(account)
 }
 
+async function createTransactions() {
+  // create dummy transaction
+  let tx = new Transaction()
+  tx.date = '2023-03-01'
+  tx.payee = 'Supermarket'
+  tx.note = 'Test transaction'
+
+  let p1 = new Posting()
+  p1.account = 'Expenses:Food'
+  p1.amount = 20
+  p1.currency = 'EUR'
+  tx.postings.push(p1)
+
+  let p2 = new Posting()
+  p2.account = 'Assets:Cash'
+  //p2.amount = -20;
+  //p2.currency = 'EUR';
+  tx.postings.push(p2)
+
+  await dal.saveTransaction(tx)
+
+  // loan payment
+  tx = createLoanPayment()
+  await dal.saveTransaction(tx)
+}
+
+function createLoanPayment(): Transaction {
+  let tx = new Transaction()
+  tx.date = '2023-02-01'
+  tx.payee = 'My Bank'
+
+  let p1 = new Posting()
+  p1.account = 'Liabilities:Loans'
+  p1.amount = 250
+  p1.currency = 'EUR'
+  tx.postings.push(p1)
+
+  let p2 = new Posting()
+  p2.account = 'Assets:Bank Accounts:Checking'
+  tx.postings.push(p2)
+
+  return tx
+}
+
 export {
   createAccountBalances,
   createAssetAllocation,
   createInvestmentAccounts,
   createPayees,
+  createTransactions,
 }

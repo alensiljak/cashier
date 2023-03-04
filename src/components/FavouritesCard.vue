@@ -3,7 +3,7 @@
     <!-- <q-card-section class="text-subtitle2">Favourites</q-card-section> -->
 
     <q-card-section class="bg-primary q-pa-sm">
-      <Star class="icon q-mr-sm" size="1.4em" />
+      <Star class="icon q-mr-sm" size=20 />
       <strong>Favourites</strong>
     </q-card-section>
 

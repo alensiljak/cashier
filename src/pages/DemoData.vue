@@ -45,7 +45,8 @@
     </div>
 
     <div class="row">
-      <p>TODO: Create demo Transactions</p>
+      <q-checkbox label="Create Transactions" v-model="createTxChecked" />
+      <Check v-if="progress.payees" class="q-mt-sm on-right" />
     </div>
     <div class="row">
       <p>TODO: Create Scheduled Transactions</p>
@@ -68,11 +69,10 @@ import CashierToolbar from 'src/components/CashierToolbar.vue'
 import { ref } from 'vue'
 import useNotifications from 'src/lib/CashierNotification'
 import { AccountService } from 'src/lib/accountsService'
-// import appService from 'src/appService';
 import { SettingKeys, settings } from '../lib/settings'
 import {
   createPayees, createAccountBalances, createAssetAllocation,
-  createInvestmentAccounts
+  createInvestmentAccounts, createTransactions
 } from '../lib/demoDataGenerator'
 import { Check } from 'lucide-vue-next'
 
@@ -85,6 +85,7 @@ const createAccountBalancesChecked = ref(true)
 const createDefaultSettingsChecked = ref(true)
 const createFavAccountsChecked = ref(true)
 const createPayeesChecked = ref(true)
+const createTxChecked = ref(true)
 const createAssetAllocationChecked = ref(true)
 const progress = ref({
   allDone: false,
@@ -94,6 +95,7 @@ const progress = ref({
   balances: false,
   favourites: false,
   payees: false,
+  transactions: false,
   assetAllocation: false
 })
 
@@ -129,6 +131,11 @@ async function create() {
     progress.value.payees = true
   }
 
+  if (createTxChecked.value) {
+    await createTransactions();
+    progress.value.transactions = true
+  }
+
   if (createAssetAllocationChecked.value) {
     await createAssetAllocation()
     progress.value.assetAllocation = true
@@ -146,6 +153,7 @@ function onAllClicked() {
   createDefaultSettingsChecked.value = checked
   createFavAccountsChecked.value = checked
   createPayeesChecked.value = checked
+  createTxChecked.value = checked
 
   createAssetAllocationChecked.value = checked
 }
