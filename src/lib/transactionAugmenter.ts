@@ -188,17 +188,18 @@ export class TransactionAugmenter {
         balance.amount = Math.abs(postings[0].amount as number)
         balance.currency = postings[0].currency
 
-        // A liability payment will be shown as expense.
+        // A liability repayment (has an Asset and a Liability) will be shown as expense.
         if (
-          postings.filter(
-            (posting) =>
-              posting.account.startsWith('Assets:') &&
-              postings.filter((posting) =>
-                posting.account.startsWith('Liabilities:')
-              )
+          postings.filter((posting) => posting.account.startsWith('Assets:')) &&
+          postings.filter((posting) =>
+            posting.account.startsWith('Liabilities:')
           )
         ) {
-          balance.amount = balance.amount * -1
+          // Take the sign from the Asset posting
+          let assetPostings = postings.filter((posting) =>
+            posting.account.startsWith('Assets:')
+          )
+          balance.amount = assetPostings[0].amount as number
         }
       } else {
         // todo: handle these cases (transfers, complex tx)
