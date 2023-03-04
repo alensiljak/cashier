@@ -190,10 +190,11 @@ export class TransactionAugmenter {
 
         // Treat the liability account as an expense.
         if (
-          postings.filter((posting) => posting.account.startsWith('Assets:')) &&
+          postings.filter((posting) => posting.account.startsWith('Assets:'))
+            .length > 0 &&
           postings.filter((posting) =>
             posting.account.startsWith('Liabilities:')
-          )
+          ).length > 0
         ) {
           // Take the sign from the Asset posting
           let assetPostings = postings.filter((posting) =>
