@@ -2,7 +2,7 @@
   <q-card bordered class="my-card" @click="onCardClick">
     <!-- <q-card-section class="text-subtitle2">Device Journal</q-card-section> -->
     <q-card-section class="bg-primary q-pa-sm">
-      <Scroll class="icon q-mr-sm" size="20" />
+      <Scroll class="icon q-mr-sm" size=20 />
       <strong>Device Journal</strong>
     </q-card-section>
 
@@ -31,7 +31,7 @@
 
     <q-card-actions align="center">
       <q-btn outline color="primary" text-color="accent" @click.stop="onExportTxClick">
-        <FileUp size=20 class="on-left" />
+        <FileUp size="20" class="on-left" />
         Export
       </q-btn>
     </q-card-actions>

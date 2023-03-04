@@ -187,11 +187,25 @@ export class TransactionAugmenter {
         // transfer
         balance.amount = Math.abs(postings[0].amount as number)
         balance.currency = postings[0].currency
+
+        // A liability payment will be shown as expense.
+        if (
+          postings.filter(
+            (posting) =>
+              posting.account.startsWith('Assets:') &&
+              postings.filter((posting) =>
+                posting.account.startsWith('Liabilities:')
+              )
+          )
+        ) {
+          balance.amount = balance.amount * -1
+        }
       } else {
         // todo: handle these cases (transfers, complex tx)
         console.warn('more than one posting found with assets')
       }
 
+      // Assemble the output
       result.push(balance)
     })
 
