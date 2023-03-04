@@ -15,11 +15,7 @@
         <q-item v-for="tx, index in transactions" :key="index" dense class="q-px-none">
           <q-item-section>{{ tx.date }} &nbsp; {{ tx.payee }}</q-item-section>
           <q-item-section side>
-            <span :class="{
-              red: txAmounts[index].amount < 0,
-              yellow: txAmounts[index].amount === 0,
-              green: txAmounts[index].amount > 0,
-            }">
+            <span :class="getTxColour(index)">
               {{ txAmounts[index].amount }} {{ txAmounts[index].currency }}
             </span>
           </q-item-section>
@@ -57,6 +53,37 @@ const txAmounts: Ref<AccountBalance[]> = ref([])
 onMounted(async () => {
   await loadData()
 })
+
+/// Sets the transaction amount's colour.
+function getTxColour(index: number) {
+  // {
+  //   red: txAmounts[index].amount < 0,
+  //   yellow: txAmounts[index].amount === 0,
+  //   green: txAmounts[index].amount > 0,
+  // }
+  const RED = 'red'
+  const YELLOW = 'yellow'
+  const GREEN = 'green'
+  let colour = ''
+
+  let balance: AccountBalance = txAmounts.value[index]
+  if (balance.amount < 0) {
+    colour = RED
+  } else if (balance.amount == 0) {
+    colour = YELLOW
+  } else if (balance.amount > 0) {
+    colour = GREEN
+  }
+
+  // Transfers, yellow
+  let tx = transactions.value[index]
+  if (tx.postings.filter((posting) => posting.account.startsWith('Assets:')).length == 2) {
+    // 2 Asset accounts. Assume transfer.
+    colour = YELLOW
+  }
+
+  return colour
+}
 
 function onCardClick() {
   // for some reason, need to explicitly forward the event

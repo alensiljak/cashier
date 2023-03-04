@@ -116,7 +116,21 @@ async function setAccountCurrentValue(
 }
 
 async function createTransactions() {
-  // create dummy transaction
+  // regular payment
+  let tx = createPaymentTx()
+  await dal.saveTransaction(tx)
+
+  // loan payment
+  tx = createLoanPayment()
+  await dal.saveTransaction(tx)
+
+  // transfer
+  tx = createTransferTx()
+  await dal.saveTransaction(tx)
+}
+
+function createPaymentTx(): Transaction {
+  // create payment transaction
   let tx = new Transaction()
   tx.date = '2023-03-01'
   tx.payee = 'Supermarket'
@@ -134,11 +148,7 @@ async function createTransactions() {
   //p2.currency = 'EUR';
   tx.postings.push(p2)
 
-  await dal.saveTransaction(tx)
-
-  // loan payment
-  tx = createLoanPayment()
-  await dal.saveTransaction(tx)
+  return tx
 }
 
 function createLoanPayment(): Transaction {
@@ -149,6 +159,24 @@ function createLoanPayment(): Transaction {
   let p1 = new Posting()
   p1.account = 'Liabilities:Loans'
   p1.amount = 250
+  p1.currency = 'EUR'
+  tx.postings.push(p1)
+
+  let p2 = new Posting()
+  p2.account = 'Assets:Bank Accounts:Checking'
+  tx.postings.push(p2)
+
+  return tx
+}
+
+function createTransferTx(): Transaction {
+  let tx = new Transaction()
+  tx.date = '2023-01-05'
+  tx.payee = 'Cash Withdrawal'
+
+  let p1 = new Posting()
+  p1.account = 'Assets:Cash'
+  p1.amount = 100
   p1.currency = 'EUR'
   tx.postings.push(p1)
 

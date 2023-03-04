@@ -163,7 +163,7 @@ export class TransactionAugmenter {
     txs.forEach((tx, index) => {
       let balance = new AccountBalance()
 
-      // get the assets posting(s)
+      // Get the assets and liabilities posting(s) from the transaction.
       const postings = tx.postings.filter(
         (posting) =>
           posting.account.startsWith('Assets:') ||
@@ -173,7 +173,7 @@ export class TransactionAugmenter {
       if (postings.length === 0) {
         console.warn('No postings found in Assets or Liabilities!')
       } else if (postings.length === 1) {
-        // a clear case with one asset/liability account.
+        // a clear payment case with one source (asset/liability) account.
         const posting = postings[0]
         if (!posting || !posting.amount || typeof posting.amount === 'string') {
           const msg = `Invalid amount on ${tx.date}, ${tx.payee}, ${posting.account}, ${posting.amount}`
@@ -184,11 +184,11 @@ export class TransactionAugmenter {
           balance.currency = posting.currency
         }
       } else if (postings.length === 2) {
-        // transfer
+        // involves a transfer
         balance.amount = Math.abs(postings[0].amount as number)
         balance.currency = postings[0].currency
 
-        // A liability repayment (has an Asset and a Liability) will be shown as expense.
+        // Treat the liability account as an expense.
         if (
           postings.filter((posting) => posting.account.startsWith('Assets:')) &&
           postings.filter((posting) =>
