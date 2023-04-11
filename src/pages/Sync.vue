@@ -106,9 +106,9 @@ const serverUrl = ref('http://localhost:8080') // the default value
 const rootInvestmentAccount = ref(null)
 const currency = ref(null)
 
-const syncAccounts = ref(true)
-const syncAaValues = ref(true)
-const syncPayees = ref(true)
+const syncAccounts = ref(false)
+const syncAaValues = ref(false)
+const syncPayees = ref(false)
 const showAccountProgress = ref(false)
 const showPayeesProgress = ref(false)
 const showAssetProgress = ref(false)
