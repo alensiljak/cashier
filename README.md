@@ -4,10 +4,10 @@ A mobile companion for Ledger-cli
 
 Live app: https://cashier.alensiljak.eu.org/
 
-Cashier is a PWA GUI assistant application for [Ledger-cli](https://ledger-cli.org). It is intended to be used for entering transactions and previewing balances, mostly on a mobile device. 
+Cashier is a PWA GUI assistant application for [Ledger-cli](https://ledger-cli.org). It is intended to be used for entering transactions and previewing balances, mostly on a mobile device.
 The accounts and balances can be imported from Ledger to establish baselines and the entered transactions can be exported to be merged into the main ledger file.
 
-The app works completely offline, meaning **all** the data required for the functioning of the app is stored in a local database in a browser. 
+The app works completely offline, meaning **all** the data required for the functioning of the app is stored in a local database in a browser.
 
 The existing data from your Ledger book can be populated by using [Cashier Server](https://github.com/alensiljak/cashier-server-rust). This will provide your ledger reports to Cashier. Since Ledger-cli is **readonly**, your data is only ever read. Cashier or Cashier Ledger Server cannot write to a Ledger book.
 
@@ -32,7 +32,7 @@ With the newer versions of node, you can use `corepack enable`.
 
 Start the app in development mode (hot-code reloading, error reporting, etc.)
 
-``` bash
+```bash
 npm run dev
 ```
 
@@ -42,7 +42,7 @@ Then open the browser at http://localhost:8080
 
 ## Debugging
 
-To debug with Firefox and VS Code, see 
+To debug with Firefox and VS Code, see
 
 1. install Firefox debugger [extension](https://github.com/firefox-devtools/vscode-firefox-debug) in VS Code
 2. create a launch configuration in vscode
@@ -63,6 +63,14 @@ The testing is done with Playwright.
 
 `npm run test`
 
+## Linter
+
+eslint is used for linting.
+The vite plugin is enabled. To disable ESLint, comment-out the eslint block in the quasar.config.js or
+comment-out the lines inside it (warnings, errors).
+
+ESLint itself is configured through .eslintrc.js cofiguration file.
+
 ## Deployment
 
 ### Test
@@ -76,14 +84,6 @@ Using Netlify to serve HTTPS site, as required by PWA specs. The [base url](http
 Manual deployment is done using `netlify-cli` package installed in the project.
 Run `npm run deploy` from the root project directory. This requires netlify.toml. Otherwise, run from dist/pwa directory. To deploy the Prod version, run `npx netlify deploy --prod`.
 
-## Linter
-
-eslint is used for linting. 
-The vite plugin is enabled. To disable ESLint, comment-out the eslint block in the quasar.config.js or
-comment-out the lines inside it (warnings, errors).
-
-ESLint itself is configured through .eslintrc.js cofiguration file.
-
 # Cashier Ecosystem
 
 Here is the description on how to set up Cashier on Android. It demonstrates the main principles on any platform.
@@ -93,6 +93,7 @@ Open https://cashier.alensiljak.eu.org in the browser. Use "Add to Home screen" 
 Set up synchronization with [Ledger Server](https://github.com/alensiljak/cashier-server-rust):
 
 ## Cashier Server Setup
+
 This is a description for Termux on Android but the principles apply to any environment.
 
 1. install Termux
