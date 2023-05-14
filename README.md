@@ -9,9 +9,9 @@ The accounts and balances can be imported from Ledger to establish baselines and
 
 The app works completely offline, meaning **all** the data required for the functioning of the app is stored in a local database in a browser. 
 
-The existing data from your Ledger book can be populated by using [Cashier Server](https://github.com/alensiljak/cashier-server-rust). This will provide your ledger reports to Cashier. Since Ledger-cli is **readonly**, your data only is only read. Cashier or Cashier Ledger Server cannot write to your Ledger book.
+The existing data from your Ledger book can be populated by using [Cashier Server](https://github.com/alensiljak/cashier-server-rust). This will provide your ledger reports to Cashier. Since Ledger-cli is **readonly**, your data is only ever read. Cashier or Cashier Ledger Server cannot write to a Ledger book.
 
-The transactions entered in Cashier can be exported in Ledger format and appended to your Ledger book.
+The transactions entered in Cashier can be exported in a Ledger-formatted text file and appended to your Ledger book manually.
 
 # Features
 
