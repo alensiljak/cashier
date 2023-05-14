@@ -44,9 +44,9 @@ Then open the browser at http://localhost:8080
 
 To debug with Firefox and VS Code, see 
 
-- install Firefox debugger [extension](https://github.com/firefox-devtools/vscode-firefox-debug) in VS Code
-- create a launch configuration in vscode
-- run `"C:\Program Files\Firefox Developer Edition\firefox.exe" -start-debugger-server`
+1. install Firefox debugger [extension](https://github.com/firefox-devtools/vscode-firefox-debug) in VS Code
+2. create a launch configuration in vscode
+3. run `"C:\Program Files\Firefox Developer Edition\firefox.exe" -start-debugger-server`
 
 ## Maintenance
 
@@ -92,23 +92,21 @@ Open https://cashier.alensiljak.eu.org in the browser. Use "Add to Home screen" 
 
 Set up synchronization with [Ledger Server](https://github.com/alensiljak/cashier-server-rust):
 
-## Android
+## Cashier Server Setup
+This is a description for Termux on Android but the principles apply to any environment.
 
-- Install Termux
-- install ledger package (this seems to fail lately, you can use a linux distro in Termux, like Alpine or Arch)
-- add the Termux shortcuts for updating the data (git pull)
-- add the Termux shortcut to run cashiersync
-
-## Set up
-
-- install [Cashier server](https://github.com/alensiljak/cashier-server-rust): `cargo install cashier-server`
-- git clone or manually create folders for the ledger book and prices
-- set up .ledgerrc in the home directory, to point to the book and prices files
+1. install Termux
+2. install ledger package (`pkg install ledger`)
+3. install [Cashier server](https://github.com/alensiljak/cashier-server-rust): `cargo install cashier-server`
+4. transfer (git clone, synchronize, or manually create files and folders) for the ledger book and prices to the device
+5. set up .ledgerrc in the home directory, to point to the book and prices files
+6. add the Termux shortcuts for updating the data (`git pull`, `lazygit`, `gitui`, etc.)
+7. add a Termux shortcut to run Cashier Server
 
 ## Data Transfer
 
-To transfer the transactions from the mobile device to desktop:
+To transfer the transactions from the mobile device to desktop you can use any of the following options:
 
-- add lazygit and a shortcut for opening it in the book directory. This can be used to commit the transactions directly on the mobile device.
+- add lazygit and a shortcut for opening it in the book directory. This can be used to commit the transactions directly on the mobile device
 - export the transactions file (in ledger format)
 - transfer files via pCloud export
