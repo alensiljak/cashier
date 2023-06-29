@@ -119,6 +119,7 @@ const routes = [
       },
       {
         path: '/postings-delete',
+        // name: 'postings-delete',
         component: () => import('src/pages/PostingsDelete.vue'),
       },
       {

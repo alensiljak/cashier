@@ -253,7 +253,7 @@ function onCurrencyChanged() {
 }
 
 function onDeletePostingsClicked() {
-  router.push('postings-delete')
+  router.push('/postings-delete')
 }
 
 /**
@@ -284,7 +284,7 @@ function recalculateSum() {
 }
 
 function reorderPostings() {
-  router.push('postings-reorder')
+  router.push('/postings-reorder')
 }
 
 /**

@@ -103,8 +103,6 @@ const amount = computed({
 
 const display_amount = computed({
   get() {
-    console.log(amount)
-
     return Math.abs(amount.value)
   },
 
