@@ -9,8 +9,11 @@
 
     <div class="row justify-end">
       <div class="col flex valign-middle">
-        <q-btn color="" text-color="negative" @click="$emit('delete-posting')">
+        <!-- <q-btn color="" text-color="negative" @click="$emit('delete-posting')">
           <icon-trash size="22" />
+        </q-btn> -->
+        <q-btn text-color="negative">
+          <!-- <minus-square /> -->
         </q-btn>
       </div>
       <div class="col-3 col-xs-5">
@@ -37,7 +40,8 @@
 import { computed, toRefs, WritableComputedRef } from 'vue'
 import { useMainStore } from '../store/mainStore'
 import { storeToRefs } from 'pinia'
-import { AlertOctagon, AlertTriangle, Trash as IconTrash } from 'lucide-vue-next'
+import { AlertOctagon, MinusSquare } from 'lucide-vue-next'
+import { _ } from 'numeral';
 
 const mainStore = useMainStore()
 const { tx } = storeToRefs(mainStore)
@@ -132,5 +136,9 @@ const isMissingCurrency = computed({
  */
 function onAmountFocus(e: any) {
   e.target.select()
+}
+
+function toggleSign() {
+  
 }
 </script>

@@ -25,9 +25,9 @@
       </q-btn>
     </cashier-toolbar>
 
-    <div v-if="!tx || !tx.id" class="bg-primary text-center q-pa-sm q-ma-none">
+    <!-- <div v-if="!tx || !tx.id" class="bg-primary text-center q-pa-sm q-ma-none">
       New transaction
-    </div>
+    </div> -->
 
     <!-- Transaction -->
     <tx-editor />

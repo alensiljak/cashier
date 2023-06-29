@@ -16,23 +16,6 @@
       </q-toolbar>
     </q-header>
 
-    <!-- <accounts-list
-      v-model:list="postings"
-      lock-axis="y"
-      axis="y"
-      :value="postings"
-      :model-value="postings"
-      @input="onListChange"
-    >
-      <posting-item
-        v-for="(posting, index) in postings"
-        :key="posting"
-        :index="index"
-        :posting="posting"
-        :value="posting"
-      />
-    </accounts-list> -->
-
     <draggable tag="q-list" :list="postings" class="list-group" handle=".handle" item-key="name">
       <template #item="{ element }">
         <q-item v-ripple clickable class="list-item">

@@ -13,6 +13,8 @@ export class SelectionModeMetadata {
   // avoid confusion in unexpected navigation routes.
   origin = ''
 
+  postingIndex?: any
+
   // The type of item being selected. Useful on return to the original entity.
   selectionType?: string
 

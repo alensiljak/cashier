@@ -39,6 +39,22 @@
       <div class="col-auto q-px-xs">Sum: {{ formatNumber(postingSum) }}</div>
     </div>
 
+    <!-- posting actions -->
+    <div class="row justify-center text-center q-mb-lg q-mt-sm">
+      <q-btn color="primary" text-color="accent" size="medium" class="col-auto q-mr-lg" @click="addPosting">
+        <PlusCircle />
+        <!-- <div>Add</div> -->
+      </q-btn>
+      <q-btn color="primary" text-color="accent" size="medium" class="col-auto q-mr-lg" @click="reorderPostings">
+        <ArrowUpDown />
+        <!-- <div>Reorder</div> -->
+      </q-btn>
+      <q-btn color="primary" text-color="accent" size="medium" class="col-auto" @click="onDeletePostingsClicked">
+        <Trash />
+        <!-- <div>Delete</div> -->
+      </q-btn>
+    </div>
+
     <q-item v-for="(posting, index) in tx?.postings" :key="index" class="q-px-none">
       <q-item-section>
         <QPosting :index="index" @delete-row="deletePosting" @account-clicked="onAccountClicked(index)"
@@ -61,33 +77,7 @@
       <AlertTriangle class="icon on-right" />
     </div>
 
-    <!-- posting actions -->
-    <div class="row justify-center text-center q-my-lg">
-      <q-btn color="primary" text-color="accent" size="medium" class="col-auto q-mr-md" @click="addPosting">
-        <PlusCircle class="on-left" />
-        <div>Add</div>
-      </q-btn>
-      <q-btn color="primary" text-color="accent" size="medium" class="col-auto" @click="reorderPostings">
-        <ArrowUpDown class="on-left" />
-        <div>Reorder</div>
-      </q-btn>
-    </div>
   </div>
-
-  <!-- Delete posting confirmation dialog -->
-  <q-dialog v-model="deletePostingConfirmationVisible" persistent content-class="bg-blue-grey-10">
-    <q-card class="bg-negative text-amber-2">
-      <q-card-section class="row items-center">
-        <span>Do you want to delete the posting?</span>
-      </q-card-section>
-
-      <q-card-actions align="right">
-        <q-btn v-close-popup flat label="No" color="accent" />
-        <q-btn v-close-popup flat label="Yes" color="accent" @click="onDeletePostingConfirmed" />
-      </q-card-actions>
-    </q-card>
-  </q-dialog>
-
 </template>
 
 <script setup lang="ts">
@@ -107,7 +97,7 @@ import { SET_SELECT_MODE } from '../mutations'
 import { Posting, Transaction } from '../model'
 import {
   AlertOctagon, AlertTriangle, ArrowUpDown, Calendar as IconCalendar, FileText,
-  PlusCircle, User as IconUser
+  PlusCircle, User as IconUser, Trash
 } from 'lucide-vue-next'
 import { AccountService } from '../lib/accountsService'
 
@@ -122,8 +112,6 @@ const postingSum = ref(0)
 const hasInvalidCurrencies = ref(false)
 const hasMultipleCurrencies = ref(false)
 const hasMultipleNans = ref(false)
-const deletePostingConfirmationVisible = ref(false)
-const postingIndexToDelete = ref(-1)
 const iconSize = ref(28)
 
 if (!tx.value) {
@@ -145,13 +133,6 @@ onMounted(() => {
 function addPosting() {
   tx.value?.postings.push(new Posting())
 
-  validateCurrencies()
-}
-
-function deletePosting(index: number) {
-  tx.value?.postings.splice(index, 1)
-
-  recalculateSum()
   validateCurrencies()
 }
 
@@ -250,6 +231,18 @@ async function loadLastTransaction(payee: string) {
   mainStore.setTransaction(lastTx.transaction)
 }
 
+function onAccountClicked(index: number) {
+  const selectMode = new SelectionModeMetadata();
+  // save the index of the posting being edited
+  selectMode.postingIndex = index;
+  // set the type
+  selectMode.selectionType = 'account';
+  // set the selection mode
+  store.commit(SET_SELECT_MODE, selectMode);
+  // show account picker
+  router.push({ name: 'accounts' });
+}
+
 function onAmountChanged() {
   // recalculate the sum
   recalculateSum()
@@ -259,17 +252,8 @@ function onCurrencyChanged() {
   validateCurrencies()
 }
 
-/**
- * The user requested to delete a posting
- * @param index index of the Posting that was clicked
- */
-function onDeletePostingClicked(index: number) {
-  postingIndexToDelete.value = index
-  deletePostingConfirmationVisible.value = true
-}
-
-function onDeletePostingConfirmed() {
-  deletePosting(postingIndexToDelete.value)
+function onDeletePostingsClicked() {
+  router.push('postings-delete')
 }
 
 /**
@@ -300,7 +284,7 @@ function recalculateSum() {
 }
 
 function reorderPostings() {
-  router.push({ name: 'reorder postings' })
+  router.push('postings-reorder')
 }
 
 /**
@@ -341,39 +325,24 @@ function validateCurrencies() {
 
 export default {
   methods: {
-    onAccountClicked(index: number) {
-      const selectMode = new SelectionModeMetadata()
-
-      // save the index of the posting being edited
-      selectMode.postingIndex = index
-      // set the type
-      selectMode.selectionType = 'account'
-
-      // set the selection mode
-      this.$store.commit(SET_SELECT_MODE, selectMode)
-      // show account picker
-      this.$router.push({ name: 'accounts' })
-    },
     /**
      * (value, reason, details)
      */
     onDateSelected(value: any, reason: any) {
-      if (reason !== 'day' && reason !== 'today') return
-
+      if (reason !== 'day' && reason !== 'today')
+        return;
       // close the picker if the date was selected
-      this.$refs.qDateProxy.hide()
+      this.$refs.qDateProxy.hide();
       // the date is saved on close.
     },
     onPayeeClick() {
-      const selectMode = new SelectionModeMetadata()
-
+      const selectMode = new SelectionModeMetadata();
       // set the type
-      selectMode.selectionType = 'payee'
-
+      selectMode.selectionType = 'payee';
       // set the selection mode
-      this.$store.commit(SET_SELECT_MODE, selectMode)
+      this.$store.commit(SET_SELECT_MODE, selectMode);
       // show account picker
-      this.$router.push({ name: 'payees' })
+      this.$router.push({ name: 'payees' });
     },
   },
 }

@@ -118,6 +118,14 @@ const routes = [
         component: () => import('src/pages/Payees.vue'),
       },
       {
+        path: '/postings-delete',
+        component: () => import('src/pages/PostingsDelete.vue'),
+      },
+      {
+        path: '/postings-reorder',
+        component: () => import('src/pages/ReorderPostings.vue'),
+      },
+      {
         path: '/prices',
         name: 'prices',
         component: () => import('src/pages/Prices.vue'),
@@ -126,11 +134,6 @@ const routes = [
         path: '/reg/:name',
         name: 'register',
         component: () => import('src/pages/Register.vue'),
-      },
-      {
-        path: '/reorder-postings',
-        name: 'reorder postings',
-        component: () => import('src/pages/ReorderPostings.vue'),
       },
       {
         path: '/restore/:type?',
