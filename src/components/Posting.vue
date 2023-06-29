@@ -8,17 +8,19 @@
     </div>
 
     <div class="row justify-end">
+      <!-- sign -->
       <div class="col flex valign-middle">
-        <!-- <q-btn color="" text-color="negative" @click="$emit('delete-posting')">
-          <icon-trash size="22" />
-        </q-btn> -->
-        <q-btn text-color="negative">
-          <!-- <minus-square /> -->
+        <q-btn v-if="amount < 0" text-color="negative" @click="toggleSign">
+          <minus-square />
+        </q-btn>
+        <q-btn v-else-if="amount > 0" text-color="positive" @click="toggleSign">
+          <plus-square />
         </q-btn>
       </div>
+
       <div class="col-3 col-xs-5">
         <!-- Amount -->
-        <q-input v-model.number="amount" label="Amount" type="number" input-class="text-right"
+        <q-input v-model.number="display_amount" label="Amount" type="number" input-class="text-right"
           @change="$emit('amount-changed')" @keyup="$emit('amount-changed')" @focus="onAmountFocus" />
       </div>
 
@@ -40,7 +42,7 @@
 import { computed, toRefs, WritableComputedRef } from 'vue'
 import { useMainStore } from '../store/mainStore'
 import { storeToRefs } from 'pinia'
-import { AlertOctagon, MinusSquare } from 'lucide-vue-next'
+import { AlertOctagon, MinusSquare, PlusSquare } from 'lucide-vue-next'
 import { _ } from 'numeral';
 
 const mainStore = useMainStore()
@@ -59,7 +61,7 @@ const emit = defineEmits([
   'account-clicked',
   'amount-changed',
   'currency-changed',
-  'delete-posting'
+  // 'delete-posting'
 ])
 
 // computed
@@ -80,6 +82,7 @@ const account = computed({
     tx.value.postings[i].account = val
   },
 })
+
 const amount = computed({
   get() {
     if (!tx.value) {
@@ -96,6 +99,24 @@ const amount = computed({
     tx.value.postings[i].amount = val
   },
 })
+// const abs_amount = computed(() => Math.abs(tx.value.postings[i].amount))
+
+const display_amount = computed({
+  get() {
+    console.log(amount)
+
+    return Math.abs(amount.value)
+  },
+
+  set(val) {
+    if (amount.value >= 0) {
+      amount.value = val
+    } else {
+      amount.value = val * (-1)
+    }
+  }
+})
+
 const currency: WritableComputedRef<string> = computed({
   get() {
     if (!tx.value) {
@@ -139,6 +160,9 @@ function onAmountFocus(e: any) {
 }
 
 function toggleSign() {
-  
+  // amount.value = amount.value * (-1)
+  tx.value.postings[i].amount = tx.value.postings[i].amount * (-1)
+
+  emit('amount-changed')
 }
 </script>
