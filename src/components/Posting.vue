@@ -107,10 +107,10 @@ const display_amount = computed({
   },
 
   set(val) {
-    if (amount.value >= 0) {
-      amount.value = val
-    } else {
+    if (amount.value <= 0) {
       amount.value = val * (-1)
+    } else {
+      amount.value = val
     }
   }
 })
