@@ -59,9 +59,13 @@ This is the equivalent of `quasar build --mode pwa`.
 
 ## Test
 
-The testing is done with Playwright.
+The testing is done with Playwright. Run the Dev server first, then trigger the tests with:
 
 `npm run test`
+
+or
+
+`npx playwright test new-tx`
 
 ## Linter
 
