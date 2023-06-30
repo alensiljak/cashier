@@ -3,22 +3,10 @@
  */
 
 import { test, expect } from '@playwright/test'
+import { create_demo_data } from './test-infrastructure'
 
 test.beforeEach(async ({ page }) => {
-  // Create demo data.
-
-  await page.goto('/')
-  expect(page).toHaveURL('/#/home')
-
-  await page.getByRole('button', { name: 'Yes' }).click()
-  await expect(page).toHaveURL('/#/demoData')
-
-  await page.getByRole('button', { name: 'Create' }).click()
-
-  expect(page.getByText('Asset Allocation created')).toBeVisible()
-
-  // await page.locator('a[role="listitem"]:has-text("Home")').click()
-  // await expect(page).toHaveURL('/#/home')
+  await create_demo_data(page)
 })
 
 test('testDiningAccountBalance', async ({ page }) => {

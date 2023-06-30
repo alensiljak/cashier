@@ -3,15 +3,12 @@
  */
 
 import { test, expect } from '@playwright/test'
-import { initialize } from './seedDb'
+// import { initialize } from './seedDb'
+import { create_demo_data } from './test-infrastructure'
 
 test.describe('Asset Allocation tests', () => {})
 test.beforeEach(async ({ page }) => {
-  // Create demo data.
-  await initialize(page)
-
-  await page.locator('a[role="listitem"]:has-text("Home")').click()
-  await expect(page).toHaveURL('/#/home')
+  await create_demo_data(page)
 
   await page.locator('a[role="listitem"]:has-text("Asset Allocation")').click()
   await expect(page).toHaveURL('/#/assetallocation')

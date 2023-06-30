@@ -18,7 +18,7 @@
 
         <!-- Postings list -->
         <q-list separator>
-            <q-item v-for="post in postings" :key="post" v-ripple clickable class="list-item">
+            <q-item v-for="(post, index) in postings" :key="index" v-ripple clickable class="list-item">
                 <q-item-section>{{ post.account }}</q-item-section>
                 <q-item-section>
                     {{ post.amount }}
@@ -27,7 +27,7 @@
                     {{ post.currency }}
                 </q-item-section>
                 <q-item-section side>
-                    <Trash2 color="darkred" @click="onDeletePostingClicked" />
+                    <Trash2 color="darkred" @click="onDeletePostingClicked(index)" />
                 </q-item-section>
             </q-item>
 
