@@ -113,6 +113,10 @@ const routes = [
         component: () => import('src/pages/Lots.vue'),
       },
       {
+        path: '/opfs',
+        component: () => import('src/pages/OpfsPage.vue'),
+      },
+      {
         path: '/payees',
         name: 'payees',
         component: () => import('src/pages/Payees.vue'),

@@ -5,19 +5,20 @@
         <more-vertical />
         <q-menu>
           <q-list style="min-width: 175px">
-            <!-- <q-item v-close-popup clickable @click="onSchTxMigrationClick">
-              <q-item-section>SchTx data migration</q-item-section>
-              <q-item-section side>
-                <folder-output />
-              </q-item-section>
-            </q-item> -->
-
             <q-item v-close-popup clickable @click="onDemoDataClick">
               <q-item-section>Create demo data</q-item-section>
               <q-item-section side>
                 <curly-braces />
               </q-item-section>
             </q-item>
+
+            <q-item v-close-popup clickable @click="onOpfsClick">
+              <q-item-section>OPFS Experiment</q-item-section>
+              <q-item-section side>
+                <FolderOpen />
+              </q-item-section>
+            </q-item>
+
           </q-list>
         </q-menu>
       </q-btn>
@@ -145,7 +146,7 @@ import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
 import { engine } from '../lib/AssetAllocation'
 import appService from '../appService'
-import { CurlyBraces, HelpCircle, MoreVertical } from 'lucide-vue-next'
+import { CurlyBraces, FolderOpen, HelpCircle, MoreVertical } from 'lucide-vue-next'
 
 const Notification = useNotifications()
 const $router = useRouter()
@@ -184,6 +185,10 @@ async function onAaFileSelected(file: Blob) {
 
   const content = await appService.readFileAsync(file)
   fileContent.value = content
+}
+
+function onOpfsClick() {
+  $router.push('/opfs')
 }
 
 async function onRestoreClick() {
@@ -285,6 +290,16 @@ async function onSchTxMigrationClick() {
   )
 }
 
+let backupLocation = ref(null);
+
+async function onSelectBackupLocationClick() {
+  let dirHandle = await window.showDirectoryPicker();
+  // assuming we have a directory handle: 'currentDirHandle'
+  const subDir = dirHandle.getDirectoryHandle(dirName, {
+    create: true,
+  });
+}
+
 function reloadApp() {
   // force reload
   window.location.reload(true)
@@ -305,28 +320,5 @@ async function onSaveClick() {
 function toggleDarkMode() {
   //console.debug('toggling')
   //$q.dark.toggle()
-}
-</script>
-
-<script lang="ts">
-
-export default {
-  data: function () {
-    return {
-      backupLocation: null,
-    }
-  },
-
-  methods: {
-
-    async onSelectBackupLocationClick() {
-      let dirHandle = await window.showDirectoryPicker()
-
-      // assuming we have a directory handle: 'currentDirHandle'
-      const subDir = dirHandle.getDirectoryHandle(dirName, {
-        create: true,
-      })
-    },
-  },
 }
 </script>
