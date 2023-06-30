@@ -10,7 +10,10 @@
         <q-list>
             <q-item v-for="(item, index) in contents" :key="index">
                 <q-item-section>
-                    { item }
+                    {{ item }}
+                </q-item-section>
+                <q-item-section side>
+                    <Trash />
                 </q-item-section>
             </q-item>
         </q-list>
@@ -20,8 +23,10 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import Toolbar from '../components/CashierToolbar.vue'
+import { Trash } from 'lucide-vue-next'
 
 const contents = ref(null)
+// const itemCount = ref(0)
 
 onMounted(async () => {
     // 
@@ -32,12 +37,18 @@ async function loadFileList() {
     // 
     let root = await navigator.storage.getDirectory();
     // let fileHandle = await root.getFileHandle("file.txt");
-    // const entries = await root.getEntries();
-    // for await (const [key, value] of root.entries()) {
-    //     console.log({ key, value });
-    // }
+    const entries = await root.entries();
+    // itemCount.value = len(entries)
 
-    contents.value = await root.entries()
+    const names = []
+    for await (const [key, value] of entries) {
+        console.log({ key, value });
+
+        names.push(key)
+        // value.kind = 'file' / 'folder'
+    }
+
+    contents.value = names
 }
 
 async function onCreateFileClick() {
