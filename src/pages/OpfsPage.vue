@@ -19,19 +19,24 @@
                 <!-- <q-item-section side>
                     <Trash />
                 </q-item-section> -->
+                <q-item-section side>
+                    <FileText @click="onShowContentClick(item)" />
+                </q-item-section>
             </q-item>
         </q-list>
+
+        <q-input type="textarea" v-model="fileContents" />
     </q-page>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import Toolbar from '../components/CashierToolbar.vue'
-import { Trash } from 'lucide-vue-next'
+import { FileText, Trash } from 'lucide-vue-next'
 
 const contents = ref(null)
-// const itemCount = ref(0)
 const fileToUpload = ref(null)
+const fileContents = ref('')
 
 onMounted(async () => {
     // 
@@ -71,6 +76,14 @@ async function onCreateFileClick() {
 
 async function onRefreshClick() {
     await loadFileList()
+}
+
+async function onShowContentClick(name: string) {
+    let root = await navigator.storage.getDirectory();
+    const fileHandle = await root.getFileHandle(name);
+    const file = await fileHandle.getFile()
+
+    fileContents.value = await file.text()
 }
 
 async function createFile() {
