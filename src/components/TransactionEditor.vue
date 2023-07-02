@@ -33,14 +33,14 @@
       </template>
     </q-input>
 
-    <!-- Postings -->
+    <!-- Postings section -->
     <div class="row q-mt-sm bg-primary">
       <div class="col q-px-xs">Postings</div>
       <div class="col-auto q-px-xs">Sum: {{ formatNumber(postingSum) }}</div>
     </div>
 
     <!-- posting actions -->
-    <div class="row justify-center text-center q-mb-lg q-mt-sm">
+    <div class="row justify-center text-center q-mb-sm q-mt-sm">
       <q-btn color="primary" text-color="accent" size="medium" class="col-auto q-mr-lg" @click="addPosting">
         <PlusCircle />
         <!-- <div>Add</div> -->
@@ -55,11 +55,11 @@
       </q-btn>
     </div>
 
+    <!-- Postings -->
     <q-item v-for="(posting, index) in tx?.postings" :key="index" class="q-px-none">
       <q-item-section>
-        <QPosting :index="index" @delete-row="deletePosting" @account-clicked="onAccountClicked(index)"
-          @amount-changed="onAmountChanged" @currency-changed="onCurrencyChanged"
-          @delete-posting="onDeletePostingClicked(index)" />
+        <QPosting :index="index" @account-clicked="onAccountClicked(index)" @amount-changed="onAmountChanged"
+          @currency-changed="onCurrencyChanged" />
       </q-item-section>
     </q-item>
 
