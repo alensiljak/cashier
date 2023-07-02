@@ -21,10 +21,12 @@
     "format": "prettier --write \"**/*.{js,vue,scss,html,md,json}\" --ignore-path .gitignore",
     "test": "playwright test"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@quasar/app-vite": "^1.4.3",
+    "webdav": "^5.2.2"
+  },
   "devDependencies": {
     "@playwright/test": "^1.35.1",
-    "@quasar/app-vite": "^1.4.3",
     "@quasar/extras": "^1.16.4",
     "@types/js-yaml": "^4.0.5",
     "@types/numeral": "^2.0.2",

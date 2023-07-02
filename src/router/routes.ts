@@ -188,6 +188,10 @@ const routes = [
         component: () => import('src/pages/TxSearch.vue'),
       },
       {
+        path: '/webdav',
+        component: () => import('src/pages/WebDAV.vue'),
+      },
+      {
         path: '/xact',
         name: 'xact',
         component: () => import('src/pages/Xact.vue'),

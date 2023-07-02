@@ -19,6 +19,13 @@
               </q-item-section>
             </q-item>
 
+            <q-item v-close-popup clickable @click="onWebdavClick">
+              <q-item-section>WebDAV Experiment</q-item-section>
+              <q-item-section side>
+                <Cloud />
+              </q-item-section>
+            </q-item>
+
           </q-list>
         </q-menu>
       </q-btn>
@@ -146,7 +153,8 @@ import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
 import { engine } from '../lib/AssetAllocation'
 import appService from '../appService'
-import { CurlyBraces, FolderOpen, HelpCircle, MoreVertical } from 'lucide-vue-next'
+import { CurlyBraces, Cloud, FolderOpen, HelpCircle, MoreVertical } from 'lucide-vue-next'
+import router from 'src/router'
 
 const Notification = useNotifications()
 const $router = useRouter()
@@ -298,6 +306,10 @@ async function onSelectBackupLocationClick() {
   const subDir = dirHandle.getDirectoryHandle(dirName, {
     create: true,
   });
+}
+
+async function onWebdavClick() {
+  $router.push('webdav')
 }
 
 function reloadApp() {
