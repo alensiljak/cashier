@@ -10,10 +10,12 @@ test.beforeEach(async ({ page }) => {
 })
 
 test('testDiningAccountBalance', async ({ page }) => {
-  await page.locator('a[role="listitem"]:has-text("Accounts")').click()
+  await page.getByRole('listitem').filter({ hasText: 'Accounts' }).click()
   await expect(page).toHaveURL('/#/accounts')
-  await page.getByLabel('').click()
-  await page.getByLabel('').fill('din')
-  //await page.getByText('256 EUR').nth(1)
-  expect(page.getByText('256 EUR').nth(1)).toHaveText('256 EUR')
+
+  await page.getByLabel('', { exact: true }).click()
+  await page.getByLabel('', { exact: true }).fill('din')
+
+  await expect(page.getByText('256 EUR')).toBeInViewport()
+  await expect(page.getByText('256 EUR')).toHaveText('256 EUR')
 })
