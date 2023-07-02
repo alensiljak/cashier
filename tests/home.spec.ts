@@ -10,9 +10,10 @@ test.beforeEach(async ({ page }) => {
 })
 
 // Can open Favourites
-test('testSignButton', async ({ page }) => {
+test('testOpenFavourites', async ({ page }) => {
   // click on the first accound in the Favourites panel
   await page.getByText('Assets:Cash').click()
+  
   // the title
   await expect(page.getByRole('main').getByText('Favourites')).toHaveText(
     'Favourites'
