@@ -36,8 +36,6 @@ yarn-error.log*
 .netlify
 
 # Testing
-/playwright-report
-/test-results/
 /test-results/
 /playwright-report/
 /playwright/.cache/
