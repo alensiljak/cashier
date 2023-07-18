@@ -35,7 +35,7 @@ import appService from '../appService'
 import { CashierSync } from '../lib/syncCashier'
 import { SettingKeys, settings } from '../lib/settings'
 import Toolbar from '../components/CashierToolbar.vue'
-import { SecurityAnalyser } from 'src/lib/securityAnalysis'
+import { SecurityAnalyser, SecurityAnalysis } from 'src/lib/securityAnalysis'
 import { useRoute } from 'vue-router'
 import { AssetClass, StockSymbol } from 'src/lib/AssetClass'
 import { Collection } from 'dexie'
@@ -107,12 +107,12 @@ function getConstituents() {
 /**
  * Retrieve the security analysis from CashierSync
  */
-async function fetchAnalysisFor(symbol: string) {
+async function fetchAnalysisFor(symbol: string, stockAnalysis: SecurityAnalysis) {
   let sec = new SecurityAnalyser()
 
   try {
-    const result = await sec.getSecurityAnalysisFor(symbol)
-    return result
+    stockAnalysis.yield = await sec.getYield(symbol);
+    stockAnalysis.gainloss = await sec.getGainLoss(symbol);
   } catch (error: any) {
     let msg = symbol + ':' + error.message
     console.error(msg)
@@ -127,7 +127,7 @@ async function securityAnalysis() {
   // Check if the server is online first.
   let sync = new CashierSync(serverUrl.value);
   try {
-    let status = sync.healthCheck()
+    let status = await sync.healthCheck()
   } catch {
     // not online
     console.info('Cashier server not online. Aborting fetching analysis.')
@@ -136,14 +136,20 @@ async function securityAnalysis() {
 
   for (let i = 0; i < symbols.value.length; i++) {
     let symbol = symbols.value[i].name
-
-    let analysis = await fetchAnalysisFor(symbol)
-
     let stock = symbols.value.find((obj) => obj.name === symbol)
     if (!stock) {
       throw new Error(`Stock ${symbol} not found!`)
     }
-    stock.analysis = analysis
+
+    if (!stock.analysis) {
+      stock.analysis = {
+        yield: '',
+        gainloss: '',
+      }
+    }
+
+    // Update the values
+    await fetchAnalysisFor(symbol, stock.analysis)
   }
 }
 </script>

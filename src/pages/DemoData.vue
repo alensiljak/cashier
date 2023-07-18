@@ -183,7 +183,7 @@ async function createDefaultSettings() {
   await settings.set(SettingKeys.currency, 'EUR')
   await settings.set(SettingKeys.rootInvestmentAccount, 'Assets:Investment')
 
-  await settings.set(SettingKeys.syncServerUrl, 'http://localhost:8080')
+  await settings.set(SettingKeys.syncServerUrl, 'http://localhost:3000')
 }
 
 async function createFavouriteAccounts() {

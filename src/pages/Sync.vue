@@ -102,7 +102,7 @@ import { Activity, MoreVertical, Power, RefreshCw } from 'lucide-vue-next'
 const Notification = useNotifications()
 
 // data
-const serverUrl = ref('http://localhost:8080') // the default value
+const serverUrl = ref('http://localhost:3000') // the default value
 const rootInvestmentAccount = ref(null)
 const currency = ref(null)
 

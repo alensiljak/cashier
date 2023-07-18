@@ -38,7 +38,7 @@ npm run dev
 
 which is equivalent to `quasar dev --mode pwa`.
 
-Then open the browser at http://localhost:8080
+Then open the browser at http://localhost:9200
 
 ## Debugging
 

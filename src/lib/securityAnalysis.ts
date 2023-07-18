@@ -30,19 +30,19 @@ export class SecurityAnalyser {
    * Performs the Security Analysis with Ledger data.
    * @param {string} symbol
    */
-  async getSecurityAnalysisFor(symbol: string): Promise<SecurityAnalysis> {
-    let currency = await settings.get(SettingKeys.currency)
-    this.currency = currency
-    await this.ledgerApi.init()
+  // async getSecurityAnalysisFor(symbol: string): Promise<SecurityAnalysis> {
+  //   let currency = await settings.get(SettingKeys.currency)
+  //   this.currency = currency
+  //   await this.ledgerApi.init()
 
-    let result: SecurityAnalysis = {
-      yield: await this.#getYield(symbol, currency),
-      gainloss: await this.#getGainLoss(symbol, currency),
-      //basis: await this.#getBasis(symbol, currency),
-    }
+  //   let result: SecurityAnalysis = {
+  //     yield: await this.getYield(symbol, currency),
+  //     gainloss: await this.getGainLoss(symbol, currency),
+  //     //basis: await this.#getBasis(symbol, currency),
+  //   }
 
-    return result
-  }
+  //   return result
+  // }
 
   /**
    * Used temporarily only to check the base amount. It mostly fits the gain/loss plus
@@ -62,7 +62,11 @@ export class SecurityAnalyser {
    * Calculate the yield in the last 12 months.
    * This value is affected by the recent purchases, which result in seemingly lower yield!
    */
-  async #getYield(symbol: string, currency: string) {
+  async getYield(symbol: string): Promise<string> {
+    let currency = await settings.get(SettingKeys.currency)
+    this.currency = currency
+    await this.ledgerApi.init()
+
     // Retrieve income amount.
     let incomeStr = await this.#getIncomeBalance(symbol)
     let income = Number(incomeStr)
@@ -88,10 +92,18 @@ export class SecurityAnalyser {
     return result
   }
 
-  async #getGainLoss(symbol: string, currency: string) {
+  async getGainLoss(symbol: string) {
+    let currency = await settings.get(SettingKeys.currency)
+    this.currency = currency
+    await this.ledgerApi.init()
+
     const command = `b ^Assets and :${symbol}$ -G -n -X ${currency}`
     const report = await this.ledgerApi.query(command)
     const line = report[0]
+
+    if(!line) {
+      return 'n/a'
+    }
 
     let number = this.#getNumberFromCollapseResult(line)
     const result = number + ' ' + this.currency
@@ -119,7 +131,7 @@ export class SecurityAnalyser {
    * Extracts the Total value from a ledger response.
    * @param {Array} ledgerReport
    */
-  #extractTotal(ledgerReport) {
+  #extractTotal(ledgerReport: Array<string>) {
     if (ledgerReport.length == 0) {
       return 0
     }
@@ -153,7 +165,7 @@ export class SecurityAnalyser {
    * Parses a 1-line ledger result, when --collapse is used
    * @param {String} line
    */
-  #getNumberFromCollapseResult(line) {
+  #getNumberFromCollapseResult(line: string) {
     line = line.trim()
 
     // -1,139 EUR  Assets

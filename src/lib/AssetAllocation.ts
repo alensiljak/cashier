@@ -3,7 +3,6 @@
 */
 import appService from '../appService'
 import { AssetClass, AssetClassDefinition } from './AssetClass'
-//import jsyaml from 'js-yaml'
 import numeral from 'numeral'
 import toml from 'toml'
 import { AccountService } from './accountsService'
