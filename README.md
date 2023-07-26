@@ -48,6 +48,20 @@ To debug with Firefox and VS Code, see
 2. create a launch configuration in vscode
 3. run `"C:\Program Files\Firefox Developer Edition\firefox.exe" -start-debugger-server`
 
+## WASM
+
+Cashier is using `ledger-rs-lib` library in WASM.
+
+Build with `wasm-pack build` to generate a package for use with bundlers. This will output the npm package contents it the pkg subfolder. Add this local path to the dev_dependencies.
+Once the package is published, it will be linked from the NPM repository.
+
+Use `vite-plugin-wasm` plugin.
+
+Import from Wasm using:
+```js
+import * as ledger from 'ledger-rs-lib'
+```
+
 ## Maintenance
 
 Updating libraries: list outdated with `npm outdated`.

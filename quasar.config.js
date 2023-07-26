@@ -20,8 +20,10 @@ module.exports = configure(function (/* ctx */) {
       // include = [],
       // exclude = [],
       // rawOptions = {},
-      warnings: true,
-      errors: true,
+      // warnings: true,
+      // errors: true,
+      warnings: false,
+      errors: false,
     },
 
     // https://v2.quasar.dev/quasar-cli/prefetch-feature
@@ -51,10 +53,10 @@ module.exports = configure(function (/* ctx */) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#build
     build: {
-      target: {
-        browser: ['es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1'],
-        node: 'node16',
-      },
+      // target: {
+      //   browser: ['es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1'],
+      //   node: 'node16',
+      // },
 
       vueRouterMode: 'hash', // available values: 'hash', 'history'
       // vueRouterMode: 'history',
@@ -83,6 +85,7 @@ module.exports = configure(function (/* ctx */) {
       // vitePlugins: [
       //   [ 'package-name', { ..options.. } ]
       // ]
+      vitePlugins: [['vite-plugin-wasm', {}]],
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer

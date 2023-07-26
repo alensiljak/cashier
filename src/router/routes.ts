@@ -108,6 +108,10 @@ const routes = [
         component: () => import('src/pages/Journal.vue'),
       },
       {
+        path: '/ledger-wasm',
+        component: () => import('src/pages/LedgerWasm.vue'),
+      },
+      {
         path: '/lots/:symbol',
         name: 'lots',
         component: () => import('src/pages/Lots.vue'),

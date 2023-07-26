@@ -11,21 +11,6 @@
                 <curly-braces />
               </q-item-section>
             </q-item>
-
-            <q-item v-close-popup clickable @click="onOpfsClick">
-              <q-item-section>OPFS Experiment</q-item-section>
-              <q-item-section side>
-                <FolderOpen />
-              </q-item-section>
-            </q-item>
-
-            <q-item v-close-popup clickable @click="onWebdavClick">
-              <q-item-section>WebDAV Experiment</q-item-section>
-              <q-item-section side>
-                <Cloud />
-              </q-item-section>
-            </q-item>
-
           </q-list>
         </q-menu>
       </q-btn>
@@ -153,8 +138,7 @@ import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
 import { engine } from '../lib/AssetAllocation'
 import appService from '../appService'
-import { CurlyBraces, Cloud, FolderOpen, HelpCircle, MoreVertical } from 'lucide-vue-next'
-import router from 'src/router'
+import { CurlyBraces, HelpCircle, MoreVertical } from 'lucide-vue-next'
 
 const Notification = useNotifications()
 const $router = useRouter()
@@ -193,10 +177,6 @@ async function onAaFileSelected(file: Blob) {
 
   const content = await appService.readFileAsync(file)
   fileContent.value = content
-}
-
-function onOpfsClick() {
-  $router.push('/opfs')
 }
 
 async function onRestoreClick() {
@@ -301,15 +281,11 @@ async function onSchTxMigrationClick() {
 let backupLocation = ref(null);
 
 async function onSelectBackupLocationClick() {
-  let dirHandle = await window.showDirectoryPicker();
+  // let dirHandle = await window.showDirectoryPicker();
   // assuming we have a directory handle: 'currentDirHandle'
-  const subDir = dirHandle.getDirectoryHandle(dirName, {
-    create: true,
-  });
-}
-
-async function onWebdavClick() {
-  $router.push('webdav')
+  // const subDir = dirHandle.getDirectoryHandle(dirName, {
+  //   create: true,
+  // });
 }
 
 function reloadApp() {
