@@ -85,7 +85,10 @@ module.exports = configure(function (/* ctx */) {
       // vitePlugins: [
       //   [ 'package-name', { ..options.. } ]
       // ]
-      vitePlugins: [['vite-plugin-wasm', {}]],
+      vitePlugins: [
+        ['vite-plugin-top-level-await', {}],
+        ['vite-plugin-wasm', {}],
+      ],
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
