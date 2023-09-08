@@ -2,7 +2,7 @@
   <div>
     <!-- date -->
     <div id="dateSelector">
-      <q-dialog ref="qDateProxy" v-model="datePickerVisible">
+      <q-dialog ref="qDateProxy" v-model="datePickerVisible" v-close-popup="closeDateDialog">
         <q-date ref="datePicker" v-model="tx.date" first-day-of-week="1" today-btn mask="YYYY-MM-DD"
           @input="onDateSelected">
           <div class="row items-center justify-end q-gutter-sm">
@@ -113,6 +113,7 @@ const hasInvalidCurrencies = ref(false)
 const hasMultipleCurrencies = ref(false)
 const hasMultipleNans = ref(false)
 const iconSize = ref(28)
+const closeDateDialog = ref(false)
 
 if (!tx.value) {
   tx.value = new Transaction()
@@ -252,6 +253,18 @@ function onCurrencyChanged() {
   validateCurrencies()
 }
 
+/**
+ * (value, reason, details)
+ */
+function onDateSelected(value: any, reason: any) {
+  if (reason !== 'day' && reason !== 'today')
+    return;
+  // close the picker if the date was selected
+  // this.$refs.qDateProxy.hide();
+  closeDateDialog.value = true
+  // the date is saved on close.
+}
+
 function onDeletePostingsClicked() {
   router.push('/postings-delete')
 }
@@ -325,16 +338,6 @@ function validateCurrencies() {
 
 export default {
   methods: {
-    /**
-     * (value, reason, details)
-     */
-    onDateSelected(value: any, reason: any) {
-      if (reason !== 'day' && reason !== 'today')
-        return;
-      // close the picker if the date was selected
-      this.$refs.qDateProxy.hide();
-      // the date is saved on close.
-    },
     onPayeeClick() {
       const selectMode = new SelectionModeMetadata();
       // set the type
