@@ -99,7 +99,6 @@ const amount = computed({
     tx.value.postings[i].amount = val
   },
 })
-// const abs_amount = computed(() => Math.abs(tx.value.postings[i].amount))
 
 const display_amount = computed({
   get() {
@@ -107,7 +106,7 @@ const display_amount = computed({
   },
 
   set(val) {
-    if (amount.value <= 0) {
+    if (amount.value < 0) {
       amount.value = val * (-1)
     } else {
       amount.value = val
