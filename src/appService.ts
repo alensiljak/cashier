@@ -64,7 +64,7 @@ class AppService {
     await this.db.transaction(
       'rw',
       this.db.transactions,
-      this.db.postings,
+      // this.db.postings,
       async (tx) => {
         const x = await db.transactions.where('id').equals(id).count()
         console.log('count:', x)
@@ -74,11 +74,11 @@ class AppService {
         console.log('transactions -', result)
 
         // delete postings
-        result = await db.postings.where('transactionId').equals(id).delete()
-        console.log('postings -', result)
+        // result = await db.postings.where('transactionId').equals(id).delete()
+        // console.log('postings -', result)
 
         return 'Transaction complete'
-      }
+      },
     )
     console.log('Delete transaction completed.', id)
     //.catch(error => console.error('Error on Delete Transaction:', error))
@@ -89,7 +89,7 @@ class AppService {
    */
   async deleteTransactions() {
     // also clear any remaining postings
-    this.db.postings.clear()
+    // this.db.postings.clear()
     await this.db.transactions.clear()
   }
 
@@ -412,15 +412,28 @@ class AppService {
    * @param {String} accountName
    */
   async loadAccountTransactionsFor(
-    accountName: string
+    accountName: string,
   ): Promise<Transaction[]> {
     // get all the transactions which have postings that have this account.
     let txIds: number[] = []
-    await db.postings
-      .where({ account: accountName })
-      .each((posting) => txIds.push(posting.transactionId))
 
-    let txs = await db.transactions.bulkGet(txIds)
+    let txs = await db.transactions
+      .filter((tx) =>
+        tx.postings.some((posting: Posting) => posting.account == accountName),
+      )
+      .toArray()
+    // console.log('transactions:', transactions)
+    // let postings = await transactions
+    //   .map((tx) => tx.postings)
+    //   // .map((p: Posting) => p)
+    //   .flat()
+    //   .filter((p: Posting) => p.account == accountName)
+    // console.log('postings:', postings)
+
+    // await db.postings
+    //   .where({ account: accountName })
+    //   .each((posting) => txIds.push(posting.transactionId))
+    // let txs = await db.transactions.bulkGet(txIds)
 
     txs = TransactionAugmenter.calculateEmptyPostingAmounts(txs)
 

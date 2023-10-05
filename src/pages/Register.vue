@@ -118,7 +118,7 @@ async function loadData() {
   account.value = accountRecord
 
   let txs = await appService.loadAccountTransactionsFor(accountName)
-  TransactionAugmenter.calculateEmptyPostingAmounts(txs)
+  // TransactionAugmenter.calculateEmptyPostingAmounts(txs)
 
   // append transaction details to postings.
   txs.forEach((tx) => {
@@ -143,20 +143,6 @@ async function loadData() {
 
   // calculate the current balance
   calculateBalance()
-}
-
-/**
- * Loads the postings for the account.
- * @param accountName Full account name
- */
-async function loadPostingsFor(accountName: string) {
-  const postingRecords = await appService.db.postings.where({
-    account: accountName,
-  })
-  const postingArray = await postingRecords.toArray()
-
-  let result = await loadTransactionsFor(postingArray)
-  return result
 }
 
 function onFabClick() {
