@@ -23,7 +23,6 @@ interface CashierDatabase extends Dexie {
   assetAllocation: Table
   lastTransaction: Table
   payees: Table
-  // postings: Table
   transactions: Table
   settings: Table
   scheduled: Table
@@ -59,7 +58,6 @@ db.accounts.mapToClass(Account)
 db.assetAllocation.mapToClass(AssetClass)
 db.lastTransaction.mapToClass(LastTransaction)
 db.payees.mapToClass(Payee)
-// db.postings.mapToClass(Posting)
 db.transactions.mapToClass(Transaction)
 db.settings.mapToClass(Setting)
 db.scheduled.mapToClass(ScheduledTransaction)

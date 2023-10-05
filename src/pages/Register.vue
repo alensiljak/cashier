@@ -118,7 +118,6 @@ async function loadData() {
   account.value = accountRecord
 
   let txs = await appService.loadAccountTransactionsFor(accountName)
-  // TransactionAugmenter.calculateEmptyPostingAmounts(txs)
 
   // append transaction details to postings.
   txs.forEach((tx) => {

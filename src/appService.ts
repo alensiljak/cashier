@@ -422,18 +422,12 @@ class AppService {
         tx.postings.some((posting: Posting) => posting.account == accountName),
       )
       .toArray()
-    // console.log('transactions:', transactions)
+
     // let postings = await transactions
     //   .map((tx) => tx.postings)
     //   // .map((p: Posting) => p)
     //   .flat()
     //   .filter((p: Posting) => p.account == accountName)
-    // console.log('postings:', postings)
-
-    // await db.postings
-    //   .where({ account: accountName })
-    //   .each((posting) => txIds.push(posting.transactionId))
-    // let txs = await db.transactions.bulkGet(txIds)
 
     txs = TransactionAugmenter.calculateEmptyPostingAmounts(txs)
 
@@ -512,5 +506,4 @@ class AppService {
   }
 }
 
-// export const appService = new AppService();
 export default new AppService()
