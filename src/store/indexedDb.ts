@@ -35,7 +35,6 @@ const db = new Dexie('Cashier') as CashierDatabase
 db.version(0.1).stores({
   // transactions: "++id, date, payee, postings"
   transactions: '++id, date',
-  postings: '++id, transactionId, account',
   accounts: 'name',
   settings: 'key',
 })
