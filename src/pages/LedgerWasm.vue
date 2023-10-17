@@ -7,6 +7,8 @@
         <div>
             {{ message }}
         </div>
+
+        <button @click="onCashierWasmClick">Cashier Wasm</button>
     </q-page>
 </template>
 <script setup lang="ts">
@@ -14,6 +16,7 @@ import { onMounted, ref } from 'vue';
 import Toolbar from '../components/CashierToolbar.vue'
 import useNotifications from 'src/lib/CashierNotification'
 import * as ledger from 'ledger-rs-lib'
+import * as cashierWasm from 'cashier-wasm'
 
 const Notification = useNotifications()
 
@@ -30,4 +33,9 @@ onMounted(async () => {
     message.value = text
 })
 
+async function onCashierWasmClick() {
+    message.value = await cashierWasm.hi();
+
+    //await cashierWasm.greet('me!')
+}
 </script>

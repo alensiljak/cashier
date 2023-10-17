@@ -90,10 +90,8 @@ async function saveData() {
   let tempTx = toRaw(tx) as Transaction
   // clear any transaction ids!
   tempTx.id = undefined
-  //const txStr = JSON.stringify(tempTx)
 
   let stx = toRaw(scheduledTx) as ScheduledTransaction
-  //stx.transaction = txStr
   stx.transaction = tempTx
 
   // use transaction date.
