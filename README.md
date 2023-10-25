@@ -4,19 +4,20 @@ A mobile companion for Ledger-cli
 
 Live app: https://cashier.alensiljak.eu.org/
 
-Cashier is a PWA GUI assistant application for [Ledger-cli](https://ledger-cli.org). It is intended to be used for entering transactions and previewing balances, mostly on a mobile device.
+Cashier is a PWA GUI assistant application for [Ledger-cli](https://ledger-cli.org). It can be used for entering transactions and viewing account balances. The focus is on use on a mobile device.
 The accounts and balances can be imported from Ledger to establish baselines and the entered transactions can be exported to be merged into the main ledger file.
 
 The app works completely offline, meaning **all** the data required for the functioning of the app is stored in a local database in a browser.
 
-The existing data from your Ledger book can be populated by using [Cashier Server](https://github.com/alensiljak/cashier-server-rust). This will provide your ledger reports to Cashier. Since Ledger-cli is **readonly**, your data is only ever read. Cashier or Cashier Ledger Server cannot write to a Ledger book.
+The existing data from your Ledger book can be populated by using [Cashier Server](https://github.com/alensiljak/cashier-server-rust). This will provide your ledger reports and balances to Cashier. Since Ledger-cli is **readonly**, your data is only ever read. Cashier or Cashier Ledger Server cannot write to a Ledger book.
 
-The transactions entered in Cashier can be exported in a Ledger-formatted text file and appended to your Ledger book manually.
+The transactions entered in Cashier can be exported as a Ledger-formatted text and then appended to your Ledger book manually.
 
 # Features
 
 - Transaction entry and editing
 - Scheduled Transactions
+- Favourite accounts list
 - Balance Sheet
 - Register
 - Data Transfer
@@ -118,14 +119,16 @@ This is a description for Termux on Android but the principles apply to any envi
 2. install ledger package (`pkg install ledger`)
 3. install [Cashier server](https://github.com/alensiljak/cashier-server-rust): `cargo install cashier-server`
 4. transfer (git clone, synchronize, or manually create files and folders) for the ledger book and prices to the device
-5. set up .ledgerrc in the home directory, to point to the book and prices files
+5. make ledger functional: i.e. set up .ledgerrc in the home directory to point to the book and prices files
 6. add the Termux shortcuts for updating the data (`git pull`, `lazygit`, `gitui`, etc.)
 7. add a Termux shortcut to run Cashier Server
+
+After this, Cashier Server should be able to run Ledger reports, as Termux applications are usually executed in the user's home directory.
 
 ## Data Transfer
 
 To transfer the transactions from the mobile device to desktop you can use any of the following options:
 
-- add lazygit and a shortcut for opening it in the book directory. This can be used to commit the transactions directly on the mobile device
+- add lazygit and a shortcut for opening it in the book directory. This can be used to commit the transactions to a remote directory directly from a mobile device
 - export the transactions file (in ledger format)
 - transfer files via pCloud export
