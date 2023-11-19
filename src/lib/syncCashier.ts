@@ -115,8 +115,8 @@ export class CashierSync {
    * @returns Current account values
    */
   async readCurrentValues(): Promise<string> {
-    const rootAcct = await settings.get(SettingKeys.rootInvestmentAccount)
-    if (!rootAcct) {
+    const rootAccount = await settings.get(SettingKeys.rootInvestmentAccount)
+    if (!rootAccount) {
       throw new Error('No root investment account set!')
     }
     const currency = await settings.get(SettingKeys.currency)
@@ -124,13 +124,13 @@ export class CashierSync {
       throw new Error('No default currency set!')
     }
 
-    const command = `b ^${rootAcct} -X ${currency} --flat --no-total`
+    const command = `b ^${rootAccount} -X ${currency} --flat --no-total`
 
     const response = await this.ledger(command)
     const result: Array<string> = await response.json()
 
     // parse
-    const currentValues = this.parseCurrentValues(result, rootAcct)
+    const currentValues = this.parseCurrentValues(result, rootAccount)
 
     await engine.importCurrentValuesJson(currentValues)
     return 'OK'
@@ -138,7 +138,7 @@ export class CashierSync {
 
   parseCurrentValues(
     lines: Array<string>,
-    rootAccount: string
+    rootAccount: string,
   ): Record<string, string> {
     let result: Record<string, string> = {}
 
