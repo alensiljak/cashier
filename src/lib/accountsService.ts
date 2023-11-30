@@ -7,7 +7,6 @@
 import { Account, AccountBalance } from 'src/model'
 import db from 'src/store/indexedDb'
 import { SettingKeys, settings, Constants } from './settings'
-import { CashierSync } from './syncCashier'
 
 export class AccountService {
   constructor() {}
