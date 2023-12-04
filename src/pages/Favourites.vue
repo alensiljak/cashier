@@ -42,8 +42,7 @@
     </q-header>
 
     <!-- account list -->
-    <q-slide-item v-for="(account, index) in accounts" :key="account.name" right-color="secondary"
-      @right="onRightSlide">
+    <q-slide-item v-for="(account, index) in accounts" :key="account.name" right-color="secondary" @right="onRightSlide">
       <template #right>
         <div class="row items-center text-accent" @click="removeAccount(index)">
           Click to confirm or wait 2s to cancel
@@ -223,7 +222,6 @@ export default {
     async loadData() {
       try {
         let favArray = await appService.loadFavouriteAccounts()
-        // load account details
         if (!favArray) {
           console.log('no favourite accounts selected yet')
           return

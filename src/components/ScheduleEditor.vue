@@ -55,7 +55,7 @@ const repetition = computed({
     if (value) {
       scheduledTx.period = 'days'
     } else {
-      scheduledTx.count = null
+      scheduledTx.count = undefined
       scheduledTx.period = null
     }
   },

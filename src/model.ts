@@ -72,7 +72,7 @@ export class ScheduledTransaction {
   nextDate: any
   transaction?: Transaction
   period: any
-  count: any
+  count?: number
   endDate: any
   remarks: any
 }

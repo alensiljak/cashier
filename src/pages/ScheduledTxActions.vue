@@ -112,7 +112,7 @@ const props = defineProps({
 })
 
 if (!scheduledTx.value) {
-  scheduledTx.value = {}
+  scheduledTx.value = new ScheduledTransaction()
 }
 
 /*
@@ -161,6 +161,8 @@ function getNumericId() {
 }
 
 async function confirmDelete() {
+  if (!scheduledTx.value) return;
+
   const id = scheduledTx.value.id
   if (!id) {
     console.error('the current scheduled transaction does not have an id')
