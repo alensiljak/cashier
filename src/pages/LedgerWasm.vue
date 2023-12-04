@@ -15,8 +15,8 @@
 import { onMounted, ref } from 'vue';
 import Toolbar from '../components/CashierToolbar.vue'
 import useNotifications from 'src/lib/CashierNotification'
-import * as ledger from 'ledger-rs-lib'
-import * as cashierWasm from 'cashier-wasm'
+// import * as ledger from 'ledger-rs-lib'
+// import * as cashierWasm from 'cashier-wasm'
 
 const Notification = useNotifications()
 
@@ -25,16 +25,17 @@ const message = ref('')
 onMounted(async () => {
     // console.log(ledger)
 
-    let text = await ledger.wasm_test();
-    console.log(text)
+    // let text = await ledger.wasm_test();
+    // console.log(text)
 
-    Notification.info(text)
+    // Notification.info(text)
 
-    message.value = text
+    // message.value = text
 })
 
 async function onCashierWasmClick() {
-    message.value = await cashierWasm.hi();
+    message.value = 'Wasm has been removed';
+    // message.value = await cashierWasm.hi();
 
     //await cashierWasm.greet('me!')
 }
