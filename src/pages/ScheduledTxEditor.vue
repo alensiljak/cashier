@@ -52,19 +52,7 @@ const dal = new CashierDAL()
 
 const { scheduledTx, tx } = mainStore
 
-// provide
-
 provide('scheduledTx', scheduledTx)
-// provide('tx', tx)
-
-// onCreated
-
-// are we back from the select mode?
-// if (store.state.selectModeMeta) {
-//handleSelection()
-// }
-
-// methods
 
 async function onFabClicked() {
   await onSaveClicked()
