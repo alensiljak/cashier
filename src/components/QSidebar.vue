@@ -217,6 +217,12 @@
           </q-item-section>
         </q-item>
       </q-list>
+
+      <q-item href="https://cashier-ii.alensiljak.eu.org/" class="text-bold text-orange"
+        style="text-decoration: underline;">
+        <q-item-section>Cashier II is now available!</q-item-section>
+      </q-item>
+
     </q-scroll-area>
 
     <q-img class="absolute-top bg-colour5" style="height: 150px">
