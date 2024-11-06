@@ -2,6 +2,10 @@
   <q-page padding class="text-colour2">
     <toolbar title="Help" />
 
+    <p>Cashier documentation is available at
+      <a href="https://alensiljak.github.io/cashier-book/">Cashier Book</a>.
+    </p>
+
     <p>Here are some basic instructions on how to set up Cashier.</p>
 
     <h4 class="q-my-sm text-center">Purpose</h4>

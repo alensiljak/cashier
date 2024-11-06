@@ -1,5 +1,5 @@
 #
 
-yarn build
+npm run build
 
-netlify deploy
+npx netlify deploy --prod
