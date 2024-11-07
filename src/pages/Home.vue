@@ -31,23 +31,19 @@
     <!-- Cards -->
 
     <!-- Favourites -->
-    <favourites-card class="q-mb-md" @click="onFavClick" />
+    <favourites-card class="q-mb-md" @click="onFavClick"
+      v-if="visibleCards.length != 0 && visibleCards.indexOf(CardNames.FavouritesCard) != -1" />
 
     <!-- Device Journal -->
-    <journal-card class="my-card" @click="onJournalClick" />
-
-    <!-- dummy -->
-    <!-- <q-card  class="my-card bg-primary">
-      <q-card-section>{{ lorem }}</q-card-section>
-      <q-separator />
-      <q-card-section>{{ lorem }}</q-card-section>
-    </q-card> -->
+    <journal-card class="my-card" @click="onJournalClick"
+      v-if="visibleCards.length != 0 && visibleCards.indexOf(CardNames.JournalCard) != -1" />
 
     <!-- Scheduled Transactions -->
-    <scheduled-card class="my-card" @click="onScheduledClick" />
+    <scheduled-card class="my-card" @click="onScheduledClick"
+      v-if="visibleCards.length != 0 && visibleCards.indexOf(CardNames.ScheduledXactCard) != -1" />
 
     <!-- CashierSync -->
-    <sync-card />
+    <sync-card v-if="visibleCards.length != 0 && visibleCards.indexOf(CardNames.SyncCard) != -1" />
 
     <!-- floating action button -->
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
@@ -94,8 +90,8 @@ import SyncCard from '../components/SyncCard.vue'
 import FavouritesCard from '../components/FavouritesCard.vue'
 import JournalCard from '../components/JournalCard.vue'
 import ScheduledCard from '../components/ScheduledTxCard.vue'
-import { onMounted, ref } from 'vue'
-import { SettingKeys, settings } from '../lib/settings'
+import { onMounted, Ref, ref } from 'vue'
+import { CardNames, SettingKeys, settings } from '../lib/settings'
 import useNotifications from 'src/lib/CashierNotification'
 import { Menu as IconMenu, MoreVertical, Plus as PlusIcon, Settings as IconSettings, X as IconX } from 'lucide-vue-next'
 
@@ -104,6 +100,7 @@ const mainStore = useMainStore()
 const Notification = useNotifications()
 
 const dataCreationDialogVisible = ref(false)
+var visibleCards: Ref<Array<string>> = ref([])
 
 onMounted(async () => {
   // Check if the db is empty and offer to create demo data.
@@ -111,6 +108,8 @@ onMounted(async () => {
   if (isDbInitialized == null) {
     dataCreationDialogVisible.value = true
   }
+
+  visibleCards.value = await settings.get(SettingKeys.visibleCards)
 })
 
 function menuClicked() {
