@@ -5,7 +5,7 @@
       <strong>Upcoming Transactions</strong>
     </q-card-section>
 
-    <q-card-section>
+    <q-card-section class="q-pa-sm">
       <div v-if="list.length === 0">There are no scheduled transactions</div>
 
       <q-list>

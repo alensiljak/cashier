@@ -6,7 +6,7 @@
       <strong>Device Journal</strong>
     </q-card-section>
 
-    <q-card-section>
+    <q-card-section class="q-pa-sm">
       <div v-if="transactions.length === 0">
         There are no local transactions
       </div>
@@ -143,4 +143,3 @@ async function loadData() {
 .remarks
   color: $colour2
 </style>
-  

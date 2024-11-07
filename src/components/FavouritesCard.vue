@@ -7,7 +7,7 @@
       <strong>Favourites</strong>
     </q-card-section>
 
-    <q-card-section>
+    <q-card-section class="q-pa-sm">
       <div v-if="accounts.length === 0">
         There are no favourite accounts defined
       </div>

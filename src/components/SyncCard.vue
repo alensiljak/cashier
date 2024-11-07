@@ -8,7 +8,7 @@
         <help-circle class="icon q-mr-sm" size="20" @click="onHelpClick" />
       </span>
     </q-card-section>
-    <q-card-section>
+    <q-card-section class="q-pa-sm">
       <div class="row">
         <div class="col">
           Status:
