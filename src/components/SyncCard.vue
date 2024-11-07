@@ -5,7 +5,9 @@
       <refresh-cw class="icon q-mr-sm" size="20" />
       <strong>CashierSync</strong>
       <span class="float-right">
-        <help-circle class="icon q-mr-sm" size="20" @click="onHelpClick" />
+        <q-btn flat round dense size="0.5rem">
+          <help-circle class="icon q-mr-sm" size="20" @click="onHelpClick" />
+        </q-btn>
       </span>
     </q-card-section>
     <q-card-section class="q-pa-sm">

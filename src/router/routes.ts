@@ -93,6 +93,11 @@ const routes = [
         component: () => import('src/pages/FavouritesReorder.vue'),
       },
       {
+        path: '/forecast-settings',
+        name: 'forecast-settings',
+        component: () => import('src/pages/ForecastSettings.vue'),
+      },
+      {
         path: '/help',
         name: 'help',
         component: () => import('src/pages/Help.vue'),

@@ -30,17 +30,20 @@
 
     <!-- Cards -->
 
-    <!-- Favourites -->
-    <favourites-card class="q-mb-md" @click="onFavClick"
-      v-if="visibleCards.length != 0 && visibleCards.indexOf(CardNames.FavouritesCard) != -1" />
+    <!-- Scheduled Transactions -->
+    <scheduled-card class="my-card" @click="onScheduledClick"
+      v-if="visibleCards.length != 0 && visibleCards.indexOf(CardNames.ScheduledXactCard) != -1" />
 
     <!-- Device Journal -->
     <journal-card class="my-card" @click="onJournalClick"
       v-if="visibleCards.length != 0 && visibleCards.indexOf(CardNames.JournalCard) != -1" />
 
-    <!-- Scheduled Transactions -->
-    <scheduled-card class="my-card" @click="onScheduledClick"
-      v-if="visibleCards.length != 0 && visibleCards.indexOf(CardNames.ScheduledXactCard) != -1" />
+    <!-- Financial Forecast -->
+    <financial-forecast class="my-card" />
+
+    <!-- Favourites -->
+    <favourites-card class="my-card" @click="onFavClick"
+      v-if="visibleCards.length != 0 && visibleCards.indexOf(CardNames.FavouritesCard) != -1" />
 
     <!-- CashierSync -->
     <sync-card v-if="visibleCards.length != 0 && visibleCards.indexOf(CardNames.SyncCard) != -1" />
@@ -88,6 +91,7 @@ import { useRouter } from 'vue-router'
 import { useMainStore } from '../store/mainStore'
 import SyncCard from '../components/SyncCard.vue'
 import FavouritesCard from '../components/FavouritesCard.vue'
+import FinancialForecast from '../components/ForecastCard.vue'
 import JournalCard from '../components/JournalCard.vue'
 import ScheduledCard from '../components/ScheduledTxCard.vue'
 import { onMounted, Ref, ref } from 'vue'

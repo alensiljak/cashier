@@ -24,6 +24,7 @@ export class SelectionModeMetadata {
 
 export const Constants = {
   CacheName: 'cashier',
+  ForecastDays: 7
 }
 
 export const SettingKeys = {
