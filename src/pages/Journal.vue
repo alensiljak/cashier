@@ -114,7 +114,8 @@ onMounted(async () => {
 // methods
 
 async function confirmDelete() {
-  await deleteTransaction()
+  // await deleteTransaction()
+  $q.notify('Missing transaction id!')
 }
 
 function confirmDeleteAll() {
@@ -157,7 +158,7 @@ async function deleteTransaction(id: number) {
     $q.notify({ message: 'Transaction deleted', color: 'positive' })
 
     await loadData()
-  } catch (error) {
+  } catch (error: any) {
     console.error(error)
     $q.notify({ color: 'negative', message: error.message })
   }
@@ -176,7 +177,7 @@ function finalize(reset: any) {
   }, 2000)
 }
 
-function onSlide({ reset }) {
+function onSlide({ reset }: { reset: any }): void {
   resetSlide = reset
   finalize(reset)
 }
@@ -203,7 +204,7 @@ function onDeleteAllClicked() {
   confirmDeleteAllVisible.value = true
 }
 
-function onTransactionDeleteClicked(data) {
+function onTransactionDeleteClicked(data: any) {
   // confirm
   confirmDeleteVisible.value = true
   // transactionIdToDelete.value = data.id

@@ -1,6 +1,5 @@
 <template>
   <q-page padding class="text-colour2">
-    <!-- flex flex-center -->
 
     <!-- Toolbar -->
     <q-header elevated class="glossy">
@@ -9,7 +8,22 @@
           <icon-menu />
         </q-btn>
 
-        <q-toolbar-title> Cashier </q-toolbar-title>
+        <q-toolbar-title>Cashier</q-toolbar-title>
+
+        <q-btn flat round dense>
+          <more-vertical />
+          <q-menu>
+            <q-list style="min-width: 175px">
+              <q-item v-close-popup clickable>
+                <q-item-section @click="onHomeSettingsClicked">Home Settings</q-item-section>
+                <q-item-section side>
+                  <icon-settings />
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+
+        </q-btn>
       </q-toolbar>
     </q-header>
     <!-- <img alt="Quasar logo" src="/icons/favicon-96x96.png"> -->
@@ -83,7 +97,7 @@ import ScheduledCard from '../components/ScheduledTxCard.vue'
 import { onMounted, ref } from 'vue'
 import { SettingKeys, settings } from '../lib/settings'
 import useNotifications from 'src/lib/CashierNotification'
-import { Menu as IconMenu, Plus as PlusIcon, X as IconX } from 'lucide-vue-next'
+import { Menu as IconMenu, MoreVertical, Plus as PlusIcon, Settings as IconSettings, X as IconX } from 'lucide-vue-next'
 
 const router = useRouter()
 const mainStore = useMainStore()
@@ -124,6 +138,11 @@ function onFab() {
 
 function onFavClick() {
   router.push({ name: 'favourites' })
+}
+
+function onHomeSettingsClicked() {
+  // open home settings screen
+  router.push({ name: 'home.settings' })
 }
 
 function onJournalClick() {

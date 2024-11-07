@@ -44,6 +44,16 @@ export const SettingKeys = {
   syncAccounts: 'syncAccounts',
   syncAaValues: 'syncAaValues',
   syncPayees: 'syncPayees',
+  // Home cards
+  visibleCards: 'homeCardNames'
+}
+
+export const CardNames = {
+  FavouritesCard: 'FavouritesCard',
+  ForecastCard: 'ForecastCard',
+  JournalCard: 'JournalCard',
+  ScheduledXactCard: 'ScheduledXactCard',
+  SyncCard: 'SyncCard'
 }
 
 class Settings {

@@ -103,6 +103,11 @@ const routes = [
         component: () => import('src/pages/Home.vue'),
       },
       {
+        path: '/home-settings',
+        name: 'home.settings',
+        component: () => import('src/pages/HomeSettings.vue'),
+      },
+      {
         path: '/journal',
         name: 'journal',
         component: () => import('src/pages/Journal.vue'),
