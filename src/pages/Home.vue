@@ -109,7 +109,13 @@ onMounted(async () => {
     dataCreationDialogVisible.value = true
   }
 
-  visibleCards.value = await settings.get(SettingKeys.visibleCards)
+  // show only selected cards.
+  var visibleCardsSetting = await settings.get(SettingKeys.visibleCards)
+  if (visibleCardsSetting == null) {
+    visibleCards.value = Object.values(CardNames)
+  } else {
+    visibleCards.value = visibleCardsSetting
+  }
 })
 
 function menuClicked() {
