@@ -95,8 +95,8 @@ import { CashierSync } from '../lib/cashier-sync'
 import { SettingKeys, settings, Constants } from '../lib/settings'
 import Toolbar from '../components/CashierToolbar.vue'
 import useNotifications from 'src/lib/CashierNotification'
-import CashierDal from '../store/dal'
 import { Activity, MoreVertical, Power, RefreshCw } from 'lucide-vue-next'
+import CashierDAL from '../store/dal'
 
 // const router = useRouter()
 const Notifier = useNotifications()
@@ -240,7 +240,7 @@ async function synchronizePayees() {
   }
 
   // delete all payees only after we have retrieved the new ones.
-  const dal = new CashierDal()
+  const dal = new CashierDAL()
   await dal.deletePayees()
 
   await appService.importPayees(response)
