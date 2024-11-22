@@ -45,7 +45,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import Toolbar from '../components/CashierToolbar.vue'
-import useNotifications from '../lib/CashierNotification'
+import useNotifications from '../lib/Notifier'
 import useCloudBackup from '../lib/CloudBackup'
 import JournalCard from '../components/CloudBackupJournalCard.vue'
 import SettingsCard from 'src/components/CloudBackupSettingsCard.vue'

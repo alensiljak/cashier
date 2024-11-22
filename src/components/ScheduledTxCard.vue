@@ -39,7 +39,7 @@
 import { onMounted, Ref, ref } from 'vue'
 import moment, { Moment } from 'moment'
 import { useRouter } from 'vue-router'
-import useNotifications from 'src/lib/CashierNotification'
+import useNotifications from 'src/lib/Notifier'
 import appService from '../appService'
 import { TransactionAugmenter } from 'src/lib/transactionAugmenter'
 import { ScheduledTransaction, Transaction } from 'src/model'

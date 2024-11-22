@@ -26,7 +26,7 @@ import { CashierSync } from '../lib/cashier-sync'
 import { useQuasar } from 'quasar'
 import { SettingKeys, settings, Constants } from '../lib/settings'
 import CashierCache from '../lib/CashierCache'
-import useNotifications from 'src/lib/CashierNotification'
+import useNotifications from 'src/lib/Notifier'
 
 const Notification = useNotifications()
 const $q = useQuasar()

@@ -48,7 +48,7 @@
 <script lang="ts" setup>
 import { onMounted, Ref, ref } from 'vue'
 import useCloudBackup from 'src/lib/CloudBackup'
-import useNotifications from 'src/lib/CashierNotification'
+import useNotifications from 'src/lib/Notifier'
 import { settings, SettingKeys } from '../lib/settings'
 import { Cog, Star } from 'lucide-vue-next'
 

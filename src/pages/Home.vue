@@ -96,7 +96,7 @@ import JournalCard from '../components/JournalCard.vue'
 import ScheduledCard from '../components/ScheduledTxCard.vue'
 import { onMounted, Ref, ref } from 'vue'
 import { CardNames, SettingKeys, settings } from '../lib/settings'
-import useNotifications from 'src/lib/CashierNotification'
+import useNotifications from 'src/lib/Notifier'
 import { Menu as IconMenu, MoreVertical, Plus as PlusIcon, Settings as IconSettings, X as IconX } from 'lucide-vue-next'
 
 const router = useRouter()

@@ -19,7 +19,7 @@
 import { createClient } from 'webdav';
 import Toolbar from '../components/CashierToolbar.vue'
 import { ref } from 'vue';
-import useNotifications from 'src/lib/CashierNotification'
+import useNotifications from 'src/lib/Notifier'
 
 const Notification = useNotifications()
 

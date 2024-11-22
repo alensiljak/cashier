@@ -46,7 +46,7 @@ import { useQuasar } from 'quasar'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { Posting, Transaction } from 'src/model'
-import useNotifications from 'src/lib/CashierNotification'
+import useNotifications from 'src/lib/Notifier'
 import draggable from 'vuedraggable'
 import { Check as IconCheck, Menu as IconMenu } from 'lucide-vue-next'
 

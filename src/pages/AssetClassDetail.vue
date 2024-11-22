@@ -40,7 +40,7 @@ import { useRoute } from 'vue-router'
 import { AssetClass, StockSymbol } from 'src/lib/AssetClass'
 import { Collection } from 'dexie'
 import { Account } from 'src/model'
-import useNotifications from '../lib/CashierNotification'
+import useNotifications from '../lib/Notifier'
 
 const $route = useRoute()
 const Notification = useNotifications()

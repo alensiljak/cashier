@@ -38,7 +38,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import useCloudBackup from 'src/lib/CloudBackup'
-import useNotifications from 'src/lib/CashierNotification'
+import useNotifications from 'src/lib/Notifier'
 import appService from '../appService'
 import { Scroll } from 'lucide-vue-next'
 

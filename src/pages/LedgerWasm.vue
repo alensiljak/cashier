@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import Toolbar from '../components/CashierToolbar.vue'
-import useNotifications from 'src/lib/CashierNotification'
+import useNotifications from 'src/lib/Notifier'
 // import * as ledger from 'ledger-rs-lib'
 // import * as cashierWasm from 'cashier-wasm'
 

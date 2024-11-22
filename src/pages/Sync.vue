@@ -94,7 +94,7 @@ import appService from '../appService'
 import { CashierSync } from '../lib/cashier-sync'
 import { SettingKeys, settings, Constants } from '../lib/settings'
 import Toolbar from '../components/CashierToolbar.vue'
-import useNotifications from 'src/lib/CashierNotification'
+import useNotifications from 'src/lib/Notifier'
 import { Activity, MoreVertical, Power, RefreshCw } from 'lucide-vue-next'
 import CashierDAL from '../store/dal'
 
@@ -137,10 +137,10 @@ async function onConnectClicked() {
   try {
     const response = await sync.healthCheck()
 
-    Notification.positive(response)
+    Notifier.success(response)
   } catch (error: any) {
     console.error(error)
-    Notification.negative('Connecting to CashierSync: ' + error.message)
+    Notifier.negative('Connecting to CashierSync: ' + error.message)
   }
 }
 
@@ -158,7 +158,7 @@ async function saveSyncServerUrl() {
   // sync server.
   await settings.set(SettingKeys.syncServerUrl, serverUrl.value)
 
-  Notification.info('sync server saved')
+  Notifier.info('sync server saved')
 }
 
 async function synchronizeAaValues() {
@@ -166,10 +166,10 @@ async function synchronizeAaValues() {
   try {
     await sync.readCurrentValues()
 
-    Notification.positive('Asset Allocation values loaded')
+    Notifier.success('Asset Allocation values loaded')
   } catch (error: any) {
     console.error(error)
-    Notification.negative(error.message)
+    Notifier.negative(error.message)
   }
 }
 
@@ -181,7 +181,7 @@ async function synchronizeAccounts() {
 
   const report = await sync.readAccounts()
   if (!report || report.length == 0) {
-    Notification.negative('Invalid response received: ' + report)
+    Notifier.negative('Invalid response received: ' + report)
     return
   }
 
@@ -189,7 +189,7 @@ async function synchronizeAccounts() {
   await appService.deleteAccounts()
   await appService.importBalanceSheet(report)
 
-  Notification.positive('accounts fetched from Ledger')
+  Notifier.success('accounts fetched from Ledger')
 }
 
 async function onSyncClicked() {
@@ -220,7 +220,7 @@ async function onSyncClicked() {
 
   } catch (error: any) {
     console.error(error)
-    Notification.negative(error.message)
+    Notifier.negative(error.message)
 
     // reset all progress indicators
     showAccountProgress.value = false
@@ -245,7 +245,7 @@ async function synchronizePayees() {
 
   await appService.importPayees(response)
 
-  Notifier.positive('Payees fetched from Ledger')
+  Notifier.success('Payees fetched from Ledger')
 }
 
 async function shutdown() {

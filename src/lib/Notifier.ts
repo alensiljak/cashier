@@ -36,9 +36,9 @@ export default function useNotifications() {
     $q.notify({ color: 'accent', message: message })
   }
 
-  function positive(message: string): void {
+  function success(message: string): void {
     $q.notify({ color: 'positive', message: message })
   }
 
-  return { custom, info, negative, neutral, positive }
+  return { custom, info, negative, neutral, success }
 }

@@ -77,7 +77,7 @@ import { settings, SettingKeys } from '../lib/settings'
 import appService from '../appService'
 import { useRouter } from 'vue-router'
 import draggable from 'vuedraggable'
-import useNotifications from 'src/lib/CashierNotification'
+import useNotifications from 'src/lib/Notifier'
 import { Check, Menu as IconMenu } from 'lucide-vue-next'
 
 const $q = useQuasar()

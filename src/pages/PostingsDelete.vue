@@ -63,7 +63,7 @@ import { useMainStore } from 'src/store/mainStore';
 import { Ref, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import useNotifications from 'src/lib/CashierNotification'
+import useNotifications from 'src/lib/Notifier'
 
 const router = useRouter()
 const mainStore = useMainStore()

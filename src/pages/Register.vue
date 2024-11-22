@@ -42,7 +42,7 @@ import { SelectionModeMetadata, SettingKeys, settings } from '../lib/settings'
 import { Account, Posting } from 'src/model'
 import { TransactionParser } from 'src/lib/transactionParser'
 import { TransactionAugmenter } from 'src/lib/transactionAugmenter'
-import useNotifications from 'src/lib/CashierNotification'
+import useNotifications from 'src/lib/Notifier'
 import { Plus as IconPlus } from 'lucide-vue-next'
 import { AccountService } from 'src/lib/accountsService'
 

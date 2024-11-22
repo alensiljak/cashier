@@ -67,7 +67,7 @@
 <script setup lang="ts">
 import CashierToolbar from 'src/components/CashierToolbar.vue'
 import { ref } from 'vue'
-import useNotifications from 'src/lib/CashierNotification'
+import useNotifications from 'src/lib/Notifier'
 import { AccountService } from 'src/lib/accountsService'
 import { SettingKeys, settings } from '../lib/settings'
 import {

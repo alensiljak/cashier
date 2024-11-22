@@ -35,7 +35,7 @@
 import { onMounted, Ref, ref } from 'vue'
 import useCloudBackup from 'src/lib/CloudBackup'
 import db from 'src/store/db';
-import useNotifications from 'src/lib/CashierNotification'
+import useNotifications from 'src/lib/Notifier'
 import { CalendarClock } from 'lucide-vue-next'
 
 const { scheduledTxBackup: backup } = useCloudBackup()

@@ -38,7 +38,7 @@
 import { onMounted, Ref, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import appService from '../appService'
-import useNotifications from 'src/lib/CashierNotification'
+import useNotifications from 'src/lib/Notifier'
 import { AccountBalance, Transaction } from 'src/model'
 import { TransactionAugmenter } from 'src/lib/transactionAugmenter'
 import { FileUp, Scroll } from 'lucide-vue-next'
