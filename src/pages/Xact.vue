@@ -54,7 +54,7 @@ import Toolbar from '../components/CashierToolbar.vue'
 import { Calendar as IconCalendar, Search as IconSearch } from 'lucide-vue-next'
 </script>
 <script lang="ts">
-import { CashierSync } from '../lib/syncCashier'
+import { CashierSync } from '../lib/cashier-sync'
 import { XactParser } from '../lib/XactParser'
 
 export default {

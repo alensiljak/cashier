@@ -32,7 +32,7 @@
 <script lang="ts" setup>
 import { onMounted, Ref, ref } from 'vue'
 import appService from '../appService'
-import { CashierSync } from '../lib/syncCashier'
+import { CashierSync } from '../lib/cashier-sync'
 import { SettingKeys, settings } from '../lib/settings'
 import Toolbar from '../components/CashierToolbar.vue'
 import { SecurityAnalyser, SecurityAnalysis } from 'src/lib/securityAnalysis'

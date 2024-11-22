@@ -22,7 +22,7 @@
 <script setup lang="ts">
 import { onMounted, ref, Ref } from 'vue'
 import Toolbar from '../components/CashierToolbar.vue'
-import { CashierSync } from '../lib/syncCashier'
+import { CashierSync } from '../lib/cashier-sync'
 import { useQuasar } from 'quasar'
 import { SettingKeys, settings, Constants } from '../lib/settings'
 import CashierCache from '../lib/CashierCache'

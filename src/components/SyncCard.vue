@@ -62,7 +62,7 @@
 <script setup lang="ts">
 import { RefreshCw } from 'lucide-vue-next'
 import { SET_LEDGER_USE } from '../mutations'
-import { CashierSync } from '../lib/syncCashier'
+import { CashierSync } from '../lib/cashier-sync'
 import { SettingKeys, settings } from '../lib/settings'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'

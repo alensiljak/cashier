@@ -91,7 +91,7 @@
 import { settings, SettingKeys } from 'src/lib/settings'
 import { Calendar as IconCalendar, User as IconUser, Search as IconSearch } from 'lucide-vue-next'
 import Toolbar from '../components/CashierToolbar.vue'
-import { CashierSync } from '../lib/syncCashier'
+import { CashierSync } from '../lib/cashier-sync'
 import { date } from 'quasar'
 
 const { subtractFromDate, addToDate } = date

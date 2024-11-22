@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import Toolbar from '../components/CashierToolbar.vue'
-import { CashierSync } from '../lib/syncCashier'
+import { CashierSync } from '../lib/cashier-sync'
 import { SettingKeys, settings } from '../lib/settings'
 
 export default {

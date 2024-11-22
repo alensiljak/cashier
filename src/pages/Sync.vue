@@ -91,7 +91,7 @@
 import { onMounted, ref, toRaw } from 'vue'
 import { useRouter } from 'vue-router'
 import appService from '../appService'
-import { CashierSync } from '../lib/syncCashier'
+import { CashierSync } from '../lib/cashier-sync'
 import { SettingKeys, settings, Constants } from '../lib/settings'
 import Toolbar from '../components/CashierToolbar.vue'
 import useNotifications from 'src/lib/CashierNotification'
