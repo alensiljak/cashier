@@ -46,7 +46,7 @@ let defaultCurrency: string
 // methods
 
 onMounted(async () => {
-  loadData()
+  await loadData()
 })
 
 function getBalance(account: Account) {
