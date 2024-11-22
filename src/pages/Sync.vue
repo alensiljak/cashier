@@ -140,7 +140,7 @@ async function onConnectClicked() {
     Notifier.success(response)
   } catch (error: any) {
     console.error(error)
-    Notifier.negative('Connecting to CashierSync: ' + error.message)
+    Notifier.error('Connecting to CashierSync: ' + error.message)
   }
 }
 
@@ -169,7 +169,7 @@ async function synchronizeAaValues() {
     Notifier.success('Asset Allocation values loaded')
   } catch (error: any) {
     console.error(error)
-    Notifier.negative(error.message)
+    Notifier.error(error.message)
   }
 }
 
@@ -181,7 +181,7 @@ async function synchronizeAccounts() {
 
   const report = await sync.readAccounts()
   if (!report || report.length == 0) {
-    Notifier.negative('Invalid response received: ' + report)
+    Notifier.error('Invalid response received: ' + report)
     return
   }
 
@@ -189,7 +189,7 @@ async function synchronizeAccounts() {
   await appService.deleteAccounts()
   await appService.importBalanceSheet(report)
 
-  Notifier.success('accounts fetched from Ledger')
+  Notifier.success('Accounts fetched from Ledger')
 }
 
 async function onSyncClicked() {
@@ -220,7 +220,7 @@ async function onSyncClicked() {
 
   } catch (error: any) {
     console.error(error)
-    Notifier.negative(error.message)
+    Notifier.error(error.message)
 
     // reset all progress indicators
     showAccountProgress.value = false
@@ -235,7 +235,7 @@ async function synchronizePayees() {
   const response = await sync.readPayees()
 
   if (!response || response.length == 0) {
-    Notifier.negative('Invalid response received: ' + response)
+    Notifier.error('Invalid response received: ' + response)
     return
   }
 
@@ -254,7 +254,7 @@ async function shutdown() {
     await sync.shutdown()
   } catch (error: any) {
     console.error(error)
-    Notifier.negative(error.message)
+    Notifier.error(error.message)
   }
 
   Notifier.neutral('The server shutdown request sent.')

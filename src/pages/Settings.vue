@@ -140,7 +140,7 @@ import { engine } from '../lib/AssetAllocation'
 import appService from '../appService'
 import { CurlyBraces, HelpCircle, MoreVertical } from 'lucide-vue-next'
 
-const Notification = useNotifications()
+const Notifier = useNotifications()
 const $router = useRouter()
 const $q = useQuasar()
 
@@ -198,7 +198,7 @@ async function onConfirmRestore() {
   const records = JSON.parse(contents)
   await db.settings.bulkAdd(records)
 
-  Notification.positive('Settings imported')
+  Notifier.success('Settings imported')
 
   await loadSettings()
 }
@@ -268,10 +268,10 @@ async function onSchTxMigrationClick() {
     //schTxs
     result = await appService.db.scheduled.bulkPut(schTxs)
   } catch (error: any) {
-    Notification.negative(error)
+    Notifier.error(error)
   }
 
-  Notification.info(
+  Notifier.info(
     counter +
     ' SchTx Transaction records converted from JSON to objects.' +
     result
