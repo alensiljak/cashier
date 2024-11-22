@@ -5,11 +5,11 @@
  * No other local storage is used.
  */
 import { Account, AccountBalance } from 'src/model'
-import db from 'src/store/indexedDb'
+import db from 'src/store/db'
 import { SettingKeys, settings, Constants } from './settings'
 
 export class AccountService {
-  constructor() {}
+  constructor() { }
 
   async createDefaultAccounts() {
     let accountsList = this.getDefaultChartOfAccounts()

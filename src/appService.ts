@@ -3,7 +3,7 @@
 
     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export
 */
-import db from './store/indexedDb'
+import db from './store/db'
 import {
   Account,
   AccountBalance,

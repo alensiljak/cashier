@@ -30,11 +30,11 @@
     </q-card-section>
   </q-card>
 </template>
-  
+
 <script lang="ts" setup>
 import { onMounted, Ref, ref } from 'vue'
 import useCloudBackup from 'src/lib/CloudBackup'
-import db from 'src/store/indexedDb';
+import db from 'src/store/db';
 import useNotifications from 'src/lib/CashierNotification'
 import { CalendarClock } from 'lucide-vue-next'
 

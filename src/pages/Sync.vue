@@ -99,7 +99,7 @@ import CashierDal from '../store/dal'
 import { Activity, MoreVertical, Power, RefreshCw } from 'lucide-vue-next'
 
 // const router = useRouter()
-const Notification = useNotifications()
+const Notifier = useNotifications()
 
 // data
 const serverUrl = ref('http://localhost:3000') // the default value
@@ -145,7 +145,7 @@ async function onConnectClicked() {
 }
 
 function onShutdownClick() {
-  Notification.neutral('sending shutdown request')
+  Notifier.neutral('sending shutdown request')
 
   let sync = new CashierSync(serverUrl.value)
   sync.shutdown()
@@ -235,7 +235,7 @@ async function synchronizePayees() {
   const response = await sync.readPayees()
 
   if (!response || response.length == 0) {
-    Notification.negative('Invalid response received: ' + response)
+    Notifier.negative('Invalid response received: ' + response)
     return
   }
 
@@ -245,7 +245,7 @@ async function synchronizePayees() {
 
   await appService.importPayees(response)
 
-  Notification.positive('Payees fetched from Ledger')
+  Notifier.positive('Payees fetched from Ledger')
 }
 
 async function shutdown() {
@@ -254,9 +254,9 @@ async function shutdown() {
     await sync.shutdown()
   } catch (error: any) {
     console.error(error)
-    Notification.negative(error.message)
+    Notifier.negative(error.message)
   }
 
-  Notification.neutral('The server shutdown request sent.')
+  Notifier.neutral('The server shutdown request sent.')
 }
 </script>

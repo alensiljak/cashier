@@ -4,7 +4,7 @@
 
 import { Collection, IndexableType } from 'dexie'
 import { Account, Payee, ScheduledTransaction, Transaction } from 'src/model'
-import db from './indexedDb'
+import db from './db'
 
 class CashierDAL {
   async deletePayees() {

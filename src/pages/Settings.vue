@@ -130,7 +130,7 @@
 
 <script setup lang="ts">
 import { onMounted, Ref, ref } from 'vue'
-import db from '../store/indexedDb'
+import db from '../store/db'
 import Toolbar from '../components/CashierToolbar.vue'
 import { SettingKeys, settings } from '../lib/settings'
 import useNotifications from 'src/lib/CashierNotification'
