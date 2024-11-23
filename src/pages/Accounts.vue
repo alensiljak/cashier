@@ -130,7 +130,7 @@ const filterText = ref('')
 const dialogVisible = ref(false)
 const newAccount = ref(null)
 const confirmDeleteAllVisible = ref(false)
-const pickerMode = ref(false)
+const selectionMode = ref(false)
 const $store = useStore()
 let defaultCurrency: string
 
@@ -148,7 +148,7 @@ const filter = computed({
 
 onMounted(async () => {
   let meta = $store.state.selectModeMeta
-  pickerMode.value = !!meta
+  selectionMode.value = !!meta
 
   await loadData()
 })
@@ -164,7 +164,7 @@ function getBalance(account: Account) {
 }
 
 function itemClicked(id: string) {
-  if (pickerMode.value) {
+  if (selectionMode.value) {
     // select the item and return to the caller.
     $store.dispatch('setSelectedId', id)
 

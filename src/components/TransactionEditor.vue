@@ -121,7 +121,7 @@ if (!tx.value) {
 
 // are we back from the select mode?
 if (store.state.selectModeMeta) {
-  handleSelection()
+  handleEntitySelection()
 }
 
 // mounted
@@ -165,7 +165,7 @@ function getEmptyPostingIndex() {
 /**
  * Handle selection after a picker returned.
  */
-async function handleSelection() {
+async function handleEntitySelection() {
   if (!tx.value) {
     throw new Error('No transaction loaded!')
   }
