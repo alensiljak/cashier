@@ -1,7 +1,7 @@
 <template>
   <q-page padding class="text-amber-2">
     <!-- toolbar -->
-    <cashier-toolbar title="Journal Transaction">
+    <cashier-toolbar title="Journal Entry">
       <q-btn flat round dense>
         <more-vertical />
         <q-menu>
