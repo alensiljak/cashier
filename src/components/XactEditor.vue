@@ -100,6 +100,7 @@ import {
   PlusCircle, User as IconUser, Trash
 } from 'lucide-vue-next'
 import { AccountService } from '../lib/accountsService'
+import { getEmptyPostingIndex } from '../lib/xactUtils';
 
 const router = useRouter()
 const mainStore = useMainStore()
@@ -142,27 +143,6 @@ function formatNumber(value: number) {
 }
 
 /**
- * Find an empty posting, or create one.
- */
-function getEmptyPostingIndex() {
-  if (!tx.value) {
-    throw new Error('No transaction loaded!')
-  }
-
-  for (let i = 0; i < tx.value.postings.length; i++) {
-    const posting = tx.value.postings[i]
-    if (!posting.account && !posting.amount && !posting.currency) {
-      return i
-    }
-  }
-
-  // not found. Create a new one.
-  const posting = new Posting()
-  tx.value.postings.push(posting)
-  return tx.value.postings.length - 1
-}
-
-/**
  * Handle selection after a picker returned.
  */
 async function handleEntitySelection() {
@@ -189,7 +169,7 @@ async function handleEntitySelection() {
         index = select.postingIndex
       } else {
         // redirected from account register, find an appropriate posting
-        index = getEmptyPostingIndex()
+        index = getEmptyPostingIndex(tx.value)
       }
       let posting = tx.value.postings[index]
 

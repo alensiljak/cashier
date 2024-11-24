@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import TxEditor from '../components/TransactionEditor.vue'
+import TxEditor from '../components/XactEditor.vue'
 import ScheduleEditor from '../components/ScheduleEditor.vue'
 import { computed, onMounted, provide } from 'vue'
 import { toRaw } from 'vue'
