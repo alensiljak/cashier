@@ -57,7 +57,7 @@ onMounted(async () => {
     await loadData()
   } catch (error: any) {
     console.error(error)
-    Notification.negative(error.message)
+    Notification.error(error.message)
   }
 })
 

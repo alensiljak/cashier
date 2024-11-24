@@ -20,19 +20,19 @@ export class ListSearch {
    * @param {string} searchTerm as typed by the user.
    * @returns A boolean indicating if there is a match.
    */
-  search(searchTerm) {
+  search(searchTerm: string) {
     // let expression = '^(?=.*\bjack\b)(?=.*\bjames\b).*$'
     const regex = this.getRegex(searchTerm)
     return regex.test(searchTerm)
   }
 
-  getExpression(searchTerm) {
+  getExpression(searchTerm: string) {
     // this is looking for whole words only
     // ^(?=.*\bjack\b)(?=.*\bjames\b).*$
 
     // split the search terms
     const searchTerms = searchTerm.split(' ')
-    var expression = '^'
+    let expression = '^'
     for (let i = 0; i < searchTerms.length; i++) {
       if (!searchTerms[i]) continue
 
@@ -43,7 +43,7 @@ export class ListSearch {
     return expression
   }
 
-  getRegex(searchTerm) {
+  getRegex(searchTerm: string) {
     const expression = this.getExpression(searchTerm)
 
     const regex = new RegExp(expression, 'i')
