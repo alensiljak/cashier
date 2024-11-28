@@ -2,13 +2,13 @@
     The domain model
 */
 
-export class AccountBalance {
+export class Money {
   amount = 0
   currency = ''
 }
 
 export class Account {
-  balance?: AccountBalance
+  balance?: Money
 
   name = ''
   balances?: Record<string, number>

@@ -7,16 +7,16 @@
     </q-card-section>
 
     <q-card-section class="q-pa-sm">
-      <div v-if="transactions.length === 0">
+      <div v-if="xacts.length === 0">
         There are no local transactions
       </div>
 
       <q-list>
-        <q-item v-for="tx, index in transactions" :key="index" dense class="q-px-none">
+        <q-item v-for="tx, index in xacts" :key="index" dense class="q-px-none">
           <q-item-section>{{ tx.date }} &nbsp; {{ tx.payee }}</q-item-section>
           <q-item-section side>
             <span :class="getTxColour(index)">
-              {{ txAmounts[index].amount }} {{ txAmounts[index].currency }}
+              {{ xactBalances[index].amount }} {{ xactBalances[index].currency }}
             </span>
           </q-item-section>
         </q-item>
@@ -39,16 +39,16 @@ import { onMounted, Ref, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import appService from '../appService'
 import useNotifications from 'src/lib/Notifier'
-import { AccountBalance, Transaction } from 'src/model'
+import { Money, Transaction } from 'src/model'
 import { TransactionAugmenter } from 'src/lib/transactionAugmenter'
 import { FileUp, Scroll } from 'lucide-vue-next'
 
-const Notification = useNotifications()
+const Notifier = useNotifications()
 const $router = useRouter()
 const emit = defineEmits(['click'])
 
-const transactions: Ref<Transaction[]> = ref([])
-const txAmounts: Ref<AccountBalance[]> = ref([])
+const xacts: Ref<Transaction[]> = ref([])
+const xactBalances: Ref<Money[]> = ref([])
 
 onMounted(async () => {
   await loadData()
@@ -66,7 +66,7 @@ function getTxColour(index: number) {
   const GREEN = 'green'
   let colour = ''
 
-  let balance: AccountBalance = txAmounts.value[index]
+  let balance: Money = xactBalances.value[index]
   if (balance.amount < 0) {
     colour = RED
   } else if (balance.amount == 0) {
@@ -76,8 +76,8 @@ function getTxColour(index: number) {
   }
 
   // Transfers, yellow
-  let tx = transactions.value[index]
-  if (tx.postings.filter((posting) => posting.account.startsWith('Assets:')).length == 2) {
+  let tx = xacts.value[index]
+  if (tx.postings.filter((posting) => posting.account?.startsWith('Assets:')).length == 2) {
     // 2 Asset accounts. Assume transfer.
     colour = YELLOW
   }
@@ -113,18 +113,18 @@ async function loadData() {
       .toArray()
   } catch (error: any) {
     console.error(error)
-    Notification.negative(error.message)
+    Notifier.error(error.message)
   }
 
   try {
     const amounts = TransactionAugmenter.calculateTxAmounts(txs)
-    txAmounts.value.push(...amounts)
+    xactBalances.value.push(...amounts)
   } catch (error: any) {
     console.error(error)
-    Notification.negative(error.message)
+    Notifier.error(error.message)
   }
 
-  transactions.value = txs
+  xacts.value = txs
 }
 </script>
 

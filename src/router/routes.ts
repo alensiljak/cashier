@@ -194,7 +194,7 @@ const routes = [
         path: '/tx-actions/:id',
         name: 'tx-actions',
         props: true,
-        component: () => import('src/pages/TransactionActions.vue'),
+        component: () => import('src/pages/XactActions.vue'),
       },
       {
         path: '/tx-search',

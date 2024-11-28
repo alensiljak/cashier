@@ -4,7 +4,7 @@
  * and parse them when needed.
  * No other local storage is used.
  */
-import { Account, AccountBalance } from 'src/model'
+import { Account, Money } from 'src/model'
 import db from 'src/store/db'
 import { SettingKeys, settings, Constants } from './settings'
 
@@ -36,12 +36,12 @@ export class AccountService {
     await db.accounts.bulkAdd(accounts)
   }
 
-  getAccountBalance(account: Account, defaultCurrency: string): AccountBalance {
+  getAccountBalance(account: Account, defaultCurrency: string): Money {
     if (!defaultCurrency) {
       throw new Error('Default currency is mandatory!')
     }
 
-    let result = new AccountBalance()
+    let result = new Money()
     // const defaultCurrency = await settings.get(SettingKeys.currency)
 
     // default value
