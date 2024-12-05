@@ -118,15 +118,15 @@ async function setAccountCurrentValue(
 async function createTransactions() {
   // regular payment
   let tx = createPaymentTx()
-  await dal.saveTransaction(tx)
+  await dal.saveXact(tx)
 
   // loan payment
   tx = createLoanPayment()
-  await dal.saveTransaction(tx)
+  await dal.saveXact(tx)
 
   // transfer
   tx = createTransferTx()
-  await dal.saveTransaction(tx)
+  await dal.saveXact(tx)
 }
 
 function createPaymentTx(): Transaction {

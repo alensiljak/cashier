@@ -132,7 +132,7 @@ async function enterTransaction() {
   let newTx: Transaction = toRaw(tx.value)
   // clear the id field, if any, to get a new one on save.
   newTx.id = undefined
-  const id = await dal.saveTransaction(newTx)
+  const id = await dal.saveXact(newTx)
 
   // update the iteration date
   await skip()

@@ -51,7 +51,7 @@ class CashierDAL {
    * @param {Transaction} tx The transaction object
    * @returns the numeric id of the new transaction
    */
-  async saveTransaction(tx: Transaction): Promise<number> {
+  async saveXact(tx: Transaction): Promise<number> {
     if (!tx) {
       throw new Error('transaction object is invalid!', tx)
     }

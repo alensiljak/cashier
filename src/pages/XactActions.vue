@@ -150,7 +150,7 @@ async function onDuplicateClicked() {
     // create the transaction
     const newTx = await appService.duplicateTransaction(tx.value)
     // save
-    const id = await dal.saveTransaction(newTx)
+    const id = await dal.saveXact(newTx)
 
     // display a notification after or ask before the action.
     $q.notify({ color: 'positive', message: 'Transaction duplicated' })

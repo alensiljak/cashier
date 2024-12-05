@@ -107,7 +107,7 @@ async function onSaveClicked() {
   try {
     let txObj = toRaw(tx.value) as Transaction
 
-    await dal.saveTransaction(txObj)
+    await dal.saveXact(txObj)
 
     // Remember Last Transaction?
     const remember = await settings.get(SettingKeys.rememberLastTransaction)
