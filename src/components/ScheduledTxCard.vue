@@ -41,7 +41,7 @@ import moment, { Moment } from 'moment'
 import { useRouter } from 'vue-router'
 import useNotifications from 'src/lib/Notifier'
 import appService from '../appService'
-import { TransactionAugmenter } from 'src/lib/transactionAugmenter'
+import { TransactionAugmenter } from 'src/lib/xactAugmenter'
 import { ScheduledTransaction, Transaction } from 'src/model'
 import { TransactionParser } from 'src/lib/transactionParser'
 import { CalendarClock, CalendarDays } from 'lucide-vue-next'
@@ -70,12 +70,12 @@ async function loadData() {
 
     // add the transaction amounts.
     let txs: Transaction[] = schtxs.map((schtx) => schtx.transaction) as Transaction[]
-    TransactionAugmenter.calculateTxAmounts(txs)
+    TransactionAugmenter.calculateXactAmounts(txs)
 
     list.value = schtxs
   } catch (error: any) {
     console.error(error)
-    Notification.negative(error.message)
+    Notification.error(error.message)
   }
 }
 

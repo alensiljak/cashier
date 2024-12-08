@@ -42,7 +42,8 @@
     </q-header>
 
     <!-- account list -->
-    <q-slide-item v-for="(account, index) in accounts" :key="account.name" right-color="secondary" @right="onRightSlide">
+    <q-slide-item v-for="(account, index) in accounts" :key="account.name" right-color="secondary"
+      @right="onRightSlide">
       <template #right>
         <div class="row items-center text-accent" @click="removeAccount(index)">
           Click to confirm or wait 2s to cancel
@@ -85,7 +86,7 @@
 <script setup lang="ts">
 import { useStore } from 'vuex'
 import { useMainStore } from '../store/mainStore'
-import { TransactionAugmenter } from 'src/lib/transactionAugmenter'
+import { TransactionAugmenter } from 'src/lib/xactAugmenter'
 import appService from '../appService'
 import { SET_SELECT_MODE } from '../mutations'
 import {

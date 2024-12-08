@@ -40,7 +40,7 @@ import { useRouter } from 'vue-router'
 import appService from '../appService'
 import useNotifications from 'src/lib/Notifier'
 import { Money, Transaction } from 'src/model'
-import { TransactionAugmenter } from 'src/lib/transactionAugmenter'
+import { TransactionAugmenter } from 'src/lib/xactAugmenter'
 import { FileUp, Scroll } from 'lucide-vue-next'
 
 const Notifier = useNotifications()
@@ -117,7 +117,7 @@ async function loadData() {
   }
 
   try {
-    const amounts = TransactionAugmenter.calculateTxAmounts(txs)
+    const amounts = TransactionAugmenter.calculateXactAmounts(txs)
     xactBalances.value.push(...amounts)
   } catch (error: any) {
     console.error(error)

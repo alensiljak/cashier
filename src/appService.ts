@@ -17,7 +17,7 @@ import { Notify } from 'quasar'
 import { settings, SettingKeys } from './lib/settings'
 import { toRaw } from 'vue'
 import { TransactionParser } from './lib/transactionParser'
-import { TransactionAugmenter } from './lib/transactionAugmenter'
+import { TransactionAugmenter } from './lib/xactAugmenter'
 import { Collection } from 'dexie'
 import { AccountService } from './lib/accountsService'
 

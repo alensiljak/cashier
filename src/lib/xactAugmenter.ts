@@ -1,4 +1,4 @@
-import { Account, AccountBalance, Transaction } from 'src/model'
+import { Account, Money, Transaction } from 'src/model'
 import appService from '../appService'
 import { TransactionParser } from './transactionParser'
 import { AccountService } from './accountsService'
@@ -9,7 +9,7 @@ import { SettingKeys, settings } from './settings'
  * like the amount on a missing posting.
  */
 export class TransactionAugmenter {
-  constructor() {}
+  constructor() { }
 
   /**
    * Calculates and adds the amounts for the empty postings. This "completes" the Postings
@@ -153,7 +153,7 @@ export class TransactionAugmenter {
    * @param {Array<Transaction>} txs
    * @returns {Array<AccountBalance>} An array of balance records that matches the transactions.
    */
-  static calculateTxAmounts(txs: Transaction[]): AccountBalance[] {
+  static calculateXactAmounts(txs: Transaction[]): Money[] {
     // get Amounts
     TransactionAugmenter.calculateEmptyPostingAmounts(txs)
 

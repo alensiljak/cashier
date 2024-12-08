@@ -28,7 +28,7 @@
 import { onMounted, Ref, ref } from 'vue'
 import { useQuasar } from 'quasar'
 import appService from '../appService'
-import { TransactionAugmenter } from 'src/lib/transactionAugmenter'
+import { TransactionAugmenter } from 'src/lib/xactAugmenter'
 import { Account } from 'src/model'
 import { Star } from 'lucide-vue-next'
 import { AccountService } from '../lib/accountsService'
