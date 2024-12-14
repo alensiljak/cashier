@@ -126,7 +126,7 @@ import { useRouter } from 'vue-router'
 import { useMainStore } from '../store/mainStore'
 import { computed, onMounted, Ref, ref } from 'vue'
 import { useQuasar } from 'quasar'
-import { engine, NUMBER_FORMAT } from '../lib/AssetAllocation'
+import { engine, NUMBER_FORMAT } from '../lib/assetAllocation/AssetAllocation'
 import { AssetClass } from 'src/lib/assetAllocation/AssetClass'
 import {
   FileDown, HelpCircle, Menu as IconMenu, MoreVertical, Settings as IconSettings,
