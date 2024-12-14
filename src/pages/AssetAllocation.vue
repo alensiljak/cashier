@@ -127,7 +127,7 @@ import { useMainStore } from '../store/mainStore'
 import { computed, onMounted, Ref, ref } from 'vue'
 import { useQuasar } from 'quasar'
 import { engine, NUMBER_FORMAT } from '../lib/AssetAllocation'
-import { AssetClass } from 'src/lib/AssetClass'
+import { AssetClass } from 'src/lib/assetAllocation/AssetClass'
 import {
   FileDown, HelpCircle, Menu as IconMenu, MoreVertical, Settings as IconSettings,
   Scale as IconScale, Share2

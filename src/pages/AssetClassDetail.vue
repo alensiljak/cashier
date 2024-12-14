@@ -35,10 +35,9 @@ import appService from '../appService'
 import { CashierSync } from '../lib/cashier-sync'
 import { SettingKeys, settings } from '../lib/settings'
 import Toolbar from '../components/CashierToolbar.vue'
-import { SecurityAnalyser, SecurityAnalysis } from 'src/lib/securityAnalysis'
+import { SecurityAnalyser, SecurityAnalysis } from 'src/lib/assetAllocation/securityAnalysis'
 import { useRoute } from 'vue-router'
-import { AssetClass, StockSymbol } from 'src/lib/AssetClass'
-import { Collection } from 'dexie'
+import { AssetClass, StockSymbol } from 'src/lib/assetAllocation/AssetClass'
 import { Account } from 'src/model'
 import useNotifications from '../lib/Notifier'
 
@@ -68,13 +67,13 @@ async function loadData() {
 async function loadAssetClass() {
   const ac: AssetClass = await appService.loadAssetClass($route.params.fullname as string)
   assetClass.value = ac
-  getConstituents()
+  populateStocks()
 }
 
 /**
  * Load all constituents - stocks, currencies.
  */
-function getConstituents() {
+function populateStocks() {
   let childNames = assetClass.value.symbols
   if (!childNames || childNames.length == 0) return;
 
@@ -116,7 +115,7 @@ async function fetchAnalysisFor(symbol: string, stockAnalysis: SecurityAnalysis)
   } catch (error: any) {
     let msg = symbol + ':' + error.message
     console.error(msg)
-    Notification.negative(msg)
+    Notification.error(msg)
   }
 }
 

@@ -14,7 +14,7 @@ import {
   ScheduledTransaction,
   Setting,
 } from '../model'
-import { AssetClass } from '../lib/AssetClass'
+import { AssetClass } from '../lib/assetAllocation/AssetClass'
 
 // Define the schema
 

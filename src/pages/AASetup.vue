@@ -29,8 +29,6 @@ import { SettingKeys } from '../lib/settings'
 import appService from '../appService'
 import { Setting } from '../model'
 
-// const errorMessage = { color: "secondary", textColor: "amber-2" };
-
 export default {
   data() {
     return {

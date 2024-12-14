@@ -1,5 +1,5 @@
 import moment from 'moment'
-import { settings, SettingKeys } from './settings'
+import { settings, SettingKeys } from '../settings'
 import { LedgerApi } from './ledgerApi'
 import { LedgerOutputParser } from './ledgerOutputParser'
 
@@ -101,7 +101,7 @@ export class SecurityAnalyser {
     const report = await this.ledgerApi.query(command)
     const line = report[0]
 
-    if(!line) {
+    if (!line) {
       return 'n/a'
     }
 

@@ -6,11 +6,9 @@
 import db from './store/db'
 import {
   Account,
-  AccountBalance,
   LastTransaction,
   Payee,
   Posting,
-  ScheduledTransaction,
   Transaction,
 } from './model'
 import { Notify } from 'quasar'
